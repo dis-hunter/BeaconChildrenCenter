@@ -1,0 +1,102 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .container {
+    width: 660px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    background-color: lightblue;
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 columns */
+    gap: 5px;
+    background-color: lightblue;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    border-right: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .grid-item:last-child {
+    border-right: none;
+  }
+  
+  .grid-item input[type="text"] {
+    font-size: 14px; 
+    padding: 5px; 
+    width: 100px;
+  }
+  
+  .grid-item label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Styles for the textareas with labels */
+  .textarea-with-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .textarea-label {
+    width: 200px; /* Adjust width as needed */
+    background-color: lightblue;
+    padding: 10px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  textarea {
+    flex-grow: 1;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  select {
+    width: 100px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
