@@ -775,6 +775,100 @@ triageExam.addEventListener('click', (event)=>{
       textarea.style.height = (textarea.scrollHeight) + "px"; 
     });
  });
+
+ //Get  Diagnosis Exam Link
+
+const diagnosis = document.querySelector('.floating-menu a[href="#diagnosis"]');
+diagnosis.addEventListener('click', (event)=>{
+    event.preventDefault();
+
+    const mainContent=document.querySelector('.main');
+    mainContent.innerHTML=`
+    <head>
+    <link rel='stylesheet' href='styleSheets/diagnosis.css'>
+</head>
+<body>
+
+<div class="container">
+  <h2>Diagnosis</h2>
+
+  <label for="primaryDiagnosis">Primary Diagnosis</label>
+  <select id="primaryDiagnosis">
+    <option value="">Select</option>
+    <option value="Autism">Autism</option>
+    <option value="ADHD">ADHD</option>
+    <option value="Communication disorder">Communication disorder</option>
+    <option value="Intellectual disability">Intellectual disability</option>
+    <option value="Global developmental delay">Global developmental delay</option>
+    <option value="Learning disorder">Learning disorder</option>
+    <option value="Movement disorder">Movement disorder</option>
+    <option value="Social pragmatic disorder">Social pragmatic disorder</option>
+  </select>
+
+  <label for="secondaryDiagnosis">Secondary Diagnosis</label>
+  <textarea id="secondaryDiagnosis"></textarea>
+
+  <button type="button">Save</button>
+</div>
+</body>
+    `
+
+    const textareas = document.querySelectorAll('textarea');
+  
+    textareas.forEach(textarea => {
+      textarea.addEventListener('input', () => {
+        textarea.style.height = "auto"; 
+        textarea.style.height = (textarea.scrollHeight) + "px"; 
+      });
+  
+      textarea.addEventListener('blur', () => {
+        textarea.style.height = '50px'; 
+      });
+  
+      textarea.style.height = "auto"; 
+      textarea.style.height = (textarea.scrollHeight) + "px"; 
+    });
+ });
+     
+
+ //Get General Exam Link
+
+const generalExam = document.querySelector('.floating-menu a[href="#generalExam"]');
+generalExam.addEventListener('click', (event)=>{
+    event.preventDefault();
+
+    const mainContent=document.querySelector('.main');
+    mainContent.innerHTML=`
+    <head>
+    <link rel='stylesheet' href='styleSheets/generalExam.css'>
+</head>
+<body>
+
+<div class="container">
+  <h2>General Examination</h2>
+  <textarea></textarea>
+  <button type="button">Save</button>
+</div>
+
+</body>
+    `
+
+    const textareas = document.querySelectorAll('textarea');
+  
+    textareas.forEach(textarea => {
+      textarea.addEventListener('input', () => {
+        textarea.style.height = "auto"; 
+        textarea.style.height = (textarea.scrollHeight) + "px"; 
+      });
+  
+      textarea.addEventListener('blur', () => {
+        textarea.style.height = '100px'; 
+      });
+  
+      textarea.style.height = "auto"; 
+      textarea.style.height = (textarea.scrollHeight) + "px"; 
+    });
+ });
      
       
 
