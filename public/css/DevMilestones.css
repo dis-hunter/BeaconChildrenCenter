@@ -1,0 +1,81 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .container {
+    width: 900px;
+    margin: 0 auto;
+   
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .section {
+    margin-bottom: 15px;
+  }
+  
+  .section-title {
+    background-color: lightblue; /* Light blue background for titles */
+    padding: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Adjust for number of columns */
+    gap: 5px;
+    background-color: lightblue;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    border-right: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .grid-item:last-child {
+    border-right: none;
+  }
+  
+  textarea {
+    width: 900px;
+    height: 50px; /* Adjust height as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  .grid-item label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .grid-item input[type="text"] {
+      font-size: 14px; 
+      padding: 5px; 
+      width:90px;
+     
+    }
+  button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
