@@ -8,6 +8,7 @@
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none custom-align-left">
                     <img src="images/beacon_logo.jpg" width="70" height="70" alt="Your Icon" />
                 </a>
+                <b><p> &nbsp &nbsp Beacons Children </br> &nbsp &nbsp Center</p></b>
             </div>
       <ul class="dropdown-menu text-small shadow">
         <li><a class="dropdown-item active" href="#" aria-current="page">Overview</a></li>
