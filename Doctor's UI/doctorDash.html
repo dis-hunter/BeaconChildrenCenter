@@ -1,166 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>Doctor's Dashboard</title>
-    <style>
-        /* styles.css */
-        body {
-            font-family: sans-serif;
-            margin: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor's Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* styles.css */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+    }
 
-        header {
-            background-color: #f2f2f2; 
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    header {
+      background-color: #f2f2f2;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .profile {
-            display: flex;
-            align-items: center;
-        }
+    .profile {
+      display: flex;
+      align-items: center;
+    }
 
-        .profile img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%; 
-            margin-top:9px;
-            margin-right: 15px;
-            object-fit: cover; 
-            transform: scale(1.2); 
-        }
+    .profile img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+      transform: scale(1.2);
+    }
 
-      
+    .profile div {
+      /* Target the div that contains the name and specialization */
+      display: flex;
+      flex-direction: column;
+      /* Stack the name and specialization vertically */
+      align-items: flex-start;
+      /* Align the text to the left */
+    }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+    .notifications .fa-bell {
+      font-size: 1.5em;
+      cursor: pointer;
+    }
 
-        .dropbtn {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            margin-right:50px;
-            font-size: 1.5em;
-        }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            right:10px;
-           
-            
-        }
+    .dropbtn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      margin-right: 50px;
+      font-size: 1.5em;
+    }
 
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      right: 10px;
+    }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
 
-        main {
-            display: flex;
-        }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
 
-        .sidebar {
-            width: 250px;
-            background-color: lightblue; 
-            color: white;
-            padding: 20px;
-        }
+    main {
+      display: flex;
+    }
 
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
+    .sidebar {
+      width: 250px;
+      background-color: lightblue;
+      color: white;
+      padding: 20px;
+      height:420px;
+    }
 
-        .sidebar li {
-            margin-bottom: 10px;
-        }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
 
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-        }
+    .sidebar li {
+      margin-bottom: 10px;
+    }
 
-        .sidebar .active {
-            background-color: lightskyblue; 
-        }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 10px;
+    }
 
-        .dashboard {
-            flex-grow: 1; 
-            padding: 20px;
-        }
+    .sidebar .active {
+      background-color: lightskyblue;
+    }
 
-        .welcome {
-            margin-bottom: 20px;
-        }
+    .dashboard {
+      flex-grow: 1;
+      padding: 20px;
+    }
 
-        .patient-queue ul {
-            list-style: none;
-            padding: 0;
-        }
+    .welcome {
+      margin-bottom: 20px;
+    }
 
-        .patient-queue li {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #eee; 
-            cursor: pointer;
-        }
+    .patient-queue ul {
+      list-style: none;
+      padding: 0;
+    }
 
-        .patient-queue .active {
-            background-color: #e0f2f7; 
-            font-weight: bold; 
-        }
+    .patient-queue li {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
 
-        .actions {
-            margin-top: 20px;
-        }
+    .patient-queue .active {
+      background-color: #e0f2f7;
+      font-weight: bold;
+    }
 
-        .actions button {
-            background-color: #008CBA; 
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 10px; 
-        }
-    </style>
+    .actions {
+      margin-top: 20px;
+    }
+
+    .actions button {
+      background-color: #008CBA;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <div class="profile">
       <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
       <div>
-        <h2 style="margin-bottom:6px;">Dr. Florence Oringe</h2>
-        <p style="margin-top:0px;">Pediatrician</p>
+        <h2  style="margin-bottom: 6px;">Dr. Florence Oringe</h2>
+        <p style="margin-top:0">Pediatrician</p>
       </div>
     </div>
     <div class="notifications">
-      
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
-          <a href="#">View Profile</a>
+          <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
           <a href="#">Log Out</a>
         </div>
@@ -172,13 +182,13 @@
     <aside class="sidebar">
       <nav>
         <ul>
-          <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-          <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+          <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
         </ul>
       </nav>
     </aside>
 
-    <section class="dashboard">
+    <section class="dashboard" id="dashboard-content">
       <div class="welcome">
         <h3>Good morning, Dr. Oringe!</h3>
       </div>
@@ -188,8 +198,13 @@
       </div>
       <div class="actions">
         <button class="start-consult">Start Consultation</button>
-        
+        <button class="view-schedule">View Schedule</button>
       </div>
+    </section>
+
+    <section class="profile-content" id="profile-content" style="display: none;">
+      <h2>Doctor's Profile</h2>
+      <p>This is where you would display the doctor's profile information.</p>
     </section>
   </main>
 
@@ -206,6 +221,12 @@
     const sidebarLinks = document.querySelectorAll('.sidebar a');
     const patientList = document.getElementById('patient-list');
     const startConsultationButton = document.querySelector('.start-consult');
+
+    // Get the links and content sections for dynamic switching
+    const dashboardLink = document.getElementById('dashboard-link');
+    const profileLink = document.getElementById('profile-link');
+    const dashboardContent = document.getElementById('dashboard-content');
+    const profileContent = document.getElementById('profile-content');
 
     function updatePatientList() {
       // 1. Get the currently active patient ID (if any)
@@ -267,6 +288,15 @@
         link.parentElement.classList.add('active');
       });
     });
+    const dropdownProfileLink = document.getElementById('dropdown-profile-link'); 
+
+    dropdownProfileLink.addEventListener('click', () => {
+      dashboardContent.style.display = 'none';
+      profileContent.style.display = 'block';
+      dashboardLink.parentElement.classList.remove('active');
+      profileLink.parentElement.classList.add('active'); 
+    });
+
 
     startConsultationButton.addEventListener('click', () => {
       const activePatient = patientList.querySelector('.active');
@@ -280,6 +310,21 @@
         // Handle case where no patient is selected (e.g., show an alert)
         alert("Please select a patient first.");
       }
+    });
+
+    // Event listeners for dynamic content switching
+    dashboardLink.addEventListener('click', () => {
+      dashboardContent.style.display = 'block';
+      profileContent.style.display = 'none';
+      dashboardLink.parentElement.classList.add('active');
+      profileLink.parentElement.classList.remove('active');
+    });
+
+    profileLink.addEventListener('click', () => {
+      dashboardContent.style.display = 'none';
+      profileContent.style.display = 'block';
+      dashboardLink.parentElement.classList.remove('active');
+      profileLink.parentElement.classList.add('active');
     });
   </script>
 </body>
