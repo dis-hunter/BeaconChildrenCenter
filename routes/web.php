@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExampleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('example');
-});
+Route::post(
+    '/example',
+    [ExampleController::class,
+    'store']
+)->name('example.store');
+Route::get(
+    '/example',
+    [ExampleController::class, 
+    'fetch']
+    )->name('example.fetch');
 Route::get('/doctor', function () {
     return view('doctor');
 });
-
