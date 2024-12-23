@@ -434,6 +434,8 @@ familyAndSocial.addEventListener('click', (event)=>{
 
  //Get the Family and Social History Link
 
+ 
+ //past Medical History
 const pastMedicalHistory = document.querySelector('.floating-menu a[href="#pastMedicalHistory"]');
 pastMedicalHistory.addEventListener('click', (event)=>{
     event.preventDefault();

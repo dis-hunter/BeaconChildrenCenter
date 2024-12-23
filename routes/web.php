@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ExampleController;
+use App\Http\Controllers\DiagnosisController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,3 +29,6 @@ Route::get(
 Route::get('/doctor', function () {
     return view('doctor');
 });
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
