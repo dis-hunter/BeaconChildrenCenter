@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
+use App\Http\Controllers\ParentsController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -30,5 +32,8 @@ Route::get('/doctor', function () {
     return view('doctor');
 });
 Route::get('/create',  [DiagnosisController::class,
+'create']
+);
+Route::get('/parents',  [ParentsController::class,
 'create']
 );
