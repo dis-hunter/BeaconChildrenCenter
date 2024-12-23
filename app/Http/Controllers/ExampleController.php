@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 class ExampleController extends Controller
 {
     public function fetch(Request $request){
-        return view('example');
+        $data=Example::all();
+        return view('example',compact('data'));
     }
 
     

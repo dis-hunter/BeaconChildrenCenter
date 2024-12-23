@@ -43,6 +43,28 @@
         @endif
     </form>
     <br>
+
+    <h1>Example GET from DB Table</h1>
+    <table><thead><tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Created_at</th>
+        <th>Updated_at</th>
+</tr>
+    </thead>
+<tbody>
+@foreach ($data as $item)
+<tr>
+    <td>{{$item->id}}</td>
+    <td>{{$item->email}}</td>
+    <td>{{$item->password}}</td>
+    <td>{{$item->created_at}}</td>
+    <td>{{$item->updated_at}}</td>
+</tr>
+@endforeach
+</tbody>
+</table>
     <h3>Step 4: Create Controller</h3>
     <p style="color: green;">php artisan make:controller ExampleController</p>
     <p>Controller is in

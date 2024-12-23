@@ -44,6 +44,27 @@
         <?php endif; ?>
     </form>
     <br>
+
+    <table><thead><tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Created_at</th>
+        <th>Updated_at</th>
+</tr>
+    </thead>
+<tbody>
+<?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<tr>
+    <td><?php echo e($item->id); ?></td>
+    <td><?php echo e($item->email); ?></td>
+    <td><?php echo e($item->password); ?></td>
+    <td><?php echo e($item->created_at); ?></td>
+    <td><?php echo e($item->updated_at); ?></td>
+</tr>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</tbody>
+</table>
     <h3>Step 4: Create Controller</h3>
     <p style="color: green;">php artisan make:controller ExampleController</p>
     <p>Controller is in
