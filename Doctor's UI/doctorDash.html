@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Doctor's Dashboard</title>
+    <style>
+        /* styles.css */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+        }
+
+        header {
+            background-color: #f2f2f2; 
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; 
+            margin-right: 15px;
+            object-fit: cover; 
+            transform: scale(1.2); 
+        }
+
+      
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin-right:50px;
+            font-size: 1.5em;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            right:10px;
+           
+            
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        main {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: lightblue; 
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+        }
+
+        .sidebar .active {
+            background-color: lightskyblue; 
+        }
+
+        .dashboard {
+            flex-grow: 1; 
+            padding: 20px;
+        }
+
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .patient-queue ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .patient-queue li {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee; 
+            cursor: pointer;
+        }
+
+        .patient-queue .active {
+            background-color: #e0f2f7; 
+            font-weight: bold; 
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        .actions button {
+            background-color: #008CBA; 
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; 
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="profile">
+      <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
+      <div>
+        <h2>Dr. Florence Oringe</h2>
+        <p>Pediatrician</p>
+      </div>
+    </div>
+    <div class="notifications">
+      
+      <div class="dropdown">
+        <button class="dropbtn"><i class="fas fa-user"></i></button>
+        <div class="dropdown-content">
+          <a href="#">View Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <section class="dashboard">
+      <div class="welcome">
+        <h3>Good morning, Dr. Oringe!</h3>
+      </div>
+      <div class="patient-queue">
+        <h2>Patients Waiting</h2>
+        <ul id="patient-list"></ul>
+      </div>
+      <div class="actions">
+        <button class="start-consult">Start Consultation</button>
+        <button class="view-schedule">View Schedule</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+  <script>
+    const patientQueue = [
+      {name: "John Smith", id: 1},
+      {name: "Alice Johnson",  id: 2},
+      {name: "Bob Williams",  id: 3},
+      {name: "Eva Green", id: 4},
+      {name: "Chris Evans",  id: 5}
+    ];
+
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    const patientList = document.getElementById('patient-list');
+    const startConsultationButton = document.querySelector('.start-consult');
+
+    function updatePatientList() {
+      // 1. Get the currently active patient ID (if any)
+      const currentActivePatientId = patientList.querySelector('.active')?.dataset.patientId;
+
+      // 2. Clear the list
+      patientList.innerHTML = '';
+
+      // 3. Get the first 3 patients from the queue
+      const patientsToDisplay = patientQueue.slice(0, 3);
+
+      patientsToDisplay.forEach(patient => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+                    <div>
+                        <h4>${patient.name}</h4> 
+                    </div>
+                `;
+        // Add the data-patient-id attribute
+        listItem.dataset.patientId = patient.id;
+
+        listItem.addEventListener('click', () => {
+          // Remove 'active' class from all list items
+          const activeItems = patientList.querySelectorAll('.active');
+          activeItems.forEach(item => item.classList.remove('active'));
+
+          // Add 'active' class to the clicked list item
+          listItem.classList.add('active');
+
+          // Store the active patient ID in localStorage
+          localStorage.setItem('activePatientId', patient.id);
+        });
+
+        // 3. Reapply the 'active' class if this patient was active
+        if (patient.id === currentActivePatientId) {
+          listItem.classList.add('active');
+        }
+
+        patientList.appendChild(listItem);
+      });
+    }
+
+    // Retrieve the active patient ID from localStorage when the page loads
+    const activePatientId = localStorage.getItem('activePatientId');
+    if (activePatientId) {
+      // Find the list item with the matching patient ID and add the 'active' class
+      const activeListItem = document.querySelector(`[data-patient-id="${activePatientId}"]`);
+      if (activeListItem) {
+        activeListItem.classList.add('active');
+      }
+    }
+
+    updatePatientList();
+    setInterval(updatePatientList, 10 * 60 * 1000); // 10 minutes
+
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        sidebarLinks.forEach(link => link.parentElement.classList.remove('active'));
+        link.parentElement.classList.add('active');
+      });
+    });
+
+    startConsultationButton.addEventListener('click', () => {
+      const activePatient = patientList.querySelector('.active');
+      if (activePatient) {
+        // Get the patient ID from the data attribute
+        const patientId = activePatient.dataset.patientId;
+
+        // Redirect to the consultation page with the patient ID
+        window.location.href = `doctor.html?patientId=${patientId}`;
+      } else {
+        // Handle case where no patient is selected (e.g., show an alert)
+        alert("Please select a patient first.");
+      }
+    });
+  </script>
+</body>
+</html>
