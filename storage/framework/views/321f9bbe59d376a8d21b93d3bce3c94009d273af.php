@@ -8,4 +8,4 @@
 <body>
     <h1>hello</h1>
 </body>
-</html>
+</html><?php /**PATH C:\Users\giftg\Beaconfolder\BeaconChildrenCenter\resources\views/example.blade.php ENDPATH**/ ?>
