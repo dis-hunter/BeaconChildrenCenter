@@ -3,6 +3,8 @@
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
+use App\Http\Controllers\ChildrenController;
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -29,6 +31,14 @@ Route::get('/create',  [DiagnosisController::class,
 
 //this handles parent related activity
 Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
-
 // Handle form submission to store a new parent
 Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents.store');
+//search for parent
+Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
+
+
+
+//Handles child related operations
+Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
+// Handle form submission to store a new child
+Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');

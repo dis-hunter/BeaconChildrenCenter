@@ -56,4 +56,17 @@ class ParentsController extends Controller
 
         return redirect()->route('parents.create')->with('success', 'Parent record saved successfully!');
     }
+    public function search(Request $request)
+    {
+        $query = $request->input('telephone');
+
+        // Fetch the parent record by telephone
+        $parent = Parents::where('telephone', $query)->first();
+
+        if ($parent) {
+            return view('reception.childregistration', ['parent' => $parent]);
+        } else {
+            return redirect()->back()->with('error', 'No parent found with the specified phone number.');
+        }
+    }
 }
