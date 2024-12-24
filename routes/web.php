@@ -18,16 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post(
-    '/example',
-    [ExampleController::class,
-    'store']
-)->name('example.store');
-Route::get(
-    '/example',
-    [ExampleController::class, 
-    'fetch']
-    )->name('example.fetch');
+Route::post('/example', [ExampleController::class,'store'])->name('example.store');
+Route::get('/example',[ExampleController::class,'fetch'])->name('example.fetch');
 Route::get('/doctor', function () {
     return view('doctor');
 });

@@ -14,7 +14,10 @@
     <p style="color: green;">php artisan make:model Example</p>
     <p>Model is in
         <b>app/Models/Example.php</b>
-    </p><br>
+    </p>
+    <p>// Specify the table name if it's not the pluralized form of the model name</p>
+    <p style="color: green;">protected $table = 'example_table';</p>
+    <br>
     <h3>Step 3: Create form in view</h3>
     <p>self-explanatory <b>resources/views/example.blade.php</b></p><br>
     <h2>Example POST Form</h2>
@@ -45,6 +48,7 @@
     </form>
     <br>
 
+    <h2>Example GET from DB Table</h2>
     <table><thead><tr>
         <th>Id</th>
         <th>Email</th>
@@ -69,7 +73,9 @@
     <p style="color: green;">php artisan make:controller ExampleController</p>
     <p>Controller is in
         <b>app/Http/Controllers/ExampleController.php</b>
-    </p><br>
+    </p>
+    <p>Study the code</p><br>
+    
 
     <h3>Step 5: Create Routes in <i>routes/web.php</i></h3>
     <p style="color: green;">Route::post('/example', [ExampleController::class, 'store'])->name('example.store')</p>
