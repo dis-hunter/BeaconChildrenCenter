@@ -165,7 +165,7 @@ button {
 <body>
 
 <div class="sidebar">
-<h2>Active Patient: {{ $firstName }} {{ $middleName }} {{ $lastName }}</h2> 
+<h2>Active Patient: <?php echo e($firstName); ?> <?php echo e($middleName); ?> <?php echo e($lastName); ?></h2> 
   <a href="#">Logout</a>
   <a href="#">User</a>
   <a href="#">Dr Emmanuel</a>
@@ -178,31 +178,31 @@ button {
   <div class="input-group">
     <div>
      <label for="firstName">First Name:</label>
-     <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
+     <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>">
     </div>
     <div>
       <label for="middleName">Middle Name:</label>
-      <input type="text" id="middleName" name="middleName" value="{{ $middleName }}">
+      <input type="text" id="middleName" name="middleName" value="<?php echo e($middleName); ?>">
     </div>
     
     <div>
       <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
+      <input type="text" id="lastName" name="lastName" value="<?php echo e($lastName); ?>">
     </div>
   </div>
 
   <div class="input-group">
     <div>
       <label for="dob">DOB:</label>
-      <input type="date" id="dob" name="dob" value="{{ $child->dob }}"> 
+      <input type="date" id="dob" name="dob" value="<?php echo e($child->dob); ?>"> 
     </div>
     <div>
       <label for="genderAge">Gender/Age:</label>
-      <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}">
+      <input type="text" id="genderAge" name="genderAge" value="<?php echo e($gender); ?>">
     </div>
     <div>
       <label for="hnu">HNU:</label>
-      <input type="text" id="hnu" name="hnu"  value="{{ $child->registration_number }}">
+      <input type="text" id="hnu" name="hnu"  value="<?php echo e($child->registration_number); ?>">
     </div>
   </div>
 
@@ -294,7 +294,7 @@ button {
 
 <button id="menuButton">Menu</button>
 
-<script src="{{ asset('js/doctor.js') }}"></script>
+<script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
 <script>
 
 const textareas = document.querySelectorAll('textarea');
@@ -318,3 +318,4 @@ textareas.forEach(textarea => {
 </body>
 </html>
 
+<?php /**PATH C:\xampp\htdocs\Beacon Children Center\resources\views/doctor.blade.php ENDPATH**/ ?>

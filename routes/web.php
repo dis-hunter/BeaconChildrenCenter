@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('example');
 });
-Route::get('/doctor', function () {
-    return view('doctor');
+
+use App\Http\Controllers\DoctorsController; // Import the controller class
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
 });
 
