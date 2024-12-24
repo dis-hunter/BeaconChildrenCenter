@@ -26,6 +26,9 @@ Route::get('/doctor', function () {
 Route::get('/create',  [DiagnosisController::class,
 'create']
 );
-Route::get('/parents',  [ParentsController::class,
-'create']
-);
+
+//this handles parent related activity
+Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
+
+// Handle form submission to store a new parent
+Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents.store');

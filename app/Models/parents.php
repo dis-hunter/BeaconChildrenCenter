@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class parents extends Model
+class Parents extends Model
 {
     use HasFactory;
+
+    // Define fillable attributes
     protected $fillable = [
         'fullname',
         'dob',
@@ -18,16 +20,21 @@ class parents extends Model
         'employer',
         'insurance',
         'referer',
-        'relationship_id'
+        'relationship_id',
     ];
 
-    // Ensure Eloquent assumes an auto-incrementing primary key named 'id'
+    // Automatically handle JSON serialization for 'fullname'
+    protected $casts = [
+        'fullname' => 'array',
+    ];
+
+    // Define primary key behavior
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
 
-    // Accessor and Mutator for 'data' attribute
-    protected function data(): Attribute
+    // Optional: Accessor and mutator for 'fullname' if needed
+    protected function fullname(): Attribute
     {
         return Attribute::make(
             get: fn($value) => json_decode($value, true),

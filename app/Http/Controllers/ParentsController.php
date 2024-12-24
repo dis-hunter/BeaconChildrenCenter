@@ -2,34 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\parents; // Import the Diagnosis model
-
+use App\Models\Parents; // Ensure the model name matches your file structure
 use Illuminate\Http\Request;
 
 class ParentsController extends Controller
 {
     public function create()
     {
-        // Data to be saved
-        $data = [
-            'full_name' =>'maximus aurelius',
-            'dob' => '1985-05-15', // Example date of birth
-            'gender_id' => 1, // Reference to gender table (e.g., 1 for Male)
-            'telephone' => '123-456-7890', // Example phone number
-            'national_id' => 'AB12345678', // Example national ID
-            'employer' => 'Roman Empire Corp', // Example employer name
-            'insurance' => 'Imperial Health Insurance', // Example insurance provider
-            'email_address' => 'maximus.aurelius@example.com', // Example email
-            'relationship_id' => 2, // Reference to relationships table
-            'referer' => 'Marcus Aurelius', // Example referer
-            'timestamps' => now(), // Current timestamp
+        return view('reception.parentregistration'); // Render the form view
+    }
+
+    public function store(Request $request)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'surname' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'gender_id' => 'required|integer',
+            'telephone' => 'required|string|max:15',
+            'national_id' => 'required|string|max:20',
+            'employer' => 'nullable|string|max:255',
+            'insurance' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:parents,email',
+            'relationship_id' => 'required|integer',
+            'referer' => 'nullable|string|max:255',
+        ]);
+
+        // Combine fullname fields into a JSON object
+        $fullname = [
+            'firstname' => $validatedData['firstname'],
+            'middlename' => $validatedData['middlename'],
+            'surname' => $validatedData['surname'],
         ];
+        
 
-        // Create a new Diagnosis record
-        $parents = parents::create($data);
+        // Create the parent record
+        $parent = Parents::create([
+            'fullname' => json_encode($fullname),
+            'dob' => $validatedData['dob'],
+            'gender_id' => $validatedData['gender_id'],
+            'telephone' => $validatedData['telephone'],
+            'national_id' => $validatedData['national_id'],
+            'employer' => $validatedData['employer'],
+            'insurance' => $validatedData['insurance'],
+            'email' => $validatedData['email'],
+            'relationship_id' => $validatedData['relationship_id'],
+            'referer' => $validatedData['referer'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        // Output the 'data' field (decoded by the accessor in the model)
-        dd($parents->data);
+        return redirect()->route('parents.create')->with('success', 'Parent record saved successfully!');
     }
 }
