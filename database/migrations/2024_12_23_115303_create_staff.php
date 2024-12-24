@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->json('fullname');
             $table->string('telephone');
-            $table->string('email');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('staff_no')->unique();
+            $table->rememberToken();
             $table->foreignId('gender_id')->constrained('gender','id');
             $table->foreignId('role_id')->constrained('roles','id');
             $table->timestamps();

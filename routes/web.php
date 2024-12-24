@@ -3,8 +3,7 @@
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
-
-
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +25,10 @@ Route::get('/doctor', function () {
 Route::get('/create',  [DiagnosisController::class,
 'create']
 );
-
-//this handles parent related activity
-Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
-
-// Handle form submission to store a new parent
-Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents.store');
+Route::get('/parents',  [ParentsController::class,
+'create']
+);
+Route::get('login', [AuthController::class, 'loginGet']);
+Route::get('/register', [AuthController::class,'registerGet']);
+Route::post('/register', [AuthController::class, 'registerPost']);
+Route::post('/login', [AuthController::class, 'loginPost']);

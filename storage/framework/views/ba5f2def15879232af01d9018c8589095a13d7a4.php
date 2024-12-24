@@ -81,8 +81,6 @@
     <p style="color: green;">Route::post('/example', [ExampleController::class, 'store'])->name('example.store')</p>
     <p style="color: green;">Route::get('/example', [ExampleController::class, 'fetch'])->name('example.fetch')</p>
 
-
-
 </body>
 
 </html><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/example.blade.php ENDPATH**/ ?>

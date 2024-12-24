@@ -9,6 +9,8 @@ class Parents extends Model
 {
     use HasFactory;
 
+    protected $table='parents';
+
     // Define fillable attributes
     protected $fillable = [
         'fullname',
