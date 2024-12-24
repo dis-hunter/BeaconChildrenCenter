@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DoctorController;
 
+Route::post('/doctors', [DoctorController::class, 'store']); // Handle form submission
+Route::view('/doctor_form', 'doctor_form'); // Display the form
 /*
 |--------------------------------------------------------------------------
 | Web Routes
