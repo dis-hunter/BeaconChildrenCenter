@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('dob');
             $table->string('birth_cert');
             $table->foreignId('gender_id')->constrained('gender','id');
-            $table->string('registration_number');
+            $table->string('registration_number')->unique();
             $table->foreignId('parent_id')->constrained('parents','id');
             $table->timestamps();
         });

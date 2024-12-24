@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('telephone');
             $table->string('email');
             $table->string('password');
-            $table->string('staff_no');
+            $table->string('staff_no')->unique();
             $table->foreignId('gender_id')->constrained('gender','id');
             $table->foreignId('role_id')->constrained('roles','id');
             $table->timestamps();
