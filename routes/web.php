@@ -7,6 +7,8 @@ use App\Http\Controllers\ChildrenController;
 
 
 
+=======
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,3 +44,11 @@ Route::post('/search-parent', [ParentsController::class, 'search'])->name('paren
 Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
 // Handle form submission to store a new child
 Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
+=======
+Route::get('/parents',  [ParentsController::class,
+'create']
+);
+Route::get('login', [AuthController::class, 'loginGet']);
+Route::get('/register', [AuthController::class,'registerGet']);
+Route::post('/register', [AuthController::class, 'registerPost']);
+Route::post('/login', [AuthController::class, 'loginPost']);
