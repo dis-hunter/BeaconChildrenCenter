@@ -22,4 +22,5 @@ Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
+Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 

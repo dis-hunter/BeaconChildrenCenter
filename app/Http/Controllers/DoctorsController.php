@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log; // Import the Log facade
 
 class DoctorsController extends Controller
-{
+{ 
     public function show($registrationNumber)
-    {
+     {
         $child = DB::table('children')
                     ->where('registration_number', $registrationNumber)
                     ->first();
@@ -29,13 +30,86 @@ class DoctorsController extends Controller
         // Get the gender name from the gender table
         $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
 
-        // You can now use these variables in your view
-        return view('doctor', [
-            'child' => $child,
-            'firstName' => $firstName,
-            'middleName' => $middleName,
-            'lastName' => $lastName,
-            'gender' => $gender 
-        ]);
+        // Fetch triage data for the child
+        $triage = DB::table('triage')->where('child_id', $child->id)->first();
+
+        if ($triage) {
+            // Decode the triage data JSON
+            $triageData = json_decode($triage->data);
+
+            // Access the individual data points
+            $temperature = $triageData->temperature;
+            $weight = $triageData->weight;
+            $height = $triageData->height;
+            $head_circumference = $triageData->head_circumference;
+            $blood_pressure = $triageData->blood_pressure;
+            $pulse_rate = $triageData->pulse_rate;
+            $respiratory_rate = $triageData->respiratory_rate;
+            $oxygen_saturation = $triageData->oxygen_saturation;
+            $MUAC = $triageData->MUAC; 
+
+            // Pass the decoded triage data to the view
+            return view('doctor', [
+                'child' => $child,
+                'firstName' => $firstName,
+                'middleName' => $middleName,
+                'lastName' => $lastName,
+                'gender' => $gender,
+                'triage' => $triage,
+                'temperature' => $temperature,
+                'weight' => $weight,
+                'height' => $height,
+                'head_circumference' => $head_circumference,
+                'blood_pressure' => $blood_pressure,
+                'pulse_rate' => $pulse_rate,
+                'respiratory_rate' => $respiratory_rate,
+                'oxygen_saturation' => $oxygen_saturation,
+                'MUAC' => $MUAC
+            ]);
+        } else {
+            // Handle case where no triage data is found
+            return view('doctor', [
+                'child' => $child,
+                'firstName' => $firstName,
+                'middleName' => $middleName,
+                'lastName' => $lastName,
+                'gender' => $gender,
+                'triage' => null, 
+            ]);
+        }
+    }
+
+
+    public function getTriageData($registrationNumber)
+    {
+        try {
+            Log::info("getTriageData called with registration number: " . $registrationNumber);
+
+            $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+
+            if (!$child) {
+                Log::warning("Child not found for registration number: " . $registrationNumber);
+                abort(404);
+            }
+
+            $triage = DB::table('triage')->where('child_id', $child->id)->first();
+
+            if (!$triage) {
+                Log::warning("Triage data not found for child with registration number: " . $registrationNumber);
+                return response()->json(['error' => 'Triage data not found'], 404);
+            }
+
+            $triageData = json_decode($triage->data);
+
+            Log::info("Triage data retrieved: ", (array)$triageData);
+
+            return response()->json($triageData);
+
+        } catch (\Exception $e) {
+            Log::error("Error in getTriageData: " . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 }
+
+    
