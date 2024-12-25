@@ -161,6 +161,7 @@ button {
   cursor: pointer;
 }
 </style>
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body>
 

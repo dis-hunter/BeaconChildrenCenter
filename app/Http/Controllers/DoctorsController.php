@@ -104,12 +104,57 @@ class DoctorsController extends Controller
             Log::info("Triage data retrieved: ", (array)$triageData);
 
             return response()->json($triageData);
-
         } catch (\Exception $e) {
             Log::error("Error in getTriageData: " . $e->getMessage());
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
+
+    public function saveCnsData(Request $request, $registrationNumber)
+    {
+        try {
+            Log::info("saveCnsData called with registration number: " . $registrationNumber);
+    
+            // Start query logging
+            DB::enableQueryLog();  // Enable query logging
+    
+            // Find child by registration number
+            $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+            if (!$child) {
+                return response()->json(['error' => 'Child not found'], 404);
+            }
+    
+            // Get the latest visit for the child from the visits table
+            $visit = DB::table('visits')
+                ->where('child_id', $child->id)
+                ->orderBy('created_at', 'desc') // Order by the latest visit
+                ->first();
+    
+            if (!$visit) {
+                return response()->json(['error' => 'No visit found for the child'], 404);
+            }
+    
+            // Create or update the CNS data
+            DB::table('cns')->updateOrInsert(
+                [
+                    'visit_id' => $visit->id, // Associate with visit
+                    'child_id' => $child->id,
+                    'doctor_id' => 1, // Replace with logic for the actual doctor ID
+                ],
+                ['data' => json_encode($request->all())] // Ensure data is JSON encoded
+            );
+    
+            // Log all executed queries
+            Log::info("Executed Queries: " . json_encode(DB::getQueryLog()));
+    
+            return response()->json(['message' => 'CNS data saved successfully'], 200);
+    
+        } catch (\Exception $e) {
+            Log::error("Error in saveCnsData: " . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+    }
+    
+
 }
 
-    

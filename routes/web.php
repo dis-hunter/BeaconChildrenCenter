@@ -23,4 +23,7 @@ Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
 Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+// routes/web.php
+
+Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
 
