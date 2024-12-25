@@ -116,8 +116,8 @@
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
-                                        <input type="password" id="confirm_password" name="confirmpassword" class="form-control" placeholder="Confirm Password" required />
-                                        <label for="confirm_password">Confirm Password</label>
+                                        <input type="password" id="confirmpassword" name="confirmpassword" class="form-control" placeholder="Confirm Password" required />
+                                        <label for="confirmpassword">Confirm Password</label>
                                     </div>
                                 </div>
                             </div>

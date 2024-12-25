@@ -47,6 +47,6 @@ Route::get('/parents',  [ParentsController::class,
 'create']
 );
 Route::get('login', [AuthController::class, 'loginGet']);
-Route::get('/register', [AuthController::class,'registerGet']);
-Route::post('/register', [AuthController::class, 'registerPost']);
-Route::post('/login', [AuthController::class, 'loginPost']);
+Route::get('register', [AuthController::class,'registerGet']);
+Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
+Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
