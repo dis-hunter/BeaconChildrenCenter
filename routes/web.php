@@ -30,6 +30,7 @@ Route::get('/create',  [DiagnosisController::class,
 'create']
 );
 
+
 //this handles parent related activity
 Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
 // Handle form submission to store a new parent
