@@ -264,121 +264,211 @@ textarea.style.height = "auto";
  
  //Get the Developmental Milestones Link
 
-const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
-DevMilestonesLink.addEventListener('click', (event)=>{
-    event.preventDefault();
+ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
+DevMilestonesLink.addEventListener('click', async (event) => {
+  event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/DevMilestones.css'>
-</head>
-<body>
+  const mainContent = document.querySelector('.main');
 
-<div class="container">
-  <h2>Developmental Milestones</h2>
+  // Show the loading indicator specific to this feature
+  showLoadingIndicator(mainContent, "devMilestones-loading");
 
-  <div class="section">
-    <div class="section-title">Motor</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="neckSupport">Neck Support:</label>
-        <input type="text" id="neckSupport">
-      </div>
-      <div class="grid-item">
-        <label for="sitting">Sitting:</label>
-        <input type="text" id="sitting">
-      </div>
-      <div class="grid-item">
-        <label for="crawling">Crawling:</label>
-        <input type="text" id="crawling">
-      </div>
-      <div class="grid-item">
-        <label for="standing">Standing:</label>
-        <input type="text" id="standing">
-      </div>
-      <div class="grid-item">
-        <label for="walking">Walking:</label>
-        <input type="text" id="walking">
-      </div>
-    </div>
+  try {
+      // Load and render the Developmental Milestones form
+      console.log("Loading Developmental Milestones form...");
+      await loadDevelopmentalMilestonesForm(mainContent);
+  } catch (error) {
+      console.error("Error loading developmental milestones:", error.message);
+      mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+  } finally {
+      // Remove the loading indicator
+      console.log("Removing loading indicator...");
+      removeLoadingIndicator("devMilestones-loading");
+  }
+});
+
+function showLoadingIndicator(parentElement, uniqueId) {
+  // Check if the loading indicator already exists
+  if (!document.getElementById(uniqueId)) {
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.id = uniqueId;
+      loadingIndicator.style = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 4px solid #ccc;
+          border-color: #007bff transparent #007bff transparent;
+          animation: loading-animation 1.2s linear infinite;
+          z-index: 1000;
+      `;
+
+      // Append the loading indicator to the parent element
+      parentElement.appendChild(loadingIndicator);
+
+      // Inject unique styles for the animation (only once)
+      if (!document.getElementById('loading-animation-styles')) {
+          const loadingAnimationStyles = document.createElement('style');
+          loadingAnimationStyles.id = 'loading-animation-styles';
+          loadingAnimationStyles.textContent = `
+              @keyframes loading-animation {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+              }
+          `;
+          document.head.appendChild(loadingAnimationStyles);
+      }
+  }
+}
+
+function removeLoadingIndicator(uniqueId) {
+  const loadingIndicator = document.getElementById(uniqueId);
+  if (loadingIndicator) {
+      loadingIndicator.remove();
+  }
+}
+
+async function loadDevelopmentalMilestonesForm(mainContent) {
+  // Render the form structure
+  console.log("Rendering the form...");
+  mainContent.innerHTML = `
+  <div id="devMilestones-container">
+      <head>
+          <link rel='stylesheet' href='../css/DevMilestones.css'>
+      </head>
+      <body>
+          <div class="container">
+              <h2>Developmental Milestones</h2>
+              <!-- Form content goes here -->
+              <div class="section">
+                  <div class="section-title">Motor</div>
+                  <div class="grid-container">
+                      <div class="grid-item">
+                          <label for="neckSupport">Neck Support:</label>
+                          <input type="text" id="neckSupport">
+                      </div>
+                      <div class="grid-item">
+                          <label for="sitting">Sitting:</label>
+                          <input type="text" id="sitting">
+                      </div>
+                      <div class="grid-item">
+                          <label for="crawling">Crawling:</label>
+                          <input type="text" id="crawling">
+                      </div>
+                      <div class="grid-item">
+                          <label for="standing">Standing:</label>
+                          <input type="text" id="standing">
+                      </div>
+                      <div class="grid-item">
+                          <label for="walking">Walking:</label>
+                          <input type="text" id="walking">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Speech Language</div>
+                  <div class="grid-container">
+                      <div class="grid-item">
+                          <label for="coobing">Cooing/Babbling:</label>
+                          <input type="text" id="coobing">
+                      </div>
+                      <div class="grid-item">
+                          <label for="firstWord">First Word:</label>
+                          <input type="text" id="firstWord">
+                      </div>
+                      <div class="grid-item">
+                          <label for="vocabulary">Vocabulary:</label>
+                          <input type="text" id="vocabulary">
+                      </div>
+                      <div class="grid-item">
+                          <label for="phraseSpeech">Phrase Speech:</label>
+                          <input type="text" id="phraseSpeech">
+                      </div>
+                      <div class="grid-item">
+                          <label for="conversational">Conversational:</label>
+                          <input type="text" id="conversational">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Social Emotional</div>
+                  <div class="grid-container">
+                      <div class="grid-item">
+                          <label for="smiling">Smiling/Laughing:</label>
+                          <input type="text" id="smiling">
+                      </div>
+                      <div class="grid-item">
+                          <label for="attachments">Attachments:</label>
+                          <input type="text" id="attachments">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Feeding</div>
+                  <textarea id="feeding"></textarea>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Elimination</div>
+                  <textarea id="elimination"></textarea>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Teething</div>
+                  <textarea id="teething"></textarea>
+              </div>
+
+              <button id="saveButton">Save</button>
+          </div>
+      </body>
   </div>
+  `;
 
-  <div class="section">
-    <div class="section-title">Speech Language</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="coobing">Cooing/Babbling:</label>
-        <input type="text" id="coobing">
-      </div>
-      <div class="grid-item">
-        <label for="firstWord">First word:</label>
-        <input type="text" id="firstWord">
-      </div>
-      <div class="grid-item">
-        <label for="vocabulary">Vocabulary:</label>
-        <input type="text" id="vocabulary">
-      </div>
-      <div class="grid-item">
-        <label for="phraseSpeech">Phrase Speech:</label>
-        <input type="text" id="phraseSpeech">
-      </div>
-      <div class="grid-item">
-        <label for="conversational">Conversational:</label>
-        <input type="text" id="conversational">
-      </div>
-    </div>
-  </div>
+  console.log("Fetching developmental milestones...");
+  // Fetch data for the child and populate the form
+  const registrationNumber = "REG-001";
+  await loadDevelopmentalMilestones(registrationNumber);
+}
 
-  <div class="section">
-    <div class="section-title">Social Emotional</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="smiling">Smiling/Laughing:</label>
-        <input type="text" id="smiling">
-      </div>
-      <div class="grid-item">
-        <label for="attachments">Attachments:</label>
-        <input type="text" id="attachments">
-      </div>
-      <div class="grid-item"></div> 
-    </div>
-  </div>
+async function loadDevelopmentalMilestones(registrationNumber) {
+  try {
+      const response = await fetch(`/get-development-milestones/${registrationNumber}`);
+      if (!response.ok) {
+          throw new Error("Failed to fetch data");
+      }
 
-  <div class="section">
-    <div class="section-title">Feeding</div>
-    <textarea></textarea>
-  </div>
+      const data = await response.json();
 
-  <div class="section">
-    <div class="section-title">Elimination</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Teething</div>
-    <textarea></textarea>
-  </div>
-  <button>Back</button>
-  <button type="submit">Save</button>
-</div>
-
-</body>
-    `
- textareas.forEach(textarea => {
-    textarea.addEventListener('input', () => {
-      textarea.style.height = "auto"; 
-       textarea.style.height = (textarea.scrollHeight) + "px"; 
-     });
-      
- textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
- });
-      
-textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
- });
+      // Populate form fields with data if available
+      if (data && data.data) {
+          const milestones = JSON.parse(data.data);
+          console.log("Populating form with data...");
+          document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
+          document.getElementById("sitting").value = milestones["Sitting"] || "";
+          document.getElementById("crawling").value = milestones["Crawling"] || "";
+          document.getElementById("standing").value = milestones["Standing"] || "";
+          document.getElementById("walking").value = milestones["Walking"] || "";
+          document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
+          document.getElementById("firstWord").value = milestones["First Word"] || "";
+          document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
+          document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
+          document.getElementById("conversational").value = milestones["Conversational"] || "";
+          document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
+          document.getElementById("attachments").value = milestones["Attachments"] || "";
+          document.getElementById("feeding").value = milestones["Feeding"] || "";
+          document.getElementById("elimination").value = milestones["Elimination"] || "";
+          document.getElementById("teething").value = milestones["Teething"] || "";
+      }
+  } catch (error) {
+      console.error("Error fetching developmental milestones:", error.message);
+  }
+}
 
  //Get the Family and Social History Link
 
@@ -432,7 +522,7 @@ familyAndSocial.addEventListener('click', (event)=>{
     });
  });
 
- //Get the Family and Social History Link
+ //Get the Past Medical History Link
 
  
  //past Medical History
@@ -486,90 +576,161 @@ pastMedicalHistory.addEventListener('click', (event)=>{
       textarea.style.height = (textarea.scrollHeight) + "px"; 
     });
  });
-      //Get Examination Link
 
-const Examination = document.querySelector('.floating-menu a[href="#Examination"]');
-Examination.addEventListener('click', (event)=>{
-    event.preventDefault();
+ //Examination 
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/Examination.css'>
-</head>
-<body>
+ document.addEventListener('DOMContentLoaded', (event) => {
+  const Examination = document.querySelector('.floating-menu a[href="#Examination"]');
 
-<div class="container">
-  <h2>Examination</h2>
+  if (Examination) {
+    Examination.addEventListener('click', async (event) => {
+      event.preventDefault();
 
-  <div class="section">
-    <div class="section-title">CNS</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="avpu">AVPU:</label>
-        <select id="avpu">
-          <option value="A">A</option>
-          <option value="V">V</option>
-          <option value="P">P</option>
-          <option value="U">U</option>
-        </select>
-      </div>
-      <div class="grid-item">
-        <label for="vision">Vision:</label>
-        <input type="text" id="vision">
-      </div>
-      <div class="grid-item">
-        <label for="hearing">Hearing:</label>
-        <input type="text" id="hearing">
-      </div>
-      <div class="grid-item">
-        <label for="cranialNerves">Cranial Nerves:</label>
-        <input type="text" id="cranialNerves">
-      </div>
-      <div class="grid-item">
-        <label for="ambulation">Ambulation:</label>
-        <input type="text" id="ambulation">
-      </div>
-    </div>
-  </div>
+      const registrationNumber = getRegistrationNumberFromUrl();
+      console.log("Registration number:", registrationNumber);
 
-  <div class="section">
-    <div class="section-title">Other Systems</div>
-    <div class="textarea-with-label">
-      <div class="textarea-label">CardioVascular System:</div>
-      <textarea></textarea>
-    </div>
-    <div class="textarea-with-label">
-      <div class="textarea-label">Respiratory System:</div>
-      <textarea></textarea>
-    </div>
-    <div class="textarea-with-label">
-      <div class="textarea-label">Musculoskeletal System:</div>
-      <textarea></textarea>
-    </div>
-  </div>
+      // Show loading indicator
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.id = 'loading-indicator';
+      loadingIndicator.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 4px solid #ccc;
+        border-color: #007bff transparent #007bff transparent;
+        animation: loading-animation 1.2s linear infinite;
+      `;
+      document.body.appendChild(loadingIndicator);
 
-  <button type="submit">Save</button>
-</div>
+      try {
+        // Fetch the CSRF token from the meta tag
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
 
-</body>
-    `
-    const textareas = document.querySelectorAll('textarea');
-  
-    textareas.forEach(textarea => {
-      textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
-  
-      textarea.addEventListener('blur', () => {
-        textarea.style.height = '50px'; 
-      });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
+        // Create a new form element
+        const examinationForm = document.createElement('form');
+        examinationForm.id = 'examinationForm';
+        examinationForm.innerHTML = `
+        <head>
+        <link rel="stylesheet" href="../css/Examination.css">
+        </head>
+          <div class="container">
+            <h2>Examination</h2>
+            <div class="section">
+              <div class="section-title">CNS</div>
+              <div class="grid-container">
+                <div class="grid-item">
+                  <label for="avpu">AVPU:</label>
+                  <select id="avpu">
+                    <option value="A">A</option>
+                    <option value="V">V</option>
+                    <option value="P">P</option>
+                    <option value="U">U</option>
+                  </select>
+                </div>
+                <div class="grid-item">
+                  <label for="vision">Vision:</label>
+                  <input type="text" id="vision">
+                </div>
+                <div class="grid-item">
+                  <label for="hearing">Hearing:</label>
+                  <input type="text" id="hearing">
+                </div>
+                <div class="grid-item">
+                  <label for="cranialNerves">Cranial Nerves:</label>
+                  <input type="text" id="cranialNerves">
+                </div>
+                <div class="grid-item">
+                  <label for="ambulation">Ambulation:</label>
+                  <input type="text" id="ambulation">
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title">Other Systems</div>
+              <div class="textarea-with-label">
+                <div class="textarea-label">CardioVascular System:</div>
+                <textarea id="cardiovascularTextarea"></textarea>
+              </div>
+              <div class="textarea-with-label">
+                <div class="textarea-label">Respiratory System:</div>
+                <textarea id="respiratoryTextarea"></textarea>
+              </div>
+              <div class="textarea-with-label">
+                <div class="textarea-label">Musculoskeletal System:</div>
+                <textarea id="musculoskeletalTextarea"></textarea>
+              </div>
+            </div>
+            <button type="submit">Save</button>
+          </div>
+        `;
+
+        // Append the form to the main content area
+        const mainContent = document.querySelector('.main');
+        mainContent.innerHTML = ''; // Clear existing content
+        mainContent.appendChild(examinationForm);
+
+        // Remove loading indicator
+        document.body.removeChild(loadingIndicator);
+
+        // Add event listener to the save button
+        examinationForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          // Gather data from the form inputs
+          const examinationData = {
+            avpu: document.getElementById('avpu').value,
+            vision: document.getElementById('vision').value,
+            hearing: document.getElementById('hearing').value,
+            cranialNerves: document.getElementById('cranialNerves').value,
+            ambulation: document.getElementById('ambulation').value,
+            cardiovascular: document.getElementById('cardiovascularTextarea').value,
+            respiratory: document.getElementById('respiratoryTextarea').value,
+            musculoskeletal: document.getElementById('musculoskeletalTextarea').value,
+          };
+
+          console.log('Examination Data:', examinationData);
+
+          try {
+            const response = await fetch(`/save-cns-data/${registrationNumber}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+              },
+              body: JSON.stringify(examinationData),
+            });
+          
+            if (!response.ok) {
+              const errorText = await response.text(); // Get the response body for more details
+              console.error('Server error response:', response.status, errorText);
+              throw new Error(`Network response was not ok: ${response.status}`);
+            }
+          
+            console.log('CNS data saved successfully!');
+          } catch (error) {
+            console.error('Error saving CNS data:', error);
+          }
+          
+        });
+
+        // Textarea auto-resize
+        // (Optional implementation for auto-resize functionality)
+      } catch (error) {
+        console.error('Error loading examination form:', error);
+        document.body.removeChild(loadingIndicator);
+      }
     });
- });
+  }
+});
+
+function getRegistrationNumberFromUrl() {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+}
 
   //Get CarePlan Link
 
@@ -698,68 +859,128 @@ devAssesment.addEventListener('click', (event)=>{
  });
      
 
- //Get  Triage Exam Link
+ // Add click event listener to the triageExam element
+document.addEventListener('DOMContentLoaded', () => {
+  const triageExam = document.querySelector('.floating-menu a[href="#triageExam"]');
+  
+  if (!triageExam) return;
 
-const triageExam = document.querySelector('.floating-menu a[href="#triageExam"]');
-triageExam.addEventListener('click', (event)=>{
-    event.preventDefault();
+  triageExam.addEventListener('click', async (event) => {
+      event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/triageExam.css'>
-</head>
-<body>
+      const registrationNumber = getRegistrationNumberFromUrl();
+      console.log("Registration number:", registrationNumber);
 
-<div class="container">
-  <h2>Triage Examination</h2>
+      // Show loading indicator
+      showLoadingIndicator();
 
-  <div class="section">
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="temp">Temp:</label>
-        <input type="text" id="temp">
-      </div>
-      <div class="grid-item">
-        <label for="rr">RR:</label>
-        <input type="text" id="rr">
-      </div>
-      <div class="grid-item">
-        <label for="pulse">Pulse:</label>
-        <input type="text" id="pulse">
-      </div>
-      <div class="grid-item">
-        <label for="bp">BP:</label>
-        <input type="text" id="bp">
-      </div>
-    </div>
-  </div>
+      try {
+          // Fetch triage data
+          const triageData = await fetchTriageData(registrationNumber);
+          console.log('Triage data:', triageData);
 
-  <div class="section">
-    <div class="section-title"></div> <div class="grid-container">
-      <div class="grid-item">
-        <label for="weight">Weight:</label>
-        <input type="text" id="weight">
-      </div>
-      <div class="grid-item">
-        <label for="height">Height:</label>
-        <input type="text" id="height">
-      </div>
-      <div class="grid-item">
-        <label for="muac">MUAC:</label>
-        <input type="text" id="muac">
-      </div>
-      <div class="grid-item">
-        <label for="hc">HC:</label>
-        <input type="text" id="hc">
-      </div>
-    </div>
-  </div>
+          // Render triage examination UI
+          renderTriageExamination(triageData);
+      } catch (error) {
+          console.error('Error fetching triage data:', error);
+          alert('Failed to fetch triage data. Please try again.');
+      } finally {
+          // Remove loading indicator
+          removeLoadingIndicator();
+      }
+  });
+});
 
-</div>
+// Function to extract registration number from URL
+function getRegistrationNumberFromUrl() {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+}
 
-</body>
-    `
+// Function to show the loading indicator
+function showLoadingIndicator() {
+  const loadingIndicator = document.createElement('div');
+  loadingIndicator.id = 'loading-indicator';
+  document.body.appendChild(loadingIndicator);
+}
+
+// Function to remove the loading indicator
+function removeLoadingIndicator() {
+  const loadingIndicator = document.getElementById('loading-indicator');
+  if (loadingIndicator) {
+      document.body.removeChild(loadingIndicator);
+  }
+}
+
+// Function to fetch triage data from the server
+async function fetchTriageData(registrationNumber) {
+  const response = await fetch(`/get-triage-data/${registrationNumber}`);
+  if (!response.ok) {
+      throw new Error('Network response was not ok');
+  }
+  return response.json();
+}
+
+// Function to render the triage examination UI
+function renderTriageExamination(triageData) {
+  const mainContent = document.querySelector('.main');
+  mainContent.innerHTML = `
+      <div class="container">
+      <link rel='stylesheet' href='../css/triageExam.css'>
+          <h2>Triage Examination</h2>
+          <div class="section">
+              <div class="grid-container">
+                  ${createInputField('Temp', 'temp', triageData.temperature)}
+                  ${createInputField('RR', 'rr', triageData.respiratory_rate)}
+                  ${createInputField('Pulse', 'pulse', triageData.pulse_rate)}
+                  ${createInputField('BP', 'bp', triageData.blood_pressure)}
+              </div>
+          </div>
+          <div class="section">
+              <div class="grid-container">
+                  ${createInputField('Weight', 'weight', triageData.weight)}
+                  ${createInputField('Height', 'height', triageData.height)}
+                  ${createInputField('MUAC', 'muac', triageData.MUAC)}
+                  ${createInputField('HC', 'hc', triageData.head_circumference)}
+              </div>
+          </div>
+      </div>
+  `;
+}
+
+// Helper function to create an input field
+function createInputField(label, id, value) {
+  return `
+      <div class="grid-item">
+          <label for="${id}">${label}:</label>
+          <input type="text" id="${id}" value="${value || ''}">
+      </div>
+  `;
+}
+
+// Inject loading animation styles into the document head
+const loadingAnimationStyles = document.createElement('style');
+loadingAnimationStyles.textContent = `
+  @keyframes loading-animation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+  #loading-indicator {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #ccc;
+      border-color: #007bff transparent #007bff transparent;
+      animation: loading-animation 1.2s linear infinite;
+      z-index: 1000;
+  }
+  
+`;
+document.head.appendChild(loadingAnimationStyles);
 
     const textareas = document.querySelectorAll('textarea');
   
@@ -776,7 +997,7 @@ triageExam.addEventListener('click', (event)=>{
       textarea.style.height = "auto"; 
       textarea.style.height = (textarea.scrollHeight) + "px"; 
     });
- });
+
 
  //Get  Diagnosis Exam Link
 
