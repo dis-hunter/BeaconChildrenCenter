@@ -4,9 +4,10 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
-
-
 use App\Http\Controllers\DevelopmentMilestonesController;
+use App\Http\Controllers\DoctorsController; // Import the controller class
+
+
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +23,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function(){
+    return view('header');
+});
+
 Route::post('/example', [ExampleController::class,'store'])->name('example.store');
 Route::get('/example',[ExampleController::class,'fetch'])->name('example.fetch');
 
-use App\Http\Controllers\DoctorsController; // Import the controller class
 Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
@@ -51,20 +55,19 @@ Route::post('/storechild', [ChildrenController::class, 'store'])->name('children
 Route::get('/parents',  [ParentsController::class,
 'create']
 );
-Route::get('login', [AuthController::class, 'loginGet']);
+
+Route::get('login', [AuthController::class, 'loginGet'])->name('login');
 Route::get('register', [AuthController::class,'registerGet']);
 Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
 Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
-// routes/web.php
 
 Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
 
+
 Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
+
 Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
 
-
-Route::get('/app', function () {
-    return view('livewire.app');
-});
+Route::post('logout',[AuthController::class, 'logout'])->name('logout');

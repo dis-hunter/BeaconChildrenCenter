@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('doctor_id')->constrained('doctors','id');
             $table->foreignId('staff_id')->constrained('staff','id');
             $table->date('appointment_date');
-            $table->time('appointment_time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->string('status');
             $table->timestamps();
         });
