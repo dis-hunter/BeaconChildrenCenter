@@ -8,6 +8,12 @@
 </head>
 
 <body>
+    <div class="navbar">
+        <form action="/logout" method="post">
+            @csrf
+        <button class="btn btn-primary" type="submit">Logout</button>
+        </form>
+    </div>
     <h3>Step 1</h3>
     <p>Make sure table is in DB....Check in the migrations or use <a href="https://sqlectron.github.io/">sqlectron</a></p><br>
     <h3>Step 2: Create Model</h3>

@@ -74,4 +74,11 @@ class AuthController extends Controller
         }
         return redirect(route('login.post'))->with('error','Credentials are not valid!')->withInput($request->except('password'));
     }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect(route('login'));
+    }
 }
