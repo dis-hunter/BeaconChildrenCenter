@@ -154,7 +154,51 @@ class DoctorsController extends Controller
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
-    
+
+    public function getMilestones($registrationNumber)
+    {
+        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+
+        if (!$child) {
+            return response()->json(['error' => 'Child not found'], 404);
+        }
+
+        $milestone = DB::table('development_milestones')
+            ->where('child_id', $child->id)
+            ->latest()
+            ->first();
+
+        return response()->json(['data' => $milestone ? $milestone->data : null], 200);
+    }
+
+    public function saveMilestones(Request $request, $registrationNumber)
+    {
+        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+
+        if (!$child) {
+            return response()->json(['error' => 'Child not found'], 404);
+        }
+
+        $visit = DB::table('visits')
+            ->where('child_id', $child->id)
+            ->latest()
+            ->first();
+
+        if (!$visit) {
+            return response()->json(['error' => 'No visit found for the child'], 404);
+        }
+
+        DB::table('development_milestones')->updateOrInsert(
+            [
+                'visit_id' => $visit->id,
+                'child_id' => $child->id,
+                'doctor_id' => 1, // Replace with authenticated doctor ID
+            ],
+            ['data' => json_encode($request->data), 'updated_at' => now()]
+        );
+
+        return response()->json(['message' => 'Milestones saved successfully'], 200);
+    }
 
 }
 

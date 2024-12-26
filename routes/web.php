@@ -26,4 +26,9 @@ Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, '
 // routes/web.php
 
 Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
+use App\Http\Controllers\DevelopmentMilestonesController;
+
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+
+
 

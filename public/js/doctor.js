@@ -264,121 +264,211 @@ textarea.style.height = "auto";
  
  //Get the Developmental Milestones Link
 
-const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
-DevMilestonesLink.addEventListener('click', (event)=>{
-    event.preventDefault();
+ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
+DevMilestonesLink.addEventListener('click', async (event) => {
+  event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/DevMilestones.css'>
-</head>
-<body>
+  const mainContent = document.querySelector('.main');
 
-<div class="container">
-  <h2>Developmental Milestones</h2>
+  // Show the loading indicator specific to this feature
+  showLoadingIndicator(mainContent, "devMilestones-loading");
 
-  <div class="section">
-    <div class="section-title">Motor</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="neckSupport">Neck Support:</label>
-        <input type="text" id="neckSupport">
-      </div>
-      <div class="grid-item">
-        <label for="sitting">Sitting:</label>
-        <input type="text" id="sitting">
-      </div>
-      <div class="grid-item">
-        <label for="crawling">Crawling:</label>
-        <input type="text" id="crawling">
-      </div>
-      <div class="grid-item">
-        <label for="standing">Standing:</label>
-        <input type="text" id="standing">
-      </div>
-      <div class="grid-item">
-        <label for="walking">Walking:</label>
-        <input type="text" id="walking">
-      </div>
-    </div>
+  try {
+      // Load and render the Developmental Milestones form
+      console.log("Loading Developmental Milestones form...");
+      await loadDevelopmentalMilestonesForm(mainContent);
+  } catch (error) {
+      console.error("Error loading developmental milestones:", error.message);
+      mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+  } finally {
+      // Remove the loading indicator
+      console.log("Removing loading indicator...");
+      removeLoadingIndicator("devMilestones-loading");
+  }
+});
+
+function showLoadingIndicator(parentElement, uniqueId) {
+  // Check if the loading indicator already exists
+  if (!document.getElementById(uniqueId)) {
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.id = uniqueId;
+      loadingIndicator.style = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 4px solid #ccc;
+          border-color: #007bff transparent #007bff transparent;
+          animation: loading-animation 1.2s linear infinite;
+          z-index: 1000;
+      `;
+
+      // Append the loading indicator to the parent element
+      parentElement.appendChild(loadingIndicator);
+
+      // Inject unique styles for the animation (only once)
+      if (!document.getElementById('loading-animation-styles')) {
+          const loadingAnimationStyles = document.createElement('style');
+          loadingAnimationStyles.id = 'loading-animation-styles';
+          loadingAnimationStyles.textContent = `
+              @keyframes loading-animation {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+              }
+          `;
+          document.head.appendChild(loadingAnimationStyles);
+      }
+  }
+}
+
+function removeLoadingIndicator(uniqueId) {
+  const loadingIndicator = document.getElementById(uniqueId);
+  if (loadingIndicator) {
+      loadingIndicator.remove();
+  }
+}
+
+async function loadDevelopmentalMilestonesForm(mainContent) {
+  // Render the form structure
+  console.log("Rendering the form...");
+  mainContent.innerHTML = `
+  <div id="devMilestones-container">
+      <head>
+          <link rel='stylesheet' href='../css/DevMilestones.css'>
+      </head>
+      <body>
+          <div class="container">
+              <h2>Developmental Milestones</h2>
+              <!-- Form content goes here -->
+              <div class="section">
+                  <div class="section-title">Motor</div>
+                  <div class="grid-container">
+                      <div class="grid-item">
+                          <label for="neckSupport">Neck Support:</label>
+                          <input type="text" id="neckSupport">
+                      </div>
+                      <div class="grid-item">
+                          <label for="sitting">Sitting:</label>
+                          <input type="text" id="sitting">
+                      </div>
+                      <div class="grid-item">
+                          <label for="crawling">Crawling:</label>
+                          <input type="text" id="crawling">
+                      </div>
+                      <div class="grid-item">
+                          <label for="standing">Standing:</label>
+                          <input type="text" id="standing">
+                      </div>
+                      <div class="grid-item">
+                          <label for="walking">Walking:</label>
+                          <input type="text" id="walking">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Speech Language</div>
+                  <div class="grid-container">
+                      <div class="grid-item">
+                          <label for="coobing">Cooing/Babbling:</label>
+                          <input type="text" id="coobing">
+                      </div>
+                      <div class="grid-item">
+                          <label for="firstWord">First Word:</label>
+                          <input type="text" id="firstWord">
+                      </div>
+                      <div class="grid-item">
+                          <label for="vocabulary">Vocabulary:</label>
+                          <input type="text" id="vocabulary">
+                      </div>
+                      <div class="grid-item">
+                          <label for="phraseSpeech">Phrase Speech:</label>
+                          <input type="text" id="phraseSpeech">
+                      </div>
+                      <div class="grid-item">
+                          <label for="conversational">Conversational:</label>
+                          <input type="text" id="conversational">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Social Emotional</div>
+                  <div class="grid-container">
+                      <div class="grid-item">
+                          <label for="smiling">Smiling/Laughing:</label>
+                          <input type="text" id="smiling">
+                      </div>
+                      <div class="grid-item">
+                          <label for="attachments">Attachments:</label>
+                          <input type="text" id="attachments">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Feeding</div>
+                  <textarea id="feeding"></textarea>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Elimination</div>
+                  <textarea id="elimination"></textarea>
+              </div>
+
+              <div class="section">
+                  <div class="section-title">Teething</div>
+                  <textarea id="teething"></textarea>
+              </div>
+
+              <button id="saveButton">Save</button>
+          </div>
+      </body>
   </div>
+  `;
 
-  <div class="section">
-    <div class="section-title">Speech Language</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="coobing">Cooing/Babbling:</label>
-        <input type="text" id="coobing">
-      </div>
-      <div class="grid-item">
-        <label for="firstWord">First word:</label>
-        <input type="text" id="firstWord">
-      </div>
-      <div class="grid-item">
-        <label for="vocabulary">Vocabulary:</label>
-        <input type="text" id="vocabulary">
-      </div>
-      <div class="grid-item">
-        <label for="phraseSpeech">Phrase Speech:</label>
-        <input type="text" id="phraseSpeech">
-      </div>
-      <div class="grid-item">
-        <label for="conversational">Conversational:</label>
-        <input type="text" id="conversational">
-      </div>
-    </div>
-  </div>
+  console.log("Fetching developmental milestones...");
+  // Fetch data for the child and populate the form
+  const registrationNumber = "REG-001";
+  await loadDevelopmentalMilestones(registrationNumber);
+}
 
-  <div class="section">
-    <div class="section-title">Social Emotional</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="smiling">Smiling/Laughing:</label>
-        <input type="text" id="smiling">
-      </div>
-      <div class="grid-item">
-        <label for="attachments">Attachments:</label>
-        <input type="text" id="attachments">
-      </div>
-      <div class="grid-item"></div> 
-    </div>
-  </div>
+async function loadDevelopmentalMilestones(registrationNumber) {
+  try {
+      const response = await fetch(`/get-development-milestones/${registrationNumber}`);
+      if (!response.ok) {
+          throw new Error("Failed to fetch data");
+      }
 
-  <div class="section">
-    <div class="section-title">Feeding</div>
-    <textarea></textarea>
-  </div>
+      const data = await response.json();
 
-  <div class="section">
-    <div class="section-title">Elimination</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Teething</div>
-    <textarea></textarea>
-  </div>
-  <button>Back</button>
-  <button type="submit">Save</button>
-</div>
-
-</body>
-    `
- textareas.forEach(textarea => {
-    textarea.addEventListener('input', () => {
-      textarea.style.height = "auto"; 
-       textarea.style.height = (textarea.scrollHeight) + "px"; 
-     });
-      
- textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
- });
-      
-textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
- });
+      // Populate form fields with data if available
+      if (data && data.data) {
+          const milestones = JSON.parse(data.data);
+          console.log("Populating form with data...");
+          document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
+          document.getElementById("sitting").value = milestones["Sitting"] || "";
+          document.getElementById("crawling").value = milestones["Crawling"] || "";
+          document.getElementById("standing").value = milestones["Standing"] || "";
+          document.getElementById("walking").value = milestones["Walking"] || "";
+          document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
+          document.getElementById("firstWord").value = milestones["First Word"] || "";
+          document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
+          document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
+          document.getElementById("conversational").value = milestones["Conversational"] || "";
+          document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
+          document.getElementById("attachments").value = milestones["Attachments"] || "";
+          document.getElementById("feeding").value = milestones["Feeding"] || "";
+          document.getElementById("elimination").value = milestones["Elimination"] || "";
+          document.getElementById("teething").value = milestones["Teething"] || "";
+      }
+  } catch (error) {
+      console.error("Error fetching developmental milestones:", error.message);
+  }
+}
 
  //Get the Family and Social History Link
 
@@ -432,7 +522,7 @@ familyAndSocial.addEventListener('click', (event)=>{
     });
  });
 
- //Get the Family and Social History Link
+ //Get the Past Medical History Link
 
 const pastMedicalHistory = document.querySelector('.floating-menu a[href="#pastMedicalHistory"]');
 pastMedicalHistory.addEventListener('click', (event)=>{
