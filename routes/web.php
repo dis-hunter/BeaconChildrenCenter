@@ -23,8 +23,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/example', [ExampleController::class,'store'])->name('example.store');
 Route::get('/example',[ExampleController::class,'fetch'])->name('example.fetch');
-Route::get('/doctor', function () {
-    return view('doctor');
+
+use App\Http\Controllers\DoctorsController; // Import the controller class
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
 });
 Route::get('/create',  [DiagnosisController::class,
 'create']
@@ -49,4 +52,13 @@ Route::get('/parents',  [ParentsController::class,
 Route::get('login', [AuthController::class, 'loginGet']);
 Route::get('register', [AuthController::class,'registerGet']);
 Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
-Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
+Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+// routes/web.php
+
+Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
+use App\Http\Controllers\DevelopmentMilestonesController;
+
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+
+
+

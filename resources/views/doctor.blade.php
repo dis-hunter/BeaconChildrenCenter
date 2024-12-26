@@ -109,20 +109,154 @@ body {
 .mini-menu li a:hover {
   background-color: #f5f5f5;
 }
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  width: 800px; 
+  margin: 0 auto;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px; 
+  margin-bottom: 10px; 
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+textarea#doctorsNotes {
+  height: 30px; 
+  resize: vertical; 
+}
+
+
+
+.input-group {
+  display: flex;
+  gap: 5px; 
+}
+
+.input-group input[type="text"] {
+  flex-grow: 1;
+}
+
+.highlighted {
+  background-color: lightblue;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
 </style>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 
 <div class="sidebar">
-  <a href="#">Active Patients</a>
+<h2>Active Patient: {{ $firstName }} {{ $middleName }} {{ $lastName }}</h2> 
   <a href="#">Logout</a>
   <a href="#">User</a>
   <a href="#">Dr Emmanuel</a>
 </div>
 
 <div class="main">
-  <h2>Main Content</h2>
-  <p>Some text for the main content area.</p>
+
+<div class="container">
+
+  <div class="input-group">
+    <div>
+     <label for="firstName">First Name:</label>
+     <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
+    </div>
+    <div>
+      <label for="middleName">Middle Name:</label>
+      <input type="text" id="middleName" name="middleName" value="{{ $middleName }}">
+    </div>
+    
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
+    </div>
+  </div>
+
+  <div class="input-group">
+    <div>
+      <label for="dob">DOB:</label>
+      <input type="date" id="dob" name="dob" value="{{ $child->dob }}"> 
+    </div>
+    <div>
+      <label for="genderAge">Gender/Age:</label>
+      <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}">
+    </div>
+    <div>
+      <label for="hnu">HNU:</label>
+      <input type="text" id="hnu" name="hnu"  value="{{ $child->registration_number }}">
+    </div>
+  </div>
+
+  <div class="input-group">
+    <div>
+        <label for="mothersName">Mother's Name:</label>
+        <input type="text" id="mothersName" name="mothersName">
+    </div>
+    <div>
+      <label for="motherTel">Tel:</label>
+      <input type="text" id="motherTel" name="motherTel">
+    </div>
+    <div>
+      <label for="motherEmail">email:</label>
+      <input type="text" id="motherEmail" name="motherEmail">
+    </div>
+  </div>
+
+  <div class="input-group">
+    <div>
+        <label for="fathersName">Father's Name:</label>
+        <input type="text" id="fathersName" name="fathersName">
+    </div>
+    <div>
+      <label for="fatherTel">Tel:</label>
+      <input type="text" id="fatherTel" name="fatherTel">
+    </div>
+    <div>
+      <label for="fatherEmail">email:</label>
+      <input type="text" id="fatherEmail" name="fatherEmail">
+    </div>
+  </div>
+
+  <label for="informant">Informant:</label>
+  <input type="text" id="informant" name="informant">
+
+  <div class="highlighted">
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date"> 
+  </div>
+
+  <div class="highlighted">
+    <label for="doctorsNotes">Doctor's Notes:</label>
+    <textarea id="doctorsNotes" name="doctorsNotes"></textarea>
+  </div>
+
+  <div class="highlighted">
+    <label for="createdBy">Created By:</label>
+    <input type="text" id="createdBy" name="createdBy">
+  </div>
+
+  <button type="submit">Save</button>
+</div>
 </div>
 
 <div class="floating-menu" id="floatingMenu">
@@ -162,6 +296,25 @@ body {
 <button id="menuButton">Menu</button>
 
 <script src="{{ asset('js/doctor.js') }}"></script>
+<script>
+
+const textareas = document.querySelectorAll('textarea');
+
+textareas.forEach(textarea => {
+  textarea.addEventListener('input', () => {
+    textarea.style.height = "auto"; 
+    textarea.style.height = (textarea.scrollHeight) + "px"; 
+  });
+
+  textarea.addEventListener('blur', () => {
+    textarea.style.height = '30px'; // Reset height to original
+  });
+
+  // Initial adjustment
+  textarea.style.height = "auto"; 
+  textarea.style.height = (textarea.scrollHeight) + "px"; 
+});
+  </script>
 
 </body>
 </html>
