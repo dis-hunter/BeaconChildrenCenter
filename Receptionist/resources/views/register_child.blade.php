@@ -28,16 +28,36 @@
           <label for="child_name" class="form-label" style="font-weight: bold; color: #555;">Child's Name</label>
           <input type="text" class="form-control" id="child_name" placeholder="Enter the child's name" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
         </div>
-
         <div class="mb-3">
-          <label for="parent_name" class="form-label" style="font-weight: bold; color: #555;">Parent's Name</label>
-          <input type="text" class="form-control" id="parent_name" placeholder="Enter the parent's name" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+          <label for="birth_certificate" class="form-label" style="font-weight: bold; color: #555;">Birth certificate number</label>
+          <input type="varchar" class="form-control" id="birth_certificate" placeholder="Enter the childs birth certificate number" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
         </div>
 
         <div class="mb-3">
-          <label for="guardian_contact" class="form-label" style="font-weight: bold; color: #555;">Parent/Guardian's Contact</label>
-          <input type="text" class="form-control" id="guardian_contact" placeholder="Enter the parent/guardian's contact" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+          <label for="father_name" class="form-label" style="font-weight: bold; color: #555;">Father's Name</label>
+          <input type="text" class="form-control" id="parent_name" placeholder="Enter the father's name" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
         </div>
+        <div class="mb-3">
+          <label for="father_contact" class="form-label" style="font-weight: bold; color: #555;">Father's Contact</label>
+          <input type="varchar" class="form-control" id="father_contact" placeholder="Enter the father's contact" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+        <div class="mb-3">
+          <label for="father_email" class="form-label" style="font-weight: bold; color: #555;">Fathers's email address</label>
+          <input type="email" class="form-control" id="father_email" placeholder="Enter the fathers email address" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+        <div class="mb-3">
+          <label for="mother_name" class="form-label" style="font-weight: bold; color: #555;">Mother's Name</label>
+          <input type="text" class="form-control" id="parent_name" placeholder="Enter the mothers's name" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+        <div class="mb-3">
+          <label for="mother_contact" class="form-label" style="font-weight: bold; color: #555;">Mother's Contact</label>
+          <input type="varchar" class="form-control" id="mother_contact" placeholder="Enter the mother's contact" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+        <div class="mb-3">
+          <label for="mother_email" class="form-label" style="font-weight: bold; color: #555;">Mother's email address</label>
+          <input type="email" class="form-control" id="mother_email" placeholder="Enter the mother's email address" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+       
 
         <div class="mb-3">
           <label for="dob" class="form-label" style="font-weight: bold; color: #555;">Date of Birth</label>

@@ -8,7 +8,9 @@ Route::get('/', function () {
 Route::get('/sign_in', function () {
     return view('sign_in');
 });
-
+Route::get('/calendar', function () {
+    return view('calendar');
+});
 
 Route::get('/register_child', function(){
     return view('register_child');
