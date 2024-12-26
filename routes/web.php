@@ -6,6 +6,7 @@ use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
 
 
+use App\Http\Controllers\DevelopmentMilestonesController;
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -53,13 +54,14 @@ Route::get('/parents',  [ParentsController::class,
 Route::get('login', [AuthController::class, 'loginGet']);
 Route::get('register', [AuthController::class,'registerGet']);
 Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
-Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
+Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 // routes/web.php
 
 Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
-use App\Http\Controllers\DevelopmentMilestonesController;
 
-Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
+Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
 
 
