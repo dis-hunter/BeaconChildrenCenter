@@ -65,3 +65,6 @@ Route::post('/save-development-milestones/{registrationNumber}', [DoctorsControl
 
 
 
+Route::get('/app', function () {
+    return view('livewire.app');
+});
