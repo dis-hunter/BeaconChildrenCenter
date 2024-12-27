@@ -30,6 +30,10 @@ use App\Http\Controllers\DevelopmentMilestonesController;
 
 Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
+
+
+
+
 use App\Http\Controllers\BehaviourAssesmentController;
 
 // Fetch Behaviour Assessment for a child
@@ -37,4 +41,15 @@ Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesment
 
 // Save or update Behaviour Assessment for a child
 Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'saveBehaviourAssessment']);
+
+
+
+
+
+
+use App\Http\Controllers\FamilySocialHistoryController;
+
+Route::get('/get-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'getFamilySocialHistory']);
+Route::post('/save-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'saveFamilySocialHistory']);
+
 
