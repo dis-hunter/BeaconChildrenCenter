@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function(){
-    return view('header');
+    return view('login');
 });
 
 Route::post('/example', [ExampleController::class,'store'])->name('example.store');
