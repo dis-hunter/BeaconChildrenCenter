@@ -5,9 +5,8 @@ use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\DevelopmentMilestonesController;
-use App\Http\Controllers\DoctorsController; // Import the controller class
-
-
+use App\Http\Controllers\DoctorsController; 
+// Import the controller class
 
 use App\Http\Controllers\AuthController;
 use App\Models\Role;
@@ -53,6 +52,9 @@ Route::post('/storechild', [ChildrenController::class, 'store'])->name('children
 Route::get('/parents',  [ParentsController::class,
 'create']
 );
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
 
 Route::get('login', [AuthController::class, 'loginGet'])->name('login');
 Route::get('register', [AuthController::class,'registerGet'])->name('register');
@@ -84,9 +86,7 @@ Route::group(['middleware'=>'auth'], function(){
 
     //Doctor
     Route::group(['middleware'=>'role:2'], function(){
-        Route::get('/create',  [DiagnosisController::class,
-'create']
-);
+        
     });
 
     //Admin
