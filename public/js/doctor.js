@@ -69,91 +69,346 @@ recordResultsMenu.addEventListener('click', (event) => {
 });
 
 // Get the "Behaviour Assesement" link
-const behaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
+// Event listener for the "Behaviour Assessment" link
+document.querySelector('.floating-menu a[href="#behaviourAssessment"]').addEventListener('click', async (event) => {
+    event.preventDefault();
 
-// Add a click event listener to the link
-behaviourAssessmentLink.addEventListener('click', (event) => {
-event.preventDefault(); // Prevent default link behavior (opening in new tab)
+    const mainContent = document.querySelector('.main');
+    mainContent.innerHTML = ''; // Clear the main content
+    showLoadingIndicator(mainContent); // Display the loading indicator
 
-// Replace the content of the .main div with the HTML for the Behaviour assessment form
-const mainContent = document.querySelector('.main');
-mainContent.innerHTML = `
-<head>
-<link rel='stylesheet' href='../css/BehaviourAssesment.css'>
-</head>
-  <h2>Behaviour assessment</h2>
-
-  <div class="section">
-    <div class="section-title">Hyperactivity Impulsivity</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Attention</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Social Interactions</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Mood/ Anxiety</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Play/ Interests</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Communication</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">RRB</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Sensory Processing</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Sleep</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Adaptive</div>
-    <textarea></textarea>
-  </div>
-
- 
-  <button type="submit">Update</button>
-`;
-
-// Add the same JavaScript code for textarea resizing to the new content
-const textareas = document.querySelectorAll('textarea');
-
-textareas.forEach(textarea => {
-  textarea.addEventListener('input', () => {
-    textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-  });
-
-  textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
-  });
-
-  textarea.style.height = "auto"; 
-  textarea.style.height = (textarea.scrollHeight) + "px"; 
+    try {
+        await loadBehaviourAssessmentForm(mainContent); // Load the form
+    } catch (error) {
+        console.error("Error loading Behaviour Assessment form:", error.message);
+        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+    } finally {
+        removeLoadingIndicator(); // Remove the loading indicator
+    }
 });
+
+// Function to load the Behaviour Assessment form
+async function loadBehaviourAssessmentForm(mainContent) {
+    const registrationNumber = "REG-001"; // Example registration number
+    let behaviourData = {};
+
+    // Fetch existing Behaviour Assessment data
+    try {
+        const response = await fetch(`/get-behaviour-assessment/${registrationNumber}`);
+        if (response.ok) {
+            const data = await response.json();
+            behaviourData = data?.data || {}; // Parse the JSON data or use an empty object
+        } else {
+            console.warn("No existing data found for this child.");
+        }
+    } catch (error) {
+        console.error("Error fetching Behaviour Assessment data:", error.message);
+    }
+
+    // Generate the form HTML
+    const formHTML = `
+        <div id="behaviour-assessment-container">
+            <head>
+               <link rel="stylesheet" href="../css/BehaviourAssesment.css">
+            </head>
+            <h2>Behaviour Assessment</h2>
+            <form id="behaviourAssessmentForm">
+                <div class="section">
+                    <div class="section-title">Hyperactivity Impulsivity</div>
+                    <textarea id="hyperactivity">${behaviourData?.HyperActivity || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Attention</div>
+                    <textarea id="attention">${behaviourData?.Attention || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Social Interactions</div>
+                    <textarea id="socialInteractions">${behaviourData?.SocialInteractions || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Mood/Anxiety</div>
+                    <textarea id="moodAnxiety">${behaviourData?.MoodAnxiety || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Play/Interests</div>
+                    <textarea id="playInterests">${behaviourData?.PlayInterests || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Communication</div>
+                    <textarea id="communication">${behaviourData?.Communication || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">RRB</div>
+                    <textarea id="rrb">${behaviourData?.RRB || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Sensory Processing</div>
+                    <textarea id="sensoryProcessing">${behaviourData?.SensoryProcessing || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Sleep</div>
+                    <textarea id="sleep">${behaviourData?.Sleep || ''}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Adaptive</div>
+                    <textarea id="adaptive">${behaviourData?.Adaptive || ''}</textarea>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    `;
+
+    mainContent.innerHTML = formHTML; // Insert the form into the main content
+
+    // Attach form submission handler
+    const form = document.getElementById('behaviourAssessmentForm');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        // Gather the data from the form
+        const formData = {
+            HyperActivity: document.getElementById('hyperactivity').value,
+            Attention: document.getElementById('attention').value,
+            SocialInteractions: document.getElementById('socialInteractions').value,
+            MoodAnxiety: document.getElementById('moodAnxiety').value,
+            PlayInterests: document.getElementById('playInterests').value,
+            Communication: document.getElementById('communication').value,
+            RRB: document.getElementById('rrb').value,
+            SensoryProcessing: document.getElementById('sensoryProcessing').value,
+            Sleep: document.getElementById('sleep').value,
+            Adaptive: document.getElementById('adaptive').value,
+        };
+
+        // Save the updated data
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const registrationNumber = "REG-001"; // Use the actual registration number
+            const saveResponse = await fetch(`/save-behaviour-assessment/${registrationNumber}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken, // Include CSRF token for security
+                },
+                body: JSON.stringify({ data: formData }), // Send the form data as JSON
+            });
+
+            if (saveResponse.ok) {
+                alert('Behaviour Assessment saved successfully!');
+            } else {
+                throw new Error('Failed to save Behaviour Assessment');
+            }
+        } catch (error) {
+            console.error("Error saving Behaviour Assessment:", error.message);
+            alert("Error saving Behaviour Assessment: " + error.message);
+        }
+    });
+}
+
+// Helper function to show loading indicator
+function showLoadingIndicator(container) {
+    container.innerHTML = `<div class="loading">Loading...</div>`;
+}
+
+// Helper function to remove loading indicator
+function removeLoadingIndicator() {
+    const loadingIndicator = document.querySelector('.loading');
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
+}
+const BehaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
+BehaviourAssessmentLink.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    const mainContent = document.querySelector('.main');
+
+    // Show the loading indicator specific to this feature
+    showLoadingIndicator(mainContent, "behaviourAssessment-loading");
+
+    try {
+        console.log("Loading Behaviour Assessment form...");
+        await loadBehaviourAssessmentForm(mainContent);
+    } catch (error) {
+        console.error("Error loading Behaviour Assessment:", error.message);
+        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+    } finally {
+        console.log("Removing loading indicator...");
+        removeLoadingIndicator("behaviourAssessment-loading");
+    }
 });
+
+function showLoadingIndicator(parentElement, uniqueId) {
+    if (!document.getElementById(uniqueId)) {
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = uniqueId;
+        loadingIndicator.style = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-color: #007bff transparent #007bff transparent;
+            animation: loading-animation 1.2s linear infinite;
+            z-index: 1000;
+        `;
+        parentElement.appendChild(loadingIndicator);
+
+        if (!document.getElementById('loading-animation-styles')) {
+            const loadingAnimationStyles = document.createElement('style');
+            loadingAnimationStyles.id = 'loading-animation-styles';
+            loadingAnimationStyles.textContent = `
+                @keyframes loading-animation {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(loadingAnimationStyles);
+        }
+    }
+}
+
+function removeLoadingIndicator(uniqueId) {
+    const loadingIndicator = document.getElementById(uniqueId);
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
+}
+
+async function loadBehaviourAssessmentForm(mainContent) {
+    console.log("Rendering the form...");
+    mainContent.innerHTML = `
+    <div id="behaviourAssessment-container">
+        <head>
+            <link rel='stylesheet' href='../css/BehaviourAssesment.css'>
+        </head>
+        <body>
+            <div class="container">
+                <h2>Behaviour Assessment</h2>
+                <div class="section">
+                    <div class="section-title">Hyperactivity</div>
+                    <input type="text" id="hyperactivity">
+                </div>
+                <div class="section">
+                    <div class="section-title">Attention</div>
+                    <input type="text" id="attention">
+                </div>
+                <div class="section">
+                    <div class="section-title">Social Interactions</div>
+                    <input type="text" id="socialInteractions">
+                </div>
+                <div class="section">
+                    <div class="section-title">Mood/Anxiety</div>
+                    <input type="text" id="moodAnxiety">
+                </div>
+                <div class="section">
+                    <div class="section-title">Play Interests</div>
+                    <input type="text" id="playInterests">
+                </div>
+                <div class="section">
+                    <div class="section-title">Communication</div>
+                    <input type="text" id="communication">
+                </div>
+                <div class="section">
+                    <div class="section-title">RRB</div>
+                    <input type="text" id="rrb">
+                </div>
+                <div class="section">
+                    <div class="section-title">Sensory Processing</div>
+                    <input type="text" id="sensoryProcessing">
+                </div>
+                <div class="section">
+                    <div class="section-title">Sleep</div>
+                    <input type="text" id="sleep">
+                </div>
+                <div class="section">
+                    <div class="section-title">Adaptive</div>
+                    <input type="text" id="adaptive">
+                </div>
+
+                <button id="saveButton">Save</button>
+            </div>
+        </body>
+    </div>
+    `;
+
+    console.log("Fetching Behaviour Assessment data...");
+    const registrationNumber = "REG-001";
+    await loadBehaviourAssessment(registrationNumber);
+
+    // Add event listener to the save button
+    document.getElementById("saveButton").addEventListener("click", async () => {
+        await saveBehaviourAssessment(registrationNumber);
+    });
+}
+
+async function loadBehaviourAssessment(registrationNumber) {
+    try {
+        const response = await fetch(`/get-behaviour-assessment/${registrationNumber}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        console.log("Fetched Behaviour Assessment Data:", data); // Debugging: check the fetched data
+
+        if (data && data.data) {
+            const assessmentData = data.data; // No need to JSON.parse() here
+            console.log("Populating form with data:", assessmentData); // Debugging: check the parsed data
+
+            document.getElementById("hyperactivity").value = assessmentData["HyperActivity"] || "";
+            document.getElementById("attention").value = assessmentData["Attention"] || "";
+            document.getElementById("socialInteractions").value = assessmentData["SocialInteractions"] || "";
+            document.getElementById("moodAnxiety").value = assessmentData["MoodAnxiety"] || "";
+            document.getElementById("playInterests").value = assessmentData["PlayInterests"] || "";
+            document.getElementById("communication").value = assessmentData["Communication"] || "";
+            document.getElementById("rrb").value = assessmentData["RRB"] || "";
+            document.getElementById("sensoryProcessing").value = assessmentData["SensoryProcessing"] || "";
+            document.getElementById("sleep").value = assessmentData["Sleep"] || "";
+            document.getElementById("adaptive").value = assessmentData["Adaptive"] || "";
+        }
+    } catch (error) {
+        console.error("Error fetching Behaviour Assessment data:", error.message);
+    }
+}
+
+async function saveBehaviourAssessment(registrationNumber) {
+    try {
+        const data = {
+            HyperActivity: document.getElementById("hyperactivity").value,
+            Attention: document.getElementById("attention").value,
+            SocialInteractions: document.getElementById("socialInteractions").value,
+            MoodAnxiety: document.getElementById("moodAnxiety").value,
+            PlayInterests: document.getElementById("playInterests").value,
+            Communication: document.getElementById("communication").value,
+            RRB: document.getElementById("rrb").value,
+            SensoryProcessing: document.getElementById("sensoryProcessing").value,
+            Sleep: document.getElementById("sleep").value,
+            Adaptive: document.getElementById("adaptive").value,
+        };
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        const response = await fetch(`/save-behaviour-assessment/${registrationNumber}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify({ data }),
+        });
+
+        if (response.ok) {
+            alert("Behaviour Assessment saved successfully!");
+        } else {
+            throw new Error("Failed to save data");
+        }
+    } catch (error) {
+        console.error("Error saving Behaviour Assessment:", error.message);
+        alert("Error saving Behaviour Assessment. Please try again.");
+    }
+}
+
 
 //Get the perinatal history Link
 
@@ -266,209 +521,245 @@ textarea.style.height = "auto";
 
  const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
 DevMilestonesLink.addEventListener('click', async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const mainContent = document.querySelector('.main');
+    const mainContent = document.querySelector('.main');
 
-  // Show the loading indicator specific to this feature
-  showLoadingIndicator(mainContent, "devMilestones-loading");
+    // Show the loading indicator specific to this feature
+    showLoadingIndicator(mainContent, "devMilestones-loading");
 
-  try {
-      // Load and render the Developmental Milestones form
-      console.log("Loading Developmental Milestones form...");
-      await loadDevelopmentalMilestonesForm(mainContent);
-  } catch (error) {
-      console.error("Error loading developmental milestones:", error.message);
-      mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
-  } finally {
-      // Remove the loading indicator
-      console.log("Removing loading indicator...");
-      removeLoadingIndicator("devMilestones-loading");
-  }
+    try {
+        console.log("Loading Developmental Milestones form...");
+        await loadDevelopmentalMilestonesForm(mainContent);
+    } catch (error) {
+        console.error("Error loading developmental milestones:", error.message);
+        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+    } finally {
+        console.log("Removing loading indicator...");
+        removeLoadingIndicator("devMilestones-loading");
+    }
 });
 
 function showLoadingIndicator(parentElement, uniqueId) {
-  // Check if the loading indicator already exists
-  if (!document.getElementById(uniqueId)) {
-      const loadingIndicator = document.createElement('div');
-      loadingIndicator.id = uniqueId;
-      loadingIndicator.style = `
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          border: 4px solid #ccc;
-          border-color: #007bff transparent #007bff transparent;
-          animation: loading-animation 1.2s linear infinite;
-          z-index: 1000;
-      `;
+    if (!document.getElementById(uniqueId)) {
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = uniqueId;
+        loadingIndicator.style = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-color: #007bff transparent #007bff transparent;
+            animation: loading-animation 1.2s linear infinite;
+            z-index: 1000;
+        `;
+        parentElement.appendChild(loadingIndicator);
 
-      // Append the loading indicator to the parent element
-      parentElement.appendChild(loadingIndicator);
-
-      // Inject unique styles for the animation (only once)
-      if (!document.getElementById('loading-animation-styles')) {
-          const loadingAnimationStyles = document.createElement('style');
-          loadingAnimationStyles.id = 'loading-animation-styles';
-          loadingAnimationStyles.textContent = `
-              @keyframes loading-animation {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-              }
-          `;
-          document.head.appendChild(loadingAnimationStyles);
-      }
-  }
+        if (!document.getElementById('loading-animation-styles')) {
+            const loadingAnimationStyles = document.createElement('style');
+            loadingAnimationStyles.id = 'loading-animation-styles';
+            loadingAnimationStyles.textContent = `
+                @keyframes loading-animation {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(loadingAnimationStyles);
+        }
+    }
 }
 
 function removeLoadingIndicator(uniqueId) {
-  const loadingIndicator = document.getElementById(uniqueId);
-  if (loadingIndicator) {
-      loadingIndicator.remove();
-  }
+    const loadingIndicator = document.getElementById(uniqueId);
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
 }
 
 async function loadDevelopmentalMilestonesForm(mainContent) {
-  // Render the form structure
-  console.log("Rendering the form...");
-  mainContent.innerHTML = `
-  <div id="devMilestones-container">
-      <head>
-          <link rel='stylesheet' href='../css/DevMilestones.css'>
-      </head>
-      <body>
-          <div class="container">
-              <h2>Developmental Milestones</h2>
-              <!-- Form content goes here -->
-              <div class="section">
-                  <div class="section-title">Motor</div>
-                  <div class="grid-container">
-                      <div class="grid-item">
-                          <label for="neckSupport">Neck Support:</label>
-                          <input type="text" id="neckSupport">
-                      </div>
-                      <div class="grid-item">
-                          <label for="sitting">Sitting:</label>
-                          <input type="text" id="sitting">
-                      </div>
-                      <div class="grid-item">
-                          <label for="crawling">Crawling:</label>
-                          <input type="text" id="crawling">
-                      </div>
-                      <div class="grid-item">
-                          <label for="standing">Standing:</label>
-                          <input type="text" id="standing">
-                      </div>
-                      <div class="grid-item">
-                          <label for="walking">Walking:</label>
-                          <input type="text" id="walking">
-                      </div>
-                  </div>
-              </div>
+    console.log("Rendering the form...");
+    mainContent.innerHTML = `
+    <div id="devMilestones-container">
+        <head>
+            <link rel='stylesheet' href='../css/DevMilestones.css'>
+        </head>
+        <body>
+            <div class="container">
+                <h2>Developmental Milestones</h2>
+                <div class="section">
+                    <div class="section-title">Motor</div>
+                    <div class="grid-container">
+                        <div class="grid-item">
+                            <label for="neckSupport">Neck Support:</label>
+                            <input type="text" id="neckSupport">
+                        </div>
+                        <div class="grid-item">
+                            <label for="sitting">Sitting:</label>
+                            <input type="text" id="sitting">
+                        </div>
+                        <div class="grid-item">
+                            <label for="crawling">Crawling:</label>
+                            <input type="text" id="crawling">
+                        </div>
+                        <div class="grid-item">
+                            <label for="standing">Standing:</label>
+                            <input type="text" id="standing">
+                        </div>
+                        <div class="grid-item">
+                            <label for="walking">Walking:</label>
+                            <input type="text" id="walking">
+                        </div>
+                    </div>
+                </div>
 
-              <div class="section">
-                  <div class="section-title">Speech Language</div>
-                  <div class="grid-container">
-                      <div class="grid-item">
-                          <label for="coobing">Cooing/Babbling:</label>
-                          <input type="text" id="coobing">
-                      </div>
-                      <div class="grid-item">
-                          <label for="firstWord">First Word:</label>
-                          <input type="text" id="firstWord">
-                      </div>
-                      <div class="grid-item">
-                          <label for="vocabulary">Vocabulary:</label>
-                          <input type="text" id="vocabulary">
-                      </div>
-                      <div class="grid-item">
-                          <label for="phraseSpeech">Phrase Speech:</label>
-                          <input type="text" id="phraseSpeech">
-                      </div>
-                      <div class="grid-item">
-                          <label for="conversational">Conversational:</label>
-                          <input type="text" id="conversational">
-                      </div>
-                  </div>
-              </div>
+                <div class="section">
+                    <div class="section-title">Speech Language</div>
+                    <div class="grid-container">
+                        <div class="grid-item">
+                            <label for="coobing">Cooing/Babbling:</label>
+                            <input type="text" id="coobing">
+                        </div>
+                        <div class="grid-item">
+                            <label for="firstWord">First Word:</label>
+                            <input type="text" id="firstWord">
+                        </div>
+                        <div class="grid-item">
+                            <label for="vocabulary">Vocabulary:</label>
+                            <input type="text" id="vocabulary">
+                        </div>
+                        <div class="grid-item">
+                            <label for="phraseSpeech">Phrase Speech:</label>
+                            <input type="text" id="phraseSpeech">
+                        </div>
+                        <div class="grid-item">
+                            <label for="conversational">Conversational:</label>
+                            <input type="text" id="conversational">
+                        </div>
+                    </div>
+                </div>
 
-              <div class="section">
-                  <div class="section-title">Social Emotional</div>
-                  <div class="grid-container">
-                      <div class="grid-item">
-                          <label for="smiling">Smiling/Laughing:</label>
-                          <input type="text" id="smiling">
-                      </div>
-                      <div class="grid-item">
-                          <label for="attachments">Attachments:</label>
-                          <input type="text" id="attachments">
-                      </div>
-                  </div>
-              </div>
+                <div class="section">
+                    <div class="section-title">Social Emotional</div>
+                    <div class="grid-container">
+                        <div class="grid-item">
+                            <label for="smiling">Smiling/Laughing:</label>
+                            <input type="text" id="smiling">
+                        </div>
+                        <div class="grid-item">
+                            <label for="attachments">Attachments:</label>
+                            <input type="text" id="attachments">
+                        </div>
+                    </div>
+                </div>
 
-              <div class="section">
-                  <div class="section-title">Feeding</div>
-                  <textarea id="feeding"></textarea>
-              </div>
+                <div class="section">
+                    <div class="section-title">Feeding</div>
+                    <textarea id="feeding"></textarea>
+                </div>
 
-              <div class="section">
-                  <div class="section-title">Elimination</div>
-                  <textarea id="elimination"></textarea>
-              </div>
+                <div class="section">
+                    <div class="section-title">Elimination</div>
+                    <textarea id="elimination"></textarea>
+                </div>
 
-              <div class="section">
-                  <div class="section-title">Teething</div>
-                  <textarea id="teething"></textarea>
-              </div>
+                <div class="section">
+                    <div class="section-title">Teething</div>
+                    <textarea id="teething"></textarea>
+                </div>
 
-              <button id="saveButton">Save</button>
-          </div>
-      </body>
-  </div>
-  `;
+                <button id="saveButton">Save</button>
+            </div>
+        </body>
+    </div>
+    `;
 
-  console.log("Fetching developmental milestones...");
-  // Fetch data for the child and populate the form
-  const registrationNumber = "REG-001";
-  await loadDevelopmentalMilestones(registrationNumber);
+    console.log("Fetching developmental milestones...");
+    const registrationNumber = "REG-001";
+    await loadDevelopmentalMilestones(registrationNumber);
+
+    // Add event listener to the save button
+    document.getElementById("saveButton").addEventListener("click", async () => {
+        await saveDevelopmentalMilestones(registrationNumber);
+    });
 }
 
 async function loadDevelopmentalMilestones(registrationNumber) {
-  try {
-      const response = await fetch(`/get-development-milestones/${registrationNumber}`);
-      if (!response.ok) {
-          throw new Error("Failed to fetch data");
-      }
+    try {
+        const response = await fetch(`/get-development-milestones/${registrationNumber}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
 
-      const data = await response.json();
+        const data = await response.json();
 
-      // Populate form fields with data if available
-      if (data && data.data) {
-          const milestones = JSON.parse(data.data);
-          console.log("Populating form with data...");
-          document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
-          document.getElementById("sitting").value = milestones["Sitting"] || "";
-          document.getElementById("crawling").value = milestones["Crawling"] || "";
-          document.getElementById("standing").value = milestones["Standing"] || "";
-          document.getElementById("walking").value = milestones["Walking"] || "";
-          document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
-          document.getElementById("firstWord").value = milestones["First Word"] || "";
-          document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
-          document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
-          document.getElementById("conversational").value = milestones["Conversational"] || "";
-          document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
-          document.getElementById("attachments").value = milestones["Attachments"] || "";
-          document.getElementById("feeding").value = milestones["Feeding"] || "";
-          document.getElementById("elimination").value = milestones["Elimination"] || "";
-          document.getElementById("teething").value = milestones["Teething"] || "";
-      }
-  } catch (error) {
-      console.error("Error fetching developmental milestones:", error.message);
-  }
+        if (data && data.data) {
+            const milestones = JSON.parse(data.data);
+            console.log("Populating form with data...");
+            document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
+            document.getElementById("sitting").value = milestones["Sitting"] || "";
+            document.getElementById("crawling").value = milestones["Crawling"] || "";
+            document.getElementById("standing").value = milestones["Standing"] || "";
+            document.getElementById("walking").value = milestones["Walking"] || "";
+            document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
+            document.getElementById("firstWord").value = milestones["First Word"] || "";
+            document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
+            document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
+            document.getElementById("conversational").value = milestones["Conversational"] || "";
+            document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
+            document.getElementById("attachments").value = milestones["Attachments"] || "";
+            document.getElementById("feeding").value = milestones["Feeding"] || "";
+            document.getElementById("elimination").value = milestones["Elimination"] || "";
+            document.getElementById("teething").value = milestones["Teething"] || "";
+        }
+    } catch (error) {
+        console.error("Error fetching developmental milestones:", error.message);
+    }
 }
+
+async function saveDevelopmentalMilestones(registrationNumber) {
+    try {
+        const data = {
+            "Neck Support": document.getElementById("neckSupport").value,
+            Sitting: document.getElementById("sitting").value,
+            Crawling: document.getElementById("crawling").value,
+            Standing: document.getElementById("standing").value,
+            Walking: document.getElementById("walking").value,
+            "Cooing/Babbling": document.getElementById("coobing").value,
+            "First Word": document.getElementById("firstWord").value,
+            Vocabulary: document.getElementById("vocabulary").value,
+            "Phrase Speech": document.getElementById("phraseSpeech").value,
+            Conversational: document.getElementById("conversational").value,
+            "Smiling/Laughing": document.getElementById("smiling").value,
+            Attachments: document.getElementById("attachments").value,
+            Feeding: document.getElementById("feeding").value,
+            Elimination: document.getElementById("elimination").value,
+            Teething: document.getElementById("teething").value,
+        };
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        const response = await fetch(`/save-development-milestones/${registrationNumber}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            },
+            body: JSON.stringify({ data }),
+        });
+
+        if (response.ok) {
+            alert("Developmental Milestones saved successfully!");
+        } else {
+            throw new Error("Failed to save data");
+        }
+    } catch (error) {
+        console.error("Error saving developmental milestones:", error.message);
+        alert("Error saving Developmental Milestones. Please try again.");
+    }
+}
+
 
  //Get the Family and Social History Link
 
