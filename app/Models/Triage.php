@@ -12,8 +12,14 @@ class Triage extends Model
 
     protected $fillable = [
         'child_id',
-        'data', // This will store the JSON data
-        // ... other attributes ...
+        'data',  'temperature',
+        'respiratory_rate',
+        'pulse_rate',
+        'blood_pressure',
+        'weight',
+        'height',
+        'muac',
+        'head_circumference',
     ];
 
     // Define the inverse relationship to the Child model

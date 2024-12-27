@@ -4,7 +4,7 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
-
+use App\Http\Controllers\TriageController;
 
 
 use App\Http\Controllers\AuthController;
@@ -60,5 +60,8 @@ use App\Http\Controllers\DevelopmentMilestonesController;
 
 Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
-
-
+Route::get('/triageDashboard', function () {
+    return view('triageDash');
+});
+Route::post('/triage', [TriageController::class, 'store']);
+Route::get('/triage', [TriageController::class, 'create'])->name('triage');
