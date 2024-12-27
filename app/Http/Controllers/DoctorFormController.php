@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
-use App\Models\Staff;
 use Illuminate\Database\QueryException;
+
 class DoctorController extends Controller
 {
     public function store(Request $request)
     {
         // Validate the incoming data
         $validated = $request->validate([
-            'staff_id' => 'required|exists:staff,id',
+            'staff_id' => 'required|string|max:255',
             'specialization' => 'required|string|max:255',
         ]);
 
@@ -28,17 +24,14 @@ class DoctorController extends Controller
             // Redirect or return a success response
             return redirect('/doctor_form')->with('success', 'Doctor added successfully!');
         } catch (QueryException $e) {
-            // Handle SQL errors
+            // Check if the error is a foreign key violation
+            if ($e->getCode() == '23503') {
+                // Redirect back with an error message
+                return redirect('/doctor_form')->withErrors(['staff_id' => 'The selected staff ID does not exist.']);
+            }
+
+            // For other SQL errors, you can handle them here or rethrow the exception
             throw $e;
         }
-    }
-
-    public function index()
-    {
-        // Fetch doctors with their related staff data
-        $doctors = Doctor::with('staff')->get();
-
-        // Pass the data to the view
-        return view('display_doctors', compact('doctors'));
     }
 }
