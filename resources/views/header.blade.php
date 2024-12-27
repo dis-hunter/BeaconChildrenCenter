@@ -8,7 +8,7 @@
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
     <a class="navbar-brand ml-4" href>{{config('app.name')}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse ml-3" id="navbarsExampleDefault">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link">Home</a>
+                <a class="nav-link" href="{{route('home')}}">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link">About</a>
@@ -66,7 +66,7 @@
     <!-- User Dropdown Menu at Top-Right -->
     
 </nav>
-<nav class="navbar navbar-expand-md fixed-top">
+<nav class="navbar navbar-expand-md responsive-navbar" id="Account"> 
 <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -76,7 +76,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     @auth
                     <form action="/logout" method="post">@csrf<button class="dropdown-item" type="submit">Logout</button></form>
-                    <a class="dropdown-item" href="#profile">Profile</a>
+                    <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
                     @else
                     <a class="dropdown-item" href="{{route('login')}}">Login</a>
                     <a class="dropdown-item" href="{{route('register')}}">Register</a>

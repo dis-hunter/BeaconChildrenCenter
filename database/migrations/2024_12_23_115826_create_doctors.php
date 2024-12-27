@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('staff_id')->constrained('staff','id');
-            $table->string('specialization');
+            $table->foreignId('specialization_id')->constrained('doctor_specialization','id');
             $table->timestamps();
         });
     }

@@ -26,7 +26,14 @@ class DatabaseSeeder extends Seeder
             rolesSeeder::class,
             relationshipsSeeder::class,
             visit_typeSeeder::class,
-            ChildSeeder::class
+            specializationSeeder::class,
+            ChildSeeder::class,
+            ParentsSeeder::class,
+            StaffSeeder::class,
+            DoctorSeeder::class,
+            AppointmentSeeder::class,
+            VisitSeeder::class,
+            TriageSeeder::class
         ]);
     }
 }

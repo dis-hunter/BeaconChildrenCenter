@@ -54,4 +54,12 @@ class User extends Authenticatable
             set: fn($value) => json_encode($value),
         );
     }
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function gender(){
+        return $this->belongsTo(Gender::class, 'gender_id');
+    }
 }
