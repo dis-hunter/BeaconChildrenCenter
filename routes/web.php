@@ -71,5 +71,8 @@ Route::get('/get-development-milestones/{registrationNumber}', [DoctorsControlle
 
 Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
-
-
+//routes accessible when logged in only
+Route::group(['middleware'=>'auth'], function(){
+    //example
+    //Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+});
