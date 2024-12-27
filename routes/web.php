@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
-
+//Doctor Form Routes
 Route::post('/doctors', [DoctorController::class, 'store']); // Handle form submission
-Route::view('/doctor_form', 'doctor_form'); // Display the form
+Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 /*
 |--------------------------------------------------------------------------
 | Web Routes
