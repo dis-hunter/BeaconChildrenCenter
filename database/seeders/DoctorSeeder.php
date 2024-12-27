@@ -18,33 +18,33 @@ class DoctorSeeder extends Seeder
         DB::table('doctors')->insert([
             [
                 'staff_id' => 1,
-                'specialization' => "Pediatrician",
+                'specialization_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
                 
             ],
             [
                 'staff_id' => 2,
-                'specialization' => "Occupational Therapist",
+                'specialization_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
                 
             ],
             [
                 'staff_id' => 3,
-                'specialization' => "Speech Therapist",
+                'specialization_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'staff_id' => 4,
-                'specialization' => "Physiotherapist",
+                'specialization_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'staff_id' => 5,
-                'specialization' => "Nutritionist",
+                'specialization_id' => 5,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

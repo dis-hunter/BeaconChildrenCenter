@@ -10,6 +10,7 @@ use App\Http\Controllers\DoctorsController; // Import the controller class
 
 
 use App\Http\Controllers\AuthController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +35,6 @@ Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
-Route::get('/create',  [DiagnosisController::class,
-'create']
-);
 
 
 //this handles parent related activity
@@ -73,6 +71,28 @@ Route::post('/save-development-milestones/{registrationNumber}', [DoctorsControl
 
 //routes accessible when logged in only
 Route::group(['middleware'=>'auth'], function(){
-    //example
-    //Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+    //routes accessible based on role_id
+    Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
+    Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
+
+    //Nurse
+    Route::group(['middleware'=>'role:1'], function(){
+        //Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+        
+
+    });
+
+    //Doctor
+    Route::group(['middleware'=>'role:2'], function(){
+        Route::get('/create',  [DiagnosisController::class,
+'create']
+);
+    });
+
+    //Admin
+    Route::group(['middleware'=>'role:3'], function(){
+        
+    });
+
 });
+

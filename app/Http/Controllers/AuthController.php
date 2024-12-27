@@ -28,6 +28,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'firstname' => 'required',
+            'middlename'=> 'required',
             'lastname' => 'required',
             'gender' => 'required',
             'role' => 'required',
@@ -38,6 +39,7 @@ class AuthController extends Controller
         ]);
         $data['fullname'] = [
             'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
             'lastname' => $request->lastname
         ];
         $data['gender_id'] = Gender::where('gender',$request->gender)->value('id');
@@ -80,5 +82,16 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect(route('home'));
+    }
+
+    public function profileGet(){
+        $user=auth()->user();
+        $role=$user->role ? $user->role->role : 'Unknown';
+        $gender=$user->gender ? $user->gender->gender : 'Unknown';
+        return view('profile',compact('user','role','gender'));
+    }
+
+    public function profilePost(Request $request){
+
     }
 }

@@ -49,16 +49,22 @@
                             </div>
                             @endif
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating mb-4">
                                         <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First Name" required />
                                         <label for="firstname">First Name</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name" required />
-                                        <label for="lastname">Last name</label>
+                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" required />
+                                        <label for="middlename">Middle Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last Name" required />
+                                        <label for="lastname">Last Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
