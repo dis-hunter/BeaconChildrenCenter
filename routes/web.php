@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function(){
-    return view('header');
-});
+    return view('home');
+})->name('home');
 
 Route::post('/example', [ExampleController::class,'store'])->name('example.store');
 Route::get('/example',[ExampleController::class,'fetch'])->name('example.fetch');
@@ -57,9 +57,11 @@ Route::get('/parents',  [ParentsController::class,
 );
 
 Route::get('login', [AuthController::class, 'loginGet'])->name('login');
-Route::get('register', [AuthController::class,'registerGet']);
+Route::get('register', [AuthController::class,'registerGet'])->name('register');
 Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
 Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
+Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+
 Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 
 Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
@@ -70,4 +72,4 @@ Route::get('/get-development-milestones/{registrationNumber}', [DoctorsControlle
 Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
 
-Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+

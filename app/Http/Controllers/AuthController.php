@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function registerGet()
     {
         if(Auth::check()){
-            return redirect(route('example.fetch'));
+            return redirect(route('home'));
         }
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
@@ -58,7 +58,7 @@ class AuthController extends Controller
     function loginGet()
     {
         if(Auth::check()){
-            return redirect(route('example.fetch'));
+            return redirect(route('home'));
         }
         return view('login');
     }
@@ -70,7 +70,7 @@ class AuthController extends Controller
         ]);
         $credentials=$request->only('email','password');
         if(Auth::attempt($credentials)){
-            return redirect()->intended(route('example.fetch'));
+            return redirect()->intended(route('home'));
         }
         return redirect(route('login.post'))->with('error','Credentials are not valid!')->withInput($request->except('password'));
     }
@@ -79,6 +79,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect(route('login'));
+        return redirect(route('home'));
     }
 }
