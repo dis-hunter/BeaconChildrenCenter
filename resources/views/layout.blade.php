@@ -66,6 +66,12 @@
         margin-top: 200px;
       }
     }
+    @media (max-width: 768px) {
+    .btn-close {
+        display: none;
+        transform: scale(0.9); /* Scales down the button size */
+    }
+}
 
     @media (min-width: 769px) {
       .gradient-custom-2 {

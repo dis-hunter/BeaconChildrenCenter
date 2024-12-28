@@ -2,6 +2,9 @@
 <?php $__env->startSection('title', 'Register'); ?>
 <?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
+    <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
+        <a class="btn btn-close btn-md" href="<?php echo e(route('home')); ?>"></a>
+      </div>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-xl-10">
@@ -122,15 +125,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('93Rp1pZ')) {
-    $componentId = $_instance->getRenderedChildComponentId('93Rp1pZ');
-    $componentTag = $_instance->getRenderedChildComponentTagName('93Rp1pZ');
+} elseif ($_instance->childHasBeenRendered('0n6G9PB')) {
+    $componentId = $_instance->getRenderedChildComponentId('0n6G9PB');
+    $componentTag = $_instance->getRenderedChildComponentTagName('0n6G9PB');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('93Rp1pZ');
+    $_instance->preserveRenderedChild('0n6G9PB');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('93Rp1pZ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('0n6G9PB', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

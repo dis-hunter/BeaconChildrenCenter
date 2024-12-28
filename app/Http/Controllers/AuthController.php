@@ -37,11 +37,7 @@ class AuthController extends Controller
             'phone' => 'required',
             'password' => [
                 'required',
-                Password::min(6)
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised()
+                Password::default()
             ],
             'confirmpassword' => 'required'
         ]);

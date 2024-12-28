@@ -2,6 +2,9 @@
 @section('title','Login')
 @section('content')
 <section class="h-100 gradient-form" style="background-color: #eee;">
+  <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
+  <a class="btn btn-close btn-md" href="{{ route('home') }}"></a>
+</div>
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-xl-10">

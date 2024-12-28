@@ -26,9 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function(){
     return view('home');
 })->name('home');
-Route::get('livewire/password-generator', function(){
-    return view('livewire.password-generator');
-});
 
 Route::post('/example', [ExampleController::class,'store'])->name('example.store');
 Route::get('/example',[ExampleController::class,'fetch'])->name('example.fetch');
@@ -46,7 +43,9 @@ Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents
 //search for parent
 Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
 
-
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
 
 //Handles child related operations
 Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
@@ -76,13 +75,14 @@ Route::post('/save-development-milestones/{registrationNumber}', [DoctorsControl
 
 //routes accessible when logged in only
 Route::group(['middleware'=>'auth'], function(){
-    //routes accessible based on role_id
+    
     Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
     Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
 
+    //routes accessible based on role_id
     //Nurse
     Route::group(['middleware'=>'role:1'], function(){
-        //Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+        // e.g. Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
         
 
     });
