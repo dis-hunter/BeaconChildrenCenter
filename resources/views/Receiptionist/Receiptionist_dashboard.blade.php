@@ -18,9 +18,46 @@
             left: 0;
             top: 0;
             background-color: #111827;
-            overflow-x: hidden;
+            overflow: visible;  /* Changed to visible to show hover content */
             padding-top: 20px;
             color: white;
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+        }
+
+        .toggle-button {
+            position: fixed;
+            left: 200px;
+            top: 20px;
+            background-color: #111827;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toggle-button.collapsed {
+            left: 60px;
+        }
+
+        .toggle-button::before {
+            content: "◀";
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-button.collapsed::before {
+            transform: rotate(180deg);
         }
 
         .sidebar a {
@@ -31,7 +68,42 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed a {
+            padding: 12px;
+            justify-content: center;
+            width: 60px;
+        }
+
+        .sidebar.collapsed a:hover {
+            width: auto;
+            background-color: #1f2937;
+            padding-right: 20px;
+        }
+
+        .sidebar.collapsed a span.icon {
+            margin-right: 0;
+            transition: margin 0.3s ease;
+        }
+
+        .sidebar.collapsed a:hover span.icon {
+            margin-right: 12px;
+        }
+
+        .sidebar.collapsed a span.text {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar.collapsed a:hover span.text {
+            display: inline;
+            opacity: 1;
         }
 
         .sidebar a:hover {
@@ -42,6 +114,7 @@
             width: 40px;
             height: 40px;
             margin: 0 auto 20px;
+            display: block;
         }
 
         .main {
@@ -49,6 +122,11 @@
             padding: 40px;
             background-color: #f3f4f6;
             min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main.expanded {
+            margin-left: 60px;
         }
 
         .search-bar {
@@ -125,11 +203,6 @@
             color: #9d174d;
         }
 
-        .calendar-icon {
-            color: #64748b;
-            cursor: pointer;
-        }
-
         .page-title {
             font-size: 24px;
             color: #111827;
@@ -139,18 +212,20 @@
 </head>
 <body>
 
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
     <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
-    <a href="#"><span>➕</span> Add Patient</a>
-    <a href="#"><span>👥</span> Parents</a>
-    <a href="#"><span>📅</span> Appointments</a>
-    <a href="#"><span>🕒</span> Visit</a>
-    <a href="{{route('doctors')}}"><span>👨‍⚕️</span> Doctors</a>
-    <a href="#"><span>💰</span> Payments</a>
-    <a href="#"><span>👥</span> Staff</a>
+    <a href="#"><span class="icon">➕</span> <span class="text">Add Patient</span></a>
+    <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a>
+    <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
+    <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+    <a href="{{route('doctors')}}"><span class="icon">👨‍⚕️</span> <span class="text">Doctors</span></a>
+    <a href="#"><span class="icon">💰</span> <span class="text">Payments</span></a>
+    <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a>
 </div>
 
-<div class="main">
+<div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
+
+<div class="main" id="main">
     <h1 class="page-title">Doctor's Details</h1>
     
     <div class="search-bar">
@@ -193,7 +268,16 @@
 </div>
 
 <script>
-    // Your existing JavaScript remains unchanged
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const main = document.querySelector('.main');
+        const toggleButton = document.getElementById('toggle-button');
+        
+        sidebar.classList.toggle('collapsed');
+        main.classList.toggle('expanded');
+        toggleButton.classList.toggle('collapsed');
+    }
+
     document.getElementById('therapyNeedsForm')?.addEventListener('submit', function (e) {
         e.preventDefault();
         const formData = new FormData(this);
