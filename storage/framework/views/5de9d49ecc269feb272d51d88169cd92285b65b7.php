@@ -281,7 +281,7 @@ button {
   </ul>
   <a href="#" id="recordResultsLink">Record Results</a>
   <ul class="mini-menu" id="recordResultsMenu">
-    <li><a href="#">Labaratort Tests</a></li>
+    <li><a href="#">Labaratory Tests</a></li>
     <li><a href="#">Imaging</a></li>
     <li><a href="#">Electro <br> phsiologic tests</a></li>
     <li><a href="#">Genetic tests</a></li>

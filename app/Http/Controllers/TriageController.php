@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Triage;
+use Illuminate\Support\Facades\Validator;
+
+class TriageController extends Controller
+{
+    /**
+     * Store triage examination data into the database.
+     */
+
+     public function create()
+     {
+         // Sample default triage data
+         $triageData = [
+             'temperature' => 37.0,
+             'respiratory_rate' => 20,
+             'pulse_rate' => 80,
+             'blood_pressure' => '120/80',
+             'weight' => 70.0,
+             'height' => 1.75,
+             'muac' => 11.5,
+             'head_circumference' => 0.45,
+         ];
+ 
+         return view('triage', compact('triageData'));
+        //  return response()->json(['triageData' => $triageData]);
+     }
+
+    public function store(Request $request)
+    {
+        // Validate incoming data
+        $validator = Validator::make($request->all(), [
+            'temperature' => 'required|numeric',
+            'respiratory_rate' => 'required|integer',
+            'pulse_rate' => 'required|integer',
+            'blood_pressure' => 'required|string',
+            'weight' => 'required|numeric',
+            'height' => 'required|numeric',
+            'muac' => 'required|numeric',
+            'head_circumference' => 'required|numeric',
+        ]);
+
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            // DB::table('triage')
+            // Create Triage Examination Record
+            Triage::create([
+                'child_id' => $request->child_id, // Store child_id in the database
+                'data' => json_encode([
+                    'temperature' => $request->temperature,
+                    'respiratory_rate' => $request->respiratory_rate,
+                    'pulse_rate' => $request->pulse_rate,
+                    'blood_pressure' => $request->blood_pressure,
+                    'weight' => $request->weight,
+                    'height' => $request->height,
+                    'muac' => $request->muac,
+                    'head_circumference' => $request->head_circumference,
+                ]),
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Triage examination data saved successfully',
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to save data',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function search(Request $request)
+    {
+        // $query = $request->input('telephone');
+
+        // Fetch the parent record by telephone
+        $parent = Parents::where('telephone', $query)->first();
+
+        if ($parent) {
+            return view('reception.childregistration', ['parent' => $parent]);
+        } else {
+            return redirect()->back()->with('error', 'No parent found with the specified phone number.');
+        }
+    }
+}

@@ -4,8 +4,8 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
-use App\Http\Controllers\DevelopmentMilestonesController;
-use App\Http\Controllers\DoctorsController; // Import the controller class
+use App\Http\Controllers\TriageController;
+use App\Http\Controllers\DoctorsController;
 
 
 
@@ -67,32 +67,10 @@ Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 's
 
 Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
 
-Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
-//routes accessible when logged in only
-Route::group(['middleware'=>'auth'], function(){
-    //routes accessible based on role_id
-    Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
-    Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
-
-    //Nurse
-    Route::group(['middleware'=>'role:1'], function(){
-        //Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
-        
-
-    });
-
-    //Doctor
-    Route::group(['middleware'=>'role:2'], function(){
-        Route::get('/create',  [DiagnosisController::class,
-'create']
-);
-    });
-
-    //Admin
-    Route::group(['middleware'=>'role:3'], function(){
-        
-    });
-
+Route::get('/triageDashboard', function () {
+    return view('triageDash');
 });
-
+Route::post('/triage', [TriageController::class, 'store']);
+Route::get('/triage', [TriageController::class, 'create'])->name('triage');
