@@ -96,3 +96,40 @@ Route::group(['middleware'=>'auth'], function(){
 
 });
 
+
+
+use App\Http\Controllers\BehaviourAssesmentController;
+
+// Fetch Behaviour Assessment for a child
+Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'getBehaviourAssessment']);
+
+// Save or update Behaviour Assessment for a child
+Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'saveBehaviourAssessment']);
+
+
+
+
+
+
+use App\Http\Controllers\FamilySocialHistoryController;
+
+Route::get('/get-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'getFamilySocialHistory']);
+Route::post('/save-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'saveFamilySocialHistory']);
+
+
+
+use App\Http\Controllers\PerinatalHistoryController;
+
+Route::get('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'getPerinatalHistory']);
+Route::post('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'savePerinatalHistory']);
+
+
+
+use App\Http\Controllers\PastMedicalHistoryController;
+
+Route::get('/past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'getPastMedicalHistory']);
+Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'savePastMedicalHistory']);
+
+
+
+
