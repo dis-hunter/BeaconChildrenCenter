@@ -8547,3 +8547,24 @@ LINE 1: select * from \"behaviour_assessments\" where \"child_id\" = $1 ...
 #44 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\xampp\\\\htdocs...')
 #45 {main}
 "} 
+[2024-12-28 05:24:57] local.ERROR: Too many arguments to "make:migration" command, expected arguments "name". {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): Too many arguments to \"make:migration\" command, expected arguments \"name\". at C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Input\\ArgvInput.php:193)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Input\\ArgvInput.php(86): Symfony\\Component\\Console\\Input\\ArgvInput->parseArgument('table')
+#1 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('table', true)
+#2 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Input\\Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#3 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Command\\Command.php(250): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#4 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(153): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#5 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Application.php(1014): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#6 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Application.php(301): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateMakeCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(102): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 C:\\xampp\\htdocs\\Beacon Children Center\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(155): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 C:\\xampp\\htdocs\\Beacon Children Center\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#11 {main}
+"} 
+[2024-12-28 11:13:19] local.INFO: getTriageData called with registration number: REG-001  
+[2024-12-28 11:13:25] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2024-12-28 11:40:24] local.INFO: getTriageData called with registration number: REG-001  
+[2024-12-28 11:40:29] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2024-12-28 12:06:03] local.INFO: saveCnsData called with registration number: REG-001  
+[2024-12-28 12:06:09] local.INFO: Executed Queries: [{"query":"select * from \"children\" where \"registration_number\" = ? limit 1","bindings":["REG-001"],"time":4305.91},{"query":"select * from \"visits\" where \"child_id\" = ? order by \"created_at\" desc limit 1","bindings":[5],"time":630.94},{"query":"select exists(select * from \"cns\" where (\"visit_id\" = ? and \"child_id\" = ? and \"doctor_id\" = ?)) as \"exists\"","bindings":[3,5,1],"time":697.75},{"query":"update \"cns\" set \"data\" = ? where \"ctid\" in (select \"cns\".\"ctid\" from \"cns\" where (\"visit_id\" = ? and \"child_id\" = ? and \"doctor_id\" = ?) limit 1)","bindings":["{\"avpu\":\"V\",\"vision\":\"Good\",\"hearing\":\"Good\",\"cranialNerves\":\"Good\",\"ambulation\":\"yes\",\"cardiovascular\":\"rewew\",\"respiratory\":\"rewrew\",\"musculoskeletal\":\"qweq\"}",3,5,1],"time":620.87}]  

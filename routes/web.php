@@ -53,3 +53,11 @@ Route::get('/get-family-social-history/{visitId}', [FamilySocialHistoryControlle
 Route::post('/save-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'saveFamilySocialHistory']);
 
 
+
+use App\Http\Controllers\PerinatalHistoryController;
+
+Route::get('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'getPerinatalHistory']);
+Route::post('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'savePerinatalHistory']);
+
+
+

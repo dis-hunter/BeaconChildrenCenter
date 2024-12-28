@@ -19,10 +19,9 @@ class FamilySocialHistoryController extends Controller
             return response()->json(['message' => 'Child not found'], 404);
         }
 
-        // Fetch the latest Family and Social History for the child
+        // Fetch the Family and Social History record for the child
         $familySocialHistory = DB::table('family_social_history')
             ->where('child_id', $child->id)
-            ->latest()
             ->first();
 
         if ($familySocialHistory) {
@@ -55,10 +54,6 @@ class FamilySocialHistoryController extends Controller
             ->orderBy('created_at', 'desc') // Order by the latest visit
             ->first();
 
-        if (!$visit) {
-            return response()->json(['error' => 'No visit found for the child'], 404);
-        }
-
         // Use a placeholder doctor ID if actual logic for determining doctor_id isn't available
         $doctorId = 1; // Replace with logic to fetch the actual doctor ID if needed
 
@@ -66,12 +61,12 @@ class FamilySocialHistoryController extends Controller
             // Create or update the Family and Social History record
             DB::table('family_social_history')->updateOrInsert(
                 [
-                    'visit_id' => $visit->id, // Associate with visit
-                    'child_id' => $child->id,
-                    'doctor_id' => $doctorId,
+                    'child_id' => $child->id, // Ensure only one record per child
                 ],
                 [
+                    'visit_id' => $visit->id ?? null, // Update visit_id with the latest visit or null
                     'data' => json_encode($request->data), // Ensure data is JSON encoded
+                    'doctor_id' => $doctorId,
                     'updated_at' => now(),
                     'created_at' => now(), // Required for insert operations
                 ]

@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class BehaviourAssesmentController extends Controller
+class PerinatalHistoryController extends Controller
 {
     /**
-     * Fetch Behaviour Assessment data for a child.
+     * Fetch Perinatal History data for a child.
      */
-    public function getBehaviourAssessment($registrationNumber)
+    public function getPerinatalHistory($registrationNumber)
     {
         // Fetch the child ID using the registration number
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
@@ -19,22 +19,22 @@ class BehaviourAssesmentController extends Controller
             return response()->json(['message' => 'Child not found'], 404);
         }
 
-        // Fetch the Behaviour Assessment record for the child
-        $behaviourAssessment = DB::table('behaviour_assessment')
+        // Fetch the Perinatal History record for the child
+        $perinatalHistory = DB::table('perinatal_history')
             ->where('child_id', $child->id)
             ->first();
 
-        if ($behaviourAssessment) {
-            return response()->json(['data' => json_decode($behaviourAssessment->data)], 200);
+        if ($perinatalHistory) {
+            return response()->json(['data' => json_decode($perinatalHistory->data)], 200);
         } else {
-            return response()->json(['data' => null, 'message' => 'No behaviour assessment found'], 200);
+            return response()->json(['data' => null, 'message' => 'No Perinatal History found'], 200);
         }
     }
 
     /**
-     * Save or update Behaviour Assessment data.
+     * Save or update Perinatal History data.
      */
-    public function saveBehaviourAssessment(Request $request, $registrationNumber)
+    public function savePerinatalHistory(Request $request, $registrationNumber)
     {
         // Validate the incoming request data
         $request->validate([
@@ -48,23 +48,16 @@ class BehaviourAssesmentController extends Controller
             return response()->json(['message' => 'Child not found'], 404);
         }
 
-        // Fetch the latest visit for the child
-        $visit = DB::table('visits')
-            ->where('child_id', $child->id)
-            ->orderBy('created_at', 'desc') // Order by the latest visit
-            ->first();
-
         // Use a placeholder doctor ID if actual logic for determining doctor_id isn't available
         $doctorId = 1; // Replace with logic to fetch the actual doctor ID if needed
 
         try {
-            // Create or update the behaviour assessment record
-            DB::table('behaviour_assessment')->updateOrInsert(
+            // Create or update the Perinatal History record
+            DB::table('perinatal_history')->updateOrInsert(
                 [
                     'child_id' => $child->id, // Ensure only one record per child
                 ],
                 [
-                    'visit_id' => $visit->id ?? null, // Update visit_id with the latest visit or null
                     'data' => json_encode($request->data), // Ensure data is JSON encoded
                     'doctor_id' => $doctorId,
                     'updated_at' => now(),
@@ -72,9 +65,9 @@ class BehaviourAssesmentController extends Controller
                 ]
             );
 
-            return response()->json(['message' => 'Behaviour Assessment saved successfully!']);
+            return response()->json(['message' => 'Perinatal History saved successfully!']);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to save Behaviour Assessment', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Failed to save Perinatal History', 'error' => $e->getMessage()], 500);
         }
     }
 }

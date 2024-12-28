@@ -69,153 +69,6 @@ recordResultsMenu.addEventListener('click', (event) => {
 });
 
 // Get the "Behaviour Assesement" link
-// Event listener for the "Behaviour Assessment" link
-document.querySelector('.floating-menu a[href="#behaviourAssessment"]').addEventListener('click', async (event) => {
-    event.preventDefault();
-
-    const mainContent = document.querySelector('.main');
-    mainContent.innerHTML = ''; // Clear the main content
-    showLoadingIndicator(mainContent); // Display the loading indicator
-
-    try {
-        await loadBehaviourAssessmentForm(mainContent); // Load the form
-    } catch (error) {
-        console.error("Error loading Behaviour Assessment form:", error.message);
-        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
-    } finally {
-        removeLoadingIndicator(); // Remove the loading indicator
-    }
-});
-
-// Function to load the Behaviour Assessment form
-async function loadBehaviourAssessmentForm(mainContent) {
-    const registrationNumber = "REG-001"; // Example registration number
-    let behaviourData = {};
-
-    // Fetch existing Behaviour Assessment data
-    try {
-        const response = await fetch(`/get-behaviour-assessment/${registrationNumber}`);
-        if (response.ok) {
-            const data = await response.json();
-            behaviourData = data?.data || {}; // Parse the JSON data or use an empty object
-        } else {
-            console.warn("No existing data found for this child.");
-        }
-    } catch (error) {
-        console.error("Error fetching Behaviour Assessment data:", error.message);
-    }
-
-    // Generate the form HTML
-    const formHTML = `
-        <div id="behaviour-assessment-container">
-            <head>
-               <link rel="stylesheet" href="../css/BehaviourAssesment.css">
-            </head>
-            <h2>Behaviour Assessment</h2>
-            <form id="behaviourAssessmentForm">
-                <div class="section">
-                    <div class="section-title">Hyperactivity Impulsivity</div>
-                    <textarea id="hyperactivity">${behaviourData?.HyperActivity || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Attention</div>
-                    <textarea id="attention">${behaviourData?.Attention || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Social Interactions</div>
-                    <textarea id="socialInteractions">${behaviourData?.SocialInteractions || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Mood/Anxiety</div>
-                    <textarea id="moodAnxiety">${behaviourData?.MoodAnxiety || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Play/Interests</div>
-                    <textarea id="playInterests">${behaviourData?.PlayInterests || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Communication</div>
-                    <textarea id="communication">${behaviourData?.Communication || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">RRB</div>
-                    <textarea id="rrb">${behaviourData?.RRB || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Sensory Processing</div>
-                    <textarea id="sensoryProcessing">${behaviourData?.SensoryProcessing || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Sleep</div>
-                    <textarea id="sleep">${behaviourData?.Sleep || ''}</textarea>
-                </div>
-                <div class="section">
-                    <div class="section-title">Adaptive</div>
-                    <textarea id="adaptive">${behaviourData?.Adaptive || ''}</textarea>
-                </div>
-                <button type="submit">Save</button>
-            </form>
-        </div>
-    `;
-
-    mainContent.innerHTML = formHTML; // Insert the form into the main content
-
-    // Attach form submission handler
-    const form = document.getElementById('behaviourAssessmentForm');
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        // Gather the data from the form
-        const formData = {
-            HyperActivity: document.getElementById('hyperactivity').value,
-            Attention: document.getElementById('attention').value,
-            SocialInteractions: document.getElementById('socialInteractions').value,
-            MoodAnxiety: document.getElementById('moodAnxiety').value,
-            PlayInterests: document.getElementById('playInterests').value,
-            Communication: document.getElementById('communication').value,
-            RRB: document.getElementById('rrb').value,
-            SensoryProcessing: document.getElementById('sensoryProcessing').value,
-            Sleep: document.getElementById('sleep').value,
-            Adaptive: document.getElementById('adaptive').value,
-        };
-
-        // Save the updated data
-        try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const registrationNumber = "REG-001"; // Use the actual registration number
-            const saveResponse = await fetch(`/save-behaviour-assessment/${registrationNumber}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken, // Include CSRF token for security
-                },
-                body: JSON.stringify({ data: formData }), // Send the form data as JSON
-            });
-
-            if (saveResponse.ok) {
-                alert('Behaviour Assessment saved successfully!');
-            } else {
-                throw new Error('Failed to save Behaviour Assessment');
-            }
-        } catch (error) {
-            console.error("Error saving Behaviour Assessment:", error.message);
-            alert("Error saving Behaviour Assessment: " + error.message);
-        }
-    });
-}
-
-// Helper function to show loading indicator
-function showLoadingIndicator(container) {
-    container.innerHTML = `<div class="loading">Loading...</div>`;
-}
-
-// Helper function to remove loading indicator
-function removeLoadingIndicator() {
-    const loadingIndicator = document.querySelector('.loading');
-    if (loadingIndicator) {
-        loadingIndicator.remove();
-    }
-}
 const BehaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
 BehaviourAssessmentLink.addEventListener('click', async (event) => {
     event.preventDefault();
@@ -281,9 +134,7 @@ async function loadBehaviourAssessmentForm(mainContent) {
     console.log("Rendering the form...");
     mainContent.innerHTML = `
     <div id="behaviourAssessment-container">
-        <head>
-            <link rel='stylesheet' href='../css/BehaviourAssesment.css'>
-        </head>
+        
         <body>
             <div class="container">
                 <h2>Behaviour Assessment</h2>
@@ -335,13 +186,40 @@ async function loadBehaviourAssessmentForm(mainContent) {
     `;
 
     console.log("Fetching Behaviour Assessment data...");
-    const registrationNumber = "REG-001";
+    const registrationNumber = "REG-001"; // You can replace with dynamic registration number
     await loadBehaviourAssessment(registrationNumber);
 
     // Add event listener to the save button
-    document.getElementById("saveButton").addEventListener("click", async () => {
-        await saveBehaviourAssessment(registrationNumber);
+    const saveButton = document.getElementById("saveButton");
+    saveButton.addEventListener("click", async () => {
+        // Show spinner while saving
+        saveButton.innerHTML = `<span class="saving-spinner"></span> Saving...`;
+        saveButton.disabled = true;
+
+        try {
+            await saveBehaviourAssessment(registrationNumber);
+        } finally {
+            // Reset save button to its normal state
+            saveButton.innerHTML = "Save";
+            saveButton.disabled = false;
+        }
     });
+
+    // Add spinner styles
+    const spinnerStyles = document.createElement('style');
+    spinnerStyles.innerHTML = `
+        .saving-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ccc;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: loading-animation 1s linear infinite;
+            margin-right: 8px;
+        }
+    `;
+    document.head.appendChild(spinnerStyles);
 }
 
 async function loadBehaviourAssessment(registrationNumber) {
@@ -388,6 +266,7 @@ async function saveBehaviourAssessment(registrationNumber) {
             Sleep: document.getElementById("sleep").value,
             Adaptive: document.getElementById("adaptive").value,
         };
+
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
         const response = await fetch(`/save-behaviour-assessment/${registrationNumber}`, {
             method: "POST",
@@ -411,387 +290,227 @@ async function saveBehaviourAssessment(registrationNumber) {
 
 
 //Get the perinatal history Link
+document.addEventListener('DOMContentLoaded', () => {
+  const perinatalHistoryLink = document.querySelector('.floating-menu a[href="#perinatalHistory"]');
 
-const perinatalHistoryLink = document.querySelector('.floating-menu a[href="#perinatalHistory"]');
-perinatalHistoryLink.addEventListener('click', (event)=>{
-    event.preventDefault();
+  perinatalHistoryLink.addEventListener('click', async (event) => {
+      event.preventDefault();
+      console.log('Perinatal History link clicked.');
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/perinatalHistory.css'>
-</head>
-<body>
+      const mainContent = document.querySelector('.main');
 
-<div class="container">
-  <h2>Perinatal History</h2>
+      // Add CSS for the spinner directly to the document
+      const style = document.createElement('style');
+      style.innerHTML = `
+          .loading-spinner {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+          }
+          .spinner {
+              border: 4px solid #f3f3f3;
+              border-top: 4px solid #3498db;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              animation: spin 2s linear infinite;
+          }
+          @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+          }
+          .saving-button-spinner {
+              border: 2px solid #f3f3f3;
+              border-top: 2px solid white;
+              border-radius: 50%;
+              width: 14px;
+              height: 14px;
+              animation: spin 1s linear infinite;
+              display: inline-block;
+          }
+          .error-message {
+              color: red;
+              text-align: center;
+          }
+      `;
+      document.head.appendChild(style);
 
-  <div class="section">
-    <div class="section-title">Pre-conception</div>
-    <textarea id="preConceptionTextarea"></textarea> 
-  </div>
+      // Add rotating circle loading indicator
+      mainContent.innerHTML = `
+          <div class="loading-spinner">
+              <div class="spinner"></div>
+          </div>
+      `;
 
-  <div class="section">
-    <div class="section-title">Antenatal History</div>
-    <textarea id="antenatalHistoryTextarea"></textarea> 
-  </div>
+      try {
+          const registrationNumber = window.location.pathname.split('/').pop();
+          console.log('Registration number extracted:', registrationNumber);
 
-  <div class="section">
-    <div class="section-title">Birth History</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="parity">Parity:</label>
-        <input type="text" id="parity">
-      </div>
-      <div class="grid-item">
-        <label for="gestation">Gestation:</label>
-        <input type="text" id="gestation">
-      </div>
-      <div class="grid-item">
-        <label for="labour">Labour:</label>
-        <input type="text" id="labour">
-      </div>
-      <div class="grid-item">
-        <label for="delivery">Delivery:</label>
-        <input type="text" id="delivery">
-      </div>
-      <div class="grid-item">
-        <label for="agarScore">Agar Score:</label>
-        <input type="text" id="agarScore">
-      </div>
-      <div class="grid-item">
-        <label for="bwt">BWT:</label>
-        <input type="text" id="bwt">
-      </div>
-    </div>
-  </div>
+          // Fetch the Perinatal History form structure
+          const response = await fetch(`/perinatal-history/${registrationNumber}`);
+          const result = await response.json();
 
-  <div class="section">
-    <div class="section-title highlighted">Postnatal Period</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="bFeeding">B/Feeding:</label>
-        <input type="text" id="bFeeding">
-      </div>
-      <div class="grid-item">
-        <label for="hypoglaecemia">Hypoglaecemia:</label>
-        <input type="text" id="hypoglaecemia">
-      </div>
-      <div class="grid-item">
-        <label for="siezures">Siezures:</label>
-        <input type="text" id="siezures">
-      </div>
-      <div class="grid-item">
-        <label for="juandice">Juandice:</label>
-        <input type="text" id="juandice">
-      </div>
-      <div class="grid-item">
-        <label for="rds">RDS:</label>
-        <input type="text" id="rds">
-      </div>
-      <div class="grid-item">
-        <label for="sepsis">Sepsis:</label>
-        <input type="text" id="sepsis">
-      </div>
-    </div>
-  </div>
+          console.log('Fetch response:', result);
 
-  <button type="submit">Save</button>
-   
+          // Replace content with form once loaded
+          mainContent.innerHTML = `
+              <div class="container">
+              <head>
+              <link rel="stylesheet" href="../css/perinatalHistory.css">
+              </head>
+                  <h2>Perinatal History</h2>
+                  <div class="section">
+                      <div class="section-title">Pre-conception</div>
+                      <textarea id="preConceptionTextarea"></textarea> 
+                  </div>
+                  <div class="section">
+                      <div class="section-title">Antenatal History</div>
+                      <textarea id="antenatalHistoryTextarea"></textarea> 
+                  </div>
+                  <div class="section">
+                      <div class="section-title">Birth History</div>
+                      <div class="grid-container">
+                          <div class="grid-item"><label for="parity">Parity:</label><input type="text" id="parity"></div>
+                          <div class="grid-item"><label for="gestation">Gestation:</label><input type="text" id="gestation"></div>
+                          <div class="grid-item"><label for="labour">Labour:</label><input type="text" id="labour"></div>
+                          <div class="grid-item"><label for="delivery">Delivery:</label><input type="text" id="delivery"></div>
+                          <div class="grid-item"><label for="agarScore">Agar Score:</label><input type="text" id="agarScore"></div>
+                          <div class="grid-item"><label for="bwt">BWT:</label><input type="text" id="bwt"></div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="section-title highlighted">Postnatal Period</div>
+                      <div class="grid-container">
+                          <div class="grid-item"><label for="bFeeding">B/Feeding:</label><input type="text" id="bFeeding"></div>
+                          <div class="grid-item"><label for="hypoglaecemia">Hypoglaecemia:</label><input type="text" id="hypoglaecemia"></div>
+                          <div class="grid-item"><label for="siezures">Siezures:</label><input type="text" id="siezures"></div>
+                          <div class="grid-item"><label for="juandice">Juandice:</label><input type="text" id="juandice"></div>
+                          <div class="grid-item"><label for="rds">RDS:</label><input type="text" id="rds"></div>
+                          <div class="grid-item"><label for="sepsis">Sepsis:</label><input type="text" id="sepsis"></div>
+                      </div>
+                  </div>
+                  <button type="submit" id="savePerinatalHistory">Save</button>
+              </div>
+          `;
 
-</div>
-    `
- textareas.forEach(textarea => {
-    textarea.addEventListener('input', () => {
-      textarea.style.height = "auto"; 
-       textarea.style.height = (textarea.scrollHeight) + "px"; 
-     });
-      
- textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
- });
-      
-textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
- });
-     
- 
- //Get the Developmental Milestones Link
+          // Pre-fill form data if available
+          if (response.ok && result.data) {
+              const {
+                  preConception,
+                  antenatalHistory,
+                  parity,
+                  gestation,
+                  labour,
+                  delivery,
+                  agarScore,
+                  bwt,
+                  bFeeding,
+                  hypoglaecemia,
+                  siezures,
+                  juandice,
+                  rds,
+                  sepsis,
+              } = result.data;
 
- const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
-DevMilestonesLink.addEventListener('click', async (event) => {
-    event.preventDefault();
+              document.getElementById('preConceptionTextarea').value = preConception || '';
+              document.getElementById('antenatalHistoryTextarea').value = antenatalHistory || '';
+              document.getElementById('parity').value = parity || '';
+              document.getElementById('gestation').value = gestation || '';
+              document.getElementById('labour').value = labour || '';
+              document.getElementById('delivery').value = delivery || '';
+              document.getElementById('agarScore').value = agarScore || '';
+              document.getElementById('bwt').value = bwt || '';
+              document.getElementById('bFeeding').value = bFeeding || '';
+              document.getElementById('hypoglaecemia').value = hypoglaecemia || '';
+              document.getElementById('siezures').value = siezures || '';
+              document.getElementById('juandice').value = juandice || '';
+              document.getElementById('rds').value = rds || '';
+              document.getElementById('sepsis').value = sepsis || '';
+          }
 
-    const mainContent = document.querySelector('.main');
+          // Setup textarea resizing logic
+          const textareas = document.querySelectorAll('textarea');
+          textareas.forEach((textarea) => {
+              textarea.addEventListener('input', () => {
+                  textarea.style.height = 'auto';
+                  textarea.style.height = `${textarea.scrollHeight}px`;
+              });
+          });
 
-    // Show the loading indicator specific to this feature
-    showLoadingIndicator(mainContent, "devMilestones-loading");
+          // Save functionality
+          const saveButton = document.getElementById('savePerinatalHistory');
+          saveButton.addEventListener('click', async () => {
+              saveButton.innerHTML = `<span class="saving-button-spinner"></span> Saving...`;
+              saveButton.disabled = true;
 
-    try {
-        console.log("Loading Developmental Milestones form...");
-        await loadDevelopmentalMilestonesForm(mainContent);
-    } catch (error) {
-        console.error("Error loading developmental milestones:", error.message);
-        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
-    } finally {
-        console.log("Removing loading indicator...");
-        removeLoadingIndicator("devMilestones-loading");
-    }
+              const data = {
+                  preConception: document.getElementById('preConceptionTextarea').value,
+                  antenatalHistory: document.getElementById('antenatalHistoryTextarea').value,
+                  parity: document.getElementById('parity').value,
+                  gestation: document.getElementById('gestation').value,
+                  labour: document.getElementById('labour').value,
+                  delivery: document.getElementById('delivery').value,
+                  agarScore: document.getElementById('agarScore').value,
+                  bwt: document.getElementById('bwt').value,
+                  bFeeding: document.getElementById('bFeeding').value,
+                  hypoglaecemia: document.getElementById('hypoglaecemia').value,
+                  siezures: document.getElementById('siezures').value,
+                  juandice: document.getElementById('juandice').value,
+                  rds: document.getElementById('rds').value,
+                  sepsis: document.getElementById('sepsis').value,
+              };
+
+              try {
+                  const saveResponse = await fetch(`/perinatal-history/${registrationNumber}`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                      },
+                      body: JSON.stringify({ data }),
+                  });
+
+                  const saveResult = await saveResponse.json();
+                  alert(saveResult.message || 'Perinatal History saved successfully!');
+              } catch (error) {
+                  console.error('Error saving Perinatal History:', error);
+                  alert('Failed to save Perinatal History. Please try again.');
+              } finally {
+                  saveButton.innerHTML = 'Save';
+                  saveButton.disabled = false;
+              }
+          });
+      } catch (error) {
+          console.error('Error fetching Perinatal History:', error);
+          mainContent.innerHTML = `<p class="error-message">Failed to load Perinatal History. Please try again later.</p>`;
+      }
+  });
 });
 
-function showLoadingIndicator(parentElement, uniqueId) {
-    if (!document.getElementById(uniqueId)) {
-        const loadingIndicator = document.createElement('div');
-        loadingIndicator.id = uniqueId;
-        loadingIndicator.style = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 4px solid #ccc;
-            border-color: #007bff transparent #007bff transparent;
-            animation: loading-animation 1.2s linear infinite;
-            z-index: 1000;
-        `;
-        parentElement.appendChild(loadingIndicator);
 
-        if (!document.getElementById('loading-animation-styles')) {
-            const loadingAnimationStyles = document.createElement('style');
-            loadingAnimationStyles.id = 'loading-animation-styles';
-            loadingAnimationStyles.textContent = `
-                @keyframes loading-animation {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-            `;
-            document.head.appendChild(loadingAnimationStyles);
-        }
-    }
-}
-
-function removeLoadingIndicator(uniqueId) {
-    const loadingIndicator = document.getElementById(uniqueId);
-    if (loadingIndicator) {
-        loadingIndicator.remove();
-    }
-}
-
-async function loadDevelopmentalMilestonesForm(mainContent) {
-    console.log("Rendering the form...");
-    mainContent.innerHTML = `
-    <div id="devMilestones-container">
-        <head>
-            <link rel='stylesheet' href='../css/DevMilestones.css'>
-        </head>
-        <body>
-            <div class="container">
-                <h2>Developmental Milestones</h2>
-                <div class="section">
-                    <div class="section-title">Motor</div>
-                    <div class="grid-container">
-                        <div class="grid-item">
-                            <label for="neckSupport">Neck Support:</label>
-                            <input type="text" id="neckSupport">
-                        </div>
-                        <div class="grid-item">
-                            <label for="sitting">Sitting:</label>
-                            <input type="text" id="sitting">
-                        </div>
-                        <div class="grid-item">
-                            <label for="crawling">Crawling:</label>
-                            <input type="text" id="crawling">
-                        </div>
-                        <div class="grid-item">
-                            <label for="standing">Standing:</label>
-                            <input type="text" id="standing">
-                        </div>
-                        <div class="grid-item">
-                            <label for="walking">Walking:</label>
-                            <input type="text" id="walking">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Speech Language</div>
-                    <div class="grid-container">
-                        <div class="grid-item">
-                            <label for="coobing">Cooing/Babbling:</label>
-                            <input type="text" id="coobing">
-                        </div>
-                        <div class="grid-item">
-                            <label for="firstWord">First Word:</label>
-                            <input type="text" id="firstWord">
-                        </div>
-                        <div class="grid-item">
-                            <label for="vocabulary">Vocabulary:</label>
-                            <input type="text" id="vocabulary">
-                        </div>
-                        <div class="grid-item">
-                            <label for="phraseSpeech">Phrase Speech:</label>
-                            <input type="text" id="phraseSpeech">
-                        </div>
-                        <div class="grid-item">
-                            <label for="conversational">Conversational:</label>
-                            <input type="text" id="conversational">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Social Emotional</div>
-                    <div class="grid-container">
-                        <div class="grid-item">
-                            <label for="smiling">Smiling/Laughing:</label>
-                            <input type="text" id="smiling">
-                        </div>
-                        <div class="grid-item">
-                            <label for="attachments">Attachments:</label>
-                            <input type="text" id="attachments">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Feeding</div>
-                    <textarea id="feeding"></textarea>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Elimination</div>
-                    <textarea id="elimination"></textarea>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Teething</div>
-                    <textarea id="teething"></textarea>
-                </div>
-
-                <button id="saveButton">Save</button>
-            </div>
-        </body>
-    </div>
-    `;
-
-    console.log("Fetching developmental milestones...");
-    const registrationNumber = "REG-001";
-    await loadDevelopmentalMilestones(registrationNumber);
-
-    // Add event listener to the save button
-    document.getElementById("saveButton").addEventListener("click", async () => {
-        await saveDevelopmentalMilestones(registrationNumber);
-    });
-}
-
-async function loadDevelopmentalMilestones(registrationNumber) {
-    try {
-        const response = await fetch(`/get-development-milestones/${registrationNumber}`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch data");
-        }
-
-        const data = await response.json();
-
-        if (data && data.data) {
-            const milestones = JSON.parse(data.data);
-            console.log("Populating form with data...");
-            document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
-            document.getElementById("sitting").value = milestones["Sitting"] || "";
-            document.getElementById("crawling").value = milestones["Crawling"] || "";
-            document.getElementById("standing").value = milestones["Standing"] || "";
-            document.getElementById("walking").value = milestones["Walking"] || "";
-            document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
-            document.getElementById("firstWord").value = milestones["First Word"] || "";
-            document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
-            document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
-            document.getElementById("conversational").value = milestones["Conversational"] || "";
-            document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
-            document.getElementById("attachments").value = milestones["Attachments"] || "";
-            document.getElementById("feeding").value = milestones["Feeding"] || "";
-            document.getElementById("elimination").value = milestones["Elimination"] || "";
-            document.getElementById("teething").value = milestones["Teething"] || "";
-        }
-    } catch (error) {
-        console.error("Error fetching developmental milestones:", error.message);
-    }
-}
-
-async function saveDevelopmentalMilestones(registrationNumber) {
-    try {
-        const data = {
-            "Neck Support": document.getElementById("neckSupport").value,
-            Sitting: document.getElementById("sitting").value,
-            Crawling: document.getElementById("crawling").value,
-            Standing: document.getElementById("standing").value,
-            Walking: document.getElementById("walking").value,
-            "Cooing/Babbling": document.getElementById("coobing").value,
-            "First Word": document.getElementById("firstWord").value,
-            Vocabulary: document.getElementById("vocabulary").value,
-            "Phrase Speech": document.getElementById("phraseSpeech").value,
-            Conversational: document.getElementById("conversational").value,
-            "Smiling/Laughing": document.getElementById("smiling").value,
-            Attachments: document.getElementById("attachments").value,
-            Feeding: document.getElementById("feeding").value,
-            Elimination: document.getElementById("elimination").value,
-            Teething: document.getElementById("teething").value,
-        };
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        const response = await fetch(`/save-development-milestones/${registrationNumber}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-            },
-            body: JSON.stringify({ data }),
-        });
-
-        if (response.ok) {
-            alert("Developmental Milestones saved successfully!");
-        } else {
-            throw new Error("Failed to save data");
-        }
-    } catch (error) {
-        console.error("Error saving developmental milestones:", error.message);
-        alert("Error saving Developmental Milestones. Please try again.");
-    }
-}
-
-
- //Get the Family and Social History Link
-
- const familyAndSocial = document.querySelector('.floating-menu a[href="#familyAndSocial"]');
-
- familyAndSocial.addEventListener('click', async (event) => {
+ 
+ //Get the Developmental Milestones Link
+ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
+ DevMilestonesLink.addEventListener('click', async (event) => {
      event.preventDefault();
  
      const mainContent = document.querySelector('.main');
  
-     // Show a loading indicator while the form loads
-     showLoadingIndicator(mainContent, "family-social-loading");
+     // Show the loading indicator specific to this feature
+     showLoadingIndicator(mainContent, "devMilestones-loading");
  
      try {
-         console.log("Loading Family and Social History form...");
-         const registrationNumber = getRegistrationNumberFromURL();
-         console.log("Registration Number:", registrationNumber);
- 
-         await loadFamilyAndSocialHistoryForm(mainContent, registrationNumber);
+         console.log("Loading Developmental Milestones form...");
+         await loadDevelopmentalMilestonesForm(mainContent);
      } catch (error) {
-         console.error("Error loading Family and Social History form:", error.message);
+         console.error("Error loading developmental milestones:", error.message);
          mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
      } finally {
          console.log("Removing loading indicator...");
-         removeLoadingIndicator("family-social-loading");
+         removeLoadingIndicator("devMilestones-loading");
      }
  });
- 
- function getRegistrationNumberFromURL() {
-     const urlParts = window.location.pathname.split('/');
-     return urlParts[urlParts.length - 1]; // Assuming registration number is the last part of the URL
- }
  
  function showLoadingIndicator(parentElement, uniqueId) {
      if (!document.getElementById(uniqueId)) {
@@ -833,119 +552,427 @@ async function saveDevelopmentalMilestones(registrationNumber) {
      }
  }
  
- async function loadFamilyAndSocialHistoryForm(mainContent, registrationNumber) {
+ async function loadDevelopmentalMilestonesForm(mainContent) {
+     console.log("Rendering the form...");
      mainContent.innerHTML = `
-         <div id="family-social-container">
+     <div id="devMilestones-container">
+         <head>
+             <link rel='stylesheet' href='../css/DevMilestones.css'>
+         </head>
+         <body>
              <div class="container">
-                 <h2>Family and Social History</h2>
- 
+                 <h2>Developmental Milestones</h2>
                  <div class="section">
-                     <div class="section-title">Family Composition</div>
-                     <textarea id="familyComposition"></textarea>
+                     <div class="section-title">Motor</div>
+                     <div class="grid-container">
+                         <div class="grid-item">
+                             <label for="neckSupport">Neck Support:</label>
+                             <input type="text" id="neckSupport">
+                         </div>
+                         <div class="grid-item">
+                             <label for="sitting">Sitting:</label>
+                             <input type="text" id="sitting">
+                         </div>
+                         <div class="grid-item">
+                             <label for="crawling">Crawling:</label>
+                             <input type="text" id="crawling">
+                         </div>
+                         <div class="grid-item">
+                             <label for="standing">Standing:</label>
+                             <input type="text" id="standing">
+                         </div>
+                         <div class="grid-item">
+                             <label for="walking">Walking:</label>
+                             <input type="text" id="walking">
+                         </div>
+                     </div>
                  </div>
  
                  <div class="section">
-                     <div class="section-title">Family Health/Social</div>
-                     <textarea id="familyHealthSocial"></textarea>
+                     <div class="section-title">Speech Language</div>
+                     <div class="grid-container">
+                         <div class="grid-item">
+                             <label for="coobing">Cooing/Babbling:</label>
+                             <input type="text" id="coobing">
+                         </div>
+                         <div class="grid-item">
+                             <label for="firstWord">First Word:</label>
+                             <input type="text" id="firstWord">
+                         </div>
+                         <div class="grid-item">
+                             <label for="vocabulary">Vocabulary:</label>
+                             <input type="text" id="vocabulary">
+                         </div>
+                         <div class="grid-item">
+                             <label for="phraseSpeech">Phrase Speech:</label>
+                             <input type="text" id="phraseSpeech">
+                         </div>
+                         <div class="grid-item">
+                             <label for="conversational">Conversational:</label>
+                             <input type="text" id="conversational">
+                         </div>
+                     </div>
                  </div>
  
                  <div class="section">
-                     <div class="section-title">Schooling</div>
-                     <textarea id="schooling"></textarea>
+                     <div class="section-title">Social Emotional</div>
+                     <div class="grid-container">
+                         <div class="grid-item">
+                             <label for="smiling">Smiling/Laughing:</label>
+                             <input type="text" id="smiling">
+                         </div>
+                         <div class="grid-item">
+                             <label for="attachments">Attachments:</label>
+                             <input type="text" id="attachments">
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Feeding</div>
+                     <textarea id="feeding"></textarea>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Elimination</div>
+                     <textarea id="elimination"></textarea>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Teething</div>
+                     <textarea id="teething"></textarea>
                  </div>
  
                  <button id="saveButton">Save</button>
              </div>
-         </div>
+         </body>
+     </div>
      `;
  
-     console.log("Fetching Family and Social History data...");
-     await loadFamilyAndSocialHistory(registrationNumber);
+     console.log("Fetching developmental milestones...");
+     const registrationNumber = "REG-001";
+     await loadDevelopmentalMilestones(registrationNumber);
  
      // Add event listener to the save button
-     document.getElementById("saveButton").addEventListener("click", async () => {
-         await saveFamilyAndSocialHistory(registrationNumber);
+     const saveButton = document.getElementById("saveButton");
+     saveButton.addEventListener("click", async () => {
+         // Add save button spinner
+         saveButton.innerHTML = `<span class="saving-spinner"></span> Saving...`;
+         saveButton.disabled = true;
+ 
+         try {
+             await saveDevelopmentalMilestones(registrationNumber);
+         } finally {
+             saveButton.innerHTML = "Save";
+             saveButton.disabled = false;
+         }
      });
  
-     // Initialize the textareas for dynamic resizing
-     initializeTextareas();
+     // Add spinner styling
+     const spinnerStyles = document.createElement('style');
+     spinnerStyles.innerHTML = `
+         .saving-spinner {
+             display: inline-block;
+             width: 14px;
+             height: 14px;
+             border: 2px solid #ccc;
+             border-top: 2px solid #fff;
+             border-radius: 50%;
+             animation: loading-animation 1s linear infinite;
+             margin-right: 8px;
+         }
+     `;
+     document.head.appendChild(spinnerStyles);
  }
  
- function initializeTextareas() {
-     const textareas = document.querySelectorAll('textarea');
- 
-     textareas.forEach((textarea) => {
-         textarea.addEventListener('input', () => {
-             textarea.style.height = "auto"; // Reset height to auto to recalculate
-             textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height based on content
-         });
- 
-         textarea.addEventListener('blur', () => {
-             textarea.style.height = '30px'; // Reset to default height on blur
-         });
- 
-         // Set initial height based on current content
-         textarea.style.height = "auto";
-         textarea.style.height = `${textarea.scrollHeight}px`;
-     });
- }
- 
- async function loadFamilyAndSocialHistory(registrationNumber) {
+ async function loadDevelopmentalMilestones(registrationNumber) {
      try {
-         const response = await fetch(`/get-family-social-history/${registrationNumber}`);
+         const response = await fetch(`/get-development-milestones/${registrationNumber}`);
          if (!response.ok) {
              throw new Error("Failed to fetch data");
          }
  
          const data = await response.json();
-         console.log("Fetched Family and Social History Data:", data);
  
          if (data && data.data) {
-             const history = data.data;
-             document.getElementById("familyComposition").value = history.FamilyComposition || "";
-             document.getElementById("familyHealthSocial").value = history.FamilyHealthSocial || "";
-             document.getElementById("schooling").value = history.Schooling || "";
-         } else {
-             console.log("No existing Family and Social History data found.");
+             const milestones = JSON.parse(data.data);
+             console.log("Populating form with data...");
+             document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
+             document.getElementById("sitting").value = milestones["Sitting"] || "";
+             document.getElementById("crawling").value = milestones["Crawling"] || "";
+             document.getElementById("standing").value = milestones["Standing"] || "";
+             document.getElementById("walking").value = milestones["Walking"] || "";
+             document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
+             document.getElementById("firstWord").value = milestones["First Word"] || "";
+             document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
+             document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
+             document.getElementById("conversational").value = milestones["Conversational"] || "";
+             document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
+             document.getElementById("attachments").value = milestones["Attachments"] || "";
+             document.getElementById("feeding").value = milestones["Feeding"] || "";
+             document.getElementById("elimination").value = milestones["Elimination"] || "";
+             document.getElementById("teething").value = milestones["Teething"] || "";
          }
      } catch (error) {
-         console.error("Error fetching Family and Social History data:", error.message);
+         console.error("Error fetching developmental milestones:", error.message);
      }
  }
  
- async function saveFamilyAndSocialHistory(registrationNumber) {
+ async function saveDevelopmentalMilestones(registrationNumber) {
      try {
          const data = {
-             FamilyComposition: document.getElementById("familyComposition").value,
-             FamilyHealthSocial: document.getElementById("familyHealthSocial").value,
-             Schooling: document.getElementById("schooling").value,
+             "Neck Support": document.getElementById("neckSupport").value,
+             Sitting: document.getElementById("sitting").value,
+             Crawling: document.getElementById("crawling").value,
+             Standing: document.getElementById("standing").value,
+             Walking: document.getElementById("walking").value,
+             "Cooing/Babbling": document.getElementById("coobing").value,
+             "First Word": document.getElementById("firstWord").value,
+             Vocabulary: document.getElementById("vocabulary").value,
+             "Phrase Speech": document.getElementById("phraseSpeech").value,
+             Conversational: document.getElementById("conversational").value,
+             "Smiling/Laughing": document.getElementById("smiling").value,
+             Attachments: document.getElementById("attachments").value,
+             Feeding: document.getElementById("feeding").value,
+             Elimination: document.getElementById("elimination").value,
+             Teething: document.getElementById("teething").value,
          };
- 
-         console.log("Saving Family and Social History data:", data);
- 
-         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
- 
-         const response = await fetch(`/save-family-social-history/${registrationNumber}`, {
+         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+         const response = await fetch(`/save-development-milestones/${registrationNumber}`, {
              method: "POST",
              headers: {
                  "Content-Type": "application/json",
-                 "X-CSRF-TOKEN": csrfToken, // Include the CSRF token in the request
+                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
              },
              body: JSON.stringify({ data }),
          });
  
-         if (!response.ok) {
+         if (response.ok) {
+             alert("Developmental Milestones saved successfully!");
+         } else {
              throw new Error("Failed to save data");
          }
- 
-         const responseData = await response.json();
-         console.log("Save Response:", responseData);
-         alert(responseData.message || "Data saved successfully!");
      } catch (error) {
-         console.error("Error saving Family and Social History data:", error.message);
-         alert("Failed to save data. Please try again.");
+         console.error("Error saving developmental milestones:", error.message);
+         alert("Error saving Developmental Milestones. Please try again.");
      }
  }
+ 
+ 
+
+ //Get the Family and Social History Link
+
+ const familyAndSocial = document.querySelector('.floating-menu a[href="#familyAndSocial"]');
+
+familyAndSocial.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    const mainContent = document.querySelector('.main');
+
+    // Show a loading indicator while the form loads
+    showLoadingIndicator(mainContent, "family-social-loading");
+
+    try {
+        console.log("Loading Family and Social History form...");
+        const registrationNumber = getRegistrationNumberFromURL();
+        console.log("Registration Number:", registrationNumber);
+
+        await loadFamilyAndSocialHistoryForm(mainContent, registrationNumber);
+    } catch (error) {
+        console.error("Error loading Family and Social History form:", error.message);
+        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+    } finally {
+        console.log("Removing loading indicator...");
+        removeLoadingIndicator("family-social-loading");
+    }
+});
+
+function getRegistrationNumberFromURL() {
+    const urlParts = window.location.pathname.split('/');
+    return urlParts[urlParts.length - 1]; // Assuming registration number is the last part of the URL
+}
+
+function showLoadingIndicator(parentElement, uniqueId) {
+    if (!document.getElementById(uniqueId)) {
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = uniqueId;
+        loadingIndicator.style = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-color: #007bff transparent #007bff transparent;
+            animation: loading-animation 1.2s linear infinite;
+            z-index: 1000;
+        `;
+        parentElement.appendChild(loadingIndicator);
+
+        if (!document.getElementById('loading-animation-styles')) {
+            const loadingAnimationStyles = document.createElement('style');
+            loadingAnimationStyles.id = 'loading-animation-styles';
+            loadingAnimationStyles.textContent = `
+                @keyframes loading-animation {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(loadingAnimationStyles);
+        }
+    }
+}
+
+function removeLoadingIndicator(uniqueId) {
+    const loadingIndicator = document.getElementById(uniqueId);
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
+}
+
+async function loadFamilyAndSocialHistoryForm(mainContent, registrationNumber) {
+    mainContent.innerHTML = `
+        <div id="family-social-container">
+            <div class="container">
+                <h2>Family and Social History</h2>
+
+                <div class="section">
+                    <div class="section-title">Family Composition</div>
+                    <textarea id="familyComposition"></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Family Health/Social</div>
+                    <textarea id="familyHealthSocial"></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Schooling</div>
+                    <textarea id="schooling"></textarea>
+                </div>
+
+                <button id="saveButton">Save</button>
+            </div>
+        </div>
+    `;
+
+    console.log("Fetching Family and Social History data...");
+    await loadFamilyAndSocialHistory(registrationNumber);
+
+    // Add event listener to the save button with spinner
+    const saveButton = document.getElementById("saveButton");
+    saveButton.addEventListener("click", async () => {
+        // Show spinner while saving
+        saveButton.innerHTML = `<span class="saving-spinner"></span> Saving...`;
+        saveButton.disabled = true;
+
+        try {
+            await saveFamilyAndSocialHistory(registrationNumber);
+        } finally {
+            // Reset save button to its normal state
+            saveButton.innerHTML = "Save";
+            saveButton.disabled = false;
+        }
+    });
+
+    // Initialize the textareas for dynamic resizing
+    initializeTextareas();
+
+    // Add spinner styles
+    const spinnerStyles = document.createElement('style');
+    spinnerStyles.innerHTML = `
+        .saving-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ccc;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: loading-animation 1s linear infinite;
+            margin-right: 8px;
+        }
+    `;
+    document.head.appendChild(spinnerStyles);
+}
+
+function initializeTextareas() {
+    const textareas = document.querySelectorAll('textarea');
+
+    textareas.forEach((textarea) => {
+        textarea.addEventListener('input', () => {
+            textarea.style.height = "auto"; // Reset height to auto to recalculate
+            textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height based on content
+        });
+
+        textarea.addEventListener('blur', () => {
+            textarea.style.height = '30px'; // Reset to default height on blur
+        });
+
+        // Set initial height based on current content
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    });
+}
+
+async function loadFamilyAndSocialHistory(registrationNumber) {
+    try {
+        const response = await fetch(`/get-family-social-history/${registrationNumber}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        console.log("Fetched Family and Social History Data:", data);
+
+        if (data && data.data) {
+            const history = data.data;
+            document.getElementById("familyComposition").value = history.FamilyComposition || "";
+            document.getElementById("familyHealthSocial").value = history.FamilyHealthSocial || "";
+            document.getElementById("schooling").value = history.Schooling || "";
+        } else {
+            console.log("No existing Family and Social History data found.");
+        }
+    } catch (error) {
+        console.error("Error fetching Family and Social History data:", error.message);
+    }
+}
+
+async function saveFamilyAndSocialHistory(registrationNumber) {
+    try {
+        const data = {
+            FamilyComposition: document.getElementById("familyComposition").value,
+            FamilyHealthSocial: document.getElementById("familyHealthSocial").value,
+            Schooling: document.getElementById("schooling").value,
+        };
+
+        console.log("Saving Family and Social History data:", data);
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(`/save-family-social-history/${registrationNumber}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken, // Include the CSRF token in the request
+            },
+            body: JSON.stringify({ data }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to save data");
+        }
+
+        const responseData = await response.json();
+        console.log("Save Response:", responseData);
+        alert(responseData.message || "Data saved successfully!");
+    } catch (error) {
+        console.error("Error saving Family and Social History data:", error.message);
+        alert("Failed to save data. Please try again.");
+    }
+}
+
  
 
  //Get the Past Medical History Link
@@ -1002,7 +1029,6 @@ pastMedicalHistory.addEventListener('click', (event)=>{
  });
 
  //Examination 
-
  document.addEventListener('DOMContentLoaded', (event) => {
   const Examination = document.querySelector('.floating-menu a[href="#Examination"]');
 
@@ -1013,7 +1039,7 @@ pastMedicalHistory.addEventListener('click', (event)=>{
       const registrationNumber = getRegistrationNumberFromUrl();
       console.log("Registration number:", registrationNumber);
 
-      // Show loading indicator
+      // Show loading indicator for form loading
       const loadingIndicator = document.createElement('div');
       loadingIndicator.id = 'loading-indicator';
       loadingIndicator.style.cssText = `
@@ -1088,7 +1114,7 @@ pastMedicalHistory.addEventListener('click', (event)=>{
                 <textarea id="musculoskeletalTextarea"></textarea>
               </div>
             </div>
-            <button type="submit">Save</button>
+            <button type="submit" id="saveButton">Save</button>
           </div>
         `;
 
@@ -1097,12 +1123,15 @@ pastMedicalHistory.addEventListener('click', (event)=>{
         mainContent.innerHTML = ''; // Clear existing content
         mainContent.appendChild(examinationForm);
 
-        // Remove loading indicator
+        // Remove form loading indicator
         document.body.removeChild(loadingIndicator);
 
         // Add event listener to the save button
         examinationForm.addEventListener('submit', async (event) => {
           event.preventDefault();
+
+          // Show the save button loading indicator
+          showSaveButtonLoadingIndicator();
 
           // Gather data from the form inputs
           const examinationData = {
@@ -1135,14 +1164,18 @@ pastMedicalHistory.addEventListener('click', (event)=>{
             }
           
             console.log('CNS data saved successfully!');
+            alert("Examination data saved successfully!");
+
           } catch (error) {
             console.error('Error saving CNS data:', error);
+            alert("Error saving CNS data. Please try again.");
+          } finally {
+            // Remove the save button loading indicator
+            removeSaveButtonLoadingIndicator();
           }
-          
         });
 
-        // Textarea auto-resize
-        // (Optional implementation for auto-resize functionality)
+        // Textarea auto-resize (Optional implementation for auto-resize functionality)
       } catch (error) {
         console.error('Error loading examination form:', error);
         document.body.removeChild(loadingIndicator);
@@ -1151,10 +1184,42 @@ pastMedicalHistory.addEventListener('click', (event)=>{
   }
 });
 
+// Helper functions to show/remove the save button loading indicator
+function showSaveButtonLoadingIndicator() {
+  const saveButton = document.getElementById('saveButton');
+  saveButton.disabled = true;
+  saveButton.innerHTML = 'Saving... <span class="loading-spinner"></span>';
+
+  const spinner = document.createElement('span');
+  spinner.classList.add('loading-spinner');
+  spinner.style.cssText = `
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+  `;
+  saveButton.appendChild(spinner);
+}
+
+function removeSaveButtonLoadingIndicator() {
+  const saveButton = document.getElementById('saveButton');
+  saveButton.disabled = false;
+  saveButton.innerHTML = 'Save';
+  const spinner = saveButton.querySelector('.loading-spinner');
+  if (spinner) {
+    spinner.remove();
+  }
+}
+
 function getRegistrationNumberFromUrl() {
   const pathParts = window.location.pathname.split('/');
   return pathParts[pathParts.length - 1];
 }
+
 
   //Get CarePlan Link
 
