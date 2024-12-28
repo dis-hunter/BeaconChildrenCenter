@@ -61,3 +61,11 @@ Route::post('/perinatal-history/{registrationNumber}', [PerinatalHistoryControll
 
 
 
+use App\Http\Controllers\PastMedicalHistoryController;
+
+Route::get('/past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'getPastMedicalHistory']);
+Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'savePastMedicalHistory']);
+
+
+
+
