@@ -145,7 +145,7 @@
     <a href="#"><span>👥</span> Parents</a>
     <a href="#"><span>📅</span> Appointments</a>
     <a href="#"><span>🕒</span> Visit</a>
-    <a href="#"><span>👨‍⚕️</span> Doctors</a>
+    <a href="<?php echo e(route('doctors')); ?>"><span>👨‍⚕️</span> Doctors</a>
     <a href="#"><span>💰</span> Payments</a>
     <a href="#"><span>👥</span> Staff</a>
 </div>

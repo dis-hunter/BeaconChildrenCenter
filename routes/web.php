@@ -7,7 +7,7 @@ use App\Http\Controllers\DoctorsDisplayController;
 
 //Doctor Form Routes
 
-Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
+Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors');
 Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 //Therapist Routes

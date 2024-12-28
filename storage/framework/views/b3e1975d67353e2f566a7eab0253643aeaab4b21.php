@@ -5,188 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctors List</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-        :root {
-            --primary-color: #2563eb;
-            --primary-light: #dbeafe;
-            --success-color: #059669;
-            --success-light: #d1fae5;
-            --warning-color: #d97706;
-            --warning-light: #fef3c7;
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
-            --border-color: #e5e7eb;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
-            padding: 32px;
-            background-color: #f9fafb;
-            color: var(--text-primary);
-            line-height: 1.5;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            padding: 32px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            font-size: 1.875rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
+            color: #333;
+            margin-bottom: 24px;
         }
 
         .search-container {
             display: flex;
-            gap: 16px;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 24px;
         }
 
         .search-bar {
             flex-grow: 1;
-            position: relative;
+            margin-right: 16px;
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 16px 12px 40px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: 12px center;
-            background-size: 20px;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
         }
 
         .table-wrapper {
-            max-height: 600px;
-            overflow: auto;
-            border: 1px solid var(--border-color);
+            max-height: 300px; /* Reduced height for a smaller display area */
+            overflow-x: auto;
+            overflow-y: auto;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            margin-top: 16px;
         }
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
+            margin-top: 16px;
+            white-space: nowrap;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
         }
 
         th {
-            position: sticky;
-            top: 0;
-            background-color: #f8fafc;
-            padding: 12px 16px;
+            color: #666;
             font-weight: 500;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-bottom: 1px solid var(--border-color);
+            background-color: #f9f9f9;
         }
 
         td {
-            padding: 16px;
-            color: var(--text-primary);
-            font-size: 0.875rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        tr:hover {
-            background-color: #f8fafc;
+            color: #555;
         }
 
         .specialization {
             padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            border-radius: 16px;
+            font-size: 14px;
+            display: inline-block;
         }
 
         .cardiology {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
+            background-color: #e8f0fe;
+            color: #1a73e8;
         }
 
         .neurology {
-            background-color: var(--success-light);
-            color: var(--success-color);
+            background-color: #ffe8ec;
+            color: #e91e63;
         }
 
         .calendar-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
+            font-size: 18px;
+            color: #0066cc;
             cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--primary-color);
-        }
-
-        .calendar-icon:hover {
-            background-color: var(--primary-light);
         }
 
         .no-results {
             text-align: center;
-            padding: 48px 0;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        /* Scrollbar styling */
-        .table-wrapper::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        .table-wrapper::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .table-wrapper::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        .table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 16px;
-            }
-
-            .container {
-                padding: 16px;
-            }
-
-            .table-wrapper {
-                max-height: 400px;
-            }
+            color: #777;
+            font-style: italic;
+            margin-top: 16px;
         }
     </style>
 </head>
@@ -265,4 +186,5 @@
         }
     </script>
 </body>
-</html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/display_doctors.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/display_doctors.blade.php ENDPATH**/ ?>
