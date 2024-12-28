@@ -323,7 +323,7 @@
             query = query.toLowerCase();
             const rows = document.querySelectorAll('.doctor-row');
             let found = false;
-
+//iterate over rows and check if query is in the row
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
                 if (text.includes(query)) {

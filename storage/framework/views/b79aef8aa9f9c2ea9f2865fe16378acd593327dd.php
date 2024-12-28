@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Therapist Interface</title>
+    <title>Receiptionist Dashboard</title>
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -268,6 +268,7 @@
 </div>
 
 <script>
+    // Sidebar toggle 
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const main = document.querySelector('.main');
