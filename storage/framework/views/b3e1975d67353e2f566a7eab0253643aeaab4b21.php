@@ -256,10 +256,13 @@
                            placeholder="Search doctors by name, ID, or specialization..."
                            onkeyup="searchDoctors(this.value)">
                 </div>
+                <form action="<?php echo e(route('doctor.form')); ?>" method="GET">
                 <button type="submit" class="add-button">
                 <span>+</span>
                 Add Doctor
             </button>
+            </form>
+
             </div>
 
             <div class="table-wrapper">
