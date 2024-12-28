@@ -67,10 +67,12 @@ Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 's
 
 Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
 
-Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
+Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
 Route::get('/triageDashboard', function () {
     return view('triageDash');
 });
 Route::post('/triage', [TriageController::class, 'store']);
 Route::get('/triage', [TriageController::class, 'create'])->name('triage');
+Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);

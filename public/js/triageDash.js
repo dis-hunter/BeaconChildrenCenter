@@ -114,25 +114,27 @@ const patientQueue = [
   });
   
   // Start consultation button event listener
-  startConsultationButton.addEventListener('click', () => {
-    const activePatient = patientList.querySelector('.active');
-    if (activePatient) {
-      // Show loading indicator
-      showLoadingIndicator();
-  
-      // Get the patient ID from the data attribute
-      const patientId = activePatient.dataset.patientId;
-  
-      // Simulate a slight delay to show the loading indicator
-      setTimeout(() => {
-        // Redirect to the consultation page with the patient ID
-        window.location.href = `/triage/${patientId}`;
-      }, 500); // Delay to ensure loading indicator is visible
-    } else {
-      // Handle case where no patient is selected (e.g., show an alert)
-      alert("Please select a patient first.");
-    }
-  });
+  // Start consultation button event listener
+startConsultationButton.addEventListener('click', () => {
+  const activePatient = patientList.querySelector('.active');
+  if (activePatient) {
+    // Show loading indicator
+    showLoadingIndicator();
+
+    // Get the patient ID from the data attribute
+    const patientId = activePatient.dataset.patientId;
+
+    // Simulate a slight delay to show the loading indicator
+    setTimeout(() => {
+      // Redirect to the consultation page with the patient ID as a query parameter
+      window.location.href = `http://127.0.0.1:8000/triage?patientId=${patientId}`;
+    }, 500); // Delay to ensure loading indicator is visible
+  } else {
+    // Handle case where no patient is selected (e.g., show an alert)
+    alert("Please select a patient first.");
+  }
+});
+
   
   // Function to show the loading indicator
   function showLoadingIndicator() {
@@ -148,6 +150,8 @@ const patientQueue = [
       document.body.removeChild(loadingIndicator);
     }
   }
+  // Function to get the patientId from the URL
+
   
   // Inject loading animation styles into the document head
   const loadingAnimationStyles = document.createElement('style');

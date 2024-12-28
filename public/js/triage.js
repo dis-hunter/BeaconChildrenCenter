@@ -100,14 +100,63 @@ function getChildIdFromUrl() {
 }
 
 // Initialize when DOM is loaded
+
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     const childId = getChildIdFromUrl();
+//     fetch(`/triage/${childId}`)
+//         .then(response => response.json())
+//         // .then(data => renderTriageExamination(data.triageData))
+//         .catch(error => {
+//             console.error('Error:', error);
+//             renderTriageExamination({}); // Render with empty data if fetch fails
+//         });
+// });
+
+function getPatientIdFromUrl() {
+  // Get the current URL's query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+
+  // Retrieve the 'patientId' parameter
+  const patientId = urlParams.get('patientId');
+
+  // Log the patientId to the console
+  console.log(`Patient ID: ${patientId}`);
+
+  // Return the patientId (optional, if needed for further use)
+  return patientId;
+}
+// Function to get patientId from the URL
+
+
+// Function to fetch triage data from the server
+async function fetchTriageData(patientId) {
+  try {
+    console.log("go");
+    const response = await fetch(`/triage-data/${patientId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch triage data');
+    }
+
+    const data = await response.json();
+    console.log('Triage Data:', data.data); // Log the data in the console
+  } catch (error) {
+    console.error('Error fetching triage data:', error);
+  }
+}
+
+// DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
-    const childId = getChildIdFromUrl();
-    fetch(`/triage/${childId}`)
-        .then(response => response.json())
-        // .then(data => renderTriageExamination(data.triageData))
-        .catch(error => {
-            console.error('Error:', error);
-            renderTriageExamination({}); // Render with empty data if fetch fails
-        });
+  const patientId = getPatientIdFromUrl(); // Get the patientId from the URL
+  if (patientId) {
+    fetchTriageData(patientId); // Fetch data if patientId is present
+  } else {
+    console.log('No patientId found in URL');
+  }
 });
+
+
+// Call the function when the page loads
+
+
 

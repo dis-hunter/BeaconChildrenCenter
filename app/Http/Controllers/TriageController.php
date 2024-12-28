@@ -95,4 +95,21 @@ class TriageController extends Controller
             return redirect()->back()->with('error', 'No parent found with the specified phone number.');
         }
     }
+    public function getTriageData($child_id)
+{
+    // Fetch the triage record for the given child_id
+    $triageRecord = Triage::where('child_id', $child_id)->first();
+
+    if ($triageRecord) {
+        return response()->json([
+            'data' => $triageRecord,
+        ], 200);
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'No triage data found for the given child_id',
+        ], 404);
+    }
+}
+
 }

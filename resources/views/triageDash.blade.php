@@ -73,6 +73,8 @@
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
-  <script src="{{asset ('js/triageDash.js')}}"></script>
+  <script src="{{asset ('../../public/js/triageDash.js')}}">
+    
+  </script>
 </body>
 </html>
