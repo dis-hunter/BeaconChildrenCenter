@@ -9,7 +9,7 @@
                     <div class="card-body p-md-5 mx-md-4">
 
                         <div class="text-center">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" style="width: 185px;" alt="logo">
+                            <img src="" style="width: 185px;" alt="logo">AddImage
                             <h4 class="mt-1 mb-5 pb-1">Beacon Children Center</h4>
                         </div>
 
@@ -118,45 +118,22 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="col-md-8">
-                                            <div class="form-floating mb-4">
-                                                <input type="password" id="password-input" name="password" class="form-control" placeholder="Password" wire:model="password" required />
-                                                <label for="password">Password</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 mb-4">
-                                            <button class="btn btn-dark w-100" style="padding:10px;" type="button" wire:click="generatePassword">Generate</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
-                                    <label for="password-meter">Password Strength</label>
-                                    <div class="password-meter">
-                                        <div class="meter-section rounded me-2"></div>
-                                        <div class="meter-section rounded me-2"></div>
-                                        <div class="meter-section rounded me-2"></div>
-                                        <div class="meter-section rounded"></div>
-                                    </div>
-                                    <div id="passwordHelp" class="form-text text-muted mb-4">Use 8 or more characters with a mix of
-                                        letters, numbers &
-                                        symbols.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-4">
-                                        <input type="password" id="confirmpassword" name="confirmpassword" class="form-control" placeholder="Confirm Password" wire:model="confirmpassword" required />
-                                        <label for="confirmpassword">Confirm Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6"></div>
-                            </div>
+                            
+                            <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('password-generator')->html();
+} elseif ($_instance->childHasBeenRendered('93Rp1pZ')) {
+    $componentId = $_instance->getRenderedChildComponentId('93Rp1pZ');
+    $componentTag = $_instance->getRenderedChildComponentTagName('93Rp1pZ');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('93Rp1pZ');
+} else {
+    $response = \Livewire\Livewire::mount('password-generator');
+    $html = $response->html();
+    $_instance->logRenderedChild('93Rp1pZ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
 
                             <div class="text-center pt-1 mb-5 pb-1">
                                 <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" style="width:100%">Register</button>
@@ -170,6 +147,7 @@
                             </div>
 
                         </form>
+                        
 
                     </div>
                 </div>

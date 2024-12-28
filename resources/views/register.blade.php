@@ -9,7 +9,7 @@
                     <div class="card-body p-md-5 mx-md-4">
 
                         <div class="text-center">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" style="width: 185px;" alt="logo">
+                            <img src="" style="width: 185px;" alt="logo">AddImage
                             <h4 class="mt-1 mb-5 pb-1">Beacon Children Center</h4>
                         </div>
 
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-6">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="col-md-8">
@@ -154,7 +154,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6"></div>
-                            </div>
+                            </div> --}}
+                            @livewire('password-generator')
 
                             <div class="text-center pt-1 mb-5 pb-1">
                                 <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" style="width:100%">Register</button>
@@ -168,6 +169,7 @@
                             </div>
 
                         </form>
+                        
 
                     </div>
                 </div>

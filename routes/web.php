@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function(){
     return view('home');
 })->name('home');
+Route::get('livewire/password-generator', function(){
+    return view('livewire.password-generator');
+});
 
 Route::post('/example', [ExampleController::class,'store'])->name('example.store');
 Route::get('/example',[ExampleController::class,'fetch'])->name('example.fetch');

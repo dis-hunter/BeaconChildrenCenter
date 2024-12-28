@@ -5,24 +5,31 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Enums\PasswordPart;
 
-class PasswordGenerate extends Component
+class PasswordGenerator extends Component
 {
+    public function render()
+    {
+        return view('livewire.password-generator');
+    }
+
     public $password = '';
     public $confirmpassword='';
+
 
 
     public function generatePassword()
     {
 
         $characters = PasswordPart::Lowercase->value;
-        $characters .= $this->uppercase ? PasswordPart::Uppercase->value : '';
-        $characters .= $this->numbers ? PasswordPart::Numbers->value : '';
-        $characters .= $this->symbols ? PasswordPart::Symbols->value : '';
-
-        $this->password = '';
+        $characters .= PasswordPart::Uppercase->value;
+        $characters .= PasswordPart::Numbers->value;
+        $characters .= PasswordPart::Symbols->value;
 
         $this->password = $this->generateRandomString(10, $characters);
         $this->confirmpassword=$this->password;
+        $this->dispatchBrowserEvent('passwordGenerated',['password'=> $this->password]);
+        //test
+        // dd('Triggered');
     
     }
 
@@ -36,10 +43,5 @@ class PasswordGenerate extends Component
         }
 
         return $randomString;
-    }
-
-    public function render()
-    {
-        return view('register');
     }
 }
