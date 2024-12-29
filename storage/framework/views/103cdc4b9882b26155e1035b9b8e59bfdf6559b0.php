@@ -73,6 +73,8 @@
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
-  <script src="<?php echo e(asset ('js/triageDash.js')); ?>"></script>
+  <script src="<?php echo e(asset ('../../public/js/triageDash.js')); ?>">
+    
+  </script>
 </body>
 </html><?php /**PATH C:\Users\giftg\beaconfolder\BeaconChildrenCenter\resources\views/triageDash.blade.php ENDPATH**/ ?>

@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends Model
 {
     use HasFactory;
-    protected $table='staff';
+
+    protected $fillable = ['fullname', 'telephone', 'email', 'gender_id', 'role_id'];
+
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class, 'staff_id', 'id');
+    }
 }

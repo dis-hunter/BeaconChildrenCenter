@@ -16,9 +16,9 @@ class ParentsController extends Controller
     {
         // Validate incoming request data
         $validatedData = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'middlename' => 'nullable|string|max:255',
-            'surname' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'sur_name' => 'required|string|max:255',
             'dob' => 'required|date',
             'gender_id' => 'required|integer',
             'telephone' => 'required|string|max:15',
@@ -32,9 +32,9 @@ class ParentsController extends Controller
 
         // Combine fullname fields into a JSON object
         $fullname = [
-            'firstname' => $validatedData['firstname'],
-            'middlename' => $validatedData['middlename'],
-            'surname' => $validatedData['surname'],
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'],
+            'sur_name' => $validatedData['sur_name'],
         ];
         
 
@@ -68,5 +68,22 @@ class ParentsController extends Controller
         } else {
             return redirect()->back()->with('error', 'No parent found with the specified phone number.');
         }
+    }
+    
+    public function getChildren(Request $request)
+    {
+        $validatedData = $request->validate([
+            'telephone' => 'required|string|max:15',
+        ]);
+
+        // Search for the parent using the telephone
+        $parent = Parents::where('telephone', $validatedData['telephone'])->first();
+
+        if (!$parent) {
+            return redirect()->back()->with('error', 'Parent not found.');
+        }
+
+        // Pass parent_id to the route for ChildrenController
+        return redirect()->route('children.search', ['parent_id' => $parent->id]);
     }
 }
