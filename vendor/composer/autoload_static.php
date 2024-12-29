@@ -531,6 +531,8 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DoctorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorsController.php',
         'App\\Http\\Controllers\\FamilySocialHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/FamilySocialHistoryController.php',
+        'App\\Http\\Controllers\\PastMedicalHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/PastMedicalHistoryController.php',
+        'App\\Http\\Controllers\\PerinatalHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/PerinatalHistoryController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',

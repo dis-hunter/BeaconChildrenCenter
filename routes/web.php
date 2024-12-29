@@ -69,3 +69,13 @@ Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHisto
 
 
 
+use App\Http\Controllers\GeneralExamController;
+
+Route::get('/general-exam/{registrationNumber}', [GeneralExamController::class, 'getGeneralExam']);
+Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class, 'saveGeneralExam']);
+
+
+
+
+
+
