@@ -42,7 +42,7 @@ class Parents extends Model
     
     public function children()
     {
-        return $this->hasMany(children::class);
+        return $this->belongsToMany(children::class,'child_parent','parent_id','child_id');
     }
 
     // Accessor for fullname (assuming it's stored as JSON)

@@ -36,10 +36,6 @@ class children extends Model
         return $this->belongsTo(Gender::class);
     }
 
-    public function parent()
-    {
-        return $this->belongsTo(Parents::class);
-    }
 
     // Define the relationship to the Triage model
     public function triage()
@@ -51,5 +47,9 @@ class children extends Model
     public function getFullnameAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function parent(){
+        return $this->belongsToMany(Parents::class,'child_parent','child_id','parent_id');
     }
 }
