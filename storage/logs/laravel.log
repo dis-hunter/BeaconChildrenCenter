@@ -8857,3 +8857,7 @@ CONTEXT:  unnamed portal parameter $1 = '...' at C:\\xampp\\htdocs\\Beacon Child
 "} 
 [2024-12-28 12:59:51] local.INFO: getTriageData called with registration number: REG-001  
 [2024-12-28 12:59:55] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2024-12-30 05:20:53] local.INFO: getTriageData called with registration number: REG-001  
+[2024-12-30 05:20:57] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2024-12-30 05:52:28] local.INFO: getTriageData called with registration number: REG-001  
+[2024-12-30 05:52:31] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 

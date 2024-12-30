@@ -76,6 +76,14 @@ Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class,
 
 
 
+use App\Http\Controllers\DevelopmentAssessmentController;
+
+Route::get('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'getDevelopmentAssessment']);
+Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'saveDevelopmentAssessment']);
+
+
+
+
 
 
 
