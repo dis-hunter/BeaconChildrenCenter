@@ -82,7 +82,7 @@ public function getDoctorsBySpecialization(Request $request)
     $specializationId = $request->query('specialization_id');
 
     // Fetch doctors with the matching specialization ID
-    $doctors = Doctor::where('specialization_id', $specializationId)->get();
+    $doctors = Staff::where('specialization_id', $specializationId)->get();
 
     // Return the data as a JSON response
     return response()->json([

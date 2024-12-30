@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\DoctorsDisplayController;
+use App\Http\Controllers\appointmentsController;
+
+
 
 //Doctor Form Routes
 
@@ -70,5 +73,7 @@ Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
 Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
 // Add this route to handle the POST request for fetching staff full names
 Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
+Route::get('/appointments', [appointmentsController::class, 'fetchStaff']);
+
 
 
