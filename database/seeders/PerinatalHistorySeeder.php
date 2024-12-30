@@ -19,7 +19,7 @@ class PerinatalHistorySeeder extends Seeder
             [
                 "child_id"=> 1,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "preConception" => "Planned pregnancy with prenatal vitamins",
                     "antenatalHistory" => "Routine antenatal visits with no complications",
                     "parity" => "1",
@@ -34,12 +34,12 @@ class PerinatalHistorySeeder extends Seeder
                     "juandice" => "Mild, resolved without treatment",
                     "rds" => "None",
                     "sepsis" => "Negative blood cultures"
-                ],
+                ]),
             ],
             [
                 "child_id"=> 2,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "preConception" => "Unplanned but healthy pregnancy",
                     "antenatalHistory" => "Gestational diabetes managed with diet",
                     "parity" => "2",
@@ -54,7 +54,7 @@ class PerinatalHistorySeeder extends Seeder
                     "juandice" => "Phototherapy required",
                     "rds" => "Moderate, treated with CPAP",
                     "sepsis" => "Prophylactic antibiotics given"
-                ],
+                ]),
             ],
         ]);
     }

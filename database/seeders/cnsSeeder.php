@@ -20,7 +20,7 @@ class cnsSeeder extends Seeder
                 "visit_id"=> 1,
                 "child_id"=> 1,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "avpu" => "A", // Alert
                     "vision" => "Normal; no issues reported",
                     "hearing" => "Normal; responds well to sound",
@@ -29,13 +29,13 @@ class cnsSeeder extends Seeder
                     "cardiovascular" => "Normal heart rate and rhythm; no murmurs detected",
                     "respiratory" => "Clear breath sounds; no wheezing or stridor",
                     "musculoskeletal" => "Full range of motion; no pain or swelling observed"
-                ],
+                ]),
             ],
             [
                 "visit_id"=> 2,
                 "child_id"=> 2,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "avpu" => "V", // Responds to Verbal stimuli
                     "vision" => "Mild myopia; corrected with glasses",
                     "hearing" => "Moderate hearing loss in left ear; requires further evaluation",
@@ -44,7 +44,7 @@ class cnsSeeder extends Seeder
                     "cardiovascular" => "Elevated heart rate; follow-up recommended",
                     "respiratory" => "Mild wheezing on exertion; asthma suspected",
                     "musculoskeletal" => "Minor joint stiffness in the morning; improves with movement"
-                ],
+                ]),
             ],
         ]);
     }

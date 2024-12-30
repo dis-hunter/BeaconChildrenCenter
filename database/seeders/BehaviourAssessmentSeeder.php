@@ -20,7 +20,7 @@ class BehaviourAssessmentSeeder extends Seeder
                 "visit_id"=> 1,
                 "child_id"=> 1,
                 "doctor_id"=> 2,
-                "data"=>[
+                "data"=>json_encode([
                     "HyperActivity" => "Moderate hyperactivity observed in play",
                     "Attention" => "Short attention span but improves with engagement",
                     "SocialInteractions" => "Interacts well with peers but needs encouragement",
@@ -31,13 +31,13 @@ class BehaviourAssessmentSeeder extends Seeder
                     "SensoryProcessing" => "Sensitive to loud noises and bright lights",
                     "Sleep" => "Sleeps well but occasional difficulty settling at bedtime",
                     "Adaptive" => "Independent in dressing but needs help with shoe tying"
-                ],
+                ]),
             ],
             [
                 "visit_id"=> 2,
                 "child_id"=> 2,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "HyperActivity" => "Low hyperactivity; calm during structured tasks",
                     "Attention" => "Good focus on tasks of interest; easily distracted otherwise",
                     "SocialInteractions" => "Enjoys group activities but hesitant to initiate interaction",
@@ -48,7 +48,7 @@ class BehaviourAssessmentSeeder extends Seeder
                     "SensoryProcessing" => "Avoids sticky textures but tolerates most other sensory inputs",
                     "Sleep" => "Regular sleep patterns with no known disturbances",
                     "Adaptive" => "Manages daily routines well; independent in most activities"
-            ],
+            ]),
         ],
         ]);
     }

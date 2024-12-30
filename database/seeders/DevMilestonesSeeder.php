@@ -20,7 +20,7 @@ class DevMilestonesSeeder extends Seeder
                 "visit_id"=> 1,
                 "child_id"=> 1,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                         "Neck Support" => "3", // Early neck support development, starting to hold up head
                         "Sitting" => "6", // Can sit without support
                         "Crawling" => "8", // Crawls confidently
@@ -36,13 +36,13 @@ class DevMilestonesSeeder extends Seeder
                         "Feeding" => "12", // Can eat independently with minor mess
                         "Elimination" => "18", // Starts toilet training
                         "Teething" => "6" // First teeth emerge
-                    ],
+                    ]),
                 ],
             [
                 "visit_id"=> 2,
                 "child_id"=> 2,
                 "doctor_id"=> 2,
-                "data" =>[
+                "data" =>json_encode([
                     "Neck Support" => "4", // Holds head up steadily
                     "Sitting" => "7", // Sits with minimal wobbling
                     "Crawling" => "9", // Crawls quickly and explores surroundings
@@ -58,7 +58,7 @@ class DevMilestonesSeeder extends Seeder
                     "Feeding" => "10", // Handles finger foods well
                     "Elimination" => "20", // Nearly toilet-trained
                     "Teething" => "7" // Teething well underway
-                ],
+                ]),
             ]
         ]);
     }

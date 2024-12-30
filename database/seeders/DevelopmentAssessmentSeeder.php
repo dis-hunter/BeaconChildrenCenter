@@ -20,7 +20,7 @@ class DevelopmentAssessmentSeeder extends Seeder
                 "visit_id"=> 1,
                 "child_id"=> 1,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "grossMotor" => "Able to walk independently; runs with balance",
                     "fineMotor" => "Can hold a pencil and draw simple shapes",
                     "speech" => "Speaks in short sentences; vocabulary improving",
@@ -31,13 +31,13 @@ class DevelopmentAssessmentSeeder extends Seeder
                     "speechDevAge" => "4", // Speech skills development age
                     "selfDevAge" => "4", // Self-care skills development age
                     "cognitiveDevAge" => "4.5" // Cognitive skills development age
-                ],
+                ]),
             ],
             [
                 "visit_id"=> 2,
                 "child_id"=> 2,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "grossMotor" => "Walks with support; difficulty running or jumping",
                     "fineMotor" => "Can stack blocks but struggles with precise tasks",
                     "speech" => "Limited vocabulary; uses gestures to communicate",
@@ -48,7 +48,7 @@ class DevelopmentAssessmentSeeder extends Seeder
                     "speechDevAge" => "2.5", // Speech skills development age
                     "selfDevAge" => "2", // Self-care skills development age
                     "cognitiveDevAge" => "3" // Cognitive skills development age
-                ],
+                ]),
             ],
         ]);
     }

@@ -26,6 +26,7 @@ class StaffSeeder extends Seeder
                 'staff_no' => 1,
                 'gender_id' => 1,
                 'role_id' => 1,
+                'specialization_id'=>null,
  
             ],
             [
@@ -46,6 +47,7 @@ class StaffSeeder extends Seeder
                 'staff_no' => 3,
                 'gender_id' => 2,
                 'role_id' => 3,
+                'specialization_id'=>null,
             ],
             [
                 'fullname' => json_encode(['first_name' => 'Admin']),
@@ -55,6 +57,7 @@ class StaffSeeder extends Seeder
                 'staff_no' => 4,
                 'gender_id' => 1,
                 'role_id' => 4,
+                'specialization_id'=>null,
             ],
         ]);
     }

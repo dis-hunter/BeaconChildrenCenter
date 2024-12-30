@@ -20,6 +20,7 @@ class AppointmentSeeder extends Seeder
                 'child_id' => 1,
                 'doctor_id' => 2,
                 'staff_id'=>3,
+                'appointment_title'=>'Appointment Title',
                 'appointment_date' => '2025-01-04',
                 'start_time'=>'10:00:00',
                 'end_time'=>'11:00:00',
@@ -29,9 +30,10 @@ class AppointmentSeeder extends Seeder
                 'child_id' => 2,
                 'doctor_id' => 2,
                 'staff_id'=>3,
+                'appointment_title'=>'Appointment Title',
                 'appointment_date' => '2024-01-04',
                 'start_time'=>'11:00:00',
-                'start_time'=>'12:00:00',
+                'end_time'=>'12:00:00',
                 'status'=>'pending',
             ]
             ]);

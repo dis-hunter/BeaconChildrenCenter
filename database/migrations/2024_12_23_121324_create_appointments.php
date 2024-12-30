@@ -28,6 +28,7 @@ return new class extends Migration
                 ->constrained('staff','id')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
+            $table->string('appointment_title');
             $table->date('appointment_date');
             $table->time('start_time');
             $table->time('end_time');

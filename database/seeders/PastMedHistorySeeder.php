@@ -19,20 +19,20 @@ class PastMedHistorySeeder extends Seeder
             [
                 "child_id"=> 1,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "illnesses" => "Frequent colds and flu,Diagnosed with mild asthma,Occasional stomach upsets",
                     "investigations" => "Blood tests for allergies,Chest X-ray for asthma diagnosis,Routine pediatric check-ups",
                     "interventions" => "Inhaler prescribed for asthma,Dietary adjustments for food intolerance,Physiotherapy sessions for improved lung capacity"
-                ],
+                ]),
             ],
             [
                 "child_id"=> 2,
                 "doctor_id"=> 2,
-                "data"=> [
+                "data"=> json_encode([
                     "illnesses" => "Chickenpox at age 4,Recurring ear infections,Seasonal allergies",
                     "investigations" => "Hearing test after multiple ear infections,Skin prick test for allergy triggers,Comprehensive health screening",
                     "interventions" => "Antibiotics for ear infections,Antihistamines for allergies,Vaccinations updated regularly"                
-                ],
+                ]),
             ],
         ]);
     }
