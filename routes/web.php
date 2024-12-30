@@ -8,8 +8,6 @@ use App\Http\Controllers\TriageController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\StaffController;
 
-
-
 use App\Http\Controllers\AuthController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +17,7 @@ use App\Http\Controllers\DoctorsDisplayController;
 
 //Doctor Form Routes
 
-Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors');
+Route::get('/doctorlist', [DoctorController::class, 'index'])->name('doctors');
 Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 //Therapist Routes
