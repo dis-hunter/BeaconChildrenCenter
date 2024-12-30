@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\BehaviourAssessment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -36,7 +38,14 @@ class DatabaseSeeder extends Seeder
             StaffSeeder::class,
             AppointmentSeeder::class,
             VisitSeeder::class,
-            TriageSeeder::class
+            TriageSeeder::class,
+            DevMilestonesSeeder::class,
+            BehaviourAssessmentSeeder::class,
+            FamSocialHistorySeeder::class,
+            cnsSeeder::class,
+            DevelopmentAssessmentSeeder::class,
+            PastMedHistorySeeder::class,
+            PerinatalHistorySeeder::class,
         ]);
     }
 }
