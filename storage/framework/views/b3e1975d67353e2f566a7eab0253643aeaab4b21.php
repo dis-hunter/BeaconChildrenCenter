@@ -277,28 +277,25 @@
                             <th>Role</th>
                             <th>Specialisation</th>
                             <th>Staff ID</th>
-                            <th>Calendar</th>
                         </tr>
                     </thead>
                     <tbody id="doctorsTable">
-                        <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <tr class="doctor-row">
-                            <td><?php echo e($doctor->id); ?></td>
-                            <td><?php echo e($doctor->staff->fullname); ?></td>
-                            <td><?php echo e($doctor->staff->telephone); ?></td>
-                            <td><?php echo e($doctor->staff->email); ?></td>
-                            <td><?php echo e($doctor->staff->gender_id); ?></td>
-                            <td><?php echo e($doctor->staff->role_id); ?></td>
-                            <td>
-                                <span class="specialization <?php echo e(strtolower($doctor->specialization)); ?>"><?php echo e($doctor->specialization); ?></span>
-                            </td>
-                            <td><?php echo e($doctor->staff_id); ?></td>
-                            <td>
-                                <span class="calendar-icon">📅</span>
-                            </td>
-                        </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </tbody>
+    <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <tr class="doctor-row">
+        <td><?php echo e($doctor->id); ?></td>
+        <td><?php echo e($doctor->staff->fullname['first_name']); ?> <?php echo e($doctor->staff->fullname['last_name']); ?></td>
+        <td><?php echo e($doctor->staff->telephone); ?></td>
+        <td><?php echo e($doctor->staff->email); ?></td>
+        <td><?php echo e($doctor->staff->gender_id); ?></td>
+        <td><?php echo e($doctor->staff->role_id); ?></td>
+        <td>
+        <?php echo e($doctor->specialization); ?>
+
+        </td>
+        <td><?php echo e($doctor->staff_id); ?></td>
+    </tr>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</tbody>
                 </table>
             </div>
 

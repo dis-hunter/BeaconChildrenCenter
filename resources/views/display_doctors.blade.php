@@ -277,28 +277,24 @@
                             <th>Role</th>
                             <th>Specialisation</th>
                             <th>Staff ID</th>
-                            <th>Calendar</th>
                         </tr>
                     </thead>
                     <tbody id="doctorsTable">
-                        @foreach ($doctors as $doctor)
-                        <tr class="doctor-row">
-                            <td>{{ $doctor->id }}</td>
-                            <td>{{ $doctor->staff->fullname}}</td>
-                            <td>{{ $doctor->staff->telephone }}</td>
-                            <td>{{ $doctor->staff->email }}</td>
-                            <td>{{ $doctor->staff->gender_id }}</td>
-                            <td>{{ $doctor->staff->role_id }}</td>
-                            <td>
-                                <span class="specialization {{ strtolower($doctor->specialization) }}">{{ $doctor->specialization }}</span>
-                            </td>
-                            <td>{{ $doctor->staff_id }}</td>
-                            <td>
-                                <span class="calendar-icon">📅</span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+    @foreach ($doctors as $doctor)
+    <tr class="doctor-row">
+        <td>{{ $doctor->id }}</td>
+        <td>{{ $doctor->staff->fullname['first_name'] }} {{ $doctor->staff->fullname['last_name'] }}</td>
+        <td>{{ $doctor->staff->telephone }}</td>
+        <td>{{ $doctor->staff->email }}</td>
+        <td>{{ $doctor->staff->gender_id }}</td>
+        <td>{{ $doctor->staff->role_id }}</td>
+        <td>
+        {{ $doctor->specialization }}
+        </td>
+        <td>{{ $doctor->staff_id }}</td>
+    </tr>
+    @endforeach
+</tbody>
                 </table>
             </div>
 
