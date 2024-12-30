@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class visit_typeSeeder extends Seeder
+class child_parentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,12 +15,15 @@ class visit_typeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('visit_type')->insert([
-            ['visit_type' => 'Consultation'],
-            ['visit_type' => 'Follow-Up'],
-            ['visit_type' => 'Emergency'],
-            ['visit_type' => 'Walk-In'],
-            ['visit_type'=>'Other'],
+        DB::table('child_parent')->insert([
+            [
+                'parent_id'=>1,
+                'child_id'=>1,
+            ],
+            [
+                'parent_id'=>2,
+                'child_id'=>2,
+            ],
         ]);
     }
 }

@@ -19,7 +19,7 @@ class Triage extends Model
     // Define the inverse relationship to the Child model
     public function child()
     {
-        return $this->belongsTo(Child::class);
+        return $this->belongsTo(children::class);
     }
 
     // Accessor for data (assuming it's stored as JSON)

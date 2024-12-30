@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('development_assessment', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('visit_id')
                 ->nullable()
@@ -21,15 +21,24 @@ return new class extends Migration
                 ->onDelete('set null')
                 ->onUpdate('cascade');
             $table->foreignId('child_id')
+                ->nullable()
                 ->constrained('children','id')
-                ->onDelete('cascade')
+                ->onDelete('set null')
                 ->onUpdate('cascade');
-            $table->foreignId('doctor_id')
+            $table->foreignId('staff_id')
                 ->nullable()
                 ->constrained('staff','id')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
-            $table->json('data');
+            $table->foreignId('payment_mode_id')
+                ->nullable()
+                ->constrained('payment_modes','id')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+            $table->decimal('amount',10,2);
+            $table->date('payment_date');
+            $table->string('invoice_numnber')->unique();
+            $table->string('receipt_number')->unique();
             $table->timestamps();
         });
     }
@@ -41,6 +50,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('development_assessment');
+        Schema::dropIfExists('payments');
     }
 };

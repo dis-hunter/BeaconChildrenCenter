@@ -30,12 +30,26 @@ class children extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
-    // Optional: Accessor and mutator for 'fullname' if needed
-    protected function fullname(): Attribute
+    // Define the relationship to the Gender model
+    public function gender()
     {
-        return Attribute::make(
-            get: fn($value) => json_decode($value, true),
-            set: fn($value) => json_encode($value),
-        );
+        return $this->belongsTo(Gender::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Parents::class);
+    }
+
+    // Define the relationship to the Triage model
+    public function triage()
+    {
+        return $this->hasOne(Triage::class);
+    }
+
+    // Accessor for fullname (assuming it's stored as JSON)
+    public function getFullnameAttribute($value)
+    {
+        return json_decode($value);
     }
 }

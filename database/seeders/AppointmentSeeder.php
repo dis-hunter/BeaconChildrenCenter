@@ -17,24 +17,22 @@ class AppointmentSeeder extends Seeder
     {
         DB::table('appointments')->insert([
             [
-                'child_id' => 5,
-                'doctor_id' => 1,
-                'staff_id'=>1,
-                'appointment_date' => '2021-05-10',
-                'appointment_time'=>'10:00:00',
+                'child_id' => 1,
+                'doctor_id' => 2,
+                'staff_id'=>3,
+                'appointment_date' => '2025-01-04',
+                'start_time'=>'10:00:00',
+                'end_time'=>'11:00:00',
                 'status'=>'pending',
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'child_id' => 6,
+                'child_id' => 2,
                 'doctor_id' => 2,
-                'staff_id'=>2,
-                'appointment_date' => '2021-05-12',
-                'appointment_time'=>'11:00:00',
+                'staff_id'=>3,
+                'appointment_date' => '2024-01-04',
+                'start_time'=>'11:00:00',
+                'start_time'=>'12:00:00',
                 'status'=>'pending',
-                'created_at' => now(),
-                'updated_at' => now(),
             ]
             ]);
     }

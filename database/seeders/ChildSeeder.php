@@ -22,9 +22,6 @@ class ChildSeeder extends Seeder
                 'birth_cert' => 'BC/123456', 
                 'gender_id' => 1, 
                 'registration_number' => 'REG-001', 
-                'parent_id' => 1, 
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
                 'fullname' => json_encode(['first_name' => 'Alice', 'middle_name' => 'Wilson', 'last_name' => 'Johnson']),
@@ -32,9 +29,6 @@ class ChildSeeder extends Seeder
                 'birth_cert' => 'BC/789012',
                 'gender_id' => 2, 
                 'registration_number' => 'REG-002',
-                'parent_id' => 2, 
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
         ]);//
     }

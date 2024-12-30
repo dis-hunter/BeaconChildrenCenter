@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('triage', function (Blueprint $table) {
+        Schema::create('payment_modes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('visit_id')->constrained('visits','id');
-            $table->foreignId('child_id')->constrained('children','id');
-            $table->foreignId('staff_id')->constrained('staff','id');
-            $table->json('data');
+            $table->string('payment_mode');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('triage');
+        Schema::dropIfExists('payment_modes');
     }
 };

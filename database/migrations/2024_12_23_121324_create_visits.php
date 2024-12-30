@@ -18,10 +18,27 @@ return new class extends Migration
             $table->date('visit_date');
             $table->string('source_type');
             $table->string('source_contact');
-            $table->foreignId('visit_type')->constrained('visit_type','id');
-            $table->foreignId('child_id')->constrained('children','id');
-            $table->foreignId('staff_id')->constrained('staff','id');
-            $table->foreignId('appointment_id')->constrained('appointments','id');
+            $table->foreignId('visit_type')
+                ->constrained('visit_type','id')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+            $table->foreignId('child_id')
+                ->constrained('children','id')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('staff_id')
+                ->constrained('staff','id')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+            $table->foreignId('doctor_id')
+                ->constrained('staff','id')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+            $table->foreignId('appointment_id')
+                ->nullable()
+                ->constrained('appointments','id')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -15,8 +15,14 @@ return new class extends Migration
     {
         Schema::create('child_parent', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('child_id')->constrained('children','id');
-            $table->foreignId('parent_id')->constrained('parents','id');
+            $table->foreignId('parent_id')
+                ->constrained('parents','id')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('child_id')
+                ->constrained('children','id')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }
