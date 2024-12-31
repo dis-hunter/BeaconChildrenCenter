@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Children; // Ensure the model name matches your file structure
 use App\Models\Parents; // Ensure the model name matches your file structure
-
+use App\Models\Relationship;
 use Illuminate\Http\Request;
 
 class ChildrenController extends Controller
 {
-    public function create()
+    public function get()
     {
-        return view('reception.childregistration'); // Render the form view
+        $relationships=Relationship::select('id','relationship')->get();
+        return view('reception.child',compact('relationships')); // Render the form view
     }
 
     public function store(Request $request)

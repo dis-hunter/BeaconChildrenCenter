@@ -35,6 +35,9 @@ class Parents extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
+    public function relationship(){
+        return $this->belongsTo(Relationship::class,'relationship_id','id');
+    }
     // Optional: Accessor and mutator for 'fullname' if needed
     protected function fullname(): Attribute
     {

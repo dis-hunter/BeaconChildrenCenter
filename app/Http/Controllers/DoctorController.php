@@ -13,6 +13,7 @@ use App\Models\Staff;
 use App\Models\DoctorSpecialization;
 
 use Illuminate\Database\QueryException;
+
 class DoctorController extends Controller
 {
     public function store(Request $request)

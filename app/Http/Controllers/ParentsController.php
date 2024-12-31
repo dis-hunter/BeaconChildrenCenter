@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parents; // Ensure the model name matches your file structure
+use App\Models\Relationship;
 use Illuminate\Http\Request;
 
 class ParentsController extends Controller
@@ -56,6 +57,7 @@ class ParentsController extends Controller
 
         return redirect()->route('parents.create')->with('success', 'Parent record saved successfully!');
     }
+    
     public function search(Request $request)
     {
         $query = $request->input('telephone');
@@ -64,7 +66,7 @@ class ParentsController extends Controller
         $parent = Parents::where('telephone', $query)->first();
 
         if ($parent) {
-            return view('reception.childregistration', ['parent' => $parent]);
+            return view('reception.child', ['parent' => $parent]);
         } else {
             return redirect()->back()->with('error', 'No parent found with the specified phone number.');
         }

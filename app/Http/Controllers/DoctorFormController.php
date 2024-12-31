@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Doctor;
 use Illuminate\Database\QueryException;
 
-class DoctorController extends Controller
+class DoctorFormController extends Controller
 {
     public function store(Request $request)
     {

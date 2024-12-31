@@ -39,8 +39,12 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 */
 
 Route::get('/', function () {
-    return view('example');
+    return view('reception.dashboard');
 });
+
+Route::get('/patients', [ChildrenController::class, 'get']);
+Route::post('/patients/parent', [ParentsController::class, 'store']);
+
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
 });
