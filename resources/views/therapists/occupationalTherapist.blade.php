@@ -39,10 +39,11 @@
                             onchange="handleDateChange(event)"
                         />
                     </div>
-
+                        <!--tab links-->
                     <div class="mt-4">
                         <div class="flex border-b border-gray-300">
                             <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="goals" onclick="showTabContent('goals')">Goals</button>
+                            <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="goals" onclick="showTabContent('individualPlanAndStrategies')">Individual therapy plan and strategies</button>
                             <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="preparation" onclick="showTabContent('preparation')">Therapy Session details</button>
                             <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="session" onclick="showTabContent('session')">Session Notes</button>
                             <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
@@ -61,6 +62,19 @@
                                 </div>
                             @endforeach
                         </div>
+                        <div>
+                            @foreach(['Therapy frequency and Duration', 'Therapy Setting', 'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive skills', 'Activity of Daily Living','Sensory Integration and Processing','Behaviour Management','Parent involvement/training'] as $category)
+                                <div>
+                                    <h3 class="text-sm font-medium mb-2">{{ $category }}</h3>
+                                    <textarea 
+                                        placeholder="Document progress for {{ $category }}" 
+                                        class="w-full h-24 p-2 border border-gray-300 rounded"
+                                        id="goals_{{ $category }}"
+                                        onchange="handleChange('goals', '{{ $category }}', event)"
+                                    ></textarea>
+                                    @endforeach
+                                </div>
+                            </div>
 
                         <div id="preparation" class="tabs-content space-y-4 p-4 hidden">
                             <div>
