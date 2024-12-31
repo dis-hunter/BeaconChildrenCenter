@@ -56,24 +56,23 @@
                         class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         onchange="handleDateChange(event)"
                     />
-                    
+                    <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Goals</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Plan & Strategies</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Assessment</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
                         </nav>
                     </div>
-
+                    <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
-                            @foreach(['Activities of Daily Living(ADLs)', 'Instrumental Activities of Daily Living(IADLs)', 'Fine and Gross Motor Skills','Sensory Integration and Processing' ,'Cognitive Skills', 'Emotional and Social Skills', 'School or Work-Related ','Rehabilitation Goals'] as $category)
+                            @foreach(['Speech sound production', 'Language development', 'Fluency (stuttering)','Social communication (pragmatics)' ,'Voice Therapy', 'Swallowing and feeding (Dysphagia)', 'Cognitive communication skills','Alternative and augumentative communication'] as $category)
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        placeholder="Document progress for {{ $category }}"
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
                                         id="goals_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
@@ -81,27 +80,25 @@
                                 </div>
                             @endforeach
                         </div>
-
+                        <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Therapy frequency and Duration', 'Therapy Setting', 'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive skills', 'Activity of Daily Living','Sensory Integration and Processing','Behaviour Management','Parent involvement/training'] as $category)
+                            @foreach(['Therapy frequency and Duration', 'Therapy Setting', 'Speech and Sound Production', 'Expressive Language', 'Receptive Language', 'Social Communication','Fluency (stutering)','Voice and Resonance','Vocal stereotypies','Parent involvemet/training'] as $category)
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        placeholder="Document progress for {{ $category }}"
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
                                         id="goals_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
                                     ></textarea>
                                 </div>
                             @endforeach
                         </div>
-
+                        <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Integration And Processing','Provide Guidance','Monitor Progress','Planned Home based tasks'] as $category)
+                            @foreach(['Speech and sound production', 'Expressive Language', 'Receptive Language', 'Social communication', 'Fluency (stuttering)','Voice and Resonance','Vocal stereotype'] as $category)
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        placeholder="Document progress for {{ $category }}"
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
                                         id="preparation_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
@@ -109,13 +106,12 @@
                                 </div>
                             @endforeach
                         </div>
-
+                        <!-- Therapy Assessment Tab-->
                         <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges'] as $category)
-                                <div class="mb-4">
+                        @foreach(['Speech and sound production', 'Expressive Language', 'Receptive Language', 'Social communication', 'Fluency (stuttering)','Voice and Resonance','Vocal stereotype'] as $category)
+                        <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        placeholder="Document progress for {{ $category }}"
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
                                         id="preparation_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
@@ -128,7 +124,6 @@
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Home Practice Assignments</label>
                                 <textarea 
-                                    placeholder="Document assigned activities for practice at home"
                                     class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
                                     id="followup_home_practice"
                                     onchange="handleChange('followup', 'home_practice', event)"
@@ -137,7 +132,6 @@
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Next Session Plan</label>
                                 <textarea 
-                                    placeholder="Document plans and focus areas for next session"
                                     class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
                                     id="followup_next_plan"
                                     onchange="handleChange('followup', 'next_plan', event)"
