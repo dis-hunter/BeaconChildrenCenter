@@ -44,6 +44,9 @@ Route::get('/', function () {
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
 });
+Route::get('/speech_therapist', function () {
+    return view('therapists.speechTherapist');
+});
 Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
