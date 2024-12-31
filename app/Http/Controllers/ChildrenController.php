@@ -20,7 +20,7 @@ class ChildrenController extends Controller
         return view('reception.child', compact('relationships', 'genders')); // Render the form view
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $validatedData = $request->validate([
             'firstname' => 'required|string|max:255',
@@ -111,5 +111,10 @@ class ChildrenController extends Controller
         }
 
         return view('receiptionist.visits', compact('children'));
+    }
+
+    public function searchGet()
+    {
+        return view('reception.search'); // Render the form view
     }
 }

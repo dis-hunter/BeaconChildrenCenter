@@ -38,16 +38,17 @@ class Parents extends Model
     public function relationship(){
         return $this->belongsTo(Relationship::class,'relationship_id','id');
     }
-    
+
     public function gender()
     {
         return $this->belongsTo(Gender::class);
     }
     
     public function children()
-    {
-        return $this->belongsToMany(children::class,'child_parent','parent_id','child_id');
-    }
+{
+    return $this->hasManyThrough(children::class, ChildParent::class, 'parent_id', 'id', 'id', 'child_id');
+}
+
 
     // Accessor for fullname (assuming it's stored as JSON)
     public function getFullnameAttribute($value)

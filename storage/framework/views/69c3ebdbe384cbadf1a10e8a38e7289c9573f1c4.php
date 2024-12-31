@@ -6,6 +6,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
+    <?php echo \Livewire\Livewire::styles(); ?>
 
     <style>
         body {
@@ -218,6 +219,7 @@
 <div class="sidebar" id="sidebar">
     <img src="<?php echo e(asset('images/logo.jpg')); ?>" alt="Logo">
     <a href="/patients"><span class="icon">➕</span> <span class="text">Patients</span></a>
+    <a href="/patients/search"><span class="icon"></span> <span class="text">Search</span></a>
     
     <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
     <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
@@ -242,6 +244,8 @@
         toggleButton.classList.toggle('collapsed');
     }
     </script>
+
+<?php echo \Livewire\Livewire::scripts(); ?>
 
 </body>
 </html><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/reception/layout.blade.php ENDPATH**/ ?>

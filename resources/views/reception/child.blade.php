@@ -8,7 +8,7 @@
         <button @click="showForm = !showForm" class="btn btn-primary mb-3">
         New Parent & Child
     </button>
-    <form action="/patients/parent_child" method="post" class="bg-light p-4 rounded shadow-sm"  x-show="showForm" 
+    <form action="/patients" method="post" class="bg-light p-4 rounded shadow-sm"  x-show="showForm" 
     x-transition >
 
         @csrf

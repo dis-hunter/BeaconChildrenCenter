@@ -6,7 +6,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
-
+    @livewireStyles
     <style>
         body {
             margin: 0;
@@ -218,6 +218,7 @@
 <div class="sidebar" id="sidebar">
     <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
     <a href="/patients"><span class="icon">➕</span> <span class="text">Patients</span></a>
+    <a href="/patients/search"><span class="icon"></span> <span class="text">Search</span></a>
     {{-- <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a> --}}
     <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
     <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
@@ -245,5 +246,6 @@
     }
     </script>
 
+@livewireScripts
 </body>
 </html>

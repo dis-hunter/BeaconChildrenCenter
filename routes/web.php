@@ -45,7 +45,8 @@ Route::get('/', function () {
 });
 
 Route::get('/patients', [ChildrenController::class, 'get']);
-Route::post('/patients/parent_child', [ChildrenController::class, 'store']);
+Route::post('/patients', [ChildrenController::class, 'create']);
+Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
 
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
@@ -108,8 +109,8 @@ Route::group(['middleware'=>'auth'], function(){
     //Doctor
     Route::group(['middleware'=>'role:2'], function(){
         Route::get('/create',  [DiagnosisController::class,
-'create']
-);
+        'create']
+        );
     });
 
     //Admin
