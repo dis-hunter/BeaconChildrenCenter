@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Occupational Therapist Session Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        
+        .tab-button.active {
+    color: #1a202c; 
+    box-shadow: 2px 2px 2px 2px  black;
+    border:2px solid black;
+    
+}
+     </style>   
 </head>
 <body class="bg-gray-100 text-gray-800">
     <h1 class="text-3xl font-bold text-center text-blue-600 my-8">Occupational Therapist Session Documentation</h1>
@@ -23,15 +32,7 @@
             <div class="p-4">
                 <form id="therapy-form" class="space-y-4" onsubmit="handleSubmit(event)">
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <select id="client_id" onchange="handleClientChange(event)" class="w-full p-2 border border-gray-300 rounded">
-                                <option value="" disabled selected>Select Client</option>
-                                
-                                
-                                
-                                
-                            </select>
-                        </div>
+                        
                         <input 
                             type="date" 
                             id="session_date"
@@ -42,11 +43,10 @@
                         <!--tab links-->
                     <div class="mt-4">
                         <div class="flex border-b border-gray-300">
-                            <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="goals" onclick="showTabContent('goals')">Goals</button>
-                            <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="goals" onclick="showTabContent('individualPlanAndStrategies')">Individual therapy plan and strategies</button>
-                            <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="preparation" onclick="showTabContent('therapySession')">Therapy Assesment</button>
-                            <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="session" onclick="showTabContent('session')">Session Notes</button>
-                            <button type="button" class="py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
+                        <button type="button" class="tab-button py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="goals" onclick="showTabContent('goals')">Goals</button>
+                        <button type="button" class="tab-button py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individual therapy plan and strategies</button>
+                        <button type="button" class="tab-button py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="therapySession" onclick="showTabContent('therapySession')">Therapy Assesment</button>
+                        <button type="button" class="tab-button py-2 px-4 text-gray-600 hover:bg-gray-200" data-value="session" onclick="showTabContent('session')">Session Notes</button>
                         </div>
                     <!--tab content-->
                     <!--Goals tab-->	
@@ -92,7 +92,7 @@
                             
                             </div>
                         </div>
-
+                        <!--Session Notes tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
                             <div>
                                 <h3 class="text-sm font-medium mb-2">Record the client's performance,challenges and progress</h3>
@@ -113,7 +113,7 @@
                                 ></textarea>
                             </div>
                         </div>
-
+                        <!--Follow-up tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                             <div>
                                 <h3 class="text-sm font-medium mb-2">Home Practice Assignments</h3>
@@ -225,17 +225,22 @@
         }
         //function to show tab content and hide others
         function showTabContent(tab) {
-            document.querySelectorAll('.tabs-content').forEach(content => {
-                content.classList.add('hidden');
-                content.classList.remove('active');
-            });
-            document.getElementById(tab).classList.remove('hidden');
-            document.getElementById(tab).classList.add('active');
-        }
+    document.querySelectorAll('.tabs-content').forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('active');
+    });
+    document.getElementById(tab).classList.remove('hidden');
+    document.getElementById(tab).classList.add('active');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            showTabContent('goals');
-        });
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+    });
+    document.querySelector(`[data-value="${tab}"]`).classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    showTabContent('goals'); // Default tab to show
+});
     </script>
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationalTherapist.blade.php ENDPATH**/ ?>
