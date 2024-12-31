@@ -5,6 +5,7 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//unpkg.com/alpinejs" defer></script>
 
     <style>
         body {

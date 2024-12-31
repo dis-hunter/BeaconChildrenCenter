@@ -38,6 +38,7 @@ class Parents extends Model
     public function relationship(){
         return $this->belongsTo(Relationship::class,'relationship_id','id');
     }
+    
     public function gender()
     {
         return $this->belongsTo(Gender::class);

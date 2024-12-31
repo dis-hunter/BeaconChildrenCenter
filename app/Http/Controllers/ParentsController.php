@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gender;
 use App\Models\Parents; // Ensure the model name matches your file structure
 use App\Models\Relationship;
 use Illuminate\Http\Request;
@@ -17,25 +18,25 @@ class ParentsController extends Controller
     {
         // Validate incoming request data
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'sur_name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
             'dob' => 'required|date',
-            'gender_id' => 'required|integer',
+            'gender_id' => 'required',
             'telephone' => 'required|string|max:15',
             'national_id' => 'required|string|max:20',
             'employer' => 'nullable|string|max:255',
             'insurance' => 'nullable|string|max:255',
             'email' => 'required|email|unique:parents,email',
-            'relationship_id' => 'required|integer',
+            'relationship_id' => 'required',
             'referer' => 'nullable|string|max:255',
         ]);
 
         // Combine fullname fields into a JSON object
         $fullname = [
-            'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'],
-            'sur_name' => $validatedData['sur_name'],
+            'firstname' => $validatedData['firstname'],
+            'middlename' => $validatedData['middlename'],
+            'lastname' => $validatedData['lastname'],
         ];
         
 
@@ -43,19 +44,23 @@ class ParentsController extends Controller
         $parent = Parents::create([
             'fullname' => json_encode($fullname),
             'dob' => $validatedData['dob'],
-            'gender_id' => $validatedData['gender_id'],
+            'gender_id' =>  Gender::where('gender', $validatedData['gender_id'])->value('id'),
             'telephone' => $validatedData['telephone'],
             'national_id' => $validatedData['national_id'],
             'employer' => $validatedData['employer'],
             'insurance' => $validatedData['insurance'],
             'email' => $validatedData['email'],
-            'relationship_id' => $validatedData['relationship_id'],
+            'relationship_id' => Relationship::where('relationship',$validatedData['relationship_id'])->value('id'),
             'referer' => $validatedData['referer'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('parents.create')->with('success', 'Parent record saved successfully!');
+        if (!$parent) {
+            return redirect()->back()->with('error', 'Parent Registration Failed. Try again!')->withInput($validatedData);
+        }
+
+        return redirect()->back()->with('success', 'Parent record saved successfully!');
     }
     
     public function search(Request $request)

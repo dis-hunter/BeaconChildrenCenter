@@ -4,8 +4,7 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
-use App\Http\Controllers\DevelopmentMilestonesController;
-use App\Http\Controllers\DoctorsController; 
+use App\Http\Controllers\DevelopmentMilestonesController; 
 // Import the controller class
 use App\Http\Controllers\TriageController;
 use App\Http\Controllers\DoctorsController;
@@ -46,7 +45,7 @@ Route::get('/', function () {
 });
 
 Route::get('/patients', [ChildrenController::class, 'get']);
-Route::post('/patients/parent', [ParentsController::class, 'store']);
+Route::post('/patients/parent_child', [ChildrenController::class, 'store']);
 
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
