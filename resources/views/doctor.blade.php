@@ -168,8 +168,8 @@ button {
 <div class="sidebar">
 <h2>Active Patient: {{ $firstName }} {{ $middleName }} {{ $lastName }}</h2> 
   <a href="#">Logout</a>
-  <a href="#">User</a>
-  <a href="#">Dr Emmanuel</a>
+  <a href="#">Multidsicplinary Communication</a>
+  <a href="#">Therapy Summaries</a>
 </div>
 
 <div class="main">
