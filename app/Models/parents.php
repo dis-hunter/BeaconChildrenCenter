@@ -38,12 +38,19 @@ class Parents extends Model
     public function relationship(){
         return $this->belongsTo(Relationship::class,'relationship_id','id');
     }
-    // Optional: Accessor and mutator for 'fullname' if needed
-    protected function fullname(): Attribute
+    public function gender()
     {
-        return Attribute::make(
-            get: fn($value) => json_decode($value, true),
-            set: fn($value) => json_encode($value),
-        );
+        return $this->belongsTo(Gender::class);
+    }
+    
+    public function children()
+    {
+        return $this->belongsToMany(children::class,'child_parent','parent_id','child_id');
+    }
+
+    // Accessor for fullname (assuming it's stored as JSON)
+    public function getFullnameAttribute($value)
+    {
+        return json_decode($value);
     }
 }
