@@ -88,6 +88,12 @@ Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getD
 Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
 
 
+use App\Http\Controllers\InvestigationController;
+
+Route::post('/save-investigations/{registration_number}', [InvestigationController::class, 'saveInvestigations']);
+
+
+
 
 
 

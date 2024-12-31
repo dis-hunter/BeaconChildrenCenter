@@ -271,22 +271,8 @@ button {
   <a href="#Examination">Examination</a><div id="Examination"></div>
   <a href="#devAssesment">Developmental Assesment</a><div id="devAssesment"></div>
   <a href="#diagnosis">Diagnoses</a><div id="diagnosis"></div>
-  <a href="#" id="pastInvestigationsLink">Past Investigations</a>
-  <ul class="mini-menu" id="pastInvestigationsMenu">
-    <li><a href="#">Labaratort Tests</a></li>
-    <li><a href="#">Imaging</a></li>
-    <li><a href="#">Electro <br> phsiologic tests</a></li>
-    <li><a href="#">Genetic tests</a></li>
-    <li><a href="#">Other tests</a></li>
-  </ul>
-  <a href="#" id="recordResultsLink">Record Results</a>
-  <ul class="mini-menu" id="recordResultsMenu">
-    <li><a href="#">Labaratort Tests</a></li>
-    <li><a href="#">Imaging</a></li>
-    <li><a href="#">Electro <br> phsiologic tests</a></li>
-    <li><a href="#">Genetic tests</a></li>
-    <li><a href="#">Other tests</a></li>
-  </ul>
+  <a href="#investigations">Investigations</a><div id="investigations"></div>
+  <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
   <a href="#">Immunization</a>
   <a href="#">Referral Letter</a>

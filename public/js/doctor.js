@@ -27,46 +27,7 @@ floatingMenu.addEventListener('click', (event) => {
   event.stopPropagation(); 
 });
 
-const pastInvestigationsLink = document.getElementById('pastInvestigationsLink');
-const pastInvestigationsMenu = document.getElementById('pastInvestigationsMenu');
 
-pastInvestigationsLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  pastInvestigationsMenu.style.display = pastInvestigationsMenu.style.display === 'block' ? 'none' : 'block';
-});
-
-const recordResultsLink = document.getElementById('recordResultsLink');
-const recordResultsMenu = document.getElementById('recordResultsMenu');
-
-recordResultsLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  recordResultsMenu.style.display = recordResultsMenu.style.display === 'block' ? 'none' : 'block';
-});
-
-function hideMiniMenus() {
-  const miniMenus = document.querySelectorAll('.mini-menu');
-  miniMenus.forEach(menu => {
-    menu.style.display = 'none';
-  });
-}
-
-document.addEventListener('click', hideMiniMenus);
-
-pastInvestigationsLink.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
-
-recordResultsLink.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
-
-pastInvestigationsMenu.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
-
-recordResultsMenu.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
 
 // Get the "Behaviour Assesement" link
 const BehaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
@@ -2079,6 +2040,231 @@ function addFormEventListeners(registrationNumber) {
     }
   }
 });
+
+//Invesitigations
+
+const investigations = document.querySelector('.floating-menu a[href="#investigations"]');
+
+investigations.addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    const mainContent = document.querySelector('.main');
+    const urlParts = window.location.pathname.split('/');
+    const registrationNumber = urlParts[urlParts.length - 1];
+    console.log('Registration number: ', registrationNumber); // Debugging log
+
+    // Inject HTML form into the page
+    mainContent.innerHTML = `
+    <head>
+        <link rel='stylesheet' href='../css/investigations.css'>
+    </head>
+    <body>
+    <div class="container">
+        <h2>Investigations</h2>
+
+        <div class="section-container">
+            <h4>Imaging</h4>
+            <label><input type="checkbox" name="imaging" value="MRI scan brain"> MRI Scan Brain</label>
+            <label><input type="checkbox" name="imaging" value="CT scan brain"> CT Scan Brain</label>
+            <label><input type="checkbox" name="imaging" value="MRI scan spine"> MRI Scan Spine</label>
+            <label><input type="checkbox" name="imaging" value="CT scan spine"> CT Scan Spine</label>
+        </div>
+
+        <div class="section-container">
+            <h4>Lab Requests</h4>
+            <label><input type="checkbox" name="lab_requests" value="Haemogram"> Haemogram</label>
+            <label><input type="checkbox" name="lab_requests" value="Thyroid function test"> Thyroid Function Test</label>
+            <label><input type="checkbox" name="lab_requests" value="Biochemistry"> Biochemistry</label>
+            <label><input type="checkbox" name="lab_requests" id="other-lab-checkbox" value="Other"> Other</label>
+            <textarea id="other-lab-tests" rows="4" cols="50"></textarea>
+        </div>
+
+        <div class="section-container">
+            <h4>Genetic Tests</h4>
+            <label><input type="checkbox" name="genetic_tests" value="Karyotype"> Karyotype</label>
+            <label><input type="checkbox" name="genetic_tests" value="Chromosomal microarray"> Chromosomal Microarray</label>
+            <label><input type="checkbox" name="genetic_tests" value="Whole exome sequencing"> Whole Exome Sequencing</label>
+        </div>
+
+        <div class="section-container">
+            <h4>Electrophysiology Test</h4>
+            <label><input type="checkbox" name="electrophysiology" value="BERA"> BERA</label>
+            <label><input type="checkbox" name="electrophysiology" value="Visual evoked potentials"> Visual Evoked Potentials</label>
+            <label><input type="checkbox" name="electrophysiology" value="EEG"> EEG</label>
+            <label><input type="checkbox" name="electrophysiology" value="Nerve conduction studies"> Nerve Conduction Studies</label>
+            <label><input type="checkbox" name="electrophysiology" value="PSG"> PSG</label>
+        </div>
+
+        <div class="section-container">
+            <h4>Functional Test</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Yes</th>
+                        <th>No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vanderbilt Form</td>
+                        <td><input type="radio" name="functional_test_vanderbilt" value="yes"></td>
+                        <td><input type="radio" name="functional_test_vanderbilt" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>MCHAT</td>
+                        <td><input type="radio" name="functional_test_mchat" value="yes"></td>
+                        <td><input type="radio" name="functional_test_mchat" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>ADOS</td>
+                        <td><input type="radio" name="functional_test_ados" value="yes"></td>
+                        <td><input type="radio" name="functional_test_ados" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Molten Assessment Scale</td>
+                        <td><input type="radio" name="functional_test_molten" value="yes"></td>
+                        <td><input type="radio" name="functional_test_molten" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Grifiths 3 Scale</td>
+                        <td><input type="radio" name="functional_test_grifiths" value="yes"></td>
+                        <td><input type="radio" name="functional_test_grifiths" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Senzeny Profile</td>
+                        <td><input type="radio" name="functional_test_senzeny" value="yes"></td>
+                        <td><input type="radio" name="functional_test_senzeny" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Learning Disorder</td>
+                        <td><input type="radio" name="functional_test_learning" value="yes"></td>
+                        <td><input type="radio" name="functional_test_learning" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Sleep Studies (PSG)</td>
+                        <td><input type="radio" name="functional_test_sleep" value="yes"></td>
+                        <td><input type="radio" name="functional_test_sleep" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Education Assessment</td>
+                        <td><input type="radio" name="functional_test_education" value="yes"></td>
+                        <td><input type="radio" name="functional_test_education" value="no"></td>
+                    </tr>
+                    <tr>
+                        <td>Other</td>
+                        <td><input type="radio" name="functional_test_other" id="other-functional-checkbox" value="yes"></td>
+                        <td><input type="radio" name="functional_test_other" value="no"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <textarea id="other-functional-tests" rows="4" cols="50"></textarea>
+        </div>
+
+        <button type="submit">Submit Request</button>
+    </div>
+    </body>`;
+
+    // Handle "Other" checkbox visibility for lab tests
+    document.getElementById('other-lab-checkbox').addEventListener('change', function() {
+        const otherLabTestsTextarea = document.getElementById('other-lab-tests');
+        otherLabTestsTextarea.style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Handle "Other" checkbox visibility for functional tests
+    document.getElementById('other-functional-checkbox').addEventListener('change', function() {
+        const otherFunctionalTestsTextarea = document.getElementById('other-functional-tests');
+        otherFunctionalTestsTextarea.style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Attach the submit event to save data
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        const collectedData = {
+            imaging: getCheckedValues('imaging'),
+            labRequests: getCheckedValues('lab_requests'),
+            geneticTests: getCheckedValues('genetic_tests'),
+            electrophysiology: getCheckedValues('electrophysiology'),
+            functionalTests: getFunctionalTests(),
+            otherLabTests: document.getElementById('other-lab-tests').value.trim(),
+        };
+
+        console.log('Collected Data: ', collectedData); // Debugging log
+
+        const postData = {
+            imaging: collectedData.imaging,
+            lab_requests: collectedData.labRequests,
+            genetic_tests: collectedData.geneticTests,
+            electrophysiology: collectedData.electrophysiology,
+            functional_tests: collectedData.functionalTests,
+            other_lab_tests: collectedData.otherLabTests,
+        };
+
+        // Send data to the server
+        sendInvestigationsData(registrationNumber, postData);
+    });
+});
+
+// Helper function to get checked values for checkboxes
+function getCheckedValues(name) {
+    const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+    const values = [];
+    checkboxes.forEach(checkbox => {
+        values.push(checkbox.value);
+    });
+    return values;
+}
+
+// Helper function to get the selected functional tests
+function getFunctionalTests() {
+    return {
+        vanderbilt: getRadioValue('functional_test_vanderbilt'),
+        mchat: getRadioValue('functional_test_mchat'),
+        ados: getRadioValue('functional_test_ados'),
+        molten: getRadioValue('functional_test_molten'),
+        grifiths: getRadioValue('functional_test_grifiths'),
+        senzeny: getRadioValue('functional_test_senzeny'),
+        learning: getRadioValue('functional_test_learning'),
+        sleep: getRadioValue('functional_test_sleep'),
+        education: getRadioValue('functional_test_education'),
+        other: getRadioValue('functional_test_other'),
+        other_tests: document.getElementById('other-functional-tests').value.trim(),
+    };
+}
+
+// Helper function to get the selected radio button value
+function getRadioValue(name) {
+    const radioButton = document.querySelector(`input[name="${name}"]:checked`);
+    return radioButton ? radioButton.value : null;
+}
+
+// Function to send the collected data to the server
+function sendInvestigationsData(registrationNumber, postData) {
+    console.log('Sending data to server...'); // Debugging log
+    console.log('Post data: ', postData); // Debugging log
+
+    fetch(`/save-investigations/${registrationNumber}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token
+        },
+        body: JSON.stringify(postData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Server Response: ', data); // Debugging log
+        alert(data.message); // Success message
+    })
+    .catch(error => {
+        console.error('Error during fetch:', error);
+        alert('Error: Failed to save investigations'); // Error message
+    });
+}
+
+
+
 
       
 
