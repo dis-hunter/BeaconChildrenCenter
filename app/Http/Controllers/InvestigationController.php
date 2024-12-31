@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class InvestigationController extends Controller
 {
     /**
-     * Save investigations for a specific child based on registration number.
+     * Save or update investigations for a specific child based on registration number.
      */
     public function saveInvestigations($registration_number, Request $request)
     {
@@ -82,18 +82,35 @@ class InvestigationController extends Controller
         // Log the final data to be saved
         Log::info("Investigation data to be saved: ", $investigationData);
 
-        // Insert the investigation record into the database
-        $investigationId = DB::table('investigations')->insertGetId([
-            'visit_id' => $visit->id,
-            'child_id' => $child->id,
-            'staff_id' => 1, // Assuming the staff ID is 1 for now, you can modify this to use the logged-in user's ID
-            'data' => json_encode($investigationData), // Store the investigation data as JSON
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // Check if an investigation record already exists for the current visit
+        $existingInvestigation = DB::table('investigations')
+            ->where('visit_id', $visit->id)
+            ->first();
 
-        // Return a success response
-        return response()->json(['message' => 'Investigations saved successfully', 'investigation_id' => $investigationId]);
+        if ($existingInvestigation) {
+            // Update the existing investigation record
+            DB::table('investigations')
+                ->where('id', $existingInvestigation->id)
+                ->update([
+                    'data' => json_encode($investigationData), // Update the data as JSON
+                    'updated_at' => now(),
+                ]);
+
+            // Return a success response
+            return response()->json(['message' => 'Investigation updated successfully', 'investigation_id' => $existingInvestigation->id]);
+        } else {
+            // Insert a new investigation record
+            $investigationId = DB::table('investigations')->insertGetId([
+                'visit_id' => $visit->id,
+                'child_id' => $child->id,
+                'staff_id' => 1, // Assuming the staff ID is 1, you can modify this to use the logged-in user's ID
+                'data' => json_encode($investigationData), // Store the investigation data as JSON
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Return a success response
+            return response()->json(['message' => 'Investigations saved successfully', 'investigation_id' => $investigationId]);
+        }
     }
 }
-
