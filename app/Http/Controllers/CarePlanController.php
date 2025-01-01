@@ -37,18 +37,32 @@ class CarePlanController extends Controller
         $staffId = 1;
 
         try {
-            // Insert a new care plan record
-            DB::table('careplan')->insert([
-                'child_id' => $child->id,
-                'staff_id' => $staffId,
-                'data' => json_encode($data), // Store the care plan data as JSON
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            // Check if a care plan already exists for the child
+            $existingCarePlan = DB::table('careplan')->where('child_id', $child->id)->first();
 
-            return response()->json(['message' => 'Care plan saved successfully']);
+            if ($existingCarePlan) {
+                // Update the existing care plan
+                DB::table('careplan')->where('child_id', $child->id)->update([
+                    'staff_id' => $staffId,
+                    'data' => json_encode($data), // Update care plan data
+                    'updated_at' => now(),
+                ]);
+
+                return response()->json(['message' => 'Care plan updated successfully']);
+            } else {
+                // Insert a new care plan record
+                DB::table('careplan')->insert([
+                    'child_id' => $child->id,
+                    'staff_id' => $staffId,
+                    'data' => json_encode($data), // Store the care plan data as JSON
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                return response()->json(['message' => 'Care plan saved successfully']);
+            }
         } catch (\Exception $e) {
-            Log::error('Error while saving care plan: ' . $e->getMessage());
+            Log::error('Error while saving/updating care plan: ' . $e->getMessage());
             return response()->json(['message' => 'Failed to save care plan', 'error' => $e->getMessage()], 500);
         }
     }
