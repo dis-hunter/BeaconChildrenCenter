@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('investigation_results', function (Blueprint $table) {
+        Schema::create('careplan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('visit_id')->constrained('visits','id');
             $table->foreignId('child_id')->constrained('children','id');
             $table->foreignId('staff_id')->constrained('staff','id');
             $table->json('data');
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('investigation_results');
+        Schema::dropIfExists('careplan');
     }
 };
