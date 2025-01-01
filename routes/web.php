@@ -10,8 +10,6 @@ use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\TriageController;
 use App\Http\Controllers\StaffController;
 
-
-
 use App\Http\Controllers\AuthController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +22,7 @@ use App\Http\Controllers\appointmentsController;
 
 //Doctor Form Routes
 
-Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors');
+Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
 Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 //Therapist Routes
@@ -48,6 +46,24 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 Route::get('/', function () {
     return view('example');
 });
+//therapist routes
+Route::get('/occupational_therapist', function () {
+    return view('therapists.occupationalTherapist');
+});
+Route::get('/speech_therapist', function () {
+    return view('therapists.speechTherapist');
+});
+Route::get('/physical_therapist', function () {
+    return view('therapists.physiotherapyTherapist');
+});
+Route::get('/psychotherapy_therapist', function () {
+    return view('therapists.psychotherapyTherapist');
+});
+Route::get('/nutritionist', function () {
+    return view('therapists.nutritionist');
+});
+//therapist routes end above
+
 Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });

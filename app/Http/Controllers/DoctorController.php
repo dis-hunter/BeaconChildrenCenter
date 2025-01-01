@@ -37,13 +37,17 @@ class DoctorController extends Controller
 
     public function index()
     {
-        // Fetch doctors with their related staff data
         $doctors = Doctor::with('staff')->get();
-
-        // Pass the data to the view
+    
+        // Decode the JSON data for each doctor's staff
+        foreach ($doctors as $doctor) {
+            if (is_string($doctor->staff->fullname)) {
+                $doctor->staff->fullname = json_decode($doctor->staff->fullname, true);
+            }
+        }
+    
         return view('display_doctors', compact('doctors'));
     }
-
 public function showSpecializations()
 {
     // Fetch distinct specializations

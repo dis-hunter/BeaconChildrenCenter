@@ -242,7 +242,7 @@
         <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a>
     </div>
 
-    <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
+    <div class="toggle-button" id="toggle-button"></div>
 
     <!-- Main Content -->
     <div class="main-content" id="main-content">
@@ -254,7 +254,7 @@
                     <input type="text" 
                            class="search-input" 
                            placeholder="Search doctors by name, ID, or specialization..."
-                           onkeyup="searchDoctors(this.value)">
+                           id="filterSpecialization">
                 </div>
                 <form action="<?php echo e(route('doctor.form')); ?>" method="GET">
                 <button type="submit" class="add-button">
@@ -277,28 +277,25 @@
                             <th>Role</th>
                             <th>Specialisation</th>
                             <th>Staff ID</th>
-                            <th>Calendar</th>
                         </tr>
                     </thead>
                     <tbody id="doctorsTable">
-                        <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <tr class="doctor-row">
-                            <td><?php echo e($doctor->id); ?></td>
-                            <td><?php echo e($doctor->staff->fullname); ?></td>
-                            <td><?php echo e($doctor->staff->telephone); ?></td>
-                            <td><?php echo e($doctor->staff->email); ?></td>
-                            <td><?php echo e($doctor->staff->gender_id); ?></td>
-                            <td><?php echo e($doctor->staff->role_id); ?></td>
-                            <td>
-                                <span class="specialization <?php echo e(strtolower($doctor->specialization)); ?>"><?php echo e($doctor->specialization); ?></span>
-                            </td>
-                            <td><?php echo e($doctor->staff_id); ?></td>
-                            <td>
-                                <span class="calendar-icon">📅</span>
-                            </td>
-                        </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </tbody>
+    <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <tr class="doctor-row">
+        <td><?php echo e($doctor->id); ?></td>
+        <td><?php echo e($doctor->staff->fullname['first_name']); ?> <?php echo e($doctor->staff->fullname['last_name']); ?></td>
+        <td><?php echo e($doctor->staff->telephone); ?></td>
+        <td><?php echo e($doctor->staff->email); ?></td>
+        <td><?php echo e($doctor->staff->gender_id); ?></td>
+        <td><?php echo e($doctor->staff->role_id); ?></td>
+        <td>
+        <?php echo e($doctor->specialization); ?>
+
+        </td>
+        <td><?php echo e($doctor->staff_id); ?></td>
+    </tr>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</tbody>
                 </table>
             </div>
 
@@ -308,34 +305,7 @@
         </div>
     </div>
 
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
-            const toggleButton = document.getElementById('toggle-button');
-            
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('expanded');
-            toggleButton.classList.toggle('collapsed');
-        }
-
-        function searchDoctors(query) {
-            query = query.toLowerCase();
-            const rows = document.querySelectorAll('.doctor-row');
-            let found = false;
-//iterate over rows and check if query is in the row
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    row.style.display = '';
-                    found = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            document.getElementById('noResults').style.display = found ? 'none' : 'block';
-        }
-    </script>
+    <!-- Include the JavaScript file -->
+    <script src="<?php echo e(asset('js/displayDoctors.js')); ?>"></script>
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/display_doctors.blade.php ENDPATH**/ ?>

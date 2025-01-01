@@ -242,7 +242,7 @@
         <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a>
     </div>
 
-    <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
+    <div class="toggle-button" id="toggle-button"></div>
 
     <!-- Main Content -->
     <div class="main-content" id="main-content">
@@ -254,7 +254,7 @@
                     <input type="text" 
                            class="search-input" 
                            placeholder="Search doctors by name, ID, or specialization..."
-                           onkeyup="searchDoctors(this.value)">
+                           id="filterSpecialization">
                 </div>
                 <form action="{{ route('doctor.form')}}" method="GET">
                 <button type="submit" class="add-button">
@@ -277,28 +277,24 @@
                             <th>Role</th>
                             <th>Specialisation</th>
                             <th>Staff ID</th>
-                            <th>Calendar</th>
                         </tr>
                     </thead>
                     <tbody id="doctorsTable">
-                        @foreach ($doctors as $doctor)
-                        <tr class="doctor-row">
-                            <td>{{ $doctor->id }}</td>
-                            <td>{{ $doctor->staff->fullname}}</td>
-                            <td>{{ $doctor->staff->telephone }}</td>
-                            <td>{{ $doctor->staff->email }}</td>
-                            <td>{{ $doctor->staff->gender_id }}</td>
-                            <td>{{ $doctor->staff->role_id }}</td>
-                            <td>
-                                <span class="specialization {{ strtolower($doctor->specialization) }}">{{ $doctor->specialization }}</span>
-                            </td>
-                            <td>{{ $doctor->staff_id }}</td>
-                            <td>
-                                <span class="calendar-icon">📅</span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+    @foreach ($doctors as $doctor)
+    <tr class="doctor-row">
+        <td>{{ $doctor->id }}</td>
+        <td>{{ $doctor->staff->fullname['first_name'] }} {{ $doctor->staff->fullname['last_name'] }}</td>
+        <td>{{ $doctor->staff->telephone }}</td>
+        <td>{{ $doctor->staff->email }}</td>
+        <td>{{ $doctor->staff->gender_id }}</td>
+        <td>{{ $doctor->staff->role_id }}</td>
+        <td>
+        {{ $doctor->specialization }}
+        </td>
+        <td>{{ $doctor->staff_id }}</td>
+    </tr>
+    @endforeach
+</tbody>
                 </table>
             </div>
 
@@ -308,34 +304,7 @@
         </div>
     </div>
 
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
-            const toggleButton = document.getElementById('toggle-button');
-            
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('expanded');
-            toggleButton.classList.toggle('collapsed');
-        }
-
-        function searchDoctors(query) {
-            query = query.toLowerCase();
-            const rows = document.querySelectorAll('.doctor-row');
-            let found = false;
-//iterate over rows and check if query is in the row
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    row.style.display = '';
-                    found = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            document.getElementById('noResults').style.display = found ? 'none' : 'block';
-        }
-    </script>
+    <!-- Include the JavaScript file -->
+    <script src="{{ asset('js/displayDoctors.js') }}"></script>
 </body>
 </html>
