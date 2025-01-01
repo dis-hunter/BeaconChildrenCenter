@@ -51,8 +51,11 @@ Route::get('/', function () {
 Route::get('/therapist_dashboard', function () {
     return view('therapists.therapistsDashboard');
 });
-Route::get('/therapist_patient_dashboard', function () {
+Route::get('/psychotherapy_dashboard', function () {
     return view('therapists.psychotherapyDashboard');
+});
+Route::get('/nutritionist_dashboard', function () {
+    return view('therapists.nutritionistDashboard');
 });
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
