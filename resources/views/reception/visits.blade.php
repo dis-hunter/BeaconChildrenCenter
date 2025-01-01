@@ -1,5 +1,5 @@
 <!-- Search Form -->
- <h2>welcome</h2>
+ <h2>jumanji</h2>
 <form action="{{ route('parent.get-children') }}" method="post">
     @csrf
     <table>

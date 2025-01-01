@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
@@ -196,7 +197,7 @@ Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
 Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
 // Add this route to handle the POST request for fetching staff full names
 Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
-Route::get('/appointments', [appointmentsController::class, 'fetchStaff']);
+Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
 
 

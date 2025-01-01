@@ -1,6 +1,8 @@
 <!-- Search Form -->
  <!-- Search Form -->
 <!-- Search Form -->
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
 <h2>Welcome</h2>
 <form action="<?php echo e(route('parent.get-children')); ?>" method="post">
     <?php echo csrf_field(); ?>
@@ -85,7 +87,7 @@
 
 </div>
 
-<button id="submit-appointment">Create Appointment</button>
+<button  id="submit-appointment">Create Appointment</button>
 
 
 <!--  -->
@@ -252,7 +254,6 @@ document.addEventListener('DOMContentLoaded', getChildId);
 
 
 // Call getChildId when the DOM is loaded
-document.addEventListener('DOMContentLoaded', getChildId);
 
 
 function getTodayDate() {
@@ -338,9 +339,9 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a child before proceeding.');
             return;
         }
-        const selectedChildId = activeChildElement.getAttribute('data-child-id');
-        if (!selectedChildId) {
-            console.error('Active child element does not have a "data-child-id" attribute.');
+        const selectedChildId = parseInt(activeChildElement.getAttribute('data-child-id'));
+        if (!selectedChildId || isNaN(selectedChildId)) {
+            console.error('Invalid child ID.');
             alert('An error occurred while retrieving the selected child. Please try again.');
             return;
         }
@@ -352,19 +353,19 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a doctor before proceeding.');
             return;
         }
-        const selectedDoctorId = activeDoctorElement.getAttribute('data-doctor-id');
-        if (!selectedDoctorId) {
-            console.error('Active doctor element does not have a "data-doctor-id" attribute.');
+        const selectedDoctorId = parseInt(activeDoctorElement.getAttribute('data-doctor-id'));
+        if (!selectedDoctorId || isNaN(selectedDoctorId)) {
+            console.error('Invalid doctor ID.');
             alert('An error occurred while retrieving the selected doctor. Please try again.');
             return;
         }
 
         // Get visit type
         const visitTypeDropdown = document.getElementById('visit_type');
-        const visitType = visitTypeDropdown.value;
-        if (!visitType) {
-            console.error('Visit type is not selected.');
-            alert('Please select a visit type before proceeding.');
+        const visitType = parseInt(visitTypeDropdown.value);
+        if (!visitType || isNaN(visitType)) {
+            console.error('Invalid visit type.');
+            alert('Please select a valid visit type before proceeding.');
             return;
         }
 
@@ -376,16 +377,16 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             visit_date: todayDate,
             source_type: 'MySource',
             source_contact: '123456249',
-            staff_id: 3,
+            staff_id: parseInt(3),
             doctor_id: selectedDoctorId,
-            appointment_id: null, // No appointment ID since it's null
+            appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);
-        console.log("try it");
-        // Make the API request
+
+        // Add error response logging
         const response = await fetch('/visits', {
             method: 'POST',
             headers: {
@@ -396,6 +397,8 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
@@ -408,11 +411,10 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Failed to create appointment. Please try again.');
         }
     } catch (error) {
-        console.error('Error in submit-appointment click handler:', error);
+        console.error('Error details:', error);
+        alert('An error occurred while creating the appointment. Please check the console for details.');
     }
 });
-
-
 
 </script>
 <?php /**PATH C:\Users\giftg\beaconfolder\BeaconChildrenCenter\resources\views/Receiptionist/visits.blade.php ENDPATH**/ ?>
