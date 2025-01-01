@@ -47,12 +47,13 @@
     <input type="text" wire:model="query" class="form-control" placeholder="Enter search term">
                 @error('query') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
-    @if (!empty($parents))
+    </div>
+
+@if (!empty($parents))
     @foreach ($parents as $parent)
         <pre>{{$parent->email}}</pre>
         <pre>{{$parent->telephone}}</pre>
     @endforeach
     @endif
-</div>
 
 </div>

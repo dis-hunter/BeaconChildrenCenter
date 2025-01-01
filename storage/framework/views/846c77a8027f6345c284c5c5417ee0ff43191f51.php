@@ -22,13 +22,14 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
 </div>
-    <?php if(!empty($parents)): ?>
+    </div>
+
+<?php if(!empty($parents)): ?>
     <?php $__currentLoopData = $parents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <pre><?php echo e($parent->email); ?></pre>
         <pre><?php echo e($parent->telephone); ?></pre>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <?php endif; ?>
-</div>
 
 </div>
 <?php /**PATH D:\github\BeaconChildrenCenter\resources\views/livewire/child-parent-manager.blade.php ENDPATH**/ ?>
