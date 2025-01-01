@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Triage;
 use Illuminate\Support\Facades\Validator;
+use App\Models\visits;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class TriageController extends Controller
 {
@@ -82,19 +85,92 @@ class TriageController extends Controller
             ], 500);
         }
     }
-    public function search(Request $request)
-    {
-        // $query = $request->input('telephone');
+ 
+    public function getUntriagedVisits()
+{
+    try {
+        $visits = DB::table('visits')
+            ->join('children', 'visits.child_id', '=', 'children.id') 
+            ->select('visits.*', 'children.fullname')
+            ->where('visits.triage_pass', false)
+            ->get()
+            ->map(function ($visit) {
+                try {
+                    $fullname = json_decode($visit->fullname);
 
-        // Fetch the parent record by telephone
-        $parent = Parents::where('telephone', $query)->first();
+                    if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
+                        $visit->patient_name = trim(
+                            "{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}"
+                        );
+                    } else {
+                        $visit->patient_name = $visit->fullname ?? 'N/A';
+                    }
+                } catch (\Exception $e) {
+                    // Log::error('Failed to parse fullname: ' . $e->getMessage());
+                    $visit->patient_name = 'N/A';
+                }
 
-        if ($parent) {
-            return view('reception.childregistration', ['parent' => $parent]);
-        } else {
-            return redirect()->back()->with('error', 'No parent found with the specified phone number.');
-        }
+                return $visit;
+            });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $visits
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Failed to fetch untriaged visits: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to fetch visits'
+        ], 500);
     }
+}
+
+public function getPostTriageQueue($staffId)
+{
+    try {
+        $date = now()->toDateString(); // Automatically fetch today's date in 'Y-m-d' format
+
+        $patients = DB::table('visits')
+            ->join('children', 'visits.child_id', '=', 'children.id')
+            ->select('visits.*', 'children.fullname')
+            ->where('visits.triage_pass', true)
+            ->whereDate('visits.visit_date', $date)
+            ->where('visits.staff_id', $staffId) // Filter by staff ID
+            ->get()
+            ->map(function ($visit) {
+                try {
+                    $fullname = json_decode($visit->fullname);
+
+                    if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
+                        $visit->patient_name = trim(
+                            "{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}"
+                        );
+                    } else {
+                        $visit->patient_name = $visit->fullname ?? 'N/A';
+                    }
+                } catch (\Exception $e) {
+                    $visit->patient_name = 'N/A';
+                }
+
+                return $visit;
+            });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $patients
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to fetch post-triage queue'
+        ], 500);
+    }
+}
+
+
+   
     public function getTriageData($child_id)
 {
     // Fetch the triage record for the given child_id

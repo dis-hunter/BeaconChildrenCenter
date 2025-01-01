@@ -128,6 +128,14 @@
     </div>
   </div>
 </body>
-<script src="<?php echo e(asset('js/triage.js')); ?>"></script>
+<script src="<?php echo e(asset('js/triage.js')); ?>">
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    function getChildIdFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    return pathParts[pathParts.length - 1];
+}
+});
+</script>
 </html>
 <?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/triage.blade.php ENDPATH**/ ?>

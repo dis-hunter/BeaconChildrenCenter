@@ -48,6 +48,20 @@
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+        <thead>
+            <tr>
+               
+                <!-- <th>Patient Name</th> -->
+                
+            </tr>
+        </thead>
+        <tbody id="post-triage-list">
+            <tr>
+                <td colspan="6" style="text-align: center;">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
         <ul id="patient-list"></ul>
       </div>
       <div class="actions">
