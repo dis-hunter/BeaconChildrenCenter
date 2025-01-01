@@ -31,6 +31,16 @@
             background: #cbd5e1;
             border-radius: 3px;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 20px; 
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -110,7 +120,19 @@
                         </div>
                         <!-- Therapy Assessment Tab-->
                         <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
-                            <?php $__currentLoopData = ['Psychologic issues', 'Emotional issues', 'Behavioural issuess', 'Psychosocial history', 'Risk factors','Resilience factors']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="grid-container">
+                                <?php $__currentLoopData = ['Weight(kg)', 'Weight for Age', 'Height(cm)', 'Height for Age', 'Head circumference','Weight for Height','BMI','MUAC(cm)','Girth circumference']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="grid-item mb-4">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
+                                        <textarea 
+                                            class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                            id="preparation_<?php echo e($category); ?>"
+                                            onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
+                                        ></textarea> 
+                                    </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </div>
+                            <?php $__currentLoopData = ['Medical Problems', 'Dietry Intake', 'Lifestyle factors', 'Psychosocial/Behavioural factors', 'Biochemical Data']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 

@@ -95,7 +95,7 @@
                         </div>
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
-                            <?php $__currentLoopData = ['Cognitive behaviour therapy (CBT)', 'Psychodynamic therapy', 'Solution focused theraoy']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = ['Cognitive behaviour therapy (CBT)', 'Psychodynamic therapy', 'Solution focused therapy']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
