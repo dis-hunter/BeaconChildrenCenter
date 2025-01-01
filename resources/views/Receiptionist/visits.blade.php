@@ -1,6 +1,8 @@
 <!-- Search Form -->
  <!-- Search Form -->
 <!-- Search Form -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <h2>Welcome</h2>
 <form action="{{ route('parent.get-children') }}" method="post">
     @csrf
@@ -84,7 +86,7 @@
 
 </div>
 
-<button id="submit-appointment">Create Appointment</button>
+<button type="submit" id="submit-appointment">Create Appointment</button>
 
 
 <!--  -->
@@ -407,7 +409,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Failed to create appointment. Please try again.');
         }
     } catch (error) {
-        console.error('Error in submit-appointment click handler:', error);
+        console.log(error);
     }
 });
 
