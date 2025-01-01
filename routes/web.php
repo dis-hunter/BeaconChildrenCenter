@@ -174,7 +174,7 @@ Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHisto
 
 
 Route::get('/visithandle', function () {
-    return view('Receiptionist/visits');
+    return view('reception/visits');
 });
 Route::get('/staff-dropdown', [StaffController::class, 'index']);
 

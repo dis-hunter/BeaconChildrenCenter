@@ -251,7 +251,6 @@ document.addEventListener('DOMContentLoaded', getChildId);
 
 
 // Call getChildId when the DOM is loaded
-document.addEventListener('DOMContentLoaded', getChildId);
 
 
 function getTodayDate() {
