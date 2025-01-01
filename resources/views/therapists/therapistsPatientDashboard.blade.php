@@ -3,301 +3,175 @@
 <head>
   <title>Doctor's Interface</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
-
-    /* Sidebar Styles */
-    .sidebar {
-      height: 100%;
-      width: 250px;
-      position: fixed;
-      left: 0;
-      top: 0;
-      background-color: lightblue;
-      overflow-x: hidden;
-      padding-top: 20px;
-      transition: 0.3s;
-      border-right: 3px solid #007bff;
-    }
-
-    .sidebar:hover {
-      width: 300px;
-    }
-
-    .sidebar a {
-      padding: 10px 8px 10px 16px;
-      text-decoration: none;
-      font-size: 20px;
-      color: #333;
-      display: block;
-      transition: 0.3s;
-    }
-
-    .sidebar a:hover {
-      background-color: #e0f2f7;
-      color: #007bff;
-      padding-left: 25px;
-    }
-
-    .sidebar h2 {
-      padding: 10px;
-      color: #333;
-      text-align: center;
-    }
-
-    .sidebar a i {
-      margin-right: 10px;
-    }
-
-    /* Main Content Area */
-    .main {
-      margin-left: 250px;
-      padding: 20px;
-    }
-
-    /* Floating Menu Styles */
-    .floating-menu {
-      position: fixed;
-      right: 20px;
-      top: 40px;
-      background-color: lightblue; /* Light blue background */
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Drop shadow effect */
-    }
-
-    .floating-menu a {
-      display: block;
-      padding: 8px 12px;
-      text-decoration: none;
-      color: #333; /* Dark gray text color */
-      border-bottom: 1px solid #e0f2f7; /* Light blue separator */
-      transition: 0.3s;
-    }
-
-    .floating-menu a:last-child {
-      border-bottom: none;
-    }
-
-    .floating-menu a:hover {
-      background-color: #e0f2f7; /* Lighter blue hover background */
-      color: #007bff; /* Blue hover text color */
-      padding-left: 20px;
-    }
-
-    /* Menu Button */
-    #menuButton {
-      position: fixed;
-      right: 20px;
-      top: 5px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    /* Form Container */
-    .container {
-      width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* Labels */
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    /* Input Fields and Textareas */
-    input[type="text"],
-    input[type="date"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-
-    textarea#doctorsNotes {
-      height: 30px;
-      resize: vertical;
-    }
-
-    /* Input Groups */
-    .input-group {
-      display: flex;
-      gap: 5px;
-    }
-
-    .input-group input[type="text"] {
-      flex-grow: 1;
-    }
-
-    /* Highlighted Sections */
-    .highlighted {
-      background-color: lightblue;
-    }
-
-    /* Buttons */
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
-<body>
-
-<div class="sidebar">
-  <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;">John Michael Doe</span></h2> 
-  <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
-  <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-  <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
-  <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
-</div>
-
-<div class="main">
-  <div class="container" id="mainContent">
-    <!-- Form will be inserted here by JavaScript -->
+<body class="m-0 font-sans">
+  <!-- Sidebar -->
+  <div class="h-full w-64 fixed left-0 top-0 bg-sky-200 overflow-x-hidden pt-5 transition-all duration-300 hover:w-72 border-r-4 border-blue-500">
+    <h2 class="p-3 text-gray-800 text-center">
+      <i class="fas fa-user-md"></i> Active Patient <br> 
+      <span class="text-blue-500">John Michael Doe</span>
+    </h2>
+    <a href="#" id="homeLink" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
+      <i class="fas fa-home mr-2"></i> Home
+    </a>
+    <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
+      <i class="fas fa-sign-out-alt mr-2"></i> Logout
+    </a>
+    <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
+      <i class="fas fa-comments mr-2"></i> Multidisciplinary Communication
+    </a>
+    <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
+      <i class="fas fa-file-medical mr-2"></i> Therapy Summaries
+    </a>
   </div>
-</div>
 
-<div class="floating-menu" id="floatingMenu">
-  <a href="#triageExam">Triage Exam</a><div id="triageExam"></div>
-  <a href="#">Encounters Summary</a>
-  <a href="#perinatalHistory">Perinatal History</a><div id="perinatalHistory"></div>
-  <a href="#pastMedicalHistory">Past Medical History</a><div id="pastMedicalHistory"></div>
-  <a href="#devMilestones">Developmental Milestones</a><div id="devMilestones"></div>
-  <a href="#behaviourAssessment">Behaviour Assessment</a> <div id="behaviourAssessment"></div>
-  <a href="#familyAndSocial">Family and Social History</a><div id="familyAndSocial"></div>
-  <a href="#generalExam">General Examination</a><div id="generalExam"></div>
-  <a href="#Examination">Examination</a><div id="Examination"></div>
-  <a href="#devAssesment">Developmental Assessment</a><div id="devAssesment"></div>
-  <a href="#diagnosis">Diagnoses</a><div id="diagnosis"></div>
-  <a href="#investigations">Investigations</a><div id="investigations"></div>
-  <a href="#recordResults">Record Results</a><div id="recordResults"></div>
-  <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
-  <a href="#">Immunization</a>
-  <a href="#">Referral Letter</a>
-  <a href="#">Patient Documents</a>
-</div>
+  <!-- Main Content -->
+  <div class="ml-64 p-5">
+    <div class="container mx-auto" id="mainContent">
+      <!-- Form will be inserted here by JavaScript -->
+    </div>
+  </div>
 
-<button id="menuButton">Menu</button>
+  <!-- Floating Menu -->
+  <div class="fixed right-5 top-10 bg-sky-200 rounded shadow-md" id="floatingMenu">
+    <a href="#triageExam" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Triage Exam</a>
+    <div id="triageExam"></div>
+    <a href="#" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Encounters Summary</a>
+    <a href="#perinatalHistory" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Perinatal History</a>
+    <div id="perinatalHistory"></div>
+    <a href="#pastMedicalHistory" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Past Medical History</a>
+    <div id="pastMedicalHistory"></div>
+    <a href="#devMilestones" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Developmental Milestones</a>
+    <div id="devMilestones"></div>
+    <a href="#behaviourAssessment" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Behaviour Assessment</a>
+    <div id="behaviourAssessment"></div>
+    <a href="#familyAndSocial" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Family and Social History</a>
+    <div id="familyAndSocial"></div>
+    <a href="#generalExam" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">General Examination</a>
+    <div id="generalExam"></div>
+    <a href="#Examination" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Examination</a>
+    <div id="Examination"></div>
+    <a href="#devAssesment" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Developmental Assessment</a>
+    <div id="devAssesment"></div>
+    <a href="#diagnosis" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Diagnoses</a>
+    <div id="diagnosis"></div>
+    <a href="#investigations" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Investigations</a>
+    <div id="investigations"></div>
+    <a href="#recordResults" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Record Results</a>
+    <div id="recordResults"></div>
+    <a href="#carePlan" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Plan of Action</a>
+    <div id="carePlan"></div>
+    <a href="#" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Immunization</a>
+    <a href="#" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Referral Letter</a>
+    <a href="#" class="block px-3 py-2 text-gray-800 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Patient Documents</a>
+  </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Function to clear the main content area and display the form (Home button functionality)
-    function showHomeForm() {
-      const mainContent = document.querySelector('.main');
-    mainContent.innerHTML = `
-      <div class="container">
-        <form id="patient-form">
-          <div class="input-group">
-            <div>
-              <label for="firstName">First Name:</label>
-              <input type="text" id="firstName" name="firstName" value="John">
-            </div>
-            <div>
-              <label for="middleName">Middle Name:</label>
-              <input type="text" id="middleName" name="middleName" value="Michael">
-            </div>
-            <div>
-              <label for="lastName">Last Name:</label>
-              <input type="text" id="lastName" name="lastName" value="Doe">
-            </div>
+  <!-- Menu Button -->
+  <button id="menuButton" class="fixed right-5 top-1 bg-blue-500 text-white px-3 py-2 cursor-pointer rounded">Menu</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      function showHomeForm() {
+        const mainContent = document.querySelector('.main');
+        mainContent.innerHTML = `
+          <div class="container mx-auto p-5">
+            <form id="patient-form" class="space-y-4">
+              <div class="flex gap-4">
+                <div class="flex-1">
+                  <label class="block mb-1" for="firstName">First Name:</label>
+                  <input type="text" id="firstName" name="firstName" value="John" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="middleName">Middle Name:</label>
+                  <input type="text" id="middleName" name="middleName" value="Michael" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="lastName">Last Name:</label>
+                  <input type="text" id="lastName" name="lastName" value="Doe" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+              </div>
+              
+              <div class="flex gap-4">
+                <div class="flex-1">
+                  <label class="block mb-1" for="dob">DOB:</label>
+                  <input type="date" id="dob" name="dob" value="28.02.2018" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="genderAge">Gender/Age:</label>
+                  <input type="text" id="genderAge" name="genderAge" value="male/3yrs" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="hnu">HNU:</label>
+                  <input type="text" id="hnu" name="hnu" value="123456" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+              </div>
+
+              <div class="flex gap-4">
+                <div class="flex-1">
+                  <label class="block mb-1" for="mothersName">Mother's Name:</label>
+                  <input type="text" id="mothersName" name="mothersName" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="motherTel">Tel:</label>
+                  <input type="text" id="motherTel" name="motherTel" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="motherEmail">Email:</label>
+                  <input type="text" id="motherEmail" name="motherEmail" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+              </div>
+
+              <div class="flex gap-4">
+                <div class="flex-1">
+                  <label class="block mb-1" for="fathersName">Father's Name:</label>
+                  <input type="text" id="fathersName" name="fathersName" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="fatherTel">Tel:</label>
+                  <input type="text" id="fatherTel" name="fatherTel" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+                <div class="flex-1">
+                  <label class="block mb-1" for="fatherEmail">Email:</label>
+                  <input type="text" id="fatherEmail" name="fatherEmail" class="w-full px-2 py-1 border border-gray-300 rounded">
+                </div>
+              </div>
+
+              <div>
+                <label class="block mb-1" for="informant">Informant:</label>
+                <input type="text" id="informant" name="informant" class="w-full px-2 py-1 border border-gray-300 rounded">
+              </div>
+
+              <div class="bg-sky-200 p-4 rounded">
+                <label class="block mb-1" for="date">Date:</label>
+                <input type="date" id="date" name="date" class="w-full px-2 py-1 border border-gray-300 rounded">
+              </div>
+
+              <div class="bg-sky-200 p-4 rounded">
+                <label class="block mb-1" for="doctorsNotes">Doctor's Notes:</label>
+                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-2 py-1 border border-gray-300 rounded resize-y min-h-[30px]"></textarea>
+              </div>
+
+              <div class="bg-sky-200 p-4 rounded">
+                <label class="block mb-1" for="createdBy">Created By:</label>
+                <input type="text" id="createdBy" name="createdBy" class="w-full px-2 py-1 border border-gray-300 rounded">
+              </div>
+
+              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">Save</button>
+            </form>
           </div>
-          
-          <div class="input-group">
-            <div>
-              <label for="dob">DOB:</label>
-              <input type="date" id="dob" name="dob" value="28.02.2018"> 
-            </div>
-            <div>
-              <label for="genderAge">Gender/Age:</label>
-              <input type="text" id="genderAge" name="genderAge" value="male/3yrs">
-            </div>
-            <div>
-              <label for="hnu">HNU:</label>
-              <input type="text" id="hnu" name="hnu" value="123456">
-            </div>
-          </div>
+        `;
+      }
 
-          <div class="input-group">
-            <div>
-              <label for="mothersName">Mother's Name:</label>
-              <input type="text" id="mothersName" name="mothersName">
-            </div>
-            <div>
-              <label for="motherTel">Tel:</label>
-              <input type="text" id="motherTel" name="motherTel">
-            </div>
-            <div>
-              <label for="motherEmail">Email:</label>
-              <input type="text" id="motherEmail" name="motherEmail">
-            </div>
-          </div>
+      const homeLink = document.getElementById('homeLink');
+      if (homeLink) {
+        homeLink.addEventListener('click', showHomeForm);
+      }
 
-          <div class="input-group">
-            <div>
-              <label for="fathersName">Father's Name:</label>
-              <input type="text" id="fathersName" name="fathersName">
-            </div>
-            <div>
-              <label for="fatherTel">Tel:</label>
-              <input type="text" id="fatherTel" name="fatherTel">
-            </div>
-            <div>
-              <label for="fatherEmail">Email:</label>
-              <input type="text" id="fatherEmail" name="fatherEmail">
-            </div>
-          </div>
-
-          <label for="informant">Informant:</label>
-          <input type="text" id="informant" name="informant">
-
-          <div class="highlighted">
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date"> 
-          </div>
-
-          <div class="highlighted">
-            <label for="doctorsNotes">Doctor's Notes:</label>
-            <textarea id="doctorsNotes" name="doctorsNotes"></textarea>
-          </div>
-
-          <div class="highlighted">
-            <label for="createdBy">Created By:</label>
-            <input type="text" id="createdBy" name="createdBy">
-          </div>
-
-          <button type="submit">Save</button>
-        </form> 
-      </div>
-    `;
-    }
-
-    // Event listener for Home link
-    const homeLink = document.getElementById('homeLink');
-    if (homeLink) {
-      homeLink.addEventListener('click', showHomeForm);
-    }
-
-    // Call showHomeForm() to display the form initially
-    showHomeForm();
-  });
-</script>
-<script src="{{ asset('js/doctor.js') }}"></script>
-
+      showHomeForm();
+    });
+  </script>
+  <script src="{{ asset('js/doctor.js') }}"></script>
 </body>
 </html>
