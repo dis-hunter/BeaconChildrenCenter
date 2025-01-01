@@ -57,6 +57,12 @@ Route::get('/psychotherapy_dashboard', function () {
 Route::get('/physiotherapy_dashboard', function () {
     return view('therapists.physiotherapyDashboard');
 });
+Route::get('/occupationaltherapy_dashboard', function () {
+    return view('therapists.occupationaltherapyDashboard');
+});
+Route::get('/speechtherapy_dashboard', function () {
+    return view('therapists.speechtherapyDashboard');
+});
 Route::get('/nutritionist_dashboard', function () {
     return view('therapists.nutritionistDashboard');
 });
