@@ -4,8 +4,10 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\DevelopmentMilestonesController;
+use App\Http\Controllers\DoctorsController; 
+// Import the controller class
 use App\Http\Controllers\TriageController;
-use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\StaffController;
 
 use App\Http\Controllers\AuthController;
@@ -14,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\DoctorsDisplayController;
+use App\Http\Controllers\appointmentsController;
+
+
 
 //Doctor Form Routes
 
@@ -75,6 +80,105 @@ Route::get('/doctorDashboard', function () {
 });
 
 
+//this handles parent related activity
+Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
+// Handle form submission to store a new parent
+Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents.store');
+//search for parent
+Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
+
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
+
+//Handles child related operations
+Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
+// Handle form submission to store a new child
+Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
+Route::get('/parents',  [ParentsController::class,
+'create']
+);
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
+
+Route::get('login', [AuthController::class, 'loginGet'])->name('login');
+Route::get('register', [AuthController::class,'registerGet'])->name('register');
+Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
+Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
+Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+
+Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+
+Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
+
+
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
+
+Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+
+//routes accessible when logged in only
+Route::group(['middleware'=>'auth'], function(){
+    
+    Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
+    Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
+
+    //routes accessible based on role_id
+    //Nurse
+    Route::group(['middleware'=>'role:1'], function(){
+        // e.g. Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+        
+
+    });
+
+    //Doctor
+    Route::group(['middleware'=>'role:2'], function(){
+        
+    });
+
+    //Admin
+    Route::group(['middleware'=>'role:3'], function(){
+        
+    });
+
+});
+
+
+
+use App\Http\Controllers\BehaviourAssesmentController;
+
+// Fetch Behaviour Assessment for a child
+Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'getBehaviourAssessment']);
+
+// Save or update Behaviour Assessment for a child
+Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'saveBehaviourAssessment']);
+
+
+
+
+
+
+use App\Http\Controllers\FamilySocialHistoryController;
+
+Route::get('/get-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'getFamilySocialHistory']);
+Route::post('/save-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'saveFamilySocialHistory']);
+
+
+
+use App\Http\Controllers\PerinatalHistoryController;
+
+Route::get('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'getPerinatalHistory']);
+Route::post('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'savePerinatalHistory']);
+
+
+
+use App\Http\Controllers\PastMedicalHistoryController;
+
+Route::get('/past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'getPastMedicalHistory']);
+Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'savePastMedicalHistory']);
+
+
+
 Route::get('/visithandle', function () {
     return view('Receiptionist/visits');
 });
@@ -92,5 +196,11 @@ Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
 Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
 // Add this route to handle the POST request for fetching staff full names
 Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
+Route::get('/appointments', [appointmentsController::class, 'fetchStaff']);
 
 
+
+Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
+use App\Http\Controllers\VisitController;
+
+Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');

@@ -47,13 +47,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected function fullname(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => json_decode($value, true),
-            set: fn($value) => json_encode($value),
-        );
-    }
+   // Accessor for fullname (assuming it's stored as JSON)
+   public function getFullnameAttribute($value)
+   {
+       return json_decode($value);
+   }
 
     public function role(){
         return $this->belongsTo(Role::class, 'role_id');
@@ -61,5 +59,10 @@ class User extends Authenticatable
 
     public function gender(){
         return $this->belongsTo(Gender::class, 'gender_id');
+    }
+    
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class); 
     }
 }
