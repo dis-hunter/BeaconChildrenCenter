@@ -41,12 +41,18 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 Route::get('/', function () {
     return view('example');
 });
+//therapist routes
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
 });
 Route::get('/speech_therapist', function () {
     return view('therapists.speechTherapist');
 });
+Route::get('/physical_therapist', function () {
+    return view('therapists.physiotherapyTherapist');
+});
+//therapist routes end above
+
 Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
