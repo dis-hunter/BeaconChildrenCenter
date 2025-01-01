@@ -136,3 +136,43 @@ Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHisto
 
 
 
+use App\Http\Controllers\GeneralExamController;
+
+Route::get('/general-exam/{registrationNumber}', [GeneralExamController::class, 'getGeneralExam']);
+Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class, 'saveGeneralExam']);
+
+
+
+use App\Http\Controllers\DevelopmentAssessmentController;
+
+Route::get('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'getDevelopmentAssessment']);
+Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'saveDevelopmentAssessment']);
+
+
+use App\Http\Controllers\DiagnosisController;
+
+Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getDiagnosis']);
+Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
+
+
+use App\Http\Controllers\InvestigationController;
+
+Route::post('/save-investigations/{registration_number}', [InvestigationController::class, 'saveInvestigations']);
+Route::get('/recordResults/{registration_number}', [InvestigationController::class, 'recordResults'])->name('recordResults');
+Route::post('/saveInvestigationResults/{registration_number}', [InvestigationController::class, 'saveInvestigationResults']);
+
+
+use App\Http\Controllers\CarePlanController;
+
+Route::post('/save-careplan/{registration_number}', [CarePlanController::class, 'saveCarePlan']);
+
+
+
+
+
+
+
+
+
+
+

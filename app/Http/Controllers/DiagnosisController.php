@@ -2,28 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Diagnosis; // Import the Diagnosis model
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DiagnosisController extends Controller
 {
-    public function create()
+    /**
+     * Fetch the most recent Diagnosis data for a child.
+     */
+    public function getDiagnosis($registrationNumber)
     {
-        // Data to be saved
-        $data = [
-            'visit_id' => 1,
-            'child_id' => 1, // Use the correct field name from the model/migration
-            'doctor_id' => 1,
-            'data' => [
-                'primary' => 'autism',
-                'secondary' => 'constipation',
-            ],
-        ];
+        // Fetch the child record using the registration number
+        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
 
-        // Create a new Diagnosis record
-        $diagnosis = Diagnosis::create($data);
+        if (!$child) {
+            return response()->json(['message' => 'Child not found'], 404);
+        }
 
-        // Output the 'data' field (decoded by the accessor in the model)
-        dd($diagnosis->data);
+        // Fetch the most recent diagnosis for the child
+        $diagnosis = DB::table('diagnosis')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc') // Fetch the most recent diagnosis
+            ->first();
+
+        if ($diagnosis) {
+            return response()->json([
+                'data' => json_decode($diagnosis->data),
+                'visit_id' => $diagnosis->visit_id, // Include visit ID for context
+            ], 200);
+        } else {
+            return response()->json([
+                'data' => null,
+                'message' => 'No Diagnosis found for this child',
+            ], 200);
+        }
+    }
+
+    /**
+     * Save or update Diagnosis data for the latest visit.
+     */
+    public function saveDiagnosis(Request $request, $registrationNumber)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'primaryDiagnosis' => 'required|string', // Ensure primary diagnosis is provided
+            'secondaryDiagnosis' => 'nullable|string', // Secondary diagnosis is optional
+            'otherDiagnosis' => 'nullable|string', // Other diagnosis is optional
+        ]);
+
+        // Fetch the child record using the registration number
+        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+
+        if (!$child) {
+            return response()->json(['message' => 'Child not found'], 404);
+        }
+
+        // Fetch the latest visit for the child
+        $visit = DB::table('visits')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc') // Get the latest visit
+            ->first();
+
+        if (!$visit) {
+            return response()->json(['message' => 'No visit found for this child'], 404);
+        }
+
+        // Placeholder doctor ID (replace this logic with actual doctor determination)
+        $doctorId = 1; // Replace with actual logic for determining doctor ID
+
+        try {
+            // Prepare the data to be saved
+            $data = [
+                'primaryDiagnosis' => $request->primaryDiagnosis,
+                'secondaryDiagnosis' => $request->secondaryDiagnosis,
+                'otherDiagnosis' => $request->primaryDiagnosis === 'Other' ? $request->otherDiagnosis : null,
+            ];
+
+            // Create a new Diagnosis record for the latest visit
+            DB::table('diagnosis')->insert([
+                'child_id' => $child->id,
+                'visit_id' => $visit->id,
+                'data' => json_encode($data), // Ensure data is JSON encoded
+                'doctor_id' => $doctorId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            return response()->json(['message' => 'Diagnosis saved successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to save Diagnosis', 'error' => $e->getMessage()], 500);
+        }
     }
 }
