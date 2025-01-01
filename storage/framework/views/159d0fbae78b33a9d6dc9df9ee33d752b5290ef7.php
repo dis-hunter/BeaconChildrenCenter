@@ -13,17 +13,15 @@
       <i class="fas fa-user-md"></i> Active Patient <br> 
       <span class="text-blue-500">John Michael Doe</span>
     </h2>
-    <a href="#" id="homeLink" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
-      <i class="fas fa-home mr-2"></i> Home
+
     </a>
-    <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
-      <i class="fas fa-sign-out-alt mr-2"></i> Logout
+    
     </a>
     <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
       <i class="fas fa-comments mr-2"></i> Multidisciplinary Communication
     </a>
-    <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
-      <i class="fas fa-file-medical mr-2"></i> Therapy Summaries
+  <a href="#" class="px-4 py-2 text-lg text-gray-800 block transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-6">
+      <i class="fas fa-sign-out-alt mr-2"></i> Logout  
     </a>
   </div>
 
@@ -43,29 +41,18 @@
     <div id="perinatalHistory"></div>
     <a href="#pastMedicalHistory" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Past Medical History</a>
     <div id="pastMedicalHistory"></div>
-    <a href="#devMilestones" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Developmental Milestones</a>
-    <div id="devMilestones"></div>
-    <a href="#behaviourAssessment" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Behaviour Assessment</a>
-    <div id="behaviourAssessment"></div>
     <a href="#familyAndSocial" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Family and Social History</a>
     <div id="familyAndSocial"></div>
-    <a href="#generalExam" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">General Examination</a>
+    <a href="#generalExam" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Psychotherapy Assesment</a>
     <div id="generalExam"></div>
-    <a href="#Examination" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Examination</a>
+    <a href="#Examination" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Psychotherapy Goals</a>
     <div id="Examination"></div>
-    <a href="#devAssesment" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Developmental Assessment</a>
+    <a href="#devAssesment" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Psychotherapy Session</a>
     <div id="devAssesment"></div>
-    <a href="#diagnosis" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Diagnoses</a>
+    <a href="#diagnosis" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Psychotherapy Individualized Therapy Plan </a>
     <div id="diagnosis"></div>
-    <a href="#investigations" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Investigations</a>
-    <div id="investigations"></div>
-    <a href="#recordResults" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Record Results</a>
-    <div id="recordResults"></div>
-    <a href="#carePlan" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Plan of Action</a>
-    <div id="carePlan"></div>
-    <a href="#" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Immunization</a>
-    <a href="#" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Referral Letter</a>
-    <a href="#" class="block px-3 py-2 text-gray-800 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Patient Documents</a>
+    <a href="#investigations" class="block px-3 py-2 text-gray-800 border-b border-sky-100 transition-all duration-300 hover:bg-sky-100 hover:text-blue-500 hover:pl-5">Feedback</a>
+  
   </div>
 
   <!-- Menu Button -->

@@ -51,7 +51,7 @@ Route::get('/therapist_dashboard', function () {
     return view('therapists.therapistsDashboard');
 });
 Route::get('/therapist_patient_dashboard', function () {
-    return view('therapists.therapistsPatientDashboard');
+    return view('therapists.psychotherapyDashboard');
 });
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
