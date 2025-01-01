@@ -35,11 +35,24 @@
         <p>No children found for this parent.</p>
     @endif --}}
 
-    <input type="text" class="form-input" placeholder="Search Contacts..." wire:model="query">
-
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 p-2">
+    <select wire:model="selectedColumn" class="form-select">
+        @foreach($searchColumns as $key => $value)
+            <option value="{{ $key }}">{{ $value }}</option>
+        @endforeach
+    </select>
+</div>
+<div class="col-lg-8 col-md-6 col-sm-12 p-2">
+    <input type="text" wire:model="query" class="form-control" placeholder="Enter search term">
+                @error('query') <span class="text-danger">{{ $message }}</span> @enderror
+</div>
     @if (!empty($parents))
     @foreach ($parents as $parent)
         <pre>{{$parent->email}}</pre>
+        <pre>{{$parent->telephone}}</pre>
     @endforeach
     @endif
+</div>
+
 </div>

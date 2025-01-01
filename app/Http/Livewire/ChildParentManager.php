@@ -10,13 +10,25 @@ class ChildParentManager extends Component
 {
     public $query;
     public $parents;
+    public $searchColumns=[
+        'telephone'=>'Telephone',
+        'email'=>'Email'
+    ];
+    public $selectedColumn;
 
     public function mount(){
         $this->query='';
         $this->parents=[];
+        $this->searchColumns;
+        $this->selectedColumn='';
     }
     public function updatedQuery(){
-        $this->parents = Parents::where('telephone','like','%'.$this->query.'%')->get();
+        $this->validate([
+            'query' => 'required',
+            'selectedColumn' => 'required',
+        ]);
+        //dd($this->selectedColumn);
+        $this->parents = Parents::where($this->selectedColumn,'like','%'.$this->query.'%')->get();
     }
 
     public function render()

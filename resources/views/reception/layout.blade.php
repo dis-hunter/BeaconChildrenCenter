@@ -218,7 +218,7 @@
 <div class="sidebar" id="sidebar">
     <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
     <a href="/patients"><span class="icon">➕</span> <span class="text">Patients</span></a>
-    <a href="/patients/search"><span class="icon"></span> <span class="text">Search</span></a>
+    <a href="/patients/search"><span class="icon">🔍</span> <span class="text">Search</span></a>
     {{-- <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a> --}}
     <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
     <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
