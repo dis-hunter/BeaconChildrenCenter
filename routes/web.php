@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
@@ -47,6 +48,12 @@ Route::get('/', function () {
     return view('example');
 });
 //therapist routes
+Route::get('/therapist_dashboard', function () {
+    return view('therapists.therapistsDashboard');
+});
+Route::get('/therapist_patient_dashboard', function () {
+    return view('therapists.therapistsPatientDashboard');
+});
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
 });
@@ -174,7 +181,7 @@ Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHisto
 
 
 Route::get('/visithandle', function () {
-    return view('reception/visits');
+    return view('Receiptionist/visits');
 });
 Route::get('/staff-dropdown', [StaffController::class, 'index']);
 
@@ -190,7 +197,7 @@ Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
 Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
 // Add this route to handle the POST request for fetching staff full names
 Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
-Route::get('/appointments', [appointmentsController::class, 'fetchStaff']);
+Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
 
 

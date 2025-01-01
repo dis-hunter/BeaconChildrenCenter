@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Models\Visits;
+use Illuminate\Routing\Controller;
 
 class VisitController extends Controller
 {
@@ -16,12 +18,12 @@ class VisitController extends Controller
             'source_type' => 'required|string',
             'source_contact' => 'required|string|max:15',
             'staff_id' => 'required|integer|exists:staff,id',
-            'doctor_id' => 'required|integer|exists:doctors,id',
+            'doctor_id' => 'required|integer|exists:staff,id',
             'appointment_id' => 'nullable|integer',
         ]);
 
         try {
-            $visit = Visits::create([
+            DB::table('visits')->insert([
                 'child_id' => $validatedData['child_id'],
                 'visit_type' => $validatedData['visit_type'],
                 'visit_date' => $validatedData['visit_date'],
@@ -34,7 +36,7 @@ class VisitController extends Controller
                 'updated_at' => now(),
             ]);
 
-            return response()->json(['status' => 'success', 'data' => $visit], 201);
+            return response()->json(['status' => 'success', 'data' => 'yes'], 201);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
