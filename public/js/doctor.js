@@ -2042,7 +2042,6 @@ function addFormEventListeners(registrationNumber) {
 });
 
 //Invesitigations
-
 document.addEventListener('DOMContentLoaded', () => {
     // Inject CSS styles directly into the document
     const style = document.createElement('style');
@@ -2139,6 +2138,12 @@ document.addEventListener('DOMContentLoaded', () => {
           transform: rotate(360deg);
         }
       }
+  
+      /* Sub-options Styles */
+      .sub-options {
+        display: none;
+        margin-left: 20px;
+      }
     `;
     document.head.appendChild(style);
   
@@ -2158,20 +2163,82 @@ document.addEventListener('DOMContentLoaded', () => {
           <h2>Investigations</h2>
   
           <div class="section-container">
-            <h4>Imaging</h4>
-            <label><input type="checkbox" name="imaging" value="MRI scan brain"> MRI Scan Brain</label>
-            <label><input type="checkbox" name="imaging" value="CT scan brain"> CT Scan Brain</label>
-            <label><input type="checkbox" name="imaging" value="MRI scan spine"> MRI Scan Spine</label>
-            <label><input type="checkbox" name="imaging" value="CT scan spine"> CT Scan Spine</label>
+            <h4>Lab Results</h4>
+            <label><input type="checkbox" id="haematology-checkbox"> Haematology</label>
+            <div id="haematology-options" class="sub-options">
+              <label><input type="checkbox" name="haematology" value="Haemogram"> Haemogram</label>
+              <label><input type="checkbox" name="haematology" value="PBF"> PBF</label>
+              <label><input type="checkbox" name="haematology" value="Blood slide for malaria"> Blood Slide for Malaria</label>
+              <label><input type="checkbox" name="haematology" value="Sickling test"> Sickling Test</label>
+              <label><input type="checkbox" id="haematology-other-checkbox" value="Other"> Other</label>
+              <textarea id="haematology-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+  
+            <label><input type="checkbox" id="biochemistry-checkbox"> Biochemistry</label>
+            <div id="biochemistry-options" class="sub-options">
+              <label><input type="checkbox" name="biochemistry" value="UECA"> UECA</label>
+              <label><input type="checkbox" name="biochemistry" value="Electrolyte"> Electrolyte</label>
+              <label><input type="checkbox" name="biochemistry" value="Liver function tests"> Liver Function Tests</label>
+              <label><input type="checkbox" name="biochemistry" value="Random blood sugar"> Random Blood Sugar</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum magnesium"> Serum Magnesium</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum calcium"> Serum Calcium</label>
+              <label><input type="checkbox" name="biochemistry" value="Ferritun"> Ferritun</label>
+              <label><input type="checkbox" name="biochemistry" value="Toxicology"> Toxicology</label>
+              <label><input type="checkbox" id="biochemistry-other-checkbox" value="Other"> Other</label>
+              <textarea id="biochemistry-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+  
+            <label><input type="checkbox" id="urine-checkbox"> Urine Tests</label>
+            <div id="urine-options" class="sub-options">
+              <label><input type="checkbox" name="urine" value="Urinalysis"> Urinalysis</label>
+              <label><input type="checkbox" name="urine" value="Glycosaminoglycan"> Glycosaminoglycan</label>
+              <label><input type="checkbox" name="urine" value="Toxicology"> Toxicology</label>
+              <label><input type="checkbox" id="urine-other-checkbox" value="Other"> Other</label>
+              <textarea id="urine-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+  
+            <label><input type="checkbox" id="stool-checkbox"> Stool Tests</label>
+            <div id="stool-options" class="sub-options">
+              <label><input type="checkbox" name="stool" value="Microscopy"> Microscopy</label>
+              <label><input type="checkbox" name="stool" value="Culture/sensitivity"> Culture/Sensitivity</label>
+              <label><input type="checkbox" name="stool" value="Retaxium"> Retaxium</label>
+              <label><input type="checkbox" id="stool-other-checkbox" value="Other"> Other</label>
+              <textarea id="stool-other-textarea" rows="4" cols="50"></textarea>
+            </div>
           </div>
   
           <div class="section-container">
-            <h4>Lab Requests</h4>
-            <label><input type="checkbox" name="lab_requests" value="Haemogram"> Haemogram</label>
-            <label><input type="checkbox" name="lab_requests" value="Thyroid function test"> Thyroid Function Test</label>
-            <label><input type="checkbox" name="lab_requests" value="Biochemistry"> Biochemistry</label>
-            <label><input type="checkbox" name="lab_requests" id="other-lab-checkbox" value="Other"> Other</label>
-            <textarea id="other-lab-tests" rows="4" cols="50"></textarea>
+            <h4>Imaging</h4>
+            <label><input type="checkbox" id="xray-checkbox"> X-ray</label>
+            <div id="xray-options" class="sub-options">
+              <label><input type="checkbox" name="xray" value="Wrist"> Wrist</label>
+              <label><input type="checkbox" name="xray" value="Humerus"> Humerus</label>
+              <label><input type="checkbox" name="xray" value="Radius"> Radius</label>
+              <label><input type="checkbox" name="xray" value="Hip"> Hip</label>
+              <label><input type="checkbox" name="xray" value="Femur"> Femur</label>
+              <label><input type="checkbox" name="xray" value="Tibia"> Tibia</label>
+              <label><input type="checkbox" name="xray" value="Fibula"> Fibula</label>
+              <label><input type="checkbox" name="xray" value="Knee"> Knee</label>
+              <label><input type="checkbox" name="xray" value="Ankle"> Ankle</label>
+              <label><input type="checkbox" name="xray" value="Foot"> Foot</label>
+              <label><input type="checkbox" name="xray" value="Chest"> Chest</label>
+            </div>
+  
+            <label><input type="checkbox" id="mri-checkbox"> MRI Scan</label>
+            <div id="mri-options" class="sub-options">
+              <label><input type="checkbox" name="mri" value="Brain"> Brain</label>
+              <label><input type="checkbox" name="mri" value="Spine"> Spine</label>
+              <label><input type="checkbox" name="mri" value="Abdomen"> Abdomen</label>
+              <label><input type="checkbox" name="mri" value="Chest"> Chest</label>
+            </div>
+  
+            <label><input type="checkbox" id="ct-checkbox"> CT Scan</label>
+            <div id="ct-options" class="sub-options">
+              <label><input type="checkbox" name="ct" value="Brain"> Brain</label>
+              <label><input type="checkbox" name="ct" value="Spine"> Spine</label>
+              <label><input type="checkbox" name="ct" value="Abdomen"> Abdomen</label>
+              <label><input type="checkbox" name="ct" value="Chest"> Chest</label>
+            </div>
           </div>
   
           <div class="section-container">
@@ -2257,21 +2324,25 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
   
           <button type="submit">Submit Request</button>
-          <div class="loading-indicator"></div> 
+          <div class="loading-indicator"></div>
         </div>
       `;
   
-      // Handle "Other" checkbox visibility for lab tests
-      document.getElementById('other-lab-checkbox').addEventListener('change', function() {
-        const otherLabTestsTextarea = document.getElementById('other-lab-tests');
-        otherLabTestsTextarea.style.display = this.checked ? 'block' : 'none';
-      });
+      // Toggle visibility of sub-options for each section
+      setupToggleVisibility('haematology-checkbox', 'haematology-options');
+      setupToggleVisibility('biochemistry-checkbox', 'biochemistry-options');
+      setupToggleVisibility('urine-checkbox', 'urine-options');
+      setupToggleVisibility('stool-checkbox', 'stool-options');
+      setupToggleVisibility('xray-checkbox', 'xray-options');
+      setupToggleVisibility('mri-checkbox', 'mri-options');
+      setupToggleVisibility('ct-checkbox', 'ct-options');
   
-      // Handle "Other" checkbox visibility for functional tests
-      document.getElementById('other-functional-checkbox').addEventListener('change', function() {
-        const otherFunctionalTestsTextarea = document.getElementById('other-functional-tests');
-        otherFunctionalTestsTextarea.style.display = this.checked ? 'block' : 'none';
-      });
+      // Toggle visibility of "Other" textareas
+      setupToggleVisibility('haematology-other-checkbox', 'haematology-other-textarea');
+      setupToggleVisibility('biochemistry-other-checkbox', 'biochemistry-other-textarea');
+      setupToggleVisibility('urine-other-checkbox', 'urine-other-textarea');
+      setupToggleVisibility('stool-other-checkbox', 'stool-other-textarea');
+      setupToggleVisibility('other-functional-checkbox', 'other-functional-tests');
   
       // Attach the submit event to save data
       const submitButton = document.querySelector('button[type="submit"]');
@@ -2284,23 +2355,41 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingIndicator.style.display = 'block';
   
         const collectedData = {
-          imaging: getCheckedValues('imaging'),
-          labRequests: getCheckedValues('lab_requests'),
+          haematology: getCheckedValues('haematology'),
+          biochemistry: getCheckedValues('biochemistry'),
+          urine: getCheckedValues('urine'),
+          stool: getCheckedValues('stool'),
+          xray: getCheckedValues('xray'),
+          mri: getCheckedValues('mri'),
+          ct: getCheckedValues('ct'),
           geneticTests: getCheckedValues('genetic_tests'),
           electrophysiology: getCheckedValues('electrophysiology'),
           functionalTests: getFunctionalTests(),
-          otherLabTests: document.getElementById('other-lab-tests').value.trim(),
+          otherHaematology: document.getElementById('haematology-other-textarea').value.trim(),
+          otherBiochemistry: document.getElementById('biochemistry-other-textarea').value.trim(),
+          otherUrine: document.getElementById('urine-other-textarea').value.trim(),
+          otherStool: document.getElementById('stool-other-textarea').value.trim(),
+          otherFunctionalTests: document.getElementById('other-functional-tests').value.trim(),
         };
   
         console.log('Collected Data: ', collectedData); // Debugging log
   
         const postData = {
-          imaging: collectedData.imaging,
-          lab_requests: collectedData.labRequests,
+          haematology: collectedData.haematology,
+          biochemistry: collectedData.biochemistry,
+          urine: collectedData.urine,
+          stool: collectedData.stool,
+          xray: collectedData.xray,
+          mri: collectedData.mri,
+          ct: collectedData.ct,
           genetic_tests: collectedData.geneticTests,
           electrophysiology: collectedData.electrophysiology,
           functional_tests: collectedData.functionalTests,
-          other_lab_tests: collectedData.otherLabTests,
+          otherHaematology: collectedData.otherHaematology,
+          otherBiochemistry: collectedData.otherBiochemistry,
+          otherUrine: collectedData.otherUrine,
+          otherStool: collectedData.otherStool,
+          other_functional_tests: collectedData.otherFunctionalTests,
         };
   
         // Send data to the server
@@ -2312,63 +2401,75 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   
-    // Helper function to get checked values for checkboxes
-    function getCheckedValues(name) {
-      const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-      const values = [];
-      checkboxes.forEach(checkbox => {
-        values.push(checkbox.value);
-      });
-      return values;
-    }
+    // Helper function to toggle visibility of sub-options
+    function setupToggleVisibility(triggerId, targetId) {
+      const trigger = document.getElementById(triggerId);
+      const target = document.getElementById(targetId);
   
-    // Helper function to get the selected functional tests
-    function getFunctionalTests() {
-      return {
-        vanderbilt: getRadioValue('functional_test_vanderbilt'),
-        mchat: getRadioValue('functional_test_mchat'),
-        ados: getRadioValue('functional_test_ados'),
-        molten: getRadioValue('functional_test_molten'),
-        grifiths: getRadioValue('functional_test_grifiths'),
-        senzeny: getRadioValue('functional_test_senzeny'),
-        learning: getRadioValue('functional_test_learning'),
-        sleep: getRadioValue('functional_test_sleep'),
-        education: getRadioValue('functional_test_education'),
-        other: getRadioValue('functional_test_other'),
-        other_tests: document.getElementById('other-functional-tests').value.trim(),
-      };
-    }
-  
-    // Helper function to get the selected radio button value
-    function getRadioValue(name) {
-      const radioButton = document.querySelector(`input[name="${name}"]:checked`);
-      return radioButton ? radioButton.value : null;
-    }
-  
-    // Function to send the collected data to the server
-    function sendInvestigationsData(registrationNumber, postData) {
-      console.log('Sending data to server...'); // Debugging log
-      console.log('Post data: ', postData); // Debugging log
-  
-      return fetch(`/save-investigations/${registrationNumber}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token
-        },
-        body: JSON.stringify(postData),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Server Response: ', data); // Debugging log
-          alert(data.message); // Success message
-        })
-        .catch(error => {
-          console.error('Error during fetch:', error);
-          alert('Error: Failed to save investigations'); // Error message
+      if (trigger && target) {
+        trigger.addEventListener('change', function () {
+            target.style.display = this.checked ? 'block' : 'none';
+          });
+        }
+      }
+    
+      // Helper function to get checked values for checkboxes
+      function getCheckedValues(name) {
+        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+        const values = [];
+        checkboxes.forEach(checkbox => {
+          values.push(checkbox.value);
         });
-    }
-  });
+        return values;
+      }
+    
+      // Helper function to get the selected functional tests
+      function getFunctionalTests() {
+        return {
+          vanderbilt: getRadioValue('functional_test_vanderbilt'),
+          mchat: getRadioValue('functional_test_mchat'),
+          ados: getRadioValue('functional_test_ados'),
+          molten: getRadioValue('functional_test_molten'),
+          grifiths: getRadioValue('functional_test_grifiths'),
+          senzeny: getRadioValue('functional_test_senzeny'),
+          learning: getRadioValue('functional_test_learning'),
+          sleep: getRadioValue('functional_test_sleep'),
+          education: getRadioValue('functional_test_education'),
+          other: getRadioValue('functional_test_other'),
+          other_tests: document.getElementById('other-functional-tests').value.trim(),
+        };
+      }
+    
+      // Helper function to get the selected radio button value
+      function getRadioValue(name) {
+        const radioButton = document.querySelector(`input[name="${name}"]:checked`);
+        return radioButton ? radioButton.value : null;
+      }
+    
+      // Function to send the collected data to the server
+      function sendInvestigationsData(registrationNumber, postData) {
+        console.log('Sending data to server...'); // Debugging log
+        console.log('Post data: ', postData); // Debugging log
+    
+        return fetch(`/save-investigations/${registrationNumber}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token
+          },
+          body: JSON.stringify(postData),
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Server Response: ', data); // Debugging log
+            alert(data.message); // Success message
+          })
+          .catch(error => {
+            console.error('Error during fetch:', error);
+            alert('Error: Failed to save investigations'); // Error message
+          });
+      }
+    });
 
 
 
@@ -2515,72 +2616,77 @@ document.addEventListener('DOMContentLoaded', () => {
         const fullName = JSON.parse(data.child.fullname);
         const patientName = `${fullName.first_name} ${fullName.middle_name || ''} ${fullName.last_name}`;
         mainContent.innerHTML = `
-                  <div class="container">
-                      <h3>Patient: ${patientName}</h3>
-                  </div>
-              `;
+          <div class="container">
+            <h3>Patient: ${patientName}</h3>
+          </div>
+        `;
   
         if (data.investigationData && data.investigationData.created_at) {
           const investigationDate = new Date(data.investigationData.created_at).toLocaleDateString();
           mainContent.innerHTML += `
-                      <div class="test-section">
-                          <h4>Investigation Details</h4>
-                          <p><strong>Date of Request:</strong> ${investigationDate}</p>
-                      </div>
-                  `;
+            <div class="test-section">
+              <h4>Investigation Details</h4>
+              <p><strong>Date of Request:</strong> ${investigationDate}</p>
+            </div>
+          `;
         }
   
         const renderTestSection = (sectionTitle, tests, existingResults) => {
           if (tests && tests.length) {
             mainContent.innerHTML += `
-                          <div class="test-section">
-                              <h4>${sectionTitle}</h4>
-                          </div>
-                      `;
+              <div class="test-section">
+                <h4>${sectionTitle}</h4>
+              </div>
+            `;
             tests.forEach(testName => {
               const existingResult = Array.isArray(existingResults)
                 ? existingResults.find(result => result.name === testName)
                 : undefined;
   
               mainContent.innerHTML += `
-                              <div class="test-fields">
-                                  <div class="test-name">${testName}</div>
-                                  <div class="test-input">
-                                      <textarea placeholder="Enter result value">${existingResult ? existingResult.value : ''}</textarea>
-                                      <textarea placeholder="Enter comments">${existingResult ? existingResult.comments : ''}</textarea>
-                                  </div>
-                              </div>
-                          `;
+                <div class="test-fields">
+                  <div class="test-name">${testName}</div>
+                  <div class="test-input">
+                    <textarea placeholder="Enter result value">${existingResult ? existingResult.value : ''}</textarea>
+                    <textarea placeholder="Enter comments">${existingResult ? existingResult.comments : ''}</textarea>
+                  </div>
+                </div>
+              `;
             });
           }
         };
   
-        renderTestSection('Imaging', data.investigationData.imaging, data.investigationData.results);
-        renderTestSection('Lab Requests', data.investigationData.lab_requests, data.investigationData.results);
-        renderTestSection('Electrophysiology Tests', data.investigationData.electrophysiology, data.investigationData.results);
+        // Updated to match the new JSON format
+        renderTestSection('Haematology', data.investigationData.haematology, data.investigationData.results);
+        renderTestSection('Biochemistry', data.investigationData.biochemistry, data.investigationData.results);
+        renderTestSection('Urine', data.investigationData.urine, data.investigationData.results);
+        renderTestSection('Stool', data.investigationData.stool, data.investigationData.results);
+        renderTestSection('X-ray', data.investigationData.xray, data.investigationData.results);
+        renderTestSection('MRI', data.investigationData.mri, data.investigationData.results);
+        renderTestSection('CT', data.investigationData.ct, data.investigationData.results);
+        renderTestSection('Electrophysiology', data.investigationData.electrophysiology, data.investigationData.results);
         renderTestSection('Genetic Tests', data.investigationData.genetic_tests, data.investigationData.results);
   
         mainContent.innerHTML += `
-                  <div class="overall-impression">
-                      <h3>Overall Impression/Summary</h3>
-                      <textarea rows="4" cols="50">${data.investigationData.overall_impression || ''}</textarea>
-                  </div>
-                  <div class="btn-container">
-                      <button type="submit">Save</button>
-                      <div class="loading-indicator"></div> 
-                      <button type="button">Print</button>
-                      <button type="button">Back</button>
-                  </div>
-              `;
+          <div class="overall-impression">
+            <h3>Overall Impression/Summary</h3>
+            <textarea rows="4" cols="50">${data.investigationData.overall_impression || ''}</textarea>
+          </div>
+          <div class="btn-container">
+            <button type="submit">Save</button>
+            <div class="loading-indicator"></div> 
+            <button type="button">Print</button>
+            <button type="button">Back</button>
+          </div>
+        `;
   
+        // Auto-resize textareas
         const textareas = document.querySelectorAll('textarea');
-  
-        textareas.forEach((textarea) => {
+        textareas.forEach(textarea => {
           textarea.addEventListener('input', function () {
             this.style.height = 'auto';
             this.style.height = `${this.scrollHeight}px`;
           });
-  
           textarea.addEventListener('blur', function () {
             this.style.height = '50px';
           });
@@ -2594,17 +2700,17 @@ document.addEventListener('DOMContentLoaded', () => {
           loadingIndicator.style.display = 'block';
   
           const results = [];
-          document.querySelectorAll('.test-fields').forEach((field) => {
+          document.querySelectorAll('.test-fields').forEach(field => {
             const name = field.querySelector('.test-name').innerText.trim();
             const value = field.querySelector('textarea:nth-of-type(1)').value.trim();
             const comments = field.querySelector('textarea:nth-of-type(2)').value.trim();
-            results.push({name, value, comments});
+            results.push({ name, value, comments });
           });
   
           const overallImpressionElement = document.querySelector('.overall-impression textarea');
           const overallImpression = overallImpressionElement ? overallImpressionElement.value.trim() : '';
   
-          console.log('Data to be saved:', {results, overall_impression: overallImpression});
+          console.log('Data to be saved:', { results, overall_impression: overallImpression });
   
           try {
             const response = await fetch(`/saveInvestigationResults/${registrationNumber}`, {
@@ -2613,7 +2719,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
               },
-              body: JSON.stringify({results, overall_impression: overallImpression}),
+              body: JSON.stringify({ results, overall_impression: overallImpression }),
             });
   
             const result = await response.json();
@@ -2627,27 +2733,13 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingIndicator.style.display = 'none';
           }
         });
+  
       } catch (error) {
         console.error('Error fetching or processing data:', error);
         pageLoadingIndicator.style.display = 'none';
       }
     });
-  
-    // Auto-resize function for textareas 
-    const textareas = document.querySelectorAll('textarea');
-  
-    textareas.forEach((textarea) => {
-      textarea.addEventListener('input', function () {
-        this.style.height = 'auto';
-        this.style.height = `${this.scrollHeight}px`;
-      });
-  
-      textarea.addEventListener('blur', function () {
-        this.style.height = '50px';
-      });
-    });
   });
-    
 
 
 

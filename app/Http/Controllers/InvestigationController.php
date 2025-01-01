@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -16,11 +15,16 @@ class InvestigationController extends Controller
         // Log the registration number for debugging
         Log::info("Registration number received: " . $registration_number);
 
-        // Validate the incoming data
+        // Validate the incoming data (adjusted for the new format)
         $data = $request->validate([
-            'imaging' => 'array',
-            'lab_requests' => 'array',
-            'genetic_tests' => 'array',
+            'haematology' => 'array',
+            'biochemistry' => 'array',
+            'urine' => 'array',
+            'stool' => 'array',
+            'xray' => 'array',
+            'mri' => 'array',
+            'ct' => 'array',
+            'genetic_tests' => 'array', 
             'electrophysiology' => 'array',
             'functional_tests' => 'array',
             'functional_tests.vanderbilt' => 'nullable|string',
@@ -34,7 +38,11 @@ class InvestigationController extends Controller
             'functional_tests.education' => 'nullable|string',
             'functional_tests.other' => 'nullable|string',
             'functional_tests.other_tests' => 'nullable|string',
-            'other_lab_tests' => 'nullable|string'
+            'otherHaematology' => 'nullable|string',
+            'otherBiochemistry' => 'nullable|string',
+            'otherUrine' => 'nullable|string',
+            'otherStool' => 'nullable|string',
+            'other_functional_tests' => 'nullable|string', 
         ]);
 
         // Log the validated data for debugging
@@ -47,7 +55,7 @@ class InvestigationController extends Controller
             return response()->json(['message' => 'Child not found'], 404);
         }
 
-        // Find the latest visit for the child using the query builder
+        // Find the latest visit for the child
         $visit = DB::table('visits')
             ->where('child_id', $child->id)
             ->orderBy('created_at', 'desc')
@@ -57,10 +65,15 @@ class InvestigationController extends Controller
             return response()->json(['message' => 'No visit found for this child'], 404);
         }
 
-        // Collect the data into an array (store as JSON)
+        // Collect the data into an array (store as JSON) - Adjusted for the new format
         $investigationData = [
-            'imaging' => $data['imaging'] ?? [],
-            'lab_requests' => $data['lab_requests'] ?? [],
+            'haematology' => $data['haematology'] ?? [],
+            'biochemistry' => $data['biochemistry'] ?? [],
+            'urine' => $data['urine'] ?? [],
+            'stool' => $data['stool'] ?? [],
+            'xray' => $data['xray'] ?? [],
+            'mri' => $data['mri'] ?? [],
+            'ct' => $data['ct'] ?? [],
             'genetic_tests' => $data['genetic_tests'] ?? [],
             'electrophysiology' => $data['electrophysiology'] ?? [],
             'functional_tests' => [
@@ -76,7 +89,11 @@ class InvestigationController extends Controller
                 'other' => $data['functional_tests']['other'] ?? null,
                 'other_tests' => $data['functional_tests']['other_tests'] ?? null
             ],
-            'other_lab_tests' => $data['other_lab_tests'] ?? null
+            'otherHaematology' => $data['otherHaematology'] ?? null,
+            'otherBiochemistry' => $data['otherBiochemistry'] ?? null,
+            'otherUrine' => $data['otherUrine'] ?? null,
+            'otherStool' => $data['otherStool'] ?? null,
+            'other_functional_tests' => $data['other_functional_tests'] ?? null, 
         ];
 
         // Log the final data to be saved
@@ -113,6 +130,7 @@ class InvestigationController extends Controller
             return response()->json(['message' => 'Investigations saved successfully', 'investigation_id' => $investigationId]);
         }
     }
+
     public function recordResults($registration_number)
     {
         // Fetch child details using the registration number
@@ -144,6 +162,7 @@ class InvestigationController extends Controller
             'investigationData' => $investigationData
         ]);
     }
+
     public function saveInvestigationResults($registration_number, Request $request)
     {
         // Fetch child details using the registration number
@@ -184,7 +203,4 @@ class InvestigationController extends Controller
     
         return response()->json(['message' => 'Investigation results saved successfully']);
     }
-    
-    
-
 }
