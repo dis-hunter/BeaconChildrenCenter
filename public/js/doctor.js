@@ -1929,7 +1929,6 @@ function addFormEventListeners(registrationNumber) {
 
 
  //Get General Exam Link
-
  document.addEventListener('DOMContentLoaded', (event) => {
   const generalExam = document.querySelector('.floating-menu a[href="#generalExam"]');
 
@@ -1945,15 +1944,24 @@ function addFormEventListeners(registrationNumber) {
     try {
       // Fetch the CSRF token
       const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+      console.log("CSRF token:", csrfToken);
 
       // Fetch general examination data
+      console.log(`Fetching data from /general-exam/${registrationNumber}`);
       const response = await fetch(`/general-exam/${registrationNumber}`);
-      const result = await response.json();
+      console.log("Response status:", response.status);
 
+      if (!response.ok) {
+        console.error("Error response received:", await response.text());
+        throw new Error(`Failed to fetch data. Status: ${response.status}`);
+      }
+
+      const result = await response.json();
       console.log("Fetched data:", result);
 
       // Extract the general_exam_notes value or set it to an empty string if not present
       const generalExamNotes = result.data?.general_exam_notes || '';
+      console.log("General Exam Notes:", generalExamNotes);
 
       const mainContent = document.querySelector('.main');
       mainContent.innerHTML = `
@@ -1983,6 +1991,8 @@ function addFormEventListeners(registrationNumber) {
           general_exam_notes: generalExamNotesValue, // Save only the value from the textarea
         };
 
+        console.log("Saving data:", data);
+
         try {
           const saveResponse = await fetch(`/general-exam/${registrationNumber}`, {
             method: 'POST',
@@ -1993,7 +2003,10 @@ function addFormEventListeners(registrationNumber) {
             body: JSON.stringify({ data }),
           });
 
+          console.log("Save response status:", saveResponse.status);
+
           if (!saveResponse.ok) {
+            console.error("Error saving data:", await saveResponse.text());
             throw new Error('Failed to save data');
           }
 
@@ -2014,6 +2027,7 @@ function addFormEventListeners(registrationNumber) {
 
   function getRegistrationNumberFromUrl() {
     const pathParts = window.location.pathname.split('/');
+    console.log("Path parts:", pathParts);
     return pathParts[pathParts.length - 1];
   }
 
@@ -2080,6 +2094,8 @@ function addFormEventListeners(registrationNumber) {
     }
   }
 });
+
+
 
 //Invesitigations
 document.addEventListener('DOMContentLoaded', () => {

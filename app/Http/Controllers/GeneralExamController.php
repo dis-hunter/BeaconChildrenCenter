@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GeneralExamController extends Controller
 {
@@ -12,10 +13,13 @@ class GeneralExamController extends Controller
      */
     public function getGeneralExam($registrationNumber)
     {
+        Log::info("Fetching general exam for registration number: {$registrationNumber}");
+
         // Fetch the child record using the registration number
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
 
         if (!$child) {
+            Log::warning("Child not found for registration number: {$registrationNumber}");
             return response()->json(['message' => 'Child not found'], 404);
         }
 
@@ -26,6 +30,7 @@ class GeneralExamController extends Controller
             ->first();
 
         if (!$visit) {
+            Log::warning("No visits found for child ID: {$child->id}");
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
 
@@ -33,8 +38,10 @@ class GeneralExamController extends Controller
         $generalExam = DB::table('general_exam')->where('visit_id', $visit->id)->first();
 
         if ($generalExam) {
+            Log::info("General exam data found for visit ID: {$visit->id}");
             return response()->json(['data' => json_decode($generalExam->data)], 200);
         } else {
+            Log::info("No general exam data found for visit ID: {$visit->id}");
             return response()->json(['data' => null, 'message' => 'No General Exam found'], 200);
         }
     }
@@ -44,15 +51,18 @@ class GeneralExamController extends Controller
      */
     public function saveGeneralExam(Request $request, $registrationNumber)
     {
+        Log::info("Saving general exam for registration number: {$registrationNumber}", ['data' => $request->all()]);
+
         // Validate the incoming request data
-        $request->validate([
-            'data' => 'required|array', // Ensure the data is an array
+        $validated = $request->validate([
+            'data' => 'required|array',
         ]);
 
         // Fetch the child record using the registration number
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
 
         if (!$child) {
+            Log::warning("Child not found for registration number: {$registrationNumber}");
             return response()->json(['message' => 'Child not found'], 404);
         }
 
@@ -63,10 +73,11 @@ class GeneralExamController extends Controller
             ->first();
 
         if (!$visit) {
+            Log::warning("No visits found for child ID: {$child->id}");
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
 
-        $doctorId = 1; // Placeholder doctor ID (replace with dynamic logic if necessary)
+        $staffId = 1; // Placeholder doctor ID (replace with dynamic logic if necessary)
 
         try {
             // Create or update the General Exam record for the visit
@@ -74,16 +85,22 @@ class GeneralExamController extends Controller
                 ['visit_id' => $visit->id], // Match on visit_id
                 [
                     'child_id' => $child->id,
-                    'doctor_id' => $doctorId,
-                    'data' => json_encode($request->data), // Ensure data is JSON encoded
+                    'staff_id' => $staffId,
+                    'data' => json_encode($validated['data']), // Ensure data is JSON encoded
                     'updated_at' => now(),
                     'created_at' => now(), // Used only when inserting
                 ]
             );
 
+            Log::info("General exam saved successfully for visit ID: {$visit->id}");
+
             return response()->json(['message' => 'General Examination saved or updated successfully!']);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to save or update General Examination', 'error' => $e->getMessage()], 500);
+            Log::error("Failed to save general exam", ['error' => $e->getMessage()]);
+            return response()->json([
+                'message' => 'Failed to save or update General Examination',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 }
