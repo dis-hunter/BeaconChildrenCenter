@@ -54,6 +54,9 @@ Route::get('/physical_therapist', function () {
 Route::get('/psychotherapy_therapist', function () {
     return view('therapists.psychotherapyTherapist');
 });
+Route::get('/nutritionist', function () {
+    return view('therapists.nutritionist');
+});
 //therapist routes end above
 
 Route::get('/receiptionist_dashboard', function () {
