@@ -9499,3 +9499,17 @@ LINE 1: select * from \"children\" where \"registration_number\" = $1 li...
 [2025-01-01 05:05:43] local.INFO: Registration number received: REG-001  
 [2025-01-01 05:05:43] local.INFO: Validated data:  {"imaging":["MRI scan brain"],"lab_requests":[],"genetic_tests":[],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"other_lab_tests":null} 
 [2025-01-01 05:05:47] local.INFO: Investigation data to be saved:  {"imaging":["MRI scan brain"],"lab_requests":[],"genetic_tests":[],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"other_lab_tests":null} 
+[2025-01-01 05:11:01] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 05:11:05] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2025-01-01 05:13:33] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 05:13:37] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2025-01-01 05:22:24] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 05:22:28] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2025-01-01 05:49:41] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 05:49:44] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2025-01-01 06:01:41] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 06:01:44] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2025-01-01 06:03:45] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 06:03:49] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
+[2025-01-01 06:08:55] local.INFO: getTriageData called with registration number: REG-001  
+[2025-01-01 06:08:58] local.INFO: Triage data retrieved:  {"temperature":37.5,"weight":12.5,"height":0.75,"head_circumference":0.45,"blood_pressure":"120/80","pulse_rate":80,"respiratory_rate":20,"oxygen_saturation":98,"MUAC":11.5} 
