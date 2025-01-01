@@ -247,7 +247,7 @@ button {
 
   <div class="highlighted">
     <label for="doctorsNotes">Doctor's Notes:</label>
-    <textarea id="doctorsNotes" name="doctorsNotes"></textarea>
+    <textarea id="doctorsNotes" name="doctorsNotes">welcome</textarea>
   </div>
 
   <div class="highlighted">

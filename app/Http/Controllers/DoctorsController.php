@@ -199,6 +199,72 @@ class DoctorsController extends Controller
 
         return response()->json(['message' => 'Milestones saved successfully'], 200);
     }
+    public function getChildDetails($registrationNumber)
+{
+    try {
+        // Retrieve child by registration number
+        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+        if (!$child) {
+            return response()->json(['error' => 'Child not found'], 404);
+        }
+
+        // Decode the fullname JSON
+        $fullname = json_decode($child->fullname);
+        $firstName = $fullname->first_name ?? null;
+        $middleName = $fullname->middle_name ?? null;
+        $lastName = $fullname->last_name ?? null;
+
+        // Get gender name
+        $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+        // Retrieve the latest visit for the child
+        $visit = DB::table('visits')
+            ->where('child_id', $child->id)
+            ->latest()
+            ->first();
+
+        // Check if a visit exists
+        if (!$visit) {
+            return response()->json(['error' => 'No visit found for the child'], 404);
+        }
+
+        // Fetch triage data
+        $triage = DB::table('triage')->where('child_id', $child->id)->first();
+        $triageData = $triage ? json_decode($triage->data) : null;
+
+        // Fetch CNS data
+        $cnsData = DB::table('cns')
+            ->where('visit_id', $visit->id)
+            ->where('child_id', $child->id)
+            ->latest()
+            ->first();
+        $cnsData = $cnsData ? json_decode($cnsData->data) : null;
+
+        // Fetch developmental milestones
+        $milestones = DB::table('development_milestones')
+            ->where('visit_id', $visit->id)
+            ->where('child_id', $child->id)
+            ->latest()
+            ->first();
+        $milestonesData = $milestones ? json_decode($milestones->data) : null;
+
+        // Pass all data to the view
+        return view('doctor', [
+            'child' => $child,
+            'firstName' => $firstName,
+            'middleName' => $middleName,
+            'lastName' => $lastName,
+            'gender' => $gender,
+            'triageData' => $triageData,
+            'cnsData' => $cnsData,
+            'milestonesData' => $milestonesData,
+        ]);
+    } catch (\Exception $e) {
+        Log::error("Error in getChildDetails: " . $e->getMessage());
+        return response()->json(['error' => 'Internal server error'], 500);
+    }
+}
+
 
 }
 
