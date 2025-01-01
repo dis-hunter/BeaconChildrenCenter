@@ -29,7 +29,7 @@ function handleSubmit(event) {
         head_circumference: document.querySelector('#head_circumference').value
     };
 
-    const childId = getChildIdFromUrl();
+    // const childId = getChildIdFromUrl();
 
     fetch(`/triage/${childId}`, {
         method: 'POST',
@@ -55,10 +55,10 @@ function handleSubmit(event) {
    
 
 // Function to extract child ID from URL
-function getChildIdFromUrl() {
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[pathParts.length - 1];
-}
+// function getChildIdFromUrl() {
+//     const pathParts = window.location.pathname.split('/');
+//     return pathParts[pathParts.length - 1];
+// }
 
 function getPatientIdFromUrl() {
   // Get the current URL's query parameters
@@ -102,8 +102,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+document.addEventListener('DOMContentLoaded', async () => {
+    // Function to get Child ID from URL
+    function getChildIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('patientId'); 
+  }
 
-// Call the function when the page loads
+    // Fetch Patient Name by Child ID
+    async function fetchPatientName(childId) {
+        try {
+            const response = await fetch(`/get-patient-name/${childId}`);
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                document.getElementById('patient-name').textContent = data.patient_name || 'Patient Name';
+            } else {
+                document.getElementById('patient-name').textContent = 'Patient Not Found';
+            }
+        } catch (error) {
+            console.error('Error fetching patient name:', error);
+            document.getElementById('patient-name').textContent = 'Error Loading Patient';
+        }
+    }
+
+    const childId = getChildIdFromUrl();
+    if (childId) {
+        fetchPatientName(childId);
+    } else {
+        document.getElementById('patient-name').textContent = 'No Patient Selected';
+    }
+});
+
+
 
 
 

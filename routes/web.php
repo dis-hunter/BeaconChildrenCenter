@@ -102,3 +102,4 @@ Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
+Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
