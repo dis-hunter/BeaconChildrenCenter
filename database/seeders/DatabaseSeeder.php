@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\BehaviourAssessment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,19 +23,29 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            
+            //Static
             genderSeeder::class,
             rolesSeeder::class,
             relationshipsSeeder::class,
             visit_typeSeeder::class,
             specializationSeeder::class,
-            ChildSeeder::class,
+            triage_assessmentSeeder::class,
+            payment_modesSeeder::class,
+            //Dynamic
             ParentsSeeder::class,
+            ChildSeeder::class,
+            child_parentSeeder::class,
             StaffSeeder::class,
-            DoctorSeeder::class,
             AppointmentSeeder::class,
             VisitSeeder::class,
-            TriageSeeder::class
+            TriageSeeder::class,
+            DevMilestonesSeeder::class,
+            BehaviourAssessmentSeeder::class,
+            FamSocialHistorySeeder::class,
+            cnsSeeder::class,
+            DevelopmentAssessmentSeeder::class,
+            PastMedHistorySeeder::class,
+            PerinatalHistorySeeder::class,
         ]);
     }
 }

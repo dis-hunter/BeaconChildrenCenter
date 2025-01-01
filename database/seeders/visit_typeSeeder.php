@@ -19,7 +19,8 @@ class visit_typeSeeder extends Seeder
             ['visit_type' => 'Consultation'],
             ['visit_type' => 'Follow-Up'],
             ['visit_type' => 'Emergency'],
-            ['visit_type' => 'Walk-In']
+            ['visit_type' => 'Walk-In'],
+            ['visit_type'=>'Other'],
         ]);
     }
 }

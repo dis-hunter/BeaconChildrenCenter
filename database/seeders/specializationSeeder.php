@@ -17,14 +17,12 @@ class specializationSeeder extends Seeder
     {
         DB::table('doctor_specialization')->insert([
             ['specialization'=>'Pediatrician'],
-            ['specialization'=>'Occupational Therapist'],
-            ['specialization'=>'Speech Therapish'],
-            ['specialization'=>'Physiotherapist'],
-            ['specialization'=>'Nutritionist'],
-            ['specialization'=>'Cardiovascular'],
-            ['specialization'=>'Surgery'],
-            ['specialization'=>'Radiology'],
-            ['specialization'=>'Other']
+            ['specialization'=>'Occupational Therapy'],
+            ['specialization'=>'Speech Therapy'],
+            ['specialization'=>'Physiotherapy'],
+            ['specialization'=>'Nutrition'],
+            ['specialization'=>'ABA'],
+            ['specialization'=>'Other'],
         ]);
     }
 }

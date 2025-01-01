@@ -23,11 +23,15 @@ class Visits extends Model
      */
     protected $fillable = [
         'child_id',
+        'visit_type',
+        'visit_date',
+        'source_type',
+        'source_contact',
         'staff_id',
+        'doctor_id',
         'appointment_id',
         'created_at',
         'updated_at',
-        'triage_pass',
     ];
 
     /**

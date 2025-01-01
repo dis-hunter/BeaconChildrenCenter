@@ -1,5 +1,7 @@
 <!-- Search Form -->
- <h2>welcome</h2>
+ <!-- Search Form -->
+<!-- Search Form -->
+<h2>Welcome</h2>
 <form action="<?php echo e(route('parent.get-children')); ?>" method="post">
     <?php echo csrf_field(); ?>
     <table>
@@ -32,20 +34,23 @@
             </tr>
         </thead>
         <tbody>
-    <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <tr>
-            <td><?php echo e($child->id); ?></td>
-            <td><?php echo e(json_decode($child->fullname)->firstname); ?> <?php echo e(json_decode($child->fullname)->surname); ?></td>
-            <td><?php echo e($child->dob); ?></td>
-            <td><?php echo e($child->gender_id); ?></td>
-            <td>
-                <button type="button" class="select-child" data-child-id="<?php echo e($child->id); ?>">Select</button>
-            </td>
-        </tr>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</tbody>
+            <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr>
+                    <td><?php echo e($child->id); ?></td>
+                    <td><?php echo e($child->fullname->first_name); ?> <?php echo e($child->fullname->last_name); ?></td>
+                    <td><?php echo e($child->dob); ?></td>
+                    <td><?php echo e($child->gender_id); ?></td>
+                    <td>
+    <button type="button" class="select-child" data-child-id="<?php echo e($child->id); ?>">Select</button>
+</td>
+
+                </tr>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </tbody>
     </table>
 <?php endif; ?>
+
+
 
 <label for="specialization">Select Specialization:</label>
 <select name="specialization_id" id="specialization">
@@ -97,6 +102,7 @@
     fetchSpecializations();
     
 });
+
 
 // Function to fetch specializations
 async function fetchSpecializations() {
@@ -176,7 +182,7 @@ async function fetchDoctors(specializationId) {
 // Function to update the doctor table
 function populateDoctorTable(staffData) {
     const tableBody = document.querySelector('#doctor-table tbody');
-    tableBody.innerHTML = ''; // Clear any existing rows
+    tableBody.innerHTML = ''; // Clear existing rows
 
     staffData.forEach(doctor => {
         const row = document.createElement('tr');
@@ -196,7 +202,14 @@ function populateDoctorTable(staffData) {
 
         const button = document.createElement('button');
         button.textContent = 'Select';
+        button.setAttribute('data-doctor-id', doctor.id);
         button.addEventListener('click', () => {
+            // Remove "active" class from all buttons
+            document.querySelectorAll('#doctor-table button').forEach(btn => btn.classList.remove('active'));
+
+            // Add "active" class to the clicked button
+            button.classList.add('active');
+
             console.log(`Selected Doctor ID: ${doctor.id}`);
         });
 
@@ -209,22 +222,38 @@ function populateDoctorTable(staffData) {
 
 
 
+
+
 async function ListVariables()
 {
     
 }
 
- function getChildId()
-{
+function getChildId() {
     const selectButtons = document.querySelectorAll('.select-child');
 
-        selectButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const childId = button.getAttribute('data-child-id');
-                console.log('Selected child ID:', childId);
-            });
+    selectButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove .active class from all buttons
+            selectButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add .active class to the clicked button
+            button.classList.add('active');
+
+            // Log the selected child ID for debugging
+            const childId = button.getAttribute('data-child-id');
+            console.log('Selected child ID:', childId);
         });
+    });
 }
+
+// Call getChildId when the DOM is loaded
+document.addEventListener('DOMContentLoaded', getChildId);
+
+
+// Call getChildId when the DOM is loaded
+document.addEventListener('DOMContentLoaded', getChildId);
+
 
 function getTodayDate() {
     const today = new Date();
@@ -296,6 +325,90 @@ dropdown.addEventListener('change', async function () {
         populateDoctorTable(staffIds);
     } catch (error) {
         console.error('Error in fetch operation:', error);
+    }
+});
+
+// Add event listener to "Submit Appointment" button
+document.getElementById('submit-appointment').addEventListener('click', async function () {
+    try {
+        // Get selected child ID
+        const activeChildElement = document.querySelector('.select-child.active');
+        if (!activeChildElement) {
+            console.error('No active child element found.');
+            alert('Please select a child before proceeding.');
+            return;
+        }
+        const selectedChildId = activeChildElement.getAttribute('data-child-id');
+        if (!selectedChildId) {
+            console.error('Active child element does not have a "data-child-id" attribute.');
+            alert('An error occurred while retrieving the selected child. Please try again.');
+            return;
+        }
+
+        // Get selected doctor ID
+        const activeDoctorElement = document.querySelector('#doctor-table button.active');
+        if (!activeDoctorElement) {
+            console.error('No active doctor element found.');
+            alert('Please select a doctor before proceeding.');
+            return;
+        }
+        const selectedDoctorId = activeDoctorElement.getAttribute('data-doctor-id');
+        if (!selectedDoctorId) {
+            console.error('Active doctor element does not have a "data-doctor-id" attribute.');
+            alert('An error occurred while retrieving the selected doctor. Please try again.');
+            return;
+        }
+
+        // Get visit type
+        const visitTypeDropdown = document.getElementById('visit_type');
+        const visitType = visitTypeDropdown.value;
+        if (!visitType) {
+            console.error('Visit type is not selected.');
+            alert('Please select a visit type before proceeding.');
+            return;
+        }
+
+        // Prepare data
+        const todayDate = getTodayDate();
+        const dataToSend = {
+            child_id: selectedChildId,
+            visit_type: visitType,
+            visit_date: todayDate,
+            source_type: 'MySource',
+            source_contact: '123456249',
+            staff_id: 3,
+            doctor_id: selectedDoctorId,
+            appointment_id: null, // No appointment ID since it's null
+            created_at: todayDate,
+            updated_at: todayDate,
+        };
+
+        console.log('Data to be sent to the controller:', dataToSend);
+        console.log("try it");
+        // Make the API request
+        const response = await fetch('/visits', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(dataToSend),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Response from server:', result);
+
+        if (result.status === 'success') {
+            alert('Appointment created successfully!');
+        } else {
+            alert('Failed to create appointment. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error in submit-appointment click handler:', error);
     }
 });
 
