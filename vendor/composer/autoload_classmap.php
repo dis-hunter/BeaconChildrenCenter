@@ -11,7 +11,7 @@ return array(
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\BehaviourAssesmentController' => $baseDir . '/app/Http/Controllers/BehaviourAssesmentController.php',
-    'App\\Http\\Controllers\\ChildrenController' => $baseDir . '/app/Http/Controllers/ChildrenController.php',
+    'App\\Http\\Controllers\\CarePlanController' => $baseDir . '/app/Http/Controllers/CarePlanController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DevelopmentAssessmentController' => $baseDir . '/app/Http/Controllers/DevelopmentAssessmentController.php',
     'App\\Http\\Controllers\\DiagnosisController' => $baseDir . '/app/Http/Controllers/DiagnosisController.php',

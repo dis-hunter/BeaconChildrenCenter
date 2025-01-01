@@ -195,12 +195,14 @@ Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'sav
 use App\Http\Controllers\InvestigationController;
 
 Route::post('/save-investigations/{registration_number}', [InvestigationController::class, 'saveInvestigations']);
-
-
-
-
 Route::get('/recordResults/{registration_number}', [InvestigationController::class, 'recordResults'])->name('recordResults');
 Route::post('/saveInvestigationResults/{registration_number}', [InvestigationController::class, 'saveInvestigationResults']);
+
+
+use App\Http\Controllers\CarePlanController;
+
+Route::post('/save-careplan/{registration_number}', [CarePlanController::class, 'saveCarePlan']);
+
 
 
 

@@ -531,7 +531,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\BehaviourAssesmentController' => __DIR__ . '/../..' . '/app/Http/Controllers/BehaviourAssesmentController.php',
-        'App\\Http\\Controllers\\ChildrenController' => __DIR__ . '/../..' . '/app/Http/Controllers/ChildrenController.php',
+        'App\\Http\\Controllers\\CarePlanController' => __DIR__ . '/../..' . '/app/Http/Controllers/CarePlanController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DevelopmentAssessmentController' => __DIR__ . '/../..' . '/app/Http/Controllers/DevelopmentAssessmentController.php',
         'App\\Http\\Controllers\\DiagnosisController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiagnosisController.php',
