@@ -51,6 +51,9 @@ Route::get('/speech_therapist', function () {
 Route::get('/physical_therapist', function () {
     return view('therapists.physiotherapyTherapist');
 });
+Route::get('/psychotherapy_therapist', function () {
+    return view('therapists.psychotherapyTherapist');
+});
 //therapist routes end above
 
 Route::get('/receiptionist_dashboard', function () {
