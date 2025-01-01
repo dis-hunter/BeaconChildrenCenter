@@ -68,7 +68,7 @@ Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
 
-Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
@@ -173,28 +173,41 @@ Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHisto
 
 
 
-Route::get('/visithandle', function () {
-    return view('Receiptionist/visits');
-});
-Route::get('/staff-dropdown', [StaffController::class, 'index']);
 
-Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
-Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');
-Route::get('/children/create', [ChildrenController::class, 'create'])->name('children.create');
-Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
+use App\Http\Controllers\GeneralExamController;
 
-Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])
-    ->name('doctors.specializationSearch');
-Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
-Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
-Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
-// Add this route to handle the POST request for fetching staff full names
-Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
-Route::get('/appointments', [appointmentsController::class, 'fetchStaff']);
+Route::get('/general-exam/{registrationNumber}', [GeneralExamController::class, 'getGeneralExam']);
+Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class, 'saveGeneralExam']);
 
 
 
-Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
-use App\Http\Controllers\VisitController;
+use App\Http\Controllers\DevelopmentAssessmentController;
 
-Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
+Route::get('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'getDevelopmentAssessment']);
+Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'saveDevelopmentAssessment']);
+
+
+
+Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getDiagnosis']);
+Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
+
+
+use App\Http\Controllers\InvestigationController;
+
+Route::post('/save-investigations/{registration_number}', [InvestigationController::class, 'saveInvestigations']);
+
+
+
+
+Route::get('/recordResults/{registration_number}', [InvestigationController::class, 'recordResults'])->name('recordResults');
+Route::post('/saveInvestigationResults/{registration_number}', [InvestigationController::class, 'saveInvestigationResults']);
+
+
+
+
+
+
+
+
+
+

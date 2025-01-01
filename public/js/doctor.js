@@ -27,46 +27,7 @@ floatingMenu.addEventListener('click', (event) => {
   event.stopPropagation(); 
 });
 
-const pastInvestigationsLink = document.getElementById('pastInvestigationsLink');
-const pastInvestigationsMenu = document.getElementById('pastInvestigationsMenu');
 
-pastInvestigationsLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  pastInvestigationsMenu.style.display = pastInvestigationsMenu.style.display === 'block' ? 'none' : 'block';
-});
-
-const recordResultsLink = document.getElementById('recordResultsLink');
-const recordResultsMenu = document.getElementById('recordResultsMenu');
-
-recordResultsLink.addEventListener('click', (event) => {
-  event.preventDefault();
-  recordResultsMenu.style.display = recordResultsMenu.style.display === 'block' ? 'none' : 'block';
-});
-
-function hideMiniMenus() {
-  const miniMenus = document.querySelectorAll('.mini-menu');
-  miniMenus.forEach(menu => {
-    menu.style.display = 'none';
-  });
-}
-
-document.addEventListener('click', hideMiniMenus);
-
-pastInvestigationsLink.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
-
-recordResultsLink.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
-
-pastInvestigationsMenu.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
-
-recordResultsMenu.addEventListener('click', (event) => {
-  event.stopPropagation(); 
-});
 
 // Get the "Behaviour Assesement" link
 const BehaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
@@ -1401,79 +1362,239 @@ carePlan.addEventListener('click', (event)=>{
  });
 
  //Get  Developmental Assesment Link
+ document.addEventListener('DOMContentLoaded', () => {
+  const devAssesmentLink = document.querySelector('.floating-menu a[href="#devAssesment"]');
 
-const devAssesment = document.querySelector('.floating-menu a[href="#devAssesment"]');
-devAssesment.addEventListener('click', (event)=>{
-    event.preventDefault();
+  devAssesmentLink.addEventListener('click', async (event) => {
+      event.preventDefault();
+      console.log('Development Assessment link clicked.');
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/devAssesment.css'>
-</head>
-<body>
+      const mainContent = document.querySelector('.main');
 
-<div class="container">
-  <h2>Developmental Assessment</h2>
+      // Add CSS for the spinner directly to the document
+      const style = document.createElement('style');
+      style.innerHTML = `
+          .loading-spinner {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+          }
+          .spinner {
+              border: 4px solid #f3f3f3;
+              border-top: 4px solid #3498db;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              animation: spin 2s linear infinite;
+          }
+          @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+          }
+          .saving-button-spinner {
+              border: 2px solid #f3f3f3;
+              border-top: 2px solid white;
+              border-radius: 50%;
+              width: 14px;
+              height: 14px;
+              animation: spin 1s linear infinite;
+              display: inline-block;
+          }
+          .error-message {
+              color: red;
+              text-align: center;
+          }
+      `;
+      document.head.appendChild(style);
 
-  <div class="section">
-    <div class="section-title">Gross Motor</div>
-    <textarea></textarea>
-    <div class="dev-age-heading">Dev Age</div> <input type="text" class="dev-age-input"> 
-  </div>
+      // Add rotating circle loading indicator
+      mainContent.innerHTML = `
+          <div class="loading-spinner">
+              <div class="spinner"></div>
+          </div>
+      `;
 
-  <div class="section">
-    <div class="section-title">Fine Motor</div>
-    <textarea></textarea>
-    <div class="dev-age-heading">Dev Age</div> <input type="text" class="dev-age-input">
-  </div>
+      try {
+          const registrationNumber = window.location.pathname.split('/').pop();
+          console.log('Registration number extracted:', registrationNumber);
 
-  <div class="section">
-    <div class="section-title">Speech/Language</div>
-    <textarea></textarea>
-    <div class="dev-age-heading">Dev Age</div> <input type="text" class="dev-age-input">
-  </div>
+          // Fetch the Development Assessment data
+          const response = await fetch(`/development-assessment/${registrationNumber}`);
+          const result = await response.json();
 
-  <div class="section">
-    <div class="section-title">Fine Motor</div>
-    <textarea></textarea>
-    <div class="dev-age-heading">Dev Age</div> <input type="text" class="dev-age-input">
-  </div>
+          console.log('Fetch response:', result);
 
-  <div class="section">
-    <div class="section-title">Self Care</div>
-   <textarea></textarea>
-    <div class="dev-age-heading">Dev Age</div> <input type="text" class="dev-age-input">
-  </div>
+          // Replace content with form once loaded
+          mainContent.innerHTML = `
+              <div class="container">
+              <head> 
+              <link rel="stylesheet" href="../css/devAssesment.css">
+              </head>
 
-  <div class="section">
-    <div class="section-title">Cognitive</div>
-    <textarea></textarea>
-    <div class="dev-age-heading">Dev Age</div> <input type="text" class="dev-age-input">
-  </div>
+                  <h2>Developmental Assessment</h2>
+                  <div id="chronologicalAge">
+                      <strong>Chronological Age: </strong> <span id="ageDisplay"></span> months
+                  </div>
+                  <div class="sections">
+                      <div class="section">
+                          <div class="section-title">Gross Motor</div>
+                          <textarea id="grossMotor" placeholder="Enter details..."></textarea>
+                          <div class="dev-age-container">
+                              <div class="dev-age-heading">Dev Age</div>
+                              <input id="grossDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                          </div>
+                      </div>
+                      <div class="section">
+                          <div class="section-title">Fine Motor</div>
+                          <textarea id="fineMotor" placeholder="Enter details..."></textarea>
+                          <div class="dev-age-container">
+                              <div class="dev-age-heading">Dev Age</div>
+                              <input id="fineDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                          </div>
+                      </div>
+                      <div class="section">
+                          <div class="section-title">Speech/Language</div>
+                          <textarea id="speech" placeholder="Enter details..."></textarea>
+                          <div class="dev-age-container">
+                              <div class="dev-age-heading">Dev Age</div>
+                              <input id="speechDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                          </div>
+                      </div>
+                      <div class="section">
+                          <div class="section-title">Self Care</div>
+                          <textarea id="selfCare" placeholder="Enter details..."></textarea>
+                          <div class="dev-age-container">
+                              <div class="dev-age-heading">Dev Age</div>
+                              <input id="selfDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                          </div>
+                      </div>
+                      <div class="section">
+                          <div class="section-title">Cognitive</div>
+                          <textarea id="cognitive" placeholder="Enter details..."></textarea>
+                          <div class="dev-age-container">
+                              <div class="dev-age-heading">Dev Age</div>
+                              <input id="cognitiveDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                          </div>
+                      </div>
+                  </div>
+                  <button type="submit" class="save-btn">Save</button>
+              </div>
+          `;
 
-  <button type="submit">Save</button>
-</div>
-</body>
-    `
+          // Pre-fill form data if available
+          if (response.ok && result.data) {
+              const {
+                  grossMotor,
+                  fineMotor,
+                  speech,
+                  selfCare,
+                  cognitive,
+                  grossDevAge,
+                  fineDevAge,
+                  speechDevAge,
+                  selfDevAge,
+                  cognitiveDevAge,
+              } = result.data;
 
-    const textareas = document.querySelectorAll('textarea');
-  
-    textareas.forEach(textarea => {
-      textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
-  
-      textarea.addEventListener('blur', () => {
-        textarea.style.height = '50px'; 
-      });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
-    });
- });
-     
+              // Fill Chronological Age
+              const chronologicalAge = result.chronologicalAgeMonths || '';
+              document.getElementById('ageDisplay').textContent = chronologicalAge;
+
+              // Check if the form fields exist before trying to populate them
+              try {
+                  if (document.getElementById('grossMotor')) {
+                      document.getElementById('grossMotor').value = grossMotor || '';
+                  }
+                  if (document.getElementById('fineMotor')) {
+                      document.getElementById('fineMotor').value = fineMotor || '';
+                  }
+                  if (document.getElementById('speech')) {
+                      document.getElementById('speech').value = speech || '';
+                  }
+                  if (document.getElementById('selfCare')) {
+                      document.getElementById('selfCare').value = selfCare || '';
+                  }
+                  if (document.getElementById('cognitive')) {
+                      document.getElementById('cognitive').value = cognitive || '';
+                  }
+
+                  // Fill the Dev Age inputs if available
+                  if (document.getElementById('grossDevAge')) {
+                      document.getElementById('grossDevAge').value = grossDevAge || '';
+                  }
+                  if (document.getElementById('fineDevAge')) {
+                      document.getElementById('fineDevAge').value = fineDevAge || '';
+                  }
+                  if (document.getElementById('speechDevAge')) {
+                      document.getElementById('speechDevAge').value = speechDevAge || '';
+                  }
+                  if (document.getElementById('selfDevAge')) {
+                      document.getElementById('selfDevAge').value = selfDevAge || '';
+                  }
+                  if (document.getElementById('cognitiveDevAge')) {
+                      document.getElementById('cognitiveDevAge').value = cognitiveDevAge || '';
+                  }
+              } catch (err) {
+                  console.error("Error pre-filling the form:", err);
+              }
+          }
+
+          // Setup textarea resizing logic
+          const textareas = document.querySelectorAll('textarea');
+          textareas.forEach((textarea) => {
+              textarea.addEventListener('input', () => {
+                  textarea.style.height = 'auto';
+                  textarea.style.height = `${textarea.scrollHeight}px`;
+              });
+          });
+
+          // Save functionality
+          const saveButton = document.querySelector('.save-btn');
+          saveButton.addEventListener('click', async () => {
+              saveButton.innerHTML = `<span class="saving-button-spinner"></span> Saving...`;
+              saveButton.disabled = true;
+
+              const data = {
+                  grossMotor: document.getElementById('grossMotor').value,
+                  fineMotor: document.getElementById('fineMotor').value,
+                  speech: document.getElementById('speech').value,
+                  selfCare: document.getElementById('selfCare').value,
+                  cognitive: document.getElementById('cognitive').value,
+                  grossDevAge: document.getElementById('grossDevAge').value,
+                  fineDevAge: document.getElementById('fineDevAge').value,
+                  speechDevAge: document.getElementById('speechDevAge').value,
+                  selfDevAge: document.getElementById('selfDevAge').value,
+                  cognitiveDevAge: document.getElementById('cognitiveDevAge').value,
+              };
+
+              try {
+                  const saveResponse = await fetch(`/development-assessment/${registrationNumber}`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                      },
+                      body: JSON.stringify({ data }),
+                  });
+
+                  const saveResult = await saveResponse.json();
+                  alert(saveResult.message || 'Developmental Assessment saved successfully!');
+              } catch (error) {
+                  console.error('Error saving Developmental Assessment:', error);
+                  alert('Failed to save Developmental Assessment. Please try again.');
+              } finally {
+                  saveButton.innerHTML = 'Save';
+                  saveButton.disabled = false;
+              }
+          });
+      } catch (error) {
+          console.error('Error fetching Developmental Assessment:', error);
+          mainContent.innerHTML = `<p class="error-message">Failed to load Developmental Assessment. Please try again later.</p>`;
+      }
+  });
+});
+
 
  // Add click event listener to the triageExam element
 document.addEventListener('DOMContentLoaded', () => {
@@ -1617,98 +1738,1012 @@ document.head.appendChild(loadingAnimationStyles);
 
  //Get  Diagnosis Exam Link
 
-const diagnosis = document.querySelector('.floating-menu a[href="#diagnosis"]');
-diagnosis.addEventListener('click', (event)=>{
+ const diagnosis = document.querySelector('.floating-menu a[href="#diagnosis"]');
+
+diagnosis.addEventListener('click', async (event) => {
     event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/diagnosis.css'>
-</head>
-<body>
+    const mainContent = document.querySelector('.main');
+    mainContent.innerHTML = `<div class="loading">Loading...</div>`;
+    console.log("Fetching diagnosis data...");
 
-<div class="container">
-  <h2>Diagnosis</h2>
+    const registrationNumber = window.location.pathname.split('/').pop();
+    console.log("Registration Number:", registrationNumber);
 
-  <label for="primaryDiagnosis">Primary Diagnosis</label>
-  <select id="primaryDiagnosis">
-    <option value="">Select</option>
-    <option value="Autism">Autism</option>
-    <option value="ADHD">ADHD</option>
-    <option value="Communication disorder">Communication disorder</option>
-    <option value="Intellectual disability">Intellectual disability</option>
-    <option value="Global developmental delay">Global developmental delay</option>
-    <option value="Learning disorder">Learning disorder</option>
-    <option value="Movement disorder">Movement disorder</option>
-    <option value="Social pragmatic disorder">Social pragmatic disorder</option>
-  </select>
+    try {
+        // Fetch existing diagnosis data
+        const response = await fetch(`/diagnosis/${registrationNumber}`);
+        const rawData = await response.text(); // Handle unexpected HTML responses gracefully
 
-  <label for="secondaryDiagnosis">Secondary Diagnosis</label>
-  <textarea id="secondaryDiagnosis"></textarea>
+        try {
+            const result = JSON.parse(rawData); // Parse JSON if the response is valid
+            if (response.ok) {
+                populateDiagnosisForm(mainContent, result.data || {}, registrationNumber);
+            } else {
+                console.error("Failed to fetch diagnosis data:", result.message);
+                mainContent.innerHTML = `<div class="error">Error: ${result.message || "Failed to load diagnosis data."}</div>`;
+            }
+        } catch (parseError) {
+            console.error("Error parsing response:", rawData);
+            mainContent.innerHTML = `<div class="error">Unexpected server response. Please try again later.</div>`;
+        }
+    } catch (fetchError) {
+        console.error("Error fetching diagnosis data:", fetchError);
+        mainContent.innerHTML = `<div class="error">An unexpected error occurred while fetching diagnosis data.</div>`;
+    }
+});
 
-  <button type="button">Save</button>
-</div>
-</body>
-    `
+function populateDiagnosisForm(container, data, registrationNumber) {
+    console.log("Populating diagnosis form with data:", data);
 
-    const textareas = document.querySelectorAll('textarea');
-  
-    textareas.forEach(textarea => {
-      textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
-  
-      textarea.addEventListener('blur', () => {
-        textarea.style.height = '50px'; 
-      });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
+    container.innerHTML = `
+        <div class="container">
+        <head>
+        <link rel="stylesheet" href="../css/diagnosis.css">
+        </head>
+            <h2>Diagnosis</h2>
+
+            <label for="primaryDiagnosis">Primary Diagnosis</label>
+            <select id="primaryDiagnosis">
+                <option value="" ${!data.primaryDiagnosis ? 'selected' : ''}>Select</option>
+                <option value="Autism" ${data.primaryDiagnosis === 'Autism' ? 'selected' : ''}>Autism Spectrum Disorder</option>
+                <option value="ADHD" ${data.primaryDiagnosis === 'ADHD' ? 'selected' : ''}>ADHD</option>
+                <option value="Communication disorder" ${data.primaryDiagnosis === 'Communication disorder' ? 'selected' : ''}>Communication disorder</option>
+                <option value="Intellectual disability" ${data.primaryDiagnosis === 'Intellectual disability' ? 'selected' : ''}>Intellectual disability</option>
+                <option value="Global developmental delays" ${data.primaryDiagnosis === 'Global developmental delays' ? 'selected' : ''}>Global developmental delays</option>
+                <option value="Learning disorder" ${data.primaryDiagnosis === 'Learning disorder' ? 'selected' : ''}>Learning disorder</option>
+                <option value="Movement disorder" ${data.primaryDiagnosis === 'Movement disorder' ? 'selected' : ''}>Movement disorder</option>
+                <option value="Social pragmatic disorder" ${data.primaryDiagnosis === 'Social pragmatic disorder' ? 'selected' : ''}>Social pragmatic disorder</option>
+                <option value="Cerebral Palsy" ${data.primaryDiagnosis === 'Cerebral Palsy' ? 'selected' : ''}>Cerebral Palsy</option>
+                <option value="Genetic Disorder" ${data.primaryDiagnosis === 'Genetic Disorder' ? 'selected' : ''}>Genetic Disorder</option>
+                <option value="Epilepsy" ${data.primaryDiagnosis === 'Epilepsy' ? 'selected' : ''}>Epilepsy</option>
+                <option value="Other" ${data.primaryDiagnosis === 'Other' ? 'selected' : ''}>Other</option>
+            </select>
+
+            <div id="otherDiagnosisContainer" style="display: ${data.primaryDiagnosis === 'Other' ? 'block' : 'none'};">
+                <label for="otherDiagnosis">Other Diagnosis</label>
+                <textarea id="otherDiagnosis">${data.otherDiagnosis || ''}</textarea>
+            </div>
+
+            <label for="secondaryDiagnosis">Secondary Diagnosis</label>
+            <textarea id="secondaryDiagnosis">${data.secondaryDiagnosis || ''}</textarea>
+
+            <button id="saveDiagnosis" type="button">Save</button>
+        </div>
+    `;
+
+    addFormEventListeners(registrationNumber);
+}
+
+function addFormEventListeners(registrationNumber) {
+    const primaryDiagnosisSelect = document.getElementById('primaryDiagnosis');
+    const otherDiagnosisContainer = document.getElementById('otherDiagnosisContainer');
+    const saveButton = document.getElementById('saveDiagnosis');
+
+    primaryDiagnosisSelect.addEventListener('change', () => {
+        if (primaryDiagnosisSelect.value === 'Other') {
+            console.log('Showing "Other Diagnosis" textarea');
+            otherDiagnosisContainer.style.display = 'block';
+        } else {
+            console.log('Hiding "Other Diagnosis" textarea');
+            otherDiagnosisContainer.style.display = 'none';
+        }
     });
- });
-     
+
+    saveButton.addEventListener('click', async () => {
+        const primaryDiagnosis = document.getElementById('primaryDiagnosis').value;
+        const secondaryDiagnosis = document.getElementById('secondaryDiagnosis').value;
+        const otherDiagnosis = document.getElementById('otherDiagnosis')?.value || null;
+
+        saveButton.textContent = 'Saving...';
+        saveButton.disabled = true;
+
+        console.log("Saving diagnosis data:", {
+            primaryDiagnosis,
+            secondaryDiagnosis,
+            otherDiagnosis,
+        });
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            console.log("CSRF Token:", csrfToken);
+
+            const saveResponse = await fetch(`/diagnosis/${registrationNumber}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    primaryDiagnosis,
+                    secondaryDiagnosis,
+                    otherDiagnosis,
+                }),
+            });
+
+            const rawSaveData = await saveResponse.text();
+
+            try {
+                const saveResult = JSON.parse(rawSaveData);
+                if (saveResponse.ok) {
+                    console.log("Save successful:", saveResult);
+                    alert("Diagnosis saved successfully!");
+                } else {
+                    console.error("Save error response:", saveResult);
+                    alert("Failed to save diagnosis: " + saveResult.message);
+                }
+            } catch (parseError) {
+                console.error("Error parsing save response:", rawSaveData);
+                alert("Unexpected response from server. Please try again later.");
+            }
+        } catch (error) {
+            console.error("Error saving diagnosis:", error);
+            alert("An unexpected error occurred while saving diagnosis.");
+        } finally {
+            saveButton.textContent = 'Save';
+            saveButton.disabled = false;
+            console.log("Save button reset to default state.");
+        }
+    });
+}
+
 
  //Get General Exam Link
 
-const generalExam = document.querySelector('.floating-menu a[href="#generalExam"]');
-generalExam.addEventListener('click', (event)=>{
+ document.addEventListener('DOMContentLoaded', (event) => {
+  const generalExam = document.querySelector('.floating-menu a[href="#generalExam"]');
+
+  generalExam.addEventListener('click', async (event) => {
     event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/generalExam.css'>
-</head>
-<body>
+    const registrationNumber = getRegistrationNumberFromUrl();
+    console.log("Registration number:", registrationNumber);
 
-<div class="container">
-  <h2>General Examination</h2>
-  <textarea></textarea>
-  <button type="button">Save</button>
-</div>
+    // Show page loading indicator
+    const pageLoadingIndicator = showLoadingIndicator();
 
-</body>
-    `
+    try {
+      // Fetch the CSRF token
+      const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
 
+      // Fetch general examination data
+      const response = await fetch(`/general-exam/${registrationNumber}`);
+      const result = await response.json();
+
+      console.log("Fetched data:", result);
+
+      // Extract the general_exam_notes value or set it to an empty string if not present
+      const generalExamNotes = result.data?.general_exam_notes || '';
+
+      const mainContent = document.querySelector('.main');
+      mainContent.innerHTML = `
+        <div class="container">
+        <link rel='stylesheet' href='../css/generalExam.css'>
+          <h2>General Examination</h2>
+          <textarea id="generalExamTextarea">${generalExamNotes}</textarea>
+          <button type="button" id="saveButton">Save</button>
+        </div>
+      `;
+
+      // Remove the page loading indicator
+      document.body.removeChild(pageLoadingIndicator);
+
+      // Add textarea auto-resizing functionality
+      addTextareaAutoResize();
+
+      // Add save button functionality
+      const saveButton = document.getElementById('saveButton');
+      saveButton.addEventListener('click', async () => {
+        showSaveButtonLoadingIndicator();
+
+        const textarea = document.getElementById('generalExamTextarea');
+        const generalExamNotesValue = textarea.value;
+
+        const data = {
+          general_exam_notes: generalExamNotesValue, // Save only the value from the textarea
+        };
+
+        try {
+          const saveResponse = await fetch(`/general-exam/${registrationNumber}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrfToken,
+            },
+            body: JSON.stringify({ data }),
+          });
+
+          if (!saveResponse.ok) {
+            throw new Error('Failed to save data');
+          }
+
+          alert("General Examination saved successfully!");
+        } catch (error) {
+          console.error('Error saving general examination:', error);
+          alert("Error saving general examination. Please try again.");
+        } finally {
+          removeSaveButtonLoadingIndicator();
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching general examination:', error);
+      document.body.removeChild(pageLoadingIndicator);
+      alert("Error loading data. Please try again.");
+    }
+  });
+
+  function getRegistrationNumberFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    return pathParts[pathParts.length - 1];
+  }
+
+  function addTextareaAutoResize() {
     const textareas = document.querySelectorAll('textarea');
-  
     textareas.forEach(textarea => {
       textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
       });
-  
-      textarea.addEventListener('blur', () => {
-        textarea.style.height = '100px'; 
-      });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
+
+      // Trigger initial resize
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight) + 'px';
     });
- });
-     
+  }
+
+  function showLoadingIndicator() {
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.id = 'page-loading-indicator';
+    loadingIndicator.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #ccc;
+      border-color: #007bff transparent #007bff transparent;
+      animation: loading-animation 1.2s linear infinite;
+    `;
+    document.body.appendChild(loadingIndicator);
+    return loadingIndicator;
+  }
+
+  function showSaveButtonLoadingIndicator() {
+    const saveButton = document.getElementById('saveButton');
+    saveButton.disabled = true;
+    saveButton.innerHTML = 'Saving... <span class="loading-spinner"></span>';
+
+    const spinner = document.createElement('span');
+    spinner.classList.add('loading-spinner');
+    spinner.style.cssText = `
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #007bff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-left: 10px;
+    `;
+    saveButton.appendChild(spinner);
+  }
+
+  function removeSaveButtonLoadingIndicator() {
+    const saveButton = document.getElementById('saveButton');
+    saveButton.disabled = false;
+    saveButton.innerHTML = 'Save';
+    const spinner = saveButton.querySelector('.loading-spinner');
+    if (spinner) {
+      spinner.remove();
+    }
+  }
+});
+
+//Invesitigations
+document.addEventListener('DOMContentLoaded', () => {
+    // Inject CSS styles directly into the document
+    const style = document.createElement('style');
+    style.innerHTML = `
+      body {
+        font-family: sans-serif;
+      }
+  
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+  
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      .section-container {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+  
+      h4 {
+        margin-top: 0;
+      }
+  
+      label {
+        display: block;
+        margin-bottom: 5px;
+        cursor: pointer;
+      }
+  
+      input[type="checkbox"],
+      input[type="radio"] {
+        margin-right: 5px;
+      }
+  
+      button[type="submit"] {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      button[type="submit"]:hover {
+        background-color: #218838;
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+  
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+  
+      /* Loading Indicator Styles */
+      .loading-indicator {
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        /* Blue */
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        display: none;
+        /* Hidden by default */
+        margin: 0 auto;
+        /* Center the indicator horizontally within its container */
+      }
+  
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+  
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+  
+      /* Sub-options Styles */
+      .sub-options {
+        display: none;
+        margin-left: 20px;
+      }
+    `;
+    document.head.appendChild(style);
+  
+    const investigations = document.querySelector('.floating-menu a[href="#investigations"]');
+  
+    investigations.addEventListener('click', (event) => {
+      event.preventDefault();
+  
+      const mainContent = document.querySelector('.main');
+      const urlParts = window.location.pathname.split('/');
+      const registrationNumber = urlParts[urlParts.length - 1];
+      console.log('Registration number: ', registrationNumber);
+  
+      // Inject HTML form into the page
+      mainContent.innerHTML = `
+        <div class="container">
+          <h2>Investigations</h2>
+  
+          <div class="section-container">
+            <h4>Lab Results</h4>
+            <label><input type="checkbox" id="haematology-checkbox"> Haematology</label>
+            <div id="haematology-options" class="sub-options">
+              <label><input type="checkbox" name="haematology" value="Haemogram"> Haemogram</label>
+              <label><input type="checkbox" name="haematology" value="PBF"> PBF</label>
+              <label><input type="checkbox" name="haematology" value="Blood slide for malaria"> Blood Slide for Malaria</label>
+              <label><input type="checkbox" name="haematology" value="Sickling test"> Sickling Test</label>
+              <label><input type="checkbox" id="haematology-other-checkbox" value="Other"> Other</label>
+              <textarea id="haematology-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+  
+            <label><input type="checkbox" id="biochemistry-checkbox"> Biochemistry</label>
+            <div id="biochemistry-options" class="sub-options">
+              <label><input type="checkbox" name="biochemistry" value="UECA"> UECA</label>
+              <label><input type="checkbox" name="biochemistry" value="Electrolyte"> Electrolyte</label>
+              <label><input type="checkbox" name="biochemistry" value="Liver function tests"> Liver Function Tests</label>
+              <label><input type="checkbox" name="biochemistry" value="Random blood sugar"> Random Blood Sugar</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum magnesium"> Serum Magnesium</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum calcium"> Serum Calcium</label>
+              <label><input type="checkbox" name="biochemistry" value="Ferritun"> Ferritun</label>
+              <label><input type="checkbox" name="biochemistry" value="Toxicology"> Toxicology</label>
+              <label><input type="checkbox" id="biochemistry-other-checkbox" value="Other"> Other</label>
+              <textarea id="biochemistry-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+  
+            <label><input type="checkbox" id="urine-checkbox"> Urine Tests</label>
+            <div id="urine-options" class="sub-options">
+              <label><input type="checkbox" name="urine" value="Urinalysis"> Urinalysis</label>
+              <label><input type="checkbox" name="urine" value="Glycosaminoglycan"> Glycosaminoglycan</label>
+              <label><input type="checkbox" name="urine" value="Toxicology"> Toxicology</label>
+              <label><input type="checkbox" id="urine-other-checkbox" value="Other"> Other</label>
+              <textarea id="urine-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+  
+            <label><input type="checkbox" id="stool-checkbox"> Stool Tests</label>
+            <div id="stool-options" class="sub-options">
+              <label><input type="checkbox" name="stool" value="Microscopy"> Microscopy</label>
+              <label><input type="checkbox" name="stool" value="Culture/sensitivity"> Culture/Sensitivity</label>
+              <label><input type="checkbox" name="stool" value="Retaxium"> Retaxium</label>
+              <label><input type="checkbox" id="stool-other-checkbox" value="Other"> Other</label>
+              <textarea id="stool-other-textarea" rows="4" cols="50"></textarea>
+            </div>
+          </div>
+  
+          <div class="section-container">
+            <h4>Imaging</h4>
+            <label><input type="checkbox" id="xray-checkbox"> X-ray</label>
+            <div id="xray-options" class="sub-options">
+              <label><input type="checkbox" name="xray" value="Wrist"> Wrist</label>
+              <label><input type="checkbox" name="xray" value="Humerus"> Humerus</label>
+              <label><input type="checkbox" name="xray" value="Radius"> Radius</label>
+              <label><input type="checkbox" name="xray" value="Hip"> Hip</label>
+              <label><input type="checkbox" name="xray" value="Femur"> Femur</label>
+              <label><input type="checkbox" name="xray" value="Tibia"> Tibia</label>
+              <label><input type="checkbox" name="xray" value="Fibula"> Fibula</label>
+              <label><input type="checkbox" name="xray" value="Knee"> Knee</label>
+              <label><input type="checkbox" name="xray" value="Ankle"> Ankle</label>
+              <label><input type="checkbox" name="xray" value="Foot"> Foot</label>
+              <label><input type="checkbox" name="xray" value="Chest"> Chest</label>
+            </div>
+  
+            <label><input type="checkbox" id="mri-checkbox"> MRI Scan</label>
+            <div id="mri-options" class="sub-options">
+              <label><input type="checkbox" name="mri" value="Brain"> Brain</label>
+              <label><input type="checkbox" name="mri" value="Spine"> Spine</label>
+              <label><input type="checkbox" name="mri" value="Abdomen"> Abdomen</label>
+              <label><input type="checkbox" name="mri" value="Chest"> Chest</label>
+            </div>
+  
+            <label><input type="checkbox" id="ct-checkbox"> CT Scan</label>
+            <div id="ct-options" class="sub-options">
+              <label><input type="checkbox" name="ct" value="Brain"> Brain</label>
+              <label><input type="checkbox" name="ct" value="Spine"> Spine</label>
+              <label><input type="checkbox" name="ct" value="Abdomen"> Abdomen</label>
+              <label><input type="checkbox" name="ct" value="Chest"> Chest</label>
+            </div>
+          </div>
+  
+          <div class="section-container">
+            <h4>Genetic Tests</h4>
+            <label><input type="checkbox" name="genetic_tests" value="Karyotype"> Karyotype</label>
+            <label><input type="checkbox" name="genetic_tests" value="Chromosomal microarray"> Chromosomal Microarray</label>
+            <label><input type="checkbox" name="genetic_tests" value="Whole exome sequencing"> Whole Exome Sequencing</label>
+          </div>
+  
+          <div class="section-container">
+            <h4>Electrophysiology Test</h4>
+            <label><input type="checkbox" name="electrophysiology" value="BERA"> BERA</label>
+            <label><input type="checkbox" name="electrophysiology" value="Visual evoked potentials"> Visual Evoked Potentials</label>
+            <label><input type="checkbox" name="electrophysiology" value="EEG"> EEG</label>
+            <label><input type="checkbox" name="electrophysiology" value="Nerve conduction studies"> Nerve Conduction Studies</label>
+            <label><input type="checkbox" name="electrophysiology" value="PSG"> PSG</label>
+          </div>
+  
+          <div class="section-container">
+            <h4>Functional Test</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>Test</th>
+                  <th>Yes</th>
+                  <th>No</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Vanderbilt Form</td>
+                  <td><input type="radio" name="functional_test_vanderbilt" value="yes"></td>
+                  <td><input type="radio" name="functional_test_vanderbilt" value="no"></td>
+                </tr>
+                <tr>
+                  <td>MCHAT</td>
+                  <td><input type="radio" name="functional_test_mchat" value="yes"></td>
+                  <td><input type="radio" name="functional_test_mchat" value="no"></td>
+                </tr>
+                <tr>
+                  <td>ADOS</td>
+                  <td><input type="radio" name="functional_test_ados" value="yes"></td>
+                  <td><input type="radio" name="functional_test_ados" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Molten Assessment Scale</td>
+                  <td><input type="radio" name="functional_test_molten" value="yes"></td>
+                  <td><input type="radio" name="functional_test_molten" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Grifiths 3 Scale</td>
+                  <td><input type="radio" name="functional_test_grifiths" value="yes"></td>
+                  <td><input type="radio" name="functional_test_grifiths" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Senzeny Profile</td>
+                  <td><input type="radio" name="functional_test_senzeny" value="yes"></td>
+                  <td><input type="radio" name="functional_test_senzeny" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Learning Disorder</td>
+                  <td><input type="radio" name="functional_test_learning" value="yes"></td>
+                  <td><input type="radio" name="functional_test_learning" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Sleep Studies (PSG)</td>
+                  <td><input type="radio" name="functional_test_sleep" value="yes"></td>
+                  <td><input type="radio" name="functional_test_sleep" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Education Assessment</td>
+                  <td><input type="radio" name="functional_test_education" value="yes"></td>
+                  <td><input type="radio" name="functional_test_education" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Other</td>
+                  <td><input type="radio" name="functional_test_other" id="other-functional-checkbox" value="yes"></td>
+                  <td><input type="radio" name="functional_test_other" value="no"></td>
+                </tr>
+              </tbody>
+            </table>
+            <textarea id="other-functional-tests" rows="4" cols="50"></textarea>
+          </div>
+  
+          <button type="submit">Submit Request</button>
+          <div class="loading-indicator"></div>
+        </div>
+      `;
+  
+      // Toggle visibility of sub-options for each section
+      setupToggleVisibility('haematology-checkbox', 'haematology-options');
+      setupToggleVisibility('biochemistry-checkbox', 'biochemistry-options');
+      setupToggleVisibility('urine-checkbox', 'urine-options');
+      setupToggleVisibility('stool-checkbox', 'stool-options');
+      setupToggleVisibility('xray-checkbox', 'xray-options');
+      setupToggleVisibility('mri-checkbox', 'mri-options');
+      setupToggleVisibility('ct-checkbox', 'ct-options');
+  
+      // Toggle visibility of "Other" textareas
+      setupToggleVisibility('haematology-other-checkbox', 'haematology-other-textarea');
+      setupToggleVisibility('biochemistry-other-checkbox', 'biochemistry-other-textarea');
+      setupToggleVisibility('urine-other-checkbox', 'urine-other-textarea');
+      setupToggleVisibility('stool-other-checkbox', 'stool-other-textarea');
+      setupToggleVisibility('other-functional-checkbox', 'other-functional-tests');
+  
+      // Attach the submit event to save data
+      const submitButton = document.querySelector('button[type="submit"]');
+      const loadingIndicator = document.querySelector('.loading-indicator');
+  
+      submitButton.addEventListener('click', (event) => {
+        event.preventDefault();
+  
+        submitButton.disabled = true;
+        loadingIndicator.style.display = 'block';
+  
+        const collectedData = {
+          haematology: getCheckedValues('haematology'),
+          biochemistry: getCheckedValues('biochemistry'),
+          urine: getCheckedValues('urine'),
+          stool: getCheckedValues('stool'),
+          xray: getCheckedValues('xray'),
+          mri: getCheckedValues('mri'),
+          ct: getCheckedValues('ct'),
+          geneticTests: getCheckedValues('genetic_tests'),
+          electrophysiology: getCheckedValues('electrophysiology'),
+          functionalTests: getFunctionalTests(),
+          otherHaematology: document.getElementById('haematology-other-textarea').value.trim(),
+          otherBiochemistry: document.getElementById('biochemistry-other-textarea').value.trim(),
+          otherUrine: document.getElementById('urine-other-textarea').value.trim(),
+          otherStool: document.getElementById('stool-other-textarea').value.trim(),
+          otherFunctionalTests: document.getElementById('other-functional-tests').value.trim(),
+        };
+  
+        console.log('Collected Data: ', collectedData); // Debugging log
+  
+        const postData = {
+          haematology: collectedData.haematology,
+          biochemistry: collectedData.biochemistry,
+          urine: collectedData.urine,
+          stool: collectedData.stool,
+          xray: collectedData.xray,
+          mri: collectedData.mri,
+          ct: collectedData.ct,
+          genetic_tests: collectedData.geneticTests,
+          electrophysiology: collectedData.electrophysiology,
+          functional_tests: collectedData.functionalTests,
+          otherHaematology: collectedData.otherHaematology,
+          otherBiochemistry: collectedData.otherBiochemistry,
+          otherUrine: collectedData.otherUrine,
+          otherStool: collectedData.otherStool,
+          other_functional_tests: collectedData.otherFunctionalTests,
+        };
+  
+        // Send data to the server
+        sendInvestigationsData(registrationNumber, postData)
+          .finally(() => {
+            submitButton.disabled = false;
+            loadingIndicator.style.display = 'none';
+          });
+      });
+    });
+  
+    // Helper function to toggle visibility of sub-options
+    function setupToggleVisibility(triggerId, targetId) {
+      const trigger = document.getElementById(triggerId);
+      const target = document.getElementById(targetId);
+  
+      if (trigger && target) {
+        trigger.addEventListener('change', function () {
+            target.style.display = this.checked ? 'block' : 'none';
+          });
+        }
+      }
+    
+      // Helper function to get checked values for checkboxes
+      function getCheckedValues(name) {
+        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+        const values = [];
+        checkboxes.forEach(checkbox => {
+          values.push(checkbox.value);
+        });
+        return values;
+      }
+    
+      // Helper function to get the selected functional tests
+      function getFunctionalTests() {
+        return {
+          vanderbilt: getRadioValue('functional_test_vanderbilt'),
+          mchat: getRadioValue('functional_test_mchat'),
+          ados: getRadioValue('functional_test_ados'),
+          molten: getRadioValue('functional_test_molten'),
+          grifiths: getRadioValue('functional_test_grifiths'),
+          senzeny: getRadioValue('functional_test_senzeny'),
+          learning: getRadioValue('functional_test_learning'),
+          sleep: getRadioValue('functional_test_sleep'),
+          education: getRadioValue('functional_test_education'),
+          other: getRadioValue('functional_test_other'),
+          other_tests: document.getElementById('other-functional-tests').value.trim(),
+        };
+      }
+    
+      // Helper function to get the selected radio button value
+      function getRadioValue(name) {
+        const radioButton = document.querySelector(`input[name="${name}"]:checked`);
+        return radioButton ? radioButton.value : null;
+      }
+    
+      // Function to send the collected data to the server
+      function sendInvestigationsData(registrationNumber, postData) {
+        console.log('Sending data to server...'); // Debugging log
+        console.log('Post data: ', postData); // Debugging log
+    
+        return fetch(`/save-investigations/${registrationNumber}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token
+          },
+          body: JSON.stringify(postData),
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Server Response: ', data); // Debugging log
+            alert(data.message); // Success message
+          })
+          .catch(error => {
+            console.error('Error during fetch:', error);
+            alert('Error: Failed to save investigations'); // Error message
+          });
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+//record results
+document.addEventListener('DOMContentLoaded', () => {
+    // Inject CSS styles directly into the document
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .test-section {
+        margin-bottom: 30px;
+      }
+  
+      .test-section h4 {
+        font-size: 1.4em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: blue;
+      }
+  
+      .test-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+  
+      .test-fields div {
+        display: flex;
+        gap: 10px;
+      }
+  
+      .test-fields textarea {
+        width: 100%;
+        padding: 8px;
+        height: 50px;
+        min-height: 30px;
+        resize: vertical;
+        box-sizing: border-box;
+      }
+  
+      .test-name {
+        font-weight: bold;
+        width: 30%;
+      }
+  
+      .test-input {
+        width: 65%;
+      }
+  
+      .overall-impression {
+        margin-top: 30px;
+      }
+  
+      .btn-container {
+        margin-top: 20px;
+      }
+  
+      .btn-container button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+  
+      /* Loading Indicator Styles */
+      .loading-indicator {
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        /* Blue */
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        display: none;
+        /* Hidden by default */
+        margin: 0 auto;
+        /* Center the indicator horizontally within its container */
+      }
+  
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+  
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+  
+      /* Page Loading Indicator Styles */
+      .page-loading-indicator {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        /* Ensure it's on top */
+        display: none;
+        /* Hidden by default */
+      }
+    `;
+    document.head.appendChild(style);
+  
+    const recordResults = document.querySelector('.floating-menu a[href="#recordResults"]');
+    const mainContent = document.querySelector('.main');
+    const pageLoadingIndicator = document.createElement('div');
+    pageLoadingIndicator.classList.add('page-loading-indicator');
+    pageLoadingIndicator.innerHTML = '<div class="loading-indicator"></div>';
+    document.body.appendChild(pageLoadingIndicator);
+  
+    recordResults.addEventListener('click', async () => {
+      pageLoadingIndicator.style.display = 'flex';
+      mainContent.innerHTML = '';
+  
+      const urlParts = window.location.pathname.split('/');
+      const registrationNumber = urlParts[urlParts.length - 1];
+      console.log('Registration number:', registrationNumber);
+  
+      try {
+        const response = await fetch(`/recordResults/${registrationNumber}`);
+        const data = await response.json();
+        console.log('Fetched data:', data);
+  
+        pageLoadingIndicator.style.display = 'none';
+  
+        if (data.message) {
+          mainContent.innerHTML = `<p>${data.message}</p>`;
+          return;
+        }
+  
+        const fullName = JSON.parse(data.child.fullname);
+        const patientName = `${fullName.first_name} ${fullName.middle_name || ''} ${fullName.last_name}`;
+        mainContent.innerHTML = `
+          <div class="container">
+            <h3>Patient: ${patientName}</h3>
+          </div>
+        `;
+  
+        if (data.investigationData && data.investigationData.created_at) {
+          const investigationDate = new Date(data.investigationData.created_at).toLocaleDateString();
+          mainContent.innerHTML += `
+            <div class="test-section">
+              <h4>Investigation Details</h4>
+              <p><strong>Date of Request:</strong> ${investigationDate}</p>
+            </div>
+          `;
+        }
+  
+        const renderTestSection = (sectionTitle, tests, existingResults) => {
+          if (tests && tests.length) {
+            mainContent.innerHTML += `
+              <div class="test-section">
+                <h4>${sectionTitle}</h4>
+              </div>
+            `;
+            tests.forEach(testName => {
+              const existingResult = Array.isArray(existingResults)
+                ? existingResults.find(result => result.name === testName)
+                : undefined;
+  
+              mainContent.innerHTML += `
+                <div class="test-fields">
+                  <div class="test-name">${testName}</div>
+                  <div class="test-input">
+                    <textarea placeholder="Enter result value">${existingResult ? existingResult.value : ''}</textarea>
+                    <textarea placeholder="Enter comments">${existingResult ? existingResult.comments : ''}</textarea>
+                  </div>
+                </div>
+              `;
+            });
+          }
+        };
+  
+        // Updated to match the new JSON format
+        renderTestSection('Haematology', data.investigationData.haematology, data.investigationData.results);
+        renderTestSection('Biochemistry', data.investigationData.biochemistry, data.investigationData.results);
+        renderTestSection('Urine', data.investigationData.urine, data.investigationData.results);
+        renderTestSection('Stool', data.investigationData.stool, data.investigationData.results);
+        renderTestSection('X-ray', data.investigationData.xray, data.investigationData.results);
+        renderTestSection('MRI', data.investigationData.mri, data.investigationData.results);
+        renderTestSection('CT', data.investigationData.ct, data.investigationData.results);
+        renderTestSection('Electrophysiology', data.investigationData.electrophysiology, data.investigationData.results);
+        renderTestSection('Genetic Tests', data.investigationData.genetic_tests, data.investigationData.results);
+  
+        mainContent.innerHTML += `
+          <div class="overall-impression">
+            <h3>Overall Impression/Summary</h3>
+            <textarea rows="4" cols="50">${data.investigationData.overall_impression || ''}</textarea>
+          </div>
+          <div class="btn-container">
+            <button type="submit">Save</button>
+            <div class="loading-indicator"></div> 
+            <button type="button">Print</button>
+            <button type="button">Back</button>
+          </div>
+        `;
+  
+        // Auto-resize textareas
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(textarea => {
+          textarea.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = `${this.scrollHeight}px`;
+          });
+          textarea.addEventListener('blur', function () {
+            this.style.height = '50px';
+          });
+        });
+  
+        const saveButton = document.querySelector('.btn-container button[type="submit"]');
+        const loadingIndicator = document.querySelector('.btn-container .loading-indicator');
+  
+        saveButton.addEventListener('click', async () => {
+          saveButton.disabled = true;
+          loadingIndicator.style.display = 'block';
+  
+          const results = [];
+          document.querySelectorAll('.test-fields').forEach(field => {
+            const name = field.querySelector('.test-name').innerText.trim();
+            const value = field.querySelector('textarea:nth-of-type(1)').value.trim();
+            const comments = field.querySelector('textarea:nth-of-type(2)').value.trim();
+            results.push({ name, value, comments });
+          });
+  
+          const overallImpressionElement = document.querySelector('.overall-impression textarea');
+          const overallImpression = overallImpressionElement ? overallImpressionElement.value.trim() : '';
+  
+          console.log('Data to be saved:', { results, overall_impression: overallImpression });
+  
+          try {
+            const response = await fetch(`/saveInvestigationResults/${registrationNumber}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+              },
+              body: JSON.stringify({ results, overall_impression: overallImpression }),
+            });
+  
+            const result = await response.json();
+            console.log('Server response:', result);
+            alert(result.message);
+          } catch (error) {
+            console.error('Error saving data:', error);
+            alert('An error occurred while saving.');
+          } finally {
+            saveButton.disabled = false;
+            loadingIndicator.style.display = 'none';
+          }
+        });
+  
+      } catch (error) {
+        console.error('Error fetching or processing data:', error);
+        pageLoadingIndicator.style.display = 'none';
+      }
+    });
+  });
+
+
+
+
       
 
  
