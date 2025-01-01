@@ -95,6 +95,14 @@ Route::post('/save-investigations/{registration_number}', [InvestigationControll
 
 
 
+Route::get('/recordResults/{registration_number}', [InvestigationController::class, 'recordResults'])->name('recordResults');
+Route::post('/saveInvestigationResults/{registration_number}', [InvestigationController::class, 'saveInvestigationResults']);
+
+
+
+
+
+
 
 
 

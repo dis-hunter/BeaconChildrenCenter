@@ -534,6 +534,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Controllers\\DoctorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorsController.php',
         'App\\Http\\Controllers\\FamilySocialHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/FamilySocialHistoryController.php',
         'App\\Http\\Controllers\\GeneralExamController' => __DIR__ . '/../..' . '/app/Http/Controllers/GeneralExamController.php',
+        'App\\Http\\Controllers\\InvestigationController' => __DIR__ . '/../..' . '/app/Http/Controllers/InvestigationController.php',
         'App\\Http\\Controllers\\PastMedicalHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/PastMedicalHistoryController.php',
         'App\\Http\\Controllers\\PerinatalHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/PerinatalHistoryController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

@@ -113,4 +113,78 @@ class InvestigationController extends Controller
             return response()->json(['message' => 'Investigations saved successfully', 'investigation_id' => $investigationId]);
         }
     }
+    public function recordResults($registration_number)
+    {
+        // Fetch child details using the registration number
+        $child = DB::table('children')->where('registration_number', $registration_number)->first();
+    
+        if (!$child) {
+            return response()->json(['message' => 'Child not found'], 404);
+        }
+    
+        // Fetch the latest investigation data for the child based on child_id (not visit_id)
+        $investigation = DB::table('investigations')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc') // Order by creation date to get the most recent
+            ->first();
+    
+        if (!$investigation) {
+            return response()->json(['message' => 'No investigations found for this child'], 404);
+        }
+    
+        // Decode the JSON data from the investigation table
+        $investigationData = json_decode($investigation->data, true);
+    
+        // Ensure `created_at` is included in the response
+        $investigationData['created_at'] = $investigation->created_at;
+    
+        // Return the data as JSON for use in the frontend
+        return response()->json([
+            'child' => $child,
+            'investigationData' => $investigationData
+        ]);
+    }
+    public function saveInvestigationResults($registration_number, Request $request)
+    {
+        // Fetch child details using the registration number
+        $child = DB::table('children')->where('registration_number', $registration_number)->first();
+    
+        if (!$child) {
+            return response()->json(['message' => 'Child not found'], 404);
+        }
+    
+        // Fetch the latest investigation for the child
+        $investigation = DB::table('investigations')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    
+        if (!$investigation) {
+            return response()->json(['message' => 'No investigations found for this child'], 404);
+        }
+    
+        // Validate the incoming data
+        $validatedData = $request->validate([
+            'results.*.name' => 'required|string',
+            'results.*.value' => 'nullable|string',
+            'results.*.comments' => 'nullable|string',
+            'overall_impression' => 'nullable|string',
+        ]);
+    
+        // Prepare results data
+        $investigationResults = json_decode($investigation->data, true);
+        $investigationResults['results'] = $validatedData['results'];
+        $investigationResults['overall_impression'] = $validatedData['overall_impression'] ?? null;
+    
+        // Update the investigation record with the results
+        DB::table('investigations')->where('id', $investigation->id)->update([
+            'data' => json_encode($investigationResults),
+            'updated_at' => now(),
+        ]);
+    
+        return response()->json(['message' => 'Investigation results saved successfully']);
+    }
+    
+    
+
 }

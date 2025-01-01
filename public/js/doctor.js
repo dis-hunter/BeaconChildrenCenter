@@ -2043,182 +2043,288 @@ function addFormEventListeners(registrationNumber) {
 
 //Invesitigations
 
-const investigations = document.querySelector('.floating-menu a[href="#investigations"]');
-
-investigations.addEventListener('click', (event) => {
-    event.preventDefault();
-    
-    const mainContent = document.querySelector('.main');
-    const urlParts = window.location.pathname.split('/');
-    const registrationNumber = urlParts[urlParts.length - 1];
-    console.log('Registration number: ', registrationNumber); // Debugging log
-
-    // Inject HTML form into the page
-    mainContent.innerHTML = `
-    <head>
-        <link rel='stylesheet' href='../css/investigations.css'>
-    </head>
-    <body>
-    <div class="container">
-        <h2>Investigations</h2>
-
-        <div class="section-container">
+document.addEventListener('DOMContentLoaded', () => {
+    // Inject CSS styles directly into the document
+    const style = document.createElement('style');
+    style.innerHTML = `
+      body {
+        font-family: sans-serif;
+      }
+  
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+  
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      .section-container {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+  
+      h4 {
+        margin-top: 0;
+      }
+  
+      label {
+        display: block;
+        margin-bottom: 5px;
+        cursor: pointer;
+      }
+  
+      input[type="checkbox"],
+      input[type="radio"] {
+        margin-right: 5px;
+      }
+  
+      button[type="submit"] {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      button[type="submit"]:hover {
+        background-color: #218838;
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+  
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+  
+      /* Loading Indicator Styles */
+      .loading-indicator {
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        /* Blue */
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        display: none;
+        /* Hidden by default */
+        margin: 0 auto;
+        /* Center the indicator horizontally within its container */
+      }
+  
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+  
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  
+    const investigations = document.querySelector('.floating-menu a[href="#investigations"]');
+  
+    investigations.addEventListener('click', (event) => {
+      event.preventDefault();
+  
+      const mainContent = document.querySelector('.main');
+      const urlParts = window.location.pathname.split('/');
+      const registrationNumber = urlParts[urlParts.length - 1];
+      console.log('Registration number: ', registrationNumber);
+  
+      // Inject HTML form into the page
+      mainContent.innerHTML = `
+        <div class="container">
+          <h2>Investigations</h2>
+  
+          <div class="section-container">
             <h4>Imaging</h4>
             <label><input type="checkbox" name="imaging" value="MRI scan brain"> MRI Scan Brain</label>
             <label><input type="checkbox" name="imaging" value="CT scan brain"> CT Scan Brain</label>
             <label><input type="checkbox" name="imaging" value="MRI scan spine"> MRI Scan Spine</label>
             <label><input type="checkbox" name="imaging" value="CT scan spine"> CT Scan Spine</label>
-        </div>
-
-        <div class="section-container">
+          </div>
+  
+          <div class="section-container">
             <h4>Lab Requests</h4>
             <label><input type="checkbox" name="lab_requests" value="Haemogram"> Haemogram</label>
             <label><input type="checkbox" name="lab_requests" value="Thyroid function test"> Thyroid Function Test</label>
             <label><input type="checkbox" name="lab_requests" value="Biochemistry"> Biochemistry</label>
             <label><input type="checkbox" name="lab_requests" id="other-lab-checkbox" value="Other"> Other</label>
             <textarea id="other-lab-tests" rows="4" cols="50"></textarea>
-        </div>
-
-        <div class="section-container">
+          </div>
+  
+          <div class="section-container">
             <h4>Genetic Tests</h4>
             <label><input type="checkbox" name="genetic_tests" value="Karyotype"> Karyotype</label>
             <label><input type="checkbox" name="genetic_tests" value="Chromosomal microarray"> Chromosomal Microarray</label>
             <label><input type="checkbox" name="genetic_tests" value="Whole exome sequencing"> Whole Exome Sequencing</label>
-        </div>
-
-        <div class="section-container">
+          </div>
+  
+          <div class="section-container">
             <h4>Electrophysiology Test</h4>
             <label><input type="checkbox" name="electrophysiology" value="BERA"> BERA</label>
             <label><input type="checkbox" name="electrophysiology" value="Visual evoked potentials"> Visual Evoked Potentials</label>
             <label><input type="checkbox" name="electrophysiology" value="EEG"> EEG</label>
             <label><input type="checkbox" name="electrophysiology" value="Nerve conduction studies"> Nerve Conduction Studies</label>
             <label><input type="checkbox" name="electrophysiology" value="PSG"> PSG</label>
-        </div>
-
-        <div class="section-container">
+          </div>
+  
+          <div class="section-container">
             <h4>Functional Test</h4>
             <table>
-                <thead>
-                    <tr>
-                        <th>Test</th>
-                        <th>Yes</th>
-                        <th>No</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Vanderbilt Form</td>
-                        <td><input type="radio" name="functional_test_vanderbilt" value="yes"></td>
-                        <td><input type="radio" name="functional_test_vanderbilt" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>MCHAT</td>
-                        <td><input type="radio" name="functional_test_mchat" value="yes"></td>
-                        <td><input type="radio" name="functional_test_mchat" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>ADOS</td>
-                        <td><input type="radio" name="functional_test_ados" value="yes"></td>
-                        <td><input type="radio" name="functional_test_ados" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Molten Assessment Scale</td>
-                        <td><input type="radio" name="functional_test_molten" value="yes"></td>
-                        <td><input type="radio" name="functional_test_molten" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Grifiths 3 Scale</td>
-                        <td><input type="radio" name="functional_test_grifiths" value="yes"></td>
-                        <td><input type="radio" name="functional_test_grifiths" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Senzeny Profile</td>
-                        <td><input type="radio" name="functional_test_senzeny" value="yes"></td>
-                        <td><input type="radio" name="functional_test_senzeny" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Learning Disorder</td>
-                        <td><input type="radio" name="functional_test_learning" value="yes"></td>
-                        <td><input type="radio" name="functional_test_learning" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Sleep Studies (PSG)</td>
-                        <td><input type="radio" name="functional_test_sleep" value="yes"></td>
-                        <td><input type="radio" name="functional_test_sleep" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Education Assessment</td>
-                        <td><input type="radio" name="functional_test_education" value="yes"></td>
-                        <td><input type="radio" name="functional_test_education" value="no"></td>
-                    </tr>
-                    <tr>
-                        <td>Other</td>
-                        <td><input type="radio" name="functional_test_other" id="other-functional-checkbox" value="yes"></td>
-                        <td><input type="radio" name="functional_test_other" value="no"></td>
-                    </tr>
-                </tbody>
+              <thead>
+                <tr>
+                  <th>Test</th>
+                  <th>Yes</th>
+                  <th>No</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Vanderbilt Form</td>
+                  <td><input type="radio" name="functional_test_vanderbilt" value="yes"></td>
+                  <td><input type="radio" name="functional_test_vanderbilt" value="no"></td>
+                </tr>
+                <tr>
+                  <td>MCHAT</td>
+                  <td><input type="radio" name="functional_test_mchat" value="yes"></td>
+                  <td><input type="radio" name="functional_test_mchat" value="no"></td>
+                </tr>
+                <tr>
+                  <td>ADOS</td>
+                  <td><input type="radio" name="functional_test_ados" value="yes"></td>
+                  <td><input type="radio" name="functional_test_ados" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Molten Assessment Scale</td>
+                  <td><input type="radio" name="functional_test_molten" value="yes"></td>
+                  <td><input type="radio" name="functional_test_molten" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Grifiths 3 Scale</td>
+                  <td><input type="radio" name="functional_test_grifiths" value="yes"></td>
+                  <td><input type="radio" name="functional_test_grifiths" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Senzeny Profile</td>
+                  <td><input type="radio" name="functional_test_senzeny" value="yes"></td>
+                  <td><input type="radio" name="functional_test_senzeny" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Learning Disorder</td>
+                  <td><input type="radio" name="functional_test_learning" value="yes"></td>
+                  <td><input type="radio" name="functional_test_learning" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Sleep Studies (PSG)</td>
+                  <td><input type="radio" name="functional_test_sleep" value="yes"></td>
+                  <td><input type="radio" name="functional_test_sleep" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Education Assessment</td>
+                  <td><input type="radio" name="functional_test_education" value="yes"></td>
+                  <td><input type="radio" name="functional_test_education" value="no"></td>
+                </tr>
+                <tr>
+                  <td>Other</td>
+                  <td><input type="radio" name="functional_test_other" id="other-functional-checkbox" value="yes"></td>
+                  <td><input type="radio" name="functional_test_other" value="no"></td>
+                </tr>
+              </tbody>
             </table>
             <textarea id="other-functional-tests" rows="4" cols="50"></textarea>
+          </div>
+  
+          <button type="submit">Submit Request</button>
+          <div class="loading-indicator"></div> 
         </div>
-
-        <button type="submit">Submit Request</button>
-    </div>
-    </body>`;
-
-    // Handle "Other" checkbox visibility for lab tests
-    document.getElementById('other-lab-checkbox').addEventListener('change', function() {
+      `;
+  
+      // Handle "Other" checkbox visibility for lab tests
+      document.getElementById('other-lab-checkbox').addEventListener('change', function() {
         const otherLabTestsTextarea = document.getElementById('other-lab-tests');
         otherLabTestsTextarea.style.display = this.checked ? 'block' : 'none';
-    });
-
-    // Handle "Other" checkbox visibility for functional tests
-    document.getElementById('other-functional-checkbox').addEventListener('change', function() {
+      });
+  
+      // Handle "Other" checkbox visibility for functional tests
+      document.getElementById('other-functional-checkbox').addEventListener('change', function() {
         const otherFunctionalTestsTextarea = document.getElementById('other-functional-tests');
         otherFunctionalTestsTextarea.style.display = this.checked ? 'block' : 'none';
-    });
-
-    // Attach the submit event to save data
-    const submitButton = document.querySelector('button[type="submit"]');
-    submitButton.addEventListener('click', (event) => {
+      });
+  
+      // Attach the submit event to save data
+      const submitButton = document.querySelector('button[type="submit"]');
+      const loadingIndicator = document.querySelector('.loading-indicator');
+  
+      submitButton.addEventListener('click', (event) => {
         event.preventDefault();
+  
+        submitButton.disabled = true;
+        loadingIndicator.style.display = 'block';
+  
         const collectedData = {
-            imaging: getCheckedValues('imaging'),
-            labRequests: getCheckedValues('lab_requests'),
-            geneticTests: getCheckedValues('genetic_tests'),
-            electrophysiology: getCheckedValues('electrophysiology'),
-            functionalTests: getFunctionalTests(),
-            otherLabTests: document.getElementById('other-lab-tests').value.trim(),
+          imaging: getCheckedValues('imaging'),
+          labRequests: getCheckedValues('lab_requests'),
+          geneticTests: getCheckedValues('genetic_tests'),
+          electrophysiology: getCheckedValues('electrophysiology'),
+          functionalTests: getFunctionalTests(),
+          otherLabTests: document.getElementById('other-lab-tests').value.trim(),
         };
-
+  
         console.log('Collected Data: ', collectedData); // Debugging log
-
+  
         const postData = {
-            imaging: collectedData.imaging,
-            lab_requests: collectedData.labRequests,
-            genetic_tests: collectedData.geneticTests,
-            electrophysiology: collectedData.electrophysiology,
-            functional_tests: collectedData.functionalTests,
-            other_lab_tests: collectedData.otherLabTests,
+          imaging: collectedData.imaging,
+          lab_requests: collectedData.labRequests,
+          genetic_tests: collectedData.geneticTests,
+          electrophysiology: collectedData.electrophysiology,
+          functional_tests: collectedData.functionalTests,
+          other_lab_tests: collectedData.otherLabTests,
         };
-
+  
         // Send data to the server
-        sendInvestigationsData(registrationNumber, postData);
+        sendInvestigationsData(registrationNumber, postData)
+          .finally(() => {
+            submitButton.disabled = false;
+            loadingIndicator.style.display = 'none';
+          });
+      });
     });
-});
-
-// Helper function to get checked values for checkboxes
-function getCheckedValues(name) {
-    const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-    const values = [];
-    checkboxes.forEach(checkbox => {
+  
+    // Helper function to get checked values for checkboxes
+    function getCheckedValues(name) {
+      const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+      const values = [];
+      checkboxes.forEach(checkbox => {
         values.push(checkbox.value);
-    });
-    return values;
-}
-
-// Helper function to get the selected functional tests
-function getFunctionalTests() {
-    return {
+      });
+      return values;
+    }
+  
+    // Helper function to get the selected functional tests
+    function getFunctionalTests() {
+      return {
         vanderbilt: getRadioValue('functional_test_vanderbilt'),
         mchat: getRadioValue('functional_test_mchat'),
         ados: getRadioValue('functional_test_ados'),
@@ -2230,38 +2336,318 @@ function getFunctionalTests() {
         education: getRadioValue('functional_test_education'),
         other: getRadioValue('functional_test_other'),
         other_tests: document.getElementById('other-functional-tests').value.trim(),
-    };
-}
-
-// Helper function to get the selected radio button value
-function getRadioValue(name) {
-    const radioButton = document.querySelector(`input[name="${name}"]:checked`);
-    return radioButton ? radioButton.value : null;
-}
-
-// Function to send the collected data to the server
-function sendInvestigationsData(registrationNumber, postData) {
-    console.log('Sending data to server...'); // Debugging log
-    console.log('Post data: ', postData); // Debugging log
-
-    fetch(`/save-investigations/${registrationNumber}`, {
+      };
+    }
+  
+    // Helper function to get the selected radio button value
+    function getRadioValue(name) {
+      const radioButton = document.querySelector(`input[name="${name}"]:checked`);
+      return radioButton ? radioButton.value : null;
+    }
+  
+    // Function to send the collected data to the server
+    function sendInvestigationsData(registrationNumber, postData) {
+      console.log('Sending data to server...'); // Debugging log
+      console.log('Post data: ', postData); // Debugging log
+  
+      return fetch(`/save-investigations/${registrationNumber}`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // CSRF token
         },
         body: JSON.stringify(postData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Server Response: ', data); // Debugging log
-        alert(data.message); // Success message
-    })
-    .catch(error => {
-        console.error('Error during fetch:', error);
-        alert('Error: Failed to save investigations'); // Error message
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Server Response: ', data); // Debugging log
+          alert(data.message); // Success message
+        })
+        .catch(error => {
+          console.error('Error during fetch:', error);
+          alert('Error: Failed to save investigations'); // Error message
+        });
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+//record results
+document.addEventListener('DOMContentLoaded', () => {
+    // Inject CSS styles directly into the document
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .test-section {
+        margin-bottom: 30px;
+      }
+  
+      .test-section h4 {
+        font-size: 1.4em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: blue;
+      }
+  
+      .test-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+  
+      .test-fields div {
+        display: flex;
+        gap: 10px;
+      }
+  
+      .test-fields textarea {
+        width: 100%;
+        padding: 8px;
+        height: 50px;
+        min-height: 30px;
+        resize: vertical;
+        box-sizing: border-box;
+      }
+  
+      .test-name {
+        font-weight: bold;
+        width: 30%;
+      }
+  
+      .test-input {
+        width: 65%;
+      }
+  
+      .overall-impression {
+        margin-top: 30px;
+      }
+  
+      .btn-container {
+        margin-top: 20px;
+      }
+  
+      .btn-container button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+  
+      /* Loading Indicator Styles */
+      .loading-indicator {
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        /* Blue */
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        display: none;
+        /* Hidden by default */
+        margin: 0 auto;
+        /* Center the indicator horizontally within its container */
+      }
+  
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+  
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+  
+      /* Page Loading Indicator Styles */
+      .page-loading-indicator {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        /* Ensure it's on top */
+        display: none;
+        /* Hidden by default */
+      }
+    `;
+    document.head.appendChild(style);
+  
+    const recordResults = document.querySelector('.floating-menu a[href="#recordResults"]');
+    const mainContent = document.querySelector('.main');
+    const pageLoadingIndicator = document.createElement('div');
+    pageLoadingIndicator.classList.add('page-loading-indicator');
+    pageLoadingIndicator.innerHTML = '<div class="loading-indicator"></div>';
+    document.body.appendChild(pageLoadingIndicator);
+  
+    recordResults.addEventListener('click', async () => {
+      pageLoadingIndicator.style.display = 'flex';
+      mainContent.innerHTML = '';
+  
+      const urlParts = window.location.pathname.split('/');
+      const registrationNumber = urlParts[urlParts.length - 1];
+      console.log('Registration number:', registrationNumber);
+  
+      try {
+        const response = await fetch(`/recordResults/${registrationNumber}`);
+        const data = await response.json();
+        console.log('Fetched data:', data);
+  
+        pageLoadingIndicator.style.display = 'none';
+  
+        if (data.message) {
+          mainContent.innerHTML = `<p>${data.message}</p>`;
+          return;
+        }
+  
+        const fullName = JSON.parse(data.child.fullname);
+        const patientName = `${fullName.first_name} ${fullName.middle_name || ''} ${fullName.last_name}`;
+        mainContent.innerHTML = `
+                  <div class="container">
+                      <h3>Patient: ${patientName}</h3>
+                  </div>
+              `;
+  
+        if (data.investigationData && data.investigationData.created_at) {
+          const investigationDate = new Date(data.investigationData.created_at).toLocaleDateString();
+          mainContent.innerHTML += `
+                      <div class="test-section">
+                          <h4>Investigation Details</h4>
+                          <p><strong>Date of Request:</strong> ${investigationDate}</p>
+                      </div>
+                  `;
+        }
+  
+        const renderTestSection = (sectionTitle, tests, existingResults) => {
+          if (tests && tests.length) {
+            mainContent.innerHTML += `
+                          <div class="test-section">
+                              <h4>${sectionTitle}</h4>
+                          </div>
+                      `;
+            tests.forEach(testName => {
+              const existingResult = Array.isArray(existingResults)
+                ? existingResults.find(result => result.name === testName)
+                : undefined;
+  
+              mainContent.innerHTML += `
+                              <div class="test-fields">
+                                  <div class="test-name">${testName}</div>
+                                  <div class="test-input">
+                                      <textarea placeholder="Enter result value">${existingResult ? existingResult.value : ''}</textarea>
+                                      <textarea placeholder="Enter comments">${existingResult ? existingResult.comments : ''}</textarea>
+                                  </div>
+                              </div>
+                          `;
+            });
+          }
+        };
+  
+        renderTestSection('Imaging', data.investigationData.imaging, data.investigationData.results);
+        renderTestSection('Lab Requests', data.investigationData.lab_requests, data.investigationData.results);
+        renderTestSection('Electrophysiology Tests', data.investigationData.electrophysiology, data.investigationData.results);
+        renderTestSection('Genetic Tests', data.investigationData.genetic_tests, data.investigationData.results);
+  
+        mainContent.innerHTML += `
+                  <div class="overall-impression">
+                      <h3>Overall Impression/Summary</h3>
+                      <textarea rows="4" cols="50">${data.investigationData.overall_impression || ''}</textarea>
+                  </div>
+                  <div class="btn-container">
+                      <button type="submit">Save</button>
+                      <div class="loading-indicator"></div> 
+                      <button type="button">Print</button>
+                      <button type="button">Back</button>
+                  </div>
+              `;
+  
+        const textareas = document.querySelectorAll('textarea');
+  
+        textareas.forEach((textarea) => {
+          textarea.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = `${this.scrollHeight}px`;
+          });
+  
+          textarea.addEventListener('blur', function () {
+            this.style.height = '50px';
+          });
+        });
+  
+        const saveButton = document.querySelector('.btn-container button[type="submit"]');
+        const loadingIndicator = document.querySelector('.btn-container .loading-indicator');
+  
+        saveButton.addEventListener('click', async () => {
+          saveButton.disabled = true;
+          loadingIndicator.style.display = 'block';
+  
+          const results = [];
+          document.querySelectorAll('.test-fields').forEach((field) => {
+            const name = field.querySelector('.test-name').innerText.trim();
+            const value = field.querySelector('textarea:nth-of-type(1)').value.trim();
+            const comments = field.querySelector('textarea:nth-of-type(2)').value.trim();
+            results.push({name, value, comments});
+          });
+  
+          const overallImpressionElement = document.querySelector('.overall-impression textarea');
+          const overallImpression = overallImpressionElement ? overallImpressionElement.value.trim() : '';
+  
+          console.log('Data to be saved:', {results, overall_impression: overallImpression});
+  
+          try {
+            const response = await fetch(`/saveInvestigationResults/${registrationNumber}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+              },
+              body: JSON.stringify({results, overall_impression: overallImpression}),
+            });
+  
+            const result = await response.json();
+            console.log('Server response:', result);
+            alert(result.message);
+          } catch (error) {
+            console.error('Error saving data:', error);
+            alert('An error occurred while saving.');
+          } finally {
+            saveButton.disabled = false;
+            loadingIndicator.style.display = 'none';
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching or processing data:', error);
+        pageLoadingIndicator.style.display = 'none';
+      }
     });
-}
+  
+    // Auto-resize function for textareas 
+    const textareas = document.querySelectorAll('textarea');
+  
+    textareas.forEach((textarea) => {
+      textarea.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = `${this.scrollHeight}px`;
+      });
+  
+      textarea.addEventListener('blur', function () {
+        this.style.height = '50px';
+      });
+    });
+  });
+    
 
 
 
