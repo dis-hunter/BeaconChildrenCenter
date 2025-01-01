@@ -69,10 +69,10 @@
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Nutrition Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Therapy Assessment</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Nutrition Session Notes</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Nutrition Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
                         </nav>
                     </div>
@@ -118,7 +118,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <!-- Therapy Assessment Tab-->
+                        <!-- Nutrition Assessment Tab-->
                         <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
                             <div class="grid-container">
                                 @foreach(['Weight(kg)', 'Weight for Age', 'Height(cm)', 'Height for Age', 'Head circumference','Weight for Height','BMI','MUAC(cm)','Girth circumference'] as $category)
