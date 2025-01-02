@@ -9,20 +9,7 @@
 </style>
 <div class="container">
     @auth
-    @php
-    function printArray($array, $prefix = '') {
-    foreach ($array as $key => $value) {
-    if (is_array($value)) {
-    echo $prefix . $key . ": <br>";
-    printArray($value, $prefix . '&nbsp;&nbsp;&nbsp;'); // Indent nested values
-    } else {
-    echo $prefix . $key . ": " . htmlspecialchars($value) . "<br>";
-    }
-    }
-    }
-    @endphp
-
-    @php printArray(auth()->user()->toArray()) @endphp
+    <pre>{{auth()->user()->id}}</pre>
     @endauth
 </div>
 @endsection
