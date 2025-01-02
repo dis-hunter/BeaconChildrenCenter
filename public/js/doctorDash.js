@@ -5,6 +5,10 @@
 //   { name: "Eva Green", id: 4 },
 //   { name: "Chris Evans", id: 5 },
 // ];
+function startConsultation(childId) {
+  window.location.href = `http://127.0.0.1:8000/doctor?childId=${childId}`;
+}
+
 async function fetchPostTriageQueue() {
   try {
       const response = await fetch(`/post-triage-queue`);
@@ -34,7 +38,7 @@ async function fetchPostTriageQueue() {
                   <button 
                       onclick="startConsultation(${visit.child_id})" 
                       class="consult-btn"
-                      style="background-color: #38a169; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
+                      style="background-color: #008CBA; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
                   >
                       Start Consultation
                   </button>
@@ -115,7 +119,7 @@ if (activePatientId) {
   }
 }
 
-updatePatientList();
+// updatePatientList();
 setInterval(updatePatientList, 10 * 60 * 1000); // 10 minutes
 
 // Sidebar link event listeners

@@ -127,7 +127,7 @@ class TriageController extends Controller
     }
 }
 
-public function getPostTriageQueue($staffId)
+public function getPostTriageQueue()
 {
     try {
         $date = now()->toDateString(); // Automatically fetch today's date in 'Y-m-d' format
@@ -137,7 +137,7 @@ public function getPostTriageQueue($staffId)
             ->select('visits.*', 'children.fullname')
             ->where('visits.triage_pass', true)
             ->whereDate('visits.visit_date', $date)
-            ->where('visits.staff_id', $staffId) // Filter by staff ID
+            // ->where('visits.staff_id', $staffId) // Filter by staff ID
             ->get()
             ->map(function ($visit) {
                 try {
