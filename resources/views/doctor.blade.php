@@ -300,6 +300,19 @@
 </script>
 <script src="{{ asset('js/doctor.js') }}"></script>
 <script src="{{ asset('js/Referral.js') }}"></script>
+<script src="{{ asset('js/careplan.js') }}"></script>
+<script src="{{ asset('js/developmentalAssesment.js') }}"></script>
+<script src="{{ asset('js/examination.js') }}"></script>
+<script src="{{ asset('js/pastMedicalHistory.js') }}"></script>
+<script src="{{ asset('js/familyAndSocial.js') }}"></script>
+<script src="{{ asset('js/developmentalMilestones.js') }}"></script>
+<script src="{{ asset('js/perinatalHistory.js') }}"></script>
+<script src="{{ asset('js/behaviourAssesment.js') }}"></script>
+<script src="{{ asset('js/generalExam.js') }}"></script>
+<script src="{{ asset('js/diagnosis.js') }}"></script>
+<script src="{{ asset('js/triageresults.js') }}"></script>
+<script src="{{ asset('js/investigations.js') }}"></script>
+<script src="{{ asset('js/recordResults.js') }}"></script>
 
 </body>
 </html>
