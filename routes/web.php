@@ -48,9 +48,7 @@ Route::get('/', function () {
     return view('example');
 });
 //therapist routes
-Route::get('/therapist_dashboard', function () {
-    return view('therapists.therapistsDashboard');
-});
+Route::get('/therapist_dashboard', [ChildrenController::class, 'showChildren']);
 Route::get('/psychotherapy_dashboard', function () {
     return view('therapists.psychotherapyDashboard');
 });

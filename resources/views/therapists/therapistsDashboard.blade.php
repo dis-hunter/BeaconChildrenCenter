@@ -150,6 +150,9 @@
   </div>
 
   <script>
+    let children = @json($children);
+</script>
+  <script>
     let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
     let sidebarExpanded = true;
 
@@ -230,17 +233,27 @@
     }
 
     function generatePatientList() {
-      const patientList = document.querySelector('.patient-list');
-      patientList.innerHTML = '';
+    const patientList = document.querySelector('.patient-list');
+    patientList.innerHTML = '';
 
-      patientQueue.forEach((patient, index) => {
-        const patientItem = document.createElement('li');
-        patientItem.className = 'p-4 border rounded hover:bg-gray-50 cursor-pointer transition-colors';
-        patientItem.textContent = patient;
-        patientItem.addEventListener('click', () => selectPatient(index));
-        patientList.appendChild(patientItem);
-      });
-    }
+    children.forEach(child => {
+        const listItem = document.createElement('li');
+        listItem.className = 'p-4 border rounded hover:bg-gray-50 cursor-pointer transition-colors';
+        listItem.innerHTML = `
+            <div>
+                <p>ID: ${child.id}</p>
+                <p>Full Name: ${child.fullname}</p>
+                <p>Date of Birth: ${child.dob}</p>
+                <p>Birth Certificate: ${child.birth_cert}</p>
+                <p>Gender ID: ${child.gender_id}</p>
+                <p>Registration Number: ${child.registration_number}</p>
+                <p>Created At: ${child.created_at}</p>
+                <p>Updated At: ${child.updated_at}</p>
+            </div>
+        `;
+        patientList.appendChild(listItem);
+    });
+}
 
     function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
@@ -263,5 +276,55 @@
     updateDateTime();
     setInterval(updateDateTime, 1000);
   </script>
+  <script>
+    let children = @json($children);
+
+    function generatePatientList() {
+        const patientList = document.querySelector('.patient-list');
+        patientList.innerHTML = '';
+
+        children.forEach(child => {
+            const listItem = document.createElement('li');
+            listItem.className = 'p-4 border rounded hover:bg-gray-50 cursor-pointer transition-colors';
+            listItem.innerHTML = `
+                <div>
+                    <p>ID: ${child.id}</p>
+                    <p>Full Name: ${child.fullname}</p>
+                    <p>Date of Birth: ${child.dob}</p>
+                    <p>Birth Certificate: ${child.birth_cert}</p>
+                    <p>Gender ID: ${child.gender_id}</p>
+                    <p>Registration Number: ${child.registration_number}</p>
+                    <p>Created At: ${child.created_at}</p>
+                    <p>Updated At: ${child.updated_at}</p>
+                </div>
+            `;
+            patientList.appendChild(listItem);
+        });
+    }
+
+    function showAppointments(date) {
+        const appointmentsList = document.getElementById('appointments-for-day');
+        appointmentsList.innerHTML = `<li class="p-3 bg-gray-50 rounded">No patients booked for ${date}</li>`;
+        document.getElementById('appointments-list').classList.remove('hidden');
+    }
+
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.getElementById(sectionId).classList.remove('hidden');
+
+        if (sectionId === 'calendar') {
+            generateCalendar();
+        } else if (sectionId === 'patients') {
+            generatePatientList();
+        }
+
+        document.getElementById('appointments-list').classList.add('hidden');
+    }
+
+    showSection('dashboard');
+</script>
 </body>
 </html>

@@ -6,6 +6,7 @@ use App\Models\Children; // Ensure the model name matches your file structure
 use App\Models\Parents; // Ensure the model name matches your file structure
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChildrenController extends Controller
 {
@@ -64,5 +65,11 @@ class ChildrenController extends Controller
         }
 
         return view('receiptionist.visits', compact('children'));
+    }
+
+    public function showChildren()
+    {
+        $children = DB::table('children')->select('id', 'fullname', 'dob', 'birth_cert', 'gender_id', 'registration_number', 'created_at', 'updated_at')->get();
+        return view('therapists.therapistsDashboard', ['children' => $children]);
     }
 }
