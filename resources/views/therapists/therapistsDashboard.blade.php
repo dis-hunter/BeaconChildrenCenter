@@ -8,7 +8,7 @@
 <body class="bg-gray-100">
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <div id="sidebar" class="bg-gray-800 text-white transition-all duration-300 ease-in-out">
+    <div id="sidebar" class="sidebar h-screen fixed left-0 top-0 bg-gradient-to-b from-sky-100 to-sky-200 overflow-x-hidden pt-5 transition-all duration-300 border-r border-sky-300 shadow-lg">
       <div class="flex items-center justify-between p-4">
         <h2 class="text-xl font-semibold flex items-center gap-2">
           <i class="fas fa-user-md"></i>
