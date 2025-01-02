@@ -680,6 +680,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'Database\\Seeders\\genderSeeder' => __DIR__ . '/../..' . '/database/seeders/genderSeeder.php',
         'Database\\Seeders\\relationshipsSeeder' => __DIR__ . '/../..' . '/database/seeders/relationshipsSeeder.php',
         'Database\\Seeders\\rolesSeeder' => __DIR__ . '/../..' . '/database/seeders/rolesSeeder.php',
+        'Database\\Seeders\\therapySeeder' => __DIR__ . '/../..' . '/database/seeders/therapySeeder.php',
         'Database\\Seeders\\visit_typeSeeder' => __DIR__ . '/../..' . '/database/seeders/visit_typeSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
         'DeepCopy\\Exception\\CloneException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',

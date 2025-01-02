@@ -100,6 +100,13 @@ use App\Http\Controllers\CarePlanController;
 Route::post('/save-careplan/{registration_number}', [CarePlanController::class, 'saveCarePlan']);
 
 
+use App\Http\Controllers\ReferralController;
+
+Route::get('/get-referral-data/{registration_number}', [ReferralController::class, 'getReferralData']);
+Route::get('/get-child-data/{registration_number}', [ReferralController::class, 'getChildData']);
+Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
+
+
 
 
 

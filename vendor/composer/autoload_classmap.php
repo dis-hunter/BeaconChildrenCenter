@@ -161,6 +161,7 @@ return array(
     'Database\\Seeders\\genderSeeder' => $baseDir . '/database/seeders/genderSeeder.php',
     'Database\\Seeders\\relationshipsSeeder' => $baseDir . '/database/seeders/relationshipsSeeder.php',
     'Database\\Seeders\\rolesSeeder' => $baseDir . '/database/seeders/rolesSeeder.php',
+    'Database\\Seeders\\therapySeeder' => $baseDir . '/database/seeders/therapySeeder.php',
     'Database\\Seeders\\visit_typeSeeder' => $baseDir . '/database/seeders/visit_typeSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
     'DeepCopy\\Exception\\CloneException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',

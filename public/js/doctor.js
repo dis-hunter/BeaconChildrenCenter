@@ -1332,11 +1332,15 @@ function getRegistrationNumberFromUrl() {
                   <input type="checkbox" id="speechTherapy" name="speechTherapy">
               </div>
               <div class="section">
+                  <div class="section-title">Sensory Integration</div>
+                  <input type="checkbox" id="sensoryIntegration" name="sensoryIntegration">
+              </div>
+              <div class="section">
                   <div class="section-title">Physio therapy</div>
                   <input type="checkbox" id="physioTherapy" name="physioTherapy">
               </div>
               <div class="section">
-                  <div class="section-title">Physco therapy</div>
+                  <div class="section-title">Psychotherapy</div>
                   <input type="checkbox" id="physcoTherapy" name="physcoTherapy">
               </div>
               <div class="section">
@@ -2219,27 +2223,52 @@ document.addEventListener('DOMContentLoaded', () => {
           <h2>Investigations</h2>
   
           <div class="section-container">
-            <h4>Lab Results</h4>
+            <h4>Lab Tests</h4>
             <label><input type="checkbox" id="haematology-checkbox"> Haematology</label>
             <div id="haematology-options" class="sub-options">
               <label><input type="checkbox" name="haematology" value="Haemogram"> Haemogram</label>
               <label><input type="checkbox" name="haematology" value="PBF"> PBF</label>
               <label><input type="checkbox" name="haematology" value="Blood slide for malaria"> Blood Slide for Malaria</label>
+              <label><input type="checkbox" name="haematology" value="BloodCulture"> Blood Culture/Sensitivity</label>
               <label><input type="checkbox" name="haematology" value="Sickling test"> Sickling Test</label>
               <label><input type="checkbox" id="haematology-other-checkbox" value="Other"> Other</label>
               <textarea id="haematology-other-textarea" rows="4" cols="50"></textarea>
             </div>
+
+
+            <label><input type="checkbox" id="hormone-test-checkbox"> Hormone tests</label>
+            <div id="hormone-test-options" class="sub-options">
+            <label><input type="checkbox" name="hormone-test" value="Thyroid function tests"> Thyroid Function Tests</label>
+            <label><input type="checkbox" name="hormone-test" value="Growth hormone"> Growth Hormone</label>
+            <label><input type="checkbox" name="hormone-test" value="Prolactin"> Prolactin</label>
+            <label><input type="checkbox" name="hormone-test" value="Cortisol"> Cortisol</label>
+            <label><input type="checkbox" name="hormone-test" value="Insulin"> Insulin growth factors</label>
+            <label><input type="checkbox" name="hormone-test" value="Testosterone"> Testosterone</label>
+            <label><input type="checkbox" name="hormone-test" value="Estrogen"> Estrogen</label>
+            <label><input type="checkbox" name="hormone-test" value="Progesterone"> Progesterone</label>
+            <label><input type="checkbox" name="hormone-test" value="Follicle-stimulating hormone"> Follicle-stimulating hormone</label>
+            <label><input type="checkbox" name="hormone-test" value="Luteinizing hormone"> Luteinizing hormone</label>
+            <label><input type="checkbox" name="hormone-test" value="Parathyroid hormone"> Parathyroid hormone</label>
+            <label><input type="checkbox" name="hormone-test" value="Adrenocorticotropic hormone"> Adrenocorticotropic hormone</label>
+            </div>
+        
   
             <label><input type="checkbox" id="biochemistry-checkbox"> Biochemistry</label>
             <div id="biochemistry-options" class="sub-options">
-              <label><input type="checkbox" name="biochemistry" value="UECA"> UECA</label>
-              <label><input type="checkbox" name="biochemistry" value="Electrolyte"> Electrolyte</label>
+              <label><input type="checkbox" name="biochemistry" value="UEC"> UEC</label>
+              <label><input type="checkbox" name="biochemistry" value="Electrolytes"> Electrolytes</label>
               <label><input type="checkbox" name="biochemistry" value="Liver function tests"> Liver Function Tests</label>
               <label><input type="checkbox" name="biochemistry" value="Random blood sugar"> Random Blood Sugar</label>
               <label><input type="checkbox" name="biochemistry" value="Serum magnesium"> Serum Magnesium</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum zinc"> Serum Zinc</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum mercury"> Serum Mercury</label>
+              <label><input type="checkbox" name="biochemistry" value="Serum lead"> Serum Lead</label>
               <label><input type="checkbox" name="biochemistry" value="Serum calcium"> Serum Calcium</label>
-              <label><input type="checkbox" name="biochemistry" value="Ferritun"> Ferritin</label>
+              <label><input type="checkbox" name="biochemistry" value="Ferritin"> Ferritin</label>
               <label><input type="checkbox" name="biochemistry" value="Toxicology"> Toxicology</label>
+              <label><input type="checkbox" id="biochemistry-other-checkbox" value="Creatinkinase"> Creatinkinase</label>
+              <label><input type="checkbox" id="biochemistry-other-checkbox" value="Immunoglobins">Immunoglobins</label>
+              <label><input type="checkbox" id="biochemistry-other-checkbox" value="C-reactive protein"> C-reactive protein</label>
               <label><input type="checkbox" id="biochemistry-other-checkbox" value="Other"> Other</label>
               <textarea id="biochemistry-other-textarea" rows="4" cols="50"></textarea>
             </div>
@@ -2247,8 +2276,16 @@ document.addEventListener('DOMContentLoaded', () => {
             <label><input type="checkbox" id="urine-checkbox"> Urine Tests</label>
             <div id="urine-options" class="sub-options">
               <label><input type="checkbox" name="urine" value="Urinalysis"> Urinalysis</label>
+              <label><input type="checkbox" name="urine" value="Urine culture/sensitivity"> Urine Culture/Sensitivity</label>
               <label><input type="checkbox" name="urine" value="Glycosaminoglycan"> Glycosaminoglycan</label>
               <label><input type="checkbox" name="urine" value="Toxicology"> Toxicology</label>
+              <label><input type="checkbox" name="urine" value="Urine for reducing substances"> Urine for Reducing Substances</label>
+              <label><input type="checkbox" name="urine" value="Urine for amino acids"> Urine for Amino Acids</label>
+              <label><input type="checkbox" name="urine" value="Urine for organic acids"> Urine for Organic Acids</label>
+              <label><input type="checkbox" name="urine" value="Urine for mucopolysaccharides"> Urine for Mucopolysaccharides</label>
+              <label><input type="checkbox" name="urine" value="Urine for porphyrins"> Urine for Porphyrins</label>
+              <label><input type="checkbox" name="urine" value="Urine for porphobilinogen"> Urine for Porphobilinogen</label>
+              <label><input type="checkbox" name="urine" value="Urine for homocysteine"> Urine for Homocysteine</label>
               <label><input type="checkbox" id="urine-other-checkbox" value="Other"> Other</label>
               <textarea id="urine-other-textarea" rows="4" cols="50"></textarea>
             </div>
@@ -2257,11 +2294,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <div id="stool-options" class="sub-options">
               <label><input type="checkbox" name="stool" value="Microscopy"> Microscopy</label>
               <label><input type="checkbox" name="stool" value="Culture/sensitivity"> Culture/Sensitivity</label>
-              <label><input type="checkbox" name="stool" value="Retaxium"> Retaxium</label>
+              <label><input type="checkbox" name="stool" value="Rotavirus"> Rotavirus</label>
+              <label><input type="checkbox" name="stool" value="Adenovirus"> Adenovirus</label>
+              <label><input type="checkbox" name="stool" value="Stool for occult blood"> Stool for Occult Blood</label>
+              <label><input type="checkbox" name="stool" value="Stool for reducing substances"> Stool for Reducing Substances</label>
+              <label><input type="checkbox" name="stool" value="Stool for ova and cysts"> Stool for Ova and Cysts</label>
+            
               <label><input type="checkbox" id="stool-other-checkbox" value="Other"> Other</label>
               <textarea id="stool-other-textarea" rows="4" cols="50"></textarea>
             </div>
+            <labek><input type="checkbox" id="lab-test-other-checkbox">Other</label>
+          <textarea id="lab-test-other-textarea" rows="4" cols="50"></textarea>
           </div>
+          
   
           <div class="section-container">
             <h4>Imaging</h4>
@@ -2278,6 +2323,17 @@ document.addEventListener('DOMContentLoaded', () => {
               <label><input type="checkbox" name="xray" value="Ankle"> Ankle</label>
               <label><input type="checkbox" name="xray" value="Foot"> Foot</label>
               <label><input type="checkbox" name="xray" value="Chest"> Chest</label>
+              <label><input type="checkbox" name="xray" value="Abdomen"> Abdomen</label>
+              <label><input type="checkbox" name="xray" value="Pelvis"> Pelvis</label>
+              <label><input type="checkbox" name="xray" value="Skull"> Skull</label>
+              <label><input type="checkbox" name="xray" value="Spine"> Spine</label>
+              <label><input type="checkbox" name="xray" value="Shoulder"> Shoulder</label>
+              <label><input type="checkbox" name="xray" value="Elbow"> Elbow</label>
+              <label><input type="checkbox" name="xray" value="Hand"> Hand</label>
+              <label><input type="checkbox" name="xray" value="Cervical spine"> Cervical Spine</label>
+              <label><input type="checkbox" name="xray" value="Thoracic spine"> Thoracic Spine</label>
+              <label><input type="checkbox" name="xray" value="Lumbar spine"> Lumbar Spine</label>
+              <label><input type="checkbox" name="xray" value="Full body xray">Full Body Xray</label>
             </div>
   
             <label><input type="checkbox" id="mri-checkbox"> MRI Scan</label>
@@ -2286,6 +2342,25 @@ document.addEventListener('DOMContentLoaded', () => {
               <label><input type="checkbox" name="mri" value="Spine"> Spine</label>
               <label><input type="checkbox" name="mri" value="Abdomen"> Abdomen</label>
               <label><input type="checkbox" name="mri" value="Chest"> Chest</label>
+              <label><input type="checkbox" name="mri" value="Pelvis"> Pelvis</label>
+              <label><input type="checkbox" name="mri" value="Sinuses"> Sinuses</label>
+              <label><input type="checkbox" name="mri" value="Temporal bone"> Temporal Bone</label>
+              <label><input type="checkbox" name="mri" value="Orbits"> Orbits</label>
+              <label><input type="checkbox" name="mri" value="Neck"> Neck</label>
+              <label><input type="checkbox" name="mri" value="Shoulder"> Shoulder</label>
+              <label><input type="checkbox" name="mri" value="Elbow"> Elbow</label>
+              <label><input type="checkbox" name="mri" value="Wrist"> Wrist</label>
+              <label><input type="checkbox" name="mri" value="Hand"> Hand</label>
+              <label><input type="checkbox" name="mri" value="Hip"> Hip</label>
+              <label><input type="checkbox" name="mri" value="Knee"> Knee</label>
+              <label><input type="checkbox" name="mri" value="Ankle"> Ankle</label>
+              <label><input type="checkbox" name="mri" value="Foot"> Foot</label>
+              <label><input type="checkbox" name="mri" value="Cervical spine"> Cervical Spine</label>
+              <label><input type="checkbox" name="mri" value="Thoracic spine"> Thoracic Spine</label>
+              <label><input type="checkbox" name="mri" value="Lumbar spine"> Lumbar Spine</label>
+              <label><input type="checkbox" name="mri" value="Full body mri"> Full Body MRI</label>
+
+
             </div>
   
             <label><input type="checkbox" id="ct-checkbox"> CT Scan</label>
@@ -2294,6 +2369,48 @@ document.addEventListener('DOMContentLoaded', () => {
               <label><input type="checkbox" name="ct" value="Spine"> Spine</label>
               <label><input type="checkbox" name="ct" value="Abdomen"> Abdomen</label>
               <label><input type="checkbox" name="ct" value="Chest"> Chest</label>
+              <label><input type="checkbox" name="ct" value="Pelvis"> Pelvis</label>
+              <label><input type="checkbox" name="ct" value="Sinuses"> Sinuses</label>
+              <label><input type="checkbox" name="ct" value="Temporal bone"> Temporal Bone</label>
+              <label><input type="checkbox" name="ct" value="Orbits"> Orbits</label>
+              <label><input type="checkbox" name="ct" value="Neck"> Neck</label>
+              <label><input type="checkbox" name="ct" value="Shoulder"> Shoulder</label>
+              <label><input type="checkbox" name="ct" value="Elbow"> Elbow</label>
+              <label><input type="checkbox" name="ct" value="Wrist"> Wrist</label>
+              <label><input type="checkbox" name="ct" value="Hand"> Hand</label>
+              <label><input type="checkbox" name="ct" value="Hip"> Hip</label>
+              <label><input type="checkbox" name="ct" value="Knee"> Knee</label>
+              <label><input type="checkbox" name="ct" value="Ankle"> Ankle</label>
+              <label><input type="checkbox" name="ct" value="Foot"> Foot</label>
+              <label><input type="checkbox" name="ct" value="Cervical spine"> Cervical Spine</label>
+              <label><input type="checkbox" name="ct" value="Thoracic spine"> Thoracic Spine</label>
+              <label><input type="checkbox" name="ct" value="Lumbar spine"> Lumbar Spine</label>
+              <label><input type="checkbox" name="ct" value="Full body ct"> Full Body CT</label>
+            </div>
+
+            <label><input type="checkbox" id="ultrasound-checkbox"> Ultrasound</label>
+            <div id="ultrasound-options" class="sub-options">
+              <label><input type="checkbox" name="ultrasound" value="Abdomen"> Abdomen</
+              <label><input type="checkbox" name="ultrasound" value="Pelvis"> Pelvis</label>
+              <label><input type="checkbox" name="ultrasound" value="Kidney"> Kidney</label>
+              <label><input type="checkbox" name="ultrasound" value="Liver"> Liver</label>
+              <label><input type="checkbox" name="ultrasound" value="Gall bladder"> Gall Bladder</label>
+              <label><input type="checkbox" name="ultrasound" value="Pancreas"> Pancreas</label>
+              <label><input type="checkbox" name="ultrasound" value="Spleen"> Spleen</label>
+              <label><input type="checkbox" name="ultrasound" value="Thyroid"> Thyroid</label>
+              <label><input type="checkbox" name="ultrasound" value="Breast"> Breast</label>
+              <label><input type="checkbox" name="ultrasound" value="Testis"> Testis</label>
+              <label><input type="checkbox" name="ultrasound" value="Scrotum"> Scrotum</label>
+              <label><input type="checkbox" name="ultrasound" value="Prostate"> Prostate</label>
+              <label><input type="checkbox" name="ultrasound" value="Uterus"> Uterus</label>
+              <label><input type="checkbox" name="ultrasound" value="Ovary"> Ovary</label>
+              <label><input type="checkbox" name="ultrasound" value="Follicular study"> Follicular Study</label>
+              <label><input type="checkbox" name="ultrasound" value="Fetal ultrasound"> Fetal Ultrasound</label>
+              <label><input type="checkbox" name="ultrasound" value="Obstetric ultrasound"> Obstetric Ultrasound</label>
+              <label><input type="checkbox" name="ultrasound" value="Doppler ultrasound"> Doppler Ultrasound</label>
+              <label><input type="checkbox" name="ultrasound" value="Musculoskeletal ultrasound"> Musculoskeletal Ultrasound</label>
+              <label><input type="checkbox" name="ultrasound" value="Vascular ultrasound"> Vascular Ultrasound</label>
+              <label><input type="checkbox" name="ultrasound" value="Carotid ultrasound"> Carotid Ultrasound</label>
             </div>
           </div>
   
@@ -2302,6 +2419,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <label><input type="checkbox" name="genetic_tests" value="Karyotype"> Karyotype</label>
             <label><input type="checkbox" name="genetic_tests" value="Chromosomal microarray"> Chromosomal Microarray</label>
             <label><input type="checkbox" name="genetic_tests" value="Whole exome sequencing"> Whole Exome Sequencing</label>
+            <label><input type="checkbox" name="genetic_tests" value="Whole genome sequencing"> Whole Genome Sequencing</label>
+            <label><input type="checkbox" name="genetic_tests" value="FISH"> FISH</label>
+            <label><input type="checkbox" name="genetic_tests" value="PCR"> PCR</label>
+            <label><input type="checkbox" name="genetic_tests" value="MLPA"> MLPA</label>
+            <label><input type="checkbox" name="genetic_tests" value="Sanger sequencing"> Sanger Sequencing</label>
+            <label><input type="checkbox" name="genetic_tests" value="Epilepsy panel"> Epilepsy Panel</label>
+            <label><input type="checkbox" name="genetic_tests" value="Autism panel"> Autism Panel</label>
+            <label><input type="checkbox" name="genetic_tests" value="Developmental delay panel"> Developmental Delay Panel</label>
+            <label><input type="checkbox" name="genetic_tests" value="Mitochondrial panel"> Mitochondrial Panel</label>
+            <label><input type="checkbox" name="genetic_tests" value="Intellectual disablility panel">Intellectual Disability Panel</label>
+
+            <label><input type="checkbox" name="genetic_tests" value="Other"> Other</label>
+            <textarea name="genetic_tests_other" rows="4" cols="50"></textarea>
           </div>
   
           <div class="section-container">
@@ -2311,6 +2441,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <label><input type="checkbox" name="electrophysiology" value="EEG"> EEG</label>
             <label><input type="checkbox" name="electrophysiology" value="Nerve conduction studies"> Nerve Conduction Studies</label>
             <label><input type="checkbox" name="electrophysiology" value="PSG"> PSG</label>
+            <label><input type="checkbox" name="electrophysiology" value="EMG"> EMG</label>
+            <label><input type="checkbox" name="electrophysiology" value="Other"> Other</label>
+            <textarea name="electrophysiology_other" rows="4" cols="50"></textarea>
           </div>
   
           <div class="section-container">
@@ -2325,17 +2458,31 @@ document.addEventListener('DOMContentLoaded', () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>Vanderbilt Form</td>
+                  <td>Vanderbilt Forms</td>
                   <td><input type="radio" name="functional_test_vanderbilt" value="yes"></td>
                   <td><input type="radio" name="functional_test_vanderbilt" value="no"></td>
                 </tr>
+
                 <tr>
                   <td>MCHAT</td>
                   <td><input type="radio" name="functional_test_mchat" value="yes"></td>
                   <td><input type="radio" name="functional_test_mchat" value="no"></td>
                 </tr>
+
                 <tr>
-                  <td>ADOS</td>
+                <td>Conners</td>
+                <td><input type="radio" name="functional_test_conners" value="yes"></td>
+                <td><input type="radio" name="functional_test_conners" value="no"></td>
+                </tr>
+
+                <tr>
+                <td>SNAP</td>
+                <td><input type="radio" name="functional_test_SNAP" value="yes"></td>
+                <td><input type="radio" name="functional_test_SNAP" value="no"></td>
+                </tr>
+
+                <tr>
+                  <td>ADOS II</td>
                   <td><input type="radio" name="functional_test_ados" value="yes"></td>
                   <td><input type="radio" name="functional_test_ados" value="no"></td>
                 </tr>
@@ -2345,17 +2492,63 @@ document.addEventListener('DOMContentLoaded', () => {
                   <td><input type="radio" name="functional_test_molten" value="no"></td>
                 </tr>
                 <tr>
-                  <td>Grifiths 3 Scale</td>
+                  <td>Griffiths III Scale</td>
                   <td><input type="radio" name="functional_test_grifiths" value="yes"></td>
                   <td><input type="radio" name="functional_test_grifiths" value="no"></td>
                 </tr>
+
+                <tr>
+                <td>Bayley Scale of Infant Development</td>
+                <td><input type="radio" name="functional_test_bayley" value="yes"></td>
+                <td><input type="radio" name="functional_test_bayley" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>Wechsler Intelligence Scale for Children</td>
+                <td><input type="radio" name="functional_test_wechsler_intelligence" value="yes"></td>
+                <td><input type="radio" name="functional_test_wechsler_intelligence" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>Wechsler Individual Tests</td>
+                <td><input type="radio" name="functional_test_wechsler_individual" value="yes"></td>
+                <td><input type="radio" name="functional_test_wechsler_individual" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>Stanford Binet Intelligence Scale</td>
+                <td><input type="radio" name="functional_test_stanford" value="yes"></td>
+                <td><input type="radio" name="functional_test_stanford" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>Cognitive Assessment System</td>
+                <td><input type="radio" name="functional_test_cognitive" value="yes"></td>
+                <td><input type="radio" name="functional_test_cognitive" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>Differential Ability Scales</td>
+                <td><input type="radio" name="functional_test_differential" value="yes"></td>
+                <td><input type="radio" name="functional_test_differential" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>Universal Nonverbal Intelligence</td>
+                <td><input type="radio" name="functional_test_universal" value="yes"></td>
+                <td><input type="radio" name="functional_test_universal" value="no"></td>
+                </tr>
+
+
+
+
                 <tr>
                   <td>Senzeny Profile</td>
                   <td><input type="radio" name="functional_test_senzeny" value="yes"></td>
                   <td><input type="radio" name="functional_test_senzeny" value="no"></td>
                 </tr>
                 <tr>
-                  <td>Learning Disorder</td>
+                  <td>Learning Disorder Tests</td>
                   <td><input type="radio" name="functional_test_learning" value="yes"></td>
                   <td><input type="radio" name="functional_test_learning" value="no"></td>
                 </tr>
@@ -2364,11 +2557,31 @@ document.addEventListener('DOMContentLoaded', () => {
                   <td><input type="radio" name="functional_test_sleep" value="yes"></td>
                   <td><input type="radio" name="functional_test_sleep" value="no"></td>
                 </tr>
+
+                 <tr>
+                <td>Vineland Adaptive Behaviour Skills</td>
+                <td><input type="radio" name="functional_test_vineland" value="yes"></td>
+                <td><input type="radio" name="functional_test_vineland" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>HINE Tests</td>
+                <td><input type="radio" name="functional_test_hine" value="yes"></td>
+                <td><input type="radio" name="functional_test_hine" value="no"></td>
+                </tr>
+
+                 <tr>
+                <td>HOME Scales</td>
+                <td><input type="radio" name="functional_test_HOME" value="yes"></td>
+                <td><input type="radio" name="functional_test_HOME" value="no"></td>
+                </tr>
+
                 <tr>
                   <td>Education Assessment</td>
                   <td><input type="radio" name="functional_test_education" value="yes"></td>
                   <td><input type="radio" name="functional_test_education" value="no"></td>
                 </tr>
+
                 <tr>
                   <td>Other</td>
                   <td><input type="radio" name="functional_test_other" id="other-functional-checkbox" value="yes"></td>

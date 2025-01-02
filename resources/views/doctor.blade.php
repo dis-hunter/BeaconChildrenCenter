@@ -189,7 +189,7 @@
   <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
   <a href="#">Immunization</a>
-  <a href="#">Referral Letter</a>
+  <a href="#referral">Referral Letter</a><div id="referral"></div>
   <a href="#">Patient Documents</a>
 </div>
 
@@ -298,6 +298,7 @@
   });
 </script>
 <script src="{{ asset('js/doctor.js') }}"></script>
+<script src="{{ asset('js/Referral.js') }}"></script>
 
 </body>
 </html>
