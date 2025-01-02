@@ -54,57 +54,59 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const registrationNumber = window.location.pathname.split('/').pop();
             console.log('Registration number extracted:', registrationNumber);
-  
-            // Fetch the EncounterSummary History form structure
-            const response = await fetch(`/perinatal-history/${registrationNumber}`);
+        
+            const response = await fetch(`/getDoctorNotes/${registrationNumber}`);
             const result = await response.json();
-  
+        
             console.log('Fetch response:', result);
-  
-            // Replace content with form once loaded
-            mainContent.innerHTML = `
+        
+            if (result.status === 'success') {
+                mainContent.innerHTML = `
                 <div class="container">
-                <head>
-                <link rel="stylesheet" href="../css/EncounterSummaryHistory.css">
-                </head>
-                <div>
-                    <h2>EncounterSummary History</h2>
-                    <p>whatup dawg</p>
-                    
-                    <button type="submit" id="saveEncounterSummaryHistory">Save</button>
+                    <div id="encounter-summary">
+                        <h2>Encounter Summary History</h2>
+                        <p>Registration Number: ${result.data.registration_number}</p>
+                        <div class="visits-container">
+                            ${result.data.visits.map(visit => `
+                                <div class="visit-entry">
+                                    <h3>Visit Date: ${new Date(visit.visit_date).toLocaleDateString()}</h3>
+                                    <p>Doctor: ${visit.doctor_name}</p>
+                                    <p class="notes">${visit.notes || 'No notes recorded'}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
-            `;
-  
-            // Pre-fill form data if available
-          
-            // Save functionality
-            const saveButton = document.getElementById('saveEncounterSummaryHistory');
-            saveButton.addEventListener('click', async () => {
-                saveButton.innerHTML = `<span class="saving-button-spinner"></span> Saving...`;
-               
-                try {
-                    const saveResponse = await fetch(`/EncounterSummary-history/${registrationNumber}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        },
-                        body: JSON.stringify({ data }),
-                    });
-  
-                    const saveResult = await saveResponse.json();
-                    alert(saveResult.message || 'EncounterSummary History saved successfully!');
-                } catch (error) {
-                    console.error('Error saving EncounterSummary History:', error);
-                    alert('Failed to save EncounterSummary History. Please try again.');
-                } finally {
-                    saveButton.innerHTML = 'Save';
-                    saveButton.disabled = false;
-                }
-            });
+            
+                    <style>
+                    .visits-container {
+    margin-top: 20px;
+}
+
+.visit-entry {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.visit-entry h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.notes {
+    white-space: pre-wrap;
+    margin-top: 10px;
+}
+                    </style>
+                `;
+            } else {
+                throw new Error(result.message);
+            }
         } catch (error) {
-            console.error('Error fetching EncounterSummary History:', error);
-            mainContent.innerHTML = `<p class="error-message">Failed to load EncounterSummary History. Please try again later.</p>`;
+            console.error('Error:', error);
+            mainContent.innerHTML = `<p class="error-message">Failed to load notes. Please try again later.</p>`;
         }
     });
   });

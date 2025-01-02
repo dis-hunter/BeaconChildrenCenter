@@ -71,4 +71,40 @@ class VisitController extends Controller
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 }
+
+public function getDoctorNotes($registrationNumber)
+{
+    try {
+        $child = DB::table('children')
+            ->where('registration_number', $registrationNumber)
+            ->first();
+
+        if (!$child) {
+            return response()->json(['status' => 'error', 'message' => 'Child not found'], 404);
+        }
+
+        $visits = DB::table('visits')
+            ->join('staff', 'visits.doctor_id', '=', 'staff.id')
+            ->where('child_id', $child->id)
+            ->orderBy('visit_date', 'asc')
+            ->select('visits.id', 'visits.doctor_id', 'visits.visit_date', 'visits.notes', 
+                    'staff.fullname as doctor_name')
+            ->get()
+            ->map(function($visit) {
+                $nameData = json_decode($visit->doctor_name, true);
+                $visit->doctor_name = $nameData['first_name'] ?? 'Unknown';
+                return $visit;
+            });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'registration_number' => $registrationNumber,
+                'visits' => $visits
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+}
 }
