@@ -44,6 +44,15 @@
     .toggle-button.collapsed::before {
       transform: rotate(180deg);
     }
+
+    .main-content {
+      margin-left: 200px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .main-content.collapsed {
+      margin-left: 60px;
+    }
   </style>
 </head>
 <body class="bg-gray-100">
@@ -82,7 +91,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1">
+    <div id="main-content" class="main-content flex-1">
       <header class="bg-white shadow">
         <div class="flex justify-between items-center px-6 py-4">
           <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
@@ -148,6 +157,7 @@
       const sidebar = document.getElementById('sidebar');
       const sidebarTexts = document.querySelectorAll('.sidebar-text');
       const toggleButton = document.getElementById('toggle-button');
+      const mainContent = document.getElementById('main-content');
       
       sidebarExpanded = !sidebarExpanded;
       
@@ -155,10 +165,12 @@
         sidebar.classList.remove('collapsed');
         toggleButton.classList.remove('collapsed');
         sidebarTexts.forEach(text => text.style.display = 'inline');
+        mainContent.classList.remove('collapsed');
       } else {
         sidebar.classList.add('collapsed');
         toggleButton.classList.add('collapsed');
         sidebarTexts.forEach(text => text.style.display = 'none');
+        mainContent.classList.add('collapsed');
       }
     }
 
