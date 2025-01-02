@@ -35,6 +35,7 @@ class Parents extends Model
         ? trim(($fullnameData['firstname'] ?? '') . ' ' . ($fullnameData['lastname'] ?? ''))
         : '';
         return [
+            'id'=>$this->id,
             'fullname'=>$fullname,
             'telephone' => $this->telephone,
             'email' => $this->email,
