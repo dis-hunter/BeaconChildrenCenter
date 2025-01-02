@@ -64,9 +64,9 @@
           <i class="fas fa-user-md"></i>
           <span class="sidebar-text">Therapist</span>
         </h2>
-        <button id="toggle-button" onclick="toggleSidebar()" class="text-white hover:text-gray-300">
-          <i class="fas fa-bars"></i>
-        </button>
+        <div id="toggle-button" onclick="toggleSidebar()" class="toggle-button">
+          <span class="arrow"></span>
+        </div>
       </div>
       <ul class="mt-4">
         <li>
@@ -155,23 +155,12 @@
 
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
-      const sidebarTexts = document.querySelectorAll('.sidebar-text');
       const toggleButton = document.getElementById('toggle-button');
       const mainContent = document.getElementById('main-content');
       
-      sidebarExpanded = !sidebarExpanded;
-      
-      if (sidebarExpanded) {
-        sidebar.classList.remove('collapsed');
-        toggleButton.classList.remove('collapsed');
-        sidebarTexts.forEach(text => text.style.display = 'inline');
-        mainContent.classList.remove('collapsed');
-      } else {
-        sidebar.classList.add('collapsed');
-        toggleButton.classList.add('collapsed');
-        sidebarTexts.forEach(text => text.style.display = 'none');
-        mainContent.classList.add('collapsed');
-      }
+      sidebar.classList.toggle('collapsed');
+      toggleButton.classList.toggle('collapsed');
+      mainContent.classList.toggle('collapsed');
     }
 
     function showSection(sectionId) {
