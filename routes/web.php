@@ -232,10 +232,31 @@ Route::post('/save-referral/{registration_number}', [ReferralController::class, 
 Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
 
 
+Route::get('/visithandle', function () {
+    return view('Receiptionist/visits');
+});
+Route::get('/staff-dropdown', [StaffController::class, 'index']);
+
+Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
+Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');
+Route::get('/children/create', [ChildrenController::class, 'create'])->name('children.create');
+Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
+
+Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])
+    ->name('doctors.specializationSearch');
+Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
+Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
+Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
+// Add this route to handle the POST request for fetching staff full names
+Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
+Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
 
 
+Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
 
+
+Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
 
 
 
