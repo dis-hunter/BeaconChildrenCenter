@@ -2,255 +2,176 @@
 <html>
 <head>
   <title>Therapist Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-    }
-
     .sidebar {
-      width: 250px;
-      background-color: #f0f0f0;
+      width: 200px;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 60px;
+    }
+
+    .toggle-button {
       position: fixed;
-      height: 100%;
-      overflow-y: auto;
+      left: 200px;
+      top: 20px;
+      background-color: #111827;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 0 6px 6px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: left 0.3s ease;
+      z-index: 1000;
     }
 
-    .sidebar h2 {
-      padding: 10px;
-      margin: 0;
-      text-align: center;
+    .toggle-button.collapsed {
+      left: 60px;
     }
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .toggle-button::before {
+      content: "◀";
+      font-size: 12px;
+      transition: transform 0.3s ease;
     }
 
-    .sidebar li {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .sidebar a {
-      display: block;
-      text-decoration: none;
-      color: #333;
+    .toggle-button.collapsed::before {
+      transform: rotate(180deg);
     }
 
     .main-content {
-      margin-left: 250px;
-      padding: 20px;
+      margin-left: 200px;
+      transition: margin-left 0.3s ease;
     }
 
-    .header {
-      background-color: #fff;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .header h1 {
-      margin: 0;
-    }
-
-    .content {
-      margin-top: 20px;
-    }
-
-    .dashboard-card {
-      flex: 0 0 calc(33.33% - 20px);
-      background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-sizing: border-box;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .calendar-container {
-      width: 80%;
-      margin: 20px auto;
-      border: 1px solid #ddd;
-    }
-
-    .calendar {
-      display: none;
-    }
-
-    .calendar table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .calendar td,
-    .calendar th {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .calendar .current-day {
-      background-color: #f0f0f0;
-    }
-
-    .patient-list-container {
-      display: none;
-    }
-
-    .patient-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .patient-list li {
-      border: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer; /* Make patient list items clickable */
-    }
-
-    .patient-list li.active {
-      background-color: #f0f0f0;
-      border-left: 4px solid #007bff;
-    }
-
-    .icon {
-      margin-right: 5px;
-    }
-
-    .appointments-list {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .appointments-list ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .appointments-list li {
-      border: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 5px;
-    }
-    .patient-list li {
-      border: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      background-color: #fff; /* Add a white background */
-      transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    }
-
-    .patient-list li:hover {
-      background-color: #f5f5f5; /* Light gray background on hover */
-    }
-
-    .patient-list li.active {
-      background-color: #e9ecef; /* Lighter gray for active patient */
-      border-left: 4px solid #007bff;
-    }
-
-    #startConsultationBtn {
-      background-color: #007bff; /* Blue background for the button */
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin-top: 10px; 
-      border-radius: 5px; /* Add rounded corners */
-      cursor: pointer;
-    }
-
-    #startConsultationBtn:hover {
-      background-color: #0056b3; /* Darker blue on hover */
+    .main-content.collapsed {
+      margin-left: 60px;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-  <div class="sidebar">
-    <h2><i class="fas fa-user-md icon"></i> Therapist</h2>
-    <ul>
-      <li><a href="#" onclick="showSection('dashboard')"><i class="fas fa-home icon"></i> Dashboard</a></li>
-      <li><a href="#" onclick="showSection('calendar')"><i class="fas fa-calendar-alt icon"></i> Calendar</a></li>
-      <li><a href="#" onclick="showSection('patients')"><i class="fas fa-users icon"></i> Patients</a></li>
-    </ul>
-  </div>
-
-  <div class="main-content">
-    <div class="header">
-      <h1>Dashboard</h1>
-      <div class="user-info">
-        <span>Welcome, Dr. [Name]</span>
-        <span id="current-date"></span>
-        <i class="fas fa-bell icon"></i>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar h-screen fixed left-0 top-0 bg-gradient-to-b from-sky-100 to-sky-200 overflow-x-hidden pt-5 transition-all duration-300 border-r border-sky-300 shadow-lg">
+      <div class="flex items-center justify-between p-4">
+        <h2 class="text-xl font-semibold flex items-center gap-2">
+          <i class="fas fa-user-md"></i>
+          <span class="sidebar-text">Therapist</span>
+        </h2>
+        <div id="toggle-button" onclick="toggleSidebar()" class="toggle-button">
+          <span class="arrow"></span>
+        </div>
       </div>
+      <ul class="mt-4">
+        <li>
+          <a href="#" onclick="showSection('dashboard')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+            <i class="fas fa-home"></i>
+            <span class="sidebar-text">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showSection('calendar')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="sidebar-text">Calendar</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showSection('patients')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+            <i class="fas fa-users"></i>
+            <span class="sidebar-text">Patients</span>
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <div class="content">
-      <div id="dashboard" class="section">
-        <div class="dashboard-card" onclick="showSection('calendar')">
-          <i class="fas fa-calendar-check icon"></i>
-          <h3>Appointments</h3>
-          <p>View and manage your appointments.</p>
+    <!-- Main Content -->
+    <div id="main-content" class="main-content flex-1">
+      <header class="bg-white shadow">
+        <div class="flex justify-between items-center px-6 py-4">
+          <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+          <div class="flex items-center gap-4">
+            <span class="text-gray-600">Welcome, Dr. [Name]</span>
+            <span id="current-date" class="text-gray-600"></span>
+            <button class="text-gray-600 hover:text-gray-800">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
         </div>
-        <div class="dashboard-card" onclick="showSection('patients')">
-          <i class="fas fa-user-clock icon"></i>
-          <h3>Patients Waiting</h3>
-          <p>See patients waiting in the waiting room.</p>
-        </div>
-        <div class="dashboard-card">
-          <i class="fas fa-tasks icon"></i>
-          <h3>Tasks/Reminders</h3>
-          <p>Manage your tasks and reminders.</p>
-        </div>
-      </div>
+      </header>
 
-      <div id="calendar" class="section calendar">
-        <div class="calendar-container"></div>
-        <div id="appointments-list" class="appointments-list">
-          <ul id="appointments-for-day"></ul>
+      <main class="p-6">
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div onclick="showSection('calendar')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
+            <i class="fas fa-calendar-check text-blue-500 text-2xl mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Appointments</h3>
+            <p class="text-gray-600">View and manage your appointments.</p>
+          </div>
+          <div onclick="showSection('patients')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
+            <i class="fas fa-user-clock text-green-500 text-2xl mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Patients Waiting</h3>
+            <p class="text-gray-600">See patients waiting in the waiting room.</p>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
+            <i class="fas fa-tasks text-purple-500 text-2xl mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Tasks/Reminders</h3>
+            <p class="text-gray-600">Manage your tasks and reminders.</p>
+          </div>
         </div>
-      </div>
 
-      <div id="patients" class="section patient-list-container">
-        <h3>Patients Waiting</h3>
-        <ul class="patient-list"></ul>
-        <button id="startConsultationBtn" onclick="startConsultation()">Start Consultation</button>
-      </div>
+        <!-- Calendar Section -->
+        <div id="calendar" class="section hidden">
+          <div class="bg-white rounded-lg shadow p-6">
+            <div class="calendar-container"></div>
+            <div id="appointments-list" class="mt-6 hidden">
+              <ul id="appointments-for-day" class="space-y-2"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patients Section -->
+        <div id="patients" class="section hidden">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-xl font-semibold mb-4">Patients Waiting</h3>
+            <ul class="patient-list space-y-2"></ul>
+            <button id="startConsultationBtn" onclick="startConsultation()" class="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors">
+              Start Consultation
+            </button>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 
   <script>
-    let patientQueue = ['Patient A', 'Patient B', 'Patient C']; // Sample queue
+    let children = @json($children);
+</script>
+  <script>
+    let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
+    let sidebarExpanded = true;
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const toggleButton = document.getElementById('toggle-button');
+      const mainContent = document.getElementById('main-content');
+      
+      sidebar.classList.toggle('collapsed');
+      toggleButton.classList.toggle('collapsed');
+      mainContent.classList.toggle('collapsed');
+    }
 
     function showSection(sectionId) {
       const sections = document.querySelectorAll('.section');
       sections.forEach(section => {
-        section.style.display = 'none';
+        section.classList.add('hidden');
       });
-      document.getElementById(sectionId).style.display = 'block';
+      document.getElementById(sectionId).classList.remove('hidden');
 
       if (sectionId === 'calendar') {
         generateCalendar();
@@ -258,15 +179,13 @@
         generatePatientList();
       }
 
-      // Hide the appointments list when switching sections
-      document.getElementById('appointments-list').style.display = 'none';
+      document.getElementById('appointments-list').classList.add('hidden');
     }
 
     function updateDateTime() {
       const now = new Date();
       currentDate.textContent = now.toLocaleString();
     }
-    setInterval(updateDateTime, 1000);
 
     function generateCalendar() {
       const calendarContainer = document.querySelector('.calendar-container');
@@ -274,26 +193,26 @@
       const currentMonth = today.getMonth();
       const currentYear = today.getFullYear();
 
-      const firstDay = (new Date(currentYear, currentMonth)).getDay();
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
       const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
 
-      let tableHtml = '<table>';
-      tableHtml += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr><tr>';
+      let tableHtml = '<table class="w-full border-collapse">';
+      tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
 
       let date = 1;
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 7; j++) {
           if (i === 0 && j < firstDay) {
-            tableHtml += '<td></td>';
+            tableHtml += '<td class="p-2 border"></td>';
           } else if (date > daysInMonth) {
-            tableHtml += '<td></td>';
+            tableHtml += '<td class="p-2 border"></td>';
           } else {
             const currentDate = new Date(currentYear, currentMonth, date);
             const formattedDate = currentDate.toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric'
             });
-            tableHtml += <td onclick="showAppointments('${formattedDate}')">${formattedDate}</td>;
+            tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
             date++;
           }
         }
@@ -309,42 +228,103 @@
 
     function showAppointments(date) {
       const appointmentsList = document.getElementById('appointments-for-day');
-      appointmentsList.innerHTML = <li>No patients booked for ${date}</li>;
-      document.getElementById('appointments-list').style.display = 'block';
+      appointmentsList.innerHTML = `<li class="p-3 bg-gray-50 rounded">No patients booked for ${date}</li>`;
+      document.getElementById('appointments-list').classList.remove('hidden');
     }
 
     function generatePatientList() {
-      const patientList = document.querySelector('.patient-list');
-      patientList.innerHTML = ''; // Clear the list
+    const patientList = document.querySelector('.patient-list');
+    patientList.innerHTML = '';
 
-      for (let i = 0; i < patientQueue.length; i++) {
-        const patientItem = document.createElement('li');
-        patientItem.textContent = patientQueue[i];
-        patientItem.addEventListener('click', () => selectPatient(i));
-        patientList.appendChild(patientItem);
-      }
-    }
+    children.forEach(child => {
+        const listItem = document.createElement('li');
+        listItem.className = 'p-4 border rounded hover:bg-gray-50 cursor-pointer transition-colors';
+        listItem.innerHTML = `
+            <div>
+                <p>ID: ${child.id}</p>
+                <p>Full Name: ${child.fullname}</p>
+                <p>Date of Birth: ${child.dob}</p>
+                <p>Birth Certificate: ${child.birth_cert}</p>
+                <p>Gender ID: ${child.gender_id}</p>
+                <p>Registration Number: ${child.registration_number}</p>
+                <p>Created At: ${child.created_at}</p>
+                <p>Updated At: ${child.updated_at}</p>
+            </div>
+        `;
+        patientList.appendChild(listItem);
+    });
+}
 
     function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
-      patientListItems.forEach(item => item.classList.remove('active'));
-      patientListItems[index].classList.add('active');
+      patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
+      patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
     }
 
     function startConsultation() {
-      const activePatient = document.querySelector('.patient-list li.active');
+      const activePatient = document.querySelector('.patient-list li.border-blue-500');
       if (activePatient) {
         console.log('Starting consultation with:', activePatient.textContent);
-        // Implement your consultation logic here
       } else {
         alert('Please select a patient first.');
       }
     }
 
     showSection('dashboard');
-
+    
     const currentDate = document.getElementById('current-date');
     updateDateTime();
+    setInterval(updateDateTime, 1000);
   </script>
+  <script>
+    let children = @json($children);
+
+    function generatePatientList() {
+        const patientList = document.querySelector('.patient-list');
+        patientList.innerHTML = '';
+
+        children.forEach(child => {
+            const listItem = document.createElement('li');
+            listItem.className = 'p-4 border rounded hover:bg-gray-50 cursor-pointer transition-colors';
+            listItem.innerHTML = `
+                <div>
+                    <p>ID: ${child.id}</p>
+                    <p>Full Name: ${child.fullname}</p>
+                    <p>Date of Birth: ${child.dob}</p>
+                    <p>Birth Certificate: ${child.birth_cert}</p>
+                    <p>Gender ID: ${child.gender_id}</p>
+                    <p>Registration Number: ${child.registration_number}</p>
+                    <p>Created At: ${child.created_at}</p>
+                    <p>Updated At: ${child.updated_at}</p>
+                </div>
+            `;
+            patientList.appendChild(listItem);
+        });
+    }
+
+    function showAppointments(date) {
+        const appointmentsList = document.getElementById('appointments-for-day');
+        appointmentsList.innerHTML = `<li class="p-3 bg-gray-50 rounded">No patients booked for ${date}</li>`;
+        document.getElementById('appointments-list').classList.remove('hidden');
+    }
+
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.getElementById(sectionId).classList.remove('hidden');
+
+        if (sectionId === 'calendar') {
+            generateCalendar();
+        } else if (sectionId === 'patients') {
+            generatePatientList();
+        }
+
+        document.getElementById('appointments-list').classList.add('hidden');
+    }
+
+    showSection('dashboard');
+</script>
 </body>
 </html>

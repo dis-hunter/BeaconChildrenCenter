@@ -50,11 +50,21 @@ Route::get('/', function () {
     return view('example');
 });
 //therapist routes
-Route::get('/therapist_dashboard', function () {
-    return view('therapists.therapistsDashboard');
+Route::get('/therapist_dashboard', [ChildrenController::class, 'showChildren']);
+Route::get('/psychotherapy_dashboard', function () {
+    return view('therapists.psychotherapyDashboard');
 });
-Route::get('/therapist_patient_dashboard', function () {
-    return view('therapists.therapistsPatientDashboard');
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+Route::get('/occupationaltherapy_dashboard', function () {
+    return view('therapists.occupationaltherapyDashboard');
+});
+Route::get('/speechtherapy_dashboard', function () {
+    return view('therapists.speechtherapyDashboard');
+});
+Route::get('/nutritionist_dashboard', function () {
+    return view('therapists.nutritionistDashboard');
 });
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
