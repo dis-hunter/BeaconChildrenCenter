@@ -69,505 +69,1284 @@ recordResultsMenu.addEventListener('click', (event) => {
 });
 
 // Get the "Behaviour Assesement" link
-const behaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
+const BehaviourAssessmentLink = document.querySelector('.floating-menu a[href="#behaviourAssessment"]');
+BehaviourAssessmentLink.addEventListener('click', async (event) => {
+    event.preventDefault();
 
-// Add a click event listener to the link
-behaviourAssessmentLink.addEventListener('click', (event) => {
-event.preventDefault(); // Prevent default link behavior (opening in new tab)
+    const mainContent = document.querySelector('.main');
 
-// Replace the content of the .main div with the HTML for the Behaviour assessment form
-const mainContent = document.querySelector('.main');
-mainContent.innerHTML = `
-<head>
-<link rel='stylesheet' href='../css/BehaviourAssesment.css'>
-</head>
-  <h2>Behaviour assessment</h2>
+    // Show the loading indicator specific to this feature
+    showLoadingIndicator(mainContent, "behaviourAssessment-loading");
 
-  <div class="section">
-    <div class="section-title">Hyperactivity Impulsivity</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Attention</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Social Interactions</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Mood/ Anxiety</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Play/ Interests</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Communication</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">RRB</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Sensory Processing</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Sleep</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Adaptive</div>
-    <textarea></textarea>
-  </div>
-
- 
-  <button type="submit">Update</button>
-`;
-
-// Add the same JavaScript code for textarea resizing to the new content
-const textareas = document.querySelectorAll('textarea');
-
-textareas.forEach(textarea => {
-  textarea.addEventListener('input', () => {
-    textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-  });
-
-  textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
-  });
-
-  textarea.style.height = "auto"; 
-  textarea.style.height = (textarea.scrollHeight) + "px"; 
+    try {
+        console.log("Loading Behaviour Assessment form...");
+        await loadBehaviourAssessmentForm(mainContent);
+    } catch (error) {
+        console.error("Error loading Behaviour Assessment:", error.message);
+        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+    } finally {
+        console.log("Removing loading indicator...");
+        removeLoadingIndicator("behaviourAssessment-loading");
+    }
 });
-});
+
+function showLoadingIndicator(parentElement, uniqueId) {
+    if (!document.getElementById(uniqueId)) {
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = uniqueId;
+        loadingIndicator.style = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-color: #007bff transparent #007bff transparent;
+            animation: loading-animation 1.2s linear infinite;
+            z-index: 1000;
+        `;
+        parentElement.appendChild(loadingIndicator);
+
+        if (!document.getElementById('loading-animation-styles')) {
+            const loadingAnimationStyles = document.createElement('style');
+            loadingAnimationStyles.id = 'loading-animation-styles';
+            loadingAnimationStyles.textContent = `
+                @keyframes loading-animation {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(loadingAnimationStyles);
+        }
+    }
+}
+
+function removeLoadingIndicator(uniqueId) {
+    const loadingIndicator = document.getElementById(uniqueId);
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
+}
+
+async function loadBehaviourAssessmentForm(mainContent) {
+    console.log("Rendering the form...");
+    mainContent.innerHTML = `
+    <div id="behaviourAssessment-container">
+        
+        <body>
+            <div class="container">
+                <h2>Behaviour Assessment</h2>
+                <div class="section">
+                    <div class="section-title">Hyperactivity</div>
+                    <input type="text" id="hyperactivity">
+                </div>
+                <div class="section">
+                    <div class="section-title">Attention</div>
+                    <input type="text" id="attention">
+                </div>
+                <div class="section">
+                    <div class="section-title">Social Interactions</div>
+                    <input type="text" id="socialInteractions">
+                </div>
+                <div class="section">
+                    <div class="section-title">Mood/Anxiety</div>
+                    <input type="text" id="moodAnxiety">
+                </div>
+                <div class="section">
+                    <div class="section-title">Play Interests</div>
+                    <input type="text" id="playInterests">
+                </div>
+                <div class="section">
+                    <div class="section-title">Communication</div>
+                    <input type="text" id="communication">
+                </div>
+                <div class="section">
+                    <div class="section-title">RRB</div>
+                    <input type="text" id="rrb">
+                </div>
+                <div class="section">
+                    <div class="section-title">Sensory Processing</div>
+                    <input type="text" id="sensoryProcessing">
+                </div>
+                <div class="section">
+                    <div class="section-title">Sleep</div>
+                    <input type="text" id="sleep">
+                </div>
+                <div class="section">
+                    <div class="section-title">Adaptive</div>
+                    <input type="text" id="adaptive">
+                </div>
+
+                <button id="saveButton">Save</button>
+            </div>
+        </body>
+    </div>
+    `;
+
+    console.log("Fetching Behaviour Assessment data...");
+    const registrationNumber = "REG-001"; // You can replace with dynamic registration number
+    await loadBehaviourAssessment(registrationNumber);
+
+    // Add event listener to the save button
+    const saveButton = document.getElementById("saveButton");
+    saveButton.addEventListener("click", async () => {
+        // Show spinner while saving
+        saveButton.innerHTML = `<span class="saving-spinner"></span> Saving...`;
+        saveButton.disabled = true;
+
+        try {
+            await saveBehaviourAssessment(registrationNumber);
+        } finally {
+            // Reset save button to its normal state
+            saveButton.innerHTML = "Save";
+            saveButton.disabled = false;
+        }
+    });
+
+    // Add spinner styles
+    const spinnerStyles = document.createElement('style');
+    spinnerStyles.innerHTML = `
+        .saving-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ccc;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: loading-animation 1s linear infinite;
+            margin-right: 8px;
+        }
+    `;
+    document.head.appendChild(spinnerStyles);
+}
+
+async function loadBehaviourAssessment(registrationNumber) {
+    try {
+        const response = await fetch(`/get-behaviour-assessment/${registrationNumber}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        console.log("Fetched Behaviour Assessment Data:", data); // Debugging: check the fetched data
+
+        if (data && data.data) {
+            const assessmentData = data.data; // No need to JSON.parse() here
+            console.log("Populating form with data:", assessmentData); // Debugging: check the parsed data
+
+            document.getElementById("hyperactivity").value = assessmentData["HyperActivity"] || "";
+            document.getElementById("attention").value = assessmentData["Attention"] || "";
+            document.getElementById("socialInteractions").value = assessmentData["SocialInteractions"] || "";
+            document.getElementById("moodAnxiety").value = assessmentData["MoodAnxiety"] || "";
+            document.getElementById("playInterests").value = assessmentData["PlayInterests"] || "";
+            document.getElementById("communication").value = assessmentData["Communication"] || "";
+            document.getElementById("rrb").value = assessmentData["RRB"] || "";
+            document.getElementById("sensoryProcessing").value = assessmentData["SensoryProcessing"] || "";
+            document.getElementById("sleep").value = assessmentData["Sleep"] || "";
+            document.getElementById("adaptive").value = assessmentData["Adaptive"] || "";
+        }
+    } catch (error) {
+        console.error("Error fetching Behaviour Assessment data:", error.message);
+    }
+}
+
+async function saveBehaviourAssessment(registrationNumber) {
+    try {
+        const data = {
+            HyperActivity: document.getElementById("hyperactivity").value,
+            Attention: document.getElementById("attention").value,
+            SocialInteractions: document.getElementById("socialInteractions").value,
+            MoodAnxiety: document.getElementById("moodAnxiety").value,
+            PlayInterests: document.getElementById("playInterests").value,
+            Communication: document.getElementById("communication").value,
+            RRB: document.getElementById("rrb").value,
+            SensoryProcessing: document.getElementById("sensoryProcessing").value,
+            Sleep: document.getElementById("sleep").value,
+            Adaptive: document.getElementById("adaptive").value,
+        };
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        const response = await fetch(`/save-behaviour-assessment/${registrationNumber}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify({ data }),
+        });
+
+        if (response.ok) {
+            alert("Behaviour Assessment saved successfully!");
+        } else {
+            throw new Error("Failed to save data");
+        }
+    } catch (error) {
+        console.error("Error saving Behaviour Assessment:", error.message);
+        alert("Error saving Behaviour Assessment. Please try again.");
+    }
+}
+
 
 //Get the perinatal history Link
+document.addEventListener('DOMContentLoaded', () => {
+  const perinatalHistoryLink = document.querySelector('.floating-menu a[href="#perinatalHistory"]');
 
-const perinatalHistoryLink = document.querySelector('.floating-menu a[href="#perinatalHistory"]');
-perinatalHistoryLink.addEventListener('click', (event)=>{
-    event.preventDefault();
+  perinatalHistoryLink.addEventListener('click', async (event) => {
+      event.preventDefault();
+      console.log('Perinatal History link clicked.');
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/perinatalHistory.css'>
-</head>
-<body>
+      const mainContent = document.querySelector('.main');
 
-<div class="container">
-  <h2>Perinatal History</h2>
+      // Add CSS for the spinner directly to the document
+      const style = document.createElement('style');
+      style.innerHTML = `
+          .loading-spinner {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+          }
+          .spinner {
+              border: 4px solid #f3f3f3;
+              border-top: 4px solid #3498db;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              animation: spin 2s linear infinite;
+          }
+          @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+          }
+          .saving-button-spinner {
+              border: 2px solid #f3f3f3;
+              border-top: 2px solid white;
+              border-radius: 50%;
+              width: 14px;
+              height: 14px;
+              animation: spin 1s linear infinite;
+              display: inline-block;
+          }
+          .error-message {
+              color: red;
+              text-align: center;
+          }
+      `;
+      document.head.appendChild(style);
 
-  <div class="section">
-    <div class="section-title">Pre-conception</div>
-    <textarea id="preConceptionTextarea"></textarea> 
-  </div>
+      // Add rotating circle loading indicator
+      mainContent.innerHTML = `
+          <div class="loading-spinner">
+              <div class="spinner"></div>
+          </div>
+      `;
 
-  <div class="section">
-    <div class="section-title">Antenatal History</div>
-    <textarea id="antenatalHistoryTextarea"></textarea> 
-  </div>
+      try {
+          const registrationNumber = window.location.pathname.split('/').pop();
+          console.log('Registration number extracted:', registrationNumber);
 
-  <div class="section">
-    <div class="section-title">Birth History</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="parity">Parity:</label>
-        <input type="text" id="parity">
-      </div>
-      <div class="grid-item">
-        <label for="gestation">Gestation:</label>
-        <input type="text" id="gestation">
-      </div>
-      <div class="grid-item">
-        <label for="labour">Labour:</label>
-        <input type="text" id="labour">
-      </div>
-      <div class="grid-item">
-        <label for="delivery">Delivery:</label>
-        <input type="text" id="delivery">
-      </div>
-      <div class="grid-item">
-        <label for="agarScore">Agar Score:</label>
-        <input type="text" id="agarScore">
-      </div>
-      <div class="grid-item">
-        <label for="bwt">BWT:</label>
-        <input type="text" id="bwt">
-      </div>
-    </div>
-  </div>
+          // Fetch the Perinatal History form structure
+          const response = await fetch(`/perinatal-history/${registrationNumber}`);
+          const result = await response.json();
 
-  <div class="section">
-    <div class="section-title highlighted">Postnatal Period</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="bFeeding">B/Feeding:</label>
-        <input type="text" id="bFeeding">
-      </div>
-      <div class="grid-item">
-        <label for="hypoglaecemia">Hypoglaecemia:</label>
-        <input type="text" id="hypoglaecemia">
-      </div>
-      <div class="grid-item">
-        <label for="siezures">Siezures:</label>
-        <input type="text" id="siezures">
-      </div>
-      <div class="grid-item">
-        <label for="juandice">Juandice:</label>
-        <input type="text" id="juandice">
-      </div>
-      <div class="grid-item">
-        <label for="rds">RDS:</label>
-        <input type="text" id="rds">
-      </div>
-      <div class="grid-item">
-        <label for="sepsis">Sepsis:</label>
-        <input type="text" id="sepsis">
-      </div>
-    </div>
-  </div>
+          console.log('Fetch response:', result);
 
-  <button type="submit">Save</button>
-   
+          // Replace content with form once loaded
+          mainContent.innerHTML = `
+              <div class="container">
+              <head>
+              <link rel="stylesheet" href="../css/perinatalHistory.css">
+              </head>
+                  <h2>Perinatal History</h2>
+                  <div class="section">
+                      <div class="section-title">Pre-conception</div>
+                      <textarea id="preConceptionTextarea"></textarea> 
+                  </div>
+                  <div class="section">
+                      <div class="section-title">Antenatal History</div>
+                      <textarea id="antenatalHistoryTextarea"></textarea> 
+                  </div>
+                  <div class="section">
+                      <div class="section-title">Birth History</div>
+                      <div class="grid-container">
+                          <div class="grid-item"><label for="parity">Parity:</label><input type="text" id="parity"></div>
+                          <div class="grid-item"><label for="gestation">Gestation:</label><input type="text" id="gestation"></div>
+                          <div class="grid-item"><label for="labour">Labour:</label><input type="text" id="labour"></div>
+                          <div class="grid-item"><label for="delivery">Delivery:</label><input type="text" id="delivery"></div>
+                          <div class="grid-item"><label for="agarScore">Agar Score:</label><input type="text" id="agarScore"></div>
+                          <div class="grid-item"><label for="bwt">BWT:</label><input type="text" id="bwt"></div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="section-title highlighted">Postnatal Period</div>
+                      <div class="grid-container">
+                          <div class="grid-item"><label for="bFeeding">B/Feeding:</label><input type="text" id="bFeeding"></div>
+                          <div class="grid-item"><label for="hypoglaecemia">Hypoglaecemia:</label><input type="text" id="hypoglaecemia"></div>
+                          <div class="grid-item"><label for="siezures">Siezures:</label><input type="text" id="siezures"></div>
+                          <div class="grid-item"><label for="juandice">Juandice:</label><input type="text" id="juandice"></div>
+                          <div class="grid-item"><label for="rds">RDS:</label><input type="text" id="rds"></div>
+                          <div class="grid-item"><label for="sepsis">Sepsis:</label><input type="text" id="sepsis"></div>
+                      </div>
+                  </div>
+                  <button type="submit" id="savePerinatalHistory">Save</button>
+              </div>
+          `;
 
-</div>
-    `
- textareas.forEach(textarea => {
-    textarea.addEventListener('input', () => {
-      textarea.style.height = "auto"; 
-       textarea.style.height = (textarea.scrollHeight) + "px"; 
-     });
-      
- textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
- });
-      
-textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
- });
-     
+          // Pre-fill form data if available
+          if (response.ok && result.data) {
+              const {
+                  preConception,
+                  antenatalHistory,
+                  parity,
+                  gestation,
+                  labour,
+                  delivery,
+                  agarScore,
+                  bwt,
+                  bFeeding,
+                  hypoglaecemia,
+                  siezures,
+                  juandice,
+                  rds,
+                  sepsis,
+              } = result.data;
+
+              document.getElementById('preConceptionTextarea').value = preConception || '';
+              document.getElementById('antenatalHistoryTextarea').value = antenatalHistory || '';
+              document.getElementById('parity').value = parity || '';
+              document.getElementById('gestation').value = gestation || '';
+              document.getElementById('labour').value = labour || '';
+              document.getElementById('delivery').value = delivery || '';
+              document.getElementById('agarScore').value = agarScore || '';
+              document.getElementById('bwt').value = bwt || '';
+              document.getElementById('bFeeding').value = bFeeding || '';
+              document.getElementById('hypoglaecemia').value = hypoglaecemia || '';
+              document.getElementById('siezures').value = siezures || '';
+              document.getElementById('juandice').value = juandice || '';
+              document.getElementById('rds').value = rds || '';
+              document.getElementById('sepsis').value = sepsis || '';
+          }
+
+          // Setup textarea resizing logic
+          const textareas = document.querySelectorAll('textarea');
+          textareas.forEach((textarea) => {
+              textarea.addEventListener('input', () => {
+                  textarea.style.height = 'auto';
+                  textarea.style.height = `${textarea.scrollHeight}px`;
+              });
+          });
+
+          // Save functionality
+          const saveButton = document.getElementById('savePerinatalHistory');
+          saveButton.addEventListener('click', async () => {
+              saveButton.innerHTML = `<span class="saving-button-spinner"></span> Saving...`;
+              saveButton.disabled = true;
+
+              const data = {
+                  preConception: document.getElementById('preConceptionTextarea').value,
+                  antenatalHistory: document.getElementById('antenatalHistoryTextarea').value,
+                  parity: document.getElementById('parity').value,
+                  gestation: document.getElementById('gestation').value,
+                  labour: document.getElementById('labour').value,
+                  delivery: document.getElementById('delivery').value,
+                  agarScore: document.getElementById('agarScore').value,
+                  bwt: document.getElementById('bwt').value,
+                  bFeeding: document.getElementById('bFeeding').value,
+                  hypoglaecemia: document.getElementById('hypoglaecemia').value,
+                  siezures: document.getElementById('siezures').value,
+                  juandice: document.getElementById('juandice').value,
+                  rds: document.getElementById('rds').value,
+                  sepsis: document.getElementById('sepsis').value,
+              };
+
+              try {
+                  const saveResponse = await fetch(`/perinatal-history/${registrationNumber}`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                      },
+                      body: JSON.stringify({ data }),
+                  });
+
+                  const saveResult = await saveResponse.json();
+                  alert(saveResult.message || 'Perinatal History saved successfully!');
+              } catch (error) {
+                  console.error('Error saving Perinatal History:', error);
+                  alert('Failed to save Perinatal History. Please try again.');
+              } finally {
+                  saveButton.innerHTML = 'Save';
+                  saveButton.disabled = false;
+              }
+          });
+      } catch (error) {
+          console.error('Error fetching Perinatal History:', error);
+          mainContent.innerHTML = `<p class="error-message">Failed to load Perinatal History. Please try again later.</p>`;
+      }
+  });
+});
+
+
  
  //Get the Developmental Milestones Link
-
-const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
-DevMilestonesLink.addEventListener('click', (event)=>{
-    event.preventDefault();
-
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/DevMilestones.css'>
-</head>
-<body>
-
-<div class="container">
-  <h2>Developmental Milestones</h2>
-
-  <div class="section">
-    <div class="section-title">Motor</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="neckSupport">Neck Support:</label>
-        <input type="text" id="neckSupport">
-      </div>
-      <div class="grid-item">
-        <label for="sitting">Sitting:</label>
-        <input type="text" id="sitting">
-      </div>
-      <div class="grid-item">
-        <label for="crawling">Crawling:</label>
-        <input type="text" id="crawling">
-      </div>
-      <div class="grid-item">
-        <label for="standing">Standing:</label>
-        <input type="text" id="standing">
-      </div>
-      <div class="grid-item">
-        <label for="walking">Walking:</label>
-        <input type="text" id="walking">
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Speech Language</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="coobing">Cooing/Babbling:</label>
-        <input type="text" id="coobing">
-      </div>
-      <div class="grid-item">
-        <label for="firstWord">First word:</label>
-        <input type="text" id="firstWord">
-      </div>
-      <div class="grid-item">
-        <label for="vocabulary">Vocabulary:</label>
-        <input type="text" id="vocabulary">
-      </div>
-      <div class="grid-item">
-        <label for="phraseSpeech">Phrase Speech:</label>
-        <input type="text" id="phraseSpeech">
-      </div>
-      <div class="grid-item">
-        <label for="conversational">Conversational:</label>
-        <input type="text" id="conversational">
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Social Emotional</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="smiling">Smiling/Laughing:</label>
-        <input type="text" id="smiling">
-      </div>
-      <div class="grid-item">
-        <label for="attachments">Attachments:</label>
-        <input type="text" id="attachments">
-      </div>
-      <div class="grid-item"></div> 
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Feeding</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Elimination</div>
-    <textarea></textarea>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Teething</div>
-    <textarea></textarea>
-  </div>
-  <button>Back</button>
-  <button type="submit">Save</button>
-</div>
-
-</body>
-    `
- textareas.forEach(textarea => {
-    textarea.addEventListener('input', () => {
-      textarea.style.height = "auto"; 
-       textarea.style.height = (textarea.scrollHeight) + "px"; 
+ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMilestones"]');
+ DevMilestonesLink.addEventListener('click', async (event) => {
+     event.preventDefault();
+ 
+     const mainContent = document.querySelector('.main');
+ 
+     // Show the loading indicator specific to this feature
+     showLoadingIndicator(mainContent, "devMilestones-loading");
+ 
+     try {
+         console.log("Loading Developmental Milestones form...");
+         await loadDevelopmentalMilestonesForm(mainContent);
+     } catch (error) {
+         console.error("Error loading developmental milestones:", error.message);
+         mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+     } finally {
+         console.log("Removing loading indicator...");
+         removeLoadingIndicator("devMilestones-loading");
+     }
+ });
+ 
+ function showLoadingIndicator(parentElement, uniqueId) {
+     if (!document.getElementById(uniqueId)) {
+         const loadingIndicator = document.createElement('div');
+         loadingIndicator.id = uniqueId;
+         loadingIndicator.style = `
+             position: fixed;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             width: 40px;
+             height: 40px;
+             border-radius: 50%;
+             border: 4px solid #ccc;
+             border-color: #007bff transparent #007bff transparent;
+             animation: loading-animation 1.2s linear infinite;
+             z-index: 1000;
+         `;
+         parentElement.appendChild(loadingIndicator);
+ 
+         if (!document.getElementById('loading-animation-styles')) {
+             const loadingAnimationStyles = document.createElement('style');
+             loadingAnimationStyles.id = 'loading-animation-styles';
+             loadingAnimationStyles.textContent = `
+                 @keyframes loading-animation {
+                     0% { transform: rotate(0deg); }
+                     100% { transform: rotate(360deg); }
+                 }
+             `;
+             document.head.appendChild(loadingAnimationStyles);
+         }
+     }
+ }
+ 
+ function removeLoadingIndicator(uniqueId) {
+     const loadingIndicator = document.getElementById(uniqueId);
+     if (loadingIndicator) {
+         loadingIndicator.remove();
+     }
+ }
+ 
+ async function loadDevelopmentalMilestonesForm(mainContent) {
+     console.log("Rendering the form...");
+     mainContent.innerHTML = `
+     <div id="devMilestones-container">
+         <head>
+             <link rel='stylesheet' href='../css/DevMilestones.css'>
+         </head>
+         <body>
+             <div class="container">
+                 <h2>Developmental Milestones</h2>
+                 <div class="section">
+                     <div class="section-title">Motor</div>
+                     <div class="grid-container">
+                         <div class="grid-item">
+                             <label for="neckSupport">Neck Support:</label>
+                             <input type="text" id="neckSupport">
+                         </div>
+                         <div class="grid-item">
+                             <label for="sitting">Sitting:</label>
+                             <input type="text" id="sitting">
+                         </div>
+                         <div class="grid-item">
+                             <label for="crawling">Crawling:</label>
+                             <input type="text" id="crawling">
+                         </div>
+                         <div class="grid-item">
+                             <label for="standing">Standing:</label>
+                             <input type="text" id="standing">
+                         </div>
+                         <div class="grid-item">
+                             <label for="walking">Walking:</label>
+                             <input type="text" id="walking">
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Speech Language</div>
+                     <div class="grid-container">
+                         <div class="grid-item">
+                             <label for="coobing">Cooing/Babbling:</label>
+                             <input type="text" id="coobing">
+                         </div>
+                         <div class="grid-item">
+                             <label for="firstWord">First Word:</label>
+                             <input type="text" id="firstWord">
+                         </div>
+                         <div class="grid-item">
+                             <label for="vocabulary">Vocabulary:</label>
+                             <input type="text" id="vocabulary">
+                         </div>
+                         <div class="grid-item">
+                             <label for="phraseSpeech">Phrase Speech:</label>
+                             <input type="text" id="phraseSpeech">
+                         </div>
+                         <div class="grid-item">
+                             <label for="conversational">Conversational:</label>
+                             <input type="text" id="conversational">
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Social Emotional</div>
+                     <div class="grid-container">
+                         <div class="grid-item">
+                             <label for="smiling">Smiling/Laughing:</label>
+                             <input type="text" id="smiling">
+                         </div>
+                         <div class="grid-item">
+                             <label for="attachments">Attachments:</label>
+                             <input type="text" id="attachments">
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Feeding</div>
+                     <textarea id="feeding"></textarea>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Elimination</div>
+                     <textarea id="elimination"></textarea>
+                 </div>
+ 
+                 <div class="section">
+                     <div class="section-title">Teething</div>
+                     <textarea id="teething"></textarea>
+                 </div>
+ 
+                 <button id="saveButton">Save</button>
+             </div>
+         </body>
+     </div>
+     `;
+ 
+     console.log("Fetching developmental milestones...");
+     const registrationNumber = "REG-001";
+     await loadDevelopmentalMilestones(registrationNumber);
+ 
+     // Add event listener to the save button
+     const saveButton = document.getElementById("saveButton");
+     saveButton.addEventListener("click", async () => {
+         // Add save button spinner
+         saveButton.innerHTML = `<span class="saving-spinner"></span> Saving...`;
+         saveButton.disabled = true;
+ 
+         try {
+             await saveDevelopmentalMilestones(registrationNumber);
+         } finally {
+             saveButton.innerHTML = "Save";
+             saveButton.disabled = false;
+         }
      });
-      
- textarea.addEventListener('blur', () => {
-    textarea.style.height = '50px'; 
- });
-      
-textarea.style.height = "auto"; 
-    textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
- });
+ 
+     // Add spinner styling
+     const spinnerStyles = document.createElement('style');
+     spinnerStyles.innerHTML = `
+         .saving-spinner {
+             display: inline-block;
+             width: 14px;
+             height: 14px;
+             border: 2px solid #ccc;
+             border-top: 2px solid #fff;
+             border-radius: 50%;
+             animation: loading-animation 1s linear infinite;
+             margin-right: 8px;
+         }
+     `;
+     document.head.appendChild(spinnerStyles);
+ }
+ 
+ async function loadDevelopmentalMilestones(registrationNumber) {
+     try {
+         const response = await fetch(`/get-development-milestones/${registrationNumber}`);
+         if (!response.ok) {
+             throw new Error("Failed to fetch data");
+         }
+ 
+         const data = await response.json();
+ 
+         if (data && data.data) {
+             const milestones = JSON.parse(data.data);
+             console.log("Populating form with data...");
+             document.getElementById("neckSupport").value = milestones["Neck Support"] || "";
+             document.getElementById("sitting").value = milestones["Sitting"] || "";
+             document.getElementById("crawling").value = milestones["Crawling"] || "";
+             document.getElementById("standing").value = milestones["Standing"] || "";
+             document.getElementById("walking").value = milestones["Walking"] || "";
+             document.getElementById("coobing").value = milestones["Cooing/Babbling"] || "";
+             document.getElementById("firstWord").value = milestones["First Word"] || "";
+             document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
+             document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
+             document.getElementById("conversational").value = milestones["Conversational"] || "";
+             document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
+             document.getElementById("attachments").value = milestones["Attachments"] || "";
+             document.getElementById("feeding").value = milestones["Feeding"] || "";
+             document.getElementById("elimination").value = milestones["Elimination"] || "";
+             document.getElementById("teething").value = milestones["Teething"] || "";
+         }
+     } catch (error) {
+         console.error("Error fetching developmental milestones:", error.message);
+     }
+ }
+ 
+ async function saveDevelopmentalMilestones(registrationNumber) {
+     try {
+         const data = {
+             "Neck Support": document.getElementById("neckSupport").value,
+             Sitting: document.getElementById("sitting").value,
+             Crawling: document.getElementById("crawling").value,
+             Standing: document.getElementById("standing").value,
+             Walking: document.getElementById("walking").value,
+             "Cooing/Babbling": document.getElementById("coobing").value,
+             "First Word": document.getElementById("firstWord").value,
+             Vocabulary: document.getElementById("vocabulary").value,
+             "Phrase Speech": document.getElementById("phraseSpeech").value,
+             Conversational: document.getElementById("conversational").value,
+             "Smiling/Laughing": document.getElementById("smiling").value,
+             Attachments: document.getElementById("attachments").value,
+             Feeding: document.getElementById("feeding").value,
+             Elimination: document.getElementById("elimination").value,
+             Teething: document.getElementById("teething").value,
+         };
+         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+         const response = await fetch(`/save-development-milestones/${registrationNumber}`, {
+             method: "POST",
+             headers: {
+                 "Content-Type": "application/json",
+                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+             },
+             body: JSON.stringify({ data }),
+         });
+ 
+         if (response.ok) {
+             alert("Developmental Milestones saved successfully!");
+         } else {
+             throw new Error("Failed to save data");
+         }
+     } catch (error) {
+         console.error("Error saving developmental milestones:", error.message);
+         alert("Error saving Developmental Milestones. Please try again.");
+     }
+ }
+ 
+ 
 
  //Get the Family and Social History Link
 
-const familyAndSocial = document.querySelector('.floating-menu a[href="#familyAndSocial"]');
-familyAndSocial.addEventListener('click', (event)=>{
+ const familyAndSocial = document.querySelector('.floating-menu a[href="#familyAndSocial"]');
+
+familyAndSocial.addEventListener('click', async (event) => {
     event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/FamilyAndSocial.css'>
-</head>
-<body>
+    const mainContent = document.querySelector('.main');
 
-<div class="container">
-  <h2>Family and Social History</h2>
+    // Show a loading indicator while the form loads
+    showLoadingIndicator(mainContent, "family-social-loading");
 
-  <div class="section">
-    <div class="section-title">Family Composition</div>
-    <textarea></textarea>
-  </div>
+    try {
+        console.log("Loading Family and Social History form...");
+        const registrationNumber = getRegistrationNumberFromURL();
+        console.log("Registration Number:", registrationNumber);
 
-  <div class="section">
-    <div class="section-title">Family Health/Social</div>
-    <textarea></textarea>
-  </div>
+        await loadFamilyAndSocialHistoryForm(mainContent, registrationNumber);
+    } catch (error) {
+        console.error("Error loading Family and Social History form:", error.message);
+        mainContent.innerHTML = `<div class="error">Failed to load the form. Please try again.</div>`;
+    } finally {
+        console.log("Removing loading indicator...");
+        removeLoadingIndicator("family-social-loading");
+    }
+});
 
-  <div class="section">
-    <div class="section-title">Schooling</div>
-    <textarea></textarea>
-  </div>
+function getRegistrationNumberFromURL() {
+    const urlParts = window.location.pathname.split('/');
+    return urlParts[urlParts.length - 1]; // Assuming registration number is the last part of the URL
+}
 
-  <button>Back</button>
-  <button type="submit">Update</button>
-</div>
-    `
-    const textareas = document.querySelectorAll('textarea');
-  
-    textareas.forEach(textarea => {
-      textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
-  
-      textarea.addEventListener('blur', () => {
-        textarea.style.height = '30px'; 
-      });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
+function showLoadingIndicator(parentElement, uniqueId) {
+    if (!document.getElementById(uniqueId)) {
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = uniqueId;
+        loadingIndicator.style = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-color: #007bff transparent #007bff transparent;
+            animation: loading-animation 1.2s linear infinite;
+            z-index: 1000;
+        `;
+        parentElement.appendChild(loadingIndicator);
+
+        if (!document.getElementById('loading-animation-styles')) {
+            const loadingAnimationStyles = document.createElement('style');
+            loadingAnimationStyles.id = 'loading-animation-styles';
+            loadingAnimationStyles.textContent = `
+                @keyframes loading-animation {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(loadingAnimationStyles);
+        }
+    }
+}
+
+function removeLoadingIndicator(uniqueId) {
+    const loadingIndicator = document.getElementById(uniqueId);
+    if (loadingIndicator) {
+        loadingIndicator.remove();
+    }
+}
+
+async function loadFamilyAndSocialHistoryForm(mainContent, registrationNumber) {
+    mainContent.innerHTML = `
+        <div id="family-social-container">
+            <div class="container">
+                <h2>Family and Social History</h2>
+
+                <div class="section">
+                    <div class="section-title">Family Composition</div>
+                    <textarea id="familyComposition"></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Family Health/Social</div>
+                    <textarea id="familyHealthSocial"></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Schooling</div>
+                    <textarea id="schooling"></textarea>
+                </div>
+
+                <button id="saveButton">Save</button>
+            </div>
+        </div>
+    `;
+
+    console.log("Fetching Family and Social History data...");
+    await loadFamilyAndSocialHistory(registrationNumber);
+
+    // Add event listener to the save button with spinner
+    const saveButton = document.getElementById("saveButton");
+    saveButton.addEventListener("click", async () => {
+        // Show spinner while saving
+        saveButton.innerHTML = `<span class="saving-spinner"></span> Saving...`;
+        saveButton.disabled = true;
+
+        try {
+            await saveFamilyAndSocialHistory(registrationNumber);
+        } finally {
+            // Reset save button to its normal state
+            saveButton.innerHTML = "Save";
+            saveButton.disabled = false;
+        }
     });
- });
 
- //Get the Family and Social History Link
+    // Initialize the textareas for dynamic resizing
+    initializeTextareas();
 
-const pastMedicalHistory = document.querySelector('.floating-menu a[href="#pastMedicalHistory"]');
-pastMedicalHistory.addEventListener('click', (event)=>{
+    // Add spinner styles
+    const spinnerStyles = document.createElement('style');
+    spinnerStyles.innerHTML = `
+        .saving-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ccc;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: loading-animation 1s linear infinite;
+            margin-right: 8px;
+        }
+    `;
+    document.head.appendChild(spinnerStyles);
+}
+
+function initializeTextareas() {
+    const textareas = document.querySelectorAll('textarea');
+
+    textareas.forEach((textarea) => {
+        textarea.addEventListener('input', () => {
+            textarea.style.height = "auto"; // Reset height to auto to recalculate
+            textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height based on content
+        });
+
+        textarea.addEventListener('blur', () => {
+            textarea.style.height = '30px'; // Reset to default height on blur
+        });
+
+        // Set initial height based on current content
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    });
+}
+
+async function loadFamilyAndSocialHistory(registrationNumber) {
+    try {
+        const response = await fetch(`/get-family-social-history/${registrationNumber}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        console.log("Fetched Family and Social History Data:", data);
+
+        if (data && data.data) {
+            const history = data.data;
+            document.getElementById("familyComposition").value = history.FamilyComposition || "";
+            document.getElementById("familyHealthSocial").value = history.FamilyHealthSocial || "";
+            document.getElementById("schooling").value = history.Schooling || "";
+        } else {
+            console.log("No existing Family and Social History data found.");
+        }
+    } catch (error) {
+        console.error("Error fetching Family and Social History data:", error.message);
+    }
+}
+
+async function saveFamilyAndSocialHistory(registrationNumber) {
+    try {
+        const data = {
+            FamilyComposition: document.getElementById("familyComposition").value,
+            FamilyHealthSocial: document.getElementById("familyHealthSocial").value,
+            Schooling: document.getElementById("schooling").value,
+        };
+
+        console.log("Saving Family and Social History data:", data);
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(`/save-family-social-history/${registrationNumber}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken, // Include the CSRF token in the request
+            },
+            body: JSON.stringify({ data }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to save data");
+        }
+
+        const responseData = await response.json();
+        console.log("Save Response:", responseData);
+        alert(responseData.message || "Data saved successfully!");
+    } catch (error) {
+        console.error("Error saving Family and Social History data:", error.message);
+        alert("Failed to save data. Please try again.");
+    }
+}
+
+ 
+
+ //Get the Past Medical History Link
+
+ document.addEventListener('DOMContentLoaded', (event) => {
+  const pastMedicalHistory = document.querySelector('.floating-menu a[href="#pastMedicalHistory"]');
+  
+  pastMedicalHistory.addEventListener('click', async (event) => {
     event.preventDefault();
+    
+    const registrationNumber = getRegistrationNumberFromUrl();
+    console.log("Registration number:", registrationNumber); // Debugging line to check registration number
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/pastMedicalHistory.css'>
-</head>
-<body>
+    // Show page loading indicator
+    const pageLoadingIndicator = showLoadingIndicator();
+    
+    try {
+      // Fetch the CSRF token
+      const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+      console.log("CSRF Token:", csrfToken); // Debugging CSRF token
 
-<div class="container">
-  <h2>Past Medical History</h2>
+      // Fetch past medical history data
+      const response = await fetch(`/past-medical-history/${registrationNumber}`);
+      const result = await response.json();
+      console.log("Past Medical History Response:", result); // Debugging the response from the server
+      
+      const pastMedicalHistoryData = result.data;
+      console.log("Past Medical History Data:", pastMedicalHistoryData); // Debugging the actual data
+      
+      const mainContent = document.querySelector('.main');
+      mainContent.innerHTML = `
+        <div class="container">
+          <h2>Past Medical History</h2>
+          <div class="section">
+            <div class="section-title">Illnesses</div>
+            <textarea id="illnesses">${pastMedicalHistoryData ? pastMedicalHistoryData.illnesses : ''}</textarea>
+          </div>
+          <div class="section">
+            <div class="section-title">Investigations</div>
+            <textarea id="investigations">${pastMedicalHistoryData ? pastMedicalHistoryData.investigations : ''}</textarea>
+          </div>
+          <div class="section">
+            <div class="section-title">Interventions</div>
+            <textarea id="interventions">${pastMedicalHistoryData ? pastMedicalHistoryData.interventions : ''}</textarea>
+          </div>
+          <button type="submit" id="saveButton">Save</button>
+          <button type="button">Back</button>
+        </div>
+      `;
+      
+      // Remove the page loading indicator
+      document.body.removeChild(pageLoadingIndicator);
+      
+      // Add textarea auto-resizing functionality
+      addTextareaAutoResize();
 
-  <div class="section">
-    <div class="section-title">Illnesses</div>
-    <textarea></textarea>
-  </div>
+      // Add save button functionality
+      const saveButton = document.getElementById('saveButton');
+      saveButton.addEventListener('click', async () => {
+        console.log("Save button clicked"); // Debugging when save button is clicked
+        
+        showSaveButtonLoadingIndicator();
+        
+        const data = {
+          illnesses: document.getElementById('illnesses').value,
+          investigations: document.getElementById('investigations').value,
+          interventions: document.getElementById('interventions').value,
+        };
+        
+        console.log("Data to save:", data); // Debugging the data to be saved
 
-  <div class="section">
-    <div class="section-title">Investigations</div>
-    <textarea></textarea>
-  </div>
+        try {
+          const saveResponse = await fetch(`/save-past-medical-history/${registrationNumber}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrfToken,
+            },
+            body: JSON.stringify({ data })
+          });
 
-  <div class="section">
-    <div class="section-title">Interventions</div>
-    <textarea></textarea>
-  </div>
+          console.log("Save Response Status:", saveResponse.status); // Debugging the response status
 
-  <button type="submit">Save</button>
-  <button type="button">Back</button>
-</div>
-</body>
-    `
+          if (!saveResponse.ok) {
+            throw new Error('Failed to save data');
+          }
+          
+          alert("Past Medical History saved successfully!");
+        } catch (error) {
+          console.error('Error saving past medical history:', error);
+          alert("Error saving past medical history. Please try again.");
+        } finally {
+          removeSaveButtonLoadingIndicator();
+        }
+      });
+      
+    } catch (error) {
+      console.error('Error fetching past medical history:', error);
+      document.body.removeChild(pageLoadingIndicator);
+      alert("Error loading data. Please try again.");
+    }
+  });
+
+  function getRegistrationNumberFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    const registrationNumber = pathParts[pathParts.length - 1];
+    console.log("Registration Number from URL:", registrationNumber); // Debugging registration number extraction
+    return registrationNumber;
+  }
+
+  function addTextareaAutoResize() {
     const textareas = document.querySelectorAll('textarea');
-  
     textareas.forEach(textarea => {
       textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
       });
-  
+      
       textarea.addEventListener('blur', () => {
-        textarea.style.height = '30px'; 
+        textarea.style.height = '30px';
       });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
+
+      // Trigger initial resize
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight) + 'px';
     });
- });
-      //Get Examination Link
+  }
 
-const Examination = document.querySelector('.floating-menu a[href="#Examination"]');
-Examination.addEventListener('click', (event)=>{
-    event.preventDefault();
+  function showLoadingIndicator() {
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.id = 'page-loading-indicator';
+    loadingIndicator.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #ccc;
+      border-color: #007bff transparent #007bff transparent;
+      animation: loading-animation 1.2s linear infinite;
+    `;
+    document.body.appendChild(loadingIndicator);
+    console.log("Page loading indicator shown"); // Debugging when the loading indicator is shown
+    return loadingIndicator;
+  }
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/Examination.css'>
-</head>
-<body>
+  function showSaveButtonLoadingIndicator() {
+    const saveButton = document.getElementById('saveButton');
+    saveButton.disabled = true;
+    saveButton.innerHTML = 'Saving... <span class="loading-spinner"></span>';
+    
+    const spinner = document.createElement('span');
+    spinner.classList.add('loading-spinner');
+    spinner.style.cssText = `
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #007bff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-left: 10px;
+    `;
+    saveButton.appendChild(spinner);
+    console.log("Save button loading indicator shown"); // Debugging save button loading state
+  }
 
-<div class="container">
-  <h2>Examination</h2>
+  function removeSaveButtonLoadingIndicator() {
+    const saveButton = document.getElementById('saveButton');
+    saveButton.disabled = false;
+    saveButton.innerHTML = 'Save';
+    const spinner = saveButton.querySelector('.loading-spinner');
+    if (spinner) {
+      spinner.remove();
+    }
+    console.log("Save button loading indicator removed"); // Debugging when loading indicator is removed
+  }
+});
 
-  <div class="section">
-    <div class="section-title">CNS</div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="avpu">AVPU:</label>
-        <select id="avpu">
-          <option value="A">A</option>
-          <option value="V">V</option>
-          <option value="P">P</option>
-          <option value="U">U</option>
-        </select>
-      </div>
-      <div class="grid-item">
-        <label for="vision">Vision:</label>
-        <input type="text" id="vision">
-      </div>
-      <div class="grid-item">
-        <label for="hearing">Hearing:</label>
-        <input type="text" id="hearing">
-      </div>
-      <div class="grid-item">
-        <label for="cranialNerves">Cranial Nerves:</label>
-        <input type="text" id="cranialNerves">
-      </div>
-      <div class="grid-item">
-        <label for="ambulation">Ambulation:</label>
-        <input type="text" id="ambulation">
-      </div>
-    </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">Other Systems</div>
-    <div class="textarea-with-label">
-      <div class="textarea-label">CardioVascular System:</div>
-      <textarea></textarea>
-    </div>
-    <div class="textarea-with-label">
-      <div class="textarea-label">Respiratory System:</div>
-      <textarea></textarea>
-    </div>
-    <div class="textarea-with-label">
-      <div class="textarea-label">Musculoskeletal System:</div>
-      <textarea></textarea>
-    </div>
-  </div>
+ //Examination 
+ document.addEventListener('DOMContentLoaded', (event) => {
+  const Examination = document.querySelector('.floating-menu a[href="#Examination"]');
 
-  <button type="submit">Save</button>
-</div>
+  if (Examination) {
+    Examination.addEventListener('click', async (event) => {
+      event.preventDefault();
 
-</body>
-    `
-    const textareas = document.querySelectorAll('textarea');
-  
-    textareas.forEach(textarea => {
-      textarea.addEventListener('input', () => {
-        textarea.style.height = "auto"; 
-        textarea.style.height = (textarea.scrollHeight) + "px"; 
-      });
-  
-      textarea.addEventListener('blur', () => {
-        textarea.style.height = '50px'; 
-      });
-  
-      textarea.style.height = "auto"; 
-      textarea.style.height = (textarea.scrollHeight) + "px"; 
+      const registrationNumber = getRegistrationNumberFromUrl();
+      console.log("Registration number:", registrationNumber);
+
+      // Show loading indicator for form loading
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.id = 'loading-indicator';
+      loadingIndicator.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 4px solid #ccc;
+        border-color: #007bff transparent #007bff transparent;
+        animation: loading-animation 1.2s linear infinite;
+      `;
+      document.body.appendChild(loadingIndicator);
+
+      try {
+        // Fetch the CSRF token from the meta tag
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+        // Create a new form element
+        const examinationForm = document.createElement('form');
+        examinationForm.id = 'examinationForm';
+        examinationForm.innerHTML = `
+        <head>
+        <link rel="stylesheet" href="../css/Examination.css">
+        </head>
+          <div class="container">
+            <h2>Examination</h2>
+            <div class="section">
+              <div class="section-title">CNS</div>
+              <div class="grid-container">
+                <div class="grid-item">
+                  <label for="avpu">AVPU:</label>
+                  <select id="avpu">
+                    <option value="A">A</option>
+                    <option value="V">V</option>
+                    <option value="P">P</option>
+                    <option value="U">U</option>
+                  </select>
+                </div>
+                <div class="grid-item">
+                  <label for="vision">Vision:</label>
+                  <input type="text" id="vision">
+                </div>
+                <div class="grid-item">
+                  <label for="hearing">Hearing:</label>
+                  <input type="text" id="hearing">
+                </div>
+                <div class="grid-item">
+                  <label for="cranialNerves">Cranial Nerves:</label>
+                  <input type="text" id="cranialNerves">
+                </div>
+                <div class="grid-item">
+                  <label for="ambulation">Ambulation:</label>
+                  <input type="text" id="ambulation">
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title">Other Systems</div>
+              <div class="textarea-with-label">
+                <div class="textarea-label">CardioVascular System:</div>
+                <textarea id="cardiovascularTextarea"></textarea>
+              </div>
+              <div class="textarea-with-label">
+                <div class="textarea-label">Respiratory System:</div>
+                <textarea id="respiratoryTextarea"></textarea>
+              </div>
+              <div class="textarea-with-label">
+                <div class="textarea-label">Musculoskeletal System:</div>
+                <textarea id="musculoskeletalTextarea"></textarea>
+              </div>
+            </div>
+            <button type="submit" id="saveButton">Save</button>
+          </div>
+        `;
+
+        // Append the form to the main content area
+        const mainContent = document.querySelector('.main');
+        mainContent.innerHTML = ''; // Clear existing content
+        mainContent.appendChild(examinationForm);
+
+        // Remove form loading indicator
+        document.body.removeChild(loadingIndicator);
+
+        // Add event listener to the save button
+        examinationForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          // Show the save button loading indicator
+          showSaveButtonLoadingIndicator();
+
+          // Gather data from the form inputs
+          const examinationData = {
+            avpu: document.getElementById('avpu').value,
+            vision: document.getElementById('vision').value,
+            hearing: document.getElementById('hearing').value,
+            cranialNerves: document.getElementById('cranialNerves').value,
+            ambulation: document.getElementById('ambulation').value,
+            cardiovascular: document.getElementById('cardiovascularTextarea').value,
+            respiratory: document.getElementById('respiratoryTextarea').value,
+            musculoskeletal: document.getElementById('musculoskeletalTextarea').value,
+          };
+
+          console.log('Examination Data:', examinationData);
+
+          try {
+            const response = await fetch(`/save-cns-data/${registrationNumber}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+              },
+              body: JSON.stringify(examinationData),
+            });
+          
+            if (!response.ok) {
+              const errorText = await response.text(); // Get the response body for more details
+              console.error('Server error response:', response.status, errorText);
+              throw new Error(`Network response was not ok: ${response.status}`);
+            }
+          
+            console.log('CNS data saved successfully!');
+            alert("Examination data saved successfully!");
+
+          } catch (error) {
+            console.error('Error saving CNS data:', error);
+            alert("Error saving CNS data. Please try again.");
+          } finally {
+            // Remove the save button loading indicator
+            removeSaveButtonLoadingIndicator();
+          }
+        });
+
+        // Textarea auto-resize (Optional implementation for auto-resize functionality)
+      } catch (error) {
+        console.error('Error loading examination form:', error);
+        document.body.removeChild(loadingIndicator);
+      }
     });
- });
+  }
+});
+
+// Helper functions to show/remove the save button loading indicator
+function showSaveButtonLoadingIndicator() {
+  const saveButton = document.getElementById('saveButton');
+  saveButton.disabled = true;
+  saveButton.innerHTML = 'Saving... <span class="loading-spinner"></span>';
+
+  const spinner = document.createElement('span');
+  spinner.classList.add('loading-spinner');
+  spinner.style.cssText = `
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+  `;
+  saveButton.appendChild(spinner);
+}
+
+function removeSaveButtonLoadingIndicator() {
+  const saveButton = document.getElementById('saveButton');
+  saveButton.disabled = false;
+  saveButton.innerHTML = 'Save';
+  const spinner = saveButton.querySelector('.loading-spinner');
+  if (spinner) {
+    spinner.remove();
+  }
+}
+
+function getRegistrationNumberFromUrl() {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+}
+
 
   //Get CarePlan Link
 
@@ -696,68 +1475,128 @@ devAssesment.addEventListener('click', (event)=>{
  });
      
 
- //Get  Triage Exam Link
+ // Add click event listener to the triageExam element
+document.addEventListener('DOMContentLoaded', () => {
+  const triageExam = document.querySelector('.floating-menu a[href="#triageExam"]');
+  
+  if (!triageExam) return;
 
-const triageExam = document.querySelector('.floating-menu a[href="#triageExam"]');
-triageExam.addEventListener('click', (event)=>{
-    event.preventDefault();
+  triageExam.addEventListener('click', async (event) => {
+      event.preventDefault();
 
-    const mainContent=document.querySelector('.main');
-    mainContent.innerHTML=`
-    <head>
-    <link rel='stylesheet' href='../css/triageExam.css'>
-</head>
-<body>
+      const registrationNumber = getRegistrationNumberFromUrl();
+      console.log("Registration number:", registrationNumber);
 
-<div class="container">
-  <h2>Triage Examination</h2>
+      // Show loading indicator
+      showLoadingIndicator();
 
-  <div class="section">
-    <div class="grid-container">
-      <div class="grid-item">
-        <label for="temp">Temp:</label>
-        <input type="text" id="temp">
-      </div>
-      <div class="grid-item">
-        <label for="rr">RR:</label>
-        <input type="text" id="rr">
-      </div>
-      <div class="grid-item">
-        <label for="pulse">Pulse:</label>
-        <input type="text" id="pulse">
-      </div>
-      <div class="grid-item">
-        <label for="bp">BP:</label>
-        <input type="text" id="bp">
-      </div>
-    </div>
-  </div>
+      try {
+          // Fetch triage data
+          const triageData = await fetchTriageData(registrationNumber);
+          console.log('Triage data:', triageData);
 
-  <div class="section">
-    <div class="section-title"></div> <div class="grid-container">
-      <div class="grid-item">
-        <label for="weight">Weight:</label>
-        <input type="text" id="weight">
-      </div>
-      <div class="grid-item">
-        <label for="height">Height:</label>
-        <input type="text" id="height">
-      </div>
-      <div class="grid-item">
-        <label for="muac">MUAC:</label>
-        <input type="text" id="muac">
-      </div>
-      <div class="grid-item">
-        <label for="hc">HC:</label>
-        <input type="text" id="hc">
-      </div>
-    </div>
-  </div>
+          // Render triage examination UI
+          renderTriageExamination(triageData);
+      } catch (error) {
+          console.error('Error fetching triage data:', error);
+          alert('Failed to fetch triage data. Please try again.');
+      } finally {
+          // Remove loading indicator
+          removeLoadingIndicator();
+      }
+  });
+});
 
-</div>
+// Function to extract registration number from URL
+function getRegistrationNumberFromUrl() {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1];
+}
 
-</body>
-    `
+// Function to show the loading indicator
+function showLoadingIndicator() {
+  const loadingIndicator = document.createElement('div');
+  loadingIndicator.id = 'loading-indicator';
+  document.body.appendChild(loadingIndicator);
+}
+
+// Function to remove the loading indicator
+function removeLoadingIndicator() {
+  const loadingIndicator = document.getElementById('loading-indicator');
+  if (loadingIndicator) {
+      document.body.removeChild(loadingIndicator);
+  }
+}
+
+// Function to fetch triage data from the server
+async function fetchTriageData(registrationNumber) {
+  const response = await fetch(`/get-triage-data/${registrationNumber}`);
+  if (!response.ok) {
+      throw new Error('Network response was not ok');
+  }
+  return response.json();
+}
+
+// Function to render the triage examination UI
+function renderTriageExamination(triageData) {
+  const mainContent = document.querySelector('.main');
+  mainContent.innerHTML = `
+      <div class="container">
+      <link rel='stylesheet' href='../css/triageExam.css'>
+          <h2>Triage Examination</h2>
+          <div class="section">
+              <div class="grid-container">
+                  ${createInputField('Temp', 'temp', triageData.temperature)}
+                  ${createInputField('RR', 'rr', triageData.respiratory_rate)}
+                  ${createInputField('Pulse', 'pulse', triageData.pulse_rate)}
+                  ${createInputField('BP', 'bp', triageData.blood_pressure)}
+              </div>
+          </div>
+          <div class="section">
+              <div class="grid-container">
+                  ${createInputField('Weight', 'weight', triageData.weight)}
+                  ${createInputField('Height', 'height', triageData.height)}
+                  ${createInputField('MUAC', 'muac', triageData.MUAC)}
+                  ${createInputField('HC', 'hc', triageData.head_circumference)}
+              </div>
+          </div>
+      </div>
+  `;
+}
+
+// Helper function to create an input field
+function createInputField(label, id, value) {
+  return `
+      <div class="grid-item">
+          <label for="${id}">${label}:</label>
+          <input type="text" id="${id}" value="${value || ''}">
+      </div>
+  `;
+}
+
+// Inject loading animation styles into the document head
+const loadingAnimationStyles = document.createElement('style');
+loadingAnimationStyles.textContent = `
+  @keyframes loading-animation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+  #loading-indicator {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #ccc;
+      border-color: #007bff transparent #007bff transparent;
+      animation: loading-animation 1.2s linear infinite;
+      z-index: 1000;
+  }
+  
+`;
+document.head.appendChild(loadingAnimationStyles);
 
     const textareas = document.querySelectorAll('textarea');
   
@@ -774,7 +1613,7 @@ triageExam.addEventListener('click', (event)=>{
       textarea.style.height = "auto"; 
       textarea.style.height = (textarea.scrollHeight) + "px"; 
     });
- });
+
 
  //Get  Diagnosis Exam Link
 
