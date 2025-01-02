@@ -108,7 +108,6 @@
 <div class="sidebar">
   <div class="logout">Logout</div>
   <a href="#patientRegistration">Patient Registration</a>
-  <!-- <button id="bookAppointmentButton">Book Appointment</button> -->
   <a href="#appointmentManagement">Appointment Management</a>
   <a href="#calendar">Calendar</a>
   <a href="#payment">Payments</a>
@@ -184,43 +183,3 @@
 
 </body>
 </html>
-
-<h1 class="page-title">Doctor's Details</h1>
-    
-    <div class="search-bar">
-        <input type="text" placeholder="Search Doctor Name" class="search-input">
-        <form action="{{ route('doctor.form') }}" method="GET">
-            <button type="submit" class="add-button">
-                <span>+</span>
-                Add Doctor
-            </button>
-        </form>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Specialisation</th>
-                <th>Staff ID</th>
-                <th>Calendar</th>
-            </tr>
-        </thead>
-        <tbody id="progressTableBody">
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td><span class="specialty-badge specialty-cardiology">Cardiology</span></td>
-                <td>1</td>
-                <td>📅</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td><span class="specialty-badge specialty-neurology">Neurology</span></td>
-                <td>1</td>
-                <td>📅</td>
-            </tr>
-        </tbody>
-    </table>
