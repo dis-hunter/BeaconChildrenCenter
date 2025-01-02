@@ -168,9 +168,6 @@ public function getPostTriageQueue($staffId)
         ], 500);
     }
 }
-
-
-   
     public function getTriageData($child_id)
 {
     // Fetch the triage record for the given child_id
