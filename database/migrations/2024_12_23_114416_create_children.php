@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->json('fullname');
             $table->date('dob');
-            $table->string('birth_cert');
-            $table->foreignId('gender_id')->constrained('gender','id');
-            $table->string('registration_number');
-            $table->foreignId('parent_id')->constrained('parents','id');
+            $table->string('birth_cert')->unique();
+            $table->foreignId('gender_id')
+                ->constrained('gender','id')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+            $table->string('registration_number')->unique();
             $table->timestamps();
         });
     }

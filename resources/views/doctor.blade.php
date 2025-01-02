@@ -271,10 +271,11 @@
             <input type="date" id="date" name="date"> 
           </div>
 
-          <div class="highlighted">
-            <label for="doctorsNotes">Doctor's Notes:</label>
-            <textarea id="doctorsNotes" name="doctorsNotes"></textarea>
-          </div>
+         <div class="highlighted">
+    <label for="doctorsNotes">Doctor's Notes:</label>
+    <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50">{{ $doctorsNotes }}</textarea>
+</div>
+
 
           <div class="highlighted">
             <label for="createdBy">Created By:</label>

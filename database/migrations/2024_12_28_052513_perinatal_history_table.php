@@ -15,8 +15,15 @@ return new class extends Migration
     {
         Schema::create('perinatal_history', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('child_id')->constrained('children','id');
-            $table->foreignId('doctor_id')->constrained('doctors','id');
+            $table->foreignId('child_id')
+                ->constrained('children','id')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('doctor_id')
+                ->nullable()
+                ->constrained('staff','id')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
             $table->json('data');
             $table->timestamps();
         });

@@ -18,7 +18,8 @@ class rolesSeeder extends Seeder
         DB::table('roles')->insert([
             ['role'=>'Nurse'],
             ['role'=>'Doctor'],
-            ['role'=>'Admin']
+            ['role'=>'Receptionist'],
+            ['role'=>'Admin'],
         ]);
     }
 }
