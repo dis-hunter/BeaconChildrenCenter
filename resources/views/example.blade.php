@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -27,7 +27,7 @@
     <h3>Step 3: Create form in view</h3>
     <p>self-explanatory <b>resources/views/example.blade.php</b></p><br>
     <h2>Example POST Form</h2>
-    <form action="{{ route('example.store') }}" method="post">
+    {{-- <form action="{{ route('example.store') }}" method="post">
         @csrf
         <table>
             <tr>
@@ -50,8 +50,8 @@
             {{ session()->get('success') }}
         </p>
         @endif
-    </form>
-    <br>
+    </form> --}}
+    {{-- <br>
 
     <h2>Example GET from DB Table</h2>
     <table><thead><tr>
@@ -86,6 +86,6 @@
     <p style="color: green;">Route::post('/example', [ExampleController::class, 'store'])->name('example.store')</p>
     <p style="color: green;">Route::get('/example', [ExampleController::class, 'fetch'])->name('example.fetch')</p>
 
-</body>
+</body> --}}
 
-</html>
+{{-- </html> --}}

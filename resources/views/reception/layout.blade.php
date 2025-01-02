@@ -211,6 +211,142 @@
             color: #111827;
             margin-bottom: 24px;
         }
+        /* General Styling */
+.search-section {
+    margin: 20px 0;
+}
+
+.search-label span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.search-input {
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.search-input:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.error-message {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Loading Message */
+.loading-message {
+    font-size: 16px;
+    font-style: italic;
+}
+
+/* Search Results Card */
+.search-results {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.results-header {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.result-item {
+    margin-bottom: 15px;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+.table-result{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+.result-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.result-link:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.result-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.result-details {
+    font-size: 14px;
+    color: #555;
+}
+
+/* No Results Message */
+.no-results {
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+    margin-top: 10px;
+}
+/* General Styling */
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px; /* Prevents layout shifting */
+    height: 40px; /* Ensures consistent height */
+    position: relative;
+}
+
+.loading-message {
+    font-size: 16px;
+    font-style: italic;
+    visibility: visible; /* Shown only when wire:loading is active */
+}
+
+.loading-placeholder {
+    visibility: hidden; /* Keeps the layout stable when loading is inactive */
+    font-size: 16px;
+    font-style: italic;
+}
+
+
     </style>
 </head>
 <body>
