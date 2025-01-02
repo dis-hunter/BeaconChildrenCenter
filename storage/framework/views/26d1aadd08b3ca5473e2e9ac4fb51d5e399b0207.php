@@ -1,128 +1,176 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Doctor's Interface</title>
-<style>
-body {
-  margin: 0;
-  font-family: sans-serif;
-}
+  <title>Doctor's Interface</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
 
-.sidebar {
-  height: 100%;
-  width: 200px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-color: #f1f1f1;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
+    /* Sidebar Styles */
+    .sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background-color: lightblue;
+      overflow-x: hidden;
+      padding-top: 20px;
+      transition: 0.3s;
+      border-right: 3px solid #007bff;
+    }
 
-.sidebar a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #333;
-  display: block;
-}
+    .sidebar:hover {
+      width: 300px;
+    }
 
-.sidebar a:hover {
-  background-color: #ddd;
-}
+    .sidebar a {
+      padding: 10px 8px 10px 16px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #333;
+      display: block;
+      transition: 0.3s;
+    }
 
-.main {
-  margin-left: 200px;
-  padding: 20px;
-}
+    .sidebar a:hover {
+      background-color: #e0f2f7;
+      color: #007bff;
+      padding-left: 25px;
+    }
 
-.floating-menu {
-  position: fixed;
-  right: 20px;
-  top: 40px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 5px;
-}
+    .sidebar h2 {
+      padding: 10px;
+      color: #333;
+      text-align: center;
+    }
 
-.floating-menu a {
-  display: block;
-  padding: 6px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #ddd;
-  position: relative; 
-}
+    .sidebar a i {
+      margin-right: 10px;
+    }
 
-.floating-menu a:last-child {
-  border-bottom: none;
-}
+    /* Main Content Area */
+    .main {
+      margin-left: 250px;
+      padding: 20px;
+    }
 
-.floating-menu a:hover {
-  background-color: #f5f5f5;
-}
+    /* Floating Menu Styles */
+    .floating-menu {
+      position: fixed;
+      right: 20px;
+      top: 40px;
+      background-color: lightblue; /* Light blue background */
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Drop shadow effect */
+    }
 
-#menuButton {
-  position: fixed;
-  right: 20px;
-  top: 5px;
-  background-color: #eee;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
+    .floating-menu a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #333; /* Dark gray text color */
+      border-bottom: 1px solid #e0f2f7; /* Light blue separator */
+      transition: 0.3s;
+    }
 
-.mini-menu {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  width: 150px;
-  padding: 5px;
-  list-style: none;
-  margin: 50px;
-  padding: 5px;
-  right: 100%; 
-  top: 150px;
-  z-index: 10; 
-}
+    .floating-menu a:last-child {
+      border-bottom: none;
+    }
 
-.mini-menu li{
-  border-bottom: 1px solid #ddd; 
-}
-.mini-menu li:last-child{
-  border-bottom: none;
-}
+    .floating-menu a:hover {
+      background-color: #e0f2f7; /* Lighter blue hover background */
+      color: #007bff; /* Blue hover text color */
+      padding-left: 20px;
+    }
 
-.mini-menu li a {
-  display: block; 
-  padding: 6px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #ddd; 
-}
+    /* Menu Button */
+    #menuButton {
+      position: fixed;
+      right: 20px;
+      top: 5px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-.mini-menu li:last-child a {
-  border-bottom: none; 
-}
+    /* Form Container */
+    .container {
+      width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-.mini-menu li a:hover {
-  background-color: #f5f5f5;
-}
-</style>
+    /* Labels */
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    /* Input Fields and Textareas */
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    textarea#doctorsNotes {
+      height: 30px;
+      resize: vertical;
+    }
+
+    /* Input Groups */
+    .input-group {
+      display: flex;
+      gap: 5px;
+    }
+
+    .input-group input[type="text"] {
+      flex-grow: 1;
+    }
+
+    /* Highlighted Sections */
+    .highlighted {
+      background-color: lightblue;
+    }
+
+    /* Buttons */
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body>
 
 <div class="sidebar">
-  <a href="#">Active Patients</a>
-  <a href="#">Logout</a>
-  <a href="#">User</a>
-  <a href="#">Dr Emmanuel</a>
+  <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;"><?php echo e($firstName); ?> <?php echo e($middleName); ?> <?php echo e($lastName); ?></span></h2> 
+  <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
+  <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
+  <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
 </div>
 
 <div class="main">
-  <h2>Main Content</h2>
-  <p>Some text for the main content area.</p>
+  <div class="container" id="mainContent">
+    <!-- Form will be inserted here by JavaScript -->
+  </div>
 </div>
 
 <div class="floating-menu" id="floatingMenu">
@@ -131,28 +179,14 @@ body {
   <a href="#perinatalHistory">Perinatal History</a><div id="perinatalHistory"></div>
   <a href="#pastMedicalHistory">Past Medical History</a><div id="pastMedicalHistory"></div>
   <a href="#devMilestones">Developmental Milestones</a><div id="devMilestones"></div>
-  <a href="#behaviourAssessment">Behaviour Assesement</a> <div id="behaviourAssessment"></div>
+  <a href="#behaviourAssessment">Behaviour Assessment</a> <div id="behaviourAssessment"></div>
   <a href="#familyAndSocial">Family and Social History</a><div id="familyAndSocial"></div>
   <a href="#generalExam">General Examination</a><div id="generalExam"></div>
   <a href="#Examination">Examination</a><div id="Examination"></div>
-  <a href="#devAssesment">Developmental Assesment</a><div id="devAssesment"></div>
+  <a href="#devAssesment">Developmental Assessment</a><div id="devAssesment"></div>
   <a href="#diagnosis">Diagnoses</a><div id="diagnosis"></div>
-  <a href="#" id="pastInvestigationsLink">Past Investigations</a>
-  <ul class="mini-menu" id="pastInvestigationsMenu">
-    <li><a href="#">Labaratort Tests</a></li>
-    <li><a href="#">Imaging</a></li>
-    <li><a href="#">Electro <br> phsiologic tests</a></li>
-    <li><a href="#">Genetic tests</a></li>
-    <li><a href="#">Other tests</a></li>
-  </ul>
-  <a href="#" id="recordResultsLink">Record Results</a>
-  <ul class="mini-menu" id="recordResultsMenu">
-    <li><a href="#">Labaratort Tests</a></li>
-    <li><a href="#">Imaging</a></li>
-    <li><a href="#">Electro <br> phsiologic tests</a></li>
-    <li><a href="#">Genetic tests</a></li>
-    <li><a href="#">Other tests</a></li>
-  </ul>
+  <a href="#investigations">Investigations</a><div id="investigations"></div>
+  <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
   <a href="#">Immunization</a>
   <a href="#">Referral Letter</a>
@@ -161,9 +195,115 @@ body {
 
 <button id="menuButton">Menu</button>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Function to clear the main content area and display the form (Home button functionality)
+    function showHomeForm() {
+      const mainContent = document.querySelector('.main');
+    mainContent.innerHTML = `
+      <div class="container">
+        <form id="patient-form">
+          <div class="input-group">
+            <div>
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>">
+            </div>
+            <div>
+              <label for="middleName">Middle Name:</label>
+              <input type="text" id="middleName" name="middleName" value="<?php echo e($middleName); ?>">
+            </div>
+            <div>
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" name="lastName" value="<?php echo e($lastName); ?>">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div>
+              <label for="dob">DOB:</label>
+              <input type="date" id="dob" name="dob" value="<?php echo e($child->dob); ?>"> 
+            </div>
+            <div>
+              <label for="genderAge">Gender/Age:</label>
+              <input type="text" id="genderAge" name="genderAge" value="<?php echo e($gender); ?>">
+            </div>
+            <div>
+              <label for="hnu">HNU:</label>
+              <input type="text" id="hnu" name="hnu" value="<?php echo e($child->registration_number); ?>">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div>
+              <label for="mothersName">Mother's Name:</label>
+              <input type="text" id="mothersName" name="mothersName">
+            </div>
+            <div>
+              <label for="motherTel">Tel:</label>
+              <input type="text" id="motherTel" name="motherTel">
+            </div>
+            <div>
+              <label for="motherEmail">Email:</label>
+              <input type="text" id="motherEmail" name="motherEmail">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div>
+              <label for="fathersName">Father's Name:</label>
+              <input type="text" id="fathersName" name="fathersName">
+            </div>
+            <div>
+              <label for="fatherTel">Tel:</label>
+              <input type="text" id="fatherTel" name="fatherTel">
+            </div>
+            <div>
+              <label for="fatherEmail">Email:</label>
+              <input type="text" id="fatherEmail" name="fatherEmail">
+            </div>
+          </div>
+
+          <label for="informant">Informant:</label>
+          <input type="text" id="informant" name="informant">
+
+          <div class="highlighted">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date"> 
+          </div>
+
+          <div class="highlighted">
+            <label for="doctorsNotes">Doctor's Notes:</label>
+            <textarea id="doctorsNotes" name="doctorsNotes"></textarea>
+          </div>
+
+          <div class="highlighted">
+            <label for="createdBy">Created By:</label>
+            <input type="text" id="createdBy" name="createdBy">
+          </div>
+
+          <button type="submit">Save</button>
+        </form> 
+      </div>
+    `;
+    }
+
+    // Event listener for Home link
+    const homeLink = document.getElementById('homeLink');
+    if (homeLink) {
+      homeLink.addEventListener('click', showHomeForm);
+    }
+
+    // Call showHomeForm() to display the form initially
+    showHomeForm();
+  });
+</script>
 <script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
 
 </body>
 </html>
+<<<<<<< HEAD:storage/framework/views/26d1aadd08b3ca5473e2e9ac4fb51d5e399b0207.php
 
 <?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/doctor.blade.php ENDPATH**/ ?>
+=======
+<?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/doctor.blade.php ENDPATH**/ ?>
+>>>>>>> f35f3ceeb4c9518daefdbc7569848530b83b177f:storage/framework/views/f1b6b894e2b4b3d2ae161d1f5f26097bd4dc85ea.php

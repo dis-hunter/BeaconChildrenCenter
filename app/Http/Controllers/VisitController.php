@@ -41,4 +41,34 @@ class VisitController extends Controller
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    
+    public function doctorNotes(Request $request)
+{
+    $validatedData = $request->validate([
+        'child_id' => 'required|exists:children,id',
+        'notes' => 'nullable|string'
+    ]);
+
+    try {
+        $latestVisit = DB::table('visits')
+            ->where('child_id', $validatedData['child_id'])
+            ->latest()
+            ->first();
+
+        if (!$latestVisit) {
+            return response()->json(['status' => 'error', 'message' => 'No visit found'], 404);
+        }
+
+        DB::table('visits')
+            ->where('id', $latestVisit->id)
+            ->update([
+                'notes' => $validatedData['notes'],
+                'updated_at' => now()
+            ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Notes updated successfully'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+}
 }
