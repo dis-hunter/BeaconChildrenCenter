@@ -4,6 +4,47 @@
   <title>Therapist Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sidebar {
+      width: 200px;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 60px;
+    }
+
+    .toggle-button {
+      position: fixed;
+      left: 200px;
+      top: 20px;
+      background-color: #111827;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 0 6px 6px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toggle-button.collapsed {
+      left: 60px;
+    }
+
+    .toggle-button::before {
+      content: "◀";
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-button.collapsed::before {
+      transform: rotate(180deg);
+    }
+  </style>
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
@@ -14,7 +55,7 @@
           <i class="fas fa-user-md"></i>
           <span class="sidebar-text">Therapist</span>
         </h2>
-        <button onclick="toggleSidebar()" class="text-white hover:text-gray-300">
+        <button id="toggle-button" onclick="toggleSidebar()" class="text-white hover:text-gray-300">
           <i class="fas fa-bars"></i>
         </button>
       </div>
@@ -106,14 +147,17 @@
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       const sidebarTexts = document.querySelectorAll('.sidebar-text');
+      const toggleButton = document.getElementById('toggle-button');
       
       sidebarExpanded = !sidebarExpanded;
       
       if (sidebarExpanded) {
-        sidebar.style.width = '250px';
+        sidebar.classList.remove('collapsed');
+        toggleButton.classList.remove('collapsed');
         sidebarTexts.forEach(text => text.style.display = 'inline');
       } else {
-        sidebar.style.width = '64px';
+        sidebar.classList.add('collapsed');
+        toggleButton.classList.add('collapsed');
         sidebarTexts.forEach(text => text.style.display = 'none');
       }
     }
