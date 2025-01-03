@@ -333,7 +333,7 @@
       visits.forEach((visit) => {
         const fullname = JSON.parse(visit.fullname);
         const fullNameString = fullname
-          ? ${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}
+          ? `${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}`
           : visit.fullname;
 
         const row = document.createElement("tr");
