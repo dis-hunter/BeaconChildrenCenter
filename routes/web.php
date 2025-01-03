@@ -260,9 +260,7 @@ Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('p
 
 Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
 
-<<<<<<< HEAD
 Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
-=======
 
 
 

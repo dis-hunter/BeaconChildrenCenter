@@ -79,6 +79,8 @@
                                     ></textarea>
                                 </div>
                             @endforeach
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveGoals()">Save Goals</button>
+
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
@@ -92,6 +94,8 @@
                                     ></textarea>
                                 </div>
                             @endforeach
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualised()">Save individualised plan and strategies</button>
+
                         </div>
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
@@ -105,6 +109,7 @@
                                     ></textarea>
                                 </div>
                             @endforeach
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
                         <!-- Therapy Assessment Tab-->
                         <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
@@ -118,6 +123,7 @@
                                     ></textarea>
                                 </div>
                             @endforeach
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyAssessment()">Save Therapy Assessment</button>
                         </div>
 
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
@@ -129,20 +135,11 @@
                                     onchange="handleChange('followup', 'home_practice', event)"
                                 ></textarea>
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Next Session Plan</label>
-                                <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                    id="followup_next_plan"
-                                    onchange="handleChange('followup', 'next_plan', event)"
-                                ></textarea>
-                            </div>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowUp()">Save Follow-up</button>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Save Session
-                    </button>
+                    
                 </form>
             </div>
         </div>
