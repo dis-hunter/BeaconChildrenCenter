@@ -53,14 +53,15 @@
                                     <div class="col-md-4"><strong>Child Name:</strong> {{$fullname['lastname'].' '.$fullname['firstname'].' '.$fullname['middlename']}}</div>
                                     <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
                                     <div class="col-md-4 text-end">
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal">Edit</button>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal-{{$item->id}}">Edit</button>
                                         @livewire('edit-child-modal',['child'=>$item], key($item->id))
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endforeach
-                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#editChildModal">Add Child</button>
+                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addChildModal">Add Child</button>
+                        @livewire('add-child-modal',['parent'=>$parent])
                     </div>
                 </div>
             </div>

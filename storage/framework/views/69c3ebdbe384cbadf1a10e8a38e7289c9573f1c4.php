@@ -6,6 +6,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php echo \Livewire\Livewire::styles(); ?>
 
     <style>
@@ -365,6 +366,11 @@
 <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
 
 <div class="main" id="main">
+    
+    
+            
+        
+
     <?php echo $__env->yieldContent('content'); ?>
 </div>
 
@@ -382,6 +388,27 @@
     </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <?php echo \Livewire\Livewire::scripts(); ?>
+
+<script>
+    Livewire.on('parentUpdated', message => {
+
+            location.reload();
+        });
+Livewire.on('closeModal', () => {
+    // Close the modal using JavaScript (Bootstrap)
+    $('#editParentModal').modal('hide');
+    $('#editChildModal').modal('hide');
+    $('#addChildModal').modal('hide');
+});
+Livewire.on('childUpdated', message => {
+
+location.reload();
+});
+Livewire.on('childAdded', message => {
+
+location.reload();
+});
+</script>
 
 </body>
 </html><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/reception/layout.blade.php ENDPATH**/ ?>
