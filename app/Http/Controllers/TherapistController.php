@@ -45,6 +45,7 @@ class TherapistController extends Controller
             ->join('children', 'visits.child_id', '=', 'children.id')
             ->join('staff', 'visits.staff_id', '=', 'staff.id')
             ->select('visits.id as visit_id', 'visits.visit_date','visits.created_at', 'children.id as child_id', 'children.fullname', 'children.dob', 'staff.id as staff_id', 'staff.specialization_id')
+            ->orderBy('visits.created_at')
             ->get();
             //dd($visits); // Debugging line
             
