@@ -1,148 +1,163 @@
 body {
-    font-family: sans-serif;
-    margin: 0;
-  }
+  font-family: sans-serif;
+  margin: 0;
+}
 
-  header {
-    background-color: #f2f2f2;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+header {
+  background-color: #f2f2f2;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .profile {
-    display: flex;
-    align-items: center;
-  }
+.profile {
+  display: flex;
+  align-items: center;
+}
 
-  .profile img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-    object-fit: cover;
-    transform: scale(1.2);
-  }
+.profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover;
+  transform: scale(1.2);
+}
 
-  .profile div {
-    /* Target the div that contains the name and specialization */
-    display: flex;
-    flex-direction: column;
-    /* Stack the name and specialization vertically */
-    align-items: flex-start;
-    /* Align the text to the left */
-  }
+.profile div {
+  /* Target the div that contains the name and specialization */
+  display: flex;
+  flex-direction: column;
+  /* Stack the name and specialization vertically */
+  align-items: flex-start;
+  /* Align the text to the left */
+}
 
-  .notifications .fa-bell {
-    font-size: 1.5em;
-    cursor: pointer;
-  }
+.notifications .fa-bell {
+  font-size: 1.5em;
+  cursor: pointer;
+}
 
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
-  .dropbtn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    margin-right: 50px;
-    font-size: 1.5em;
-  }
+.dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 50px;
+  font-size: 1.5em;
+}
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    right: 10px;
-  }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  right: 10px;
+}
 
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
-  main {
-    display: flex;
-  }
+main {
+  display: flex;
+}
 
-  .sidebar {
-    width: 250px;
-    background-color: lightblue;
-    color: white;
-    padding: 20px;
-    height:465px;
-    
-  }
+.sidebar {
+  width: 250px;
+  background-color: lightblue;
+  color: white;
+  padding: 20px;
+  height: 465px;
+}
 
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
 
-  .sidebar li {
-    margin-bottom: 10px;
-  }
+.sidebar li {
+  margin-bottom: 10px;
+}
 
-  .sidebar a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px;
-  }
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+}
 
-  .sidebar .active {
-    background-color: lightskyblue;
-  }
+.sidebar li:hover a {
+  background-color: lightskyblue;
+  color: #333;
+  padding-left: 20px; /* Indent on hover */
+  transform: translateX(5px); /* Slight movement on hover */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
 
-  .dashboard {
-    flex-grow: 1;
-    padding: 20px;
-  }
+.sidebar .active {
+  background-color: lightskyblue;
+}
 
-  .welcome {
-    margin-bottom: 20px;
-  }
+.dashboard {
+  flex-grow: 1;
+  padding: 20px;
+}
 
-  .patient-queue ul {
-    list-style: none;
-    padding: 0;
-  }
+.welcome {
+  margin-bottom: 20px;
+}
 
-  .patient-queue li {
-    display: flex;
-    align-items: center;
-    padding: 1px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-  }
+.patient-queue ul {
+  list-style: none;
+  padding: 0;
+}
 
-  .patient-queue .active {
-    background-color: #e0f2f7;
-    font-weight: bold;
-  }
+.patient-queue li {
+  display: flex;
+  align-items: center;
+  padding: 1px; /* Increased padding for hover effect */
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+}
 
-  .actions {
-    margin-top: 20px;
-  }
+.patient-queue li:hover {
+  background-color: #e0f2f7; /* Light blue background on hover */
+  transform: translateY(-3px); /* Slightly move the item up */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
 
-  .actions button {
-    background-color: #008CBA;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
+.patient-queue .active {
+  background-color: #e0f2f7;
+  font-weight: bold;
+}
+
+.actions {
+  margin-top: 20px;
+}
+
+.actions button {
+  background-color: #008CBA;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
