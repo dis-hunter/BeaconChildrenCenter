@@ -48,6 +48,7 @@ Route::get('/', function () {
 Route::get('/patients', [ChildrenController::class, 'get']);
 Route::post('/patients', [ChildrenController::class, 'create']);
 Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
+Route::get('/patients/search/{id?}', [ChildrenController::class, 'childGet']);
 
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');

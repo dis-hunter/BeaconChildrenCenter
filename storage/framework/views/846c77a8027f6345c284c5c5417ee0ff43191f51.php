@@ -47,7 +47,7 @@ unset($__errorArgs, $__bag); ?>
                 <ul class="results-list">
                     <?php $__currentLoopData = $parents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li class="result-item">
-                            <a href="#" class="result-link">
+                            <a href="search/<?php echo e($parent->id); ?>" class="result-link">
                                 <?php
                                     $fullname=json_decode($parent->fullname,true);
                                 ?>

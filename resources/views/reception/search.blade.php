@@ -4,4 +4,9 @@
 
 @livewire('child-parent-manager')
 
+
+<div class="container">
+    <livewire:parent-crud :parentId="$parentId"/>
+</div>
+
 @endsection

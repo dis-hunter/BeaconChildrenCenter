@@ -20,6 +20,18 @@ class ChildrenController extends Controller
         return view('reception.child', compact('relationships', 'genders')); // Render the form view
     }
 
+    public function searchGet()
+    {
+        return view('reception.search', ['parentId' => null]); // Render the form view
+    }
+
+    public function childGet($id){
+        return view('reception.search', [
+            'parentId' => $id
+        ]);
+    
+    }
+
     public function create(Request $request)
     {
         $validatedData = $request->validate([
@@ -118,8 +130,5 @@ class ChildrenController extends Controller
         return view('therapists.therapistsDashboard', ['children' => $children]);
     }
 
-    public function searchGet()
-    {
-        return view('reception.search'); // Render the form view
-    }
+    
 }

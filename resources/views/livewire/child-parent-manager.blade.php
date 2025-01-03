@@ -72,7 +72,7 @@
                 <ul class="results-list">
                     @foreach($parents as $parent)
                         <li class="result-item">
-                            <a href="#" class="result-link">
+                            <a href="search/{{$parent->id}}" class="result-link">
                                 @php
                                     $fullname=json_decode($parent->fullname,true);
                                 @endphp
