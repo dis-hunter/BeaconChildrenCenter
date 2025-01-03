@@ -135,23 +135,44 @@
           </div>
         </div>
 
-        <!-- Patients Section -->
-        <div id="patients" class="section hidden">
-          <div class="bg-white rounded-lg shadow p-6">
+       <!-- Patients Section -->
+      <section id="patients" class="section hidden">
+        <div class="bg-white rounded-lg shadow p-6">
+          <header>
             <h3 class="text-xl font-semibold mb-4">Patients Waiting</h3>
-            <ul class="patient-list space-y-2"></ul>
-            <button id="startConsultationBtn" onclick="startConsultation()" class="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors">
-              Start Consultation
-            </button>
-          </div>
+          </header>
+          <table class="min-w-full bg-white border-collapse">
+            <thead>
+              <tr>
+                <th class="py-2 border">Visit ID</th>
+                <th class="py-2 border">Visit Date</th>
+                <th class="py-2 border">Child ID</th>
+                <th class="py-2 border">Child Name</th>
+                <th class="py-2 border">Child DOB</th>
+                <th class="py-2 border">Staff ID</th>
+                <th class="py-2 border">Specialization</th>
+              </tr>
+            </thead>
+            <tbody id="patient-table-body">
+              <!-- Data will be dynamically populated -->
+            </tbody>
+          </table>
+          <button
+            id="startConsultationBtn"
+            onclick="startConsultation()"
+            class="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
+          >
+            Start Consultation
+          </button>
         </div>
+      </section>
+    </main>
+  </div>
       </main>
     </div>
   </div>
 
-  <script>
-    let children = <?php echo json_encode($children, 15, 512) ?>;
-</script>
+ 
   <script>
     let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
     let sidebarExpanded = true;
@@ -277,31 +298,6 @@
     setInterval(updateDateTime, 1000);
   </script>
   <script>
-    let children = <?php echo json_encode($children, 15, 512) ?>;
-
-    function generatePatientList() {
-        const patientList = document.querySelector('.patient-list');
-        patientList.innerHTML = '';
-
-        children.forEach(child => {
-            const listItem = document.createElement('li');
-            listItem.className = 'p-4 border rounded hover:bg-gray-50 cursor-pointer transition-colors';
-            listItem.innerHTML = `
-                <div>
-                    <p>ID: ${child.id}</p>
-                    <p>Full Name: ${child.fullname}</p>
-                    <p>Date of Birth: ${child.dob}</p>
-                    <p>Birth Certificate: ${child.birth_cert}</p>
-                    <p>Gender ID: ${child.gender_id}</p>
-                    <p>Registration Number: ${child.registration_number}</p>
-                    <p>Created At: ${child.created_at}</p>
-                    <p>Updated At: ${child.updated_at}</p>
-                </div>
-            `;
-            patientList.appendChild(listItem);
-        });
-    }
-
     function showAppointments(date) {
         const appointmentsList = document.getElementById('appointments-for-day');
         appointmentsList.innerHTML = `<li class="p-3 bg-gray-50 rounded">No patients booked for ${date}</li>`;
@@ -326,6 +322,49 @@
 
     showSection('dashboard');
 </script>
+<script>
+    function generatePatientList() {
+      const patientTableBody = document.getElementById("patient-table-body");
+      patientTableBody.innerHTML = ""; // Clear existing rows
+
+      // Assuming visits is an array of patient visit objects passed from backend
+      const visits = <?php echo json_encode($visits, 15, 512) ?>; // Use Laravel's Blade directive to pass data
+
+      visits.forEach((visit) => {
+        const fullname = JSON.parse(visit.fullname);
+        const fullNameString = fullname
+          ? ${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}
+          : visit.fullname;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="py-2 border">${visit.visit_id}</td>
+          <td class="py-2 border">${visit.visit_date}</td>
+          <td class="py-2 border">${visit.child_id}</td>
+          <td class="py-2 border">${fullNameString}</td>
+          <td class="py-2 border">${visit.dob}</td>
+          <td class="py-2 border">${visit.staff_id}</td>
+          <td class="py-2 border">${visit.specialization_id}</td>
+        `;
+        patientTableBody.appendChild(row);
+      });
+    }
+
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll(".section");
+      sections.forEach((section) => section.classList.add("hidden"));
+      document.getElementById(sectionId).classList.remove("hidden");
+
+      if (sectionId === "patients") {
+        generatePatientList(); // Call this when "Patients" section is shown
+      }
+    }
+
+    function startConsultation() {
+      alert("Starting consultation...");
+      // Add further functionality as needed
+    }
+  </script>
 </body>
 </html>
 <?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/therapistsDashboard.blade.php ENDPATH**/ ?>

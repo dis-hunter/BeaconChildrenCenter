@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TherapistController extends Controller
 {
@@ -35,5 +36,19 @@ class TherapistController extends Controller
 
         // Return as JSON for dynamic rendering
         return response()->json($progress);
+    }
+
+    // Add the showDashboard method here
+    public function showDashboard()
+    {
+        $visits = DB::table('visits')
+            ->join('children', 'visits.child_id', '=', 'children.id')
+            ->join('staff', 'visits.staff_id', '=', 'staff.id')
+            ->select('visits.id as visit_id', 'visits.visit_date', 'children.id as child_id', 'children.fullname', 'children.dob', 'staff.id as staff_id', 'staff.specialization_id')
+            ->get();
+            //dd($visits); // Debugging line
+            
+
+        return view('therapists.therapistsDashboard', compact('visits'));
     }
 }
