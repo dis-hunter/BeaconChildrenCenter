@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Gender;
 use App\Models\Role;
-use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,7 +76,19 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('home'));
+            
+            switch(Auth::user()->role_id){
+                case 1:
+                    //return redirect()->route('admin.dashboard');
+                case 2:
+                    return redirect()->route('doctorDashboard');
+                case 3:
+                    //return redirect()->route('user.dashboard');
+                case 3:
+                    //return redirect()->route('user.dashboard');
+                default:
+                    //return redirect()->route('home');
+            }
         }
         return redirect(route('login.post'))->with('error', 'Credentials are not valid!')->withInput($request->except('password'));
     }
@@ -92,11 +103,12 @@ class AuthController extends Controller
 
     public function profileGet()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $role = $user->role ? $user->role->role : 'Unknown';
         $gender = $user->gender ? $user->gender->gender : 'Unknown';
         return view('profile', compact('user', 'role', 'gender'));
     }
 
     public function profilePost(Request $request) {}
+
 }

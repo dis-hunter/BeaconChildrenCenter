@@ -81,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/doctorDashboard', function () {
             return view('doctorDash');
-        });
+        })->name('doctorDashboard');
 
         Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 

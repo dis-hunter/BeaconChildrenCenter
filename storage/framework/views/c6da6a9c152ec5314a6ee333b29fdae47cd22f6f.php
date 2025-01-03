@@ -64,19 +64,19 @@
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label">Firstname:</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" value="<?php echo e($user['fullname']['firstname'] ?? ''); ?>">
+                            <input class="form-control" type="text" value="<?php echo e($user->fullname->first_name ?? ''); ?>">
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label">Middlename:</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" value="<?php echo e($user['fullname']['middlename'] ?? ''); ?>">
+                            <input class="form-control" type="text" value="<?php echo e($user->fullname->middle_name ?? ''); ?>">
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label">Lastname:</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" value="<?php echo e($user['fullname']['lastname'] ?? ''); ?>">
+                            <input class="form-control" type="text" value="<?php echo e($user->fullname->middle_name['lastname'] ?? ''); ?>">
                         </div>
                     </div>
                 </div>
