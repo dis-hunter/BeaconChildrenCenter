@@ -389,13 +389,13 @@
       row.innerHTML = `
         <td class="py-2 border">${visit.visit_id}</td>
         <td class="py-2 border">${visit.visit_date}</td>
-        <td class="py-2 border">${visit.visit_time}</td>
+        <td class="py-2 border">${visit.created_at}</td>
         <td class="py-2 border">${visit.registration_number}</td>
         <td class="py-2 border">${visit.child_id}</td>
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.dob}</td>
         <td class="py-2 border">${visit.staff_id}</td>
-        <td class="py-2 border">${visit.specialization}</td>
+        <td class="py-2 border">${visit.specialization_id}</td>
       `;
       row.addEventListener('click', () => selectPatient(visit));
       patientTableBody.appendChild(row);
