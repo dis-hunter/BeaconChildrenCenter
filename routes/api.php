@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
+Route::post('/api/reschedule', [RescheduleController::class, 'reschedule']);
+

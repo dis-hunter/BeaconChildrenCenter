@@ -70,6 +70,14 @@
       <h2>Therapy List</h2>
       <p>This is where you would display the therapy list.</p>
     </section>
+
+    <div class="calendar-section">
+        <h3>Appointments Calendar</h3>
+        <a href="{{ route('doctor.calendar') }}" class="view-calendar-link">
+            <button class="btn btn-primary">View Calendar</button>
+        </a>
+    </div>
+
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>

@@ -1,0 +1,233 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.left {
+    width: 70%;
+}
+
+.right {
+    width: 28%;
+    padding-left: 20px;
+}
+
+.add-event-wrapper {
+    display: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 600px;
+    width: 100%;
+}
+
+.add-event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.add-event-header .close {
+    font-size: 1.6em;
+    cursor: pointer;
+    color: black;
+}
+
+.add-event-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-event-input {
+    margin-bottom: 20px;
+}
+
+.add-event-input label {
+    display: block;
+    font-weight: normal;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.add-event-input input,
+.add-event-input select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1.1em;
+    box-sizing: border-box;
+}
+
+.add-event-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.add-event-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 1.1em;
+}
+
+.add-event-btn:hover {
+    background-color: #0056b3;
+}
+
+.add-event {
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    padding: 18px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+/* Style for input fields to make them larger */
+.add-event-body input[type="text"], 
+.add-event-body input[type="date"], 
+.add-event-body input[type="number"], 
+.add-event-body select {
+width: 250px !important;        /* Makes the input span the full width of its container */
+height: 40px;       /* Adjust the height of the input box */
+padding: 10px;      /* Adds padding inside the input box */
+font-size: 16px;    /* Increases the font size for better readability */
+border: 2px solid #ccc; /* Light gray border */
+border-radius: 4px; /* Rounded corners */
+box-sizing: border-box; /* Ensures padding is included in the element's total width/height */
+
+display: block;         /* Forces each element to take up a full line */
+     /* Makes the input span the full width of its container */
+margin: 5px;    /* Adds space below each input box */
+}
+
+/* Style for input boxes */
+.add-event-body input[type="text"],
+.add-event-body input[type="date"],
+.add-event-body input[type="time"],
+.add-event-body input[type="number"],
+.add-event-body select {
+height: 40px;           /* Adjust the height of the input box */
+padding: 10px;          /* Adds padding inside the input box */
+font-size: 16px;        /* Increases the font size for better readability */
+border: 2px solid #ccc; /* Light gray border */
+border-radius: 4px;     /* Rounded corners */
+box-sizing: border-box; /* Ensures padding is included in the element's total width/height */
+}
+
+
+
+.add-event i {
+    color: white;
+    font-size: 28px;
+}
+
+.add-event-wrapper.active {
+    display: block;
+}
+
+.appointment-form select {
+    font-size: 1.1em;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+input[type="time"] {
+    padding: 14px;
+    font-size: 1.1em;
+}
+
+/* Specialist section styling */
+#specialist-container {
+    margin-top: 20px;
+}
+
+/* Underlined dates based on specialist */
+.calendar .days .day {
+    position: relative;
+}
+
+.calendar .days .day.underlined {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Color based on specialist */
+.calendar .days .day.occupational_therapist {
+    color: green;
+}
+
+.calendar .days .day.speech_therapist {
+    color: orange;
+}
+
+.calendar .days .day.psychotherapist {
+    color: purple;
+}
+
+.calendar .days .day.nutritionist {
+    color: red;
+}
+
+.calendar .days .day.physiotherapist {
+    color: blue;
+}
+
+.calendar .days .day.doctor {
+    color: teal;
+}
+label{
+    width:100% !important;
+    display:block !important;
+}
+.add-event-input label {
+display: block !important;
+margin-bottom: 8px !important;
+padding: 2px;
+}
+
+
+.add-event-input input,
+.add-event-input select {
+width: 100%; /* Ensure inputs take up full width */
+padding: 10px;
+margin-bottom: 12px; /* Space between inputs */
+}
+
+.add-event-footer {
+text-align: center;
+}
+ul {
+list-style-type: none;
+padding: 0;
+}
+
+li {
+background-color: #f9f9f9;
+padding: 10px;
+border: 1px solid #ddd;
+margin-bottom: 5px;
+}

@@ -6,6 +6,13 @@ use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\DevelopmentMilestonesController;
 use App\Http\Controllers\DoctorsController; 
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FetchAppointments;
+use App\Http\Controllers\RescheduleController;
+
+
+
 // Import the controller class
 
 use App\Http\Controllers\AuthController;
@@ -34,6 +41,8 @@ Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
+
+
 
 
 //this handles parent related activity
@@ -95,4 +104,68 @@ Route::group(['middleware'=>'auth'], function(){
     });
 
 });
+
+Route::get('/sign_in', function () {
+    return view('sign_in');
+});
+Route::get('/calendar', function () {
+    return view('calendar');
+});
+
+Route::get('/register_child', function(){
+    return view('register_child');
+})->name('register_child');
+
+// routes/web.php
+
+
+// Show the calendar page
+//Route::get('/calendar', [AppointmentController::class, 'create'])->name('calendar');
+//Route::get('/calendar', [CalendarController::class, 'index'])->middleware('web');
+
+
+Route::get('/calendar', [CalendarController::class, 'create'])->name('calendar');
+
+
+
+
+
+
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+
+
+
+
+Route::get('/doctors/{specializationId}', [DoctorController::class, 'getDoctorsBySpecialization']);
+
+Route::get('/api/specialists', function (Illuminate\Http\Request $request) {
+    $service = $request->query('service');
+
+    // Fetch specialists based on the service
+    $specialists = Specialist::where('service', $service)->get(['id', 'name']);
+
+    return response()->json($specialists);
+});
+Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);
+
+Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
+
+
+Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
+
+Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
+//Route::post('/reschedule-appointment/{id}', [RescheduleController::class, 'rescheduleAppointment']);
+
+Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
+
+//Route::post('/api/reschedule', [RescheduleController::class, 'reschedule']);
+
+
+
+
+
+
+
+
+
 

@@ -1,4 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ asset('css/childreg.css') }}">
+</head>
+<body>
+    
+
+
 <!-- Search Form -->
+ <div>
 <form action="{{ route('parents.search') }}" method="post">
     @csrf
     <table>
@@ -9,6 +22,7 @@
         </tr>
     </table>
 </form>
+</div>
 
 <!-- Error Message -->
 @if(session()->has('error'))
@@ -44,67 +58,104 @@
         </tr>
     </table>
 @endif
+<div class="container mt-5" style="border: 2px solid; border-radius: 10px; padding: 20px;">
+    <!-- Flexbox Wrapper -->
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+        <!-- Image Section -->
+        <div style="flex: 1; text-align: center;">
+            <img src="/images/register_child.webp" alt="Register Child" style="margin-top:115px;width: 100%; height: 100% !important; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        </div>
 
-<form action="{{ route('children.store') }}" method="post">
-    @csrf
-    <input type="hidden" name="parent_id" value="{{ request('parent_id') }}">
-    <!-- Rest of the form fields -->
-    <tr>
-        <td>First Name</td>
-        <td><input type="text" name="firstname" value="{{ old('firstname') }}"></td>
-    </tr>
-    <tr>
-        <td>Middle Name</td>
-        <td><input type="text" name="middlename" value="{{ old('middlename') }}"></td>
-    </tr>
-    <tr>
-        <td>Surname</td>
-        <td><input type="text" name="surname" value="{{ old('surname') }}"></td>
-    </tr>
+        <!-- Form Section -->
+        <div style="flex: 2;">
+            <form action="{{ route('children.store') }}" method="post">
+                @csrf
 
-        
-        <!-- Date of Birth -->
-        <tr>
-            <td>Date of Birth</td>
-            <td><input type="date" name="dob" value="{{ old('dob') }}"></td>
-        </tr>
+                <input type="hidden" name="parent_id" value="{{ request('parent_id') }}">
 
-        <!-- Gender Dropdown -->
-        <tr>
-            <td>Gender</td>
-            <td>
-                <select name="gender_id">
-                    <option value="1" {{ old('gender_id') == '1' ? 'selected' : '' }}>Male</option>
-                    <option value="2" {{ old('gender_id') == '2' ? 'selected' : '' }}>Female</option>
-                </select>
-            </td>
-        </tr>
+                <!-- Form Header -->
+                <div class="mb-4">
+                    <h3>Register a Child</h3>
+                </div> <br>
 
-        <!-- Telephone -->
-        <tr>
-            <td>birth Certificate</td>
-            <td><input type="text" name="birth_cert" value="{{ old('birth_cert') }}"></td>
-        </tr>
+                <!-- First Name -->
+                <div class="mb-3 row">
+                    <label for="firstname" class="col-sm-3 col-form-label">First Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="firstname" name="firstname" value="{{ old('firstname') }}" placeholder="Enter first name">
+                    </div>
+                </div> <br>
 
-        <!-- National ID -->
-        <tr>
-            <td>Registration_number</td>
-            <td><input type="text" name="registration_number" value="{{ old('registration_number') }}"></td>
-        </tr>
+                <!-- Middle Name -->
+                <div class="mb-3 row">
+                    <label for="middlename" class="col-sm-3 col-form-label">Middle Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="middlename" name="middlename" value="{{ old('middlename') }}" placeholder="Enter middle name">
+                    </div>
+                </div> <br>
 
-        <!-- Employer -->
-       
-        <!-- Submit Button -->
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Register"></td>
-        </tr>
-    </table>
+                <!-- Surname -->
+                <div class="mb-3 row">
+                    <label for="surname" class="col-sm-3 col-form-label">Surname</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Enter surname">
+                    </div>
+                </div> <br>
 
-    <!-- Success Message -->
-    @if(session()->has('success'))
-    <p style="color: blue;">
-        {{ session()->get('success') }}
-    </p>
-    @endif
-</form>
+                <!-- Date of Birth -->
+                <div class="mb-3 row">
+                    <label for="dob" class="col-sm-3 col-form-label">Date of Birth</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob') }}">
+                    </div>
+                </div> <br>
+
+                <!-- Gender -->
+                <div class="mb-3 row">
+                    <label for="gender_id" class="col-sm-3 col-form-label">Gender</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" id="gender_id" name="gender_id">
+                            <option value="1" {{ old('gender_id') == '1' ? 'selected' : '' }}>Male</option>
+                            <option value="2" {{ old('gender_id') == '2' ? 'selected' : '' }}>Female</option>
+                        </select>
+                    </div>
+                </div> <br>
+
+                <!-- Birth Certificate -->
+                <div class="mb-3 row">
+                    <label for="birth_cert" class="col-sm-3 col-form-label">Birth Certificate</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="birth_cert" name="birth_cert" value="{{ old('birth_cert') }}" placeholder="Enter birth certificate number">
+                    </div>
+                </div> <br>
+
+                <!-- Registration Number -->
+                <div class="mb-3 row">
+                    <label for="registration_number" class="col-sm-3 col-form-label">Registration Number</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="registration_number" name="registration_number" value="{{ old('registration_number') }}" placeholder="Enter registration number">
+                    </div>
+                </div> <br>
+
+                <!-- Submit Button -->
+                <div class="mb-3 row">
+                    <div class="col-sm-9 offset-sm-3">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </div> <br>
+
+                <!-- Success Message -->
+                @if(session()->has('success'))
+                    <div class="alert alert-success mt-3">
+                        {{ session()->get('success') }}
+                    </div>
+                @endif
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

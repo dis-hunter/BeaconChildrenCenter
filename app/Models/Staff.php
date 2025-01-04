@@ -9,4 +9,9 @@ class Staff extends Model
 {
     use HasFactory;
     protected $table='staff';
+
+    public function specialization()
+    {
+        return $this->belongsTo(DoctorSpecialization::class, 'specialization_id');
+    }
 }
