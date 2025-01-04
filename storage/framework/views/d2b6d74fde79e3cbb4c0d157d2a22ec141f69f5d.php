@@ -9,7 +9,8 @@
 </style>
 <div class="container">
     <?php if(auth()->guard()->check()): ?>
-    <pre><?php echo e(auth()->user()->id); ?></pre>
+    <pre><?php echo e(auth()->user()->fullname->first_name); ?></pre>
+
     <?php endif; ?>
 </div>
 <?php $__env->stopSection(); ?>
