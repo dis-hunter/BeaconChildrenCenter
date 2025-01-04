@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
     <title>Occupational Therapist Session Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -62,7 +64,7 @@
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Therapy Assessment</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssessment" onclick="showTabContent('therapyAssessment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
                         </nav>
                     </div>
@@ -79,7 +81,8 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowUp()">Save Goals</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyGoals()">Save Goals</button>
+
 
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
@@ -89,12 +92,12 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                     class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="goals_<?php echo e($category); ?>"
+                                        id="goal_<?php echo e($category); ?>"
                                         onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowUp()">Save individualised plan and strategies</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualised()">Save individualised plan and strategies</button>
 
                         </div>
                         <!-- Session Notes Tab-->
@@ -109,21 +112,21 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowUp()">Save Session</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
                         <!-- Therapy Assessment Tab-->
-                        <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
+                        <div id="therapyAssessment" class="tabs-content space-y-4 p-4 hidden">
                             <?php $__currentLoopData = ['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="preparation_<?php echo e($category); ?>"
+                                        id="assessment_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyAssessment()">Save Therapy Assessment</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
 
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
@@ -239,10 +242,133 @@
             });
             document.querySelector(`[data-value="${tab}"]`).classList.add('active');
         }
+        async function saveTherapyGoals() {
+    const categories = [
+        'Activities of Daily Living(ADLs)',
+        'Instrumental Activities of Daily Living(IADLs)',
+        'Fine and Gross Motor Skills',
+        'Sensory Integration and Processing',
+        'Cognitive Skills',
+        'Emotional and Social Skills',
+        'School goals',
+        'Rehabilitation goals'
+    ];
+
+    const goalsData = {};
+
+    // Collect data from the textareas
+    categories.forEach(category => {
+        const textarea = document.getElementById(`goals_${category}`);
+        if (textarea) {
+            goalsData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+        }
+    });
+
+    // Prepare the full payload with other required attributes
+    const payload = {
+        child_id: 1, // Replace with the actual element ID or logic
+        staff_id: 8, // Replace with the actual element ID or logic
+        therapy_id:1, // Replace with the actual element ID or logic
+        data: goalsData // Add the collected categories data as a JSON object
+    };
+
+    try {
+        // Make the POST request
+        const response = await fetch('/saveTherapyGoal', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Response from server:', result);
+
+        if (result.status === 'success') {
+            alert('Therapy goals saved successfully!');
+        } else {
+            alert('Failed to save therapy goals. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error saving therapy goals:', error);
+        alert('An error occurred. Please check the console for more details.');
+    }
+}
+
 
         document.addEventListener('DOMContentLoaded', () => {
             showTabContent('goals'); // Default tab to show
         });
     </script>
+        <script>
+    async function saveAssessment() {
+        const categories = [
+            'Gross Motor Skills',
+            'Fine Motor Skills',
+            'Cognitive Skills',
+            'Activity of Daily Living',
+            'Sensory Processing',
+            'Behaviour Challenges',
+        ];
+
+        const assessmentData = {};
+
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`assessment_${category}`);
+            if (textarea) {
+                assessmentData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
+        });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: 1, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: assessmentData // Add the collected categories data as a JSON object
+        };
+
+        try {
+    // Make the POST request
+    const response = await fetch('/saveAssessment', {
+        method: 'POST',
+        
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+
+    if (result.status === 'success') {
+        alert('Assessment saved successfully!');
+    } else {
+        alert(`Failed to save assessment: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving assessment:', error);
+    alert('An error occurred. Please check the console for more details.');
+}
+    }
+</script>
+
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationalTherapist.blade.php ENDPATH**/ ?>

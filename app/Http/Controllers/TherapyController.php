@@ -228,7 +228,44 @@ public function saveTherapyGoal(Request $request)
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 }
+//Assessment handling
 
+public function saveAssessment(Request $request)
+{
+    $validatedData = $request->validate([
+        'child_id' => 'required|exists:children,id',
+        'staff_id' => 'required|integer|exists:staff,id',
+        'therapy_id' => 'required|integer|exists:therapy,id',
+        'data' => 'required|array', // Ensures that 'data' is an array
+    ]);
 
+    try {
+        // Fetch the latest visit_id for the provided child_id
+        $latestVisit = DB::table('visits')
+            ->where('child_id', $validatedData['child_id'])
+            ->latest('id') // Order by 'id' descending
+            ->first();
 
+        if (!$latestVisit) {
+            return response()->json(['status' => 'error', 'message' => 'No visits found for the provided child_id'], 404);
+        }
+
+        // Save the assessment data
+        DB::table('therapy_assesment')->insert([
+            'child_id' => $validatedData['child_id'],
+            'staff_id' => $validatedData['staff_id'],
+            'therapy_id' => $validatedData['therapy_id'],
+            'visit_id' => $latestVisit->id,
+            'data' => json_encode($validatedData['data']),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Assessment saved successfully'], 201);
+    } catch (\JsonException $jsonException) {
+        return response()->json(['status' => 'error', 'message' => 'Invalid JSON data provided'], 400);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+}
 }

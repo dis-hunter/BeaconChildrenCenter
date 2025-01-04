@@ -32,7 +32,7 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 //Therapist Routes
 Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
-Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
+Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
 Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
 Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Display the doctor form once the add doctor button is clicked
 
@@ -266,6 +266,4 @@ Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'show
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 
-
-
-
+Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
