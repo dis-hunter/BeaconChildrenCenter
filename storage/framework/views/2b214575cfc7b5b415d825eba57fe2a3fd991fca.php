@@ -436,6 +436,70 @@ headers: {
 }
     }
 </script>
+<script>
+    //pushing data to the db therapy_session_2 table
+    
+    
+    async function saveSession() {
+        const categories = [
+            'Gross Motor Skills',
+            'Fine Motor Skills',
+            'Cognitive Skills',
+            'Activity of Daily Living',
+            'Sensory Integration And Processing',
+            'Provide Guidance',
+            'Planned Home based tasks',
+        ];
 
+        const sessionData = {};
+
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`session_${category}`);
+            if (textarea) {
+                sessionData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
+        });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: 1, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: sessionData // Add the collected categories data as a JSON object
+        };
+
+        try {
+    // Make the POST request
+    const response = await fetch('/saveSession', {
+        method: 'POST',
+        
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+
+    if (result.status === 'success') {
+        alert('Session saved successfully!');
+    } else {
+        alert(`Failed to save session: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving session:', error);
+    alert('An error occurred. Please check the console for more details.');
+}
+    }
+</script>
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationalTherapist.blade.php ENDPATH**/ ?>
