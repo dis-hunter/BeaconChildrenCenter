@@ -6,13 +6,66 @@
   <title>Triage Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="<?php echo e(asset ('css/doctorDash.css')); ?>">
- 
+  <script src="<?php echo e(asset ('js/triageDash.js')); ?>"></script>
+  
 </head>
-<body>
 
+<style>.table-responsive {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.untriaged-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.untriaged-table th,
+.untriaged-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.untriaged-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.untriaged-table tbody tr:hover {
+    background-color: #f7fafc;
+}
+
+.untriaged-table .triage-btn {
+    padding: 6px 12px;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.untriaged-table .triage-btn:hover {
+    background-color: #3182ce;
+}
+
+.status-pending {
+    color: #ed8936;
+    font-weight: 500;
+}
+
+.status-complete {
+    color: #48bb78;
+    font-weight: 500;
+}</style>
+
+<body>
   <header>
     <div class="profile">
-      <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
       <div>
         <h2  style="margin-bottom: 6px;">Nurse Toby</h2>
         <p style="margin-top:0">Nurse</p>
@@ -42,17 +95,33 @@
       </nav>
     </aside>
 
+    
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
         <h3>Good morning!</h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
-        <ul id="patient-list"></ul>
+        <div class="table-responsive">
+          <table class="untriaged-table">
+            <thead>
+              <tr>
+                <!-- <th>Visit ID</th> -->
+                <th>Patient Name</th>
+                <!-- <th>Child ID</th> -->
+                <!-- <th>Staff ID</th> -->
+                <!-- <th>Triage Status</th> -->
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="patient-list">
+              <!-- Table rows will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="actions">
         <button class="start-consult">Triage</button>
-        <!-- <button class="view-schedule">View Schedule</button> -->
       </div>
     </section>
 
@@ -72,7 +141,9 @@
     </section>
   </main>
 
-  <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
-  <script src="<?php echo e(asset ('js/triageDash.js')); ?>"></script>
+  <!-- <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script> -->
+  
+    
+  </script>
 </body>
 </html><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/triageDash.blade.php ENDPATH**/ ?>

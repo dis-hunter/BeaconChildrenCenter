@@ -13,6 +13,7 @@ use App\Models\Staff;
 use App\Models\DoctorSpecialization;
 
 use Illuminate\Database\QueryException;
+
 class DoctorController extends Controller
 {
     public function store(Request $request)
@@ -37,64 +38,57 @@ class DoctorController extends Controller
 
     public function index()
     {
+        // Fetch doctors with their related staff data
         $doctors = Doctor::with('staff')->get();
-    
-        // Decode the JSON data for each doctor's staff
-        foreach ($doctors as $doctor) {
-            if (is_string($doctor->staff->fullname)) {
-                $doctor->staff->fullname = json_decode($doctor->staff->fullname, true);
-            }
-        }
-    
+
+        // Pass the data to the view
         return view('display_doctors', compact('doctors'));
     }
-public function showSpecializations()
-{
-    // Fetch distinct specializations
-    $specializations = DoctorSpecialization::select('specialization_id', 'specialization')->distinct()->get();
-    return view('Receiptionist/visit', compact('specializations'));
-}
 
-public function specializationSearch(Request $request)
-{
-    $validated = $request->validate([
-        'specialization_id' => 'required|exists:doctor_specialization,specialization_id',
-    ]);
+    public function showSpecializations()
+    {
+        // Fetch distinct specializations
+        $specializations = DoctorSpecialization::select('specialization_id', 'specialization')->distinct()->get();
+        return view('Receiptionist/visit', compact('specializations'));
+    }
 
-    // Query for staff IDs with the selected specialization
-    $staffIds = DoctorSpecialization::where('specialization_id', $validated['specialization_id'])
-        ->pluck('staff_id');
+    public function specializationSearch(Request $request)
+    {
+        $validated = $request->validate([
+            'specialization_id' => 'required|exists:doctor_specialization,specialization_id',
+        ]);
 
-    // Redirect to the staff controller with the list of staff IDs
-    return redirect()->route('staff.fetch', ['staff_ids' => $staffIds->toArray()]);
-}
-public function getSpecializations()
-{
-    // Fetch distinct specializations
-    $specializations = DoctorSpecialization::select('id', 'specialization')->distinct()->get();
+        // Query for staff IDs with the selected specialization
+        $staffIds = DoctorSpecialization::where('specialization_id', $validated['specialization_id'])
+            ->pluck('staff_id');
 
-    // Return the data as a JSON response
-    return response()->json([
-        'status' => 'success',
-        'data' => $specializations,
-    ]);
-}
+        // Redirect to the staff controller with the list of staff IDs
+        return redirect()->route('staff.fetch', ['staff_ids' => $staffIds->toArray()]);
+    }
+    public function getSpecializations()
+    {
+        // Fetch distinct specializations
+        $specializations = DoctorSpecialization::select('id', 'specialization')->distinct()->get();
 
-public function getDoctorsBySpecialization(Request $request)
-{
-    // Retrieve the specialization ID from the query parameters
-    $specializationId = $request->query('specialization_id');
+        // Return the data as a JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => $specializations,
+        ]);
+    }
 
-    // Fetch doctors with the matching specialization ID
-    $doctors = Staff::where('specialization_id', $specializationId)->get();
+    public function getDoctorsBySpecialization(Request $request)
+    {
+        // Retrieve the specialization ID from the query parameters
+        $specializationId = $request->query('specialization_id');
 
-    // Return the data as a JSON response
-    return response()->json([
-        'status' => 'success',
-        'data' => $doctors,
-    ]);
-}
+        // Fetch doctors with the matching specialization ID
+        $doctors = Doctor::where('specialization_id', $specializationId)->get();
 
-
-
+        // Return the data as a JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => $doctors,
+        ]);
+    }
 }
