@@ -40,31 +40,31 @@ class TherapyController extends Controller
             // Access the individual data points
             $temperature = $triageData->temperature;
             $weight = $triageData->weight;
-            $height = $triageData->height;
-            $head_circumference = $triageData->head_circumference;
-            $blood_pressure = $triageData->blood_pressure;
-            $pulse_rate = $triageData->pulse_rate;
-            $respiratory_rate = $triageData->respiratory_rate;
-            $oxygen_saturation = $triageData->oxygen_saturation;
-            $MUAC = $triageData->MUAC; 
+            // $height = $triageData->height;
+            // $head_circumference = $triageData->head_circumference;
+            // $blood_pressure = $triageData->blood_pressure;
+            // $pulse_rate = $triageData->pulse_rate;
+            // $respiratory_rate = $triageData->respiratory_rate;
+            // $oxygen_saturation = $triageData->oxygen_saturation;
+            // $MUAC = $triageData->MUAC; 
 
             // Pass the decoded triage data to the view
-            return view('doctor', [
+            return view('therapists.occupationaltherapyDashboard', [
                 'child' => $child,
                 'firstName' => $firstName,
                 'middleName' => $middleName,
                 'lastName' => $lastName,
                 'gender' => $gender,
-                'triage' => $triage,
-                'temperature' => $temperature,
-                'weight' => $weight,
-                'height' => $height,
-                'head_circumference' => $head_circumference,
-                'blood_pressure' => $blood_pressure,
-                'pulse_rate' => $pulse_rate,
-                'respiratory_rate' => $respiratory_rate,
-                'oxygen_saturation' => $oxygen_saturation,
-                'MUAC' => $MUAC
+                // 'triage' => $triage,
+                // 'temperature' => $temperature,
+                // 'weight' => $weight,
+                // 'height' => $height,
+                // 'head_circumference' => $head_circumference,
+                // 'blood_pressure' => $blood_pressure,
+                // 'pulse_rate' => $pulse_rate,
+                // 'respiratory_rate' => $respiratory_rate,
+                // 'oxygen_saturation' => $oxygen_saturation,
+                // 'MUAC' => $MUAC
             ]);
         } else {
             // Handle case where no triage data is found
@@ -168,9 +168,22 @@ $doctorsNotes .= $BehaviourAssessment ? "BehaviourAssessment Data:\n" . json_enc
 $doctorsNotes .= $FamilySocialHistory ? "FamilySocialHistory Data:\n" . json_encode($FamilySocialHistory, JSON_PRETTY_PRINT) . "\n\n" : "FamilySocialHistory Data: No data available.\n\n";
 
 // Pass the notes to the view
-return view('doctor', [
+if (request()->wantsJson() || request()->ajax()) {
+    return response()->json([
+        'child' => $child,
+        'child_id' => $child->id,
+        'firstName' => $firstName,
+        'middleName' => $middleName,
+        'lastName' => $lastName,
+        'gender' => $gender,
+        'doctorsNotes' => $doctorsNotes,
+    ]);
+}
+
+// Otherwise return the view
+return view('therapists.occupationaltherapyDashboard', [
     'child' => $child,
-    'child_id'=>$child->id,
+    'child_id' => $child->id,
     'firstName' => $firstName,
     'middleName' => $middleName,
     'lastName' => $lastName,
@@ -178,10 +191,13 @@ return view('doctor', [
     'doctorsNotes' => $doctorsNotes,
 ]);
 
-    } catch (\Exception $e) {
-        Log::error("Error in getChildDetails: " . $e->getMessage());
-        return response()->json(['error' => 'Internal server error'], 500);
-    }
+} catch (\Exception $e) {
+Log::error("Error in getChildDetails: " . $e->getMessage());
+if (request()->wantsJson() || request()->ajax()) {
+    return response()->json(['error' => 'Internal server error'], 500);
+}
+throw $e;
+}
 }
 
 public function saveTherapyGoal(Request $request)

@@ -297,36 +297,7 @@ function showValue() {
 
 
 
-const dropdown = document.getElementById('specialization');
-// Event listener for the specialization dropdown
-dropdown.addEventListener('change', async function () {
-    try {
-        const selectedId = this.value;
-        console.log('Selected Specialization ID:', selectedId);
-
-        if (!selectedId) {
-            console.log('No specialization selected');
-            return;
-        }
-
-        // Fetch doctors
-        const staffIds = await fetchDoctors(selectedId);
-
-        if (staffIds.length === 0) {
-            console.log('No staff IDs found');
-            return;
-        }
-
-        // Fetch staff names
-        // const staffData = await fetchStaffNames(staffIds);
-        // console.log('Successfully fetched staff:', staffData);
-
-        // Populate the doctor table
-        populateDoctorTable(staffIds);
-    } catch (error) {
-        console.error('Error in fetch operation:', error);
-    }
-});
+c0
 
 // Add event listener to "Submit Appointment" button
 document.getElementById('submit-appointment').addEventListener('click', async function () {
