@@ -10,6 +10,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
+use App\Http\Controllers\BookedController;
 
 
 
@@ -160,7 +161,7 @@ Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::cl
 
 //Route::post('/api/reschedule', [RescheduleController::class, 'reschedule']);
 
-
+Route::get('/booked-patients', [BookedController::class, 'getBookedPatients'])->name('booked.patients');
 
 
 

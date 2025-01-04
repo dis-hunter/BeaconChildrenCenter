@@ -1,5 +1,6 @@
 <?php
 
+// app/Models/Parents.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,11 +10,10 @@ class Parents extends Model
 {
     use HasFactory;
 
-    protected $table='parents';
+    protected $table = 'parents';
 
-    // Define fillable attributes
     protected $fillable = [
-        'fullname',
+        'fullname', // JSON field for parent's full name
         'dob',
         'gender_id',
         'telephone',
@@ -27,20 +27,16 @@ class Parents extends Model
 
     // Automatically handle JSON serialization for 'fullname'
     protected $casts = [
-        'fullname' => 'array',
+        'fullname' => 'array',  // Cast 'fullname' as array for easier access
     ];
 
-    // Define primary key behavior
-    protected $primaryKey = 'id';
-    public $incrementing = true;
-    protected $keyType = 'int';
-
-    // Optional: Accessor and mutator for 'fullname' if needed
+    // Accessor for fullname if needed
     protected function fullname(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => json_decode($value, true),
-            set: fn($value) => json_encode($value),
+            get: fn($value) => json_decode($value, true),  // Decode the JSON field
+            set: fn($value) => json_encode($value),  // Encode back if needed
         );
     }
 }
+

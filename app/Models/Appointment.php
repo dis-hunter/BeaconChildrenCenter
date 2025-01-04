@@ -1,5 +1,5 @@
 <?php
-
+// app/Models/Appointment.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,19 +20,15 @@ class Appointment extends Model
         'doctor_id'
     ];
 
-    /**
-     * Relationship to the Child model.
-     */
+    // Relationship with the Child model
     public function child()
     {
-        return $this->belongsTo(child::class);
+        return $this->belongsTo(Child::class, 'child_id');
     }
 
-    /**
-     * Relationship to the Staff model.
-     */
-    public function staff()
+    // Relationship with the Parent model via Child
+    public function parent()
     {
-        return $this->belongsTo(staff::class);
+        return $this->child->parent();  // Assuming parent relationship on the Child model
     }
 }

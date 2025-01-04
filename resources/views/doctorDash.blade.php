@@ -62,22 +62,70 @@
     </section>
 
     <section class="content" id="booked-content" style="display: none;">
-      <h2>Booked Patients</h2>
-      <p>This is where you would display the booked patients list.</p>
-    </section>
+    <h2>Booked Patients</h2>
+
+    <!-- Search Form -->
+    <form method="GET" action="{{ route('booked.patients') }}">
+        <input type="text" name="search" placeholder="Search by name or telephone" value="{{ request('search') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    @if(isset($error))
+        <p>{{ $error }}</p> <!-- Show error if doctor not found -->
+    @elseif(isset($appointments) && $appointments->count() > 0)
+        <h3>Appointments for Dr. {{ implode(' ', json_decode($doctor->fullname)) }}</h3>
+
+        <table id="booked-patients-table">
+            <thead>
+                <tr>
+                    <th>Child's Name</th>
+                    <th>Parent's Name</th>
+                    <th>Parent's Contact</th>
+                    <th>Parent's Email</th>
+                    <th>Appointment Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($appointments as $appointment)
+                    <tr>
+                        <!-- Display Child's Full Name -->
+                        <td>{{ implode(' ', $appointment->child->fullname) }}</td>  <!-- Child's Full Name -->
+
+                        <!-- Display Parent's Full Name -->
+                        <td>{{ implode(' ', $appointment->child->parent->fullname) }}</td>  <!-- Parent's Full Name -->
+
+                        <!-- Display Parent's Telephone -->
+                        <td>{{ $appointment->child->parent->telephone }}</td>  <!-- Parent's Contact -->
+
+                        <!-- Display Parent's Email -->
+                        <td>{{ $appointment->child->parent->email }}</td>  <!-- Parent's Email -->
+
+                        <!-- Display Appointment Time -->
+                        <td>{{ $appointment->start_time }} - {{ $appointment->end_time }}</td>  <!-- Appointment Time -->
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <p>No appointments found for today.</p>
+    @endif
+</section>
+
+
+
 
     <section class="content" id="therapist-content" style="display: none;">
       <h2>Therapy List</h2>
       <p>This is where you would display the therapy list.</p>
     </section>
-
+  <!--
     <div class="calendar-section">
         <h3>Appointments Calendar</h3>
-        <a href="{{ route('doctor.calendar') }}" class="view-calendar-link">
+
             <button class="btn btn-primary">View Calendar</button>
         </a>
     </div>
-
+-->
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
