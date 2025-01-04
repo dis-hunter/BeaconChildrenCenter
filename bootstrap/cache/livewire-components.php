@@ -5,4 +5,5 @@
   'edit-child-modal' => 'App\\Http\\Livewire\\EditChildModal',
   'edit-parent-modal' => 'App\\Http\\Livewire\\EditParentModal',
   'parent-crud' => 'App\\Http\\Livewire\\ParentCrud',
+  'password-generator' => 'App\\Http\\Livewire\\PasswordGenerator',
 );
