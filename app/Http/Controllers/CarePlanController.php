@@ -34,7 +34,7 @@ class CarePlanController extends Controller
         }
 
         // Assuming staff ID is 1 (replace with actual logic to get staff ID)
-        $staffId = 1;
+        $staffId = auth()->user()->id;
 
         try {
             // Check if a care plan already exists for the child

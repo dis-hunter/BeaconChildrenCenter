@@ -75,4 +75,4 @@
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
   <script src="<?php echo e(asset ('js/doctorDash.js')); ?>"></script>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\Beacon Children Center\resources\views/doctorDash.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/doctorDash.blade.php ENDPATH**/ ?>

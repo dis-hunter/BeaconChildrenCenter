@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('visit_id')->constrained('visits','id');
                 $table->foreignId('child_id')->constrained('children','id');
-                $table->foreignId('doctor_id')->constrained('doctors','id');
+                $table->foreignId('staff_id')->constrained('staff','id');
                 $table->json('data');
                 $table->timestamps();
             });
