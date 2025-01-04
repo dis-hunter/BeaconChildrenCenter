@@ -26,6 +26,13 @@
       color: #333;
       display: block;
     }
+    .sidebar h2  {
+      padding: 6px 0px 0px 16px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #333;
+      display: block;
+    }
 
     .sidebar a:hover {
       background-color: #ddd;
@@ -84,10 +91,14 @@
 <body>
 
   <div class="sidebar">
-    <a href="#triage">Triage Examination</a>
-    <a href="#">Patient Records</a>
+    <!-- <a href="#triage">Triage Examination</a> -->
+    <h2>Triage Examination</h2>
+    <h2>Active Patient:</h2>
+    <h3 id="patient-name" style="text-align: center; margin-bottom: 20px;"></h3>
+
+    <!-- <a href="#">Patient Records</a>
     <a href="#">Appointments</a>
-    <a href="#">Reports</a>
+    <a href="#">Reports</a> -->
     <div class="logout">Logout</div>
   </div>
 
@@ -96,6 +107,25 @@
     <div id="triage" class="form-section">
       <h3>Enter Patient Details</h3>
       <form>
+        <!-- Add Triage Priority Select -->
+        <label for="triage_priority">Triage Priority:</label>
+        <select id="triage_priority" required>
+          <option value="">Select Priority</option>
+          <option value="emergency">Emergency</option>
+          <option value="priority">Priority</option>
+          <option value="routine">Routine</option>
+        </select>
+
+        <!-- Add Triage Sorting Select -->
+        <label for="triage_sorting">Department Referral:</label>
+        <select id="triage_sorting" required>
+          <option value="">Select Department</option>
+          <option value="general">General Doctor</option>
+          <option value="occupational">Occupational Therapist</option>
+          <option value="speech">Speech Therapist</option>
+          <option value="physio">Physiotherapist</option>
+        </select>
+
         <label for="temperature">Temperature (°C):</label>
         <input type="number" id="temperature" placeholder="Enter temperature">
 
@@ -128,6 +158,14 @@
     </div>
   </div>
 </body>
-<script src="<?php echo e(asset('js/triage.js')); ?>"></script>
+<script src="<?php echo e(asset('js/triage.js')); ?>">
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    function getChildIdFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    return pathParts[pathParts.length - 1];
+}
+});
+</script>
 </html>
 <?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/triage.blade.php ENDPATH**/ ?>

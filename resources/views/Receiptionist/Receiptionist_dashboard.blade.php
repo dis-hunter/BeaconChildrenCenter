@@ -3,6 +3,7 @@
 <!--Route ni http://127.0.0.1:8000/receiptionist_dashboard /-->
 <!--Most important comments ziko line:253,261-->
 <html>
+
 <head>
     <title>Receiptionist Dashboard</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -22,7 +23,8 @@
             left: 0;
             top: 0;
             background-color: #111827;
-            overflow: visible;  /* Changed to visible to show hover content */
+            overflow: visible;
+            /* Changed to visible to show hover content */
             padding-top: 20px;
             color: white;
             transition: width 0.3s ease;
@@ -192,7 +194,7 @@
             background-color: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         /* Table header styles */
@@ -241,119 +243,121 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Sidebar with navigation links -->
-<div class="sidebar" id="sidebar">
-    <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
-    <a href="#"><span class="icon">➕</span> <span class="text">Add Patient</span></a>
-    <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a>
-    <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
-    <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
-    <a href="{{route('doctors')}}"><span class="icon">👨‍⚕️</span> <span class="text">Doctors</span></a>       <!--so apo ndo link ya kwenda iyo page ya kuadd,search an kuview doctors-->
-    <a href="#"><span class="icon">💰</span> <span class="text">Payments</span></a>
-    <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a>
-</div>
-
-<!-- Toggle button for collapsing/expanding the sidebar -->
-<div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
-
-<!-- Main content area,so sana unaona ukiload inatokea kwa iyo page ya John Doe iyo tu ni static si the actual doctors so unaeza remove the main area ueke kenye relevant,i was thinking ikuwe welcome poge then ukiclick on links ndo saa inakupeleka kea izo place but you'll decide-->
-<div class="main" id="main">
-    <h1 class="page-title">Doctor's Details</h1>
-    
-    <!-- Search bar and add doctor button -->
-    <div class="search-bar">
-        <input type="text" placeholder="Search Doctor Name" class="search-input">
-        <form action="{{ route('doctor.form') }}" method="GET">
-            <button type="submit" class="add-button">
-                <span>+</span>
-                Add Doctor
-            </button>
-        </form>
+    <!-- Sidebar with navigation links -->
+    <div class="sidebar" id="sidebar">
+        <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
+        <a href="#"><span class="icon">➕</span> <span class="text">Add Patient</span></a>
+        <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a>
+        <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
+        <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+        <a href="{{route('doctors')}}"><span class="icon">👨‍⚕️</span> <span class="text">Doctors</span></a> <!--so apo ndo link ya kwenda iyo page ya kuadd,search an kuview doctors-->
+        <a href="#"><span class="icon">💰</span> <span class="text">Payments</span></a>
+        <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a>
     </div>
 
-    <!-- Table displaying doctor details -->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Specialisation</th>
-                <th>Staff ID</th>
-                <th>Calendar</th>
-            </tr>
-        </thead>
-        <tbody id="progressTableBody">
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td><span class="specialty-badge specialty-cardiology">Cardiology</span></td>
-                <td>1</td>
-                <td>📅</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td><span class="specialty-badge specialty-neurology">Neurology</span></td>
-                <td>1</td>
-                <td>📅</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <!-- Toggle button for collapsing/expanding the sidebar -->
+    <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
 
-<script>
-    // Function to toggle the sidebar
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const main = document.querySelector('.main');
-        const toggleButton = document.getElementById('toggle-button');
-        
-        sidebar.classList.toggle('collapsed');
-        main.classList.toggle('expanded');
-        toggleButton.classList.toggle('collapsed');
-    }
+    <!-- Main content area,so sana unaona ukiload inatokea kwa iyo page ya John Doe iyo tu ni static si the actual doctors so unaeza remove the main area ueke kenye relevant,i was thinking ikuwe welcome poge then ukiclick on links ndo saa inakupeleka kea izo place but you'll decide-->
+    <div class="main" id="main">
+        <h1 class="page-title">Doctor's Details</h1>
 
-    // Event listener for form submission (if present)
-    document.getElementById('therapyNeedsForm')?.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch('/therapist/save', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => alert(data.message))
-            .catch(error => console.error('Error:', error));
-    });
+        <!-- Search bar and add doctor button -->
+        <div class="search-bar">
+            <input type="text" placeholder="Search Doctor Name" class="search-input">
+            <form action="{{ route('doctor.form') }}" method="GET">
+                <button type="submit" class="add-button">
+                    <span>+</span>
+                    Add Doctor
+                </button>
+            </form>
+        </div>
 
-    // Function to load progress data
-    function loadProgress() {
-        fetch('/therapist/progress')
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('progressTableBody');
-                tbody.innerHTML = '';
-                data.forEach(progress => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+        <!-- Table displaying doctor details -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Specialisation</th>
+                    <th>Staff ID</th>
+                    <th>Calendar</th>
+                </tr>
+            </thead>
+            <tbody id="progressTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td><span class="specialty-badge specialty-cardiology">Cardiology</span></td>
+                    <td>1</td>
+                    <td>📅</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td><span class="specialty-badge specialty-neurology">Neurology</span></td>
+                    <td>1</td>
+                    <td>📅</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to toggle the sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const main = document.querySelector('.main');
+            const toggleButton = document.getElementById('toggle-button');
+
+            sidebar.classList.toggle('collapsed');
+            main.classList.toggle('expanded');
+            toggleButton.classList.toggle('collapsed');
+        }
+
+        // Event listener for form submission (if present)
+        document.getElementById('therapyNeedsForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/therapist/save', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+        });
+
+        // Function to load progress data
+        function loadProgress() {
+            fetch('/therapist/progress')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('progressTableBody');
+                    tbody.innerHTML = '';
+                    data.forEach(progress => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
                         <td>${progress.date}</td>
                         <td>${progress.sessionDetails}</td>
                         <td>${progress.progressNotes}</td>
                         <td><button>Edit</button></td>
                     `;
-                    tbody.appendChild(row);
+                        tbody.appendChild(row);
+                    });
                 });
-            });
-    }
+        }
 
-    // Load progress data on page load
-    loadProgress();
-</script>
+        // Load progress data on page load
+        loadProgress();
+    </script>
 
 </body>
+
 </html>

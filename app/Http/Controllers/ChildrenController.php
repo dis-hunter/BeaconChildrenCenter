@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Children; // Ensure the model name matches your file structure
 use App\Models\Parents; // Ensure the model name matches your file structure
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -65,4 +66,47 @@ class ChildrenController extends Controller
 
         return view('receiptionist.visits', compact('children'));
     }
+    public function getPatientName($childId)
+    {
+        try {
+            $patient = DB::table('children')
+                ->where('id', $childId)
+                ->first();
+    
+            if ($patient) {
+                try {
+                    $fullname = json_decode($patient->fullname);
+    
+                    if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
+                        $patientName = trim(
+                            "{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}"
+                        );
+                    } else {
+                        $patientName = $patient->fullname ?? 'N/A';
+                    }
+                } catch (\Exception $e) {
+                    $patientName = 'N/A';
+                }
+    
+                return response()->json([
+                    'status' => 'success',
+                    'patient_name' => $patientName,
+                ]);
+            }
+    
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Patient not found',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to fetch patient name',
+            ], 500);
+        }
+    }
+    
+
 }
+
+

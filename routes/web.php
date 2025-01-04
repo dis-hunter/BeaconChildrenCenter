@@ -219,3 +219,30 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
+
+use App\Http\Controllers\VisitsController;
+use App\Models\Triage;
+
+// Route for fetching all visits (for Blade view)
+// Route::get('/visits', [VisitsController::class, 'index'])->name('visits.index');
+// Route::get('/visits-page', function () {
+//     return view('visits');
+// })->name('visits.page');
+
+Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);//->name('visits.untriaged');
+
+// Route::get('/untriaged-visits', 'TriageController@getUntriagedVisits');
+Route::post('/start-triage/{visitId}', 'TriageController@startTriage');
+// In routes/web.php
+Route::get('/get-untriaged-visits', 'TriageController@getUntriagedVisits');
+
+Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
+Route::get('/post-triage', function () {
+    return view('postTriageQueue');
+});
+Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
+});
+Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);

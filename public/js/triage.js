@@ -29,7 +29,7 @@ function handleSubmit(event) {
         head_circumference: document.querySelector('#head_circumference').value
     };
 
-    const childId = getChildIdFromUrl();
+    // const childId = getChildIdFromUrl();
 
     fetch(`/triage/${childId}`, {
         method: 'POST',
@@ -52,66 +52,13 @@ function handleSubmit(event) {
         alert('Failed to save triage examination');
     });
 }
-
-// Function to render triage examination form
-function renderTriageExamination(triageData = {}) {
-    const mainContent = document.querySelector('main');
-    mainContent.innerHTML = `
-      <div class="container">
-        <link rel='stylesheet' href='../css/triageExam.css'>
-        <form id="triageForm" class="triage-form">
-          <h2>Triage Examination</h2>
-          
-          <div class="section">
-            <h3>Vital Signs</h3>
-            <div class="grid-container">
-              ${createInputField('Temperature (°C)', 'temperature', triageData.temperature)}
-              ${createInputField('Respiratory Rate (breaths/min)', 'respiratory_rate', triageData.respiratory_rate)}
-              ${createInputField('Pulse Rate (bpm)', 'pulse_rate', triageData.pulse_rate)}
-              ${createInputField('Blood Pressure', 'blood_pressure', triageData.blood_pressure)}
-            </div>
-          </div>
-          
-          <div class="section">
-            <h3>Measurements</h3>
-            <div class="grid-container">
-              ${createInputField('Weight (kg)', 'weight', triageData.weight)}
-              ${createInputField('Height (m)', 'height', triageData.height)}
-              ${createInputField('MUAC (cm)', 'muac', triageData.muac)}
-              ${createInputField('Head Circumference (m)', 'head_circumference', triageData.head_circumference)}
-            </div>
-          </div>
-          
-          <div class="section">
-            <button type="submit" class="save-btn">Save Examination</button>
-          </div>
-        </form>
-      </div>
-    `;
-
-    // Add form submit handler
-    document.querySelector('#triageForm').addEventListener('submit', handleSubmit);
-}
+   
 
 // Function to extract child ID from URL
-function getChildIdFromUrl() {
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[pathParts.length - 1];
-}
-
-// Initialize when DOM is loaded
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     const childId = getChildIdFromUrl();
-//     fetch(`/triage/${childId}`)
-//         .then(response => response.json())
-//         // .then(data => renderTriageExamination(data.triageData))
-//         .catch(error => {
-//             console.error('Error:', error);
-//             renderTriageExamination({}); // Render with empty data if fetch fails
-//         });
-// });
+// function getChildIdFromUrl() {
+//     const pathParts = window.location.pathname.split('/');
+//     return pathParts[pathParts.length - 1];
+// }
 
 function getPatientIdFromUrl() {
   // Get the current URL's query parameters
@@ -126,7 +73,7 @@ function getPatientIdFromUrl() {
   // Return the patientId (optional, if needed for further use)
   return patientId;
 }
-// Function to get patientId from the URL
+
 
 
 // Function to fetch triage data from the server
@@ -155,8 +102,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+document.addEventListener('DOMContentLoaded', async () => {
+    // Function to get Child ID from URL
+    function getChildIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('patientId'); 
+  }
 
-// Call the function when the page loads
+    // Fetch Patient Name by Child ID
+    async function fetchPatientName(childId) {
+        try {
+            const response = await fetch(`/get-patient-name/${childId}`);
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                document.getElementById('patient-name').textContent = data.patient_name || 'Patient Name';
+            } else {
+                document.getElementById('patient-name').textContent = 'Patient Not Found';
+            }
+        } catch (error) {
+            console.error('Error fetching patient name:', error);
+            document.getElementById('patient-name').textContent = 'Error Loading Patient';
+        }
+    }
+
+    const childId = getChildIdFromUrl();
+    if (childId) {
+        fetchPatientName(childId);
+    } else {
+        document.getElementById('patient-name').textContent = 'No Patient Selected';
+    }
+});
+
+
 
 
 
