@@ -87,7 +87,7 @@ class AuthController extends Controller
     public function authenticated(){
         switch(Auth::user()->role_id){
             case 1:
-                //return redirect()->route('admin.dashboard');
+                return redirect()->route('visits.page');
             case 2:
                 return redirect()->route('doctor.dashboard');
             case 3:

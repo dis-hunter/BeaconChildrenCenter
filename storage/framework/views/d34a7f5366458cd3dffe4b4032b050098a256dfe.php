@@ -125,15 +125,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('3oatr4q')) {
-    $componentId = $_instance->getRenderedChildComponentId('3oatr4q');
-    $componentTag = $_instance->getRenderedChildComponentTagName('3oatr4q');
+} elseif ($_instance->childHasBeenRendered('qI6xjj8')) {
+    $componentId = $_instance->getRenderedChildComponentId('qI6xjj8');
+    $componentTag = $_instance->getRenderedChildComponentTagName('qI6xjj8');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('3oatr4q');
+    $_instance->preserveRenderedChild('qI6xjj8');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('3oatr4q', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('qI6xjj8', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
