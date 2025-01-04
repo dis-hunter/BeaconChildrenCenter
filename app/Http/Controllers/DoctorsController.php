@@ -92,7 +92,7 @@ class DoctorsController extends Controller
                 abort(404);
             }
 
-            $triage = DB::table('triage')->where('child_id', $child->id)->first();
+            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
 
             if (!$triage) {
                 Log::warning("Triage data not found for child with registration number: " . $registrationNumber);

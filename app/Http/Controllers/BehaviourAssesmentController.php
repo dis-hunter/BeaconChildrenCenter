@@ -21,7 +21,7 @@ class BehaviourAssesmentController extends Controller
 
         // Fetch the Behaviour Assessment record for the child
         $behaviourAssessment = DB::table('behaviour_assessment')
-            ->where('child_id', $child->id)
+            ->where('child_id', $child->id)->orderBy('created_at', 'desc')
             ->first();
 
         if ($behaviourAssessment) {
