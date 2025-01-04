@@ -283,16 +283,57 @@
       patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
       patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
     }
+    let selectedRegistrationNumber = null
 
-    function startConsultation() {
-      const activePatient = document.querySelector('.patient-list li.border-blue-500');
-      if (activePatient) {
-        console.log('Starting consultation with:', activePatient.textContent);
-      } else {
+function selectRegistrationNumber(registrationNumber, childId) {
+  selectedRegistrationNumber = registrationNumber; // Store selected registration number
+  alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
+  
+  
+  
+  // Further actions can be added here, e.g., saving to a variable or performing an API request
+}
+
+async function startConsultation() {
+    if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
-      }
+        return;
     }
 
+    try {
+        // First make an AJAX call to check if the patient exists and get initial data
+        const response = await fetch(`http://127.0.0.1:8000/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'  // Marks this as an AJAX request
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // If we successfully got the data, redirect to the dashboard page
+        window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
+
+    } catch (error) {
+        console.error('Error starting consultation:', error);
+        let errorMessage = 'Error starting consultation. ';
+        
+        if (error.message.includes('404')) {
+            errorMessage += 'Patient not found.';
+        } else if (error.message.includes('403')) {
+            errorMessage += 'Access denied.';
+        } else {
+            errorMessage += 'Please try again or contact support.';
+        }
+        
+        alert(errorMessage);
+    }
+} 
     showSection('dashboard');
     
     const currentDate = document.getElementById('current-date');
@@ -364,43 +405,48 @@
       }
     }
 
-    function startConsultation() {
-      alert("Starting consultation...");
-      // Add further functionality as needed
-    }
+   
   </script>
 <script>
   let selectedPatient = null;
 
   function generatePatientList() {
-    const patientTableBody = document.getElementById("patient-table-body");
-    patientTableBody.innerHTML = ""; // Clear existing rows
+  const patientTableBody = document.getElementById("patient-table-body");
+  patientTableBody.innerHTML = ""; // Clear existing rows
 
-    // Assuming visits is an array of patient visit objects passed from backend
-    const visits = <?php echo json_encode($visits, 15, 512) ?>; // Use Laravel's Blade directive to pass data
+  // Assuming visits is an array of patient visit objects passed from backend
+  const visits = <?php echo json_encode($visits, 15, 512) ?>; // Use Laravel's Blade directive to pass data
 
-    visits.forEach((visit) => {
-      const fullname = JSON.parse(visit.fullname);
-      const fullNameString = fullname
-        ? `${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}`
-        : visit.fullname;
+  visits.forEach((visit) => {
+    const fullname = JSON.parse(visit.fullname);
+    const fullNameString = fullname
+      ? `${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}`
+      : visit.fullname;
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="py-2 border">${visit.visit_id}</td>
-        <td class="py-2 border">${visit.visit_date}</td>
-        <td class="py-2 border">${visit.created_at}</td>
-        <td class="py-2 border">${visit.registration_number}</td>
-        <td class="py-2 border">${visit.child_id}</td>
-        <td class="py-2 border">${fullNameString}</td>
-        <td class="py-2 border">${visit.dob}</td>
-        <td class="py-2 border">${visit.staff_id}</td>
-        <td class="py-2 border">${visit.specialization_id}</td>
-      `;
-      row.addEventListener('click', () => selectPatient(visit));
-      patientTableBody.appendChild(row);
-    });
-  }
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="py-2 border">${visit.visit_id}</td>
+      <td class="py-2 border">${visit.visit_date}</td>
+      <td class="py-2 border">${visit.created_at}</td>
+      <td class="py-2 border">${visit.registration_number}</td>
+      <td class="py-2 border">${visit.child_id}</td>
+      <td class="py-2 border">${fullNameString}</td>
+      <td class="py-2 border">${visit.dob}</td>
+      <td class="py-2 border">${visit.staff_id}</td>
+      <td class="py-2 border">${visit.specialization_id}</td>
+      <td class="py-2 border">
+       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
+        onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
+  Select
+</button>
+
+      </td>
+    `;
+    patientTableBody.appendChild(row);
+  });
+}
+
+
 
   function selectPatient(patient) {
     selectedPatient = patient;
@@ -410,14 +456,7 @@
     event.currentTarget.classList.add("bg-blue-50", "border-l-4", "border-blue-500");
   }
 
-  function startConsultation() {
-    if (selectedPatient) {
-      alert(`Starting consultation with: ${selectedPatient.fullname}`);
-      // Add further functionality as needed, e.g., redirect to consultation page
-    } else {
-      alert('Please select a patient first.');
-    }
-  }
+ 
 
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();
