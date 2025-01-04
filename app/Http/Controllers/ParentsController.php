@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Gender;
 use App\Models\Parents; // Ensure the model name matches your file structure
 use App\Models\Relationship;
+use App\Models\ChildParent;
+use App\Models\children;
 use Illuminate\Http\Request;
 
 class ParentsController extends Controller
@@ -78,19 +80,32 @@ class ParentsController extends Controller
     }
     
     public function getChildren(Request $request)
-    {
-        $validatedData = $request->validate([
-            'telephone' => 'required|string|max:15',
-        ]);
+{
+    // Validate the input
+    $request->validate([
+        'telephone' => 'required|string',
+    ]);
 
-        // Search for the parent using the telephone
-        $parent = Parents::where('telephone', $validatedData['telephone'])->first();
+    // Find the parent by telephone
+    $parent = parents::where('telephone', $request->telephone)->first();
 
-        if (!$parent) {
-            return redirect()->back()->with('error', 'Parent not found.');
-        }
-
-        // Pass parent_id to the route for ChildrenController
-        return redirect()->route('children.search', ['parent_id' => $parent->id]);
+    if (!$parent) {
+        return redirect()->back()->with('error', 'Parent not found.');
     }
+
+    // Get all children related to the parent
+    $children = ChildParent::where('parent_id', $parent->id)
+        ->with('child') // Load the child relation
+        ->get()
+        ->map(function ($childParent) {
+            // Decode fullname if it's a JSON string
+            if (is_string($childParent->child->fullname)) {
+                $childParent->child->fullname = json_decode($childParent->child->fullname);
+            }
+            return $childParent->child;
+        });
+
+    // Pass the children to the view
+    return view('Reception.visits', compact('children'));
+}
 }

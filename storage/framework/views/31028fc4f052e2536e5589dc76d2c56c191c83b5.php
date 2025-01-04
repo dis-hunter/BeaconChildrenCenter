@@ -1,3 +1,17 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
+
+</head>
+<body>
+    
+
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
 <h2>Welcome</h2>
@@ -86,7 +100,8 @@
 
 <button  id="submit-appointment">Create Appointment</button>
 
-
+</body>
+</html>
 <!--  -->
 
 
@@ -293,8 +308,6 @@ function showValue() {
             output.innerHtml = `You selected: ${dropdown.value}`;
         }
 
-
-
 const dropdown = document.getElementById('specialization');
 // Event listener for the specialization dropdown
 dropdown.addEventListener('change', async function () {
@@ -414,4 +427,5 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 });
 
 </script>
-<?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/reception\visits.blade.php ENDPATH**/ ?>
+
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/reception\visits.blade.php ENDPATH**/ ?>

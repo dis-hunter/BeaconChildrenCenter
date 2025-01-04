@@ -345,6 +345,126 @@
     font-size: 16px;
     font-style: italic;
 }
+/* --- Visit Page Styles --- */
+
+/* General Styling */
+.visit-heading {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+.visit-subheading {
+    font-size: 20px;
+    font-weight: bold;
+    color: #374151;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.visit-form {
+    margin-bottom: 20px;
+}
+
+.visit-search-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.visit-search-table td {
+    padding: 8px;
+}
+
+.visit-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.visit-btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.visit-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.visit-btn-secondary {
+    background-color: #e2e8f0;
+    color: #1f2937;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.visit-btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
+/* Table Styling */
+.visit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.visit-table th,
+.visit-table td {
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    text-align: left;
+}
+
+.visit-table th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    color: #4b5563;
+}
+
+.visit-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.visit-table tr:hover {
+    background-color: #eef2ff;
+}
+
+/* Select Dropdown */
+.visit-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Error Message */
+.error-message {
+    font-size: 14px;
+    color: #dc3545;
+    margin-bottom: 10px;
+}
+
+/* Visit Section */
+.visit-section {
+    margin-top: 30px;
+}
+
+.visit-output {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6b7280;
+}
 
 
     </style>
@@ -357,7 +477,7 @@
     <a href="/patients/search"><span class="icon">🔍</span> <span class="text">Search</span></a>
     {{-- <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a> --}}
     <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
-    <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+    <a href="/visithandle"><span class="icon">🕒</span> <span class="text">Visit</span></a>
     {{-- <a href="#"><span class="icon">👨‍⚕️</span> <span class="text">Doctors</span></a>
     <a href="#"><span class="icon">💰</span> <span class="text">Payments</span></a>
     <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a> --}}
@@ -383,5 +503,12 @@
     </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 @livewireScripts
+<script>
+    function showValue() {
+        const visitType = document.getElementById('visit_type').value;
+        document.getElementById('output').innerText = `You selected: ${visitType}`;
+    }
+</script>
+
 </body>
 </html>

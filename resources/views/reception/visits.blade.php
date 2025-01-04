@@ -1,3 +1,17 @@
+@extends('reception.layout')
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{asset ('css/visit.css')}}">
+
+</head>
+<body>
+    
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <h2>Welcome</h2>
@@ -85,7 +99,8 @@
 
 <button  id="submit-appointment">Create Appointment</button>
 
-
+</body>
+</html>
 <!--  -->
 
 
@@ -291,8 +306,6 @@ function showValue() {
             console.log(dropdown.value);
             output.innerHtml = `You selected: ${dropdown.value}`;
         }
-
-
 
 const dropdown = document.getElementById('specialization');
 // Event listener for the specialization dropdown
