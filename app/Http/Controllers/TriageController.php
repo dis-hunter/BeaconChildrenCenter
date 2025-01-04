@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Triage;
-use Illuminate\Support\Facades\Validator;
-use App\Models\visits;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class TriageController extends Controller
 {
+    
     /**
      * Store triage examination data into the database.
      */
@@ -184,5 +185,4 @@ public function getPostTriageQueue()
         ], 404);
     }
 }
-
 }

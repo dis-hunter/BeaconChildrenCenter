@@ -40,7 +40,7 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
 Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
 Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
-Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Display the doctor form once the add doctor button is clicked
+Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); // Display the doctor form once the add doctor button is clicked
 
 
 /*
@@ -120,6 +120,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
+
 //routes accessible when logged in only
 Route::group(['middleware' => 'auth'], function () {
 
@@ -132,7 +133,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Doctor
     Route::group(['middleware' => 'role:2'], function () {
-        Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
+
+        Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
+
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
 
         Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
@@ -143,13 +146,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
 
-        Route::get(
-            '/create',
-            [
-                DiagnosisController::class,
-                'create'
-            ]
-        );
+        Route::get('/create', [DiagnosisController::class, 'create']);
         Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'getBehaviourAssessment']);
 
         // Save or update Behaviour Assessment for a child
@@ -195,7 +192,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 use App\Http\Controllers\VisitsController;
-use App\Models\Triage;
+
 
 // Route for fetching all visits (for Blade view)
 // Route::get('/visits', [VisitsController::class, 'index'])->name('visits.index');
