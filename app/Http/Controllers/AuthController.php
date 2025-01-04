@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function registerGet()
     {
         if (Auth::check()) {
-            return redirect(route('home'));
+            return $this->authenticated();
         }
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
@@ -57,7 +57,7 @@ class AuthController extends Controller
         if (!$staff) {
             return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password','confirmpassword']));
         }
-        return redirect(route('register.post'))->with('success', 'Registration Successful');
+        return redirect(route('login'));
     }
 
     function loginGet()
@@ -76,21 +76,25 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            return $this->authenticated();
             
-            switch(Auth::user()->role_id){
-                case 1:
-                    //return redirect()->route('admin.dashboard');
-                case 2:
-                    return redirect()->route('doctor.dashboard');
-                case 3:
-                    //return redirect()->route('user.dashboard');
-                case 3:
-                    //return redirect()->route('user.dashboard');
-                default:
-                    //return redirect()->route('home');
-            }
         }
         return redirect(route('login.post'))->with('error', 'Credentials are not valid!')->withInput($request->except('password'));
+    }
+
+    public function authenticated(){
+        switch(Auth::user()->role_id){
+            case 1:
+                //return redirect()->route('admin.dashboard');
+            case 2:
+                return redirect()->route('doctorDashboard');
+            case 3:
+                //return redirect()->route('user.dashboard');
+            case 4:
+                //return redirect()->route('user.dashboard');
+            default:
+                //return redirect()->route('home');
+        }
     }
 
     public function logout(Request $request)
