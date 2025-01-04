@@ -267,3 +267,6 @@ Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'show
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 
 Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
+Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
+Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
+

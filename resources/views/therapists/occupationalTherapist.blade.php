@@ -92,12 +92,12 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
                                     class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="goal_{{ $category }}"
+                                        id="individualized_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
                                     ></textarea>
                                 </div>
                             @endforeach
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualised()">Save individualised plan and strategies</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualized()">Save individualized plan and strategies</button>
 
                         </div>
                         <!-- Session Notes Tab-->
@@ -107,7 +107,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="preparation_{{ $category }}"
+                                        id="session_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
                                     ></textarea>
                                 </div>
@@ -309,6 +309,7 @@
         });
     </script>
         <script>
+                //pushing data to the db therapy_assessment table
     async function saveAssessment() {
         const categories = [
             'Gross Motor Skills',
@@ -365,6 +366,72 @@ headers: {
     }
 } catch (error) {
     console.error('Error saving assessment:', error);
+    alert('An error occurred. Please check the console for more details.');
+}
+    }
+</script>
+<script>
+    //pushing data to the db therapy_individualized table
+    
+    async function saveIndividualized() {
+        const categories = [
+            'Therapy frequency and Duration',
+            'Therapy Setting',
+            'Gross Motor Skills',
+            'Fine Motor Skills',
+            'Cognitive skills',
+            'Activity of Daily Living',
+            'Sensory Integration and Processing',
+            'Behaviour Management',
+            'Parent involvement/training',
+        ];
+
+        const individualizedData = {};
+
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`individualized_${category}`);
+            if (textarea) {
+                individualizedData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
+        });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: 1, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: individualizedData // Add the collected categories data as a JSON object
+        };
+
+        try {
+    // Make the POST request
+    const response = await fetch('/saveIndividualized', {
+        method: 'POST',
+        
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+
+    if (result.status === 'success') {
+        alert('Individualized plans and strategies saved successfully!');
+    } else {
+        alert(`Failed to save individualized plan and strategies: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving individualized plan and strategies:', error);
     alert('An error occurred. Please check the console for more details.');
 }
     }
