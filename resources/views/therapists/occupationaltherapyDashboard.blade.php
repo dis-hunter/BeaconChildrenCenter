@@ -138,15 +138,15 @@
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="firstName">First Name</label>
-                                    <input type="text" id="firstName" name="firstName" value="John" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="firstName" name="firstName" value="{{ $firstName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="middleName">Middle Name</label>
-                                    <input type="text" id="middleName" name="middleName" value="Michael" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="middleName" name="middleName" value="{{ $middleName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" name="lastName" value="Doe" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="lastName" name="lastName" value="{{ $lastName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
                             
@@ -207,7 +207,7 @@
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
                                 <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Doctor's Notes</label>
-                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{ $doctorsNotes }}</textarea>
+                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{$doctorsNotes}}</textarea>
                             </div>
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">

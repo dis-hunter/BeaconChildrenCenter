@@ -138,15 +138,15 @@
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="firstName">First Name</label>
-                                    <input type="text" id="firstName" name="firstName" value="John" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="middleName">Middle Name</label>
-                                    <input type="text" id="middleName" name="middleName" value="Michael" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="middleName" name="middleName" value="<?php echo e($middleName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" name="lastName" value="Doe" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="lastName" name="lastName" value="<?php echo e($lastName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
                             
@@ -207,7 +207,7 @@
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
                                 <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Doctor's Notes</label>
-                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y"></textarea>
+                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y"><?php echo e($doctorsNotes); ?></textarea>
                             </div>
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
@@ -230,6 +230,40 @@
 
             showHomeForm();
         });
+    //     async function saveDoctorNotes() {
+    // try {
+    //     const doctorNotes = document.getElementById("doctorsNotes").value;
+    //     const childId = document.getElementById('child_id').value;
+
+    //     const dataToSend = {
+    //         child_id: childId,
+    //         notes: doctorNotes
+    //     };
+
+    //     const response = await fetch('/saveDoctorNotes', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //         },
+    //         body: JSON.stringify(dataToSend)
+    //     });
+
+    //     if (!response.ok) {
+    //         throw new Error(`HTTP error! Status: ${response.status}`);
+    //     }
+
+    //     const result = await response.json();
+    //     if (result.status === 'success') {
+    //         alert('Notes saved successfully!');
+    //     } else {
+    //         alert('Failed to save notes. Please try again.');
+    //     }
+    // } catch (error) {
+    //     console.error('Error:', error);
+    //     alert('Error saving notes');
+    // }}
+    
     </script>
     <script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
 </body>

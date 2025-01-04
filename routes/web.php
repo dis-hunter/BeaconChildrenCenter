@@ -59,9 +59,9 @@ Route::get('/psychotherapy_dashboard', function () {
 Route::get('/physiotherapy_dashboard', function () {
     return view('therapists.physiotherapyDashboard');
 });
-Route::get('/occupationaltherapy_dashboard', function () {
-    return view('therapists.occupationaltherapyDashboard');
-});
+
+Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
+
 Route::get('/speechtherapy_dashboard', function () {
     return view('therapists.speechtherapyDashboard');
 });
