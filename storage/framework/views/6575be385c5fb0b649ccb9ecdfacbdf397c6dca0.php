@@ -14,7 +14,7 @@
     <div class="profile">
       <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
       <div>
-        <h2  style="margin-bottom: 6px;">Dr. Florence Oringe</h2>
+        <h2  style="margin-bottom: 6px;">Dr. <?php echo e($firstName); ?> <?php echo e($lastName); ?></h2>
         <p style="margin-top:0">Pediatrician</p>
       </div>
     </div>
@@ -24,7 +24,11 @@
         <div class="dropdown-content">
           <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
-          <a href="#">Log Out</a>
+          <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+
+          <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+            <?php echo csrf_field(); ?>
+          </form>
         </div>
       </div>
     </div>
@@ -44,7 +48,7 @@
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
-        <h3>Good morning, Dr. Oringe!</h3>
+        <h3>Good morning, Dr. <?php echo e($lastName); ?>!</h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>

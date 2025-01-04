@@ -302,6 +302,24 @@ return view('doctor', [
     }
 }
 
+public function dashboard()
+{
+    $doctor = auth()->user();
+
+    if (is_object($doctor->fullname)) {
+        $fullName = $doctor->fullname;
+        Log::info('fullname is already an object:', (array)$fullName);
+    } else {
+        $fullName = json_decode($doctor->fullname, true);
+        Log::info('fullname decoded from JSON:', $fullName);
+    }
+
+    return view('doctorDash', [
+        'doctor' => $doctor,
+        'firstName' => $fullName->firstname, // Access as object properties
+        'lastName' => $fullName->lastname,   // Access as object properties
+    ]);
+}
 
 }
 

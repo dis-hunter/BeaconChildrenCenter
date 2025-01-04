@@ -18,6 +18,16 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\DoctorsDisplayController;
 use App\Http\Controllers\appointmentsController;
+use App\Http\Controllers\FamilySocialHistoryController;
+use App\Http\Controllers\PerinatalHistoryController;
+use App\Http\Controllers\PastMedicalHistoryController;
+use App\Http\Controllers\GeneralExamController;
+use App\Http\Controllers\DevelopmentAssessmentController;
+use App\Http\Controllers\InvestigationController;
+use App\Http\Controllers\CarePlanController;
+use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\PrescriptionController;
+
 
 
 
@@ -126,9 +136,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:2'], function () {
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
 
-        Route::get('/doctorDashboard', function () {
-            return view('doctorDash');
-        })->name('doctorDashboard');
+        Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
 
         Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 
@@ -145,6 +153,41 @@ Route::group(['middleware' => 'auth'], function () {
                 'create'
             ]
         );
+        Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'getBehaviourAssessment']);
+
+        // Save or update Behaviour Assessment for a child
+        Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'saveBehaviourAssessment']);
+
+        Route::get('/get-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'getFamilySocialHistory']);
+        Route::post('/save-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'saveFamilySocialHistory']);
+
+        Route::get('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'getPerinatalHistory']);
+        Route::post('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'savePerinatalHistory']);
+
+        Route::get('/past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'getPastMedicalHistory']);
+        Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'savePastMedicalHistory']);
+
+        Route::get('/general-exam/{registrationNumber}', [GeneralExamController::class, 'getGeneralExam']);
+        Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class, 'saveGeneralExam']);
+
+        Route::get('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'getDevelopmentAssessment']);
+        Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'saveDevelopmentAssessment']);
+
+        Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getDiagnosis']);
+        Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
+
+        Route::post('/save-investigations/{registration_number}', [InvestigationController::class, 'saveInvestigations']);
+        Route::get('/recordResults/{registration_number}', [InvestigationController::class, 'recordResults'])->name('recordResults');
+        Route::post('/saveInvestigationResults/{registration_number}', [InvestigationController::class, 'saveInvestigationResults']);
+
+        Route::post('/save-careplan/{registration_number}', [CarePlanController::class, 'saveCarePlan']);
+
+        Route::get('/get-referral-data/{registration_number}', [ReferralController::class, 'getReferralData']);
+        Route::get('/get-child-data/{registration_number}', [ReferralController::class, 'getChildData']);
+        Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
+
+        Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
+        Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
     });
 
     //Receptionist
@@ -158,80 +201,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-// Fetch Behaviour Assessment for a child
-Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'getBehaviourAssessment']);
-
-// Save or update Behaviour Assessment for a child
-Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'saveBehaviourAssessment']);
 
 
 
 
 
 
-use App\Http\Controllers\FamilySocialHistoryController;
-
-Route::get('/get-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'getFamilySocialHistory']);
-Route::post('/save-family-social-history/{visitId}', [FamilySocialHistoryController::class, 'saveFamilySocialHistory']);
-
-
-
-use App\Http\Controllers\PerinatalHistoryController;
-
-Route::get('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'getPerinatalHistory']);
-Route::post('/perinatal-history/{registrationNumber}', [PerinatalHistoryController::class, 'savePerinatalHistory']);
-
-
-
-use App\Http\Controllers\PastMedicalHistoryController;
-
-Route::get('/past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'getPastMedicalHistory']);
-Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'savePastMedicalHistory']);
-
-
-
-
-use App\Http\Controllers\GeneralExamController;
-
-Route::get('/general-exam/{registrationNumber}', [GeneralExamController::class, 'getGeneralExam']);
-Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class, 'saveGeneralExam']);
-
-
-
-use App\Http\Controllers\DevelopmentAssessmentController;
-
-Route::get('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'getDevelopmentAssessment']);
-Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'saveDevelopmentAssessment']);
-
-
-
-Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getDiagnosis']);
-Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
-
-
-use App\Http\Controllers\InvestigationController;
-
-Route::post('/save-investigations/{registration_number}', [InvestigationController::class, 'saveInvestigations']);
-Route::get('/recordResults/{registration_number}', [InvestigationController::class, 'recordResults'])->name('recordResults');
-Route::post('/saveInvestigationResults/{registration_number}', [InvestigationController::class, 'saveInvestigationResults']);
-
-
-use App\Http\Controllers\CarePlanController;
-
-Route::post('/save-careplan/{registration_number}', [CarePlanController::class, 'saveCarePlan']);
-
-
-use App\Http\Controllers\ReferralController;
-
-Route::get('/get-referral-data/{registration_number}', [ReferralController::class, 'getReferralData']);
-Route::get('/get-child-data/{registration_number}', [ReferralController::class, 'getChildData']);
-Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
-
-
-use App\Http\Controllers\PrescriptionController;
-
-Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
-Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
 
 
 
