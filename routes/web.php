@@ -81,9 +81,7 @@ Route::get('/receiptionist_dashboard', function () {
 });
 
 Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
-Route::get('/doctorDashboard', function () {
-    return view('doctorDash');
-});
+
 
 
 //this handles parent related activity
@@ -136,7 +134,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:2'], function () {
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
 
-        Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
+    
 
         Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 
@@ -222,3 +220,6 @@ Route::get('/doctorDashboard', function () {
     return view('doctorDash');
 });
 Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
+
+
+Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
