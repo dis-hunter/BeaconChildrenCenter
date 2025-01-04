@@ -188,8 +188,8 @@
   <a href="#investigations">Investigations</a><div id="investigations"></div>
   <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
-  <a href="#">Immunization</a>
-  <a href="#">Referral Letter</a>
+  <a href="#prescriptions">Prescriptions</a><div id="prescriptions"></div>
+  <a href="#referral">Referral Letter</a><div id="referral"></div>
   <a href="#">Patient Documents</a>
 </div>
 
@@ -271,10 +271,11 @@
             <input type="date" id="date" name="date"> 
           </div>
 
-          <div class="highlighted">
-            <label for="doctorsNotes">Doctor's Notes:</label>
-            <textarea id="doctorsNotes" name="doctorsNotes"></textarea>
-          </div>
+         <div class="highlighted">
+    <label for="doctorsNotes">Doctor's Notes:</label>
+    <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50"><?php echo e($doctorsNotes); ?></textarea>
+</div>
+
 
           <div class="highlighted">
             <label for="createdBy">Created By:</label>
@@ -298,6 +299,21 @@
   });
 </script>
 <script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
+<script src="<?php echo e(asset('js/Referral.js')); ?>"></script>
+<script src="<?php echo e(asset('js/careplan.js')); ?>"></script>
+<script src="<?php echo e(asset('js/developmentalAssesment.js')); ?>"></script>
+<script src="<?php echo e(asset('js/examination.js')); ?>"></script>
+<script src="<?php echo e(asset('js/pastMedicalHistory.js')); ?>"></script>
+<script src="<?php echo e(asset('js/familyAndSocial.js')); ?>"></script>
+<script src="<?php echo e(asset('js/developmentalMilestones.js')); ?>"></script>
+<script src="<?php echo e(asset('js/perinatalHistory.js')); ?>"></script>
+<script src="<?php echo e(asset('js/behaviourAssesment.js')); ?>"></script>
+<script src="<?php echo e(asset('js/generalExam.js')); ?>"></script>
+<script src="<?php echo e(asset('js/diagnosis.js')); ?>"></script>
+<script src="<?php echo e(asset('js/triageresults.js')); ?>"></script>
+<script src="<?php echo e(asset('js/investigations.js')); ?>"></script>
+<script src="<?php echo e(asset('js/recordResults.js')); ?>"></script>
+<script src="<?php echo e(asset('js/prescriptions.js')); ?>"></script>
 
 </body>
 </html>

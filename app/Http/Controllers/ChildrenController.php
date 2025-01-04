@@ -51,4 +51,18 @@ class ChildrenController extends Controller
 
         return redirect()->route('children.create')->with('success', 'child record saved successfully!');
     }
+    
+    public function search(Request $request)
+    {
+        $parent_id = $request->query('parent_id');
+
+        // Fetch all children associated with the parent_id
+        $children = Children::where('parent_id', $parent_id)->get();
+
+        if ($children->isEmpty()) {
+            return redirect()->back()->with('error', 'No children found for this parent.');
+        }
+
+        return view('receiptionist.visits', compact('children'));
+    }
 }

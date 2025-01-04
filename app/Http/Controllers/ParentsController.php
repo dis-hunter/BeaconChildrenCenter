@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parents; // Ensure the model name matches your file structure
+use App\Models\ChildParent;
+use App\Models\children;
+
 use Illuminate\Http\Request;
 
 class ParentsController extends Controller
@@ -16,9 +19,9 @@ class ParentsController extends Controller
     {
         // Validate incoming request data
         $validatedData = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'middlename' => 'nullable|string|max:255',
-            'surname' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'sur_name' => 'required|string|max:255',
             'dob' => 'required|date',
             'gender_id' => 'required|integer',
             'telephone' => 'required|string|max:15',
@@ -32,9 +35,9 @@ class ParentsController extends Controller
 
         // Combine fullname fields into a JSON object
         $fullname = [
-            'firstname' => $validatedData['firstname'],
-            'middlename' => $validatedData['middlename'],
-            'surname' => $validatedData['surname'],
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'],
+            'sur_name' => $validatedData['sur_name'],
         ];
         
 
@@ -69,4 +72,36 @@ class ParentsController extends Controller
             return redirect()->back()->with('error', 'No parent found with the specified phone number.');
         }
     }
+    
+   
+    public function getChildren(Request $request)
+{
+    // Validate the input
+    $request->validate([
+        'telephone' => 'required|string',
+    ]);
+
+    // Find the parent by telephone
+    $parent = parents::where('telephone', $request->telephone)->first();
+
+    if (!$parent) {
+        return redirect()->back()->with('error', 'Parent not found.');
+    }
+
+    // Get all children related to the parent
+    $children = ChildParent::where('parent_id', $parent->id)
+        ->with('child') // Load the child relation
+        ->get()
+        ->map(function ($childParent) {
+            // Decode fullname if it's a JSON string
+            if (is_string($childParent->child->fullname)) {
+                $childParent->child->fullname = json_decode($childParent->child->fullname);
+            }
+            return $childParent->child;
+        });
+
+    // Pass the children to the view
+    return view('Receiptionist.visits', compact('children'));
+}
+
 }
