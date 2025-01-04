@@ -132,9 +132,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Doctor
     Route::group(['middleware' => 'role:2'], function () {
+        Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
-
-    
 
         Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 
@@ -206,20 +205,17 @@ use App\Models\Triage;
 
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);//->name('visits.untriaged');
 
-// Route::get('/untriaged-visits', 'TriageController@getUntriagedVisits');
-Route::post('/start-triage/{visitId}', 'TriageController@startTriage');
-// In routes/web.php
-Route::get('/get-untriaged-visits', 'TriageController@getUntriagedVisits');
+Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+Route::post('/start-triage/{visitId}', [TriageController::class, 'startTriage']);
+// // In routes/web.php
+Route::get('/get-untriaged-visits', [TriageController::class,' getUntriagedVisits']);
 
 Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
 Route::get('/post-triage', function () {
     return view('postTriageQueue');
 });
 Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
-Route::get('/doctorDashboard', function () {
-    return view('doctorDash');
-});
+
 Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
 
 
-Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
