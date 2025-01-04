@@ -7,9 +7,11 @@
 
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    background-color: #f8fafc;
+    /* background-color: #f8fafc; */
     color: #1f2937;
-    padding: 20px;
+    padding: 40px;
+    padding-left: 20%;
+    padding-top: 5%;
 }
 
 /* Layout */
@@ -57,7 +59,7 @@ select {
 .btn,
 button {
     background-color: #4f46e5;
-    color: white;
+    /* color: white; */
     padding: 8px 16px;
     border: none;
     border-radius: 6px;
@@ -76,13 +78,13 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin: 24px 0;
-    background: white;
+    /* background: white; */
     border-radius: 8px;
     overflow: hidden;
 }
 
 th {
-    background-color: #f3f4f6;
+    /* background-color: #f3f4f6; */
     color: #4b5563;
     font-weight: 500;
     text-align: left;
@@ -139,4 +141,8 @@ select {
 /* New Parent/Child Button */
 .new-parent-child {
     margin-bottom: 24px;
+}
+
+.submit-appointment{
+    background-color: #4f46e5;
 }

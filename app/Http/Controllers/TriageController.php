@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Triage;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Parents;
 
 class TriageController extends Controller
 {
