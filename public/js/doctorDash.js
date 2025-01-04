@@ -5,8 +5,9 @@
 //   { name: "Eva Green", id: 4 },
 //   { name: "Chris Evans", id: 5 },
 // ];
-function startConsultation(childId) {
-  window.location.href = `http://127.0.0.1:8000/doctor?childId=${childId}`;
+function startConsultation(registrationNumber) {
+  // Redirect to the URL with the registration number
+  window.location.href = `/doctor/${registrationNumber}`;
 }
 
 async function fetchPostTriageQueue() {
@@ -31,12 +32,10 @@ async function fetchPostTriageQueue() {
       data.data.forEach(visit => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            
               <td>${visit.patient_name || 'N/A'}</td>
-              
               <td>
                   <button 
-                      onclick="startConsultation(${visit.child_id})" 
+                      onclick="startConsultation('${visit.registration_number}')" 
                       class="consult-btn"
                       style="background-color: #008CBA; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
                   >
@@ -53,6 +52,7 @@ async function fetchPostTriageQueue() {
 
 // Auto-fetch on page load
 document.addEventListener('DOMContentLoaded', fetchPostTriageQueue);
+
 const sidebarLinks = document.querySelectorAll('.sidebar a');
 const patientList = document.getElementById('patient-list');
 const startConsultationButton = document.querySelector('.start-consult');
