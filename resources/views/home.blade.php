@@ -9,7 +9,7 @@
 </style>
 <div class="container">
     @auth
-    <pre>{{auth()->user()->id}}</pre>
+    <pre>{{ (string) auth()->user()->id }}</pre>
     @endauth
 </div>
 @endsection
