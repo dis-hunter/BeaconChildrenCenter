@@ -1,7 +1,6 @@
 <div>
     
     <!-- Search Parent Form -->
-    
 
     <div class="row d-flex justify-content-center search-section">
         <!-- Search Label -->

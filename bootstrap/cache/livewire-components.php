@@ -1,4 +1,5 @@
 <?php return array (
+  'add-child-modal' => 'App\\Http\\Livewire\\AddChildModal',
   'child-parent-manager' => 'App\\Http\\Livewire\\ChildParentManager',
   'content-switcher' => 'App\\Http\\Livewire\\ContentSwitcher',
   'edit-child-modal' => 'App\\Http\\Livewire\\EditChildModal',

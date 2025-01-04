@@ -1,13 +1,13 @@
 <div>
     
-    <div class="modal fade" id="editChildModal-<?php echo e($child->id); ?>" tabindex="-1" aria-labelledby="#editChildModalLabel-<?php echo e($child->id); ?>" aria-modal="true">
+    <div class="modal fade" id="addChildModal" tabindex="-1" aria-labelledby="addChildModalLabel" aria-modal="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="#editChildModalLabel-<?php echo e($child->id); ?>">Edit Child Details</h5>
+                    <h5 class="modal-title" id="addChildModalLabel">Add Child Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form wire:submit.prevent="update">
+                <form wire:submit.prevent="save">
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <label for="gender_id" class="form-label">Gender</label>
                                 <select id="gender_id" wire:model.defer="gender_id" class="form-select">
-                                    <option disabled <?php echo e(old('gender_id') === null ? 'selected' : ''); ?>>Select...</option>
+                                    <option <?php echo e(old('gender_id') === null ? 'selected' : ''); ?>>Select...</option>
                                     <?php $__currentLoopData = $genders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value="<?php echo e($item->id); ?>" <?php echo e(old('gender_id') === $item->id ? 'selected' : ''); ?>><?php echo e($item->gender); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="registration_number" class="form-label">Registration Number</label>
-                                <input type="text" id="registration_number" wire:model.defer="registration_number" value="<?php echo e(old('registration_number')); ?>" class="form-control" disabled>
+                                <input type="text" id="registration_number" wire:model.defer="registration_number" value="<?php echo e(old('registration_number')); ?>" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -62,4 +62,4 @@
         </div>
     </div>
 </div>
-<?php /**PATH D:\github\BeaconChildrenCenter\resources\views/livewire/edit-child-modal.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\github\BeaconChildrenCenter\resources\views/livewire/add-child-modal.blade.php ENDPATH**/ ?>
