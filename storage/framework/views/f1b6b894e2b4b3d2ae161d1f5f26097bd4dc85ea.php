@@ -188,7 +188,7 @@
   <a href="#investigations">Investigations</a><div id="investigations"></div>
   <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
-  <a href="#">Immunization</a>
+  <a href="#prescriptions">Prescriptions</a><div id="prescriptions"></div>
   <a href="#referral">Referral Letter</a><div id="referral"></div>
   <a href="#">Patient Documents</a>
 </div>
@@ -313,6 +313,7 @@
 <script src="<?php echo e(asset('js/triageresults.js')); ?>"></script>
 <script src="<?php echo e(asset('js/investigations.js')); ?>"></script>
 <script src="<?php echo e(asset('js/recordResults.js')); ?>"></script>
+<script src="<?php echo e(asset('js/prescriptions.js')); ?>"></script>
 
 </body>
 </html>

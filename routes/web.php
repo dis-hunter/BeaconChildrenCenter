@@ -211,6 +211,13 @@ Route::get('/get-child-data/{registration_number}', [ReferralController::class, 
 Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
 
 
+use App\Http\Controllers\PrescriptionController;
+
+Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
+Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
+
+
+
 
 
 
