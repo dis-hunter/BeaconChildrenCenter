@@ -437,8 +437,10 @@ headers: {
     }
 </script>
 <script>
-    //pushing data to the db therapy_session_2 table
-    
+    //pushing data to the db therapy_session table
+    //['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 
+    // 'Sensory Integration And Processing','Provide Guidance','Planned Home based tasks'] as $category)
+
     
     async function saveSession() {
         const categories = [
@@ -493,10 +495,10 @@ headers: {
     if (result.status === 'success') {
         alert('Session saved successfully!');
     } else {
-        alert(`Failed to save session: ${result.message}`);
+        alert(`Failed to save Sessions: ${result.message}`);
     }
 } catch (error) {
-    console.error('Error saving session:', error);
+    console.error('Error saving Session:', error);
     alert('An error occurred. Please check the console for more details.');
 }
     }
