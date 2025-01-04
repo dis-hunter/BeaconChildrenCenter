@@ -182,6 +182,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
         Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
+
+        Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
     });
 
     //Receptionist
@@ -211,7 +213,7 @@ Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']
 Route::get('/post-triage', function () {
     return view('postTriageQueue');
 });
-Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
+
 
 Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
 
