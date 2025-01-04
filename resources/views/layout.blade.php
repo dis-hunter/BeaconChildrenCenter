@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('title','Beacon Children Center')</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   @livewireStyles
 </head>
 
@@ -32,6 +35,25 @@
       padding-right: 10px;
     }
 
+    #togglePassword{
+      float: right;
+      margin-left: -25px;
+      margin-top: -40px;
+      right: 20px;
+      position: relative;
+      z-index: 2;
+
+    }
+    #togglePassword2{
+      float: right;
+      margin-left: -25px;
+      margin-top: -40px;
+      right: 20px;
+      position: relative;
+      z-index: 2;
+
+    }
+
     @media (min-width: 768px) {
       .gradient-form {
         height: 100vh !important;
@@ -44,6 +66,12 @@
         margin-top: 200px;
       }
     }
+    @media (max-width: 768px) {
+    .btn-close {
+        display: none;
+        transform: scale(0.9); /* Scales down the button size */
+    }
+}
 
     @media (min-width: 769px) {
       .gradient-custom-2 {

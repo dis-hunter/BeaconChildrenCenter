@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Add jQuery and Timepicker JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/timepicker@1.13.18/dist/timepicker.min.js"></script>
+
 <script>
     window.csrfToken = "<?php echo e(csrf_token()); ?>";
 </script>
@@ -84,15 +84,15 @@
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('KynkEMV')) {
-    $componentId = $_instance->getRenderedChildComponentId('KynkEMV');
-    $componentTag = $_instance->getRenderedChildComponentTagName('KynkEMV');
+} elseif ($_instance->childHasBeenRendered('DK49uo1')) {
+    $componentId = $_instance->getRenderedChildComponentId('DK49uo1');
+    $componentTag = $_instance->getRenderedChildComponentTagName('DK49uo1');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('KynkEMV');
+    $_instance->preserveRenderedChild('DK49uo1');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('KynkEMV', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('DK49uo1', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

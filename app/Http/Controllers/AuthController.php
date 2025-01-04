@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Gender;
 use App\Models\Role;
-use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ class AuthController extends Controller
     public function registerGet()
     {
         if (Auth::check()) {
-            return redirect(route('home'));
+            return $this->authenticated();
         }
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
@@ -37,11 +38,7 @@ class AuthController extends Controller
             'phone' => 'required',
             'password' => [
                 'required',
-                Password::min(6)
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised()
+                Password::default()
             ],
             'confirmpassword' => 'required'
         ]);
@@ -62,7 +59,7 @@ class AuthController extends Controller
         if (!$staff) {
             return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password','confirmpassword']));
         }
-        return redirect(route('register.post'))->with('success', 'Registration Successful');
+        return redirect(route('login'));
     }
 
     function loginGet()
@@ -81,9 +78,25 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('home'));
+            return $this->authenticated();
+            
         }
         return redirect(route('login.post'))->with('error', 'Credentials are not valid!')->withInput($request->except('password'));
+    }
+
+    public function authenticated(){
+        switch(Auth::user()->role_id){
+            case 1:
+                //return redirect()->route('admin.dashboard');
+            case 2:
+                return redirect()->route('doctor.dashboard');
+            case 3:
+                //return redirect()->route('user.dashboard');
+            case 4:
+                //return redirect()->route('user.dashboard');
+            default:
+                //return redirect()->route('home');
+        }
     }
 
     public function logout(Request $request)
@@ -96,11 +109,12 @@ class AuthController extends Controller
 
     public function profileGet()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $role = $user->role ? $user->role->role : 'Unknown';
         $gender = $user->gender ? $user->gender->gender : 'Unknown';
         return view('profile', compact('user', 'role', 'gender'));
     }
 
     public function profilePost(Request $request) {}
+
 }

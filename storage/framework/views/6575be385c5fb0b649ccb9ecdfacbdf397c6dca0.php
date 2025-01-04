@@ -14,7 +14,7 @@
     <div class="profile">
       <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
       <div>
-        <h2  style="margin-bottom: 6px;">Dr. Florence Oringe</h2>
+        <h2  style="margin-bottom: 6px;">Dr. <?php echo e($firstName); ?> <?php echo e($lastName); ?></h2>
         <p style="margin-top:0">Pediatrician</p>
       </div>
     </div>
@@ -24,7 +24,11 @@
         <div class="dropdown-content">
           <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
-          <a href="#">Log Out</a>
+          <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+
+          <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+            <?php echo csrf_field(); ?>
+          </form>
         </div>
       </div>
     </div>
@@ -37,22 +41,36 @@
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
           <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
-          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy List</a></li> 
+          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy </a></li> 
         </ul>
       </nav>
     </aside>
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
-        <h3>Good morning, Dr. Oringe!</h3>
+        <h3>Good morning, Dr. <?php echo e($lastName); ?>!</h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+        <thead>
+            <tr>
+               
+                <!-- <th>Patient Name</th> -->
+                
+            </tr>
+        </thead>
+        <tbody id="post-triage-list">
+            <tr>
+                <td colspan="6" style="text-align: center;">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
         <ul id="patient-list"></ul>
       </div>
       <div class="actions">
-        <button class="start-consult">Start Consultation</button>
-        <button class="view-schedule">View Schedule</button>
+        <!-- <button class="start-consult">Start Consultation</button> -->
+        <!-- <button class="view-schedule">View Schedule</button> -->
       </div>
     </section>
 
@@ -62,53 +80,29 @@
     </section>
 
     <section class="content" id="booked-content" style="display: none;">
-    <h2>Booked Patients</h2>
-
-    <!-- Search Form -->
-    <form method="GET" action="<?php echo e(route('booked.patients')); ?>">
-        <input type="text" name="search" placeholder="Search by name or telephone" value="<?php echo e(request('search')); ?>">
-        <button type="submit">Search</button>
-    </form>
-
-    <?php if(isset($error)): ?>
-        <p><?php echo e($error); ?></p> <!-- Show error if doctor not found -->
-    <?php elseif(isset($appointments) && $appointments->count() > 0): ?>
-        <h3>Appointments for Dr. <?php echo e(implode(' ', json_decode($doctor->fullname))); ?></h3>
-
-        <table id="booked-patients-table">
-            <thead>
+    <?php if(isset($appointmentsWithChildNames) && count($appointmentsWithChildNames) > 0): ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Child's Name</th>
+                <th>Appointment Start Time</th>
+                <th>Appointment End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $__currentLoopData = $appointmentsWithChildNames; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appointment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <th>Child's Name</th>
-                    <th>Parent's Name</th>
-                    <th>Parent's Contact</th>
-                    <th>Parent's Email</th>
-                    <th>Appointment Time</th>
+                    <td><?php echo e($appointment['child_name']); ?></td>
+                    <td><?php echo e($appointment['appointment_start_time']); ?></td>
+                    <td><?php echo e($appointment['appointment_end_time']); ?></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php $__currentLoopData = $appointments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appointment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <tr>
-                        <!-- Display Child's Full Name -->
-                        <td><?php echo e(implode(' ', $appointment->child->fullname)); ?></td>  <!-- Child's Full Name -->
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>No appointments for today.</p>
+<?php endif; ?>
 
-                        <!-- Display Parent's Full Name -->
-                        <td><?php echo e(implode(' ', $appointment->child->parent->fullname)); ?></td>  <!-- Parent's Full Name -->
-
-                        <!-- Display Parent's Telephone -->
-                        <td><?php echo e($appointment->child->parent->telephone); ?></td>  <!-- Parent's Contact -->
-
-                        <!-- Display Parent's Email -->
-                        <td><?php echo e($appointment->child->parent->email); ?></td>  <!-- Parent's Email -->
-
-                        <!-- Display Appointment Time -->
-                        <td><?php echo e($appointment->start_time); ?> - <?php echo e($appointment->end_time); ?></td>  <!-- Appointment Time -->
-                    </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>No appointments found for today.</p>
-    <?php endif; ?>
 </section>
 
 

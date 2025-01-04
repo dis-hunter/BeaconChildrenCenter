@@ -19,8 +19,8 @@ class TriageSeeder extends Seeder
         DB::table('triage')->insert([
             [
 
-                'visit_id' => 3,
-                'child_id' => 5,
+                'visit_id' => 1,
+                'child_id' => 1,
                 'staff_id' => 1,
                 'data' => json_encode([
                     'temperature' => 37.5,
@@ -33,13 +33,12 @@ class TriageSeeder extends Seeder
                     'oxygen_saturation' => 98,
                     'MUAC' => 11.5,
                 ]),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'assessment_id'=>3,
             ],
             [
-                'visit_id' => 4,
-                'child_id' => 6,
-                'staff_id' => 2,
+                'visit_id' => 2,
+                'child_id' => 2,
+                'staff_id' => 1,
                 'data' => json_encode([
                     'temperature' => 38.0,
                     'weight' => 10.5,
@@ -50,12 +49,9 @@ class TriageSeeder extends Seeder
                     'respiratory_rate' => 25,
                     'oxygen_saturation' => 95,
                     'MUAC' => 12.5,
-                    
-                ]),
-                'created_at' => now(),
-                'updated_at' => now(),  
+                ]), 
+                'assessment_id'=>2, 
             ]
-            ]);
-                
+        ]);      
     }
 }

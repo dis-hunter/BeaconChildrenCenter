@@ -10,38 +10,34 @@ use Illuminate\Http\Request;
 
 class BookedController extends Controller
 {
-    public function getBookedPatients(Request $request)
-    {
-        // Get the search term
-        $searchTerm = $request->input('search', '');
+    public function getTodaysAppointments()
+{
+    // Get the logged-in doctor's staff_id
+    $doctor = Auth::user(); // Assuming the logged-in user is the doctor
+    $staff_id = $doctor->id;
 
-        // Search for the doctor in the staff table based on the search term (name or telephone)
-        $doctor = Staff::where(function ($query) use ($searchTerm) {
-            $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(fullname, '$.first_name')) LIKE ?", ['%' . $searchTerm . '%'])
-                ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(fullname, '$.middle_name')) LIKE ?", ['%' . $searchTerm . '%'])
-                ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(fullname, '$.last_name')) LIKE ?", ['%' . $searchTerm . '%'])
-                ->orWhere('telephone', 'like', '%' . $searchTerm . '%');
-        })->first(); // Get the first doctor matching the search term
+    // Get today's date
+    $today = Carbon::today()->toDateString();
 
-        // If no doctor is found, return an error message
-        if (!$doctor) {
-            return view('doctorDash', ['error' => 'Doctor not found']);
-        }
+    // Fetch today's appointments for the logged-in doctor
+    $appointments = Appointment::where('staff_id', $staff_id)
+        ->whereDate('appointment_date', $today) // Filter appointments by today’s date
+        ->get();
 
-        // Get the doctor's staff_id
-        $staff_id = $doctor->id;
+    // Map appointments with child name and appointment times
+    $appointmentsWithChildNames = $appointments->map(function ($appointment) {
+        // Get child's name from the children table
+        $child = Child::find($appointment->child_id); // Assuming child_id exists in the appointment table
 
-        // Get today's date
-        $today = Carbon::today()->toDateString();
+        return [
+            'appointment_start_time' => $appointment->start_time,
+            'appointment_end_time' => $appointment->end_time,
+            'child_name' => $child ? implode(' ', json_decode($child->fullname)) : 'Unknown Child'
+        ];
+    });
 
-        // Retrieve appointments for the doctor using the staff_id and today's date
-        $appointments = Appointment::with(['child.parent']) // Eager load child and parent relationships
-            ->where('staff_id', $staff_id)  // Get appointments for this doctor based on staff_id
-            ->whereDate('appointment_date', $today)  // Filter by today's date
-            ->get();
+    return view('doctorDash', compact('appointmentsWithChildNames'));
+}
 
-        // Return the appointments view
-        return view('doctorDash', compact('appointments', 'doctor'));
-    }
 
 }

@@ -14,7 +14,7 @@
     <div class="profile">
       <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
       <div>
-        <h2  style="margin-bottom: 6px;">Dr. Florence Oringe</h2>
+        <h2  style="margin-bottom: 6px;">Dr. {{ $firstName }} {{ $lastName }}</h2>
         <p style="margin-top:0">Pediatrician</p>
       </div>
     </div>
@@ -24,7 +24,11 @@
         <div class="dropdown-content">
           <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
-          <a href="#">Log Out</a>
+          <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
         </div>
       </div>
     </div>
@@ -37,22 +41,36 @@
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
           <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
-          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy List</a></li> 
+          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy </a></li> 
         </ul>
       </nav>
     </aside>
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
-        <h3>Good morning, Dr. Oringe!</h3>
+        <h3>Good morning, Dr. {{ $lastName }}!</h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+        <thead>
+            <tr>
+               
+                <!-- <th>Patient Name</th> -->
+                
+            </tr>
+        </thead>
+        <tbody id="post-triage-list">
+            <tr>
+                <td colspan="6" style="text-align: center;">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
         <ul id="patient-list"></ul>
       </div>
       <div class="actions">
-        <button class="start-consult">Start Consultation</button>
-        <button class="view-schedule">View Schedule</button>
+        <!-- <button class="start-consult">Start Consultation</button> -->
+        <!-- <button class="view-schedule">View Schedule</button> -->
       </div>
     </section>
 
@@ -62,53 +80,29 @@
     </section>
 
     <section class="content" id="booked-content" style="display: none;">
-    <h2>Booked Patients</h2>
-
-    <!-- Search Form -->
-    <form method="GET" action="{{ route('booked.patients') }}">
-        <input type="text" name="search" placeholder="Search by name or telephone" value="{{ request('search') }}">
-        <button type="submit">Search</button>
-    </form>
-
-    @if(isset($error))
-        <p>{{ $error }}</p> <!-- Show error if doctor not found -->
-    @elseif(isset($appointments) && $appointments->count() > 0)
-        <h3>Appointments for Dr. {{ implode(' ', json_decode($doctor->fullname)) }}</h3>
-
-        <table id="booked-patients-table">
-            <thead>
+    @if(isset($appointmentsWithChildNames) && count($appointmentsWithChildNames) > 0)
+    <table>
+        <thead>
+            <tr>
+                <th>Child's Name</th>
+                <th>Appointment Start Time</th>
+                <th>Appointment End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($appointmentsWithChildNames as $appointment)
                 <tr>
-                    <th>Child's Name</th>
-                    <th>Parent's Name</th>
-                    <th>Parent's Contact</th>
-                    <th>Parent's Email</th>
-                    <th>Appointment Time</th>
+                    <td>{{ $appointment['child_name'] }}</td>
+                    <td>{{ $appointment['appointment_start_time'] }}</td>
+                    <td>{{ $appointment['appointment_end_time'] }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach($appointments as $appointment)
-                    <tr>
-                        <!-- Display Child's Full Name -->
-                        <td>{{ implode(' ', $appointment->child->fullname) }}</td>  <!-- Child's Full Name -->
+            @endforeach
+        </tbody>
+    </table>
+@else
+    <p>No appointments for today.</p>
+@endif
 
-                        <!-- Display Parent's Full Name -->
-                        <td>{{ implode(' ', $appointment->child->parent->fullname) }}</td>  <!-- Parent's Full Name -->
-
-                        <!-- Display Parent's Telephone -->
-                        <td>{{ $appointment->child->parent->telephone }}</td>  <!-- Parent's Contact -->
-
-                        <!-- Display Parent's Email -->
-                        <td>{{ $appointment->child->parent->email }}</td>  <!-- Parent's Email -->
-
-                        <!-- Display Appointment Time -->
-                        <td>{{ $appointment->start_time }} - {{ $appointment->end_time }}</td>  <!-- Appointment Time -->
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @else
-        <p>No appointments found for today.</p>
-    @endif
 </section>
 
 

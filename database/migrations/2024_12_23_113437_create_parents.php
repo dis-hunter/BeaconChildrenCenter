@@ -17,15 +17,21 @@ return new class extends Migration
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
             $table->json('fullname');
-            $table->date('dob');
-            $table->foreignId('gender_id')->constrained('gender','id');
+            $table->date('dob')->nullable();
+            $table->foreignId('gender_id')
+                ->constrained('gender','id')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->string('telephone');
             $table->string('email');
-            $table->string('national_id');
+            $table->string('national_id')->unique();
             $table->string('employer')->nullable();
             $table->string('insurance')->nullable();
             $table->string('referer')->nullable();
-            $table->foreignId('relationship_id')->constrained('relationships','id');
+            $table->foreignId('relationship_id')
+                ->constrained('relationships','id')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->timestamps();
         });
     }
