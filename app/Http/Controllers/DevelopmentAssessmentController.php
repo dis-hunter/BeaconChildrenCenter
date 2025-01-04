@@ -37,7 +37,7 @@ class DevelopmentAssessmentController extends Controller
         }
     
         // Fetch the Development Assessment record for the visit
-        $developmentAssessment = DB::table('development_assessment')->where('visit_id', $visit->id)->first();
+        $developmentAssessment = DB::table('development_assessment')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
     
         if ($developmentAssessment) {
             return response()->json([

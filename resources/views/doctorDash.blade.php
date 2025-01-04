@@ -14,7 +14,7 @@
     <div class="profile">
       <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
       <div>
-        <h2  style="margin-bottom: 6px;">Dr. Florence Oringe</h2>
+        <h2  style="margin-bottom: 6px;">Dr. {{ $firstName }} {{ $lastName }}</h2>
         <p style="margin-top:0">Pediatrician</p>
       </div>
     </div>
@@ -24,7 +24,11 @@
         <div class="dropdown-content">
           <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
-          <a href="#">Log Out</a>
+          <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
         </div>
       </div>
     </div>
@@ -44,15 +48,29 @@
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
-        <h3>Good morning, Dr. Oringe!</h3>
+        <h3>Good morning, Dr. {{ $lastName }}!</h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+        <thead>
+            <tr>
+               
+                <!-- <th>Patient Name</th> -->
+                
+            </tr>
+        </thead>
+        <tbody id="post-triage-list">
+            <tr>
+                <td colspan="6" style="text-align: center;">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
         <ul id="patient-list"></ul>
       </div>
       <div class="actions">
-        <button class="start-consult">Start Consultation</button>
-        <button class="view-schedule">View Schedule</button>
+        <!-- <button class="start-consult">Start Consultation</button> -->
+        <!-- <button class="view-schedule">View Schedule</button> -->
       </div>
     </section>
 

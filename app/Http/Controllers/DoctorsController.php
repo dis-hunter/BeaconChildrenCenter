@@ -92,7 +92,7 @@ class DoctorsController extends Controller
                 abort(404);
             }
 
-            $triage = DB::table('triage')->where('child_id', $child->id)->first();
+            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
 
             if (!$triage) {
                 Log::warning("Triage data not found for child with registration number: " . $registrationNumber);
@@ -302,6 +302,24 @@ return view('doctor', [
     }
 }
 
+public function dashboard()
+{
+    $doctor = auth()->user();
+
+    if (is_object($doctor->fullname)) {
+        $fullName = $doctor->fullname;
+        Log::info('fullname is already an object:', (array)$fullName);
+    } else {
+        $fullName = json_decode($doctor->fullname, true);
+        Log::info('fullname decoded from JSON:', $fullName);
+    }
+
+    return view('doctorDash', [
+        'doctor' => $doctor,
+        'firstName' => $fullName->firstname, // Access as object properties
+        'lastName' => $fullName->lastname,   // Access as object properties
+    ]);
+}
 
 }
 
