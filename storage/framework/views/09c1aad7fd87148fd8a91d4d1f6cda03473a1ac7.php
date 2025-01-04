@@ -9,22 +9,8 @@
 </style>
 <div class="container">
     <?php if(auth()->guard()->check()): ?>
-    <?php
- if (!function_exists('printArray')) {
-    function printArray($array, $prefix = '') {
-    foreach ($array as $key => $value) {
-    if (is_array($value)) {
-    echo $prefix . $key . ": <br>";
-    printArray($value, $prefix . '&nbsp;&nbsp;&nbsp;'); // Indent nested values
-    } else {
-    echo $prefix . $key . ": " . htmlspecialchars($value) . "<br>";
-    }
-    }
-    }
-}
-    ?>
+    <pre><?php echo e((auth()->user()->fullname)->firstname); ?></pre>
 
-    <?php printArray(auth()->user()->toArray()) ?>
     <?php endif; ?>
 </div>
 <?php $__env->stopSection(); ?>

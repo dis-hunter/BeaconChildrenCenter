@@ -127,21 +127,26 @@ class TriageController extends Controller
         ], 500);
     }
 }
-
+// 'doctor_id' => auth()->user()->id,
 public function getPostTriageQueue()
 {
     try {
-        $date = now()->toDateString(); // Automatically fetch today's date in 'Y-m-d' format
+        // Fetch authenticated user's ID
+        $doctorId = auth()->user()->id;
+
+        // Automatically fetch today's date in 'Y-m-d' format
+        $date = now()->toDateString();
 
         $patients = DB::table('visits')
             ->join('children', 'visits.child_id', '=', 'children.id')
-            ->select('visits.*', 'children.fullname')
+            ->select('visits.*', 'children.fullname', 'children.registration_number')
             ->where('visits.triage_pass', true)
             ->whereDate('visits.visit_date', $date)
-            // ->where('visits.staff_id', $staffId) // Filter by staff ID
+            ->where('visits.staff_id', $doctorId) // Compare with authenticated user's ID
             ->get()
             ->map(function ($visit) {
                 try {
+                    // Decode and reformat fullname if it's in JSON format
                     $fullname = json_decode($visit->fullname);
 
                     if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
@@ -165,10 +170,13 @@ public function getPostTriageQueue()
     } catch (\Exception $e) {
         return response()->json([
             'status' => 'error',
-            'message' => 'Failed to fetch post-triage queue'
+            'message' => 'Failed to fetch post-triage queue',
+            'error' => $e->getMessage()
         ], 500);
     }
 }
+
+
     public function getTriageData($child_id)
 {
     // Fetch the triage record for the given child_id
