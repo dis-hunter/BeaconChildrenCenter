@@ -47,9 +47,15 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); // Di
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', function () {return view('home');})->name('home');
+
+
+Route::get('/patients', [ChildrenController::class, 'get']);
+Route::post('/patients', [ChildrenController::class, 'create']);
+Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
+Route::get('/patients/search/{id?}', [ChildrenController::class, 'childGet']);
+
+    
 
 //therapist routes
 Route::get('/occupational_therapist', function () {
@@ -73,8 +79,10 @@ Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
 
-Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
-
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
+});
 
 
 //this handles parent related activity
@@ -112,7 +120,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', [AuthController::class, 'profileGet'])->name('profile');
     Route::post('profile', [AuthController::class, 'profilePost'])->name('profile.post');
 
-    //routes accessible based on role_id
     //Nurse
     Route::group(['middleware' => 'role:1'], function () {
         Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']); //->name('visits.untriaged');
