@@ -10,6 +10,7 @@
 <div class="container">
     <?php if(auth()->guard()->check()): ?>
     <?php
+ if (!function_exists('printArray')) {
     function printArray($array, $prefix = '') {
     foreach ($array as $key => $value) {
     if (is_array($value)) {
@@ -20,6 +21,7 @@
     }
     }
     }
+}
     ?>
 
     <?php printArray(auth()->user()->toArray()) ?>
