@@ -77,7 +77,9 @@ class TherapyController extends Controller
                 'triage' => null, 
             ]);
         }
-    } 
+    }
+    
+    //fix this later for the doctors notes in therapy
     public function getChildDetails($registrationNumber)
 {
     try {
@@ -181,6 +183,52 @@ return view('doctor', [
         return response()->json(['error' => 'Internal server error'], 500);
     }
 }
+
+public function saveTherapyGoal(Request $request)
+{
+    $validatedData = $request->validate([
+        'child_id' => 'required|exists:children,id',
+        'staff_id' => 'required|integer|exists:staff,id',
+        'therapy_id' => 'required|integer|exists:therapy,id',
+        'data' => 'required|array', // Ensures that 'data' is an array
+    ]);
+
+    try {
+        // Fetch the latest visit_id for the provided child_id
+        $latestVisit = DB::table('visits')
+            ->where('child_id', $validatedData['child_id'])
+            ->latest('id') // Order by 'id' descending
+            ->first();
+
+        if (!$latestVisit) {
+            return response()->json(['status' => 'error', 'message' => 'No visits found for the provided child_id'], 404);
+        }
+
+        // Get the visit_id from the latest visit
+        $visitId = $latestVisit->id;
+
+        // Convert the 'data' array into a JSON string
+        $jsonData = json_encode($validatedData['data'], JSON_THROW_ON_ERROR);
+
+        // Insert data into the therapy_goals table
+        DB::table('therapy_goals')->insert([
+            'child_id' => $validatedData['child_id'],
+            'staff_id' => $validatedData['staff_id'],
+            'therapy_id' => $validatedData['therapy_id'],
+            'visit_id' => $visitId, // Use the fetched visit_id
+            'data' => $jsonData, // Save the JSON-encoded string
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Therapy goals saved successfully'], 201);
+    } catch (\JsonException $jsonException) {
+        return response()->json(['status' => 'error', 'message' => 'Invalid JSON data provided'], 400);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+}
+
 
 
 }

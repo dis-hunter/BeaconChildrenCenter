@@ -146,6 +146,8 @@
               <tr>
                 <th class="py-2 border">Visit ID</th>
                 <th class="py-2 border">Visit Date</th>
+                <th class="py-2 border">Visit Time</th>
+                <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Child ID</th>
                 <th class="py-2 border">Child Name</th>
                 <th class="py-2 border">Child DOB</th>
@@ -340,6 +342,8 @@
         row.innerHTML = `
           <td class="py-2 border">${visit.visit_id}</td>
           <td class="py-2 border">${visit.visit_date}</td>
+          <td class="py-2 border">${visit.created_at}</td>
+          <td class="py-2 border">${visit.registration_number}</td>
           <td class="py-2 border">${visit.child_id}</td>
           <td class="py-2 border">${fullNameString}</td>
           <td class="py-2 border">${visit.dob}</td>
@@ -365,5 +369,59 @@
       // Add further functionality as needed
     }
   </script>
+<script>
+  let selectedPatient = null;
+
+  function generatePatientList() {
+    const patientTableBody = document.getElementById("patient-table-body");
+    patientTableBody.innerHTML = ""; // Clear existing rows
+
+    // Assuming visits is an array of patient visit objects passed from backend
+    const visits = @json($visits); // Use Laravel's Blade directive to pass data
+
+    visits.forEach((visit) => {
+      const fullname = JSON.parse(visit.fullname);
+      const fullNameString = fullname
+        ? `${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}`
+        : visit.fullname;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="py-2 border">${visit.visit_id}</td>
+        <td class="py-2 border">${visit.visit_date}</td>
+        <td class="py-2 border">${visit.created_at}</td>
+        <td class="py-2 border">${visit.registration_number}</td>
+        <td class="py-2 border">${visit.child_id}</td>
+        <td class="py-2 border">${fullNameString}</td>
+        <td class="py-2 border">${visit.dob}</td>
+        <td class="py-2 border">${visit.staff_id}</td>
+        <td class="py-2 border">${visit.specialization_id}</td>
+      `;
+      row.addEventListener('click', () => selectPatient(visit));
+      patientTableBody.appendChild(row);
+    });
+  }
+
+  function selectPatient(patient) {
+    selectedPatient = patient;
+    const patientTableBody = document.getElementById("patient-table-body");
+    const rows = patientTableBody.querySelectorAll("tr");
+    rows.forEach(row => row.classList.remove("bg-blue-50", "border-l-4", "border-blue-500"));
+    event.currentTarget.classList.add("bg-blue-50", "border-l-4", "border-blue-500");
+  }
+
+  function startConsultation() {
+    if (selectedPatient) {
+      alert(`Starting consultation with: ${selectedPatient.fullname}`);
+      // Add further functionality as needed, e.g., redirect to consultation page
+    } else {
+      alert('Please select a patient first.');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    generatePatientList();
+  });
+</script>
 </body>
 </html>

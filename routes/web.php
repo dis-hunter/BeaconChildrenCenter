@@ -12,6 +12,8 @@ use App\Http\Controllers\VisitController;
 // Import the controller class
 use App\Http\Controllers\TriageController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TherapyController;
+
 
 use App\Http\Controllers\AuthController;
 use App\Models\Role;
@@ -260,6 +262,9 @@ Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('p
 
 Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
 
+Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
+
+Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 
 
 

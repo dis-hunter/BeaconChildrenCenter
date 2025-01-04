@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
     <title>Occupational Therapist Session Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -79,6 +81,9 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyGoals()">Save Goals</button>
+
+
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
@@ -92,6 +97,8 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualised()">Save individualised plan and strategies</button>
+
                         </div>
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
@@ -105,6 +112,7 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
                         <!-- Therapy Assessment Tab-->
                         <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
@@ -118,6 +126,7 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyAssessment()">Save Therapy Assessment</button>
                         </div>
 
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
@@ -129,20 +138,11 @@
                                     onchange="handleChange('followup', 'home_practice', event)"
                                 ></textarea>
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Next Session Plan</label>
-                                <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                    id="followup_next_plan"
-                                    onchange="handleChange('followup', 'next_plan', event)"
-                                ></textarea>
-                            </div>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowUp()">Save Follow-up</button>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Save Session
-                    </button>
+                    
                 </form>
             </div>
         </div>
@@ -242,6 +242,67 @@
             });
             document.querySelector(`[data-value="${tab}"]`).classList.add('active');
         }
+        async function saveTherapyGoals() {
+    const categories = [
+        'Activities of Daily Living(ADLs)',
+        'Instrumental Activities of Daily Living(IADLs)',
+        'Fine and Gross Motor Skills',
+        'Sensory Integration and Processing',
+        'Cognitive Skills',
+        'Emotional and Social Skills',
+        'School goals',
+        'Rehabilitation goals'
+    ];
+
+    const goalsData = {};
+
+    // Collect data from the textareas
+    categories.forEach(category => {
+        const textarea = document.getElementById(`goals_${category}`);
+        if (textarea) {
+            goalsData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+        }
+    });
+
+    // Prepare the full payload with other required attributes
+    const payload = {
+        child_id: 1, // Replace with the actual element ID or logic
+        staff_id: 8, // Replace with the actual element ID or logic
+        therapy_id:1, // Replace with the actual element ID or logic
+        data: goalsData // Add the collected categories data as a JSON object
+    };
+
+    try {
+        // Make the POST request
+        const response = await fetch('/saveTherapyGoal', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Response from server:', result);
+
+        if (result.status === 'success') {
+            alert('Therapy goals saved successfully!');
+        } else {
+            alert('Failed to save therapy goals. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error saving therapy goals:', error);
+        alert('An error occurred. Please check the console for more details.');
+    }
+}
+
 
         document.addEventListener('DOMContentLoaded', () => {
             showTabContent('goals'); // Default tab to show
