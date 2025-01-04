@@ -68,7 +68,7 @@ class DiagnosisController extends Controller
         }
 
         // Placeholder doctor ID (replace this logic with actual doctor determination)
-        $doctorId = 1; // Replace with actual logic for determining doctor ID
+        $doctorId = auth()->user()->id; // Replace with actual logic for determining doctor ID
 
         try {
             // Prepare the data to be saved

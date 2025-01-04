@@ -55,7 +55,7 @@ class FamilySocialHistoryController extends Controller
             ->first();
 
         // Use a placeholder doctor ID if actual logic for determining doctor_id isn't available
-        $doctorId = 1; // Replace with logic to fetch the actual doctor ID if needed
+        $doctorId = auth()->user()->id; // Replace with logic to fetch the actual doctor ID if needed
 
         try {
             // Create or update the Family and Social History record

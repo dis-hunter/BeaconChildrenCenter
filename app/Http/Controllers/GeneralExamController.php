@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GeneralExamController extends Controller
 {
@@ -28,6 +29,8 @@ class GeneralExamController extends Controller
         if (!$visit) {
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
+        $doctorId = auth()->user()->id; // Placeholder doctor ID (replace with dynamic logic if necessary)
+        Log::info("Doctor ID retrieved from auth: " . $doctorId);
 
         // Fetch the General Exam record for the visit
         $generalExam = DB::table('general_exam')->where('visit_id', $visit->id)->first();
@@ -67,6 +70,7 @@ class GeneralExamController extends Controller
         }
 
         $doctorId = 1; // Placeholder doctor ID (replace with dynamic logic if necessary)
+        Log::info("Doctor ID retrieved from auth: " . $doctorId);
 
         try {
             // Create or update the General Exam record for the visit

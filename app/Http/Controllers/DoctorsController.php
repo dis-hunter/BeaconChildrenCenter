@@ -139,7 +139,7 @@ class DoctorsController extends Controller
                 [
                     'visit_id' => $visit->id, // Associate with visit
                     'child_id' => $child->id,
-                    'doctor_id' => 1, // Replace with logic for the actual doctor ID
+                    'doctor_id' => auth()->user()->id, // Replace with logic for the actual doctor ID
                 ],
                 ['data' => json_encode($request->all())] // Ensure data is JSON encoded
             );
@@ -192,7 +192,7 @@ class DoctorsController extends Controller
             [
                 'visit_id' => $visit->id,
                 'child_id' => $child->id,
-                'doctor_id' => 1, // Replace with authenticated doctor ID
+                'doctor_id' => auth()->user()->id, // Replace with authenticated doctor ID
             ],
             ['data' => json_encode($request->data), 'updated_at' => now()]
         );
