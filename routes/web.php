@@ -197,30 +197,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:4'], function () {});
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 use App\Http\Controllers\VisitsController;
 use App\Models\Triage;
 
