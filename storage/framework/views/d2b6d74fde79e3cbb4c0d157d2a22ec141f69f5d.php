@@ -9,7 +9,7 @@
 </style>
 <div class="container">
     <?php if(auth()->guard()->check()): ?>
-    <pre><?php echo e(auth()->user()->fullname->first_name); ?></pre>
+    <pre><?php echo e((auth()->user()->fullname)->firstname); ?></pre>
 
     <?php endif; ?>
 </div>
