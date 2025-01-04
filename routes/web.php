@@ -208,7 +208,12 @@ use App\Http\Controllers\VisitsController;
 // Route::get('/visits-page', function () {
 //     return view('visits');
 // })->name('visits.page');
-
+Route::get('/triageDashboard', function () {
+    return view('triageDash');
+});
+Route::post('/triage', [TriageController::class, 'store']);
+Route::get('/triage', [TriageController::class, 'create'])->name('triage');
+Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);//->name('visits.untriaged');
 
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
