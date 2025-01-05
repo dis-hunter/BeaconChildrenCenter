@@ -8,6 +8,7 @@
 function startConsultation(registrationNumber) {
   // Redirect to the URL with the registration number
   window.location.href = `/doctor/${registrationNumber}`;
+  
 }
 
 async function fetchPostTriageQueue() {
