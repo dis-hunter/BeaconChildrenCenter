@@ -137,6 +137,8 @@
                         <form id="patient-form" class="p-6 space-y-6">
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
+                                            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+
                                     <label class="block text-sm font-medium text-gray-700" for="firstName">First Name</label>
                                     <input type="text" id="firstName" name="firstName" value="{{ $firstName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
@@ -216,7 +218,7 @@
                             </div>
 
                             <div class="flex justify-end">
-                                <button type="submit" class="bg-gradient-to-r from-blue-500 to-sky-500 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">Save</button>
+                                <button type="submit" class="bg-gradient-to-r from-blue-500 to-sky-500 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300" onclick="CompletedVisit()">Save</button>
                             </div>
                         </form>
                     </div>
@@ -230,39 +232,66 @@
 
             showHomeForm();
         });
-    //     async function saveDoctorNotes() {
-    // try {
-    //     const doctorNotes = document.getElementById("doctorsNotes").value;
-    //     const childId = document.getElementById('child_id').value;
+        async function CompletedVisit() {
+    try {
+        const childIdElement = document.getElementById('child_id');
+        const doctorNotesElement = document.getElementById('doctorsNotes');
 
-    //     const dataToSend = {
-    //         child_id: childId,
-    //         notes: doctorNotes
-    //     };
+        if (!childIdElement) {
+            throw new Error('Child ID element not found');
+        }
 
-    //     const response = await fetch('/saveDoctorNotes', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    //         },
-    //         body: JSON.stringify(dataToSend)
-    //     });
+        const childId = childIdElement.value;
+        const doctorNotes = doctorNotesElement ? doctorNotesElement.value : '';
 
-    //     if (!response.ok) {
-    //         throw new Error(`HTTP error! Status: ${response.status}`);
-    //     }
+        // First save the doctor's notes
+        const notesResponse = await fetch('/saveDoctorNotes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                child_id: childId,
+                notes: doctorNotes
+            })
+        });
 
-    //     const result = await response.json();
-    //     if (result.status === 'success') {
-    //         alert('Notes saved successfully!');
-    //     } else {
-    //         alert('Failed to save notes. Please try again.');
-    //     }
-    // } catch (error) {
-    //     console.error('Error:', error);
-    //     alert('Error saving notes');
-    // }}
+        const notesResult = await notesResponse.json();
+        
+        if (!notesResponse.ok) {
+            throw new Error(notesResult.message || 'Failed to save notes');
+        }
+
+        // Then mark the visit as completed
+        const completedResponse = await fetch('/completedVisit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                child_id: childId
+            })
+        });
+
+        const completedResult = await completedResponse.json();
+
+        if (completedResponse.ok && completedResult.status === 'success') {
+            alert('Visit completed successfully!');
+            // Redirect to the nurse dashboard with the child_id
+            window.location.href = `/nurse_dashboard/${childId}`;
+        } else {
+            throw new Error(completedResult.message || 'Failed to complete visit');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+    }
+}
     
     </script>
     <script src="{{ asset('js/doctor.js') }}"></script>

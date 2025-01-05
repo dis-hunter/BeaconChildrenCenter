@@ -399,4 +399,42 @@ public function saveFollowup(Request $request)
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 }
+public function completedVisit(Request $request)
+{
+    try {
+        // Validate the request
+        $validated = $request->validate([
+            'child_id' => 'required|integer'
+        ]);
+
+        // Update the latest visit for this child directly
+        $updated = DB::table('visits')
+            ->where('child_id', $validated['child_id'])
+            ->latest()  // Orders by created_at DESC
+            ->limit(1)  // Limits to the most recent record
+            ->update([
+                'completed' => true,
+                'updated_at' => now()
+            ]);
+
+        if ($updated === 0) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No active visit found for this child'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Visit marked as completed successfully'
+        ], 200);
+
+    } catch (\Exception $e) {
+        \Log::error('Error in completedVisit: ' . $e->getMessage());
+        return response()->json([
+            'status' => 'error',
+            'message' => 'An error occurred while processing your request'
+        ], 500);
+    }
+}
 }
