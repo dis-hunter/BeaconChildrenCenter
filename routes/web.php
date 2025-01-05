@@ -22,6 +22,7 @@ use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\AppointmentController;
 
 
 
