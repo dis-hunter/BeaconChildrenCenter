@@ -134,12 +134,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Receptionist Routes
     Route::group(['middleware' => 'role:3'], function () {
-        Route::get('/receiptionist_dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
+        Route::get('/dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
         Route::get('/patients', [ChildrenController::class, 'get']);
         Route::post('/patients', [ChildrenController::class, 'create']);
         Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
         Route::get('/patients/search/{id?}', [ChildrenController::class, 'childGet']);
-        Route::view('/visithandle', 'reception.visits'); 
+        Route::view('/visithandle', 'reception.visits');
     });
 
     // Admin Routes

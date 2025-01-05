@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container mt-5">
-    <div x-data="{showForm:true}">
+    <div x-data="{showForm:false}">
     
         <button @click="showForm = !showForm" class="btn btn-primary mb-3">
         New Parent & Child
