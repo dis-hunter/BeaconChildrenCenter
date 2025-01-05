@@ -304,6 +304,8 @@ async function startConsultation() {
     }
     showLoadingIndicator();
     try {
+       // Update loading progress
+       updateLoadingProgress(20, 'Checking patient data...');
         // First make an AJAX call to check if the patient exists and get initial data
         const response = await fetch(`http://127.0.0.1:8000/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
             method: 'GET',
@@ -312,12 +314,16 @@ async function startConsultation() {
                 'X-Requested-With': 'XMLHttpRequest'  // Marks this as an AJAX request
             }
         });
+         // Update loading progress
+         updateLoadingProgress(50, 'Fetching data from server...');
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
+         // Update loading progress
+         updateLoadingProgress(80, 'Processing data...');
         
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
