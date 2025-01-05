@@ -149,8 +149,7 @@
             </div>
         </div>
     </div>
-
-    <script>
+    <script src="{{ asset('js/loader.js') }}"></script>    <script>
         // JavaScript remains unchanged
         let formData = {
             client_id: '',
@@ -244,6 +243,9 @@
             });
             document.querySelector(`[data-value="${tab}"]`).classList.add('active');
         }
+        
+        // handles submission of goals to db
+        
         async function saveTherapyGoals() {
     const categories = [
         'Activities of Daily Living(ADLs)',
@@ -512,6 +514,7 @@ headers: {
 
     
     async function saveFollowup() {
+        showLoadingIndicator();
         const categories = [
             'Home Practice Assignments',
             'Next Session Plan',
@@ -564,9 +567,12 @@ headers: {
 } catch (error) {
     console.error('Error saving Followup:', error);
     alert('An error occurred. Please check the console for more details.');
-}
+}finally {
+        hideLoadingIndicator();
     }
+}
 </script>
+
 
 </body>
 </html>
