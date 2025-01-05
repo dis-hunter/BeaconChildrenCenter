@@ -234,34 +234,34 @@
           </div>
 
           <div class="input-group">
-            <div>
-              <label for="mothersName">Mother's Name:</label>
-              <input type="text" id="mothersName" name="mothersName">
-            </div>
-            <div>
-              <label for="motherTel">Tel:</label>
-              <input type="text" id="motherTel" name="motherTel">
-            </div>
-            <div>
-              <label for="motherEmail">Email:</label>
-              <input type="text" id="motherEmail" name="motherEmail">
-            </div>
-          </div>
+    <div>
+      <label for="mothersName">Mother's Name:</label>
+      <input type="text" id="mothersName" name="mothersName" value="{{ $parents['Mother']['fullname'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="motherTel">Tel:</label>
+      <input type="text" id="motherTel" name="motherTel" value="{{ $parents['Mother']['telephone'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="motherEmail">Email:</label>
+      <input type="text" id="motherEmail" name="motherEmail" value="{{ $parents['Mother']['email'] ?? '' }}"> 
+    </div>
+  </div>
 
           <div class="input-group">
-            <div>
-              <label for="fathersName">Father's Name:</label>
-              <input type="text" id="fathersName" name="fathersName">
-            </div>
-            <div>
-              <label for="fatherTel">Tel:</label>
-              <input type="text" id="fatherTel" name="fatherTel">
-            </div>
-            <div>
-              <label for="fatherEmail">Email:</label>
-              <input type="text" id="fatherEmail" name="fatherEmail">
-            </div>
-          </div>
+    <div>
+      <label for="fathersName">Father's Name:</label>
+      <input type="text" id="fathersName" name="fathersName" value="{{ $parents['Father']['fullname'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="fatherTel">Tel:</label>
+      <input type="text" id="fatherTel" name="fatherTel" value="{{ $parents['Father']['telephone'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="fatherEmail">Email:</label>
+      <input type="text" id="fatherEmail" name="fatherEmail" value="{{ $parents['Father']['email'] ?? '' }}"> 
+    </div>
+  </div>
 
           <label for="informant">Informant:</label>
           <input type="text" id="informant" name="informant">
