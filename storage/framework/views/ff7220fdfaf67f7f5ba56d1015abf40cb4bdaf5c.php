@@ -146,7 +146,7 @@
               <tr>
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
-                <th class="py-2 border">Visit Time</th>
+                <th class="py-2 border">Visit Date/Time</th>
               </tr>
             </thead>
             <tbody id="patient-table-body">
