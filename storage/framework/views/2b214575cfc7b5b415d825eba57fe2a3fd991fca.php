@@ -149,7 +149,8 @@
             </div>
         </div>
     </div>
-    <script src="<?php echo e(asset('js/loader.js')); ?>"></script>    <script>
+    <script src="<?php echo e(asset('js/loader.js')); ?>"></script>    
+    <script>
         // JavaScript remains unchanged
         let formData = {
             client_id: '',
@@ -247,6 +248,7 @@
         // handles submission of goals to db
         
         async function saveTherapyGoals() {
+            showLoadingIndicator();
     const categories = [
         'Activities of Daily Living(ADLs)',
         'Instrumental Activities of Daily Living(IADLs)',
@@ -304,8 +306,11 @@
     } catch (error) {
         console.error('Error saving therapy goals:', error);
         alert('An error occurred. Please check the console for more details.');
+    }finally {
+        hideLoadingIndicator();
     }
 }
+
 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -315,6 +320,7 @@
         <script>
                 //pushing data to the db therapy_assessment table
     async function saveAssessment() {
+        showLoadingIndicator();
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
@@ -371,13 +377,16 @@ headers: {
 } catch (error) {
     console.error('Error saving assessment:', error);
     alert('An error occurred. Please check the console for more details.');
-}
+}finally {
+        hideLoadingIndicator();
     }
+}
 </script>
 <script>
     //pushing data to the db therapy_individualized table
     
     async function saveIndividualized() {
+        showLoadingIndicator();
         const categories = [
             'Therapy frequency and Duration',
             'Therapy Setting',
@@ -437,8 +446,10 @@ headers: {
 } catch (error) {
     console.error('Error saving individualized plan and strategies:', error);
     alert('An error occurred. Please check the console for more details.');
-}
+}finally {
+        hideLoadingIndicator();
     }
+}
 </script>
 <script>
     //pushing data to the db therapy_session table
@@ -447,6 +458,7 @@ headers: {
 
     
     async function saveSession() {
+        showLoadingIndicator();
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
@@ -504,8 +516,11 @@ headers: {
 } catch (error) {
     console.error('Error saving Session:', error);
     alert('An error occurred. Please check the console for more details.');
-}
+}finally {
+        hideLoadingIndicator();
     }
+}
+    
 </script>
 <script>
     //pushing data to the db follow_up table
