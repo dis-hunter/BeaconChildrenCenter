@@ -125,7 +125,7 @@ public function store(Request $request, $registrationNumber)
         DB::table('prescriptions')->insert([
             'visit_id' => $visit->id,
             'child_id' => $child->id,
-            'staff_id' => 1,// Hardcoded staff ID for now
+            'staff_id' => auth()->user()->id,
             'data' => json_encode($prescriptionData),
             'created_at' => now(),
             'updated_at' => now(),

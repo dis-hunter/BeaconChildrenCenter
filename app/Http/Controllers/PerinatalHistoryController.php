@@ -21,7 +21,7 @@ class PerinatalHistoryController extends Controller
 
         // Fetch the Perinatal History record for the child
         $perinatalHistory = DB::table('perinatal_history')
-            ->where('child_id', $child->id)
+            ->where('child_id', $child->id)->orderBy('created_at','desc')
             ->first();
 
         if ($perinatalHistory) {

@@ -21,7 +21,7 @@ class PastMedicalHistoryController extends Controller
 
         // Fetch the Past Medical History record for the child
         $pastMedicalHistory = DB::table('past_medical_history')
-            ->where('child_id', $child->id)
+            ->where('child_id', $child->id)->orderBy('created_at','desc')
             ->first();
 
         if ($pastMedicalHistory) {
