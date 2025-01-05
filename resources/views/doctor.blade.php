@@ -162,7 +162,11 @@
 <div class="sidebar">
   <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;">{{ $firstName }} {{ $middleName }} {{ $lastName }}</span></h2> 
   <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
-  <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+  </form>
+
   <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
   <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
 </div>

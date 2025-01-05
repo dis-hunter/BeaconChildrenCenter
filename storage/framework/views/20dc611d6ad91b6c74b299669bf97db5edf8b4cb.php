@@ -12,8 +12,8 @@
                     <div class="card-body p-md-5 mx-md-4">
 
                         <div class="text-center">
-                            <img src="" style="width: 185px;" alt="logo">AddImage
-                            <h4 class="mt-1 mb-5 pb-1">Beacon Children Center</h4>
+                        <img src="<?php echo e(asset('images/logo.jpg')); ?>"
+                        style="width: 180px;" alt="logo">
                         </div>
 
                         <form action="/register" method="post">
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="<?php echo e(old('middlename')); ?>" required />
+                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="<?php echo e(old('middlename')); ?>"/>
                                         <label for="middlename">Middle Name</label>
                                     </div>
                                 </div>
@@ -125,15 +125,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('zeUBn7l')) {
-    $componentId = $_instance->getRenderedChildComponentId('zeUBn7l');
-    $componentTag = $_instance->getRenderedChildComponentTagName('zeUBn7l');
+} elseif ($_instance->childHasBeenRendered('XiNqFbo')) {
+    $componentId = $_instance->getRenderedChildComponentId('XiNqFbo');
+    $componentTag = $_instance->getRenderedChildComponentTagName('XiNqFbo');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('zeUBn7l');
+    $_instance->preserveRenderedChild('XiNqFbo');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('zeUBn7l', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('XiNqFbo', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
