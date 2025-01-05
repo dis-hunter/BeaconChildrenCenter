@@ -269,6 +269,8 @@ Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
 Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
+Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
+
 
 Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
 Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');

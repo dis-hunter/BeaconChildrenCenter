@@ -244,8 +244,8 @@
         const childId = childIdElement.value;
         const doctorNotes = doctorNotesElement ? doctorNotesElement.value : '';
 
-        // First save the doctor's notes
-        const notesResponse = await fetch('/saveDoctorNotes', {
+        // Save the doctor's notes
+        const response = await fetch('/saveDoctorNotes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -258,33 +258,14 @@
             })
         });
 
-        const notesResult = await notesResponse.json();
+        const result = await response.json();
         
-        if (!notesResponse.ok) {
-            throw new Error(notesResult.message || 'Failed to save notes');
-        }
+        if (response.ok && result.status === 'success') {
+            alert(result.message);
+            window.location.href = `/therapist_dashboard`;
 
-        // Then mark the visit as completed
-        const completedResponse = await fetch('/completedVisit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                child_id: childId
-            })
-        });
-
-        const completedResult = await completedResponse.json();
-
-        if (completedResponse.ok && completedResult.status === 'success') {
-            alert('Visit completed successfully!');
-            // Redirect to the nurse dashboard with the child_id
-            window.location.href = `/nurse_dashboard/${childId}`;
         } else {
-            throw new Error(completedResult.message || 'Failed to complete visit');
+            throw new Error(result.message || 'Failed to save notes');
         }
 
     } catch (error) {

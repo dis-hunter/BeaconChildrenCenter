@@ -63,7 +63,8 @@ class VisitController extends Controller
             ->where('id', $latestVisit->id)
             ->update([
                 'notes' => $validatedData['notes'],
-                'updated_at' => now()
+                'updated_at' => now(),
+                'completed'=>true
             ]);
 
         return response()->json(['status' => 'success', 'message' => 'Notes updated successfully'], 200);
