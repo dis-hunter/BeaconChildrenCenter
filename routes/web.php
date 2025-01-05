@@ -269,3 +269,4 @@ Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->
 Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
 Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
 Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
+Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
