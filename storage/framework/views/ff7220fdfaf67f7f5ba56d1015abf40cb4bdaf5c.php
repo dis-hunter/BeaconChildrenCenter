@@ -144,15 +144,9 @@
           <table class="min-w-full bg-white border-collapse">
             <thead>
               <tr>
-                <th class="py-2 border">Visit ID</th>
-                <th class="py-2 border">Visit Date</th>
+              <th class="py-2 border">Child Name</th>
+              <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Time</th>
-                <th class="py-2 border">Registration Number</th>
-                <th class="py-2 border">Child ID</th>
-                <th class="py-2 border">Child Name</th>
-                <th class="py-2 border">Child DOB</th>
-                <th class="py-2 border">Staff ID</th>
-                <th class="py-2 border">Specialization</th>
               </tr>
             </thead>
             <tbody id="patient-table-body">
@@ -375,7 +369,7 @@ async function startConsultation() {
 
     showSection('dashboard');
 </script>
-<script>
+<!-- <script>
     function generatePatientList() {
       const patientTableBody = document.getElementById("patient-table-body");
       patientTableBody.innerHTML = ""; // Clear existing rows
@@ -391,15 +385,9 @@ async function startConsultation() {
 
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td class="py-2 border">${visit.visit_id}</td>
-          <td class="py-2 border">${visit.visit_date}</td>
           <td class="py-2 border">${visit.created_at}</td>
           <td class="py-2 border">${visit.registration_number}</td>
-          <td class="py-2 border">${visit.child_id}</td>
           <td class="py-2 border">${fullNameString}</td>
-          <td class="py-2 border">${visit.dob}</td>
-          <td class="py-2 border">${visit.staff_id}</td>
-          <td class="py-2 border">${visit.specialization_id}</td>
         `;
         patientTableBody.appendChild(row);
       });
@@ -416,7 +404,7 @@ async function startConsultation() {
     }
 
    
-  </script>
+  </script> -->
 <script>
   let selectedPatient = null;
 
@@ -435,15 +423,9 @@ async function startConsultation() {
 
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td class="py-2 border">${visit.visit_id}</td>
-      <td class="py-2 border">${visit.visit_date}</td>
+        <td class="py-2 border">${fullNameString}</td>
+        <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
-      <td class="py-2 border">${visit.registration_number}</td>
-      <td class="py-2 border">${visit.child_id}</td>
-      <td class="py-2 border">${fullNameString}</td>
-      <td class="py-2 border">${visit.dob}</td>
-      <td class="py-2 border">${visit.staff_id}</td>
-      <td class="py-2 border">${visit.specialization_id}</td>
       <td class="py-2 border">
        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">

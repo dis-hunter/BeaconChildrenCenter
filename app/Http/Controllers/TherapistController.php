@@ -45,15 +45,9 @@ class TherapistController extends Controller
             ->join('children', 'visits.child_id', '=', 'children.id')
             ->join('staff', 'visits.staff_id', '=', 'staff.id')
             ->select(
-                'visits.id as visit_id',
-                'visits.visit_date',
                 'visits.created_at',
-                'children.id as child_id',
                 'children.registration_number',
                 'children.fullname',
-                'children.dob',
-                'staff.id as staff_id',
-                'staff.specialization_id'
             )
             ->whereDate('visits.created_at', '=', now()->toDateString())  // Filter by today's date
             ->orderBy('visits.created_at')
