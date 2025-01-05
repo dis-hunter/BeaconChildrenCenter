@@ -174,7 +174,7 @@
     </div>
   </div>
 
- 
+  <script src="{{ asset('js/loader.js') }}"></script>    
   <script>
     let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
     let sidebarExpanded = true;
@@ -295,11 +295,14 @@ function selectRegistrationNumber(registrationNumber, childId) {
 }
 
 async function startConsultation() {
+
+
+  
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
         return;
     }
-
+    showLoadingIndicator();
     try {
         // First make an AJAX call to check if the patient exists and get initial data
         const response = await fetch(`http://127.0.0.1:8000/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
@@ -335,6 +338,7 @@ async function startConsultation() {
     }
 } 
     showSection('dashboard');
+    hideLoadingIndicator();
     
     const currentDate = document.getElementById('current-date');
     updateDateTime();
