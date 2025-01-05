@@ -108,7 +108,6 @@
 <div class="sidebar">
   <div class="logout">Logout</div>
   <a href="#patientRegistration">Patient Registration</a>
-  <!-- <button id="bookAppointmentButton">Book Appointment</button> -->
   <a href="#appointmentManagement">Appointment Management</a>
   <a href="#calendar">Calendar</a>
   <a href="#payment">Payments</a>

@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="{{old('middlename')}}" required />
+                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="{{old('middlename')}}"/>
                                         <label for="middlename">Middle Name</label>
                                     </div>
                                 </div>

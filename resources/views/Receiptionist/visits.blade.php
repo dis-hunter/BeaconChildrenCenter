@@ -1,6 +1,5 @@
 <!-- Search Form -->
- <!-- Search Form -->
-<!-- Search Form -->
+
 <h2>Welcome</h2>
 <form action="{{ route('parent.get-children') }}" method="post">
     @csrf

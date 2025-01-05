@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Appointments;
 use Carbon\Carbon;
+use Illuminate\Routing\Controller;
 
 class AppointmentController extends Controller
 {

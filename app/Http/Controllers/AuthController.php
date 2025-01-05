@@ -84,20 +84,31 @@ class AuthController extends Controller
         return redirect(route('login.post'))->with('error', 'Credentials are not valid!')->withInput($request->except('password'));
     }
 
-    public function authenticated(){
-        switch(Auth::user()->role_id){
-            case 1:
-                //return redirect()->route('admin.dashboard');
-            case 2:
-                return redirect()->route('doctor.dashboard');
-            case 3:
-                //return redirect()->route('user.dashboard');
-            case 4:
-                //return redirect()->route('user.dashboard');
-            default:
-                //return redirect()->route('home');
-        }
+    public function authenticated()
+{
+    switch (Auth::user()->role_id) {
+        case 1:
+            // return redirect()->route('visits.page');
+            // break; // Add break to stop execution after redirect
+            
+        case 2:
+            return redirect()->route('doctor.dashboard');
+            break;
+            
+        case 3:
+            return redirect()->route('reception.dashboard');
+            break;
+            
+        case 4:
+            // return redirect()->route('user.dashboard');
+            // break;
+            
+        default:
+            // return redirect()->route('home');
+            // break;
     }
+}
+
 
     public function logout(Request $request)
     {

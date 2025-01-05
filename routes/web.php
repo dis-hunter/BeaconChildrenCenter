@@ -1,23 +1,15 @@
 <?php
 
-use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
-use App\Http\Controllers\DevelopmentMilestonesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\BehaviourAssesmentController;
-// Import the controller class
 use App\Http\Controllers\TriageController;
-use App\Http\Controllers\StaffController;
-
 use App\Http\Controllers\AuthController;
-use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
-use App\Http\Controllers\DoctorsDisplayController;
-use App\Http\Controllers\appointmentsController;
 use App\Http\Controllers\FamilySocialHistoryController;
 use App\Http\Controllers\PerinatalHistoryController;
 use App\Http\Controllers\PastMedicalHistoryController;
@@ -27,6 +19,8 @@ use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\CarePlanController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\ReceptionController;
+use App\Http\Controllers\VisitController;
 
 
 
@@ -58,6 +52,9 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+
+
+
 //therapist routes
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
@@ -80,8 +77,10 @@ Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
 
-Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
-
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
+});
 
 
 //this handles parent related activity
@@ -91,25 +90,13 @@ Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents
 //search for parent
 Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
 
-Route::get(
-    '/create',
-    [
-        DiagnosisController::class,
-        'create'
-    ]
-);
+Route::get('/create', [DiagnosisController::class, 'create']);
 
 //Handles child related operations
 Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
 // Handle form submission to store a new child
 Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
-Route::get(
-    '/parents',
-    [
-        ParentsController::class,
-        'create'
-    ]
-);
+Route::get('/parents', [ParentsController::class, 'create']);
 
 
 Route::get('login', [AuthController::class, 'loginGet'])->name('login');
@@ -119,6 +106,10 @@ Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
+Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
+Route::get('/visits-page', function () {
+    return view('visits');
+})->name('visits.page');
 
 
 //routes accessible when logged in only
@@ -127,9 +118,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', [AuthController::class, 'profileGet'])->name('profile');
     Route::post('profile', [AuthController::class, 'profilePost'])->name('profile.post');
 
-    //routes accessible based on role_id
     //Nurse
-    Route::group(['middleware' => 'role:1'], function () {});
+    Route::group(['middleware' => 'role:1'], function () {
+        Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']); //->name('visits.untriaged');
+
+        Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+        Route::post('/start-triage/{visitId}', [TriageController::class, 'startTriage']);
+        // // In routes/web.php
+        Route::get('/get-untriaged-visits', [TriageController::class, ' getUntriagedVisits']);
+
+        Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
+        Route::get('/post-triage', function () {
+            return view('postTriageQueue');
+        });
+        Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
+
+        Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
+    });
 
     //Doctor
     Route::group(['middleware' => 'role:2'], function () {
@@ -187,7 +192,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     //Receptionist
-    Route::group(['middleware' => 'role:3'], function () {});
+    Route::group(['middleware' => 'role:3'], function () {
+        Route::get('/',[ReceptionController::class, 'dashboard'])->name('reception.dashboard');
+        Route::get('/patients', [ChildrenController::class, 'get']);
+        Route::post('/patients', [ChildrenController::class, 'create']);
+        Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
+        Route::get('/patients/search/{id?}', [ChildrenController::class, 'childGet']);
+    });
 
     //Admin
     Route::group(['middleware' => 'role:4'], function () {});
@@ -201,20 +212,23 @@ use App\Http\Controllers\VisitsController;
 // Route::get('/visits-page', function () {
 //     return view('visits');
 // })->name('visits.page');
-
+Route::get('/triageDashboard', function () {
+    return view('triageDash');
+});
+Route::post('/triage', [TriageController::class, 'store']);
+Route::get('/triage', [TriageController::class, 'create'])->name('triage');
+Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);//->name('visits.untriaged');
 
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
 Route::post('/start-triage/{visitId}', [TriageController::class, 'startTriage']);
 // // In routes/web.php
-Route::get('/get-untriaged-visits', [TriageController::class,' getUntriagedVisits']);
+Route::get('/get-untriaged-visits', [TriageController::class, ' getUntriagedVisits']);
 
 Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
 Route::get('/post-triage', function () {
     return view('postTriageQueue');
 });
-
+Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
 
 Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
-
-

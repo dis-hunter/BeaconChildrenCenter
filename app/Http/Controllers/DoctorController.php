@@ -14,6 +14,7 @@ use App\Models\DoctorSpecialization;
 
 use Illuminate\Database\QueryException;
 
+
 class DoctorController extends Controller
 {
     public function store(Request $request)
@@ -82,8 +83,8 @@ class DoctorController extends Controller
         // Retrieve the specialization ID from the query parameters
         $specializationId = $request->query('specialization_id');
 
-        // Fetch doctors with the matching specialization ID
-        $doctors = Doctor::where('specialization_id', $specializationId)->get();
+    // Fetch doctors with the matching specialization ID
+    $doctors = Staff::where('specialization_id', $specializationId)->get();
 
         // Return the data as a JSON response
         return response()->json([
