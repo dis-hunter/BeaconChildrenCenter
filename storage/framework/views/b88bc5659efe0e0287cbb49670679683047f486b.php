@@ -245,7 +245,8 @@
         });
     </script>
     </script>
-        <script src="<?php echo e(asset('js/loader.js')); ?>"></script>    
+        <script src="<?php echo e(asset('js/loader.js')); ?>"></script> 
+        <script src="<?php echo e(asset('js/movement.js')); ?>"></script>      
     <script>
      // handles submission of goals to db
         

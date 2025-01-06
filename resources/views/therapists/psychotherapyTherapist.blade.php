@@ -245,7 +245,8 @@
         });
     </script>
     </script>
-        <script src="{{ asset('js/loader.js') }}"></script>    
+        <script src="{{ asset('js/loader.js') }}"></script> 
+        <script src="{{ asset('js/movement.js')}}"></script>      
     <script>
      // handles submission of goals to db
         
