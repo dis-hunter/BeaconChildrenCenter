@@ -43,9 +43,9 @@ class AuthController extends Controller
             'confirmpassword' => 'required'
         ]);
         $data['fullname'] = [
-            'firstname' => $request->firstname,
-            'middlename' => $request->middlename,
-            'lastname' => $request->lastname
+            'first_name' => $request->firstname,
+            'middle_name' => $request->middlename,
+            'last_name' => $request->lastname
         ];
         $data['gender_id'] = Gender::where('gender', $request->gender)->value('id');
         $data['telephone'] = $request->phone;

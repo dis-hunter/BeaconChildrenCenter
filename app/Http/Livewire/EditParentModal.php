@@ -18,9 +18,9 @@ class EditParentModal extends Component
     {
         $this->parent = $parent;
         $p_fullname=json_decode($parent->fullname,true);
-        $this->firstname = $p_fullname['firstname'];
-        $this->middlename = $p_fullname['middlename'];
-        $this->lastname = $p_fullname['lastname'];
+        $this->firstname = $p_fullname['first_name'];
+        $this->middlename = $p_fullname['middle_name'];
+        $this->lastname = $p_fullname['last_name'];
         $this->dob = $parent->dob;
         $this->telephone = $parent->telephone;
         $this->email = $parent->email;
@@ -54,9 +54,9 @@ class EditParentModal extends Component
 
         // Build the fullname JSON
         $fullname = json_encode([
-            'firstname' => $this->firstname,
-            'middlename' => $this->middlename,
-            'lastname' => $this->lastname,
+            'first_name' => $this->firstname,
+            'middle_name' => $this->middlename,
+            'last_name' => $this->lastname,
         ]);
 
         // Only update fields that have changed

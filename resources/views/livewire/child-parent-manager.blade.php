@@ -43,7 +43,7 @@
                                 @php
                                     $fullname=json_decode($parent->fullname,true);
                                 @endphp
-                                <span class="result-title">{{$fullname['firstname'] .' '. $fullname['lastname']}}</span>
+                                <span class="result-title">{{$fullname['first_name'] .' '. $fullname['last_name']}}</span>
                                 <span class="result-title">{{ $parent->telephone }}</span>
                                 <span class="result-title">{{ $parent->email }}</span>
                                 <span class="result-title">{{ $parent->national_id }}</span>
