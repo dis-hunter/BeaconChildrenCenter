@@ -17,6 +17,10 @@
     <title>Calendar</title>
 </head>
 <body>
+
+<div class="calendar-container">
+    <!-- Your calendar HTML and scripts go here -->
+
 <?php echo \Livewire\Livewire::scripts(); ?>
 
 
@@ -84,15 +88,15 @@
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('DK49uo1')) {
-    $componentId = $_instance->getRenderedChildComponentId('DK49uo1');
-    $componentTag = $_instance->getRenderedChildComponentTagName('DK49uo1');
+} elseif ($_instance->childHasBeenRendered('GdLWGCB')) {
+    $componentId = $_instance->getRenderedChildComponentId('GdLWGCB');
+    $componentTag = $_instance->getRenderedChildComponentTagName('GdLWGCB');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('DK49uo1');
+    $_instance->preserveRenderedChild('GdLWGCB');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('DK49uo1', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('GdLWGCB', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -110,14 +114,15 @@ echo $html;
                     </div>
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">
-                        <label for="doctor_specialization">Select a Specialization:</label><br>
-                        <select name="doctor_specialization" id="doctor_specialization">
-                            <option value="">-- Select Specialization --</option>
-                            <?php $__currentLoopData = $doctorSpecializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $specialization): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($specialization->id); ?>"><?php echo e($specialization->specialization); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </select>
-                    </div>
+                <label for="doctor_specialization">Select a Specialization:</label><br>
+                <select name="doctor_specialization" id="doctor_specialization">
+                    <option value="">-- Select Specialization --</option>
+                    <?php $__currentLoopData = $doctorSpecializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $specialization): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($specialization->id); ?>"><?php echo e($specialization->specialization); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
+
 
                                     <div id="specialist-container">
                     <label for="specialist">Select a Specialist:</label>
@@ -142,33 +147,36 @@ echo $html;
             <button class="add-event">
                 <i class="fas fa-plus"></i>
             </button>
-        </div>
-        <div id="reschedule-modal" class="hidden">
-            
-            <div class="modal-content">
-                <span id="close-modal" class="close">&times;</span>
-                <h2>Reschedule Appointment</h2>
-                <form id="reschedule-form">
-                <?php echo csrf_field(); ?>
-                    <input type="hidden" id="hidden-start-time">
-                    <input type="hidden" id="hidden-end-time">
-                    <label for="appointment-title">Title:</label>
-                    <input type="text" id="appointment-title" name="title" required>
 
-                    <label for="appointment-start-time">Start Time:</label>
-                    <input type="time" id="appointment-start-time" name="start_time" required>
 
-                    <label for="appointment-end-time">End Time:</label>
-                    <input type="time" id="appointment-end-time" name="end_time" required>
 
-                    <label for="newDate">Date:</label>
-                    <input type="date" id="newDate" name="newDate" required>
-
-                    <button type="submit">Save</button>
-                </form>
-            </div>
-        </div>
+        
        
+</div>
+
+<div id="reschedule-modal" class="hidden">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>Reschedule Appointment</h2>
+        <form id="reschedule-form">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" id="hidden-start-time">
+            <input type="hidden" id="hidden-end-time">
+            <label for="appointment-title">Title:</label>
+            <input type="text" id="appointment-title" name="title" required>
+
+            <label for="appointment-start-time">Start Time:</label>
+            <input type="time" id="appointment-start-time" name="start_time" required>
+
+            <label for="appointment-end-time">End Time:</label>
+            <input type="time" id="appointment-end-time" name="end_time" required>
+
+            <label for="newDate">Date:</label>
+            <input type="date" id="newDate" name="newDate" required>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
 </div>
 
 </div>
@@ -179,8 +187,12 @@ echo $html;
     <script src="<?php echo e(asset('js/specialization.js')); ?>"></script>
     <script src="<?php echo e(asset('js/isDoctorAvailable.js')); ?>"></script>
 
+ </div>
 
-    
+
+
+
+
 </body>
 </html>
 <?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/calendar.blade.php ENDPATH**/ ?>

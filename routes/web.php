@@ -1,23 +1,15 @@
 <?php
 
-use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
-use App\Http\Controllers\DevelopmentMilestonesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\BehaviourAssesmentController;
-// Import the controller class
 use App\Http\Controllers\TriageController;
-use App\Http\Controllers\StaffController;
-
 use App\Http\Controllers\AuthController;
-use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
-use App\Http\Controllers\DoctorsDisplayController;
-use App\Http\Controllers\appointmentsController;
 use App\Http\Controllers\FamilySocialHistoryController;
 use App\Http\Controllers\PerinatalHistoryController;
 use App\Http\Controllers\PastMedicalHistoryController;
@@ -27,12 +19,12 @@ use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\CarePlanController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\VisitController;
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\FetchAppointments;
+use Custom\Namespace\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
-
 
 
 
@@ -60,6 +52,16 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); // Di
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', function () {return view('home');})->name('home');
+
+
+Route::get('/patients', [ChildrenController::class, 'get']);
+Route::post('/patients', [ChildrenController::class, 'create']);
+Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
+Route::get('/patients/search/{id?}', [ChildrenController::class, 'childGet']);
+
+    
 
 Route::get('/', function () {
     return view('home');
@@ -96,8 +98,10 @@ Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
 
-Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
-
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
+});
 
 
 //this handles parent related activity
@@ -107,25 +111,13 @@ Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents
 //search for parent
 Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
 
-Route::get(
-    '/create',
-    [
-        DiagnosisController::class,
-        'create'
-    ]
-);
+Route::get('/create',[DiagnosisController::class,'create']);
 
 //Handles child related operations
 Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
 // Handle form submission to store a new child
 Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
-Route::get(
-    '/parents',
-    [
-        ParentsController::class,
-        'create'
-    ]
-);
+Route::get('/parents',[ParentsController::class,'create']);
 
 
 Route::get('login', [AuthController::class, 'loginGet'])->name('login');
@@ -135,6 +127,10 @@ Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
+Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
+        Route::get('/visits-page', function () {
+            return view('visits');
+        })->name('visits.page');
 
 
 //routes accessible when logged in only
@@ -143,12 +139,26 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', [AuthController::class, 'profileGet'])->name('profile');
     Route::post('profile', [AuthController::class, 'profilePost'])->name('profile.post');
 
-    //routes accessible based on role_id
     //Nurse
-    Route::group(['middleware' => 'role:1'], function () {});
+    Route::group(['middleware' => 'role:1'], function () {
+        Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']); //->name('visits.untriaged');
+
+        Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+        Route::post('/start-triage/{visitId}', [TriageController::class, 'startTriage']);
+        // // In routes/web.php
+        Route::get('/get-untriaged-visits', [TriageController::class, ' getUntriagedVisits']);
+
+        Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
+        Route::get('/post-triage', function () {
+            return view('postTriageQueue');
+        });
+        Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
+
+        Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
+    });
 
     //Doctor
-    Route::group(['middleware' => 'role:2'], function () {
+    Route::prefix('doctor')->middleware('role:2')->group(function () {
 
         Route::get('/doctorDashboard', [DoctorController::class, 'dashboard'])->name('doctor.dashboard');
 
@@ -199,6 +209,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
         Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
+
+        Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
     });
 
     //Receptionist
@@ -232,9 +244,14 @@ Route::get('/doctorDashboard', [TriageController::class, 'getPostTriageQueue']);
 
 Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
 
+Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
+
 Route::get('/sign_in', function () {
     return view('sign_in');
 });
+
+Route::get('/appointments/booked-patients', [AuthController::class, 'bookedPatients'])->name('appointments.booked');
+
 
 
 
@@ -258,6 +275,14 @@ Route::post('/appointments', [AppointmentController::class, 'store'])->name('app
 
 Route::get('/doctors/{specializationId}', [docSpecController::class, 'getDoctorsBySpecialization']);
 
+
+
+Route::get('/doctor/dashboard', [DoctorDashboardController::class, 'index'])->name('doctor.dash');
+
+Route::get('/specialists', [DoctorDashboardController::class, 'getSpecialists'])->name('specialists.get');
+
+
+
 Route::get('/api/specialists', function (Illuminate\Http\Request $request) {
     $service = $request->query('service');
 
@@ -271,7 +296,7 @@ Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'ge
 Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
 
 
-Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
+Route::get('/get-appointments', [App\Http\Controllers\FetchAppointments::class, 'getAppointments']);
 
 Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
 //Route::post('/reschedule-appointment/{id}', [RescheduleController::class, 'rescheduleAppointment']);
@@ -281,3 +306,7 @@ Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::cl
 //Route::post('/api/reschedule', [RescheduleController::class, 'reschedule']);
 
 Route::get('/booked-patients', [BookedController::class, 'getBookedPatients'])->name('booked.patients');
+
+Route::get('/calendar-content', [CalendarController::class, 'create'])->name('calendar.content');
+
+Route::get('/appointments/therapists', [AppointmentController::class, 'therapistAppointments'])->name('appointments.therapists');

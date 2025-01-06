@@ -145,9 +145,15 @@ sidebarLinks.forEach(link => {
       bookedContent.style.display = 'block';
     } else if (link === therapistLink) {
       therapistContent.style.display = 'block';
+
+      
     }
+
+
+
   });
 });
+
 
 // Dropdown profile link event listener
 dropdownProfileLink.addEventListener('click', () => {
@@ -158,6 +164,244 @@ dropdownProfileLink.addEventListener('click', () => {
   // Update active state in sidebar
   sidebarLinks.forEach(link => link.parentElement.classList.remove('active'));
   profileLink.parentElement.classList.add('active');
+});
+
+therapistLink.addEventListener('click', async () => {
+  therapistContent.innerHTML = '<p>Loading...</p>';
+
+  try {
+      const response = await fetch('/appointments/therapists');
+      if (!response.ok) throw new Error('Failed to load data');
+
+      const appointments = await response.json();
+
+      if (appointments.length > 0) {
+          let table = `
+              <table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Child name</th>
+                          <th>Staff Name</th>
+                          <th>Specialization</th>
+                          <th>Appointment Date</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                      </tr>
+                  </thead>
+                  <tbody>`;
+
+          appointments.forEach(appointment => {
+              table += `
+                  <tr>
+                      <td>${appointment.id}</td>
+                      <td>${appointment.child_name}</td>
+                      <td>${JSON.parse(appointment.staff_name).first_name}</td>
+                      <td>${appointment.specialization}</td>
+                      <td>${appointment.appointment_date}</td>
+                      <td>${appointment.start_time}</td>
+                      <td>${appointment.end_time}</td>
+                  </tr>`;
+          });
+
+          table += `</tbody></table>`;
+
+          therapistContent.innerHTML = table;
+          therapistContent.style.display = 'block'; // Show the therapist content
+      } else {
+          therapistContent.innerHTML = '<p>No appointments found.</p>';
+      }
+  } catch (error) {
+      console.error('Error loading therapy appointments:', error);
+      therapistContent.innerHTML = '<p>Failed to load appointments. Please try again later.</p>';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("Checking elements...");
+  console.log("therapistLink:", document.getElementById('therapist-link'));
+  console.log("therapistContent:", document.getElementById('therapist-content'));
+  console.log("therapyAppointmentsTable:", document.getElementById('therapy-appointments-table'));
+});
+
+// Event listener for "Booked Patients" link
+document.getElementById('booked-link').addEventListener('click', async () => {
+  const bookedContent = document.getElementById('booked-content');
+  bookedContent.innerHTML = '<p>Loading...</p>'; // Show loading message
+
+  try {
+    const response = await fetch('/appointments/booked-patients'); // Endpoint for fetching appointments
+    if (!response.ok) throw new Error('Failed to load data');
+
+    const appointments = await response.json();
+    
+    // Clear any previous content
+    bookedContent.innerHTML = '';
+
+    // Create a table to display the appointments
+    const table = document.createElement('table');
+    table.classList.add('table', 'table-bordered');
+
+    // Create table header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headerRow.innerHTML = `
+        <th>Child Name</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Parent Email</th>
+        <th>Parent Telephone</th>
+    `;
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table body with appointments data
+    const tbody = document.createElement('tbody');
+    appointments.forEach(appointment => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${appointment.child_name}</td>
+            <td>${appointment.start_time}</td>
+            <td>${appointment.end_time}</td>
+            <td>${appointment.parent_email || 'N/A'}</td>
+            <td>${appointment.parent_telephone || 'N/A'}</td>
+        `;
+        tbody.appendChild(row);
+    });
+
+
+
+
+      table.appendChild(tbody);
+      bookedContent.appendChild(table);
+
+      bookedContent.style.display = 'block'; // Show the booked appointments section
+  } catch (error) {
+      console.error('Error loading booked patients:', error);
+      bookedContent.innerHTML = '<p>Failed to load appointments. Please try again later.</p>';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const calendarLink = document.getElementById('calendar-link');
+  const bookedLink = document.getElementById('booked-link');
+  const therapistLink = document.getElementById('therapist-link');
+  const profileLink = document.getElementById('profile-link');
+  const dashboardLink = document.getElementById('dashboard-link');
+  
+  const calendarContent = document.getElementById('calendar-content');
+  const bookedContent = document.getElementById('booked-content');
+  const therapistContent = document.getElementById('therapist-content');
+  const profileContent = document.getElementById('profile-content');
+  const dashboardContent = document.getElementById('dashboard-content');
+
+  // Event listener for View Calendar link
+  calendarLink.addEventListener('click', () => {
+    // Hide other sections
+    dashboardContent.style.display = 'none';
+    profileContent.style.display = 'none';
+    bookedContent.style.display = 'none';
+    therapistContent.style.display = 'none';
+
+    // Show the calendar section
+    calendarContent.style.display = 'block';
+  });
+
+  // Event listener for Booked Patients link
+  bookedLink.addEventListener('click', () => {
+    // Hide other sections
+    dashboardContent.style.display = 'none';
+    profileContent.style.display = 'none';
+    calendarContent.style.display = 'none';
+    therapistContent.style.display = 'none';
+
+    // Show the booked patients section
+    bookedContent.style.display = 'block';
+  });
+
+  // Event listener for Therapist link
+  therapistLink.addEventListener('click', () => {
+    // Hide other sections
+    dashboardContent.style.display = 'none';
+    profileContent.style.display = 'none';
+    calendarContent.style.display = 'none';
+    bookedContent.style.display = 'none';
+
+    // Show the therapist section
+    therapistContent.style.display = 'block';
+  });
+
+  // Event listener for Profile link
+  profileLink.addEventListener('click', () => {
+    // Hide other sections
+    dashboardContent.style.display = 'none';
+    therapistContent.style.display = 'none';
+    calendarContent.style.display = 'none';
+    bookedContent.style.display = 'none';
+
+    // Show the profile section
+    profileContent.style.display = 'block';
+  });
+
+  // Event listener for Dashboard link
+  dashboardLink.addEventListener('click', () => {
+    // Hide other sections
+    profileContent.style.display = 'none';
+    therapistContent.style.display = 'none';
+    calendarContent.style.display = 'none';
+    bookedContent.style.display = 'none';
+
+    // Show the dashboard section
+    dashboardContent.style.display = 'block';
+  });
+});
+
+document.getElementById('doctor_specialization').addEventListener('change', function () {
+  const specializationId = this.value;
+
+  // Clear existing specialists
+  const specialistDropdown = document.getElementById('specialist');
+  specialistDropdown.innerHTML = '<option value="">-- Select a doctor --</option>';
+
+  // Clear the no-specialists message
+  document.getElementById('no-specialists-message').style.display = 'none';
+
+  if (specializationId) {
+      fetch(`/specialists?specialization_id=${specializationId}`)
+          .then(response => response.json())
+          .then(specialists => {
+              if (specialists.length > 0) {
+                  specialists.forEach(specialist => {
+                      const option = document.createElement('option');
+                      option.value = specialist.id;
+                      option.textContent = specialist.name;
+                      specialistDropdown.appendChild(option);
+                  });
+              } else {
+                  // Show "no specialists" message if none found
+                  document.getElementById('no-specialists-message').style.display = 'block';
+              }
+          })
+          .catch(error => {
+              console.error('Error fetching specialists:', error);
+          });
+  }
+});
+document.addEventListener("DOMContentLoaded", function () {
+  fetch('/api/get-specializations') // Replace with the actual route
+      .then((response) => response.json())
+      .then((data) => {
+          if (data.status === 'success') {
+              const select = document.getElementById('doctor_specialization');
+              data.data.forEach((specialization) => {
+                  const option = document.createElement('option');
+                  option.value = specialization.id;
+                  option.textContent = specialization.specialization;
+                  select.appendChild(option);
+              });
+          }
+      })
+      .catch((error) => console.error('Error fetching specializations:', error));
 });
 
 // Start consultation button event listener

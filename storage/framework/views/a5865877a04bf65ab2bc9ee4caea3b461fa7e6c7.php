@@ -11,7 +11,6 @@
                         <div>
                             <li style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                 <div style="flex: 1;">
-                                    <input style="display:none;;" ></input>
                                     <strong>Child Name:</strong> 
                                     <?php echo e(json_decode($result->fullname)->first_name ?? 'N/A'); ?> 
                                     <?php echo e(json_decode($result->fullname)->middle_name ?? ''); ?> 
@@ -36,8 +35,7 @@
                                 <div style="margin-left: 20px;">
                                     <!-- Checkboxes for selection -->
                                     <label class="checkbox-container">
-                                        <input type="checkbox" wire:model="selectedItems" value="<?php echo e($result->id); ?>" id="child_id" />
-                                        
+                                        <input type="checkbox" wire:model="selectedItems" value="<?php echo e($result->id); ?>" id="child_id_<?php echo e($result->id); ?>" />
                                         <span class="checkmark"></span> Select
                                     </label>
                                 </div>

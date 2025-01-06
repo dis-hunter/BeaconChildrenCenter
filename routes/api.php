@@ -20,4 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
 Route::post('/api/reschedule', [RescheduleController::class, 'reschedule']);
+Route::get('/calendar-content', function () {
+    return view('calendar');
+})->name('calendar.content');
+
 

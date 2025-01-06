@@ -75,20 +75,30 @@ class docSpecController extends Controller
             'status' => 'success',
             'data' => $specializations,
         ]);
+
+
+        
+    return view('doctorDash', compact('specializations'));
     }
 
-    public function getDoctorsBySpecialization(Request $request)
+    public function showDoctorDashboard()
     {
-        // Retrieve the specialization ID from the query parameters
-        $specializationId = $request->query('specialization_id');
-
-        // Fetch doctors with the matching specialization ID
-        $doctors = Doctor::where('specialization_id', $specializationId)->get();
-
-        // Return the data as a JSON response
-        return response()->json([
-            'status' => 'success',
-            'data' => $doctors,
-        ]);
+        // Fetch distinct specializations
+        $doctorSpecializations = DoctorSpecialization::select('id', 'specialization')->distinct()->get();
+    
+        // Pass the data to the view
+        return view('doctorDash', ['doctorSpecializations' => $doctorSpecializations]);
     }
+    
+    
+
+
+    public function doctorDash()
+{
+    // Fetch specializations
+    $DoctorSpecialization = DoctorSpecialization::select('id', 'specialization')->distinct()->get();
+
+    // Pass the data to the view
+    return view('doctorDash', compact('DoctorSpecialization'));
+}
 }

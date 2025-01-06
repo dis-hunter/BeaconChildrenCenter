@@ -92,6 +92,7 @@ main {
 
 .sidebar li {
   margin-bottom: 10px;
+  
 }
 
 .sidebar a {
@@ -110,14 +111,26 @@ main {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
 }
 
+/* Active link */
 .sidebar .active {
   background-color: lightskyblue;
+}
+
+/* Non-active links */
+.sidebar li {
+  background-color: #5fa8d3; /* Subtle, muted blue for non-active items */
+}
+
+.sidebar li:hover {
+  background-color: lightskyblue; /* Highlight the link on hover */
 }
 
 .dashboard {
   flex-grow: 1;
   padding: 20px;
 }
+
+
 
 .welcome {
   margin-bottom: 20px;
@@ -160,4 +173,314 @@ main {
   border-radius: 5px;
   cursor: pointer;
   margin-right: 10px;
+}
+  /* General table styling */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Styling for table headers */
+.table th {
+    background-color: #3498db; /* Blue */
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #ddd; /* Add a light border around the header */
+}
+
+/* Styling for table rows */
+.table td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Stripe rows - alternating row colors */
+.table tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray */
+}
+
+.table tr:nth-child(even) {
+    background-color: #ffffff; /* White */
+}
+
+/* Hover effect for rows */
+.table tr:hover {
+    background-color: #f2f2f2; /* Light gray on hover */
+}
+
+/* Center text in some specific columns */
+.table td:nth-child(2), .table td:nth-child(3), .table td:nth-child(4) {
+    text-align: center;
+}
+
+/* Styling the first column (ID column) */
+.table td:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Add a small shadow for a soft effect around the table */
+.table {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Adding responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .table {
+        width: 100%;
+        border: none;
+        font-size: 14px;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .table td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+    }
+
+    .table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 10px;
+    }
+}
+
+/* Add a responsive container around the table */
+.table-container {
+    overflow-x: auto;
+    margin: 20px;
+}
+
+/* Responsive design for tables */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive th, .table-responsive td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-responsive tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-responsive tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.table-responsive tr:hover {
+    background-color: #f2f2f2;
+}
+
+
+
+/* Sidebar Links Consistency */
+.sidebar a,
+.sidebar a.dashboard {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar a.dashboard:hover,
+.sidebar li:hover a {
+  background-color: lightskyblue;
+  color: #333;
+  padding-left: 20px;
+  transform: translateX(5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a.active,
+.sidebar a.dashboard.active {
+  background-color: lightskyblue;
+  font-weight: bold;
+}
+
+/* Dashboard Content Styling */
+.dashboard {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+
+
+/* Reset for better control */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  background-color: #f2f2f2;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: lightblue;
+  color: white;
+  width: 250px;
+  height: calc(100vh - 70px); /* Full height minus header height */
+  position: fixed;
+  top: 70px; /* Align below the header */
+  left: 0;
+  padding: 20px;
+  overflow-y: auto; /* Allow scrolling for longer content */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+}
+
+/* Main Content Area */
+main {
+  margin-left: 250px; /* Match the width of the sidebar */
+  margin-top: 70px; /* Match the height of the header */
+  padding: 20px;
+  flex-grow: 1;
+  background-color: #f4f4f4; /* Light background for better readability */
+  overflow-y: auto; /* Allow scrolling for longer content */
+  height: calc(100vh - 70px); /* Adjust to fill remaining height */
+}
+
+/* Welcome Message */
+.welcome {
+  margin-bottom: 20px;
+}
+
+/* Dashboard Section */
+.dashboard {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Sidebar Links */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.sidebar li:hover a {
+  background-color: lightskyblue;
+  color: #333;
+  padding-left: 20px; /* Indent on hover */
+  transform: translateX(5px); /* Slight movement on hover */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.sidebar .active {
+  background-color: lightskyblue;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  main {
+    margin-left: 200px; /* Adjust for smaller sidebar */
+  }
+}
+
+/* Calendar Container Styling */
+.calendar-container {
+  height: calc(100vh - 70px); /* Full height minus header height */
+  padding: 20px;
+  overflow: auto; /* Allow scrolling if necessary */
+  background-color: white; /* Optional, adjust according to your design */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+
+  width: 1000px !important;;
+}
+
+/* Ensure the main content area has the correct space */
+main {
+  margin-left: 250px; /* Match the width of the sidebar */
+  margin-top: 70px; /* Match the height of the header */
+  padding: 20px;
+  flex-grow: 1;
+  background-color: #f4f4f4; /* Light background for better readability */
+  height: calc(100vh - 70px); /* Adjust to fill remaining height */
+  overflow-y: auto; /* Allow scrolling for longer content */
+}
+
+/* Sidebar adjustments to maintain fixed layout */
+.sidebar {
+  background-color: lightblue;
+  color: white;
+  width: 250px;
+  height: calc(100vh - 70px); /* Full height minus header height */
+  position: fixed;
+  top: 70px; /* Align below the header */
+  left: 0;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+}
+
+/* Make sure the dashboard section within main has enough space */
+.dashboard {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+
+.cancel-btn,
+.reschedule-btn {
+    display: none;
 }

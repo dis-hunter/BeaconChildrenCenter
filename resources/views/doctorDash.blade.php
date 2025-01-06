@@ -6,7 +6,7 @@
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
- 
+
 </head>
 <body>
 
@@ -41,7 +41,9 @@
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
           <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
-          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy </a></li> 
+          <li> <a id="therapist-link" href="#">Therapy</a></li>
+
+          <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
         </ul>
       </nav>
     </aside>
@@ -80,49 +82,36 @@
     </section>
 
     <section class="content" id="booked-content" style="display: none;">
-    @if(isset($appointmentsWithChildNames) && count($appointmentsWithChildNames) > 0)
-    <table>
-        <thead>
-            <tr>
-                <th>Child's Name</th>
-                <th>Appointment Start Time</th>
-                <th>Appointment End Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($appointmentsWithChildNames as $appointment)
-                <tr>
-                    <td>{{ $appointment['child_name'] }}</td>
-                    <td>{{ $appointment['appointment_start_time'] }}</td>
-                    <td>{{ $appointment['appointment_end_time'] }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@else
-    <p>No appointments for today.</p>
-@endif
-
+    <!-- This section will be populated with the doctor's booked appointments -->
 </section>
 
 
 
 
-    <section class="content" id="therapist-content" style="display: none;">
-      <h2>Therapy List</h2>
-      <p>This is where you would display the therapy list.</p>
-    </section>
-  <!--
-    <div class="calendar-section">
-        <h3>Appointments Calendar</h3>
 
-            <button class="btn btn-primary">View Calendar</button>
-        </a>
+    <section class="content" id="therapist-content" style="display: none;">
+    <div id="therapist-content" style="display: none;">
+    <div id="therapy-appointments-table"></div>
+        
     </div>
--->
+
+
+    </section>
+  
+    
+    <!-- Section for Calendar (Initially Hidden) -->
+    <section class="content" id="calendar-content" style="display: none;">
+    @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+
+
+    
+</section>
+
+
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
   <script src="{{asset ('js/doctorDash.js')}}"></script>
 </body>
 </html>
+

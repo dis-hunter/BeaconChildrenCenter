@@ -20,6 +20,7 @@ class Appointment extends Model
         'doctor_id'
     ];
 
+
     // Relationship with the Child model
     public function child()
     {

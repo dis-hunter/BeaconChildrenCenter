@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
             addEventContainer.classList.remove("active");
         });
     }
+    
 
     // Service Dropdown Change Event
     if (serviceDropdown && specialistDropdown && specialistContainer) {
@@ -150,19 +151,25 @@ document.addEventListener("DOMContentLoaded", function () {
     addEventsSubmit?.addEventListener("click", function (event) {
         event.preventDefault();
     
-      
-
-        const request = {
-            appointment_title: document.getElementById("event_name")?.value || "",
-            staff_id: document.getElementById("specialist")?.value || "",
-            start_time: document.getElementById("event_time_from")?.value || "",
-            end_time: document.getElementById("event_time_end")?.value || "",
-            //specialization_id: document.getElementById("doctor_specialization")?.value || "",
-            child_id: document.getElementById("child_id")?.value || "",
-            appointment_date: formattedDate,
-            doctor_id: 2, // Example, adjust as needed
-            status: "pending",
-        };
+        // Get the selected checkbox by querying the checkbox with the class or id (specific to your case)
+        const selectedChildCheckbox = document.querySelector('input[type="checkbox"]:checked[id^="child_id_"]');
+        
+        
+            const selectedChildId = selectedChildCheckbox.value; // This will get the child_id from the selected checkbox
+            console.log("Selected Child ID:", selectedChildId);
+    
+            const request = {
+                appointment_title: document.getElementById("event_name")?.value || "",
+                staff_id: document.getElementById("specialist")?.value || "",
+                start_time: document.getElementById("event_time_from")?.value || "",
+                end_time: document.getElementById("event_time_end")?.value || "",
+                child_id: selectedChildId || "",  // Send the selected child_id here
+                appointment_date: formattedDate,
+                doctor_id: 2, // Example, adjust as needed
+                status: "pending",
+            };
+        
+    
         
         fetch("http://127.0.0.1:8000/appointments", {
             method: "POST",
@@ -178,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data && data.success) {
                     // Show success alert
                     alert("Appointment successfully created!");
-                    document.getElementById("add-event-body").style.display = "none";
+                    addEventContainer.classList.remove("active");
             
                     // Close the form
                     const formModal = document.getElementById("form-modal");

@@ -11,11 +11,10 @@ class DoctorSpecialization extends Model
 
     // Define the table name explicitly
     protected $table = 'doctor_specialization';
+    protected $fillable = ['id', 'specialization'];
 
-    // Specify which columns can be mass-assigned
-    protected $fillable = [
-        'specialization',
-    ];
+  
+    
 
     // Disable timestamps if your table doesn't use them
     public $timestamps = false;

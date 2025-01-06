@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Log;
-
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
@@ -12,31 +11,49 @@ use App\Models\ParentModel;
 
 class FetchAppointments extends Controller
 {
-   public function getAppointments(Request $request)
+    public function getAppointments(Request $request)
     {
-        // Get the date from the query parameter
-        $date = $request->input('date');
+        // Validate the date input to ensure it's in a valid format
+        $validated = $request->validate([
+            'date' => 'required|date_format:Y-m-d', // Ensure the date is in 'YYYY-MM-DD' format
+        ]);
         
-        // Fetch appointments for the given date with related parent details
-        $appointments = Appointment::join('child_parent', 'appointments.child_id', '=', 'child_parent.child_id')
-            ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
-            ->select(
-                'appointments.id as appointmentId',
-                'appointments.appointment_date',
-                'appointments.start_time',
-                'appointments.end_time',
-                'appointments.appointment_title',
-                'parents.fullname as parent_name',
-                'parents.telephone as parent_phone',
-                'parents.email as parent_email'
-            )
-            ->where('appointments.appointment_date', $date)
-            ->get();
+        // Get the date from the query parameter
+        $date = $validated['date'];
 
+        try {
+            // Fetch appointments for the given date with related parent details
+            $appointments = Appointment::join('child_parent', 'appointments.child_id', '=', 'child_parent.child_id')
+                ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+                ->join('staff', 'appointments.staff_id', '=', 'staff.id')
+                ->join('children', 'appointments.child_id', '=', 'children.id')
+                ->select(
+                    'appointments.id as appointmentId',
+                    'appointments.appointment_date',
+                    'appointments.start_time',
+                    'appointments.end_time',
+                    'appointments.appointment_title',
+                    'parents.fullname as parent_name',
+                    'parents.telephone as parent_phone',
+                    'parents.email as parent_email',
+                    'children.fullname as child_name',
+                    'staff.fullname as staff_name'
+                )
+                ->where('appointments.appointment_date', $date)
+                ->get();
 
-        // Return as JSON
+            // Log the fetched appointments for debugging
+            Log::info("Fetched appointments for date: $date", ['appointments' => $appointments]);
 
-        Log::info("Fetched appointments:", ['appointments' => $appointments]);
-        return response()->json($appointments);
+            // Return as JSON
+            return response()->json($appointments);
+
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error("Error fetching appointments for date: $date", ['error' => $e->getMessage()]);
+            
+            // Return a 500 error with the message
+            return response()->json(['error' => 'An error occurred while fetching appointments.'], 500);
+        }
     }
 }

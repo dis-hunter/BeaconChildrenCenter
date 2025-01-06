@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="<?php echo e(old('middlename')); ?>" required />
+                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="<?php echo e(old('middlename')); ?>"/>
                                         <label for="middlename">Middle Name</label>
                                     </div>
                                 </div>
@@ -125,15 +125,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('3oatr4q')) {
-    $componentId = $_instance->getRenderedChildComponentId('3oatr4q');
-    $componentTag = $_instance->getRenderedChildComponentTagName('3oatr4q');
+} elseif ($_instance->childHasBeenRendered('nuLx8Bm')) {
+    $componentId = $_instance->getRenderedChildComponentId('nuLx8Bm');
+    $componentTag = $_instance->getRenderedChildComponentTagName('nuLx8Bm');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('3oatr4q');
+    $_instance->preserveRenderedChild('nuLx8Bm');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('3oatr4q', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('nuLx8Bm', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

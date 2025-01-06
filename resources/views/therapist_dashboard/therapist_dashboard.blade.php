@@ -203,7 +203,7 @@
 <div class="sidebar">
     <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
     <a href="#"><span>👤</span> <span class="menu-text">Patient List</span></a>
-    <a href="#"><span>📅</span> <span class="menu-text">Schedules</span></a>
+    <a href="#" id="schedule-link"><span>📅</span> <span class="menu-text">Schedules</span></a>
     <a href="#"><span>📋</span> <span class="menu-text">Therapy Plans</span></a>
     <a href="#"><span>📊</span> <span class="menu-text">Reports</span></a>
     <a href="#"><span>🚪</span> <span class="menu-text">Logout</span></a>
@@ -229,6 +229,11 @@
 
         <button type="submit">Save</button>
     </form>
+
+
+    <div id="dynamic-content">
+        <!-- Dynamic content will be loaded here -->
+    </div>
 
     <h3>Patient Progress</h3>
     <table>
@@ -262,7 +267,33 @@
             item.setAttribute('title', item.textContent.trim());
         });
     });
+
+    scheduleLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    
+    // Show a loading message
+    dynamicContent.innerHTML = '<p>Loading schedules...</p>';
+
+    fetch('{{ route("calendar.content") }}')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load content');
+            }
+            return response.text();
+        })
+        .then(html => {
+            dynamicContent.innerHTML = html; // Replace with the fetched content
+        })
+        .catch(error => {
+            dynamicContent.innerHTML = '<p>Error loading schedules. Please try again.</p>';
+            console.error('Error loading content:', error);
+        });
+});
+
 </script>
+
+
+<script src="{{asset('js/add_cal.js')}}"></script>
 
 </body>
 </html>

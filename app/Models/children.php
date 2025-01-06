@@ -15,9 +15,7 @@ class children extends Model
         'dob',
         'birth_cert',
         'gender_id',
-        'registration_number',
-        'parent_id',
-        
+        'registration_number',        
     ];
 
     // Automatically handle JSON serialization for 'fullname'
@@ -49,7 +47,8 @@ class children extends Model
         return json_decode($value);
     }
 
-    public function parent(){
-        return $this->belongsToMany(Parents::class,'child_parent','child_id','parent_id');
-    }
+    public function parents()
+{
+    return $this->hasManyThrough(Parents::class, ChildParent::class, 'child_id', 'id', 'id', 'parent_id');
+}
 }

@@ -17,6 +17,10 @@
     <title>Calendar</title>
 </head>
 <body>
+
+<div class="calendar-container">
+    <!-- Your calendar HTML and scripts go here -->
+
 @livewireScripts
 
     <div class="container">
@@ -95,14 +99,15 @@
                     </div>
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">
-                        <label for="doctor_specialization">Select a Specialization:</label><br>
-                        <select name="doctor_specialization" id="doctor_specialization">
-                            <option value="">-- Select Specialization --</option>
-                            @foreach($doctorSpecializations as $specialization)
-                                <option value="{{ $specialization->id }}">{{ $specialization->specialization }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <label for="doctor_specialization">Select a Specialization:</label><br>
+                <select name="doctor_specialization" id="doctor_specialization">
+                    <option value="">-- Select Specialization --</option>
+                    @foreach($doctorSpecializations as $specialization)
+                        <option value="{{ $specialization->id }}">{{ $specialization->specialization }}</option>
+                    @endforeach
+                </select>
+            </div>
+
 
                                     <div id="specialist-container">
                     <label for="specialist">Select a Specialist:</label>
@@ -127,33 +132,36 @@
             <button class="add-event">
                 <i class="fas fa-plus"></i>
             </button>
-        </div>
-        <div id="reschedule-modal" class="hidden">
-            
-            <div class="modal-content">
-                <span id="close-modal" class="close">&times;</span>
-                <h2>Reschedule Appointment</h2>
-                <form id="reschedule-form">
-                @csrf
-                    <input type="hidden" id="hidden-start-time">
-                    <input type="hidden" id="hidden-end-time">
-                    <label for="appointment-title">Title:</label>
-                    <input type="text" id="appointment-title" name="title" required>
 
-                    <label for="appointment-start-time">Start Time:</label>
-                    <input type="time" id="appointment-start-time" name="start_time" required>
 
-                    <label for="appointment-end-time">End Time:</label>
-                    <input type="time" id="appointment-end-time" name="end_time" required>
 
-                    <label for="newDate">Date:</label>
-                    <input type="date" id="newDate" name="newDate" required>
-
-                    <button type="submit">Save</button>
-                </form>
-            </div>
-        </div>
+        
        
+</div>
+
+<div id="reschedule-modal" class="hidden">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>Reschedule Appointment</h2>
+        <form id="reschedule-form">
+            @csrf
+            <input type="hidden" id="hidden-start-time">
+            <input type="hidden" id="hidden-end-time">
+            <label for="appointment-title">Title:</label>
+            <input type="text" id="appointment-title" name="title" required>
+
+            <label for="appointment-start-time">Start Time:</label>
+            <input type="time" id="appointment-start-time" name="start_time" required>
+
+            <label for="appointment-end-time">End Time:</label>
+            <input type="time" id="appointment-end-time" name="end_time" required>
+
+            <label for="newDate">Date:</label>
+            <input type="date" id="newDate" name="newDate" required>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
 </div>
 
 </div>
@@ -164,7 +172,11 @@
     <script src="{{asset('js/specialization.js')}}"></script>
     <script src="{{asset('js/isDoctorAvailable.js')}}"></script>
 
+ </div>
 
-    
+
+
+
+
 </body>
 </html>

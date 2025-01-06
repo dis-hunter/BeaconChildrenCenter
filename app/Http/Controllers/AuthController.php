@@ -7,7 +7,9 @@ use App\Models\Gender;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use App\Models\Appointment;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -87,7 +89,7 @@ class AuthController extends Controller
     public function authenticated(){
         switch(Auth::user()->role_id){
             case 1:
-                //return redirect()->route('admin.dashboard');
+                return redirect()->route('visits.page');
             case 2:
                 return redirect()->route('doctor.dashboard');
             case 3:
@@ -116,5 +118,37 @@ class AuthController extends Controller
     }
 
     public function profilePost(Request $request) {}
+
+    public function bookedPatients(Request $request)
+    {
+        // Get the authenticated user's ID
+        $userId = auth()->id(); // This will get the authenticated user's ID
+        
+        // Get today's date
+        $today = Carbon::today()->toDateString(); // 'YYYY-MM-DD'
+        
+        // SQL query to join the 'appointments' and 'children' tables and retrieve the required data
+        $appointments = DB::select(
+            DB::raw(
+                'SELECT 
+                    CONCAT(children.fullname->>\'first_name\', \' \', children.fullname->>\'middle_name\', \' \', children.fullname->>\'last_name\') AS child_name,
+                    appointments.start_time,
+                    appointments.end_time,
+                    parents.email AS parent_email,
+                    parents.telephone AS parent_telephone
+                FROM appointments
+                JOIN children ON appointments.child_id = children.id
+                LEFT JOIN child_parent ON children.id = child_parent.child_id
+                LEFT JOIN parents ON child_parent.parent_id = parents.id
+                WHERE appointments.staff_id = ? AND appointments.appointment_date = ?'
+            ),
+            [$userId, $today]
+        );
+        
+        
+        // Return the results as JSON
+        return response()->json($appointments);
+    }
+    
 
 }

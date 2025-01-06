@@ -18,8 +18,8 @@ body{
 }
 .container{
     position: relative;
-    width: 1200px;
-    min-height: 850px;
+    width: 980px !important;
+    min-height: 600px;
     margin: 0 auto;
     padding: 5px;
     color:#fff;
@@ -658,10 +658,6 @@ body{
       font-style: italic;
       color: white;
   }
-  .modal.hidden {
-    display: none;
-}
-
 .modal {
     position: fixed;
     top: 0;
@@ -677,6 +673,7 @@ body{
 .modal-content {
     background: white;
     padding: 20px;
+    color: black;
     border-radius: 5px;
     width: 400px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);

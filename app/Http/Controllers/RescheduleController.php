@@ -28,7 +28,7 @@ class RescheduleController extends Controller
         }
     }
     public function rescheduleAppointment(Request $request)
-    { try{
+    { 
         // Validate the incoming data
         $validatedData = $request->validate([
             'appointment_id' => 'required|exists:appointments,id',
@@ -47,17 +47,19 @@ class RescheduleController extends Controller
         $newEndTime = $validatedData['new_end_time'];
 
         // Check if the doctor is already booked during the new time
+        // Check if the doctor is already booked during the new time
         $doctorBookingConflict = Appointment::where('staff_id', $doctorId)
-            ->where('appointment_date', $newDate)
-            ->where(function ($query) use ($newStartTime, $newEndTime) {
-                $query->whereBetween('start_time', [$newStartTime, $newEndTime])
-                    ->orWhereBetween('end_time', [$newStartTime, $newEndTime])
-                    ->orWhere(function ($query) use ($newStartTime, $newEndTime) {
-                        $query->where('start_time', '<=', $newStartTime)
-                            ->where('end_time', '>=', $newEndTime);
-                    });
-            })
-            ->exists();
+        ->where('appointment_date', $newDate)
+        ->where('id', '!=', $appointment->id) // Exclude the current appointment
+        ->where(function ($query) use ($newStartTime, $newEndTime) {
+            $query->whereBetween('start_time', [$newStartTime, $newEndTime])
+                ->orWhereBetween('end_time', [$newStartTime, $newEndTime])
+                ->orWhere(function ($query) use ($newStartTime, $newEndTime) {
+                    $query->where('start_time', '<=', $newStartTime)
+                        ->where('end_time', '>=', $newEndTime);
+                });
+        })
+        ->exists();
 
         if ($doctorBookingConflict) {
             return response()->json([
@@ -90,15 +92,11 @@ class RescheduleController extends Controller
             'success' => true,
             'message' => 'Appointment successfully rescheduled.'
         ]);
-       } catch (\Exception $e) {
-        Log::error('Error rescheduling appointment: ' . $e->getMessage(), [
-            'appointmentId' => $appointmentId,
-            'error' => $e->getTraceAsString()
-        ]);
+       
         return response()->json(['success' => false, 'message' => 'Error occurred while rescheduling.'], 500);
     }
 
     
 
-}}  
+}
 

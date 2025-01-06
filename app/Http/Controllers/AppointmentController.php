@@ -6,6 +6,9 @@ use App\Models\Appointment;
 use App\Models\DoctorSpecialization; // Add the correct model here
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Appointments;
+use Carbon\Carbon;
+use Illuminate\Routing\Controller;
 
 class AppointmentController extends Controller
 {
@@ -163,4 +166,36 @@ class AppointmentController extends Controller
         $childId = $request->query('child_id', null);  // Get child_id from the URL query string
         return view('appointments.create', compact('childId'));
     }
+
+    public function therapistAppointments()
+{
+    $today = Carbon::today()->toDateString();
+    $therapistSpecializations = DoctorSpecialization::whereIn('specialization', [
+        'Speech Therapy', 'Occupational Therapy', 'Physiotherapy', 'ABA', 'Nutrition'
+    ])->pluck('id');
+
+    $appointments = Appointment::join('staff', 'appointments.staff_id', '=', 'staff.id')
+    ->whereIn('staff.specialization_id', $therapistSpecializations)
+    ->where('appointments.appointment_date', $today)
+    ->join('doctor_specialization', 'staff.specialization_id', '=', 'doctor_specialization.id')
+    ->join('children', 'appointments.child_id', '=', 'children.id') 
+    ->select(
+        'appointments.id',
+        DB::raw("CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'middle_name', ' ', children.fullname->>'last_name') as child_name"), 
+        'appointments.doctor_id',
+        'staff.fullname as staff_name',
+        'doctor_specialization.specialization',
+        'appointments.appointment_date',
+        'appointments.start_time',
+        'appointments.end_time'
+    )
+    ->get();
+
+return response()->json($appointments);
+}
+
+
+
+
+
 }
