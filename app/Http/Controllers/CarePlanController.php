@@ -31,6 +31,15 @@ class CarePlanController extends Controller
             'nutritionistNotes' => 'nullable|string',
             'medicalReport' => 'required|boolean',
             'medicalReportNotes' => 'nullable|string',
+            'educationAssessment' => 'required|boolean',
+            'educationAssessmentNotes' => 'nullable|string',
+            'referral' => 'required|boolean',
+            'referralNotes' => 'nullable|string',
+            'assistiveDevices' => 'required|boolean',
+            'assistiveDevicesNotes' => 'nullable|string',
+            'orthotics' => 'required|boolean',
+            'orthoticsNotes' => 'nullable|string',
+            'otherNotes' => 'nullable|string',
             'returnDate' => 'nullable|date',
         ]);
     
@@ -66,6 +75,15 @@ class CarePlanController extends Controller
                 'nutritionistNotes' => $request->nutritionistNotes,
                 'medicalReport' => $request->medicalReport,
                 'medicalReportNotes' => $request->medicalReportNotes,
+                'educationAssessment' => $request->educationAssessment,
+                'educationAssessmentNotes' => $request->educationAssessmentNotes,
+                'referral' => $request->referral,
+                'referralNotes' => $request->referralNotes,
+                'assistiveDevices' => $request->assistiveDevices,
+                'assistiveDevicesNotes' => $request->assistiveDevicesNotes,
+                'orthotics' => $request->orthotics,
+                'orthoticsNotes' => $request->orthoticsNotes,
+                'otherNotes' => $request->otherNotes,
                 'returnDate' => $request->returnDate,
             ];
     
