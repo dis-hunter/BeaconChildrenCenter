@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title>Physiotherapy Therapist Session Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -79,6 +80,7 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyGoals()">Save Goals</button>
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
@@ -87,11 +89,13 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                     class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="goals_<?php echo e($category); ?>"
+                                        id="individualized_<?php echo e($category); ?>"
                                         onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualized()">Save individualized plan and strategies</button>
+
                         </div>
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
@@ -100,11 +104,12 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="preparation_<?php echo e($category); ?>"
+                                        id="session_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
                         <!-- Therapy Assessment Tab-->
                         <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
@@ -113,36 +118,28 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="preparation_<?php echo e($category); ?>"
+                                        id="assessment_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
-
+                        <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Home Practice Assignments</label>
-                                <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                    id="followup_home_practice"
-                                    onchange="handleChange('followup', 'home_practice', event)"
-                                ></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Next Session Plan</label>
-                                <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                    id="followup_next_plan"
-                                    onchange="handleChange('followup', 'next_plan', event)"
-                                ></textarea>
+                        <?php $__currentLoopData = ['Home Practice Assignments', 'Next Session Plan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
+                                    <textarea 
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="followup_<?php echo e($category); ?>"
+                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
+                                    ></textarea>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Follow-up</button>
                             </div>
                         </div>
-                    </div>
-
-                    <button type="submit" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Save Session
-                    </button>
                 </form>
             </div>
         </div>
@@ -247,5 +244,398 @@
             showTabContent('goals'); // Default tab to show
         });
     </script>
+        <script src="<?php echo e(asset('js/loader.js')); ?>"></script>    
+    <script>
+     // handles submission of goals to db
+        
+        async function saveTherapyGoals() {
+            //'Activities of Daily Living(ADLs)','Fine and Gross Motor Skills','Sensory Integration and Processing' ,
+            // 'Cognitive Skills', 'School goals','Rehabilitation goals','Assistive devices'] as $category)
+
+        showLoadingIndicator('Saving...', 0);
+        const categories = [
+            'Activities of Daily Living(ADLs)',
+            'Fine and Gross Motor Skills',
+            'Sensory Integration and Processing',
+            'Cognitive Skills',
+            'School goals',
+            'Rehabilitation goals',
+            'Assistive devices'
+        ];
+        
+
+    const goalsData = {};
+    // Collect data from the textareas - no delay needed here
+    updateLoadingProgress(30, 'Sending data...');
+
+    // Collect data from the textareas
+    categories.forEach(category => {
+        const textarea = document.getElementById(`goals_${category}`);
+        if (textarea) {
+            goalsData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+        }
+    });
+
+    // Prepare the full payload with other required attributes
+    const payload = {
+        child_id: 1, // Replace with the actual element ID or logic
+        staff_id: 8, // Replace with the actual element ID or logic
+        therapy_id:1, // Replace with the actual element ID or logic
+        data: goalsData // Add the collected categories data as a JSON object
+    };
+
+    try {
+        // Make the POST request
+        const response = await fetch('/saveTherapyGoal', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        updateLoadingProgress(70, 'Processing...');
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Response from server:', result);
+         // Single short delay just to show completion
+         updateLoadingProgress(100, 'Almost Complete');
+
+     await new Promise(resolve => setTimeout(resolve, 200));
+
+        if (result.status === 'success') {
+            alert('Therapy goals saved successfully!');
+        } else {
+            alert('Failed to save therapy goals. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error saving therapy goals:', error);
+        alert('An error occurred. Please check the console for more details.');
+    }finally {
+        hideLoadingIndicator();
+    }
+}
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTabContent('goals'); // Default tab to show
+        });
+    </script>
+        <script>
+                //pushing data to the db therapy_assessment table
+    async function saveAssessment() {
+        // 'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 
+        // 'Sensory Processing','Behaviour Challenges','Orthotics','Assistive devices'] as $category)
+
+        showLoadingIndicator('Saving...', 0);
+        const categories = [
+            'Gross Motor Skills',
+            'Fine Motor Skills',
+            'Cognitive Skills',
+            'Activity of Daily Living',
+            'Sensory Processing',
+            'Behaviour Challenges',
+            'Orthotics',
+            'Assistive devices',
+        ];
+
+        const assessmentData = {};
+
+         // Collect data from the textareas - no delay needed here
+         updateLoadingProgress(30, 'Sending data...');
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`assessment_${category}`);
+            if (textarea) {
+                assessmentData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
+        });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: 1, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: assessmentData // Add the collected categories data as a JSON object
+        };
+
+        try {
+    // Make the POST request
+    const response = await fetch('/saveAssessment', {
+        method: 'POST',
+        
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+    updateLoadingProgress(70, 'Processing...');
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+    
+    // Single short delay just to show completion
+    updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    if (result.status === 'success') {
+        alert('Assessment saved successfully!');
+    } else {
+        alert(`Failed to save assessment: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving assessment:', error);
+    alert('An error occurred. Please check the console for more details.');
+}finally {
+        hideLoadingIndicator();
+    }
+}
+</script>
+<script>
+    //pushing data to the db therapy_individualized table
+    
+    async function saveIndividualized() {
+        //'Therapy frequency and Duration', 'Therapy Setting', 'Strengthening excercises', 'Balance Training', 'Gait Training',
+        //  'Sensory simulation','Parent involvement/training','Assistive Devices'] as $category)
+
+        showLoadingIndicator('Saving...', 0);
+        const categories = [        
+            'Therapy frequency and Duration',
+            'Therapy Setting',
+            'Strengthening excercises',
+            'Balance Training',
+            'Gait Training',
+            'Sensory simulation',
+            'Parent involvement/training',
+            'Assistive Devices',
+        ];
+
+        const individualizedData = {};
+        
+         // Collect data from the textareas - no delay needed here
+         updateLoadingProgress(30, 'Sending data...');
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`individualized_${category}`);
+            if (textarea) {
+                individualizedData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
+        });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: 1, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: individualizedData // Add the collected categories data as a JSON object
+        };
+
+        try {
+    // Make the POST request
+    const response = await fetch('/saveIndividualized', {
+        method: 'POST',
+        
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+    
+    updateLoadingProgress(70, 'Processing...');
+
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+    
+     // Single short delay just to show completion
+     updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
+    if (result.status === 'success') {
+        alert('Individualized plans and strategies saved successfully!');
+    } else {
+        alert(`Failed to save individualized plan and strategies: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving individualized plan and strategies:', error);
+    alert('An error occurred. Please check the console for more details.');
+}finally {
+        hideLoadingIndicator();
+    }
+}
+</script>
+<script>
+    //pushing data to the db therapy_session table
+    //['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 
+    // 'Sensory Integration And Processing','Provide Guidance','Planned Home based tasks'] as $category)
+
+    
+    async function saveSession() {
+        // 'Targeted excercises', 'Manual therapy', 'Functional Training', 'Gait training', 'Sensory Integration And Processing',
+        // 'Stretching and range of motion','Monitor Progress','Planned home based tasks'] as $category)
+
+        showLoadingIndicator('Saving...', 0);
+        const categories = [
+            'Targeted excercises',
+            'Manual therapy',
+            'Functional Training',
+            'Gait training',
+            'Sensory Integration And Processing',
+            'Stretching and range of motion',
+            'Monitor Progress',
+            'Planned home based tasks',
+        ];
+
+        const sessionData = {};
+        // Collect data from the textareas - no delay needed here
+        updateLoadingProgress(30, 'Sending data...');
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`session_${category}`);
+            if (textarea) {
+                sessionData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
+        });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: 1, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: sessionData // Add the collected categories data as a JSON object
+        };
+
+        try {
+            
+    // Make the POST request
+    const response = await fetch('/saveSession', {
+        method: 'POST',
+        
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+    updateLoadingProgress(70, 'Processing...');
+
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+
+    // Single short delay just to show completion
+    updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
+    if (result.status === 'success') {
+        alert('Session saved successfully!');
+    } else {
+        alert(`Failed to save Sessions: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving Session:', error);
+    alert('An error occurred. Please check the console for more details.');
+}finally {
+        hideLoadingIndicator();
+    }
+}
+    
+</script>
+<script>
+    //pushing data to the db follow_up table
+    async function saveFollowup() {
+    showLoadingIndicator('Saving...', 0);
+    const categories = [
+        'Home Practice Assignments',
+        'Next Session Plan',
+    ];
+
+    const followupData = {};
+
+    try {
+        // Collect data from the textareas - no delay needed here
+        updateLoadingProgress(30, 'Sending data...');
+        
+        categories.forEach(category => {
+            const textarea = document.getElementById(`followup_${category}`);
+            if (textarea) {
+                followupData[category] = textarea.value.trim();
+            }
+        });
+
+        const payload = {
+            child_id: 1,
+            staff_id: 8,
+            therapy_id: 1,
+            data: followupData
+        };
+
+        // Make the request - natural network delay will occur here
+        const response = await fetch('/saveFollowup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        updateLoadingProgress(70, 'Processing...');
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Response from server:', result);
+
+        // Single short delay just to show completion
+        updateLoadingProgress(100, 'Almost Complete');
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        if (result.status === 'success') {
+            alert('Followup saved successfully!');
+        } else {
+            alert(`Failed to save Followup: ${result.message}`);
+        }
+    } catch (error) {
+        console.error('Error saving Followup:', error);
+        alert('An error occurred. Please check the console for more details.');
+    } finally {
+        hideLoadingIndicator();
+    }
+}
+</script>
+
+</body>
+</html>
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/physiotherapyTherapist.blade.php ENDPATH**/ ?>
