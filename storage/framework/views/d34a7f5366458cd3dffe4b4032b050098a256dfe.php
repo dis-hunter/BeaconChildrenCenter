@@ -12,8 +12,8 @@
                     <div class="card-body p-md-5 mx-md-4">
 
                         <div class="text-center">
-                            <img src="" style="width: 185px;" alt="logo">AddImage
-                            <h4 class="mt-1 mb-5 pb-1">Beacon Children Center</h4>
+                        <img src="<?php echo e(asset('images/logo.jpg')); ?>"
+                        style="width: 180px;" alt="logo">
                         </div>
 
                         <form action="/register" method="post">
@@ -82,6 +82,8 @@
                                         <label for="lastname">Last Name</label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
                                         <select class="form-select" name="gender" id="gender">
@@ -93,6 +95,8 @@
                                         <label for="gender">Gender</label>
                                     </div>
                                 </div>
+
+
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
                                         <select class="form-select" name="role" id="role">
@@ -104,6 +108,28 @@
                                         <label for="role">Role</label>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6" id="specs" style="display: none">
+                                    <div class="form-floating mb-4">
+                                        <select class="form-select" name="specialization" id="specialization">
+                                            <option disabled <?php echo e(old('specialization') === null ? 'selected' : ''); ?>></option>
+                                            <?php $__currentLoopData = $specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($item->specialization); ?>" <?php echo e(old('specialization') === $item->specialization ? 'selected' : ''); ?>><?php echo e($item->specialization); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
+                                        <label for="specialization">Specialization</label>
+                                    </div>
+                                </div>
+                                <script>
+                                    $('#role').change(function() {
+                                        if ($(this).val() === 'Doctor') {
+                                            $('#specs').css('display', 'block');  // Show specialization input
+                                        } else {
+                                            $('#specs').css('display', 'none');  // Hide specialization input
+                                        }
+                                    });
+
+                                </script>
                             </div>
 
                             <div class="row">
@@ -115,8 +141,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="<?php echo e(old('phone')); ?>" required />
-                                        <label for="phone">Phone Number</label>
+                                        <input type="text" id="telephone" name="telephone" class="form-control" placeholder="Phone Number" value="<?php echo e(old('telephone')); ?>" required />
+                                        <label for="telephone">Phone Number</label>
                                     </div>
                                 </div>
                             </div>
@@ -125,15 +151,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('nuLx8Bm')) {
-    $componentId = $_instance->getRenderedChildComponentId('nuLx8Bm');
-    $componentTag = $_instance->getRenderedChildComponentTagName('nuLx8Bm');
+} elseif ($_instance->childHasBeenRendered('yTs6xz7')) {
+    $componentId = $_instance->getRenderedChildComponentId('yTs6xz7');
+    $componentTag = $_instance->getRenderedChildComponentTagName('yTs6xz7');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('nuLx8Bm');
+    $_instance->preserveRenderedChild('yTs6xz7');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('nuLx8Bm', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('yTs6xz7', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

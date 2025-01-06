@@ -6,4 +6,6 @@
   'edit-parent-modal' => 'App\\Http\\Livewire\\EditParentModal',
   'parent-crud' => 'App\\Http\\Livewire\\ParentCrud',
   'password-generator' => 'App\\Http\\Livewire\\PasswordGenerator',
+  'role-input' => 'App\\Http\\Livewire\\RoleInput',
+  'specialization-modal' => 'App\\Http\\Livewire\\SpecializationModal',
 );

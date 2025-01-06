@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
+use App\Models\DoctorSpecialization;
 use App\Models\Gender;
 use App\Models\Role;
 use App\Models\User;
@@ -22,8 +24,8 @@ class AuthController extends Controller
         }
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
-
-        return view('register', compact('roles', 'genders'));
+        $specializations= DoctorSpecialization::select('specialization')->get();
+        return view('register', compact('roles', 'genders', 'specializations'));
     }
 
     function registerPost(Request $request)
@@ -34,8 +36,9 @@ class AuthController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'role' => 'required',
+            'specialization'=>'string',
             'email' => 'required|email|unique:staff',
-            'phone' => 'required',
+            'telephone' => 'required|unique:staff',
             'password' => [
                 'required',
                 Password::default()
@@ -48,9 +51,10 @@ class AuthController extends Controller
             'last_name' => $request->lastname
         ];
         $data['gender_id'] = Gender::where('gender', $request->gender)->value('id');
-        $data['telephone'] = $request->phone;
+        $data['telephone'] = $request->telephone;
         $data['staff_no'] = Str::uuid();
         $data['role_id'] = Role::where('role', $request->role)->value('id');
+        $data['specialization_id']=DoctorSpecialization::where('specialization',$request->specialization)->value('id');
         $data['email'] = $request->email;
         if (strcmp($request->password, $request->confirmpassword) == 0) {
             $data['password'] = Hash::make($request->confirmpassword);
