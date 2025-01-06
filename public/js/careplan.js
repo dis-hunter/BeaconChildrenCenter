@@ -52,6 +52,30 @@ carePlan.addEventListener('click', (event) => {
                 <textarea id="medicalReportNotes" placeholder="Notes..."></textarea>
             </div>
             <div class="section">
+                <div class="section-title">Education Assessment</div>
+                <input type="checkbox" id="educationAssessment" name="educationAssessment">
+                <textarea id="educationAssessmentNotes" placeholder="Notes..."></textarea>
+            </div>
+            <div class="section">
+                <div class="section-title">Referral</div>
+                <input type="checkbox" id="referral" name="referral">
+                <textarea id="referralNotes" placeholder="Notes..."></textarea>
+            </div>
+            <div class="section">
+                <div class="section-title">Assistive Devices</div>
+                <input type="checkbox" id="assistiveDevices" name="assistiveDevices">
+                <textarea id="assistiveDevicesNotes" placeholder="Notes..."></textarea>
+            </div>
+            <div class="section">
+                <div class="section-title">Orthotics</div>
+                <input type="checkbox" id="orthotics" name="orthotics">
+                <textarea id="orthoticsNotes" placeholder="Notes..."></textarea>
+            </div>
+            <div class="section">
+                <div class="section-title">Other</div>
+                <textarea id="otherNotes" placeholder="Notes..."></textarea> 
+            </div>
+            <div class="section">
                 <div class="section-title">Return Date</div>
                 <input type="date" id="returnDate" name="returnDate">
             </div>
@@ -92,6 +116,16 @@ carePlan.addEventListener('click', (event) => {
             medicalReport: document.getElementById('medicalReport').checked,
             medicalReportNotes: document.getElementById('medicalReportNotes').value,
             returnDate: document.getElementById('returnDate').value,
+            educationAssessment: document.getElementById('educationAssessment').checked,
+            educationAssessmentNotes: document.getElementById('educationAssessmentNotes').value,
+            referral: document.getElementById('referral').checked,
+            referralNotes: document.getElementById('referralNotes').value,
+            assistiveDevices: document.getElementById('assistiveDevices').checked,
+            assistiveDevicesNotes: document.getElementById('assistiveDevicesNotes').value,
+            orthotics: document.getElementById('orthotics').checked,
+            orthoticsNotes: document.getElementById('orthoticsNotes').value,
+            otherNotes: document.getElementById('otherNotes').value, 
+            returnDate: document.getElementById('returnDate').value,
         };
 
         console.log('Collected Data: ', managementPlanData);
@@ -118,3 +152,4 @@ carePlan.addEventListener('click', (event) => {
         }
     });
 });
+
