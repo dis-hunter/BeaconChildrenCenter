@@ -9,57 +9,6 @@ use Illuminate\Validation\Rule;
 
 class PrescriptionController extends Controller
 {
-    public function show($registrationNumber)
-{
-    try {
-        // Log the received registration number
-        Log::info('Fetching child details for registration number: ' . $registrationNumber);
-
-        // Trim and normalize registration number (remove leading/trailing spaces)
-        $registrationNumber = trim($registrationNumber);
-
-        // Fetch child details using the registration number
-        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
-        if (!$child) {
-            Log::warning('Child not found for registration number: ' . $registrationNumber);
-            return response()->json(['message' => 'Child not found'], 404);
-        }
-
-        Log::info('Child found: ', (array) $child);
-
-        // Fetch the latest prescription data for the child
-        $prescription = DB::table('prescriptions')
-            ->where('child_id', $child->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        if (!$prescription) {
-            Log::info('No prescriptions found for child ID: ' . $child->id);
-            // Return only the child data
-            return response()->json([
-                'child' => $child,
-                'prescriptionData' => null,
-                'message' => 'No prescriptions found for this child',
-            ], 200);
-        }
-
-        Log::info('Prescription found: ', (array) $prescription);
-
-        // Decode the JSON data from the prescriptions table
-        $prescriptionData = json_decode($prescription->data, true);
-        $prescriptionData['created_at'] = $prescription->created_at;
-
-        // Return the child and prescription data as JSON
-        return response()->json([
-            'child' => $child,
-            'prescriptionData' => $prescriptionData,
-        ], 200);
-    } catch (\Exception $e) {
-        Log::error("Error fetching prescription: {$e->getMessage()}");
-        return response()->json(['error' => 'Failed to fetch prescription'], 500);
-    }
-}
 
 public function store(Request $request, $registrationNumber)
 {
