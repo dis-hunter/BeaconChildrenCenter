@@ -19,7 +19,7 @@
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
             <td><input type="submit" value="Search"></td>
         </tr>
-    </table>
+    </table>    
 </form>
 
 <!-- Error Message -->
