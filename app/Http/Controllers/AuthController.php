@@ -88,8 +88,8 @@ class AuthController extends Controller
 {
     switch (Auth::user()->role_id) {
         case 1:
-            // return redirect()->route('visits.page');
-            // break; // Add break to stop execution after redirect
+            return redirect()->route('triage.dashboard');
+            break; // Add break to stop execution after redirect
             
         case 2:
             return redirect()->route('doctor.dashboard');

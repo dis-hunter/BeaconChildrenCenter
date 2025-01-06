@@ -15,16 +15,12 @@ return new class extends Migration
     {
         Schema::create('payment_modes', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_mode');
+            $table->string('name'); // Payment mode name (e.g., Cash, Credit Card)
+            $table->text('description')->nullable(); // Optional description
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('payment_modes');

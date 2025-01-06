@@ -79,6 +79,8 @@ Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
 Route::view('/visits-page', 'visits')->name('visits.page'); 
 Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
+// Route::get('/payment-modes', [VisitController::class, 'getPaymentModes']);
+
 
 
 // Authenticated Routes
@@ -150,7 +152,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 // Triage Routes (These should likely be within the Nurse's authenticated routes)
-Route::view('/triageDashboard', 'triageDash'); 
+Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');; 
 Route::post('/triage', [TriageController::class, 'store']);
 Route::get('/triage', [TriageController::class, 'create'])->name('triage');
 Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
