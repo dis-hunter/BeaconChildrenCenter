@@ -128,7 +128,7 @@
                             @endforeach
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
-
+                        <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                         @foreach(['Home Practice Assignments', 'Next Session Plan'] as $category)
                                 <div class="mb-4">
@@ -248,8 +248,8 @@
         // handles submission of goals to db
         
         async function saveTherapyGoals() {
-            showLoadingIndicator();
-    const categories = [
+        showLoadingIndicator('Saving...', 0);
+        const categories = [
         'Activities of Daily Living(ADLs)',
         'Instrumental Activities of Daily Living(IADLs)',
         'Fine and Gross Motor Skills',
@@ -261,6 +261,8 @@
     ];
 
     const goalsData = {};
+    // Collect data from the textareas - no delay needed here
+    updateLoadingProgress(30, 'Sending data...');
 
     // Collect data from the textareas
     categories.forEach(category => {
@@ -289,6 +291,7 @@
             body: JSON.stringify(payload),
         });
 
+        updateLoadingProgress(70, 'Processing...');
         if (!response.ok) {
             const errorText = await response.text();
             console.error('Error response:', errorText);
@@ -297,6 +300,10 @@
 
         const result = await response.json();
         console.log('Response from server:', result);
+         // Single short delay just to show completion
+         updateLoadingProgress(100, 'Almost Complete');
+
+     await new Promise(resolve => setTimeout(resolve, 200));
 
         if (result.status === 'success') {
             alert('Therapy goals saved successfully!');
@@ -320,7 +327,7 @@
         <script>
                 //pushing data to the db therapy_assessment table
     async function saveAssessment() {
-        showLoadingIndicator();
+        showLoadingIndicator('Saving...', 0);
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
@@ -332,6 +339,8 @@
 
         const assessmentData = {};
 
+         // Collect data from the textareas - no delay needed here
+         updateLoadingProgress(30, 'Sending data...');
         // Collect data from the textareas
         categories.forEach(category => {
             const textarea = document.getElementById(`assessment_${category}`);
@@ -359,6 +368,7 @@ headers: {
         },
         body: JSON.stringify(payload),
     });
+    updateLoadingProgress(70, 'Processing...');
 
     if (!response.ok) {
         const errorText = await response.text();
@@ -368,7 +378,11 @@ headers: {
 
     const result = await response.json();
     console.log('Response from server:', result);
-
+    
+    // Single short delay just to show completion
+    updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
     if (result.status === 'success') {
         alert('Assessment saved successfully!');
     } else {
@@ -386,7 +400,7 @@ headers: {
     //pushing data to the db therapy_individualized table
     
     async function saveIndividualized() {
-        showLoadingIndicator();
+        showLoadingIndicator('Saving...', 0);
         const categories = [
             'Therapy frequency and Duration',
             'Therapy Setting',
@@ -400,7 +414,9 @@ headers: {
         ];
 
         const individualizedData = {};
-
+        
+         // Collect data from the textareas - no delay needed here
+         updateLoadingProgress(30, 'Sending data...');
         // Collect data from the textareas
         categories.forEach(category => {
             const textarea = document.getElementById(`individualized_${category}`);
@@ -428,6 +444,9 @@ headers: {
         },
         body: JSON.stringify(payload),
     });
+    
+    updateLoadingProgress(70, 'Processing...');
+
 
     if (!response.ok) {
         const errorText = await response.text();
@@ -437,7 +456,10 @@ headers: {
 
     const result = await response.json();
     console.log('Response from server:', result);
-
+    
+     // Single short delay just to show completion
+     updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
     if (result.status === 'success') {
         alert('Individualized plans and strategies saved successfully!');
     } else {
@@ -458,7 +480,7 @@ headers: {
 
     
     async function saveSession() {
-        showLoadingIndicator();
+        showLoadingIndicator('Saving...', 0);
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
@@ -470,7 +492,8 @@ headers: {
         ];
 
         const sessionData = {};
-
+        // Collect data from the textareas - no delay needed here
+        updateLoadingProgress(30, 'Sending data...');
         // Collect data from the textareas
         categories.forEach(category => {
             const textarea = document.getElementById(`session_${category}`);
@@ -488,6 +511,7 @@ headers: {
         };
 
         try {
+            
     // Make the POST request
     const response = await fetch('/saveSession', {
         method: 'POST',
@@ -498,6 +522,8 @@ headers: {
         },
         body: JSON.stringify(payload),
     });
+    updateLoadingProgress(70, 'Processing...');
+
 
     if (!response.ok) {
         const errorText = await response.text();
@@ -508,6 +534,9 @@ headers: {
     const result = await response.json();
     console.log('Response from server:', result);
 
+    // Single short delay just to show completion
+    updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
     if (result.status === 'success') {
         alert('Session saved successfully!');
     } else {
@@ -524,70 +553,72 @@ headers: {
 </script>
 <script>
     //pushing data to the db follow_up table
-    //['Home Practice Assignments', 'Next Session Plan'] as $category)
-
-
-    
     async function saveFollowup() {
-        showLoadingIndicator();
-        const categories = [
-            'Home Practice Assignments',
-            'Next Session Plan',
-        ];
+    showLoadingIndicator('Saving...', 0);
+    const categories = [
+        'Home Practice Assignments',
+        'Next Session Plan',
+    ];
 
-        const followupData = {};
+    const followupData = {};
 
-        // Collect data from the textareas
+    try {
+        // Collect data from the textareas - no delay needed here
+        updateLoadingProgress(30, 'Sending data...');
+        
         categories.forEach(category => {
             const textarea = document.getElementById(`followup_${category}`);
             if (textarea) {
-                followupData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+                followupData[category] = textarea.value.trim();
             }
         });
 
-        // Prepare the full payload with other required attributes
         const payload = {
-            child_id: 1, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
-            therapy_id: 1, // Replace with the actual element ID or logic
-            data: followupData // Add the collected categories data as a JSON object
+            child_id: 1,
+            staff_id: 8,
+            therapy_id: 1,
+            data: followupData
         };
 
-        try {
-    // Make the POST request
-    const response = await fetch('/saveFollowup', {
-        method: 'POST',
-        
-headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: JSON.stringify(payload),
-    });
+        // Make the request - natural network delay will occur here
+        const response = await fetch('/saveFollowup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(payload),
+        });
 
-    if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+        updateLoadingProgress(70, 'Processing...');
 
-    const result = await response.json();
-    console.log('Response from server:', result);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-    if (result.status === 'success') {
-        alert('Followup saved successfully!');
-    } else {
-        alert(`Failed to save Followup: ${result.message}`);
-    }
-} catch (error) {
-    console.error('Error saving Followup:', error);
-    alert('An error occurred. Please check the console for more details.');
-}finally {
+        const result = await response.json();
+        console.log('Response from server:', result);
+
+        // Single short delay just to show completion
+        updateLoadingProgress(100, 'Almost Complete');
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        if (result.status === 'success') {
+            alert('Followup saved successfully!');
+        } else {
+            alert(`Failed to save Followup: ${result.message}`);
+        }
+    } catch (error) {
+        console.error('Error saving Followup:', error);
+        alert('An error occurred. Please check the console for more details.');
+    } finally {
         hideLoadingIndicator();
     }
 }
 </script>
-
 
 </body>
 </html>

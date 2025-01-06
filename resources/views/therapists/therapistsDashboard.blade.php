@@ -272,7 +272,7 @@
     });
 }
 
-    function selectPatient(index) {
+function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
       patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
       patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
