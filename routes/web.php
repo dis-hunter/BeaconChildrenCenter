@@ -129,6 +129,11 @@ Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
 
+
+Route::get('/layout',function(){
+    return view('reception\layout');
+});
+
 Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show');
 Route::get('/doctorDashboard', function () {
     return view('doctorDash');
