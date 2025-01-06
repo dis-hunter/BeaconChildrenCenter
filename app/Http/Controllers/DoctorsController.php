@@ -80,7 +80,7 @@ class DoctorsController extends Controller
                 'triage' => null, 
             ]);
         }
-    }
+    } 
 
 
     public function getTriageData($registrationNumber)
@@ -292,6 +292,7 @@ $doctorsNotes .= $FamilySocialHistory ? "FamilySocialHistory Data:\n" . json_enc
 // Pass the notes to the view
 return view('doctor', [
     'child' => $child,
+    'child_id'=>$child->id,
     'firstName' => $firstName,
     'middleName' => $middleName,
     'lastName' => $lastName,

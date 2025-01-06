@@ -1,3 +1,5 @@
+<!-- Search Form -->
+ <h2>jumanji</h2>
 @extends('reception.layout')
 
 <!DOCTYPE html>

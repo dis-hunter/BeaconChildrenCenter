@@ -1,11 +1,22 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\BehaviourAssesmentController;
+use App\Http\Controllers\DevelopmentMilestonesController;
+
+use App\Http\Controllers\VisitController; 
+
+// Import the controller class
 use App\Http\Controllers\TriageController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TherapyController;
+
+
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
@@ -19,10 +30,10 @@ use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\CarePlanController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\PrescriptionController;
-use App\Http\Controllers\VisitController;
+
 
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\AppointmentController;
+
 use Custom\Namespace\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
 
@@ -37,7 +48,7 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 //Therapist Routes
 Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
-Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
+Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
 Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
 Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); // Display the doctor form once the add doctor button is clicked
 
@@ -77,6 +88,26 @@ Route::get('/register_child', function(){
 
 Route::get('/calendar', [CalendarController::class, 'create'])->name('calendar');
 //therapist routes
+Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
+Route::get('/psychotherapy_dashboard', function () {
+    return view('therapists.psychotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+
+Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
+
+
+Route::get('/speechtherapy_dashboard', function () {
+    return view('therapists.speechtherapyDashboard');
+});
+Route::get('/nutritionist_dashboard', function () {
+    return view('therapists.nutritionistDashboard');
+});
 Route::get('/occupational_therapist', function () {
     return view('therapists.occupationalTherapist');
 });
@@ -310,3 +341,48 @@ Route::get('/booked-patients', [BookedController::class, 'getBookedPatients'])->
 Route::get('/calendar-content', [CalendarController::class, 'create'])->name('calendar.content');
 
 Route::get('/appointments/therapists', [AppointmentController::class, 'therapistAppointments'])->name('appointments.therapists');
+Route::get('/get-referral-data/{registration_number}', [ReferralController::class, 'getReferralData']);
+Route::get('/get-child-data/{registration_number}', [ReferralController::class, 'getChildData']);
+Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
+Route::get('/getDoctorNotes/{registrationNumber}', [VisitController::class, 'getDoctorNotes']);
+
+
+Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
+
+
+Route::get('/visithandle', function () {
+    return view('Receiptionist/visits');
+});
+Route::get('/staff-dropdown', [StaffController::class, 'index']);
+
+Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
+Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');
+Route::get('/children/create', [ChildrenController::class, 'create'])->name('children.create');
+Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
+
+Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])
+    ->name('doctors.specializationSearch');
+Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
+Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
+Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
+// Add this route to handle the POST request for fetching staff full names
+Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
+Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
+
+
+
+Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
+
+
+Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
+
+Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
+
+Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
+Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
+
+
+Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
+Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
+Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
+Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');

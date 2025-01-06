@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class ChildrenController extends Controller
 {
     public function get()
@@ -164,7 +165,11 @@ class ChildrenController extends Controller
         }
     }
     
-
+    public function showChildren()
+    {
+        $children = DB::table('children')->select('id', 'fullname', 'dob', 'birth_cert', 'gender_id', 'registration_number', 'created_at', 'updated_at')->get();
+        return view('therapists.therapistsDashboard', ['children' => $children]);
+    }
 }
 
 

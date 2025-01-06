@@ -175,7 +175,7 @@
 
 <div class="floating-menu" id="floatingMenu">
   <a href="#triageExam">Triage Exam</a><div id="triageExam"></div>
-  <a href="#">Encounters Summary</a>
+  <a href="#EncounterSummary">Encounters Summary</a>
   <a href="#perinatalHistory">Perinatal History</a><div id="perinatalHistory"></div>
   <a href="#pastMedicalHistory">Past Medical History</a><div id="pastMedicalHistory"></div>
   <a href="#devMilestones">Developmental Milestones</a><div id="devMilestones"></div>
@@ -205,6 +205,7 @@
         <form id="patient-form">
           <div class="input-group">
             <div>
+            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
               <label for="firstName">First Name:</label>
               <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
             </div>
@@ -282,21 +283,62 @@
             <input type="text" id="createdBy" name="createdBy">
           </div>
 
-          <button type="submit">Save</button>
+<button id="saveButton" type="button">Save</button>
         </form> 
       </div>
     `;
+    const saveButton = document.getElementById("saveButton");
+      saveButton.addEventListener("click", function(event) {
+          event.preventDefault();
+          saveDoctorNotes();
+      });
     }
 
-    // Event listener for Home link
     const homeLink = document.getElementById('homeLink');
     if (homeLink) {
       homeLink.addEventListener('click', showHomeForm);
     }
 
-    // Call showHomeForm() to display the form initially
     showHomeForm();
-  });
+});
+async function saveDoctorNotes() {
+    try {
+        const doctorNotes = document.getElementById("doctorsNotes").value;
+        const childId = document.getElementById('child_id').value;
+
+        const dataToSend = {
+            child_id: childId,
+            notes: doctorNotes
+        };
+
+        const response = await fetch('/saveDoctorNotes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(dataToSend)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        if (result.status === 'success') {
+            alert('Notes saved successfully!');
+        } else {
+            alert('Failed to save notes. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error saving notes');
+    }
+}
+
+
+
+        
 </script>
 <script src="{{ asset('js/doctor.js') }}"></script>
 <script src="{{ asset('js/Referral.js') }}"></script>
@@ -313,7 +355,8 @@
 <script src="{{ asset('js/triageresults.js') }}"></script>
 <script src="{{ asset('js/investigations.js') }}"></script>
 <script src="{{ asset('js/recordResults.js') }}"></script>
-<script src="{{ asset('js/prescriptions.js') }}"></script>
+<script src="{{ asset('js/EncounterSummary.js') }}"></script>
+
 
 </body>
 </html>
