@@ -162,7 +162,11 @@
 <div class="sidebar">
   <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;"><?php echo e($firstName); ?> <?php echo e($middleName); ?> <?php echo e($lastName); ?></span></h2> 
   <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
-  <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+            <?php echo csrf_field(); ?>
+  </form>
+
   <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
   <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
 </div>
@@ -234,34 +238,34 @@
           </div>
 
           <div class="input-group">
-            <div>
-              <label for="mothersName">Mother's Name:</label>
-              <input type="text" id="mothersName" name="mothersName">
-            </div>
-            <div>
-              <label for="motherTel">Tel:</label>
-              <input type="text" id="motherTel" name="motherTel">
-            </div>
-            <div>
-              <label for="motherEmail">Email:</label>
-              <input type="text" id="motherEmail" name="motherEmail">
-            </div>
-          </div>
+    <div>
+      <label for="mothersName">Mother's Name:</label>
+      <input type="text" id="mothersName" name="mothersName" value="<?php echo e($parents['Mother']['fullname'] ?? ''); ?>"> 
+    </div>
+    <div>
+      <label for="motherTel">Tel:</label>
+      <input type="text" id="motherTel" name="motherTel" value="<?php echo e($parents['Mother']['telephone'] ?? ''); ?>"> 
+    </div>
+    <div>
+      <label for="motherEmail">Email:</label>
+      <input type="text" id="motherEmail" name="motherEmail" value="<?php echo e($parents['Mother']['email'] ?? ''); ?>"> 
+    </div>
+  </div>
 
           <div class="input-group">
-            <div>
-              <label for="fathersName">Father's Name:</label>
-              <input type="text" id="fathersName" name="fathersName">
-            </div>
-            <div>
-              <label for="fatherTel">Tel:</label>
-              <input type="text" id="fatherTel" name="fatherTel">
-            </div>
-            <div>
-              <label for="fatherEmail">Email:</label>
-              <input type="text" id="fatherEmail" name="fatherEmail">
-            </div>
-          </div>
+    <div>
+      <label for="fathersName">Father's Name:</label>
+      <input type="text" id="fathersName" name="fathersName" value="<?php echo e($parents['Father']['fullname'] ?? ''); ?>"> 
+    </div>
+    <div>
+      <label for="fatherTel">Tel:</label>
+      <input type="text" id="fatherTel" name="fatherTel" value="<?php echo e($parents['Father']['telephone'] ?? ''); ?>"> 
+    </div>
+    <div>
+      <label for="fatherEmail">Email:</label>
+      <input type="text" id="fatherEmail" name="fatherEmail" value="<?php echo e($parents['Father']['email'] ?? ''); ?>"> 
+    </div>
+  </div>
 
           <label for="informant">Informant:</label>
           <input type="text" id="informant" name="informant">

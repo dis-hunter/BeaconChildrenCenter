@@ -8,6 +8,7 @@
 function startConsultation(registrationNumber) {
   // Redirect to the URL with the registration number
   window.location.href = `/doctor/${registrationNumber}`;
+  
 }
 
 async function fetchPostTriageQueue() {
@@ -42,6 +43,32 @@ async function fetchPostTriageQueue() {
                       Start Consultation
                   </button>
               </td>
+              <style>
+  .consult-btn {
+    background-color: #008CBA; /* Blue background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth transitions for all properties */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  .consult-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Move up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+  }
+    td {
+    padding: 15px; 
+    text-align: center; 
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions */
+  }
+
+</style>
           `;
           patientList.appendChild(row);
       });

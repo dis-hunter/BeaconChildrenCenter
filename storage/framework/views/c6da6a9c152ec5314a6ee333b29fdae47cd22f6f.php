@@ -76,7 +76,7 @@
                     <div class="form-group col-md-6">
                         <label class="col-md-3 control-label">Lastname:</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" value="<?php echo e($user->fullname->middle_name['lastname'] ?? ''); ?>">
+                            <input class="form-control" type="text" value="<?php echo e($user->fullname->last_name ?? ''); ?>">
                         </div>
                     </div>
                 </div>

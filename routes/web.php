@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Doctor Routes
     Route::group(['middleware' => 'role:2'], function () {
         Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
-        Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'show'])->name('doctor.show'); 
+        Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show'); 
         Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
         Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
         Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
@@ -136,12 +136,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Receptionist Routes
     Route::group(['middleware' => 'role:3'], function () {
-        Route::get('/receiptionist_dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
+        Route::get('/dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
         Route::get('/patients', [ChildrenController::class, 'get']);
         Route::post('/patients', [ChildrenController::class, 'create']);
         Route::get('/patients/search', [ChildrenController::class, 'searchGet']);
         Route::get('/patients/search/{id?}', [ChildrenController::class, 'childGet']);
-        Route::view('/visithandle', 'reception.visits'); 
+        Route::view('/visithandle', 'reception.visits');
     });
 
     // Admin Routes

@@ -59,16 +59,16 @@ class ChildrenController extends Controller
 
         // Combine fullname fields into a JSON object
         $parent_fullname = [
-            'firstname' => $validatedData['firstname'],
-            'middlename' => $validatedData['middlename'],
-            'lastname' => $validatedData['lastname'],
+            'first_name' => $validatedData['firstname'],
+            'middle_name' => $validatedData['middlename'],
+            'last_name' => $validatedData['lastname'],
         ];
 
         // Combine fullname fields into a JSON object
         $child_fullname = [
-            'firstname' => $validatedData['firstname2'],
-            'middlename' => $validatedData['middlename2'],
-            'lastname' => $validatedData['lastname2'],
+            'first_name' => $validatedData['firstname2'],
+            'middle_name' => $validatedData['middlename2'],
+            'last_name' => $validatedData['lastname2'],
         ];
 
 

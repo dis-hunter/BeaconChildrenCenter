@@ -25,7 +25,7 @@
     <table style="border: 1">
         <tr>
             <td>Full Name</td>
-            <td>{{ json_decode($parent->fullname)->firstname }} {{ json_decode($parent->fullname)->middlename }} {{ json_decode($parent->fullname)->surname }}</td>
+            <td>{{ json_decode($parent->fullname)->first_name }} {{ json_decode($parent->fullname)->middle_name }} {{ json_decode($parent->fullname)->last_name}}</td>
         </tr>
         <tr>
             <td>Telephone</td>

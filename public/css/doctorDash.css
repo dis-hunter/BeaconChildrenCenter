@@ -16,13 +16,10 @@ header {
   align-items: center;
 }
 
-.profile img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  object-fit: cover;
-  transform: scale(1.2);
+.profile i {
+  font-size: 4em; /* Adjust size as needed */
+  margin-right: 15px; /* Add space between icon and text */
+  color: Black; /* Example color - adjust as needed */
 }
 
 .profile div {
@@ -160,4 +157,14 @@ main {
   border-radius: 5px;
   cursor: pointer;
   margin-right: 10px;
+}
+.notifications {
+  display: flex; /* Use flexbox for easy alignment */
+  align-items: center; /* Vertically center the items */
+}
+
+.clock {
+  font-size: 1.2em;
+  margin-right: 20px; /* Space between clock and user icon */
+  order: -1; /* Place the clock before the user icon */
 }

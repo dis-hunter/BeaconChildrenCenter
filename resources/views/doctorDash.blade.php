@@ -11,14 +11,14 @@
 <body>
 
   <header>
-    <div class="profile">
-      <img src="Dr.Oringe.jpg" alt="Doctor Profile Picture">
-      <div>
-        <h2  style="margin-bottom: 6px;">Dr. {{ $firstName }} {{ $lastName }}</h2>
-        <p style="margin-top:0">Pediatrician</p>
-      </div>
-    </div>
+  <div class="profile">
+  <i class="fas fa-user-md fa-4x"></i> <div>
+    <h2 style="margin-bottom: 6px;">Dr. {{ $firstName }} {{ $lastName }}</h2>
+    <p style="margin-top:0">Pediatrician</p>
+  </div>
+</div>
     <div class="notifications">
+    <div class="clock" id="clock"></div> 
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
@@ -48,7 +48,7 @@
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
-        <h3>Good morning, Dr. {{ $lastName }}!</h3>
+      <h3 id="greeting"></h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
@@ -92,5 +92,26 @@
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
   <script src="{{asset ('js/doctorDash.js')}}"></script>
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('clock').textContent = timeString;
+    }
+    setInterval(updateClock, 1000);
+    function updateGreeting() {
+      const now = new Date();
+      const hours = now.getHours();
+      let greeting = "Good morning"; // Default to morning
+      if (hours >= 12 && hours < 18) {
+        greeting = "Good afternoon";
+      } else if (hours >= 18) {
+        greeting = "Good evening";
+      }
+      document.getElementById('greeting').textContent = `${greeting}, Dr. {{ $lastName }}!`;
+    }
+    updateGreeting(); 
+    setInterval(updateGreeting, 60 * 60 * 1000);
+  </script>
 </body>
 </html>

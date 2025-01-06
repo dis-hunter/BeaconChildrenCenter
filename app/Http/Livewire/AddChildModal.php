@@ -34,9 +34,9 @@ class AddChildModal extends Component
             ]);
 
             $fullname=json_encode([
-                'firstname' => $this->firstname,
-                'middlename' => $this->middlename,
-                'lastname' => $this->lastname,
+                'first_name' => $this->firstname,
+                'middle_name' => $this->middlename,
+                'last_name' => $this->lastname,
             ]);
             $validatedData=[
                 'fullname'=>$fullname,

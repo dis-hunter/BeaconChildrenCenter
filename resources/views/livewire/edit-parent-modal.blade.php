@@ -16,15 +16,15 @@
         <div class="row g-3">
             <div class="col-md-4">
                 <label for="firstname" class="form-label">First Name</label>
-                <input type="text" id="firstname" wire:model.defer="firstname" value="{{ old('firstname',$p_fullname['firstname']) }}" class="form-control" required>
+                <input type="text" id="firstname" wire:model.defer="firstname" value="{{ old('firstname',$p_fullname['first_name']) }}" class="form-control" required>
             </div>
             <div class="col-md-4">
                 <label for="middlename" class="form-label">Middle Name</label>
-                <input type="text" id="middlename" wire:model.defer="middlename" value="{{ old('middlename',$p_fullname['middlename']) }}" class="form-control">
+                <input type="text" id="middlename" wire:model.defer="middlename" value="{{ old('middlename',$p_fullname['middle_name']) }}" class="form-control">
             </div>
             <div class="col-md-4">
                 <label for="lastname" class="form-label">Surname</label>
-                <input type="text" id="lastname" wire:model.defer="lastname" value="{{ old('lastname',$p_fullname['lastname']) }}" class="form-control" required>
+                <input type="text" id="lastname" wire:model.defer="lastname" value="{{ old('lastname',$p_fullname['last_name']) }}" class="form-control" required>
             </div>
         </div>
 
