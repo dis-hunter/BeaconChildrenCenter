@@ -2,6 +2,7 @@
  <h2>jumanji</h2>
 @extends('reception.layout')
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +17,15 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<h2>Welcome</h2>
+<h2>Search </h2>
 <form action="{{ route('parent.get-children') }}" method="post">
     @csrf
     <table>
+    <tr>
+            <td>Search by Name</td>
+            <td><input type="text" name="child_name" placeholder="Enter Name" value="{{ old('fullname') }}"></td>
+            <td><input type="submit" value="Search"></td>
+        </tr>
         <tr>
             <td>Search by Telephone</td>
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
@@ -99,7 +105,7 @@
 
 </div>
 
-<button  id="submit-appointment">Create Appointment</button>
+<button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
 
 </body>
 </html>

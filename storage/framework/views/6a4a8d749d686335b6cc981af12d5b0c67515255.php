@@ -1,3 +1,6 @@
+
+<?php $__env->startSection('main'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +15,15 @@
 
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-<h2>Welcome</h2>
+<h2>Search </h2>
 <form action="<?php echo e(route('parent.get-children')); ?>" method="post">
     <?php echo csrf_field(); ?>
     <table>
+    <tr>
+            <td>Search by Name</td>
+            <td><input type="text" name="child_name" placeholder="Enter Name" value="<?php echo e(old('fullname')); ?>"></td>
+            <td><input type="submit" value="Search"></td>
+        </tr>
         <tr>
             <td>Search by Telephone</td>
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="<?php echo e(old('telephone')); ?>"></td>
@@ -425,4 +433,5 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 });
 
 </script>
-<?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/Reception/visits.blade.php ENDPATH**/ ?>
+
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/Reception/visits.blade.php ENDPATH**/ ?>

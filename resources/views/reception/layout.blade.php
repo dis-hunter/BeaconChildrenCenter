@@ -486,16 +486,7 @@
 
 <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
 
-<div class="main" id="main">
-    
-    {{-- success and error --}}
-            {{-- <div id="flash-message" class="alert alert-success d-flex align-items-center" style="display: none" role="alert"></div>
-        
-            <div class="alert alert-danger d-flex align-items-center" style="display: none" role="alert"></div> --}}
-        
 
-    @yield('content')
-</div>
 
 <script>
     //Sidebar toggle
