@@ -60,13 +60,27 @@
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
+                        <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
                         </nav>
                     </div>
+                    <!-- Therapy Assessment Tab-->
+                    <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
+                            @foreach(['Psychologic issues', 'Emotional issues', 'Behavioural issuess', 'Psychosocial history', 'Risk factors','Resilience factors'] as $category)
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                                    <textarea 
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="assessment_{{ $category }}"
+                                        onchange="handleChange('preparation', '{{ $category }}', event)"
+                                    ></textarea>
+                                </div>
+                            @endforeach
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
+                        </div>
                     <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
@@ -110,20 +124,7 @@
                             @endforeach
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
-                        <!-- Therapy Assessment Tab-->
-                        <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Psychologic issues', 'Emotional issues', 'Behavioural issuess', 'Psychosocial history', 'Risk factors','Resilience factors'] as $category)
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
-                                    <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="assessment_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
-                                    ></textarea>
-                                </div>
-                            @endforeach
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
-                        </div>
+                        
                         <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                         @foreach(['Home Practice Assignments', 'Next Session Plan'] as $category)
@@ -240,7 +241,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            showTabContent('goals'); // Default tab to show
+            showTabContent('therapyAssesment'); // Default tab to show
         });
     </script>
     </script>
@@ -320,7 +321,7 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            showTabContent('goals'); // Default tab to show
+            showTabContent('therapyAssesment'); // Default tab to show
         });
     </script>
         <script>

@@ -61,13 +61,27 @@
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
+                        <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssessment" onclick="showTabContent('therapyAssessment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssessment" onclick="showTabContent('therapyAssessment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
                         </nav>
                     </div>
+                    <!-- Therapy Assessment Tab-->
+                    <div id="therapyAssessment" class="tabs-content space-y-4 p-4 hidden">
+                            <?php $__currentLoopData = ['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
+                                    <textarea 
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="assessment_<?php echo e($category); ?>"
+                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
+                                    ></textarea>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
+                        </div>
                     <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
@@ -114,21 +128,7 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
-                        <!-- Therapy Assessment Tab-->
-                        <div id="therapyAssessment" class="tabs-content space-y-4 p-4 hidden">
-                            <?php $__currentLoopData = ['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
-                                    <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="assessment_<?php echo e($category); ?>"
-                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
-                                    ></textarea>
-                                </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
-                        </div>
-
+                        <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                         <?php $__currentLoopData = ['Home Practice Assignments', 'Next Session Plan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="mb-4">
@@ -321,7 +321,7 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            showTabContent('goals'); // Default tab to show
+            showTabContent('therapyAssessment'); // Default tab to show
         });
     </script>
         <script>
