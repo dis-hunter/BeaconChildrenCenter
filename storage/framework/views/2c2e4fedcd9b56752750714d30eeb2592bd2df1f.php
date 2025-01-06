@@ -90,7 +90,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                     class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="goals_<?php echo e($category); ?>"
+                                        id="individualized_<?php echo e($category); ?>"
                                         onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
@@ -105,7 +105,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="preparation_<?php echo e($category); ?>"
+                                        id="session_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
@@ -119,7 +119,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="preparation_<?php echo e($category); ?>"
+                                        id="assessment_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
@@ -333,14 +333,19 @@
         <script>
                 //pushing data to the db therapy_assessment table
     async function saveAssessment() {
+        //['Speech and sound production', 'Expressive Language', 'Receptive Language', 
+        // 'Social communication', 'Fluency (stuttering)','Voice and Resonance','Vocal stereotype'] as $category)
+
         showLoadingIndicator('Saving...', 0);
         const categories = [
-            'Gross Motor Skills',
-            'Fine Motor Skills',
-            'Cognitive Skills',
-            'Activity of Daily Living',
-            'Sensory Processing',
-            'Behaviour Challenges',
+            'Speech and sound production',
+            'Expressive Language',
+            'Receptive Language',
+            'Social communication',
+            'Fluency (stuttering)',
+            'Voice and Resonance',
+            'Vocal stereotype',
+        
         ];
 
         const assessmentData = {};
@@ -406,17 +411,22 @@ headers: {
     //pushing data to the db therapy_individualized table
     
     async function saveIndividualized() {
+        //Therapy frequency and Duration', 'Therapy Setting', 'Speech and Sound Production', 'Expressive Language', 
+        // 'Receptive Language', 'Social Communication','Fluency (stutering)',
+        // 'Voice and Resonance','Vocal stereotypies','Parent involvemet/training'] as $category)
+
         showLoadingIndicator('Saving...', 0);
         const categories = [
             'Therapy frequency and Duration',
             'Therapy Setting',
-            'Gross Motor Skills',
-            'Fine Motor Skills',
-            'Cognitive skills',
-            'Activity of Daily Living',
-            'Sensory Integration and Processing',
-            'Behaviour Management',
-            'Parent involvement/training',
+            'Speech and Sound Production',
+            'Expressive Language',
+            'Receptive Language',
+            'Social Communication',
+            'Fluency (stutering)',
+            'Voice and Resonance',
+            'Vocal stereotypies',
+            'Parent involvemet/training',
         ];
 
         const individualizedData = {};
@@ -486,15 +496,18 @@ headers: {
 
     
     async function saveSession() {
+        //['Speech and sound production', 'Expressive Language', 'Receptive Language', 'Social communication', 
+        // 'Fluency (stuttering)','Voice and Resonance','Vocal stereotype'] as $category)
+
         showLoadingIndicator('Saving...', 0);
         const categories = [
-            'Gross Motor Skills',
-            'Fine Motor Skills',
-            'Cognitive Skills',
-            'Activity of Daily Living',
-            'Sensory Integration And Processing',
-            'Provide Guidance',
-            'Planned Home based tasks',
+            'Speech and sound production',
+            'Expressive Language',
+            'Receptive Language',
+            'Social communication',
+            'Fluency (stuttering)',
+            'Voice and Resonance',
+            'Vocal stereotype',
         ];
 
         const sessionData = {};
