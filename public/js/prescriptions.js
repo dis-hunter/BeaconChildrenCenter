@@ -223,7 +223,21 @@ prescriptionsLink.addEventListener('click', async (event) => {
         `;
         submitButton.disabled = true;
 
-        const formData = new FormData(form);
+        const prescribedDrugs = Array.from(prescribedDrugsContainer.querySelectorAll('.prescribed-drug span'))
+        .map(drugElement => drugElement.textContent);
+
+    // 2. Create a FormData object
+    const formData = new FormData(); 
+
+    // 3. Append the prescribed drugs to the FormData object
+    formData.append('prescribed_drugs', JSON.stringify(prescribedDrugs)); 
+
+    // 4. Log the FormData object 
+    for (const pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+    }
+
+    
 
         try {
             const response = await fetch(`/prescriptions/${registrationNumber}`, {
@@ -231,7 +245,7 @@ prescriptionsLink.addEventListener('click', async (event) => {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                body: formData
+                body: formData 
             });
 
             console.log('Response status:', response.status);
