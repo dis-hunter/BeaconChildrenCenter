@@ -164,6 +164,9 @@ class ChildrenController extends Controller
         }
     }
     
+    public function patientGet(){
+        return view('reception.patients');
+    }
 
 }
 

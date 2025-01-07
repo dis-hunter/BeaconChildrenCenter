@@ -41,7 +41,7 @@ class RegistrationNumberManager
         $newNumber = $lastNumber + 1;
 
         // Format the registration number as '001/2025'
-        $regNumber = "{$newNumber}/{$year}";
+        $regNumber = str_pad($newNumber, 3, '0', STR_PAD_LEFT) . "/{$year}";
 
         return $regNumber;
     }

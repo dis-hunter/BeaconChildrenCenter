@@ -23,10 +23,13 @@
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
             </li>
             <li class="nav-item">
-                <a href="/patients" class="nav-link"><span class="icon">➕</span> <span class="text">Patients</span></a>
+                <a href="/patients" class="nav-link"><span class="icon">🚑</span> <span class="text">Patients</span></a>
             </li>
             <li class="nav-item">
-                <a href="/patients/search" class="nav-link"><span class="icon">🔍</span> <span class="text">Search</span></a>
+                <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="/guardians/search" class="nav-link"><span class="icon">🔍</span> <span class="text">Search</span></a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link"><span class="icon">📅</span> <span class="text">Appointments</span></a>
@@ -34,31 +37,7 @@
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
-            <style>
-               
-                /* .nav-item .text {
-                    display: inline;
-                    transition: opacity 0.3s ease;
-                }
-
-                .nav-item .icon {
-                    display: inline;
-                } */
-
-                
-                /* @media (max-width: 768px) {
-                    
-                    /* .nav-item .text {
-                        display: none; 
-                        opacity: 0;
-                    }
-                    
-                    .nav-item .icon {
-                        font-size: 1.5rem;
-                    } */
-                } */
-
-            </style>
+            
             
             {{-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>

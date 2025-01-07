@@ -95,6 +95,7 @@
 
   <?php if(auth()->guard()->check()): ?>
     <p class="welcome-message">Hello, <?php echo e(auth()->user()->fullname->first_name); ?>!</p> 
+    <p><?php echo e(auth()->user()->staff_no); ?></p>
   <?php endif; ?>
 
   <div class="features">
