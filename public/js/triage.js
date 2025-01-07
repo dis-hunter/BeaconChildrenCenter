@@ -22,8 +22,9 @@ function getQueryParam(param) {
 
 // 📌 Function to validate essential parameters
 function validateParams() {
-  const patientId = getQueryParam('patientId');
-  const visitId = getQueryParam('visitId');
+  const urlParams = new URLSearchParams(window.location.search);
+  const patientId = urlParams.get('patientId');
+  const visitId = urlParams.get('visitId');
 
   if (!patientId || !visitId) {
       console.error('Missing patientId or visitId in URL');
@@ -32,6 +33,7 @@ function validateParams() {
   }
   return { patientId, visitId };
 }
+
 
 // 📌 Function to fetch patient name
 async function fetchPatientName(childId) {
@@ -69,6 +71,8 @@ async function handleFormSubmission(e) {
   // Add IDs to formData
   formData.append('child_id', patientId);
   formData.append('visit_id', visitId);
+
+  console.log('FormData:', Object.fromEntries(formData));
 
   // Process selected checkboxes for triage_sorting
   const selectedDepartments = [];

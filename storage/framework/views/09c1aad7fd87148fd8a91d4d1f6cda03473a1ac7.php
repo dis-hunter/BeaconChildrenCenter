@@ -94,7 +94,7 @@
   <p class="subheading">Your Neurodevelopmental Clinic</p> 
 
   <?php if(auth()->guard()->check()): ?>
-    <p class="welcome-message">Hello, <?php echo e(auth()->user()->fullname->first_name); ?>!</p> 
+    <p class="welcome-message">Hello, <?php echo e(auth()->user()->fullname->firstname); ?>!</p> 
   <?php endif; ?>
 
   <div class="features">
