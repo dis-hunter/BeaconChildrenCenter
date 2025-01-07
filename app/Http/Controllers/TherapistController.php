@@ -50,7 +50,7 @@ class TherapistController extends Controller
             'children.fullname',
         )
         ->whereDate('visits.created_at', '=', now()->toDateString())  // Filter by today's date
-        ->where('visits.triage_pass', true)  // Filter by triage_pass = true
+        // ->where('visits.triage_pass', true)  // Filter by triage_pass = true
         ->orderBy('visits.created_at')
         ->get();
 
