@@ -1,5 +1,6 @@
 @extends('reception.layout')
 @section('title','Visits')
+@extends('reception.header')
 @section('content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">

@@ -40,10 +40,8 @@
                     @foreach($parents as $parent)
                         <li class="result-item">
                             <a href="search/{{$parent->id}}" class="result-link">
-                                @php
-                                    $fullname=json_decode($parent->fullname,true);
-                                @endphp
-                                <span class="result-title">{{$fullname['first_name'] .' '. $fullname['last_name']}}</span>
+                                
+                                <span class="result-title">{{$parent->fullname->last_name .' '.$parent->fullname->first_name.' '.$parent->fullname->middle_name}}</span>
                                 <span class="result-title">{{ $parent->telephone }}</span>
                                 <span class="result-title">{{ $parent->email }}</span>
                                 <span class="result-title">{{ $parent->national_id }}</span>

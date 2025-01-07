@@ -47,10 +47,8 @@ unset($__errorArgs, $__bag); ?>
                     <?php $__currentLoopData = $parents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li class="result-item">
                             <a href="search/<?php echo e($parent->id); ?>" class="result-link">
-                                <?php
-                                    $fullname=json_decode($parent->fullname,true);
-                                ?>
-                                <span class="result-title"><?php echo e($fullname['firstname'] .' '. $fullname['lastname']); ?></span>
+                                
+                                <span class="result-title"><?php echo e($parent->fullname->last_name .' '.$parent->fullname->first_name.' '.$parent->fullname->middle_name); ?></span>
                                 <span class="result-title"><?php echo e($parent->telephone); ?></span>
                                 <span class="result-title"><?php echo e($parent->email); ?></span>
                                 <span class="result-title"><?php echo e($parent->national_id); ?></span>
