@@ -62,12 +62,21 @@ class TriageController extends Controller
         //         'errors' => $validator->errors(),
         //     ], 422);
         // }
+        $staffId = auth()->user()->id;
 
+        if (!$staffId) {
+            Log::error('Authentication Error: Staff ID is missing');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not authenticated'
+            ], 401);
+        }
+        
         try {
             Triage::create([
                 'visit_id' => $request->visit_id,
                 'child_id' => $request->child_id,
-                'staff_id' => auth()->user()->id,
+                'staff_id' => $staffId,
                 'data' => json_encode($request->except(['visit_id', 'child_id'])),
             ]);
 

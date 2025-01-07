@@ -1,7 +1,6 @@
 <div>
     
     <!-- Search Parent Form -->
-    
 
     <div class="row d-flex justify-content-center search-section">
         <!-- Search Label -->
@@ -51,7 +50,7 @@ unset($__errorArgs, $__bag); ?>
                                 <?php
                                     $fullname=json_decode($parent->fullname,true);
                                 ?>
-                                <span class="result-title"><?php echo e($fullname['firstname'] .' '. $fullname['lastname']); ?></span>
+                                <span class="result-title"><?php echo e($fullname['first_name'] .' '. $fullname['last_name']); ?></span>
                                 <span class="result-title"><?php echo e($parent->telephone); ?></span>
                                 <span class="result-title"><?php echo e($parent->email); ?></span>
                                 <span class="result-title"><?php echo e($parent->national_id); ?></span>

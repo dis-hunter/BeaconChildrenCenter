@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', fetchUntriagedVisits);
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Page loaded');
-  fetchUntriagedVisits();
+  // fetchUntriagedVisits();
 });
 
 // Make sure this runs when the page loads

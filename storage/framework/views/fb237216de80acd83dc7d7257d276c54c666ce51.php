@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-md-4"><strong>Full Name: </strong><?php echo e($p_fullname['lastname'].' '.$p_fullname['firstname'].' '.$p_fullname['middlename']); ?></div>
+                    <div class="col-md-4"><strong>Full Name: </strong><?php echo e($p_fullname['last_name'].' '.$p_fullname['first_name'].' '.$p_fullname['middle_name']); ?></div>
                     <div class="col-md-4"><strong>Email: </strong><?php echo e($parent->email); ?></div>
                     <div class="col-md-4"><strong>Phone: </strong><?php echo e($parent->telephone); ?></div>
                 </div>
@@ -65,10 +65,10 @@ echo $html;
                         <div class="card mb-2">                         
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($fullname['lastname'].' '.$fullname['firstname'].' '.$fullname['middlename']); ?></div>
+                                    <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($fullname['last_name'].' '.$fullname['first_name'].' '.$fullname['middle_name']); ?></div>
                                     <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
                                     <div class="col-md-4 text-end">
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal">Edit</button>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal-<?php echo e($item->id); ?>">Edit</button>
                                         <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('edit-child-modal',['child'=>$item])->html();
@@ -89,7 +89,22 @@ echo $html;
                             </div>
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#editChildModal">Add Child</button>
+                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addChildModal">Add Child</button>
+                        <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('add-child-modal',['parent'=>$parent])->html();
+} elseif ($_instance->childHasBeenRendered('l1477797537-2')) {
+    $componentId = $_instance->getRenderedChildComponentId('l1477797537-2');
+    $componentTag = $_instance->getRenderedChildComponentTagName('l1477797537-2');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('l1477797537-2');
+} else {
+    $response = \Livewire\Livewire::mount('add-child-modal',['parent'=>$parent]);
+    $html = $response->html();
+    $_instance->logRenderedChild('l1477797537-2', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
                     </div>
                 </div>
             </div>
