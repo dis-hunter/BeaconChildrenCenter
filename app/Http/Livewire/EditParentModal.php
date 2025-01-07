@@ -17,10 +17,9 @@ class EditParentModal extends Component
     public function mount($parent)
     {
         $this->parent = $parent;
-        $p_fullname=json_decode($parent->fullname,true);
-        $this->firstname = $p_fullname['first_name'];
-        $this->middlename = $p_fullname['middle_name'];
-        $this->lastname = $p_fullname['last_name'];
+        $this->firstname = $parent->fullname->first_name;
+        $this->middlename = $parent->fullname->middle_name;
+        $this->lastname = $parent->fullname->last_name;
         $this->dob = $parent->dob;
         $this->telephone = $parent->telephone;
         $this->email = $parent->email;

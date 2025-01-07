@@ -8,6 +8,7 @@ use App\Models\DoctorSpecialization;
 use App\Models\Gender;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\RegistrationNumberManager;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,8 @@ class AuthController extends Controller
             ],
             'confirmpassword' => 'required'
         ]);
+        $reg=new RegistrationNumberManager('staff','staff_no');
+        $staff_no=$reg->generateUniqueRegNumber();
         $data['fullname'] = [
             'first_name' => $request->firstname,
             'middle_name' => $request->middlename,
@@ -52,7 +55,7 @@ class AuthController extends Controller
         ];
         $data['gender_id'] = Gender::where('gender', $request->gender)->value('id');
         $data['telephone'] = $request->telephone;
-        $data['staff_no'] = Str::uuid();
+        $data['staff_no'] = $staff_no;
         $data['role_id'] = Role::where('role', $request->role)->value('id');
         $data['specialization_id']=DoctorSpecialization::where('specialization',$request->specialization)->value('id');
         $data['email'] = $request->email;

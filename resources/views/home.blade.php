@@ -94,7 +94,8 @@
   <p class="subheading">Your Neurodevelopmental Clinic</p> 
 
   @auth
-    <p class="welcome-message">Hello, {{ auth()->user()->fullname->firstname }}!</p> 
+    <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p> 
+    <p>{{auth()->user()->staff_no}}</p>
   @endauth
 
   <div class="features">

@@ -1,8 +1,6 @@
 <div>
     
-    <?php
-        $p_fullname=json_decode($parent->fullname,true);
-    ?>
+    
     <div class="modal fade" id="editParentModal" tabindex="-1" aria-labelledby="editParentModalLabel" aria-modal="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -16,15 +14,15 @@
         <div class="row g-3">
             <div class="col-md-4">
                 <label for="firstname" class="form-label">First Name</label>
-                <input type="text" id="firstname" wire:model.defer="firstname" value="<?php echo e(old('firstname',$p_fullname['firstname'])); ?>" class="form-control" required>
+                <input type="text" id="firstname" wire:model.defer="firstname" value="<?php echo e(old('firstname',$parent->fullname->first_name)); ?>" class="form-control" required>
             </div>
             <div class="col-md-4">
                 <label for="middlename" class="form-label">Middle Name</label>
-                <input type="text" id="middlename" wire:model.defer="middlename" value="<?php echo e(old('middlename',$p_fullname['middlename'])); ?>" class="form-control">
+                <input type="text" id="middlename" wire:model.defer="middlename" value="<?php echo e(old('middlename',$parent->fullname->middle_name)); ?>" class="form-control">
             </div>
             <div class="col-md-4">
                 <label for="lastname" class="form-label">Surname</label>
-                <input type="text" id="lastname" wire:model.defer="lastname" value="<?php echo e(old('lastname',$p_fullname['lastname'])); ?>" class="form-control" required>
+                <input type="text" id="lastname" wire:model.defer="lastname" value="<?php echo e(old('lastname',$parent->fullname->last_name)); ?>" class="form-control" required>
             </div>
         </div>
 

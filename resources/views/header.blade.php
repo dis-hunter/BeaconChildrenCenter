@@ -71,7 +71,12 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i> Account
+                    <i class="fa fa-user"></i> 
+                    @auth
+                    {{auth()->user()->fullname->first_name ?? ''.' '.auth()->user()->fullname->last_name ?? ''}}
+                    @else
+                    Account
+                    @endauth
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     @auth

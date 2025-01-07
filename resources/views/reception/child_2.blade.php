@@ -1,5 +1,6 @@
 @extends('layout')
 @section('title','Child | Reception')
+@extends('reception.header')
 @section('content')
 <!-- Search Form -->
 <form action="{{ route('parents.search') }}" method="post">

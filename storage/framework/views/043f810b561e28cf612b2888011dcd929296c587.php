@@ -1,5 +1,6 @@
 
 <?php $__env->startSection('title','Visits'); ?>
+
 <?php $__env->startSection('content'); ?>
 
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
@@ -19,7 +20,7 @@
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="<?php echo e(old('telephone')); ?>"></td>
             <td><input type="submit" value="Search"></td>
         </tr>
-    </table>
+    </table>    
 </form>
 
 <!-- Error Message -->
@@ -82,16 +83,35 @@
 </div>
 <div id="visitType">
     <h3>Visit Type</h3>
-<select id="visit_type" onchange="showValue()">
-        <option value="" disabled selected>Select an option</option>
-        <option value="1">Consultation</option>
-        <option value="2">Follow-Up</option>
-        <option value="3">Emergency</option>
-        <option value="4">Walk-In</option>
-
-    </select>
+    <select id="visit_type" onchange="showValue()">
+    <option value="" disabled selected>Select an option</option>
+    <option value="1">Developmental Assessment</option>
+    <option value="2">Paediatric Consultation</option>
+    <option value="3">General Consultation</option>
+    <option value="4">Therapy Assessment</option>
+    <option value="5">Therapy Session</option>
+    <option value="6">Nutrition Session</option>
+    <option value="7">Psychotherapy Session</option>
+    <option value="8">Specific Developmental Tests</option>
+    <option value="9">Review</option>
+    <option value="10">Other</option>
+</select>
     <p id="output"></p>
 
+</div>
+<div id="paymentMode">
+<h3>💳 Payment Mode</h3>
+<label for="payment_mode"><strong>Select Payment Mode:</strong></label>
+<select id="payment_mode"  onchange="showPayment()" name="payment_mode" style="width: 200px; padding: 5px; margin-top: 10px;">
+    <option value="" disabled selected>Select Payment Mode</option>
+    <option value="1">Insurance</option>
+      <option value="2">NCPD</option>
+      <option value="3">Cash</option>
+      <option value="4">Probono</option>
+      <option value="5">Other</option>
+      
+</select>
+<p id="output"></p>
 </div>
 
 <button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
@@ -160,6 +180,40 @@ async function fetchDoctors(specializationId) {
         return [];
     }
 }
+// Fetch Payment Modes
+// async function fetchPaymentModes() {
+//     try {
+//         const response = await fetch('/payment-modes');
+//         const data = await response.json();
+
+//         if (data.status === 'success') {
+//             const paymentDropdown = document.getElementById('payment_type');
+//             paymentDropdown.innerHTML = '<option value="">-- Select Payment Method --</option>';
+
+//             data.data.forEach(mode => {
+//                 const option = document.createElement('option');
+//                 option.value = mode.id;
+//                 option.textContent = mode.mode_name;
+//                 paymentDropdown.appendChild(option);
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Error fetching payment modes:', error);
+//     }
+// }
+
+// Call on page load
+// document.addEventListener('DOMContentLoaded', fetchPaymentModes);
+
+
+
+// const selectedPaymentMode = document.getElementById('payment_mode').value;
+// if (!selectedPaymentMode) {
+//     alert('Please select a payment mode.');
+//     return;
+// }
+// dataToSend.payment_mode_id = parseInt(selectedPaymentMode);
+
 
 
 // Function to fetch staff names based on staff IDs
@@ -291,7 +345,13 @@ function displayCurrentAndFutureTime() {
 
 // Example usage
 displayCurrentAndFutureTime();
-
+function showPayment() {
+            const dropdown2 = document.getElementById('paymentMode');
+            
+            const output = document.getElementById('output');
+            console.log(dropdown2.value);
+            output.innerHtml = `Mode selected ${dropdown.value}`;
+  }
 
 function showValue() {
             const dropdown = document.getElementById('visit_type');
@@ -371,6 +431,14 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a valid visit type before proceeding.');
             return;
         }
+        // Get payment Method
+        const paymentDropdown = document.getElementById('paymentMode');
+        const paymentMode = parseInt(paymentDropdown.value);
+        if (! paymentMode|| isNaN(paymentMode)) {
+            console.error('Invalid payment method.');
+            alert('Please select a valid payment method before proceeding.');
+            return;
+        }
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -385,6 +453,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
+            payment_mode:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);
@@ -422,4 +491,5 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 </script>
 
 <?php $__env->stopSection(); ?>
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/reception/visits.blade.php ENDPATH**/ ?>
