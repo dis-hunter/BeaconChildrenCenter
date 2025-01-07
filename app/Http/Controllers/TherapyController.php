@@ -229,7 +229,7 @@ public function saveTherapyGoal(Request $request)
         // Insert data into the therapy_goals table
         DB::table('therapy_goals')->insert([
             'child_id' => $validatedData['child_id'],
-            'staff_id' => $validatedData['staff_id'],
+            'staff_id' =>auth()->user()->id,
             'therapy_id' => $validatedData['therapy_id'],
             'visit_id' => $visitId, // Use the fetched visit_id
             'data' => $jsonData, // Save the JSON-encoded string
@@ -269,7 +269,7 @@ public function saveAssessment(Request $request)
         // Save the assessment data
         DB::table('therapy_assesment')->insert([
             'child_id' => $validatedData['child_id'],
-            'staff_id' => $validatedData['staff_id'],
+            'staff_id' =>auth()->user()->id,
             'therapy_id' => $validatedData['therapy_id'],
             'visit_id' => $latestVisit->id,
             'data' => json_encode($validatedData['data']),
@@ -307,7 +307,7 @@ public function saveIndividualized(Request $request)
         // Save the individualized data
         DB::table('therapy_individualized')->insert([
             'child_id' => $validatedData['child_id'],
-            'staff_id' => $validatedData['staff_id'],
+            'staff_id' => auth()->user()->id,
             'therapy_id' => $validatedData['therapy_id'],
             'visit_id' => $latestVisit->id,
             'data' => json_encode($validatedData['data']),
@@ -345,7 +345,7 @@ public function saveSession(Request $request)
         // Save the individualized data
         DB::table('therapy_session_2')->insert([
             'child_id' => $validatedData['child_id'],
-            'staff_id' => $validatedData['staff_id'],
+            'staff_id' => auth()->user()->id,
             'therapy_id' => $validatedData['therapy_id'],
             'visit_id' => $latestVisit->id,
             'data' => json_encode($validatedData['data']),
@@ -384,7 +384,7 @@ public function saveFollowup(Request $request)
         // Save the individualized data
         DB::table('follow_up')->insert([
             'child_id' => $validatedData['child_id'],
-            'staff_id' => $validatedData['staff_id'],
+            'staff_id' => auth()->user()->id,
             'therapy_id' => $validatedData['therapy_id'],
             'visit_id' => $latestVisit->id,
             'data' => json_encode($validatedData['data']),

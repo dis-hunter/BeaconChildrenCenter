@@ -550,7 +550,6 @@ headers: {
     //['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 
     // 'Sensory Integration And Processing','Provide Guidance','Planned Home based tasks'] as $category)
 
-    
     async function saveSession() {
         showLoadingIndicator('Saving...', 0);
         const categories = [

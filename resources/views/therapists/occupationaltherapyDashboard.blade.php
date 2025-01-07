@@ -99,7 +99,11 @@
         <div id="pastMedicalHistory"></div>
         <a href="#familyAndSocial" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Family and Social History</a>
         <div id="familyAndSocial"></div>
-        <a href="#generalExam" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Assesment</a>
+        <a href="{{ route('occupational_therapist') }}" 
+   class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+   OT Assessment
+</a>
+
         <div id="generalExam"></div>
         <a href="#Examination" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Goals</a>
         <div id="Examination"></div>

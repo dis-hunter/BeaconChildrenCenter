@@ -31,9 +31,7 @@ Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
 Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 //Therapist Routes
-Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
-Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
-Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
+
 Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Display the doctor form once the add doctor button is clicked
 
 
@@ -52,50 +50,7 @@ Route::get('/', function () {
     return view('example');
 });
 //therapist routes
-Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
-Route::get('/psychotherapy_dashboard', function () {
-    return view('therapists.psychotherapyDashboard');
-});
-Route::get('/physiotherapy_dashboard', function () {
-    return view('therapists.physiotherapyDashboard');
-});
-Route::get('/physiotherapy_dashboard', function () {
-    return view('therapists.physiotherapyDashboard');
-});
 
-Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
-
-
-Route::get('/speechtherapy_dashboard', function () {
-    return view('therapists.speechtherapyDashboard');
-});
-Route::get('/nutritionist_dashboard', function () {
-    return view('therapists.nutritionistDashboard');
-});
-Route::get('/occupational_therapist', function () {
-    return view('therapists.occupationalTherapist');
-});
-Route::get('/speech_therapist', function () {
-    return view('therapists.speechTherapist');
-});
-Route::get('/physical_therapist', function () {
-    return view('therapists.physiotherapyTherapist');
-});
-Route::get('/psychotherapy_therapist', function () {
-    return view('therapists.psychotherapyTherapist');
-});
-Route::get('/physiotherapy_therapist', function () {
-    return view('therapists.physiotherapyTherapist');
-});
-
-Route::get('/nutritionist', function () {
-    return view('therapists.nutritionist');
-});
-//therapist routes end above
-
-Route::get('/receiptionist_dashboard', function () {
-    return view('Receiptionist\Receiptionist_dashboard');
-});
 
 Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
 Route::get('/doctorDashboard', function () {
@@ -163,6 +118,68 @@ Route::group(['middleware'=>'auth'], function(){
     Route::group(['middleware'=>'role:3'], function(){
         
     });
+    
+    Route::group(['middleware'=>'role:5'], function(){
+        Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
+Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
+Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
+    });
+    Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
+Route::get('/psychotherapy_dashboard', function () {
+    return view('therapists.psychotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+
+Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
+
+
+Route::get('/speechtherapy_dashboard', function () {
+    return view('therapists.speechtherapyDashboard');
+});
+Route::get('/nutritionist_dashboard', function () {
+    return view('therapists.nutritionistDashboard');
+});
+Route::get('/occupational_therapist', function () {
+    return view('therapists.occupationalTherapist');
+})->name('occupational_therapist');
+
+Route::get('/speech_therapist', function () {
+    return view('therapists.speechTherapist');
+});
+Route::get('/physical_therapist', function () {
+    return view('therapists.physiotherapyTherapist');
+});
+Route::get('/psychotherapy_therapist', function () {
+    return view('therapists.psychotherapyTherapist');
+});
+Route::get('/physiotherapy_therapist', function () {
+    return view('therapists.physiotherapyTherapist');
+});
+
+Route::get('/nutritionist', function () {
+    return view('therapists.nutritionist');
+});
+//therapist routes end above
+
+Route::get('/receiptionist_dashboard', function () {
+    return view('Receiptionist\Receiptionist_dashboard');
+});
+Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
+
+Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
+Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
+
+
+Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
+Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
+Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
+Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
+
 
 });
 
@@ -270,13 +287,3 @@ Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('p
 
 Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
 
-Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
-
-Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
-Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
-
-
-Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
-Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
-Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
-Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
