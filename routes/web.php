@@ -47,8 +47,8 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 */
 
 Route::get('/', function () {
-    return view('example');
-});
+    return view('home');
+})->name('home');
 //therapist routes
 
 
