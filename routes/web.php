@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:1'], function () {
         Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
         Route::post('/start-triage/{visitId}', [TriageController::class, 'startTriage']);
-        Route::get('/get-untriaged-visits', [TriageController::class, 'getUntriagedVisits']); 
+        // Route::get('/get-untriaged-visits', [TriageController::class, 'getUntriagedVisits']); 
         Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
         Route::view('/post-triage', 'postTriageQueue');
         Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
@@ -156,3 +156,4 @@ Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');;
 Route::post('/triage', [TriageController::class, 'store']);
 Route::get('/triage', [TriageController::class, 'create'])->name('triage');
 Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
+Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);

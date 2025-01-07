@@ -1,19 +1,9 @@
 
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
-
-</head>
-<body>
-    
+<?php $__env->startSection('title','Visits'); ?>
+<?php $__env->startSection('content'); ?>
 
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+<link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
 
 <h2>Search </h2>
 <form action="<?php echo e(route('parent.get-children')); ?>" method="post">
@@ -29,7 +19,7 @@
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="<?php echo e(old('telephone')); ?>"></td>
             <td><input type="submit" value="Search"></td>
         </tr>
-    </table>
+    </table>    
 </form>
 
 <!-- Error Message -->
@@ -125,9 +115,6 @@
 
 <button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
 
-</body>
-</html>
-<!--  -->
 
 
 <script>
@@ -358,7 +345,7 @@ function displayCurrentAndFutureTime() {
 // Example usage
 displayCurrentAndFutureTime();
 function showPayment() {
-            const dropdown2 = document.getElementById('paymentMode');
+            const dropdown2 = document.getElementById('payment_mode');
             
             const output = document.getElementById('output');
             console.log(dropdown2.value);
@@ -444,7 +431,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             return;
         }
         // Get payment Method
-        const paymentDropdown = document.getElementById('paymentMode');
+        const paymentDropdown = document.getElementById('payment_mode');
         const paymentMode = parseInt(paymentDropdown.value);
         if (! paymentMode|| isNaN(paymentMode)) {
             console.error('Invalid payment method.');
@@ -461,11 +448,11 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             source_type: 'MySource',
             source_contact: '123456249',
             staff_id: parseInt(3),
-            doctor_id: selectedDoctorId,
+            doctor_id: 9,
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
-            payment_mode:paymentMode,
+            payment_mode_id:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);
@@ -501,4 +488,6 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 });
 
 </script>
+
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/reception/visits.blade.php ENDPATH**/ ?>

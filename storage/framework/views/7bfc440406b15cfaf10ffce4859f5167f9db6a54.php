@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
   <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
-  
+  <a class="btn btn-close btn-md" href="<?php echo e(route('home')); ?>"></a>
 </div>
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -14,9 +14,9 @@
               <div class="card-body p-md-5 mx-md-4">
 
                 <div class="text-center">
-                  <img src=""
-                    style="width: 185px;" alt="logo">AddImage
-                  <h4 class="mt-1 mb-5 pb-1">Beacon Children Center</h4>
+                  <img src="<?php echo e(asset('images/logo.jpg')); ?>"
+                    style="width: 100px;" alt="logo">
+                 
                 </div>
 
                 <form action="/login" method="post">
@@ -88,9 +88,7 @@
             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
               <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                 <h4 class="mb-4">We are more than just a hospital</h4>
-                <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p class="small mb-0">Your health. Our priority. Beacon Children Center. Where healing begins.</p>
               </div>
             </div>
           </div>

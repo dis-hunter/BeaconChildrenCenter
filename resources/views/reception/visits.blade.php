@@ -344,7 +344,7 @@ function displayCurrentAndFutureTime() {
 // Example usage
 displayCurrentAndFutureTime();
 function showPayment() {
-            const dropdown2 = document.getElementById('paymentMode');
+            const dropdown2 = document.getElementById('payment_mode');
             
             const output = document.getElementById('output');
             console.log(dropdown2.value);
@@ -430,7 +430,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             return;
         }
         // Get payment Method
-        const paymentDropdown = document.getElementById('paymentMode');
+        const paymentDropdown = document.getElementById('payment_mode');
         const paymentMode = parseInt(paymentDropdown.value);
         if (! paymentMode|| isNaN(paymentMode)) {
             console.error('Invalid payment method.');
@@ -447,11 +447,11 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             source_type: 'MySource',
             source_contact: '123456249',
             staff_id: parseInt(3),
-            doctor_id: selectedDoctorId,
+            doctor_id: 9,
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
-            payment_mode:paymentMode,
+            payment_mode_id:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);
