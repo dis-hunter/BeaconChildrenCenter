@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+
 class GeneralExamController extends Controller
 {
     /**
@@ -33,9 +34,9 @@ class GeneralExamController extends Controller
             Log::warning("No visits found for child ID: {$child->id}");
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
-
+        
         // Fetch the General Exam record for the visit
-        $generalExam = DB::table('general_exam')->where('visit_id', $visit->id)->first();
+        $generalExam = DB::table('general_exam')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
 
         if ($generalExam) {
             Log::info("General exam data found for visit ID: {$visit->id}");
@@ -77,7 +78,7 @@ class GeneralExamController extends Controller
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
 
-        $staffId = 1; // Placeholder doctor ID (replace with dynamic logic if necessary)
+        $staffId = auth()->user()->id;
 
         try {
             // Create or update the General Exam record for the visit

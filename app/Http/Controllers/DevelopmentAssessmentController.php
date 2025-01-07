@@ -37,7 +37,7 @@ class DevelopmentAssessmentController extends Controller
         }
     
         // Fetch the Development Assessment record for the visit
-        $developmentAssessment = DB::table('development_assessment')->where('visit_id', $visit->id)->first();
+        $developmentAssessment = DB::table('development_assessment')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
     
         if ($developmentAssessment) {
             return response()->json([
@@ -81,7 +81,7 @@ class DevelopmentAssessmentController extends Controller
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
 
-        $doctorId = 1; // Placeholder doctor ID (replace with dynamic logic if necessary)
+        $doctorId = auth()->user()->id; // Placeholder doctor ID (replace with dynamic logic if necessary)
 
         try {
             // Check if a Development Assessment record already exists

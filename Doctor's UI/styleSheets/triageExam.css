@@ -1,0 +1,52 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .container {
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 5px;
+    background-color: lightblue;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    border-right: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .grid-item:last-child {
+    border-right: none;
+  }
+  
+  .grid-item label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .grid-item input[type="text"] {
+    width: 100px; 
+  }
+  
+  .section-title {
+    background-color: lightblue;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }

@@ -1,10 +1,84 @@
-const patientQueue = [
-  { name: "John Doe", id: "REG-001" },
-  { name: "Alice Willson", id: "REG-002" },
-  { name: "Bob Williams", id: 3 },
-  { name: "Eva Green", id: 4 },
-  { name: "Chris Evans", id: 5 },
-];
+// const patientQueue = [
+//   { name: "John Doe", id: "REG-001" },
+//   { name: "Alice Willson", id: "REG-002" },
+//   { name: "Bob Williams", id: 3 },
+//   { name: "Eva Green", id: 4 },
+//   { name: "Chris Evans", id: 5 },
+// ];
+function startConsultation(registrationNumber) {
+  // Redirect to the URL with the registration number
+  window.location.href = `/doctor/${registrationNumber}`;
+  
+}
+
+async function fetchPostTriageQueue() {
+  try {
+      const response = await fetch(`/post-triage-queue`);
+      const data = await response.json();
+
+      console.log('Post-Triage Data:', data);
+
+      const patientList = document.getElementById('post-triage-list');
+      patientList.innerHTML = '';
+
+      if (!data.data || data.data.length === 0) {
+          patientList.innerHTML = `
+              <tr>
+                  <td colspan="6" style="text-align: center;">No patients in post-triage queue</td>
+              </tr>
+          `;
+          return;
+      }
+
+      data.data.forEach(visit => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+              <td>${visit.patient_name || 'N/A'}</td>
+              <td>
+                  <button 
+                      onclick="startConsultation('${visit.registration_number}')" 
+                      class="consult-btn"
+                      style="background-color: #008CBA; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
+                  >
+                      Start Consultation
+                  </button>
+              </td>
+              <style>
+  .consult-btn {
+    background-color: #008CBA; /* Blue background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth transitions for all properties */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  .consult-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Move up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+  }
+    td {
+    padding: 15px; 
+    text-align: center; 
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions */
+  }
+
+</style>
+          `;
+          patientList.appendChild(row);
+      });
+  } catch (error) {
+      console.error('Failed to fetch post-triage queue:', error);
+  }
+}
+
+// Auto-fetch on page load
+document.addEventListener('DOMContentLoaded', fetchPostTriageQueue);
 
 const sidebarLinks = document.querySelectorAll('.sidebar a');
 const patientList = document.getElementById('patient-list');
@@ -72,7 +146,7 @@ if (activePatientId) {
   }
 }
 
-updatePatientList();
+// updatePatientList();
 setInterval(updatePatientList, 10 * 60 * 1000); // 10 minutes
 
 // Sidebar link event listeners

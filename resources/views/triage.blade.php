@@ -26,6 +26,13 @@
       color: #333;
       display: block;
     }
+    .sidebar h2  {
+      padding: 6px 0px 0px 16px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #333;
+      display: block;
+    }
 
     .sidebar a:hover {
       background-color: #ddd;
@@ -80,14 +87,19 @@
       background-color: #87ceeb;
     }
   </style>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 
   <div class="sidebar">
-    <a href="#triage">Triage Examination</a>
-    <a href="#">Patient Records</a>
+    <!-- <a href="#triage">Triage Examination</a> -->
+    <h2>Triage Examination</h2>
+    <h2>Active Patient:</h2>
+    <h3 id="patient-name" style="text-align: center; margin-bottom: 20px;"></h3>
+
+    <!-- <a href="#">Patient Records</a>
     <a href="#">Appointments</a>
-    <a href="#">Reports</a>
+    <a href="#">Reports</a> -->
     <div class="logout">Logout</div>
   </div>
 
@@ -95,36 +107,53 @@
     <h2>Health Assessment Form</h2>
     <div id="triage" class="form-section">
       <h3>Enter Patient Details</h3>
-      <form>
-        <label for="temperature">Temperature (°C):</label>
-        <input type="number" id="temperature" placeholder="Enter temperature">
+      <form id="triage-form">
+    <label for="triage_priority">Triage Priority:</label>
+    <select id="triage_priority" name="triage_priority" required>
+        <option value="">Select Priority</option>
+        <option value="emergency">Emergency</option>
+        <option value="priority">Priority</option>
+        <option value="routine">Routine</option>
+    </select>
 
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" placeholder="Enter weight">
+    <label>Department Referral:</label>
+    <div>
+        <input type="checkbox" name="triage_sorting[]" value="general"> General Doctor<br>
+        <input type="checkbox" name="triage_sorting[]" value="occupational"> Occupational Therapist<br>
+        <input type="checkbox" name="triage_sorting[]" value="speech"> Speech Therapist<br>
+        <input type="checkbox" name="triage_sorting[]" value="physio"> Physiotherapist<br>
+    </div>
 
-        <label for="height">Height (m):</label>
-        <input type="number" id="height" step="0.01" placeholder="Enter height">
+    <label for="temperature">Temperature (°C):</label>
+    <input type="number" name="temperature" required>
 
-        <label for="head_circumference">Head Circumference (cm):</label>
-        <input type="number" id="head_circumference" step="0.01" placeholder="Enter head circumference">
+    <label for="weight">Weight (kg):</label>
+    <input type="number" name="weight" required>
 
-        <label for="blood_pressure">Blood Pressure:</label>
-        <input type="text" id="blood_pressure" placeholder="e.g., 120/80">
+    <label for="height">Height (m):</label>
+    <input type="number" name="height" step="0.01" required>
 
-        <label for="pulse_rate">Pulse Rate (bpm):</label>
-        <input type="number" id="pulse_rate" placeholder="Enter pulse rate">
+    <label for="head_circumference">Head Circumference (cm):</label>
+    <input type="number" name="head_circumference" step="0.01" required>
 
-        <label for="respiratory_rate">Respiratory Rate (breaths/min):</label>
-        <input type="number" id="respiratory_rate" placeholder="Enter respiratory rate">
+    <label for="blood_pressure">Blood Pressure:</label>
+    <input type="text" name="blood_pressure" required>
 
-        <label for="oxygen_saturation">Oxygen Saturation (%):</label>
-        <input type="number" id="oxygen_saturation" placeholder="Enter oxygen saturation">
+    <label for="pulse_rate">Pulse Rate (bpm):</label>
+    <input type="number" name="pulse_rate" required>
 
-        <label for="MUAC">MUAC (cm):</label>
-        <input type="number" id="MUAC" step="0.1" placeholder="Enter MUAC">
+    <label for="respiratory_rate">Respiratory Rate (breaths/min):</label>
+    <input type="number" name="respiratory_rate" required>
 
-        <button type="submit">Submit</button>
-      </form>
+    <label for="oxygen_saturation">Oxygen Saturation (%):</label>
+    <input type="number" name="oxygen_saturation" required>
+
+    <label for="muac">MUAC (cm):</label>
+    <input type="number" name="muac" step="0.1" required>
+
+    <button type="submit">Submit</button>
+</form>
+
     </div>
   </div>
 </body>

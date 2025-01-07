@@ -68,6 +68,8 @@
       padding: 10px;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Drop shadow effect */
+      max-height: 550px; /* Set a maximum height for the menu */
+      overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
     }
 
     .floating-menu a {
@@ -162,7 +164,11 @@
 <div class="sidebar">
   <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;">{{ $firstName }} {{ $middleName }} {{ $lastName }}</span></h2> 
   <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
-  <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+  </form>
+
   <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
   <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
 </div>
@@ -188,7 +194,7 @@
   <a href="#investigations">Investigations</a><div id="investigations"></div>
   <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
-  <a href="#">Immunization</a>
+  <a href="#prescriptions">Prescriptions</a><div id="prescriptions"></div>
   <a href="#referral">Referral Letter</a><div id="referral"></div>
   <a href="#">Patient Documents</a>
 </div>
@@ -235,34 +241,34 @@
           </div>
 
           <div class="input-group">
-            <div>
-              <label for="mothersName">Mother's Name:</label>
-              <input type="text" id="mothersName" name="mothersName">
-            </div>
-            <div>
-              <label for="motherTel">Tel:</label>
-              <input type="text" id="motherTel" name="motherTel">
-            </div>
-            <div>
-              <label for="motherEmail">Email:</label>
-              <input type="text" id="motherEmail" name="motherEmail">
-            </div>
-          </div>
+    <div>
+      <label for="mothersName">Mother's Name:</label>
+      <input type="text" id="mothersName" name="mothersName" value="{{ $parents['Mother']['fullname'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="motherTel">Tel:</label>
+      <input type="text" id="motherTel" name="motherTel" value="{{ $parents['Mother']['telephone'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="motherEmail">Email:</label>
+      <input type="text" id="motherEmail" name="motherEmail" value="{{ $parents['Mother']['email'] ?? '' }}"> 
+    </div>
+  </div>
 
           <div class="input-group">
-            <div>
-              <label for="fathersName">Father's Name:</label>
-              <input type="text" id="fathersName" name="fathersName">
-            </div>
-            <div>
-              <label for="fatherTel">Tel:</label>
-              <input type="text" id="fatherTel" name="fatherTel">
-            </div>
-            <div>
-              <label for="fatherEmail">Email:</label>
-              <input type="text" id="fatherEmail" name="fatherEmail">
-            </div>
-          </div>
+    <div>
+      <label for="fathersName">Father's Name:</label>
+      <input type="text" id="fathersName" name="fathersName" value="{{ $parents['Father']['fullname'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="fatherTel">Tel:</label>
+      <input type="text" id="fatherTel" name="fatherTel" value="{{ $parents['Father']['telephone'] ?? '' }}"> 
+    </div>
+    <div>
+      <label for="fatherEmail">Email:</label>
+      <input type="text" id="fatherEmail" name="fatherEmail" value="{{ $parents['Father']['email'] ?? '' }}"> 
+    </div>
+  </div>
 
           <label for="informant">Informant:</label>
           <input type="text" id="informant" name="informant">
@@ -274,7 +280,7 @@
 
          <div class="highlighted">
     <label for="doctorsNotes">Doctor's Notes:</label>
-    <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50">{{ $doctorsNotes }}</textarea>
+   <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50">{{ $doctorsNotes }}</textarea>
 </div>
 
 

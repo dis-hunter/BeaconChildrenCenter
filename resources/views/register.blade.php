@@ -12,8 +12,8 @@
                     <div class="card-body p-md-5 mx-md-4">
 
                         <div class="text-center">
-                            <img src="" style="width: 185px;" alt="logo">AddImage
-                            <h4 class="mt-1 mb-5 pb-1">Beacon Children Center</h4>
+                        <img src="{{ asset('images/logo.jpg') }}"
+                        style="width: 180px;" alt="logo">
                         </div>
 
                         <form action="/register" method="post">
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="{{old('middlename')}}" required />
+                                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middle Name" value="{{old('middlename')}}"/>
                                         <label for="middlename">Middle Name</label>
                                     </div>
                                 </div>
@@ -80,6 +80,8 @@
                                         <label for="lastname">Last Name</label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
                                         <select class="form-select" name="gender" id="gender">
@@ -91,6 +93,8 @@
                                         <label for="gender">Gender</label>
                                     </div>
                                 </div>
+
+
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
                                         <select class="form-select" name="role" id="role">
@@ -102,6 +106,28 @@
                                         <label for="role">Role</label>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6" id="specs" style="display: none">
+                                    <div class="form-floating mb-4">
+                                        <select class="form-select" name="specialization" id="specialization">
+                                            <option disabled {{old('specialization') === null ? 'selected' : ''}}></option>
+                                            @foreach($specializations as $item)
+                                            <option value="{{$item->specialization}}" {{old('specialization') === $item->specialization ? 'selected' : ''}}>{{$item->specialization}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="specialization">Specialization</label>
+                                    </div>
+                                </div>
+                                <script>
+                                    $('#role').change(function() {
+                                        if ($(this).val() === 'Doctor') {
+                                            $('#specs').css('display', 'block');  // Show specialization input
+                                        } else {
+                                            $('#specs').css('display', 'none');  // Hide specialization input
+                                        }
+                                    });
+
+                                </script>
                             </div>
 
                             <div class="row">
@@ -113,8 +139,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="{{old('phone')}}" required />
-                                        <label for="phone">Phone Number</label>
+                                        <input type="text" id="telephone" name="telephone" class="form-control" placeholder="Phone Number" value="{{old('telephone')}}" required />
+                                        <label for="telephone">Phone Number</label>
                                     </div>
                                 </div>
                             </div>

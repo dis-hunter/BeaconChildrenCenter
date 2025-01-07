@@ -120,7 +120,7 @@ class InvestigationController extends Controller
             $investigationId = DB::table('investigations')->insertGetId([
                 'visit_id' => $visit->id,
                 'child_id' => $child->id,
-                'staff_id' => 1, // Assuming the staff ID is 1, you can modify this to use the logged-in user's ID
+                'staff_id' => auth()->user()->id, // Assuming the staff ID is 1, you can modify this to use the logged-in user's ID
                 'data' => json_encode($investigationData), // Store the investigation data as JSON
                 'created_at' => now(),
                 'updated_at' => now(),

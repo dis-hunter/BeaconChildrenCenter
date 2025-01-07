@@ -92,7 +92,7 @@ class DoctorsController extends Controller
                 abort(404);
             }
 
-            $triage = DB::table('triage')->where('child_id', $child->id)->first();
+            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
 
             if (!$triage) {
                 Log::warning("Triage data not found for child with registration number: " . $registrationNumber);
@@ -139,7 +139,7 @@ class DoctorsController extends Controller
                 [
                     'visit_id' => $visit->id, // Associate with visit
                     'child_id' => $child->id,
-                    'doctor_id' => 1, // Replace with logic for the actual doctor ID
+                    'doctor_id' => auth()->user()->id, // Replace with logic for the actual doctor ID
                 ],
                 ['data' => json_encode($request->all())] // Ensure data is JSON encoded
             );
@@ -192,7 +192,7 @@ class DoctorsController extends Controller
             [
                 'visit_id' => $visit->id,
                 'child_id' => $child->id,
-                'doctor_id' => 1, // Replace with authenticated doctor ID
+                'doctor_id' => auth()->user()->id, // Replace with authenticated doctor ID
             ],
             ['data' => json_encode($request->data), 'updated_at' => now()]
         );
@@ -227,6 +227,28 @@ class DoctorsController extends Controller
         if (!$visit) {
             return response()->json(['error' => 'No visit found for the child'], 404);
         }
+        $parentData = DB::table('child_parent')
+            ->where('child_id', $child->id)
+            ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+            ->join('relationships', 'parents.relationship_id', '=', 'relationships.id')
+            ->select(
+                'parents.fullname',
+                'parents.telephone',
+                'parents.email',
+                'relationships.relationship'
+            )
+            ->get();
+            $parents = [];
+        foreach ($parentData as $parent) {
+            $fullname = json_decode($parent->fullname);
+            $parents[$parent->relationship] = [
+                'fullname' => $fullname->first_name . ' ' . ($fullname->middle_name ?? '') . ' ' . $fullname->last_name,
+                'telephone' => $parent->telephone,
+                'email' => $parent->email,
+            ];
+        }
+
+        Log::info('Parent Data for Child ' . $child->id . ':', $parents);
 
         // Fetch triage data
         $triage = DB::table('triage')->where('child_id', $child->id)->first();
@@ -295,6 +317,8 @@ return view('doctor', [
     'lastName' => $lastName,
     'gender' => $gender,
     'doctorsNotes' => $doctorsNotes,
+    'parents' => $parents,
+    
 ]);
 
     } catch (\Exception $e) {
@@ -303,6 +327,24 @@ return view('doctor', [
     }
 }
 
+public function dashboard()
+{
+    $doctor = auth()->user();
+
+    if (is_object($doctor->fullname)) {
+        $fullName = $doctor->fullname;
+        Log::info('fullname is already an object:', (array)$fullName);
+    } else {
+        $fullName = json_decode($doctor->fullname, true);
+        Log::info('fullname decoded from JSON:', $fullName);
+    }
+
+    return view('doctorDash', [
+        'doctor' => $doctor,
+        'firstName' => $fullName->firstname, // Access as object properties
+        'lastName' => $fullName->lastname,   // Access as object properties
+    ]);
+}
 
 }
 

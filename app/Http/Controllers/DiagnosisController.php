@@ -68,7 +68,7 @@ class DiagnosisController extends Controller
         }
 
         // Placeholder doctor ID (replace this logic with actual doctor determination)
-        $doctorId = 1; // Replace with actual logic for determining doctor ID
+        $doctorId = auth()->user()->id; // Replace with actual logic for determining doctor ID
 
         try {
             // Prepare the data to be saved
@@ -78,17 +78,29 @@ class DiagnosisController extends Controller
                 'otherDiagnosis' => $request->primaryDiagnosis === 'Other' ? $request->otherDiagnosis : null,
             ];
 
-            // Create a new Diagnosis record for the latest visit
-            DB::table('diagnosis')->insert([
-                'child_id' => $child->id,
-                'visit_id' => $visit->id,
-                'data' => json_encode($data), // Ensure data is JSON encoded
-                'doctor_id' => $doctorId,
-                'created_at' => now(),
+            $existingDiagnosis = DB::table('diagnosis')
+            ->where('visit_id', $visit->id)
+            ->first();
+
+            if (!$existingDiagnosis) { // Create a new record only if none exists for the visit
+                DB::table('diagnosis')->insert([
+                    'child_id' => $child->id,
+                    'visit_id' => $visit->id,
+                    'data' => json_encode($data),
+                    'doctor_id' => $doctorId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+        return response()->json(['message' => 'Diagnosis saved successfully!']);
+    } else {
+        DB::table('diagnosis')
+            ->where('id', $existingDiagnosis->id)
+            ->update([
+                'data' => json_encode($data),
                 'updated_at' => now(),
             ]);
-
-            return response()->json(['message' => 'Diagnosis saved successfully!']);
+    }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to save Diagnosis', 'error' => $e->getMessage()], 500);
         }

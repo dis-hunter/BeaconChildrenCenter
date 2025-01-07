@@ -1,7 +1,4 @@
 <!-- Search Form -->
- <!-- Search Form -->
-<!-- Search Form -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <h2>Welcome</h2>
 <form action="{{ route('parent.get-children') }}" method="post">

@@ -21,7 +21,7 @@ class PerinatalHistoryController extends Controller
 
         // Fetch the Perinatal History record for the child
         $perinatalHistory = DB::table('perinatal_history')
-            ->where('child_id', $child->id)
+            ->where('child_id', $child->id)->orderBy('created_at','desc')
             ->first();
 
         if ($perinatalHistory) {
@@ -35,39 +35,51 @@ class PerinatalHistoryController extends Controller
      * Save or update Perinatal History data.
      */
     public function savePerinatalHistory(Request $request, $registrationNumber)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'data' => 'required|array', // Ensure the data is an array
-        ]);
+{
+    // Validate the incoming request data
+    $request->validate([
+        'data' => 'required|array', // Ensure the data is an array
+    ]);
 
-        // Fetch the child record using the registration number
+    try {
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
 
         if (!$child) {
             return response()->json(['message' => 'Child not found'], 404);
         }
 
-        // Use a placeholder doctor ID if actual logic for determining doctor_id isn't available
-        $doctorId = 1; // Replace with logic to fetch the actual doctor ID if needed
+        $doctorId = auth()->user()->id; // Replace with your actual logic
 
-        try {
-            // Create or update the Perinatal History record
-            DB::table('perinatal_history')->updateOrInsert(
-                [
-                    'child_id' => $child->id, // Ensure only one record per child
-                ],
-                [
-                    'data' => json_encode($request->data), // Ensure data is JSON encoded
-                    'doctor_id' => $doctorId,
+        // Check if a record exists for the child and doctor
+        $existingRecord = DB::table('perinatal_history')
+                            ->where('child_id', $child->id)
+                            ->where('doctor_id', $doctorId)
+                            ->first();
+
+        if ($existingRecord) {
+            // Update the existing record
+            DB::table('perinatal_history')
+                ->where('id', $existingRecord->id)
+                ->update([
+                    'data' => json_encode($request->data),
                     'updated_at' => now(),
-                    'created_at' => now(), // Required for insert operations
-                ]
-            );
+                ]);
+
+            return response()->json(['message' => 'Perinatal History updated successfully!']);
+        } else {
+            // Create a new record
+            DB::table('perinatal_history')->insert([
+                'child_id' => $child->id,
+                'data' => json_encode($request->data),
+                'doctor_id' => $doctorId,
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]);
 
             return response()->json(['message' => 'Perinatal History saved successfully!']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to save Perinatal History', 'error' => $e->getMessage()], 500);
         }
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Failed to save Perinatal History', 'error' => $e->getMessage()], 500);
     }
+}
 }

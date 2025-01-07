@@ -1,0 +1,80 @@
+.container {
+    width: 1000px;
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    background-color: lightblue;
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 5px;
+    background-color: lightblue;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    border-right: 1px solid black; 
+    padding: 5px;
+    text-align: center;
+  }
+  .grid-item input[type="text"] {
+    font-size: 14px; 
+    padding: 5px; 
+    width:90px;
+   
+  }
+  
+  .grid-item:last-child {
+    border-right: none; 
+  }
+  
+  .highlighted {
+    background-color: lightblue;
+  }
+  
+  textarea {
+    width: 1000px; 
+    height: 30px;
+    padding: 10px;
+    margin-bottom: 7px; 
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  .grid-item label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for the buttons */
+  button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
