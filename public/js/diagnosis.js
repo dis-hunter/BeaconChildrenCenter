@@ -61,87 +61,8 @@ function search(event) {
     const mainContent = document.querySelector('.main');
     mainContent.innerHTML = `
       <div class="container">
-        <style>
-          body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-          }
-  
-          h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-          }
-  
-          .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width:600px;
-          }
-  
-          #searchInput {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #007bff;
-            border-radius: 25px;
-            box-sizing: border-box;
-            font-size: 16px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            outline: none;
-            margin-bottom: 15px;
-          }
-  
-          #searchInput:focus {
-            border-color: #0056b3;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-          }
-  
-          #results {
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          }
-  
-          .result-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            transition: all 0.3s ease;
-            cursor: pointer;
-          }
-  
-          .result-item:hover {
-            background-color: #e9ecef;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          }
-  
-          .result-title {
-            font-weight: bold;
-            color: #333;
-          }
-  
-          .loading {
-            text-align: center;
-            font-style: italic;
-            color: #777;
-          }
-  
-          .error {
-            color: #dc3545;
-            text-align: center;
-            font-weight: bold;
-          }
-        </style>
-        <h1>ICD-11 Disease Search</h1>
+       <head><link rel="stylesheet" href="../css/diagnosis.css"></head>
+        <h1>Diagnosis</h1>
         <form id="searchForm">
           <div>
             <label for="searchInput">Primary Diagnosis:</label>
