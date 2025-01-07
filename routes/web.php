@@ -217,7 +217,9 @@ Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::c
 Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
 
 
+use App\Http\Controllers\IcdSearchController;
 
+Route::post('/search', [IcdSearchController::class, 'search']);
 
 
 

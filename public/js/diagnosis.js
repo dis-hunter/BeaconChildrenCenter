@@ -1,148 +1,178 @@
-const diagnosis = document.querySelector('.floating-menu a[href="#diagnosis"]');
-
-diagnosis.addEventListener('click', async (event) => {
+function search(event) {
     event.preventDefault();
-
-    const mainContent = document.querySelector('.main');
-    mainContent.innerHTML = `<div class="loading">Loading...</div>`;
-    console.log("Fetching diagnosis data...");
-
-    const registrationNumber = window.location.pathname.split('/').pop();
-    console.log("Registration Number:", registrationNumber);
-
-    try {
-        // Fetch existing diagnosis data
-        const response = await fetch(`/diagnosis/${registrationNumber}`);
-        const rawData = await response.text(); // Handle unexpected HTML responses gracefully
-
-        try {
-            const result = JSON.parse(rawData); // Parse JSON if the response is valid
-            if (response.ok) {
-                populateDiagnosisForm(mainContent, result.data || {}, registrationNumber);
-            } else {
-                console.error("Failed to fetch diagnosis data:", result.message);
-                mainContent.innerHTML = `<div class="error">Error: ${result.message || "Failed to load diagnosis data."}</div>`;
-            }
-        } catch (parseError) {
-            console.error("Error parsing response:", rawData);
-            mainContent.innerHTML = `<div class="error">Unexpected server response. Please try again later.</div>`;
+  
+    const searchTerm = document.getElementById('searchInput').value;
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<div class="loading">Loading...</div>';
+  
+    fetch('/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: new URLSearchParams({
+        'search_term': searchTerm
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-    } catch (fetchError) {
-        console.error("Error fetching diagnosis data:", fetchError);
-        mainContent.innerHTML = `<div class="error">An unexpected error occurred while fetching diagnosis data.</div>`;
-    }
-});
-
-function populateDiagnosisForm(container, data, registrationNumber) {
-    console.log("Populating diagnosis form with data:", data);
-
-    container.innerHTML = `
-        <div class="container">
-        <head>
-        <link rel="stylesheet" href="../css/diagnosis.css">
-        </head>
-            <h2>Diagnosis</h2>
-
-            <label for="primaryDiagnosis">Primary Diagnosis</label>
-            <select id="primaryDiagnosis">
-                <option value="" ${!data.primaryDiagnosis ? 'selected' : ''}>Select</option>
-                <option value="Autism" ${data.primaryDiagnosis === 'Autism' ? 'selected' : ''}>Autism Spectrum Disorder</option>
-                <option value="ADHD" ${data.primaryDiagnosis === 'ADHD' ? 'selected' : ''}>ADHD</option>
-                <option value="Communication disorder" ${data.primaryDiagnosis === 'Communication disorder' ? 'selected' : ''}>Communication disorder</option>
-                <option value="Intellectual disability" ${data.primaryDiagnosis === 'Intellectual disability' ? 'selected' : ''}>Intellectual disability</option>
-                <option value="Global developmental delays" ${data.primaryDiagnosis === 'Global developmental delays' ? 'selected' : ''}>Global developmental delays</option>
-                <option value="Learning disorder" ${data.primaryDiagnosis === 'Learning disorder' ? 'selected' : ''}>Learning disorder</option>
-                <option value="Movement disorder" ${data.primaryDiagnosis === 'Movement disorder' ? 'selected' : ''}>Movement disorder</option>
-                <option value="Social pragmatic disorder" ${data.primaryDiagnosis === 'Social pragmatic disorder' ? 'selected' : ''}>Social pragmatic disorder</option>
-                <option value="Cerebral Palsy" ${data.primaryDiagnosis === 'Cerebral Palsy' ? 'selected' : ''}>Cerebral Palsy</option>
-                <option value="Genetic Disorder" ${data.primaryDiagnosis === 'Genetic Disorder' ? 'selected' : ''}>Genetic Disorder</option>
-                <option value="Epilepsy" ${data.primaryDiagnosis === 'Epilepsy' ? 'selected' : ''}>Epilepsy</option>
-                <option value="Other" ${data.primaryDiagnosis === 'Other' ? 'selected' : ''}>Other</option>
-            </select>
-
-            <div id="otherDiagnosisContainer" style="display: ${data.primaryDiagnosis === 'Other' ? 'block' : 'none'};">
-                <label for="otherDiagnosis">Other Diagnosis</label>
-                <textarea id="otherDiagnosis">${data.otherDiagnosis || ''}</textarea>
-            </div>
-
-            <label for="secondaryDiagnosis">Secondary Diagnosis</label>
-            <textarea id="secondaryDiagnosis">${data.secondaryDiagnosis || ''}</textarea>
-
-            <button id="saveDiagnosis" type="button">Save</button>
-        </div>
-    `;
-
-    addFormEventListeners(registrationNumber);
-}
-
-function addFormEventListeners(registrationNumber) {
-    const primaryDiagnosisSelect = document.getElementById('primaryDiagnosis');
-    const otherDiagnosisContainer = document.getElementById('otherDiagnosisContainer');
-    const saveButton = document.getElementById('saveDiagnosis');
-
-    primaryDiagnosisSelect.addEventListener('change', () => {
-        if (primaryDiagnosisSelect.value === 'Other') {
-            console.log('Showing "Other Diagnosis" textarea');
-            otherDiagnosisContainer.style.display = 'block';
-        } else {
-            console.log('Hiding "Other Diagnosis" textarea');
-            otherDiagnosisContainer.style.display = 'none';
-        }
-    });
-
-    saveButton.addEventListener('click', async () => {
-        const primaryDiagnosis = document.getElementById('primaryDiagnosis').value;
-        const secondaryDiagnosis = document.getElementById('secondaryDiagnosis').value;
-        const otherDiagnosis = document.getElementById('otherDiagnosis')?.value || null;
-
-        saveButton.textContent = 'Saving...';
-        saveButton.disabled = true;
-
-        console.log("Saving diagnosis data:", {
-            primaryDiagnosis,
-            secondaryDiagnosis,
-            otherDiagnosis,
-        });
-
-        try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            console.log("CSRF Token:", csrfToken);
-
-            const saveResponse = await fetch(`/diagnosis/${registrationNumber}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                body: JSON.stringify({
-                    primaryDiagnosis,
-                    secondaryDiagnosis,
-                    otherDiagnosis,
-                }),
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        resultsDiv.innerHTML = '';
+  
+        if (data.error) {
+          resultsDiv.textContent = data.error;
+        } else if (data.entities && data.entities.length > 0) {
+          data.entities.forEach(disease => {
+            const resultItem = document.createElement('div');
+            resultItem.classList.add('result-item');
+            const title = disease.title.replace(/<[^>]+>/g, '');
+  
+            // Add click event listener to each result item
+            resultItem.addEventListener('click', () => {
+              const searchInput = document.getElementById('searchInput');
+              searchInput.value = title;
+              resultsDiv.innerHTML = '';
             });
-
-            const rawSaveData = await saveResponse.text();
-
-            try {
-                const saveResult = JSON.parse(rawSaveData);
-                if (saveResponse.ok) {
-                    console.log("Save successful:", saveResult);
-                    alert("Diagnosis saved successfully!");
-                } else {
-                    console.error("Save error response:", saveResult);
-                    alert("Failed to save diagnosis: " + saveResult.message);
-                }
-            } catch (parseError) {
-                console.error("Error parsing save response:", rawSaveData);
-                alert("Unexpected response from server. Please try again later.");
-            }
-        } catch (error) {
-            console.error("Error saving diagnosis:", error);
-            alert("An unexpected error occurred while saving diagnosis.");
-        } finally {
-            saveButton.textContent = 'Save';
-            saveButton.disabled = false;
-            console.log("Save button reset to default state.");
+  
+            resultItem.innerHTML = `<span class="result-title">${title}</span> (Code: ${disease.code})`;
+            resultsDiv.appendChild(resultItem);
+          });
+        } else {
+          resultsDiv.textContent = "No results found.";
         }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        resultsDiv.innerHTML = '<div class="error">An error occurred.</div>';
+      });
+  }
+  
+  const diagnosis = document.querySelector('.floating-menu a[href="#diagnosis"]');
+  
+  diagnosis.addEventListener('click', (event) => {
+    event.preventDefault();
+  
+    const mainContent = document.querySelector('.main');
+    mainContent.innerHTML = `
+      <div class="container">
+        <style>
+          body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+          }
+  
+          h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+  
+          .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width:600px;
+          }
+  
+          #searchInput {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #007bff;
+            border-radius: 25px;
+            box-sizing: border-box;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            margin-bottom: 15px;
+          }
+  
+          #searchInput:focus {
+            border-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+          }
+  
+          #results {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+  
+          .result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            cursor: pointer;
+          }
+  
+          .result-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+  
+          .result-title {
+            font-weight: bold;
+            color: #333;
+          }
+  
+          .loading {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+          }
+  
+          .error {
+            color: #dc3545;
+            text-align: center;
+            font-weight: bold;
+          }
+        </style>
+        <h1>ICD-11 Disease Search</h1>
+        <form id="searchForm">
+          <div>
+            <label for="searchInput">Primary Diagnosis:</label>
+            <input type="text" id="searchInput" placeholder="Search for a disease...">
+          </div>
+          <div id="resultsContainer">
+            <div id="results"></div>
+          </div>
+          <div>
+            <label for="secondaryDiagnosis">Secondary Diagnosis:</label>
+            <textarea id="secondaryDiagnosis"></textarea>
+          </div>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    `;
+  
+    const resultsContainer = document.getElementById('resultsContainer');
+  
+    document.getElementById('searchForm').addEventListener('submit', search);
+  
+    document.addEventListener('click', (event) => {
+      const resultsDiv = document.getElementById('results');
+      const searchInput = document.getElementById('searchInput');
+      const searchButton = document.querySelector('#searchForm button');
+      const secondaryDiagnosis = document.getElementById('secondaryDiagnosis');
+  
+      if (resultsDiv && !resultsDiv.contains(event.target) &&
+          event.target !== searchInput && event.target !== searchButton &&
+          event.target !== secondaryDiagnosis) {
+        resultsDiv.innerHTML = '';
+      }
     });
-}
+  });

@@ -7,6 +7,7 @@
     body {
       margin: 0;
       font-family: sans-serif;
+      
     }
 
     /* Sidebar Styles */
@@ -68,6 +69,8 @@
       padding: 10px;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Drop shadow effect */
+      max-height: 550px; /* Set a maximum height for the menu */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
     }
 
     .floating-menu a {
@@ -88,6 +91,8 @@
       color: #007bff; /* Blue hover text color */
       padding-left: 20px;
     }
+
+
 
     /* Menu Button */
     #menuButton {
