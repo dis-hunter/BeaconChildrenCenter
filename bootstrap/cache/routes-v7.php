@@ -63,7 +63,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::WQAlarm8t6jNvIMs',
+            '_route' => 'generated::G2JYMxNzIVXsuA2Q',
           ),
           1 => NULL,
           2 => 
@@ -83,7 +83,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ZsqvFKhaaWscaawj',
+            '_route' => 'generated::TLoV0bfPrtWS8nWy',
           ),
           1 => NULL,
           2 => 
@@ -161,106 +161,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::e7kZbYQBAFCfX8aE',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/doctorslist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'doctors',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/doctor_form' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'doctor.form',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/therapist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'therapist.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/therapist/save' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'therapist.save',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/therapist/progress' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'therapist.progress',
+            '_route' => 'generated::FgVAGJmJeSbC8kMI',
           ),
           1 => NULL,
           2 => 
@@ -281,263 +182,6 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'home',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/occupational_therapist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::oMbXDFEOQMmh2fe0',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/speech_therapist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::YmQ08BwKYBfmnYSf',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/physical_therapist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::wBfSmaJgmeRmA9Le',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/psychotherapy_therapist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::wjIqw2a9OT3LQnSm',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/nutritionist' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::VQJBOqJNBc0y26tj',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/receiptionist_dashboard' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::eGuyKuwSDbcPZXzg',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/parentform' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'parents.create',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/storeparents' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'parents.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/search-parent' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'parents.search',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/create' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::rqeT13geE6ERE71v',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/childform' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'children.create',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/storechild' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'children.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/parents' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::eTijm3Bqkhq37ubr',
           ),
           1 => NULL,
           2 => 
@@ -642,6 +286,537 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/therapist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'therapist.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/therapist/save' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'therapist.save',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/therapist/progress' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'therapist.progress',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/occupational_therapist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::HFGr1B2zxC922UeL',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/speech_therapist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::bEG0Wqh3N6NvM74f',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/physical_therapist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::Gw9jVJGwzgExicpg',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/psychotherapy_therapist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::inWChoCisYVKV2S2',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/nutritionist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::fsCbhgil975soXuX',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/parentform' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'parents.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/storeparents' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'parents.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/search-parent' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'parents.search',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/parent/get-children' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'parent.get-children',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/children/search' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'children.search',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/children/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'children.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/children/store' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'children.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/doctorslist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'doctors',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/doctor_form' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'doctor.form',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/doctors/specialization-search' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'doctors.specializationSearch',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/specializations' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::gD9uVm43YiLtRM12',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/doctors' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::mHCH0wBzvUBE9n7c',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/staff-dropdown' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::R0yUy2D3urUiUBTM',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/staff/fetch' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'staff.fetch',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/staff/names' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::ic1GDmbh5bcRIe1W',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/appointments' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::8ssj6mTXQjTMuok0',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/visits' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'visits.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'visits.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/visits-page' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'visits.page',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/profile' => 
       array (
         0 => 
@@ -678,6 +853,66 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/untriaged-visits' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::Oq6w6xo8Drl6uwGP',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/post-triage-queue' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::8cKQSLT9mvgv2hC4',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/post-triage' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::N5lvv2EtuFW0S5Zc',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/doctorDashboard' => 
       array (
         0 => 
@@ -698,13 +933,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/untriaged-visits' => 
+      '/create' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::wp8nu5H95n1N2S7x',
+            '_route' => 'generated::o32OZSQ8Ga3JxZSw',
           ),
           1 => NULL,
           2 => 
@@ -718,13 +953,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/get-untriaged-visits' => 
+      '/dashboard' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::qGgNJ1jb1rIolTG8',
+            '_route' => 'reception.dashboard',
           ),
           1 => NULL,
           2 => 
@@ -738,13 +973,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/post-triage-queue' => 
+      '/patients' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::H76B6GPaHDyc3b4d',
+            '_route' => 'generated::FqH8mdVnBXaRphN2',
           ),
           1 => NULL,
           2 => 
@@ -758,13 +993,125 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/post-triage' => 
+      '/guardians' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::lOvOpiQby8scwZT8',
+            '_route' => 'generated::NgcubVjuPBq0xZ2f',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::1ukAlUjjoj1fSVbo',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/guardianss/search' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::p04CeSN7ysh1GxWA',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/visithandle' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::0qcurxttsyqgEReN',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/triageDashboard' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'triage.dashboard',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/triage' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::pJi4ukAaOWQRCtvK',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'triage',
           ),
           1 => NULL,
           2 => 
@@ -781,7 +1128,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/livewire/message/([^/]++)(*:33)|/([^/]++)/livewire/message/([^/]++)(*:75)|/livewire/preview\\-file/([^/]++)(*:114)|/d(?|octor/([^/]++)(*:141)|evelopment\\-assessment/([^/]++)(?|(*:183))|iagnosis/([^/]++)(?|(*:212)))|/ge(?|t\\-(?|triage\\-data/([^/]++)(*:255)|development\\-milestones/([^/]++)(*:295)|behaviour\\-assessment/([^/]++)(*:333)|family\\-social\\-history/([^/]++)(*:373)|referral\\-data/([^/]++)(*:404)|child\\-data/([^/]++)(*:432)|p(?|rescriptions/([^/]++)(*:465)|atient\\-name/([^/]++)(*:494)))|neral\\-exam/([^/]++)(?|(*:527)))|/s(?|ave(?|\\-(?|c(?|ns\\-data/([^/]++)(*:574)|areplan/([^/]++)(*:598))|development\\-milestones/([^/]++)(*:639)|behaviour\\-assessment/([^/]++)(*:677)|family\\-social\\-history/([^/]++)(*:717)|past\\-medical\\-history/([^/]++)(*:756)|investigations/([^/]++)(*:787)|referral/([^/]++)(*:812))|InvestigationResults/([^/]++)(*:850))|tart\\-triage/([^/]++)(*:880))|/p(?|erinatal\\-history/([^/]++)(?|(*:923))|ast\\-medical\\-history/([^/]++)(*:962)|rescriptions/([^/]++)(*:991))|/recordResults/([^/]++)(*:1023))/?$}sDu',
+      0 => '{^(?|/livewire/message/([^/]++)(*:33)|/([^/]++)/livewire/message/([^/]++)(*:75)|/livewire/preview\\-file/([^/]++)(*:114)|/s(?|tart\\-triage/([^/]++)(*:148)|ave(?|\\-(?|c(?|ns\\-data/([^/]++)(*:188)|areplan/([^/]++)(*:212))|development\\-milestones/([^/]++)(*:253)|behaviour\\-assessment/([^/]++)(*:291)|family\\-social\\-history/([^/]++)(*:331)|past\\-medical\\-history/([^/]++)(*:370)|investigations/([^/]++)(*:401)|referral/([^/]++)(*:426))|InvestigationResults/([^/]++)(*:464)))|/g(?|e(?|t\\-(?|p(?|atient\\-name/([^/]++)(*:514)|rescriptions/([^/]++)(*:543))|triage\\-data/([^/]++)(*:573)|development\\-milestones/([^/]++)(*:613)|behaviour\\-assessment/([^/]++)(*:651)|family\\-social\\-history/([^/]++)(*:691)|referral\\-data/([^/]++)(*:722)|child\\-data/([^/]++)(*:750))|neral\\-exam/([^/]++)(?|(*:782)))|uardians/search(?:/([^/]++))?(*:821))|/d(?|octor/([^/]++)(*:849)|evelopment\\-assessment/([^/]++)(?|(*:891))|iagnosis/([^/]++)(?|(*:920)))|/p(?|erinatal\\-history/([^/]++)(?|(*:964))|ast\\-medical\\-history/([^/]++)(*:1003)|rescriptions/([^/]++)(*:1033))|/recordResults/([^/]++)(*:1066)|/triage\\-data/([^/]++)(*:1097))/?$}sDu',
     ),
     3 => 
     array (
@@ -853,7 +1200,477 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      141 => 
+      148 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::4Nwh3dgPKwgo78wy',
+          ),
+          1 => 
+          array (
+            0 => 'visitId',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      188 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::WdBpvL4gIHWO226L',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      212 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::flvWoAr19HpZ1I2S',
+          ),
+          1 => 
+          array (
+            0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      253 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::vq69OORMoKR8HzV2',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      291 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::cKzChQyK1SykrzOF',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      331 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::hbbRI5D5yIdHJ2Wv',
+          ),
+          1 => 
+          array (
+            0 => 'visitId',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      370 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::dMGteuK9XvU7CJgM',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      401 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::8eHn3xjvXfeTIKM4',
+          ),
+          1 => 
+          array (
+            0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      426 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::kYxRr1grxbYGpKgH',
+          ),
+          1 => 
+          array (
+            0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      464 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::fj4p3ouxlEfKhXKR',
+          ),
+          1 => 
+          array (
+            0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      514 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::iu1N6Qh69WoSELcO',
+          ),
+          1 => 
+          array (
+            0 => 'childId',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      543 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::FzM8PS8GZ1JbSTuR',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      573 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::Pkeyy68cBQwTVCht',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      613 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::WrCUBkKo5QC8q2bN',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      651 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::3GPonTe012nkiWE3',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      691 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::YSgB4xDy876Z1Hty',
+          ),
+          1 => 
+          array (
+            0 => 'visitId',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      722 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::ffErqRWVtZ62TZIG',
+          ),
+          1 => 
+          array (
+            0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      750 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::gQcg4vfsLSCpO2OG',
+          ),
+          1 => 
+          array (
+            0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      782 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::iChe1PGvidbIlPMO',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::15WK1SClv6IGe0bk',
+          ),
+          1 => 
+          array (
+            0 => 'registrationNumber',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      821 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::7CiIt1JKqVAw4rSS',
+            'id' => NULL,
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      849 => 
       array (
         0 => 
         array (
@@ -876,13 +1693,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      183 => 
+      891 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::tOA6n0V7uz6WXdSb',
+            '_route' => 'generated::b0WzOPyoU3kZKqnv',
           ),
           1 => 
           array (
@@ -902,7 +1719,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::FinKCsMD9j72U6DK',
+            '_route' => 'generated::p01dxBMBMnj0tEG3',
           ),
           1 => 
           array (
@@ -918,13 +1735,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      212 => 
+      920 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::5WwA9ZCXU41nQ25v',
+            '_route' => 'generated::Jk7yOBwklGAF59Tv',
           ),
           1 => 
           array (
@@ -944,7 +1761,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::nTChT64XeTmIRTdW',
+            '_route' => 'generated::LBnyB8WT6uKKxc6N',
           ),
           1 => 
           array (
@@ -960,197 +1777,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      255 => 
+      964 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::UD3oWPqmhkT0kckZ',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      295 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::F4mgrePmYAbKyTAK',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      333 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::7wxlO5Dsq3V1soBs',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      373 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::K78IX0BoxEZfogEd',
-          ),
-          1 => 
-          array (
-            0 => 'visitId',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      404 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::AMrPq6s4TWBU9JBY',
-          ),
-          1 => 
-          array (
-            0 => 'registration_number',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      432 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::Xl0y59ThqVG72Lkl',
-          ),
-          1 => 
-          array (
-            0 => 'registration_number',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      465 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::0CdZ6CQSPLjR49Bm',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      494 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::ur4AX8WLkC3gVAS2',
-          ),
-          1 => 
-          array (
-            0 => 'childId',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      527 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::AM0Hs1Imdg6bd6EG',
+            '_route' => 'generated::7gw5yn01jEo0u3rN',
           ),
           1 => 
           array (
@@ -1170,7 +1803,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::o9zCx2HP5ep4tQUq',
+            '_route' => 'generated::MwzKNmmd9ZBHlAYH',
           ),
           1 => 
           array (
@@ -1186,275 +1819,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      574 => 
+      1003 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::rlDAGV0ThNlB5vdD',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      598 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::2k450X6kZ63hCguv',
-          ),
-          1 => 
-          array (
-            0 => 'registration_number',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      639 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::JirFcsg4mhbqvsCL',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      677 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::9fdY9GhmbujtSfMT',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      717 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::P1JJ7CAQ8HmI32wR',
-          ),
-          1 => 
-          array (
-            0 => 'visitId',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      756 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::VnK6s2psj1gbhznL',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      787 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::X4U5ywRsh0yvRPkY',
-          ),
-          1 => 
-          array (
-            0 => 'registration_number',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      812 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::76Mi8OO8O98xcl6W',
-          ),
-          1 => 
-          array (
-            0 => 'registration_number',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      850 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::4WTiwzZM7UAhcSsy',
-          ),
-          1 => 
-          array (
-            0 => 'registration_number',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      880 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::OW2Lr798W0SSK3D9',
-          ),
-          1 => 
-          array (
-            0 => 'visitId',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      923 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::5yRbiVUPQRydpD0n',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::mHwtPbAFo0455vco',
-          ),
-          1 => 
-          array (
-            0 => 'registrationNumber',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      962 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::iHeNXkk3jEUk57dj',
+            '_route' => 'generated::AHhqrNvnKnXDQTam',
           ),
           1 => 
           array (
@@ -1471,13 +1842,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      991 => 
+      1033 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::qF8IseWHJRvY9ePX',
+            '_route' => 'generated::vCD14gwpIOvSIttL',
           ),
           1 => 
           array (
@@ -1493,7 +1864,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1023 => 
+      1066 => 
       array (
         0 => 
         array (
@@ -1504,6 +1875,29 @@ app('router')->setCompiledRoutes(
           1 => 
           array (
             0 => 'registration_number',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1097 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::He9GhRrsADKWDNKk',
+          ),
+          1 => 
+          array (
+            0 => 'child_id',
           ),
           2 => 
           array (
@@ -1693,7 +2087,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::WQAlarm8t6jNvIMs' => 
+    'generated::G2JYMxNzIVXsuA2Q' => 
     array (
       'methods' => 
       array (
@@ -1705,7 +2099,7 @@ app('router')->setCompiledRoutes(
       array (
         'uses' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@source',
         'controller' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@source',
-        'as' => 'generated::WQAlarm8t6jNvIMs',
+        'as' => 'generated::G2JYMxNzIVXsuA2Q',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1721,7 +2115,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ZsqvFKhaaWscaawj' => 
+    'generated::TLoV0bfPrtWS8nWy' => 
     array (
       'methods' => 
       array (
@@ -1733,7 +2127,7 @@ app('router')->setCompiledRoutes(
       array (
         'uses' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@maps',
         'controller' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@maps',
-        'as' => 'generated::ZsqvFKhaaWscaawj',
+        'as' => 'generated::TLoV0bfPrtWS8nWy',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1858,7 +2252,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::e7kZbYQBAFCfX8aE' => 
+    'generated::FgVAGJmJeSbC8kMI' => 
     array (
       'methods' => 
       array (
@@ -1875,13 +2269,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:297:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:79:"function (\\Illuminate\\Http\\Request $request) {
     return $request->user();
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000046f0000000000000000";}";s:4:"hash";s:44:"oB+GQIExTJE+bNf74hKoZLiujs0Dw5riW5zg4a0d23g=";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004840000000000000000";}";s:4:"hash";s:44:"Xlg5gzSvtE05r4LWzaRvWoQDcwBZzoejWF8Z44eFnuM=";}}',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
         array (
         ),
-        'as' => 'generated::e7kZbYQBAFCfX8aE',
+        'as' => 'generated::FgVAGJmJeSbC8kMI',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1897,51 +2291,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'doctors' => 
+    'home' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'doctorslist',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\DoctorController@index',
-        'controller' => 'App\\Http\\Controllers\\DoctorController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-        'as' => 'doctors',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'doctor.form' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'doctor_form',
+      'uri' => '/',
       'action' => 
       array (
         'middleware' => 
@@ -1955,12 +2312,12 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'doctor.form',
+        'as' => 'home',
       ),
       'fallback' => false,
       'defaults' => 
       array (
-        'view' => 'AddDoctor.doctor_form',
+        'view' => 'home',
         'data' => 
         array (
         ),
@@ -1968,6 +2325,188 @@ app('router')->setCompiledRoutes(
         'headers' => 
         array (
         ),
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'login' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'login',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\AuthController@loginGet',
+        'controller' => 'App\\Http\\Controllers\\AuthController@loginGet',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'login',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'login.post' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'login',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\AuthController@loginPost',
+        'controller' => 'App\\Http\\Controllers\\AuthController@loginPost',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'login.post',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'register' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'register',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\AuthController@registerGet',
+        'controller' => 'App\\Http\\Controllers\\AuthController@registerGet',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'register',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'register.post' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'register',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\AuthController@registerPost',
+        'controller' => 'App\\Http\\Controllers\\AuthController@registerPost',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'register.post',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'logout' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'logout',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\AuthController@logout',
+        'controller' => 'App\\Http\\Controllers\\AuthController@logout',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'logout',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
       ),
       'wheres' => 
       array (
@@ -2089,45 +2628,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'home' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => '/',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-        ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:261:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:43:"function () {
-    return \\view(\'home\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004720000000000000000";}";s:4:"hash";s:44:"5dydCRFYDYpsUs+MwZoOerRtV8GdF8kSXjgmgxNjKOY=";}}',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-        'as' => 'home',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'generated::oMbXDFEOQMmh2fe0' => 
+    'generated::HFGr1B2zxC922UeL' => 
     array (
       'methods' => 
       array (
@@ -2141,19 +2642,26 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:289:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:71:"function () {
-    return \\view(\'therapists.occupationalTherapist\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004780000000000000000";}";s:4:"hash";s:44:"PN1rNXnA0HD8R/d3cfEaqwamc1vjiahzJ9UcCpG92/U=";}}',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::oMbXDFEOQMmh2fe0',
+        'as' => 'generated::HFGr1B2zxC922UeL',
       ),
       'fallback' => false,
       'defaults' => 
       array (
+        'view' => 'therapists.occupationalTherapist',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
       ),
       'wheres' => 
       array (
@@ -2165,7 +2673,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::YmQ08BwKYBfmnYSf' => 
+    'generated::bEG0Wqh3N6NvM74f' => 
     array (
       'methods' => 
       array (
@@ -2179,19 +2687,26 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:283:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:65:"function () {
-    return \\view(\'therapists.speechTherapist\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000047a0000000000000000";}";s:4:"hash";s:44:"G3B3HJZluIqWiN6GMaiuz+yX20uL0tyki9sEsqnVnE0=";}}',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::YmQ08BwKYBfmnYSf',
+        'as' => 'generated::bEG0Wqh3N6NvM74f',
       ),
       'fallback' => false,
       'defaults' => 
       array (
+        'view' => 'therapists.speechTherapist',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
       ),
       'wheres' => 
       array (
@@ -2203,7 +2718,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::wBfSmaJgmeRmA9Le' => 
+    'generated::Gw9jVJGwzgExicpg' => 
     array (
       'methods' => 
       array (
@@ -2217,19 +2732,26 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:290:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:72:"function () {
-    return \\view(\'therapists.physiotherapyTherapist\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000047c0000000000000000";}";s:4:"hash";s:44:"relw5K990Lhe0dXmlTDDMt/gBD2QBlq5KnKdAu4BPVo=";}}',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::wBfSmaJgmeRmA9Le',
+        'as' => 'generated::Gw9jVJGwzgExicpg',
       ),
       'fallback' => false,
       'defaults' => 
       array (
+        'view' => 'therapists.physiotherapyTherapist',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
       ),
       'wheres' => 
       array (
@@ -2241,7 +2763,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::wjIqw2a9OT3LQnSm' => 
+    'generated::inWChoCisYVKV2S2' => 
     array (
       'methods' => 
       array (
@@ -2255,19 +2777,26 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:290:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:72:"function () {
-    return \\view(\'therapists.psychotherapyTherapist\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000047e0000000000000000";}";s:4:"hash";s:44:"Xf6bmaPjkz96dL4fbvuJSI27AgBGVq3Y4Eane2PwTbg=";}}',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::wjIqw2a9OT3LQnSm',
+        'as' => 'generated::inWChoCisYVKV2S2',
       ),
       'fallback' => false,
       'defaults' => 
       array (
+        'view' => 'therapists.psychotherapyTherapist',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
       ),
       'wheres' => 
       array (
@@ -2279,7 +2808,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::VQJBOqJNBc0y26tj' => 
+    'generated::fsCbhgil975soXuX' => 
     array (
       'methods' => 
       array (
@@ -2293,96 +2822,26 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:280:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:62:"function () {
-    return \\view(\'therapists.nutritionist\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004800000000000000000";}";s:4:"hash";s:44:"dj7G1zouyUZzbrT9LtDTpQqINr0DkdjedyScfahlU3A=";}}',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::VQJBOqJNBc0y26tj',
+        'as' => 'generated::fsCbhgil975soXuX',
       ),
       'fallback' => false,
       'defaults' => 
       array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'generated::eGuyKuwSDbcPZXzg' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'receiptionist_dashboard',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-        ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:294:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:76:"function () {
-    return \\view(\'Receiptionist\\Receiptionist_dashboard\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004820000000000000000";}";s:4:"hash";s:44:"3SnGrzUjCr4l9oj0QDK7vk/t/w9LEoEfHsawbGBSxN8=";}}',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
+        'view' => 'therapists.nutritionist',
+        'data' => 
         array (
         ),
-        'as' => 'generated::eGuyKuwSDbcPZXzg',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'doctor.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'doctor/{registrationNumber}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth',
-          2 => 'role:2',
-        ),
-        'uses' => 'App\\Http\\Controllers\\DoctorsController@show',
-        'controller' => 'App\\Http\\Controllers\\DoctorsController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
+        'status' => 200,
+        'headers' => 
         array (
         ),
-        'as' => 'doctor.show',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
       ),
       'wheres' => 
       array (
@@ -2503,30 +2962,64 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::rqeT13geE6ERE71v' => 
+    'parent.get-children' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'parent/get-children',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ParentsController@getChildren',
+        'controller' => 'App\\Http\\Controllers\\ParentsController@getChildren',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'parent.get-children',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'children.search' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'create',
+      'uri' => 'children/search',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
-          1 => 'auth',
-          2 => 'role:2',
         ),
-        'uses' => 'App\\Http\\Controllers\\DiagnosisController@create',
-        'controller' => 'App\\Http\\Controllers\\DiagnosisController@create',
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@search',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@search',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::rqeT13geE6ERE71v',
+        'as' => 'children.search',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2549,7 +3042,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childform',
+      'uri' => 'children/create',
       'action' => 
       array (
         'middleware' => 
@@ -2585,7 +3078,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'storechild',
+      'uri' => 'children/store',
       'action' => 
       array (
         'middleware' => 
@@ -2615,28 +3108,28 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::eTijm3Bqkhq37ubr' => 
+    'doctors' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'parents',
+      'uri' => 'doctorslist',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\ParentsController@create',
-        'controller' => 'App\\Http\\Controllers\\ParentsController@create',
+        'uses' => 'App\\Http\\Controllers\\DoctorController@index',
+        'controller' => 'App\\Http\\Controllers\\DoctorController@index',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::eTijm3Bqkhq37ubr',
+        'as' => 'doctors',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2652,32 +3145,40 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'login' => 
+    'doctor.form' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'login',
+      'uri' => 'doctor_form',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\AuthController@loginGet',
-        'controller' => 'App\\Http\\Controllers\\AuthController@loginGet',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'login',
+        'as' => 'doctor.form',
       ),
       'fallback' => false,
       'defaults' => 
       array (
+        'view' => 'AddDoctor.doctor_form',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
       ),
       'wheres' => 
       array (
@@ -2689,28 +3190,28 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'register' => 
+    'doctors.specializationSearch' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'register',
+      'uri' => 'doctors/specialization-search',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\AuthController@registerGet',
-        'controller' => 'App\\Http\\Controllers\\AuthController@registerGet',
+        'uses' => 'App\\Http\\Controllers\\DoctorController@showSpecializations',
+        'controller' => 'App\\Http\\Controllers\\DoctorController@showSpecializations',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'register',
+        'as' => 'doctors.specializationSearch',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2726,27 +3227,28 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'register.post' => 
+    'generated::gD9uVm43YiLtRM12' => 
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
-      'uri' => 'register',
+      'uri' => 'specializations',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\AuthController@registerPost',
-        'controller' => 'App\\Http\\Controllers\\AuthController@registerPost',
+        'uses' => 'App\\Http\\Controllers\\DoctorController@getSpecializations',
+        'controller' => 'App\\Http\\Controllers\\DoctorController@getSpecializations',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'register.post',
+        'as' => 'generated::gD9uVm43YiLtRM12',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2762,27 +3264,28 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'login.post' => 
+    'generated::mHCH0wBzvUBE9n7c' => 
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
-      'uri' => 'login',
+      'uri' => 'doctors',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\AuthController@loginPost',
-        'controller' => 'App\\Http\\Controllers\\AuthController@loginPost',
+        'uses' => 'App\\Http\\Controllers\\DoctorController@getDoctorsBySpecialization',
+        'controller' => 'App\\Http\\Controllers\\DoctorController@getDoctorsBySpecialization',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'login.post',
+        'as' => 'generated::mHCH0wBzvUBE9n7c',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2798,27 +3301,257 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'logout' => 
+    'generated::R0yUy2D3urUiUBTM' => 
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
-      'uri' => 'logout',
+      'uri' => 'staff-dropdown',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\AuthController@logout',
-        'controller' => 'App\\Http\\Controllers\\AuthController@logout',
+        'uses' => 'App\\Http\\Controllers\\StaffController@index',
+        'controller' => 'App\\Http\\Controllers\\StaffController@index',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'logout',
+        'as' => 'generated::R0yUy2D3urUiUBTM',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'staff.fetch' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'staff/fetch',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\StaffController@fetchStaff',
+        'controller' => 'App\\Http\\Controllers\\StaffController@fetchStaff',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'staff.fetch',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::ic1GDmbh5bcRIe1W' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'staff/names',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\StaffController@fetchStaff',
+        'controller' => 'App\\Http\\Controllers\\StaffController@fetchStaff',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::ic1GDmbh5bcRIe1W',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::8ssj6mTXQjTMuok0' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'appointments',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\AppointmentController@fetchStaff',
+        'controller' => 'App\\Http\\Controllers\\AppointmentController@fetchStaff',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::8ssj6mTXQjTMuok0',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'visits.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'visits',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\VisitController@index',
+        'controller' => 'App\\Http\\Controllers\\VisitController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'visits.index',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'visits.page' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'visits-page',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'visits.page',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+        'view' => 'visits',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'visits.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'visits',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\VisitController@store',
+        'controller' => 'App\\Http\\Controllers\\VisitController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'visits.store',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2909,6 +3642,206 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'generated::Oq6w6xo8Drl6uwGP' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'untriaged-visits',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\TriageController@getUntriagedVisits',
+        'controller' => 'App\\Http\\Controllers\\TriageController@getUntriagedVisits',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::Oq6w6xo8Drl6uwGP',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::4Nwh3dgPKwgo78wy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'start-triage/{visitId}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:1',
+        ),
+        'uses' => 'App\\Http\\Controllers\\TriageController@startTriage',
+        'controller' => 'App\\Http\\Controllers\\TriageController@startTriage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::4Nwh3dgPKwgo78wy',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::8cKQSLT9mvgv2hC4' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'post-triage-queue',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:2',
+        ),
+        'uses' => 'App\\Http\\Controllers\\TriageController@getPostTriageQueue',
+        'controller' => 'App\\Http\\Controllers\\TriageController@getPostTriageQueue',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::8cKQSLT9mvgv2hC4',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::N5lvv2EtuFW0S5Zc' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'post-triage',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:1',
+        ),
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::N5lvv2EtuFW0S5Zc',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+        'view' => 'postTriageQueue',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::iu1N6Qh69WoSELcO' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'get-patient-name/{childId}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:1',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@getPatientName',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@getPatientName',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::iu1N6Qh69WoSELcO',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'doctor.dashboard' => 
     array (
       'methods' => 
@@ -2948,7 +3881,46 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::UD3oWPqmhkT0kckZ' => 
+    'doctor.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'doctor/{registrationNumber}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:2',
+        ),
+        'uses' => 'App\\Http\\Controllers\\DoctorsController@getChildDetails',
+        'controller' => 'App\\Http\\Controllers\\DoctorsController@getChildDetails',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'doctor.show',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::Pkeyy68cBQwTVCht' => 
     array (
       'methods' => 
       array (
@@ -2971,7 +3943,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::UD3oWPqmhkT0kckZ',
+        'as' => 'generated::Pkeyy68cBQwTVCht',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2987,7 +3959,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::rlDAGV0ThNlB5vdD' => 
+    'generated::WdBpvL4gIHWO226L' => 
     array (
       'methods' => 
       array (
@@ -3009,7 +3981,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::rlDAGV0ThNlB5vdD',
+        'as' => 'generated::WdBpvL4gIHWO226L',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3025,7 +3997,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::F4mgrePmYAbKyTAK' => 
+    'generated::WrCUBkKo5QC8q2bN' => 
     array (
       'methods' => 
       array (
@@ -3048,7 +4020,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::F4mgrePmYAbKyTAK',
+        'as' => 'generated::WrCUBkKo5QC8q2bN',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3064,7 +4036,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::JirFcsg4mhbqvsCL' => 
+    'generated::vq69OORMoKR8HzV2' => 
     array (
       'methods' => 
       array (
@@ -3086,7 +4058,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::JirFcsg4mhbqvsCL',
+        'as' => 'generated::vq69OORMoKR8HzV2',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3102,7 +4074,46 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::7wxlO5Dsq3V1soBs' => 
+    'generated::o32OZSQ8Ga3JxZSw' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:2',
+        ),
+        'uses' => 'App\\Http\\Controllers\\DiagnosisController@create',
+        'controller' => 'App\\Http\\Controllers\\DiagnosisController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::o32OZSQ8Ga3JxZSw',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::3GPonTe012nkiWE3' => 
     array (
       'methods' => 
       array (
@@ -3125,7 +4136,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::7wxlO5Dsq3V1soBs',
+        'as' => 'generated::3GPonTe012nkiWE3',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3141,7 +4152,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::9fdY9GhmbujtSfMT' => 
+    'generated::cKzChQyK1SykrzOF' => 
     array (
       'methods' => 
       array (
@@ -3163,7 +4174,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::9fdY9GhmbujtSfMT',
+        'as' => 'generated::cKzChQyK1SykrzOF',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3179,7 +4190,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::K78IX0BoxEZfogEd' => 
+    'generated::YSgB4xDy876Z1Hty' => 
     array (
       'methods' => 
       array (
@@ -3202,7 +4213,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::K78IX0BoxEZfogEd',
+        'as' => 'generated::YSgB4xDy876Z1Hty',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3218,7 +4229,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::P1JJ7CAQ8HmI32wR' => 
+    'generated::hbbRI5D5yIdHJ2Wv' => 
     array (
       'methods' => 
       array (
@@ -3240,7 +4251,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::P1JJ7CAQ8HmI32wR',
+        'as' => 'generated::hbbRI5D5yIdHJ2Wv',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3256,7 +4267,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::5yRbiVUPQRydpD0n' => 
+    'generated::7gw5yn01jEo0u3rN' => 
     array (
       'methods' => 
       array (
@@ -3279,7 +4290,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::5yRbiVUPQRydpD0n',
+        'as' => 'generated::7gw5yn01jEo0u3rN',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3295,7 +4306,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::mHwtPbAFo0455vco' => 
+    'generated::MwzKNmmd9ZBHlAYH' => 
     array (
       'methods' => 
       array (
@@ -3317,7 +4328,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::mHwtPbAFo0455vco',
+        'as' => 'generated::MwzKNmmd9ZBHlAYH',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3333,7 +4344,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::iHeNXkk3jEUk57dj' => 
+    'generated::AHhqrNvnKnXDQTam' => 
     array (
       'methods' => 
       array (
@@ -3356,7 +4367,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::iHeNXkk3jEUk57dj',
+        'as' => 'generated::AHhqrNvnKnXDQTam',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3372,7 +4383,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::VnK6s2psj1gbhznL' => 
+    'generated::dMGteuK9XvU7CJgM' => 
     array (
       'methods' => 
       array (
@@ -3394,7 +4405,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::VnK6s2psj1gbhznL',
+        'as' => 'generated::dMGteuK9XvU7CJgM',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3410,7 +4421,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::AM0Hs1Imdg6bd6EG' => 
+    'generated::iChe1PGvidbIlPMO' => 
     array (
       'methods' => 
       array (
@@ -3433,7 +4444,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::AM0Hs1Imdg6bd6EG',
+        'as' => 'generated::iChe1PGvidbIlPMO',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3449,7 +4460,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::o9zCx2HP5ep4tQUq' => 
+    'generated::15WK1SClv6IGe0bk' => 
     array (
       'methods' => 
       array (
@@ -3471,7 +4482,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::o9zCx2HP5ep4tQUq',
+        'as' => 'generated::15WK1SClv6IGe0bk',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3487,7 +4498,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::tOA6n0V7uz6WXdSb' => 
+    'generated::b0WzOPyoU3kZKqnv' => 
     array (
       'methods' => 
       array (
@@ -3510,7 +4521,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::tOA6n0V7uz6WXdSb',
+        'as' => 'generated::b0WzOPyoU3kZKqnv',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3526,7 +4537,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::FinKCsMD9j72U6DK' => 
+    'generated::p01dxBMBMnj0tEG3' => 
     array (
       'methods' => 
       array (
@@ -3548,7 +4559,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::FinKCsMD9j72U6DK',
+        'as' => 'generated::p01dxBMBMnj0tEG3',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3564,7 +4575,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::5WwA9ZCXU41nQ25v' => 
+    'generated::Jk7yOBwklGAF59Tv' => 
     array (
       'methods' => 
       array (
@@ -3587,7 +4598,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::5WwA9ZCXU41nQ25v',
+        'as' => 'generated::Jk7yOBwklGAF59Tv',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3603,7 +4614,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::nTChT64XeTmIRTdW' => 
+    'generated::LBnyB8WT6uKKxc6N' => 
     array (
       'methods' => 
       array (
@@ -3625,7 +4636,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::nTChT64XeTmIRTdW',
+        'as' => 'generated::LBnyB8WT6uKKxc6N',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3641,7 +4652,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::X4U5ywRsh0yvRPkY' => 
+    'generated::8eHn3xjvXfeTIKM4' => 
     array (
       'methods' => 
       array (
@@ -3663,7 +4674,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::X4U5ywRsh0yvRPkY',
+        'as' => 'generated::8eHn3xjvXfeTIKM4',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3718,7 +4729,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::4WTiwzZM7UAhcSsy' => 
+    'generated::fj4p3ouxlEfKhXKR' => 
     array (
       'methods' => 
       array (
@@ -3740,7 +4751,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::4WTiwzZM7UAhcSsy',
+        'as' => 'generated::fj4p3ouxlEfKhXKR',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3756,7 +4767,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::2k450X6kZ63hCguv' => 
+    'generated::flvWoAr19HpZ1I2S' => 
     array (
       'methods' => 
       array (
@@ -3778,7 +4789,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::2k450X6kZ63hCguv',
+        'as' => 'generated::flvWoAr19HpZ1I2S',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3794,7 +4805,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::AMrPq6s4TWBU9JBY' => 
+    'generated::ffErqRWVtZ62TZIG' => 
     array (
       'methods' => 
       array (
@@ -3817,7 +4828,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::AMrPq6s4TWBU9JBY',
+        'as' => 'generated::ffErqRWVtZ62TZIG',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3833,7 +4844,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Xl0y59ThqVG72Lkl' => 
+    'generated::gQcg4vfsLSCpO2OG' => 
     array (
       'methods' => 
       array (
@@ -3856,7 +4867,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Xl0y59ThqVG72Lkl',
+        'as' => 'generated::gQcg4vfsLSCpO2OG',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3872,7 +4883,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::76Mi8OO8O98xcl6W' => 
+    'generated::kYxRr1grxbYGpKgH' => 
     array (
       'methods' => 
       array (
@@ -3894,7 +4905,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::76Mi8OO8O98xcl6W',
+        'as' => 'generated::kYxRr1grxbYGpKgH',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3910,7 +4921,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0CdZ6CQSPLjR49Bm' => 
+    'generated::FzM8PS8GZ1JbSTuR' => 
     array (
       'methods' => 
       array (
@@ -3933,7 +4944,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::0CdZ6CQSPLjR49Bm',
+        'as' => 'generated::FzM8PS8GZ1JbSTuR',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3949,7 +4960,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::qF8IseWHJRvY9ePX' => 
+    'generated::vCD14gwpIOvSIttL' => 
     array (
       'methods' => 
       array (
@@ -3971,7 +4982,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::qF8IseWHJRvY9ePX',
+        'as' => 'generated::vCD14gwpIOvSIttL',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3987,28 +4998,30 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::wp8nu5H95n1N2S7x' => 
+    'reception.dashboard' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'untriaged-visits',
+      'uri' => 'dashboard',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
         ),
-        'uses' => 'App\\Http\\Controllers\\TriageController@getUntriagedVisits',
-        'controller' => 'App\\Http\\Controllers\\TriageController@getUntriagedVisits',
+        'uses' => 'App\\Http\\Controllers\\ReceptionController@dashboard',
+        'controller' => 'App\\Http\\Controllers\\ReceptionController@dashboard',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::wp8nu5H95n1N2S7x',
+        'as' => 'reception.dashboard',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4024,27 +5037,107 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::OW2Lr798W0SSK3D9' => 
+    'generated::FqH8mdVnBXaRphN2' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'patients',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@patientGet',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@patientGet',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::FqH8mdVnBXaRphN2',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::NgcubVjuPBq0xZ2f' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'guardians',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@get',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@get',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::NgcubVjuPBq0xZ2f',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::1ukAlUjjoj1fSVbo' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'start-triage/{visitId}',
+      'uri' => 'guardians',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
         ),
-        'uses' => 'App\\Http\\Controllers\\TriageController@startTriage',
-        'controller' => 'App\\Http\\Controllers\\TriageController@startTriage',
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@create',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@create',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::OW2Lr798W0SSK3D9',
+        'as' => 'generated::1ukAlUjjoj1fSVbo',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4060,28 +5153,30 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::qGgNJ1jb1rIolTG8' => 
+    'generated::p04CeSN7ysh1GxWA' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'get-untriaged-visits',
+      'uri' => 'guardianss/search',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
         ),
-        'uses' => 'App\\Http\\Controllers\\TriageController@getUntriagedVisits',
-        'controller' => 'App\\Http\\Controllers\\TriageController@getUntriagedVisits',
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@searchGet',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@searchGet',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::qGgNJ1jb1rIolTG8',
+        'as' => 'generated::p04CeSN7ysh1GxWA',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4097,28 +5192,30 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::H76B6GPaHDyc3b4d' => 
+    'generated::7CiIt1JKqVAw4rSS' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'post-triage-queue',
+      'uri' => 'guardians/search/{id?}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
         ),
-        'uses' => 'App\\Http\\Controllers\\TriageController@getPostTriageQueue',
-        'controller' => 'App\\Http\\Controllers\\TriageController@getPostTriageQueue',
+        'uses' => 'App\\Http\\Controllers\\ChildrenController@childGet',
+        'controller' => 'App\\Http\\Controllers\\ChildrenController@childGet',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::H76B6GPaHDyc3b4d',
+        'as' => 'generated::7CiIt1JKqVAw4rSS',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4134,29 +5231,119 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::lOvOpiQby8scwZT8' => 
+    'generated::0qcurxttsyqgEReN' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'post-triage',
+      'uri' => 'visithandle',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'role:3',
+        ),
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::0qcurxttsyqgEReN',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+        'view' => 'reception.visits',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'triage.dashboard' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'triageDashboard',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:272:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:54:"function () {
-    return \\view(\'postTriageQueue\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004b40000000000000000";}";s:4:"hash";s:44:"p5haABv4dTXdNp0XqgLjZayapxPJTfyysdB+EX4nj/s=";}}',
+        'uses' => '\\Illuminate\\Routing\\ViewController@__invoke',
+        'controller' => '\\Illuminate\\Routing\\ViewController',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::lOvOpiQby8scwZT8',
+        'as' => 'triage.dashboard',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+        'view' => 'triageDash',
+        'data' => 
+        array (
+        ),
+        'status' => 200,
+        'headers' => 
+        array (
+        ),
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::pJi4ukAaOWQRCtvK' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'triage',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\TriageController@store',
+        'controller' => 'App\\Http\\Controllers\\TriageController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::pJi4ukAaOWQRCtvK',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4172,28 +5359,65 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ur4AX8WLkC3gVAS2' => 
+    'triage' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'get-patient-name/{childId}',
+      'uri' => 'triage',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
         ),
-        'uses' => 'App\\Http\\Controllers\\ChildrenController@getPatientName',
-        'controller' => 'App\\Http\\Controllers\\ChildrenController@getPatientName',
+        'uses' => 'App\\Http\\Controllers\\TriageController@create',
+        'controller' => 'App\\Http\\Controllers\\TriageController@create',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::ur4AX8WLkC3gVAS2',
+        'as' => 'triage',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::He9GhRrsADKWDNKk' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'triage-data/{child_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\TriageController@getTriageData',
+        'controller' => 'App\\Http\\Controllers\\TriageController@getTriageData',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::He9GhRrsADKWDNKk',
       ),
       'fallback' => false,
       'defaults' => 

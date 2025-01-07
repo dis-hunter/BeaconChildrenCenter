@@ -54,8 +54,8 @@ Route::post('/search-parent', [ParentsController::class, 'search'])->name('paren
 Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children'); 
 
 // Child Routes
-Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
-Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
+//Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
+//Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
 Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');
 Route::get('/children/create', [ChildrenController::class, 'create'])->name('children.create');
 Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
