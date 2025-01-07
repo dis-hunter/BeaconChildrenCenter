@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
     <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
-        <a class="btn btn-close btn-md" href="<?php echo e(route('home')); ?>"></a>
+        <a class="btn btn-close btn-md" href="<?php echo e(route('register')); ?>"></a>
       </div>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -122,7 +122,7 @@
                                 </div>
                                 <script>
                                     $('#role').change(function() {
-                                        if ($(this).val() === 'Doctor') {
+                                        if ($(this).val() === 'Doctor' || 'Therapist') {
                                             $('#specs').css('display', 'block');  // Show specialization input
                                         } else {
                                             $('#specs').css('display', 'none');  // Hide specialization input
@@ -151,15 +151,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('yTs6xz7')) {
-    $componentId = $_instance->getRenderedChildComponentId('yTs6xz7');
-    $componentTag = $_instance->getRenderedChildComponentTagName('yTs6xz7');
+} elseif ($_instance->childHasBeenRendered('GrDRFp1')) {
+    $componentId = $_instance->getRenderedChildComponentId('GrDRFp1');
+    $componentTag = $_instance->getRenderedChildComponentTagName('GrDRFp1');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('yTs6xz7');
+    $_instance->preserveRenderedChild('GrDRFp1');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('yTs6xz7', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('GrDRFp1', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

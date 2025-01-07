@@ -25,7 +25,7 @@ class AuthController extends Controller
         }
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
-        $specializations= DoctorSpecialization::select('specialization')->get();
+        $specializations = DoctorSpecialization::select('specialization')->get();
         return view('register', compact('roles', 'genders', 'specializations'));
     }
 
@@ -37,7 +37,7 @@ class AuthController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'role' => 'required',
-            'specialization'=>'string',
+            'specialization' => 'string',
             'email' => 'required|email|unique:staff',
             'telephone' => 'required|unique:staff',
             'password' => [
@@ -46,8 +46,10 @@ class AuthController extends Controller
             ],
             'confirmpassword' => 'required'
         ]);
-        $reg=new RegistrationNumberManager('staff','staff_no');
-        $staff_no=$reg->generateUniqueRegNumber();
+
+        $reg = new RegistrationNumberManager('staff', 'staff_no');
+        $staff_no = $reg->generateUniqueRegNumber();
+        
         $data['fullname'] = [
             'first_name' => $request->firstname,
             'middle_name' => $request->middlename,
@@ -57,14 +59,14 @@ class AuthController extends Controller
         $data['telephone'] = $request->telephone;
         $data['staff_no'] = $staff_no;
         $data['role_id'] = Role::where('role', $request->role)->value('id');
-        $data['specialization_id']=DoctorSpecialization::where('specialization',$request->specialization)->value('id');
+        $data['specialization_id'] = DoctorSpecialization::where('specialization', $request->specialization)->value('id');
         $data['email'] = $request->email;
         if (strcmp($request->password, $request->confirmpassword) == 0) {
             $data['password'] = Hash::make($request->confirmpassword);
         }
         $staff = User::create($data);
         if (!$staff) {
-            return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password','confirmpassword']));
+            return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password', 'confirmpassword']));
         }
         return redirect(route('login'));
     }
@@ -86,36 +88,73 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             return $this->authenticated();
-            
         }
         return redirect(route('login.post'))->with('error', 'Credentials are not valid!')->withInput($request->except('password'));
     }
 
     public function authenticated()
-{
-    switch (Auth::user()->role_id) {
-        case 1:
-            return redirect()->route('triage.dashboard');
-            break; // Add break to stop execution after redirect
-            
-        case 2:
-            return redirect()->route('doctor.dashboard');
-            break;
-            
-        case 3:
-            return redirect()->route('reception.dashboard');
-            break;
-            
-        case 4:
-            // return redirect()->route('user.dashboard');
-            // break;
-            
-        default:
-            // return redirect()->route('home');
-            // break;
-    }
-}
+    {
+        switch (Auth::user()->role_id) {
+            case 1:
+                return redirect()->route('triage.dashboard');
+                break; // Add break to stop execution after redirect
 
+            case 2:
+                return redirect()->route('doctor.dashboard');
+                break;
+
+            case 3:
+                return redirect()->route('reception.dashboard');
+                break;
+
+            case 4:
+                // return redirect()->route('user.dashboard');
+                // break;
+
+            case 5:
+                return $this->therapist_redirect();
+                break;
+            default:
+                // return redirect()->route('home');
+                // break;
+        }
+    }
+
+    public function therapist_redirect()
+    {
+        switch (Auth::user()->specialization_id) {
+            case 2:
+                return redirect()->route('occupational_therapist');
+                break;
+
+            case 3:
+                // return redirect()->route('reception.dashboard');
+                // break;
+
+            case 4:
+                // return redirect()->route('user.dashboard');
+                // break;
+
+            case 5:
+                // return redirect()->route('therapist.dashboard');
+                // break;
+            case 6:
+                // return redirect()->route('therapist.dashboard');
+                // break;
+            case 8:
+                // return redirect()->route('therapist.dashboard');
+                // break;
+            case 9:
+                // return redirect()->route('therapist.dashboard');
+                // break;
+            case 10:
+                // return redirect()->route('therapist.dashboard');
+                // break;
+            default:
+                // return redirect()->route('home');
+                // break;
+        }
+    }
 
     public function logout(Request $request)
     {
@@ -134,5 +173,4 @@ class AuthController extends Controller
     }
 
     public function profilePost(Request $request) {}
-
 }

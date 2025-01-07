@@ -120,7 +120,7 @@
                                 </div>
                                 <script>
                                     $('#role').change(function() {
-                                        if ($(this).val() === 'Doctor') {
+                                        if ($(this).val() === 'Doctor' || 'Therapist') {
                                             $('#specs').css('display', 'block');  // Show specialization input
                                         } else {
                                             $('#specs').css('display', 'none');  // Hide specialization input

@@ -167,14 +167,15 @@ class ChildrenController extends Controller
     public function patientGet(){
         return view('reception.patients');
     }
-
-}
-
-
-
     public function showChildren()
     {
         $children = DB::table('children')->select('id', 'fullname', 'dob', 'birth_cert', 'gender_id', 'registration_number', 'created_at', 'updated_at')->get();
         return view('therapists.therapistsDashboard', ['children' => $children]);
     }
 }
+
+
+
+
+
+    
