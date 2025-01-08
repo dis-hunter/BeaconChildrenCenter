@@ -7,8 +7,12 @@ use App\Models\Children; // Ensure the model name matches your file structure
 use App\Models\Gender;
 use App\Models\Parents; // Ensure the model name matches your file structure
 use App\Models\Relationship;
+use App\Models\Triage;
+use App\Models\Visits;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class ChildrenController extends Controller
@@ -20,16 +24,11 @@ class ChildrenController extends Controller
         return view('reception.child', compact('relationships', 'genders')); // Render the form view
     }
 
-    public function searchGet()
+    public function childGet($id = null)
     {
-        return view('reception.search', ['parentId' => null]); // Render the form view
-    }
-
-    public function childGet($id){
         return view('reception.search', [
             'parentId' => $id
         ]);
-    
     }
 
     public function create(Request $request)
@@ -74,7 +73,7 @@ class ChildrenController extends Controller
 
         //transaction for data consistency
         try {
-            DB::transaction(function () use ($parent_fullname,$child_fullname,$validatedData) {
+            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData) {
                 //Create the parent record
                 $parent = Parents::create([
                     'fullname' => json_encode($parent_fullname),
@@ -98,11 +97,10 @@ class ChildrenController extends Controller
                     'registration_number' => $validatedData['registration_number'],
                 ]);
 
-                $child_parent=ChildParent::create([
-                    'parent_id'=>$parent->id,
-                    'child_id'=>$children->id,
+                $child_parent = ChildParent::create([
+                    'parent_id' => $parent->id,
+                    'child_id' => $children->id,
                 ]);
-
             });
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput($validatedData);
@@ -130,11 +128,11 @@ class ChildrenController extends Controller
             $patient = DB::table('children')
                 ->where('id', $childId)
                 ->first();
-    
+
             if ($patient) {
                 try {
                     $fullname = json_decode($patient->fullname);
-    
+
                     if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
                         $patientName = trim(
                             "{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}"
@@ -145,13 +143,13 @@ class ChildrenController extends Controller
                 } catch (\Exception $e) {
                     $patientName = 'N/A';
                 }
-    
+
                 return response()->json([
                     'status' => 'success',
                     'patient_name' => $patientName,
                 ]);
             }
-    
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Patient not found',
@@ -163,11 +161,32 @@ class ChildrenController extends Controller
             ], 500);
         }
     }
-    
-    public function patientGet(){
-        return view('reception.patients');
+
+    public function patientGet($id = null)
+    {
+        if ($id) {
+            $child = Children::findOrFail($id);
+            $gender = Gender::find($child->gender_id);
+            if($child->dob){
+                $child->age=Carbon::parse($child->dob)->age;
+            }else{
+                $child->age='Unknown';
+            }
+            $last_visit=Visits::where('child_id',$child->id)
+            ->orderBy('created_at','desc')
+            ->first();
+            $last_visit->visitType=DB::table('visit_type')->where('id',$last_visit->visit_type)->get();
+            $triage=Triage::where('child_id',$child->id)
+            ->orderBy('created_at','desc')
+            ->first();
+            $careplan = DB::table('careplan')
+            ->where('child_id',$child->id)
+            ->latest()
+            ->first();
+            $careplan_data=json_encode($careplan->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            return view('reception.patients', compact('child','gender','last_visit','triage','careplan_data'));
+        } else {
+            return view('reception.patients');
+        }
     }
-
 }
-
-

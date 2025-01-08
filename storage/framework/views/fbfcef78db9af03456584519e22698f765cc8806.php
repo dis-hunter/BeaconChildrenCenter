@@ -76,6 +76,9 @@ echo $html;
                                     <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name); ?></div>
                                     <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
                                     <div class="col-md-4 text-end">
+                                        <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">
+                                            Select
+                                        </a>
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal-<?php echo e($item->id); ?>">Edit</button>
                                         <?php
 if (! isset($_instance)) {

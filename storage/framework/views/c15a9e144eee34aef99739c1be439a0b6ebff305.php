@@ -28,17 +28,19 @@
 </style>
 </head>
 <body>
+
+    
 <div class="container py-4">
     <!-- Header Section -->
     <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Nithya Jayakumar</h5>
-                    <p class="text-muted">Female, Age 32</p>
-                    <p><strong>8745635422</strong></p>
+                    <h5 class="card-title"><?php echo e($child->fullname->first_name ?? ''.' '.$child->fullname->middle_name ?? ''. ' '. $child->fullname->last_name ?? ''); ?></h5>
+                    <p class="text-muted"><?php echo e($gender->gender); ?>, Age <?php echo e($child->age); ?></p>
+                    <p><strong><?php echo e($child->registration_number); ?></strong></p>
                     <p class="text-muted">nithya.kayakumar@gmail.com</p>
-                    <p><strong>Last Visited:</strong> 11/03/23</p>
+                    <p><strong>Last Visited:</strong> <?php echo e($last_visit->visit_date); ?>, <?php echo e($last_visit->visitType->first()->visit_type); ?></p>
                     <div>
                         <span class="pill">Peanut Allergy</span>
                         <span class="pill">Lactose Intolerant</span>
@@ -56,56 +58,56 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Head Circumference</p>
-                            <p><strong>0.45 m</strong></p>
-                            <p class="text-muted">Today</p>
+                            <p><strong><?php echo e($triage->data->head_circumference.' m' ?? 'Missing'); ?></strong></p>
+                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Pulse Rate</p>
-                            <p><strong>80 bpm</strong></p>
-                            <p class="text-muted">Today</p>
+                            <p><strong><?php echo e($triage->data->pulse_rate.' bpm' ?? 'Missing'); ?></strong></p>
+                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Temperature</p>
-                            <p><strong>37.5°C</strong></p>
+                            <p><strong><?php echo e($triage->data->temperature.'°C' ?? 'Missing'); ?></strong></p>
                             
-                            <p class="text-muted">Today</p>
+                            
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Blood Pressure</p>
-                            <p><strong>120/80 mm Hg</strong></p>
+                            <p><strong><?php echo e($triage->data->blood_pressure.' mm Hg' ?? 'Missing'); ?></strong></p>
                             
-                            <p class="text-muted">Today</p>
+                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Respiratory Rate</p>
-                            <p><strong>20 bpm</strong></p>
-                            <p class="text-muted">Today</p>
+                            <p><strong><?php echo e($triage->data->respiratory_rate.' bpm' ?? 'Missing'); ?></strong></p>
+                           
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Oxygen Saturation</p>
-                            <p><strong>98%</strong></p>
-                            <p class="text-muted">Today</p>
+                            <p><strong><?php echo e($triage->data->oxygen_saturation.'%' ?? 'Missing'); ?></strong></p>
+        
                         </div>
                         
                     </div>
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">MUAC</p>
-                            <p><strong>11.5 cm</strong></p>
-                            <p class="text-muted">Today</p>
+                            <p><strong><?php echo e($triage->data->muac.' cm' ?? 'Missing'); ?></strong></p>
+                           
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Height</p>
-                            <p><strong>160 cm</strong></p>
-                            <p class="text-muted">20/03/23</p>
+                            <p><strong><?php echo e($triage->data->height.' cm' ?? 'Missing'); ?></strong></p>
+                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Weight</p>
-                            <p><strong>55 Kg</strong></p>
+                            <p><strong><?php echo e($triage->data->weight.' Kg' ?? 'Missing'); ?></strong></p>
                             
-                            <p class="text-muted">20/03/23</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -120,12 +122,12 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingPastRecords">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastRecords" aria-expanded="true" aria-controls="collapsePastRecords">
-                        Past Records
+                        Past Records (Careplan)
                     </button>
                 </h2>
                 <div id="collapsePastRecords" class="accordion-collapse collapse show" aria-labelledby="headingPastRecords" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
-                        <!-- Content Here -->
+                        <pre><?php echo e(json_decode($careplan_data), JSON_PRETTY_PRINT); ?></pre>
                     </div>
                 </div>
             </div>

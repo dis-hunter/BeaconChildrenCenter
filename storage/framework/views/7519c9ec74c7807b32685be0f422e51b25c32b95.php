@@ -41,15 +41,11 @@
                             </div>
                         </div>
                 
-                        <!-- Birth Certificate and Registration Number -->
+                        <!-- Birth Certificate -->
                         <div class="row g-3 mt-3">
                             <div class="col-md-6">
                                 <label for="birth_cert" class="form-label">Birth Certificate</label>
                                 <input type="text" id="birth_cert" wire:model.defer="birth_cert" value="<?php echo e(old('birth_cert')); ?>" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="registration_number" class="form-label">Registration Number</label>
-                                <input type="text" id="registration_number" wire:model.defer="registration_number" value="<?php echo e(old('registration_number')); ?>" class="form-control">
                             </div>
                         </div>
                     </div>

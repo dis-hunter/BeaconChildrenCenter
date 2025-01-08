@@ -10,7 +10,7 @@
     
         <!-- Search Input -->
         <div class="col-lg-5 col-md-5 col-sm-10 p-2">
-            <input type="text" wire:model.debounce.300ms="query" class="form-control search-input" placeholder="Enter search term">
+            <input type="text" wire:model.debounce.300ms="query" class="form-control search-input" placeholder="Enter parent details">
             <?php $__errorArgs = ['query'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

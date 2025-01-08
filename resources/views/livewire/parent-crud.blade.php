@@ -61,6 +61,9 @@
                                     <div class="col-md-4"><strong>Child Name:</strong> {{$item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name}}</div>
                                     <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
                                     <div class="col-md-4 text-end">
+                                        <a href="/patients/{{$item->id}}" class="btn btn-sm btn-primary">
+                                            View Details
+                                        </a>
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal-{{$item->id}}">Edit</button>
                                         @livewire('edit-child-modal',['child'=>$item], key($item->id))
                                     </div>
