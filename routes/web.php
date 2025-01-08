@@ -169,7 +169,7 @@ Route::get('/nutritionist', function () {
 Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
-Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
+Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');

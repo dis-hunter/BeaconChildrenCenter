@@ -33,6 +33,19 @@
             background: #cbd5e1;
             border-radius: 3px;
         }
+        textarea {
+  height: 10px;
+  resize: vertical;
+}
+        /* input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    } */
     </style>
 </head>
 <body class="bg-gray-50">
@@ -65,23 +78,28 @@
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Post_Session_Activites</button>
                         </nav>
                     </div>
                     <!-- Therapy Assessment Tab-->
                     <div id="therapyAssessment" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges'] as $category)
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
-                                    <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="assessment_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
-                                    ></textarea>
-                                </div>
-                            @endforeach
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
-                        </div>
+    @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing', 'Behaviour Challenges'] as $category)
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
+                id="assessment_{{ $category }}"
+                onchange="handleChange('preparation', '{{ $category }}', event)"
+            ></textarea>
+        </div>
+    @endforeach
+    <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
+</div>
+
+
+                            
+                           
                     <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
@@ -89,7 +107,8 @@
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;" 
                                         id="goals_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
                                     ></textarea>
@@ -101,11 +120,12 @@
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Therapy frequency and Duration', 'Therapy Setting', 'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive skills', 'Activity of Daily Living','Sensory Integration and Processing','Behaviour Management','Parent involvement/training'] as $category)
+                            @foreach(['Therapy frequency and Duration',  'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive skills', 'Activity of Daily Living','Sensory Integration and Processing','Behaviour Management','Parent involvement/training'] as $category)
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="individualized_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
                                     ></textarea>
@@ -120,7 +140,9 @@
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                    <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="session_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
                                     ></textarea>
@@ -128,19 +150,20 @@
                             @endforeach
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
-                        <!-- Follow-up Tab-->
+                        <!-- Post_Session_Activites Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                         @foreach(['Home Practice Assignments', 'Next Session Plan'] as $category)
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="followup_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
                                     ></textarea>
                                 </div>
                             @endforeach
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Follow-up</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
                         </div>
                     </div>
 
@@ -151,9 +174,9 @@
     </div>
     <script src="{{ asset('js/loader.js') }}"></script> 
     <script >
-            document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
         showTabContent('therapyAssessment'); // Default tab to show
-
+        addTextareaAutoResize();
         document.addEventListener('keydown', (event) => {
             const activeTab = document.querySelector('.tabs-content.active');
             const tabButtons = document.querySelectorAll('.tab-button');
@@ -184,6 +207,23 @@
                 event.preventDefault();
             }
         });
+        function addTextareaAutoResize() {
+      const textareas = document.querySelectorAll('textarea');
+      textareas.forEach(textarea => {
+        textarea.addEventListener('input', () => {
+          textarea.style.height = 'auto';
+          textarea.style.height = (textarea.scrollHeight) + 'px';
+        });
+        
+        textarea.addEventListener('blur', () => {
+          textarea.style.height = '30px';
+        });
+  
+        // Trigger initial resize
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+      });
+    }
     });
     </script>  
     <script >
