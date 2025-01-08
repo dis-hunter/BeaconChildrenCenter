@@ -128,10 +128,18 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
             'Laravel\\Sanctum\\' => 16,
             'Laravel\\Sail\\' => 13,
         ),
+        'K' => 
+        array (
+            'Kayandra\\Hashidable\\' => 20,
+        ),
         'I' => 
         array (
             'Illuminate\\Support\\' => 19,
             'Illuminate\\' => 11,
+        ),
+        'H' => 
+        array (
+            'Hashids\\' => 8,
         ),
         'G' => 
         array (
@@ -431,6 +439,10 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         array (
             0 => __DIR__ . '/..' . '/laravel/sail/src',
         ),
+        'Kayandra\\Hashidable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kayandra/hashidable/src',
+        ),
         'Illuminate\\Support\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Macroable',
@@ -440,6 +452,10 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'Hashids\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hashids/hashids/src',
         ),
         'GuzzleHttp\\UriTemplate\\' => 
         array (
@@ -531,6 +547,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\MakeService' => __DIR__ . '/../..' . '/app/Console/Commands/MakeService.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Enums\\PasswordPart' => __DIR__ . '/../..' . '/app/Enums/PasswordPart.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -545,6 +562,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Controllers\\DoctorController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorController.php',
         'App\\Http\\Controllers\\DoctorFormController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorFormController.php',
         'App\\Http\\Controllers\\DoctorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorsController.php',
+        'App\\Http\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExampleController.php',
         'App\\Http\\Controllers\\FamilySocialHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/FamilySocialHistoryController.php',
         'App\\Http\\Controllers\\GeneralExamController' => __DIR__ . '/../..' . '/app/Http/Controllers/GeneralExamController.php',
         'App\\Http\\Controllers\\InvestigationController' => __DIR__ . '/../..' . '/app/Http/Controllers/InvestigationController.php',
@@ -556,6 +574,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Controllers\\ReferralController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReferralController.php',
         'App\\Http\\Controllers\\StaffController' => __DIR__ . '/../..' . '/app/Http/Controllers/StaffController.php',
         'App\\Http\\Controllers\\TherapistController' => __DIR__ . '/../..' . '/app/Http/Controllers/TherapistController.php',
+        'App\\Http\\Controllers\\TherapyController' => __DIR__ . '/../..' . '/app/Http/Controllers/TherapyController.php',
         'App\\Http\\Controllers\\TriageController' => __DIR__ . '/../..' . '/app/Http/Controllers/TriageController.php',
         'App\\Http\\Controllers\\VisitController' => __DIR__ . '/../..' . '/app/Http/Controllers/VisitController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -564,8 +583,10 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Livewire\\ContentSwitcher' => __DIR__ . '/../..' . '/app/Http/Livewire/ContentSwitcher.php',
         'App\\Http\\Livewire\\EditChildModal' => __DIR__ . '/../..' . '/app/Http/Livewire/EditChildModal.php',
         'App\\Http\\Livewire\\EditParentModal' => __DIR__ . '/../..' . '/app/Http/Livewire/EditParentModal.php',
+        'App\\Http\\Livewire\\GlobalSearch' => __DIR__ . '/../..' . '/app/Http/Livewire/GlobalSearch.php',
         'App\\Http\\Livewire\\ParentCrud' => __DIR__ . '/../..' . '/app/Http/Livewire/ParentCrud.php',
         'App\\Http\\Livewire\\PasswordGenerator' => __DIR__ . '/../..' . '/app/Http/Livewire/PasswordGenerator.php',
+        'App\\Http\\Livewire\\SpecializationModal' => __DIR__ . '/../..' . '/app/Http/Livewire/SpecializationModal.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
@@ -578,9 +599,12 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Appointments' => __DIR__ . '/../..' . '/app/Models/Appointments.php',
         'App\\Models\\BehaviourAssessment' => __DIR__ . '/../..' . '/app/Models/BehaviourAssessment.php',
+        'App\\Models\\Child' => __DIR__ . '/../..' . '/app/Models/Child.php',
         'App\\Models\\ChildParent' => __DIR__ . '/../..' . '/app/Models/ChildParent.php',
         'App\\Models\\Diagnosis' => __DIR__ . '/../..' . '/app/Models/Diagnosis.php',
         'App\\Models\\Doctor' => __DIR__ . '/../..' . '/app/Models/Doctor.php',
+        'App\\Models\\DoctorSpecialization' => __DIR__ . '/../..' . '/app/Models/DoctorSpecialization.php',
+        'App\\Models\\Example' => __DIR__ . '/../..' . '/app/Models/Example.php',
         'App\\Models\\Gender' => __DIR__ . '/../..' . '/app/Models/Gender.php',
         'App\\Models\\PaymentMode' => __DIR__ . '/../..' . '/app/Models/PaymentMode.php',
         'App\\Models\\Relationship' => __DIR__ . '/../..' . '/app/Models/Relationship.php',
@@ -595,6 +619,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Services\\RegistrationNumberManager' => __DIR__ . '/../..' . '/app/Services/RegistrationNumberManager.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
@@ -712,6 +737,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\DevMilestonesSeeder' => __DIR__ . '/../..' . '/database/seeders/DevMilestonesSeeder.php',
         'Database\\Seeders\\DevelopmentAssessmentSeeder' => __DIR__ . '/../..' . '/database/seeders/DevelopmentAssessmentSeeder.php',
+        'Database\\Seeders\\DoctorSeeder' => __DIR__ . '/../..' . '/database/seeders/DoctorSeeder.php',
         'Database\\Seeders\\FamSocialHistorySeeder' => __DIR__ . '/../..' . '/database/seeders/FamSocialHistorySeeder.php',
         'Database\\Seeders\\ParentsSeeder' => __DIR__ . '/../..' . '/database/seeders/ParentsSeeder.php',
         'Database\\Seeders\\PastMedHistorySeeder' => __DIR__ . '/../..' . '/database/seeders/PastMedHistorySeeder.php',
@@ -1612,6 +1638,12 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+        'Hashids\\Hashids' => __DIR__ . '/..' . '/hashids/hashids/src/Hashids.php',
+        'Hashids\\HashidsException' => __DIR__ . '/..' . '/hashids/hashids/src/HashidsException.php',
+        'Hashids\\HashidsInterface' => __DIR__ . '/..' . '/hashids/hashids/src/HashidsInterface.php',
+        'Hashids\\Math\\Bc' => __DIR__ . '/..' . '/hashids/hashids/src/Math/Bc.php',
+        'Hashids\\Math\\Gmp' => __DIR__ . '/..' . '/hashids/hashids/src/Math/Gmp.php',
+        'Hashids\\Math\\MathInterface' => __DIR__ . '/..' . '/hashids/hashids/src/Math/MathInterface.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Events\\GateEvaluated' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Events/GateEvaluated.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
@@ -2772,6 +2804,10 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Kayandra\\Hashidable\\Encoder' => __DIR__ . '/..' . '/kayandra/hashidable/src/Encoder.php',
+        'Kayandra\\Hashidable\\Hashidable' => __DIR__ . '/..' . '/kayandra/hashidable/src/Hashidable.php',
+        'Kayandra\\Hashidable\\HashidableConfig' => __DIR__ . '/..' . '/kayandra/hashidable/src/HashidableConfig.php',
+        'Kayandra\\Hashidable\\HashidableServiceProvider' => __DIR__ . '/..' . '/kayandra/hashidable/src/HashidableServiceProvider.php',
         'Laravel\\Sail\\Console\\AddCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/AddCommand.php',
         'Laravel\\Sail\\Console\\Concerns\\InteractsWithDockerComposeServices' => __DIR__ . '/..' . '/laravel/sail/src/Console/Concerns/InteractsWithDockerComposeServices.php',
         'Laravel\\Sail\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/InstallCommand.php',
@@ -4570,9 +4606,11 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'Ramsey\\Collection\\Exception\\CollectionMismatchException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/CollectionMismatchException.php',
         'Ramsey\\Collection\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/InvalidArgumentException.php',
         'Ramsey\\Collection\\Exception\\InvalidPropertyOrMethod' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/InvalidPropertyOrMethod.php',
+        'Ramsey\\Collection\\Exception\\InvalidSortOrderException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/InvalidSortOrderException.php',
         'Ramsey\\Collection\\Exception\\NoSuchElementException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/NoSuchElementException.php',
         'Ramsey\\Collection\\Exception\\OutOfBoundsException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/OutOfBoundsException.php',
         'Ramsey\\Collection\\Exception\\UnsupportedOperationException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/UnsupportedOperationException.php',
+        'Ramsey\\Collection\\Exception\\ValueExtractionException' => __DIR__ . '/..' . '/ramsey/collection/src/Exception/ValueExtractionException.php',
         'Ramsey\\Collection\\GenericArray' => __DIR__ . '/..' . '/ramsey/collection/src/GenericArray.php',
         'Ramsey\\Collection\\Map\\AbstractMap' => __DIR__ . '/..' . '/ramsey/collection/src/Map/AbstractMap.php',
         'Ramsey\\Collection\\Map\\AbstractTypedMap' => __DIR__ . '/..' . '/ramsey/collection/src/Map/AbstractTypedMap.php',

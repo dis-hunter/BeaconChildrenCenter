@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-OfficialBranch',
-        'version' => 'dev-OfficialBranch',
-        'reference' => 'c8d79a21d4e868d387a62acfce99c2232747fb87',
+        'pretty_version' => 'dev-search_branch',
+        'version' => 'dev-search_branch',
+        'reference' => 'f0af731596043895ffa845355729b38d6b30717b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -174,6 +174,15 @@
             'install_path' => __DIR__ . '/../hamcrest/hamcrest-php',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'hashids/hashids' => array(
+            'pretty_version' => '4.1.0',
+            'version' => '4.1.0.0',
+            'reference' => '8cab111f78e0bd9c76953b082919fc9e251761be',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../hashids/hashids',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'illuminate/auth' => array(
             'dev_requirement' => false,
@@ -367,6 +376,15 @@
                 0 => 'v9.52.18',
             ),
         ),
+        'kayandra/hashidable' => array(
+            'pretty_version' => 'v1.6.0',
+            'version' => '1.6.0.0',
+            'reference' => '81776a154b5772cb7d4744d133a18c4402331da6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../kayandra/hashidable',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -383,9 +401,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-OfficialBranch',
-            'version' => 'dev-OfficialBranch',
-            'reference' => 'c8d79a21d4e868d387a62acfce99c2232747fb87',
+            'pretty_version' => 'dev-search_branch',
+            'version' => 'dev-search_branch',
+            'reference' => 'f0af731596043895ffa845355729b38d6b30717b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -199,7 +199,7 @@
     </div>
 
     <?php else: ?>
-        <p>Search for patient in <a href="/guardians/search">Search</a> Component to view Details</p>
+        <p>Search for patient in the Search Component above</p>
     <?php endif; ?>
 </div>
 

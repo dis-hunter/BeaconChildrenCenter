@@ -34,7 +34,7 @@
                         @php
                             $route=strtolower($model).'.search';
                         @endphp
-                            <a href="{{route($route,['id'=>$record->id])}}" class="dropdown-item">
+                            <a href="{{route($route,['id'=>$record->hash_id])}}" class="dropdown-item">
                                 {{ (($record->fullname->first_name ?? '').' '.($record->fullname->middle_name ?? '').' '.($record->fullname->last_name ?? '')) ?? 'N/A' }}
                             </a>
                         @endforeach

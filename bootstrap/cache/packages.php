@@ -1,4 +1,11 @@
 <?php return array (
+  'kayandra/hashidable' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Kayandra\\Hashidable\\HashidableServiceProvider',
+    ),
+  ),
   'laravel/sail' => 
   array (
     'providers' => 

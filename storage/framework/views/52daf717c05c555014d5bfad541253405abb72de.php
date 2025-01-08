@@ -34,7 +34,7 @@
                         <?php
                             $route=strtolower($model).'.search';
                         ?>
-                            <a href="<?php echo e(route($route,['id'=>$record->id])); ?>" class="dropdown-item">
+                            <a href="<?php echo e(route($route,['id'=>$record->hash_id])); ?>" class="dropdown-item">
                                 <?php echo e((($record->fullname->first_name ?? '').' '.($record->fullname->middle_name ?? '').' '.($record->fullname->last_name ?? '')) ?? 'N/A'); ?>
 
                             </a>

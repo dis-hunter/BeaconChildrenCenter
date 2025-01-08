@@ -1,0 +1,42 @@
+{
+    "name": "kayandra/hashidable",
+    "description": "Auto Hashids for Laravel Models and Routes",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Samuel Oloruntoba",
+            "email": "tag@kayandra.co"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "hashids/hashids": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.3",
+        "phpunit/phpunit": "^9.2",
+        "orchestra/database": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kayandra\\Hashidable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kayandra\\Hashidable\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kayandra\\Hashidable\\HashidableServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit --color=always"
+    },
+    "minimum-stability": "stable"
+}

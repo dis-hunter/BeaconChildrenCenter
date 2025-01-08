@@ -6,6 +6,7 @@ use App\Models\Children;
 use App\Models\Gender;
 use App\Models\Parents;
 use App\Models\Relationship;
+use Kayandra\Hashidable\HashidableConfig;
 use Livewire\Component;
 
 class ParentCrud extends Component
@@ -15,7 +16,7 @@ class ParentCrud extends Component
     public $newChildName = ''; // For adding a new child
     public $childToEdit = null; // Store the child being edited
 
-    public ?int $parentId = null; // Allow null value
+    public ?string $parentId = null; // Allow null value
     public $genders='';
     public $relationships='';
 
@@ -32,6 +33,7 @@ class ParentCrud extends Component
 
     public function loadParentAndChildren()
     {
+        
         $this->parent = Parents::with('children')->find($this->parentId);
 
         if ($this->parent) {
