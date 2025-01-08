@@ -48,34 +48,51 @@ class VisitController extends Controller
     }
     
     public function doctorNotes(Request $request)
-{
-    $validatedData = $request->validate([
-        'child_id' => 'required|exists:children,id',
-        'notes' => 'nullable|string'
-    ]);
-
-    try {
-        $latestVisit = DB::table('visits')
-            ->where('child_id', $validatedData['child_id'])
-            ->latest()
-            ->first();
-
-        if (!$latestVisit) {
-            return response()->json(['status' => 'error', 'message' => 'No visit found'], 404);
+    {
+        $validatedData = $request->validate([
+            'child_id' => 'required|exists:children,id',
+            'notes' => 'nullable|string'
+        ]);
+    
+        // Get authenticated user's ID
+        $doctorId = auth()->id();
+    
+        try {
+            $latestVisit = DB::table('visits')
+                ->where('child_id', $validatedData['child_id'])
+                ->latest()
+                ->first();
+    
+            if (!$latestVisit) {
+                return response()->json(['status' => 'error', 'message' => 'No visit found'], 404);
+            }
+            
+            // Check if the requesting doctor is authorized
+            if ($latestVisit->doctor_id != $doctorId) {
+                return response()->json([
+                    'status' => 'error', 
+                    'message' => 'Not authorized: Only the assigned doctor can update these notes'
+                ], 403);
+            }
+    
+            // Update notes and set completed to true
+            DB::table('visits')
+                ->where('id', $latestVisit->id)
+                ->update([
+                    'notes' => $validatedData['notes'],
+                    'completed' => true,
+                    'updated_at' => now()
+                ]);
+    
+            return response()->json([
+                'status' => 'success', 
+                'message' => 'Notes updated successfully and visit marked as completed'
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
-
-        DB::table('visits')
-            ->where('id', $latestVisit->id)
-            ->update([
-                'notes' => $validatedData['notes'],
-                'updated_at' => now()
-            ]);
-
-        return response()->json(['status' => 'success', 'message' => 'Notes updated successfully'], 200);
-    } catch (\Exception $e) {
-        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
-}
 // public function getPaymentModes()
 // {
 //     try {

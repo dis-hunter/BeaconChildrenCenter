@@ -150,12 +150,53 @@ class TherapyController extends Controller
         ->latest()
         ->first();
     $FamilySocialHistory = $FamilySocialHistory ? json_decode($FamilySocialHistory->data) : null;
+    
+    $Therapy_Assessment = DB::table('therapy_assesment')
+    ->where('child_id', $child->id)
+    ->latest()
+    ->first();
+    $Therapy_Assessment = $Therapy_Assessment ? json_decode($Therapy_Assessment->data) : null;
+    
+    $Therapy_Goals = DB::table('therapy_goals')
+    ->where('child_id', $child->id)
+    ->latest()
+    ->first();
+    $Therapy_Goals = $Therapy_Goals ? json_decode($Therapy_Goals->data) : null;
+
+    $Therapy_Session = DB::table('therapy_session')
+    ->where('child_id', $child->id)
+    ->latest()
+    ->first();
+    $Therapy_Session = $Therapy_Session ? json_decode($Therapy_Session->data) : null;
+
+    $Therapy_Individualized = DB::table('therapy_individualized')
+    ->where('child_id', $child->id)
+    ->latest()
+    ->first();
+    $Therapy_Individualized = $Therapy_Individualized ? json_decode($Therapy_Individualized->data) : null;
+    
+    $Post_Session_Activities = DB::table('follow_up')
+    ->where('child_id', $child->id)
+    ->latest()
+    ->first();
+    $Post_Session_Activities = $Post_Session_Activities ? json_decode($Post_Session_Activities->data) : null;
+
+
 
 
         // Pass all data to the view
        // Prepare the data for the textarea
 $doctorsNotes = "";
 $doctorsNotes .= $triageData ? "Triage Data:\n" . json_encode($triageData, JSON_PRETTY_PRINT) . "\n\n" : "Triage Data: No data available.\n\n";
+
+$doctorsNotes .= $Therapy_Assessment ? "Therapy Assessment Data:\n" . json_encode($Therapy_Assessment, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Assessment Data: No data available.\n\n";
+
+$doctorsNotes .= $Therapy_Session ? "Therapy Session Data:\n" . json_encode($Therapy_Session, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Session Data: No data available.\n\n";
+$doctorsNotes .= $Therapy_Individualized ? "Therapy Individualized Data:\n" . json_encode($Therapy_Individualized, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Individualized Data: No data available.\n\n";
+$doctorsNotes .= $Therapy_Goals ? "Therapy Goals Data:\n" . json_encode($Therapy_Goals, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Goals Data: No data available.\n\n";
+$doctorsNotes .= $Post_Session_Activities ? "Therapy Post_Session_Activities Data:\n" . json_encode($Post_Session_Activities, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Post_Session_Activities Data: No data available.\n\n";
+
+
 $doctorsNotes .= $cnsData ? "CNS Data:\n" . json_encode($cnsData, JSON_PRETTY_PRINT) . "\n\n" : "CNS Data: No data available.\n\n";
 $doctorsNotes .= $milestonesData ? "Milestones Data:\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" : "Milestones Data: No data available.\n\n";
 
@@ -166,6 +207,7 @@ $doctorsNotes .= $pastMedicalHistory ? "pastMedicalHistory Data:\n" . json_encod
 $doctorsNotes .= $BehaviourAssessment ? "BehaviourAssessment Data:\n" . json_encode($BehaviourAssessment, JSON_PRETTY_PRINT) . "\n\n" : "BehaviourAssessment Data: No data available.\n\n";
 
 $doctorsNotes .= $FamilySocialHistory ? "FamilySocialHistory Data:\n" . json_encode($FamilySocialHistory, JSON_PRETTY_PRINT) . "\n\n" : "FamilySocialHistory Data: No data available.\n\n";
+
 
 // Pass the notes to the view
 if (request()->wantsJson() || request()->ajax()) {
@@ -199,6 +241,54 @@ if (request()->wantsJson() || request()->ajax()) {
 throw $e;
 }
 }
+
+
+
+public function OccupationTherapy($registrationNumber)
+{
+   $child = DB::table('children')
+               ->where('registration_number', $registrationNumber)
+               ->first();
+
+   if (!$child) {
+       abort(404);
+   }
+
+   // Decode the fullname JSON
+   $fullname = json_decode($child->fullname);
+
+   // Access the first_name, middle_name, and last_name
+   $firstName = $fullname->first_name;
+   $middleName = $fullname->middle_name;
+   $lastName = $fullname->last_name;
+
+   // Get the gender name from the gender table
+   $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+   // Fetch triage data for the child
+
+   
+
+       // Pass the decoded triage data to the view
+       return view('therapists.occupationalTherapist', [
+           'child' => $child,
+           'child_id' => $child->id,
+           'firstName' => $firstName,
+           'middleName' => $middleName,
+           'lastName' => $lastName,
+           'gender' => $gender,
+           
+       ]);
+ 
+       // Handle case where no triage data is found
+     
+   
+} 
+
+
+
+
+
 
 public function saveTherapyGoal(Request $request)
 {

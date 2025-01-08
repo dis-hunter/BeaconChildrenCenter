@@ -99,10 +99,12 @@
         <div id="pastMedicalHistory"></div>
         <a href="#familyAndSocial" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Family and Social History</a>
         <div id="familyAndSocial"></div>
-        <a href="<?php echo e(route('occupational_therapist')); ?>" 
+        <button 
+   onclick="goToWorkspace()" 
    class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
    OT Assessment
-</a>
+</button>
+
 
         <div id="generalExam"></div>
         <a href="#Examination" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Goals</a>
@@ -120,6 +122,28 @@
     </button>
 
     <script>
+        
+        // starts here
+          function extractRegistrationCode() {
+    const url = window.location.pathname; // Get the current URL path
+    const match = url.match(/\/([A-Z]+\-\d+)/); // Use regex to match the pattern
+    return match ? match[1] : null; // Return the matched code or null if no match
+}
+
+async function goToWorkspace() {
+    const RegistrationNumber = extractRegistrationCode();
+    
+    try {
+        // Simply redirect to the view
+        window.location.href = `/occupational_therapist/${RegistrationNumber}`;
+        
+    } catch (error) {
+        console.error('Error navigating to workspace:', error);
+        let errorMessage = 'Error accessing workspace. ';
+        alert(errorMessage);
+    }
+}
+// ends here
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const main = document.getElementById('main');
