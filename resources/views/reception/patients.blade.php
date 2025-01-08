@@ -32,6 +32,9 @@
     
 <div class="container py-4">
     <!-- Header Section -->
+
+    @if ($child)
+    
     <div class="row">
         <div class="col-md-4">
             <div class="card">
@@ -194,6 +197,10 @@
     <div class="text-center review-btn">
         <button class="btn btn-primary">Review</button>
     </div>
+
+    @else
+        <p>Search for patient in <a href="/guardians/search">Search</a> Component to view Details</p>
+    @endif
 </div>
 
 @endsection
