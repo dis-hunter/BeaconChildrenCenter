@@ -137,10 +137,10 @@ Route::group(['middleware' => 'auth'], function () {
     // Receptionist Routes
     Route::group(['middleware' => 'role:3'], function () {
         Route::get('/dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
-        Route::get('/patients/{id?}', [ChildrenController::class, 'patientGet']);
+        Route::get('/patients/{id?}', [ChildrenController::class, 'patientGet'])->name('patients.search');
         Route::get('/guardians', [ChildrenController::class, 'get']);
         Route::post('/guardians', [ChildrenController::class, 'create']);
-        Route::get('/guardians/search/{id?}', [ChildrenController::class, 'childGet']);
+        Route::get('/guardians/{id?}', [ChildrenController::class, 'childGet'])->name('guardians.search');
         Route::view('/visithandle', 'reception.visits');
     });
 

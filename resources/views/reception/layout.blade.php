@@ -129,15 +129,25 @@
             min-height: 100vh;
             transition: margin-left 0.3s ease;
         }
+        .global-search{
+            margin-left: 250px;
+        }
 
         .main.expanded {
             margin-left: 60px;
+        }
+        .dropdown-menu {
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e3e3e3;
         }
 
         @media (max-width: 768px) {
                     .main{
                         margin-left: 0;
                         width: 100%;
+                    }
+                    .global-search{
+                        margin-left: 20px;
                     }
                 }
         .search-bar {
