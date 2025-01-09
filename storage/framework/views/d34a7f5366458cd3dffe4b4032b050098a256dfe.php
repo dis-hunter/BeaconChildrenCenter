@@ -27,9 +27,7 @@
                                 </svg>
                                 
                                 <div>
-                                    
                                     <p><?php echo e($error); ?></p>
-                                    
                                 </div>
                                 
                             </div>
@@ -121,12 +119,18 @@
                                     </div>
                                 </div>
                                 <script>
-                                    $('#role').change(function() {
-                                        if ($(this).val() === 'Doctor') {
-                                            $('#specs').css('display', 'block');  // Show specialization input
+                                    function toggleSpecialization(){
+                                        if ($('#role').val() === 'Doctor' || $('#role').val() === 'Therapist') {
+                                            $('#specs').css('display', 'block');  
                                         } else {
-                                            $('#specs').css('display', 'none');  // Hide specialization input
+                                            $('#specs').css('display', 'none'); 
                                         }
+                                    }
+
+                                    toggleSpecialization();
+
+                                    $('#role').change(function (){
+                                        toggleSpecialization();
                                     });
 
                                 </script>
@@ -151,15 +155,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('yTs6xz7')) {
-    $componentId = $_instance->getRenderedChildComponentId('yTs6xz7');
-    $componentTag = $_instance->getRenderedChildComponentTagName('yTs6xz7');
+} elseif ($_instance->childHasBeenRendered('sNBMaLS')) {
+    $componentId = $_instance->getRenderedChildComponentId('sNBMaLS');
+    $componentTag = $_instance->getRenderedChildComponentTagName('sNBMaLS');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('yTs6xz7');
+    $_instance->preserveRenderedChild('sNBMaLS');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('yTs6xz7', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('sNBMaLS', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

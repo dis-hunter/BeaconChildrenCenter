@@ -61,8 +61,11 @@ class AuthController extends Controller
         $data['email'] = $request->email;
         if (strcmp($request->password, $request->confirmpassword) == 0) {
             $data['password'] = Hash::make($request->confirmpassword);
+            $staff = User::create($data);
+        }else{
+            return redirect(route('register.post'))->with('error', 'Passwords do not match!')->withInput($request->except(['password','confirmpassword']));
         }
-        $staff = User::create($data);
+        
         if (!$staff) {
             return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password','confirmpassword']));
         }

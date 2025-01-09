@@ -27,9 +27,7 @@
                                 </svg>
                                 
                                 <div>
-                                    
                                     <p>{{$error}}</p>
-                                    
                                 </div>
                                 
                             </div>
@@ -119,12 +117,18 @@
                                     </div>
                                 </div>
                                 <script>
-                                    $('#role').change(function() {
-                                        if ($(this).val() === 'Doctor') {
-                                            $('#specs').css('display', 'block');  // Show specialization input
+                                    function toggleSpecialization(){
+                                        if ($('#role').val() === 'Doctor' || $('#role').val() === 'Therapist') {
+                                            $('#specs').css('display', 'block');  
                                         } else {
-                                            $('#specs').css('display', 'none');  // Hide specialization input
+                                            $('#specs').css('display', 'none'); 
                                         }
+                                    }
+
+                                    toggleSpecialization();
+
+                                    $('#role').change(function (){
+                                        toggleSpecialization();
                                     });
 
                                 </script>

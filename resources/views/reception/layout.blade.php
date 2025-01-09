@@ -124,7 +124,7 @@
 
         .main {
             margin-left: 200px;
-            padding: 40px;
+            padding: 20px;
             background-color: #f3f4f6;
             min-height: 100vh;
             transition: margin-left 0.3s ease;

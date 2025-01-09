@@ -23,9 +23,6 @@
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
             </li>
             <li class="nav-item">
-                <a href="/guardians/search" class="nav-link"><span class="icon">🔍</span> <span class="text">Search</span></a>
-            </li>
-            <li class="nav-item">
                 <a href="/patients" class="nav-link"><span class="icon">🚑</span> <span class="text">Patients</span></a>
             </li>
             <li class="nav-item">
