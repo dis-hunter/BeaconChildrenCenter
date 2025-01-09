@@ -174,7 +174,7 @@ class TherapyController extends Controller
     ->first();
     $Therapy_Goals = $Therapy_Goals ? json_decode($Therapy_Goals->data) : null;
 
-    $Therapy_Session = DB::table('therapy_session')
+    $Therapy_Session = DB::table('therapy_session_2')
     ->where('child_id', $child->id)
     ->latest()
     ->first();
@@ -195,31 +195,70 @@ class TherapyController extends Controller
 
 
 
-        // Pass all data to the view
-       // Prepare the data for the textarea
-$doctorsNotes = "";
-$doctorsNotes .= $triageData ? "Triage Data:\n" . json_encode($triageData, JSON_PRETTY_PRINT) . "\n\n" : "Triage Data: No data available.\n\n";
-
-$doctorsNotes .= $Therapy_Assessment ? "Therapy Assessment Data:\n" . json_encode($Therapy_Assessment, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Assessment Data: No data available.\n\n";
-
-$doctorsNotes .= $Therapy_Session ? "Therapy Session Data:\n" . json_encode($Therapy_Session, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Session Data: No data available.\n\n";
-$doctorsNotes .= $Therapy_Individualized ? "Therapy Individualized Data:\n" . json_encode($Therapy_Individualized, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Individualized Data: No data available.\n\n";
-$doctorsNotes .= $Therapy_Goals ? "Therapy Goals Data:\n" . json_encode($Therapy_Goals, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Goals Data: No data available.\n\n";
-$doctorsNotes .= $Post_Session_Activities ? "Therapy Post_Session_Activities Data:\n" . json_encode($Post_Session_Activities, JSON_PRETTY_PRINT) . "\n\n" : "Therapy Post_Session_Activities Data: No data available.\n\n";
-
-
-$doctorsNotes .= $cnsData ? "CNS Data:\n" . json_encode($cnsData, JSON_PRETTY_PRINT) . "\n\n" : "CNS Data: No data available.\n\n";
-$doctorsNotes .= $milestonesData ? "Milestones Data:\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" : "Milestones Data: No data available.\n\n";
-
-$doctorsNotes .= $perinatalHistory ? "perinatalHistory Data:\n" . json_encode($perinatalHistory, JSON_PRETTY_PRINT) . "\n\n" : "perinatalHistory Data: No data available.\n\n";
-
-$doctorsNotes .= $pastMedicalHistory ? "pastMedicalHistory Data:\n" . json_encode($pastMedicalHistory, JSON_PRETTY_PRINT) . "\n\n" : "pastMedicalHistory Data: No data available.\n\n";
-
-$doctorsNotes .= $BehaviourAssessment ? "BehaviourAssessment Data:\n" . json_encode($BehaviourAssessment, JSON_PRETTY_PRINT) . "\n\n" : "BehaviourAssessment Data: No data available.\n\n";
-
-$doctorsNotes .= $FamilySocialHistory ? "FamilySocialHistory Data:\n" . json_encode($FamilySocialHistory, JSON_PRETTY_PRINT) . "\n\n" : "FamilySocialHistory Data: No data available.\n\n";
-
-
+    function formatKeyValue($data, $indent = 0) {
+        if (!$data) return "No data available.";
+        $output = "";
+        $prefix = str_repeat(" ", $indent); // Indentation for nested arrays/objects
+        foreach ($data as $key => $value) {
+            if (is_object($value) || is_array($value)) {
+                $output .= "{$prefix}{$key}:\n" . formatKeyValue($value, $indent + 4); // Increase indentation for nested data
+            } else {
+                $output .= "{$prefix}{$key}: $value\n";
+            }
+        }
+        return $output;
+    }
+    
+    // Prepare the $doctorsNotes
+    $doctorsNotes = "";
+    $doctorsNotes .= $triageData 
+        ? "Triage Data:\n" . formatKeyValue($triageData) . "\n\n" 
+        : "Triage Data: No data available.\n\n";
+    
+    $doctorsNotes .= $Therapy_Assessment 
+        ? "Therapy Assessment Data:\n" . formatKeyValue($Therapy_Assessment) . "\n\n" 
+        : "Therapy Assessment Data: No data available.\n\n";
+    
+    $doctorsNotes .= $Therapy_Session 
+        ? "Therapy Session Data:\n" . formatKeyValue($Therapy_Session) . "\n\n" 
+        : "Therapy Session Data: No data available.\n\n";
+    
+    $doctorsNotes .= $Therapy_Individualized 
+        ? "Therapy Individualized Data:\n" . formatKeyValue($Therapy_Individualized) . "\n\n" 
+        : "Therapy Individualized Data: No data available.\n\n";
+    
+    $doctorsNotes .= $Therapy_Goals 
+        ? "Therapy Goals Data:\n" . formatKeyValue($Therapy_Goals) . "\n\n" 
+        : "Therapy Goals Data: No data available.\n\n";
+    
+    $doctorsNotes .= $Post_Session_Activities 
+        ? "Therapy Post-Session Activities Data:\n" . formatKeyValue($Post_Session_Activities) . "\n\n" 
+        : "Therapy Post-Session Activities Data: No data available.\n\n";
+    
+    $doctorsNotes .= $cnsData 
+        ? "CNS Data:\n" . formatKeyValue($cnsData) . "\n\n" 
+        : "CNS Data: No data available.\n\n";
+    
+    $doctorsNotes .= $milestonesData 
+        ? "Milestones Data:\n" . formatKeyValue($milestonesData) . "\n\n" 
+        : "Milestones Data: No data available.\n\n";
+    
+    $doctorsNotes .= $perinatalHistory 
+        ? "Perinatal History Data:\n" . formatKeyValue($perinatalHistory) . "\n\n" 
+        : "Perinatal History Data: No data available.\n\n";
+    
+    $doctorsNotes .= $pastMedicalHistory 
+        ? "Past Medical History Data:\n" . formatKeyValue($pastMedicalHistory) . "\n\n" 
+        : "Past Medical History Data: No data available.\n\n";
+    
+    $doctorsNotes .= $BehaviourAssessment 
+        ? "Behavior Assessment Data:\n" . formatKeyValue($BehaviourAssessment) . "\n\n" 
+        : "Behavior Assessment Data: No data available.\n\n";
+    
+    $doctorsNotes .= $FamilySocialHistory 
+        ? "Family Social History Data:\n" . formatKeyValue($FamilySocialHistory) . "\n\n" 
+        : "Family Social History Data: No data available.\n\n";
+    
 // Pass the notes to the view
 if (request()->wantsJson() || request()->ajax()) {
     return response()->json([
