@@ -2,12 +2,12 @@
 
 ## About Beacon
 
-Beacon is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling.
+Beacon is a web application with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling.
 
 ## Sponsors
 
-Payed Partnership
-buy me a Porsche GT3RS
+Payed Partnership.
+buy me a Porsche 911 GT3RS
 
 ### Premium Contributers
 
