@@ -2,12 +2,19 @@
 @section('title','Dashboard | Reception')
 @extends('reception.header')
 @section('content')
+
+<div class="d-flex justify-content-center mt-1">
+  <img src="{{ asset('images/logo-transparent.png') }}"
+    style="width: 100px; transform: scale(1.8);" alt="logo">
+ 
+</div>
     <div><h6>Welcome</h6></div>
 
     <style>
         .row-striped:nth-of-type(odd){
   background-color: #efefef;
   border-left: 4px #000000 solid;
+  
 }
 
 .row-striped:nth-of-type(even){
@@ -98,18 +105,6 @@
                                 >
                                   <strong>Error</strong> Fetching Details
                                 </div>
-                                
-                                
-                                <script>
-                                  var alertList = document.querySelectorAll(".alert");
-                                  alertList.forEach(function (alert) {
-                                    new bootstrap.Alert(alert);
-                                  });
-                                </script>
-                                
-            
-                              
-                                  
                                 @endif
                             </div>
                         </div>
