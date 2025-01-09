@@ -19,7 +19,6 @@ buy me a Porsche 911 GT3RS
 - **[Tobiko](https://github.com/victorgpt0)**
 - **[ChatGPT](https://chatgpt.com/)**
 - **[Laravel Docs](https://laravel.com/)**
-- **[YouTube](https://youtube.com/)**
 
 ## Code of Conduct
 
