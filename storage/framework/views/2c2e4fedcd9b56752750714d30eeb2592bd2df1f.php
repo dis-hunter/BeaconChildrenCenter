@@ -64,20 +64,21 @@
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Post Session Activities</button>
                         </nav>
                     </div>
                      <!-- Therapy Assessment Tab-->
                      <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
                         <?php $__currentLoopData = ['Speech and sound production', 'Expressive Language', 'Receptive Language', 'Social communication', 'Fluency (stuttering)','Voice and Resonance','Vocal stereotype']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
-                                    <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="assessment_<?php echo e($category); ?>"
-                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
-                                    ></textarea>
-                                </div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
+            <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
+                id="assessment_<?php echo e($category); ?>"
+                onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
+            ></textarea>
+        </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
@@ -85,25 +86,27 @@
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
                             <?php $__currentLoopData = ['Speech sound production', 'Language development', 'Fluency (stuttering)','Social communication (pragmatics)' ,'Voice Therapy', 'Swallowing and feeding (Dysphagia)', 'Cognitive communication skills','Alternative and augumentative communication']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
-                                    <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="goals_<?php echo e($category); ?>"
-                                        onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
-                                    ></textarea>
-                                </div>
+                                 <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
+            <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
+                id="goals_<?php echo e($category); ?>"
+                onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
+            ></textarea>
+        </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyGoals()">Save Goals</button>
 
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
-                            <?php $__currentLoopData = ['Therapy frequency and Duration', 'Therapy Setting', 'Speech and Sound Production', 'Expressive Language', 'Receptive Language', 'Social Communication','Fluency (stutering)','Voice and Resonance','Vocal stereotypies','Parent involvemet/training']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="mb-4">
+                            <?php $__currentLoopData = ['Therapy frequency and Duration', 'Therapy Setting/Resources', 'Speech and Sound Production', 'Expressive Language', 'Receptive Language', 'Social Communication','Fluency (stutering)','Voice and Resonance','Vocal stereotypies','Parent involvemet/training']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="individualized_<?php echo e($category); ?>"
                                         onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
                                     ></textarea>
@@ -115,10 +118,12 @@
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
                             <?php $__currentLoopData = ['Speech and sound production', 'Expressive Language', 'Receptive Language', 'Social communication', 'Fluency (stuttering)','Voice and Resonance','Vocal stereotype']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="mb-4">
+                            <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                    <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="session_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
@@ -130,10 +135,11 @@
                         <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                         <?php $__currentLoopData = ['Home Practice Assignments', 'Next Session Plan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="mb-4">
+                        <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="followup_<?php echo e($category); ?>"
                                         onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
@@ -417,14 +423,14 @@ headers: {
     //pushing data to the db therapy_individualized table
     
     async function saveIndividualized() {
-        //Therapy frequency and Duration', 'Therapy Setting', 'Speech and Sound Production', 'Expressive Language', 
+        //Therapy frequency and Duration', 'Therapy Setting/Resources', 'Speech and Sound Production', 'Expressive Language', 
         // 'Receptive Language', 'Social Communication','Fluency (stutering)',
         // 'Voice and Resonance','Vocal stereotypies','Parent involvemet/training'] as $category)
 
         showLoadingIndicator('Saving...', 0);
         const categories = [
             'Therapy frequency and Duration',
-            'Therapy Setting',
+            'Therapy Setting/Resources',
             'Speech and Sound Production',
             'Expressive Language',
             'Receptive Language',

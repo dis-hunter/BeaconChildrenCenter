@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OccupationalTherapy Dashboard</title>
+    <title>Therapy Dashboard</title>
     <style>
         .sidebar {
             width: 200px;
@@ -131,18 +131,33 @@
 }
 
 async function goToWorkspace() {
-    const RegistrationNumber = extractRegistrationCode();
-    
+    const registrationNumber = extractRegistrationCode(); // Function to extract registration number
+    // const specializationId = document.getElementById('specialization_id').value; // Function to retrieve the specialization_id (implement this logic)
+    const specializationId = 2; // Function to retrieve the specialization_id (implement this logic)
+    console.log(specializationId);
+
     try {
-        // Simply redirect to the view
-        window.location.href = `/occupational_therapist/${RegistrationNumber}`;
+        // Perform redirection based on specialization_id
+        if (specializationId == 2) {
+            window.location.href = `/occupational_therapist/${registrationNumber}`;
+        } else if (specializationId ==5) {
+            window.location.href = `/nutritionist_therapist/${registrationNumber}`;
+        }  else if (specializationId ==3) {
+            window.location.href = `/speech_therapist/${registrationNumber}`;
         
+        } else if (specializationId ==4) {
+            window.location.href = `/physiotherapist/${registrationNumber}`;
+        
+        }
+        else {
+            alert('Unauthorized specialization. Access denied.');
+        }
     } catch (error) {
         console.error('Error navigating to workspace:', error);
-        let errorMessage = 'Error accessing workspace. ';
-        alert(errorMessage);
+        alert('Error accessing workspace. Please try again.');
     }
 }
+
 // ends here
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -166,6 +181,8 @@ async function goToWorkspace() {
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                             <input type="hidden" id="child_id" name="child_id" value="<?php echo e($child_id); ?>">
+                                            <input type="hidden" id="specialization_id" name="specialization_id" value="<?php echo e($specialization_id); ?>">
+
 
                                     <label class="block text-sm font-medium text-gray-700" for="firstName">First Name</label>
                                     <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">

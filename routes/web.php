@@ -144,11 +144,16 @@ Route::get('/speechtherapy_dashboard', function () {
 Route::get('/nutritionist_dashboard', function () {
     return view('therapists.nutritionistDashboard');
 });
-Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy'])->name('occupational_therapist');
+Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
+Route::get('/nutritionist_therapist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
+Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
+Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
 
-Route::get('/speech_therapist', function () {
-    return view('therapists.speechTherapist');
-});
+
+
+
+
+
 Route::get('/physical_therapist', function () {
     return view('therapists.physiotherapyTherapist');
 });
@@ -167,7 +172,7 @@ Route::get('/nutritionist', function () {
 Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
-Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
+Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard'])->name('occupational_therapist');
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');

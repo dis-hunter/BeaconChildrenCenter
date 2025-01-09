@@ -15,7 +15,7 @@
             background-color: #fff;
         }
         
-        .tabs-content {
+        /* .tabs-content {
             max-height: 60vh;
             overflow-y: auto;
             scrollbar-width: thin;
@@ -32,7 +32,7 @@
         .tabs-content::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 3px;
-        }
+        } */
         textarea {
   height: 10px;
   resize: vertical;
@@ -83,7 +83,7 @@
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Post_Session_Activites</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Post Session Activites</button>
                         </nav>
                     </div>
                     <!-- Therapy Assessment Tab-->
@@ -93,7 +93,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
             <textarea 
                 class="form-control"
-                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 0px;"
                 id="assessment_{{ $category }}"
                 onchange="handleChange('preparation', '{{ $category }}', event)"
             ></textarea>
@@ -212,23 +212,76 @@
                 event.preventDefault();
             }
         });
-        function addTextareaAutoResize() {
-      const textareas = document.querySelectorAll('textarea');
-      textareas.forEach(textarea => {
-        textarea.addEventListener('input', () => {
-          textarea.style.height = 'auto';
-          textarea.style.height = (textarea.scrollHeight) + 'px';
+        async function saveAssessment() {
+        showLoadingIndicator('Saving...', 0);
+        const categories = [
+            'Weight(kg)',
+             'Weight for Age', 
+             'Height(cm)',
+              'Height for Age',
+               'Head circumference',
+               'Weight for Height','BMI','MUAC(cm)','Girth circumference',
+               'Medical Problems', 'Dietry Intake', 'Lifestyle factors', 'Psychosocial/Behavioural factors', 'Biochemical Data'
+        ];
+
+        const assessmentData = {};
+
+         // Collect data from the textareas - no delay needed here
+         updateLoadingProgress(30, 'Sending data...');
+        // Collect data from the textareas
+        categories.forEach(category => {
+            const textarea = document.getElementById(`assessment_${category}`);
+            if (textarea) {
+                assessmentData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            }
         });
+
+        // Prepare the full payload with other required attributes
+        const payload = {
+            child_id: childId, // Replace with the actual element ID or logic
+            staff_id: 8, // Replace with the actual element ID or logic
+            therapy_id: 1, // Replace with the actual element ID or logic
+            data: assessmentData // Add the collected categories data as a JSON object
+        };
+
+        try {
+    // Make the POST request
+    const response = await fetch('/saveAssessment', {
+        method: 'POST',
         
-        textarea.addEventListener('blur', () => {
-          textarea.style.height = '30px';
-        });
-  
-        // Trigger initial resize
-        textarea.style.height = 'auto';
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-      });
+headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(payload),
+    });
+    updateLoadingProgress(70, 'Processing...');
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const result = await response.json();
+    console.log('Response from server:', result);
+    
+    // Single short delay just to show completion
+    updateLoadingProgress(100, 'Almost Complete');
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    if (result.status === 'success') {
+        alert('Assessment saved successfully!');
+    } else {
+        alert(`Failed to save assessment: ${result.message}`);
+    }
+} catch (error) {
+    console.error('Error saving assessment:', error);
+    alert('An error occurred. Please check the console for more details.');
+}finally {
+        hideLoadingIndicator();
+    }
+}
     });
     </script>  
     <script >

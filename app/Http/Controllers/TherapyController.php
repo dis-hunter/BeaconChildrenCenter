@@ -88,6 +88,7 @@ class TherapyController extends Controller
         if (!$child) {
             return response()->json(['error' => 'Child not found'], 404);
         }
+        
 
         // Decode the fullname JSON
         $fullname = json_decode($child->fullname);
@@ -97,6 +98,12 @@ class TherapyController extends Controller
 
         // Get gender name
         $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+        
+        
+        $staff_id = auth()->user()->id;
+
+    // Get the staff details, including specialization_id
+    $staff = DB::table('staff')->where('id', $staff_id)->first();
 
         // Retrieve the latest visit for the child
         $visit = DB::table('visits')
@@ -107,6 +114,10 @@ class TherapyController extends Controller
         // Check if a visit exists
         if (!$visit) {
             return response()->json(['error' => 'No visit found for the child'], 404);
+        }
+        
+        if (!$child) {
+            return response()->json(['error' => 'Child not found'], 404);
         }
 
         // Fetch triage data
@@ -219,6 +230,8 @@ if (request()->wantsJson() || request()->ajax()) {
         'lastName' => $lastName,
         'gender' => $gender,
         'doctorsNotes' => $doctorsNotes,
+        'staff_id'=>auth()->user()->id,
+        'specialization_id'=>$staff->specialization_id
     ]);
 }
 
@@ -231,6 +244,8 @@ return view('therapists.occupationaltherapyDashboard', [
     'lastName' => $lastName,
     'gender' => $gender,
     'doctorsNotes' => $doctorsNotes,
+    'specialization_id'=>$staff->specialization_id
+
 ]);
 
 } catch (\Exception $e) {
@@ -271,6 +286,127 @@ public function OccupationTherapy($registrationNumber)
 
        // Pass the decoded triage data to the view
        return view('therapists.occupationalTherapist', [
+           'child' => $child,
+           'child_id' => $child->id,
+           'firstName' => $firstName,
+           'middleName' => $middleName,
+           'lastName' => $lastName,
+           'gender' => $gender,
+           
+       ]);
+ 
+       // Handle case where no triage data is found
+     
+   
+} 
+
+public function NutritionalTherapy($registrationNumber)
+{
+   $child = DB::table('children')
+               ->where('registration_number', $registrationNumber)
+               ->first();
+
+   if (!$child) {
+       abort(404);
+   }
+
+   // Decode the fullname JSON
+   $fullname = json_decode($child->fullname);
+
+   // Access the first_name, middle_name, and last_name
+   $firstName = $fullname->first_name;
+   $middleName = $fullname->middle_name;
+   $lastName = $fullname->last_name;
+
+   // Get the gender name from the gender table
+   $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+   // Fetch triage data for the child
+
+   
+
+       // Pass the decoded triage data to the view
+       return view('therapists.nutritionist', [
+           'child' => $child,
+           'child_id' => $child->id,
+           'firstName' => $firstName,
+           'middleName' => $middleName,
+           'lastName' => $lastName,
+           'gender' => $gender,
+           
+       ]);
+ 
+       // Handle case where no triage data is found
+     
+   
+} 
+public function SpeechTherapy($registrationNumber)
+{
+   $child = DB::table('children')
+               ->where('registration_number', $registrationNumber)
+               ->first();
+
+   if (!$child) {
+       abort(404);
+   }
+
+   // Decode the fullname JSON
+   $fullname = json_decode($child->fullname);
+
+   // Access the first_name, middle_name, and last_name
+   $firstName = $fullname->first_name;
+   $middleName = $fullname->middle_name;
+   $lastName = $fullname->last_name;
+
+   // Get the gender name from the gender table
+   $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+   // Fetch triage data for the child
+
+   
+
+       // Pass the decoded triage data to the view
+       return view('therapists.speechTherapist', [
+           'child' => $child,
+           'child_id' => $child->id,
+           'firstName' => $firstName,
+           'middleName' => $middleName,
+           'lastName' => $lastName,
+           'gender' => $gender,
+           
+       ]);
+ 
+       // Handle case where no triage data is found
+     
+   
+} 
+public function PhysioTherapy($registrationNumber)
+{
+   $child = DB::table('children')
+               ->where('registration_number', $registrationNumber)
+               ->first();
+
+   if (!$child) {
+       abort(404);
+   }
+
+   // Decode the fullname JSON
+   $fullname = json_decode($child->fullname);
+
+   // Access the first_name, middle_name, and last_name
+   $firstName = $fullname->first_name;
+   $middleName = $fullname->middle_name;
+   $lastName = $fullname->last_name;
+
+   // Get the gender name from the gender table
+   $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+   // Fetch triage data for the child
+
+   
+
+       // Pass the decoded triage data to the view
+       return view('therapists.physiotherapyTherapist', [
            'child' => $child,
            'child_id' => $child->id,
            'firstName' => $firstName,

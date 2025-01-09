@@ -136,7 +136,7 @@ class AuthController extends Controller
                 // break;
 
             case 5:
-                // return redirect()->route('therapist.dashboard');
+                return redirect()->route('occupational_therapist');
                 // break;
             case 6:
                 // return redirect()->route('therapist.dashboard');

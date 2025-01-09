@@ -64,31 +64,33 @@
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Post Session Activities</button>
                         </nav>
                     </div>
                      <!-- Therapy Assessment Tab-->
                      <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges','Orthotics','Assistive devices'] as $category)
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
-                                    <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                        id="assessment_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
-                                    ></textarea>
-                                </div>
+                            @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Family Assessment','Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges','Orthotics','Assistive devices'] as $category)
+                            <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
+                id="assessment_{{ $category }}"
+                onchange="handleChange('preparation', '{{ $category }}', event)"
+            ></textarea>
+        </div>
                             @endforeach
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
                     <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
-                            @foreach(['Activities of Daily Living(ADLs)','Fine and Gross Motor Skills','Sensory Integration and Processing' ,'Cognitive Skills', 'School goals','Rehabilitation goals','Assistive devices'] as $category)
+                            @foreach(['Activities of Daily Living(ADLs)', 'Instrumental Activities of Daily Living(IADLs)', 'Fine and Gross Motor Skills','Sensory Integration and Processing' ,'Cognitive Skills', 'Emotional and Social Skills', 'School goals','Rehabilitation goals'] as $category)
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;" 
                                         id="goals_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
                                     ></textarea>
@@ -98,11 +100,12 @@
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Therapy frequency and Duration', 'Therapy Setting', 'Strengthening excercises', 'Balance Training', 'Gait Training', 'Sensory simulation','Parent involvement/training','Assistive Devices'] as $category)
-                                <div class="mb-4">
+                            @foreach(['Therapy frequency and Duration', 'Therapy Setting/Resources', 'Strengthening excercises', 'Balance Training', 'Gait Training', 'Sensory simulation','Parent involvement/training','Assistive Devices'] as $category)
+                            <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="individualized_{{ $category }}"
                                         onchange="handleChange('goals', '{{ $category }}', event)"
                                     ></textarea>
@@ -114,10 +117,12 @@
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
                             @foreach(['Targeted excercises', 'Manual therapy', 'Functional Training', 'Gait training', 'Sensory Integration And Processing','Stretching and range of motion','Monitor Progress','Planned home based tasks'] as $category)
-                                <div class="mb-4">
+                            <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                    <textarea 
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="session_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
                                     ></textarea>
@@ -128,16 +133,17 @@
                         <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
                         @foreach(['Home Practice Assignments', 'Next Session Plan'] as $category)
-                                <div class="mb-4">
+                        <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
                                     <textarea 
-                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                class="form-control"
+                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
                                         id="followup_{{ $category }}"
                                         onchange="handleChange('preparation', '{{ $category }}', event)"
                                     ></textarea>
                                 </div>
                             @endforeach
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Follow-up</button>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
                             </div>
                         </div>
                 </form>
@@ -239,9 +245,10 @@
             });
             document.querySelector(`[data-value="${tab}"]`).classList.add('active');
         }
-
+       
         document.addEventListener('DOMContentLoaded', () => {
             showTabContent('therapyAssesment'); // Default tab to show
+            	
         });
     </script>
         <script src="{{ asset('js/loader.js') }}"></script>    
@@ -340,6 +347,7 @@
             'Gross Motor Skills',
             'Fine Motor Skills',
             'Cognitive Skills',
+            'Family Assessment',
             'Activity of Daily Living',
             'Sensory Processing',
             'Behaviour Challenges',
@@ -416,7 +424,7 @@ headers: {
         showLoadingIndicator('Saving...', 0);
         const categories = [        
             'Therapy frequency and Duration',
-            'Therapy Setting',
+            'Therapy Setting/Resources',
             'Strengthening excercises',
             'Balance Training',
             'Gait Training',
