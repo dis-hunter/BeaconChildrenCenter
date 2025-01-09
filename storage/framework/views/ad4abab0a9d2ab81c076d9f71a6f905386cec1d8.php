@@ -90,31 +90,15 @@
         <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
             Navigation Menu
         </div>
-        <a href="#triageExam" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Triage Exam</a>
-        <div id="triageExam"></div>
-        <a href="#" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Encounters Summary</a>
-        <a href="#perinatalHistory" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Perinatal History</a>
-        <div id="perinatalHistory"></div>
-        <a href="#pastMedicalHistory" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Past Medical History</a>
-        <div id="pastMedicalHistory"></div>
-        <a href="#familyAndSocial" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Family and Social History</a>
-        <div id="familyAndSocial"></div>
+       
         <button 
    onclick="goToWorkspace()" 
    class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
-   OT Assessment
+   Therapist Workstation
 </button>
 
 
-        <div id="generalExam"></div>
-        <a href="#Examination" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Goals</a>
-        <div id="Examination"></div>
-        <a href="#devAssesment" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Session</a>
-        <div id="devAssesment"></div>
-        <a href="#diagnosis" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Individualized Therapy Plan</a>
-        <div id="diagnosis"></div>
-        <a href="#investigations" class="block px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Feedback</a>
-    </div>
+      
 
     <button id="menuButton" class="fixed right-5 top-5 bg-gradient-to-r from-blue-500 to-sky-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
         <i class="fas fa-bars"></i>
@@ -132,8 +116,8 @@
 
 async function goToWorkspace() {
     const registrationNumber = extractRegistrationCode(); // Function to extract registration number
-    // const specializationId = document.getElementById('specialization_id').value; // Function to retrieve the specialization_id (implement this logic)
-    const specializationId = 2; // Function to retrieve the specialization_id (implement this logic)
+    const specializationId = document.getElementById('specialization_id').value; // Function to retrieve the specialization_id (implement this logic)
+    // const specializationId = 2; // Function to retrieve the specialization_id (implement this logic)
     console.log(specializationId);
 
     try {
