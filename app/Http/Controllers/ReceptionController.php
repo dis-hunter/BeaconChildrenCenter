@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class ReceptionController extends Controller
 {
     public function dashboard(){
-        return view('reception.dashboard');
+        $dashboard=null;
+        return view('reception.dashboard',compact('dashboard'));
     }
 }
