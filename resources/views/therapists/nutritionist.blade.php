@@ -15,7 +15,7 @@
             background-color: #fff;
         }
         
-        .tabs-content {
+        /* .tabs-content {
             max-height: 60vh;
             overflow-y: auto;
             scrollbar-width: thin;
@@ -32,45 +32,14 @@
         .tabs-content::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 3px;
-        }
+        } */
         textarea {
   height: 10px;
   resize: vertical;
 }
-        /* input[type="text"],
-    input[type="date"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    } */
-    .tab-button.active {
-            color: #1a202c;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-            border-bottom: 2px solid #2563eb;
-            background-color: #fff;
-        }
+   
         
-        .tabs-content {
-            max-height: 60vh;
-            overflow-y: auto;
-            scrollbar-width: thin;
-        }
-        
-        .tabs-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .tabs-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        
-        .tabs-content::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
+       
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); /* 2 columns */

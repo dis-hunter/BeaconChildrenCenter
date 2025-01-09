@@ -14,7 +14,7 @@
             background-color: #fff;
         }
         
-        .tabs-content {
+        /* .tabs-content {
             max-height: 60vh;
             overflow-y: auto;
             scrollbar-width: thin;
@@ -31,7 +31,7 @@
         .tabs-content::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 3px;
-        }
+        } */
     </style>
 </head>
 <body class="bg-gray-50">
