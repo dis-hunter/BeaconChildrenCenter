@@ -186,7 +186,7 @@ class ChildrenController extends Controller
             $careplan_data=json_encode($careplan->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return view('reception.patients', compact('child','gender','last_visit','triage','careplan_data'));
         } else {
-            return view('reception.patients');
+            return view('reception.patients',['child' => null]);
         }
     }
 }

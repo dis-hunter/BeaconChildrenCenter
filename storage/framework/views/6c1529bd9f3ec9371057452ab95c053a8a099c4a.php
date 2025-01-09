@@ -48,7 +48,22 @@
     <!-- User Dropdown Menu at Top-Right -->
     
 </nav>
-<nav class="navbar navbar-expand-md responsive-navbar" id="Account"> 
+<nav class="navbar navbar-expand-md responsive-navbar" id="Account">
+    <div class="global-search"><?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('global-search')->html();
+} elseif ($_instance->childHasBeenRendered('WjXITyb')) {
+    $componentId = $_instance->getRenderedChildComponentId('WjXITyb');
+    $componentTag = $_instance->getRenderedChildComponentTagName('WjXITyb');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('WjXITyb');
+} else {
+    $response = \Livewire\Livewire::mount('global-search');
+    $html = $response->html();
+    $_instance->logRenderedChild('WjXITyb', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?></div> 
 <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
