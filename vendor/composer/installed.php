@@ -3,13 +3,22 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-search_branch',
         'version' => 'dev-search_branch',
-        'reference' => 'f0af731596043895ffa845355729b38d6b30717b',
+        'reference' => '062d76954aac3532a80e93eb9abc3307361c80af',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'barryvdh/laravel-debugbar' => array(
+            'pretty_version' => 'v3.14.10',
+            'version' => '3.14.10.0',
+            'reference' => '56b9bd235e3fe62e250124804009ce5bab97cc63',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../barryvdh/laravel-debugbar',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'brick/math' => array(
             'pretty_version' => '0.11.0',
             'version' => '0.11.0.0',
@@ -403,7 +412,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-search_branch',
             'version' => 'dev-search_branch',
-            'reference' => 'f0af731596043895ffa845355729b38d6b30717b',
+            'reference' => '062d76954aac3532a80e93eb9abc3307361c80af',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -516,6 +525,15 @@
             'install_path' => __DIR__ . '/../livewire/livewire',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'maximebf/debugbar' => array(
+            'pretty_version' => 'v1.23.5',
+            'version' => '1.23.5.0',
+            'reference' => 'eeabd61a1f19ba5dcd5ac4585a477130ee03ce25',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../maximebf/debugbar',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'mockery/mockery' => array(
             'pretty_version' => '1.6.12',
