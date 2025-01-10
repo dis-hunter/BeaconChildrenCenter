@@ -110,4 +110,61 @@ class VisitController extends Controller
 //     return view('your-view', compact('paymentModes'));
 // }
 
+public function getDoctorNotes($registrationNumber)
+{
+    try {
+        // Get child details
+        $child = DB::table('children')
+            ->where('registration_number', $registrationNumber)
+            ->select(
+                'id',
+                'registration_number',
+                'fullname'  // Using fullname from children table
+            )
+            ->first();
+
+        if (!$child) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Child not found'
+            ], 404);
+        }
+
+        // Get visits information
+        $visits = DB::table('visits')
+            ->join('staff', 'visits.doctor_id', '=', 'staff.id')
+            ->where('visits.child_id', $child->id)
+            ->orderBy('visits.visit_date', 'desc')
+            ->select(
+                'visits.visit_date',
+                'visits.notes',
+                'staff.fullname as doctor_name'  // Assuming staff table has fullname column
+            )
+            ->get();
+
+        // Format the response
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'registration_number' => $child->registration_number,
+                'child_name' => $child->fullname,
+                'visits' => $visits->map(function($visit) {
+                    return [
+                        'visit_date' => $visit->visit_date,
+                        'notes' => $visit->notes ?? 'No notes recorded',
+                        'doctor_name' => $visit->doctor_name
+                    ];
+                })
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error('Error in getDoctorNotes: ' . $e->getMessage());
+        
+        return response()->json([
+            'status' => 'error',
+            'message' => 'An error occurred while retrieving the doctor notes: ' . $e->getMessage()
+        ], 500);
+    }
+}
 }

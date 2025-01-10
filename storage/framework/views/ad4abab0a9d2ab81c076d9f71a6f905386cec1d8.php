@@ -96,6 +96,11 @@
    class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
    Therapist Workstation
 </button>
+<button 
+   onclick="goToEncounterSummary()" 
+   class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+   Encounter Summary
+</button>
 
 
       
@@ -114,26 +119,21 @@
     return match ? match[1] : null; // Return the matched code or null if no match
 }
 
-async function goToWorkspace() {
+function goToWorkspace() {
     const registrationNumber = extractRegistrationCode(); // Function to extract registration number
     const specializationId = document.getElementById('specialization_id').value; // Function to retrieve the specialization_id (implement this logic)
-    // const specializationId = 2; // Function to retrieve the specialization_id (implement this logic)
-    console.log(specializationId);
-
+    
     try {
         // Perform redirection based on specialization_id
         if (specializationId == 2) {
             window.location.href = `/occupational_therapist/${registrationNumber}`;
-        } else if (specializationId ==5) {
+        } else if (specializationId == 5) {
             window.location.href = `/nutritionist_therapist/${registrationNumber}`;
-        }  else if (specializationId ==3) {
+        } else if (specializationId == 3) {
             window.location.href = `/speech_therapist/${registrationNumber}`;
-        
-        } else if (specializationId ==4) {
+        } else if (specializationId == 4) {
             window.location.href = `/physiotherapist/${registrationNumber}`;
-        
-        }
-        else {
+        } else {
             alert('Unauthorized specialization. Access denied.');
         }
     } catch (error) {
@@ -335,8 +335,153 @@ document.addEventListener('click', (event) => {
 floatingMenu.addEventListener('click', (event) => {
   event.stopPropagation(); 
 });
+async function goToEncounterSummary() {
+    event.preventDefault();
+    console.log('EncounterSummary History link clicked.');
+
+    const mainContent = document.querySelector('.main');
+
+    // Add CSS for the spinner directly to the document
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .saving-button-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+        .patient-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .visits-container {
+            margin-top: 20px;
+        }
+        .visit-entry {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .visit-entry h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        .visit-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .notes {
+            white-space: pre-wrap;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #ddd;
+        }
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Show loading spinner
+    mainContent.innerHTML = `
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+        </div>
+    `;
+
+    try {
+        const registrationNumber = window.location.pathname.split('/').pop();
+        console.log('Registration number extracted:', registrationNumber);
+    
+        const response = await fetch(`/getDoctorNotes/${registrationNumber}`);
+        const result = await response.json();
+    
+        console.log('Fetch response:', result);
+    
+        if (result.status === 'success') {
+            mainContent.innerHTML = `
+                <div class="container">
+                    <h2 class="section-title">Encounter Summary History</h2>
+                    
+                    <div class="patient-info">
+                        <h3>Patient Information</h3>
+                        <p><strong>Registration Number:</strong> ${result.data.registration_number}</p>
+                        <p><strong>Patient Name:</strong> ${result.data.child_name}</p>
+                    </div>
+
+                    <div class="visits-container">
+                        ${result.data.visits.map(visit => `
+                            <div class="visit-entry">
+                                <h3>Visit Details</h3>
+                                <div class="visit-meta">
+                                    <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
+                                    <span><strong>Doctor:</strong> ${visit.doctor_name}</span>
+                                </div>
+                                <div class="notes">
+                                    <strong>Doctor's Notes:</strong><br>
+                                    ${visit.notes || 'No notes recorded'}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        mainContent.innerHTML = `<p class="error-message">Failed to load notes. Please try again later.</p>`;
+    }
+}
+
+
+    </script>
+    <script>
+        
     
     </script>
     <script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
+
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationaltherapyDashboard.blade.php ENDPATH**/ ?>
