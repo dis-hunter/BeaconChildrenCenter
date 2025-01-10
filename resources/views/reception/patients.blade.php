@@ -39,15 +39,15 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
-                    <h5 class="card-title">{{$child->fullname->first_name ?? ''.' '.$child->fullname->middle_name ?? ''. ' '. $child->fullname->last_name ?? ''}}</h5>
+                    <h5 class="card-title">{{($child->fullname->first_name ?? '').' '.($child->fullname->middle_name ?? '').' '.( $child->fullname->last_name ?? '')}}</h5>
                     <p class="text-muted">{{$gender->gender}}, Age {{$child->age}}</p>
                     <p><strong>{{$child->registration_number}}</strong></p>
-                    <p class="text-muted">nithya.kayakumar@gmail.com</p>
+                    <p class="text-muted">Birth_Certificate: {{$child->birth_cert}}</p>
                     <p><strong>Last Visited:</strong> {{$last_visit->visit_date}}, {{$last_visit->visitType->first()->visit_type}}</p>
-                    <div>
+                    {{-- <div>
                         <span class="pill">Peanut Allergy</span>
                         <span class="pill">Lactose Intolerant</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -125,12 +125,26 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingPastRecords">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastRecords" aria-expanded="true" aria-controls="collapsePastRecords">
-                        Past Records (Careplan)
+                        Doctor's Careplan
                     </button>
                 </h2>
                 <div id="collapsePastRecords" class="accordion-collapse collapse show" aria-labelledby="headingPastRecords" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
-                        <pre>{{ json_decode($careplan_data), JSON_PRETTY_PRINT }}</pre>
+                        @if ($careplan)
+                            <p>Return Date:  <strong>{{$careplan->data->returnDate ?? 'Not Specified'}}</strong></p>
+                            <strong>Notes</strong>
+                            @if($careplan->notes)
+                            <ul>
+                                @foreach ($careplan->notes as $key=>$value)
+                                    <li><strong>{{ucwords(str_replace('Notes','',$key))}}:</strong>  {{ $value }}</li><br>
+                                @endforeach
+                            </ul>
+                            @else
+                            <p>No available Doctor's notes...</p>
+                            @endif
+                        @else
+                        <p>No careplan available...</p>
+                        @endif
                     </div>
                 </div>
             </div>

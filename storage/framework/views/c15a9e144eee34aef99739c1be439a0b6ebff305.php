@@ -39,15 +39,12 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
-                    <h5 class="card-title"><?php echo e($child->fullname->first_name ?? ''.' '.$child->fullname->middle_name ?? ''. ' '. $child->fullname->last_name ?? ''); ?></h5>
+                    <h5 class="card-title"><?php echo e(($child->fullname->first_name ?? '').' '.($child->fullname->middle_name ?? '').' '.( $child->fullname->last_name ?? '')); ?></h5>
                     <p class="text-muted"><?php echo e($gender->gender); ?>, Age <?php echo e($child->age); ?></p>
                     <p><strong><?php echo e($child->registration_number); ?></strong></p>
-                    <p class="text-muted">nithya.kayakumar@gmail.com</p>
+                    <p class="text-muted">Birth_Certificate: <?php echo e($child->birth_cert); ?></p>
                     <p><strong>Last Visited:</strong> <?php echo e($last_visit->visit_date); ?>, <?php echo e($last_visit->visitType->first()->visit_type); ?></p>
-                    <div>
-                        <span class="pill">Peanut Allergy</span>
-                        <span class="pill">Lactose Intolerant</span>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -125,12 +122,26 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingPastRecords">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastRecords" aria-expanded="true" aria-controls="collapsePastRecords">
-                        Past Records (Careplan)
+                        Doctor's Careplan
                     </button>
                 </h2>
                 <div id="collapsePastRecords" class="accordion-collapse collapse show" aria-labelledby="headingPastRecords" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
-                        <pre><?php echo e(json_decode($careplan_data), JSON_PRETTY_PRINT); ?></pre>
+                        <?php if($careplan): ?>
+                            <p>Return Date:  <strong><?php echo e($careplan->data->returnDate ?? 'Not Specified'); ?></strong></p>
+                            <strong>Notes</strong>
+                            <?php if($careplan->notes): ?>
+                            <ul>
+                                <?php $__currentLoopData = $careplan->notes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><strong><?php echo e(ucwords(str_replace('Notes','',$key))); ?>:</strong>  <?php echo e($value); ?></li><br>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </ul>
+                            <?php else: ?>
+                            <p>No available Doctor's notes...</p>
+                            <?php endif; ?>
+                        <?php else: ?>
+                        <p>No careplan available...</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -199,7 +210,7 @@
     </div>
 
     <?php else: ?>
-        <p>Search for patient in <a href="/guardians/search">Search</a> Component to view Details</p>
+        <p>Search for patient in the Search Component above</p>
     <?php endif; ?>
 </div>
 

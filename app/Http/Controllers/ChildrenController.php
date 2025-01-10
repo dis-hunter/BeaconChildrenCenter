@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Careplan;
 use App\Models\ChildParent;
 use App\Models\Children; // Ensure the model name matches your file structure
 use App\Models\Gender;
@@ -179,12 +180,16 @@ class ChildrenController extends Controller
             $triage=Triage::where('child_id',$child->id)
             ->orderBy('created_at','desc')
             ->first();
-            $careplan = DB::table('careplan')
-            ->where('child_id',$child->id)
+            $careplan = Careplan::where('child_id',$child->id)
             ->latest()
             ->first();
-            $careplan_data=json_encode($careplan->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            return view('reception.patients', compact('child','gender','last_visit','triage','careplan_data'));
+            if(!$careplan){
+                $careplan=null;
+            }else{
+                $careplan->notes=Careplan::notes($careplan);
+            }
+            
+            return view('reception.patients', compact('child','gender','last_visit','triage','careplan'));
         } else {
             return view('reception.patients',['child' => null]);
         }
