@@ -80,7 +80,7 @@
                 <div class="add-event-body">
                     <div class="add-event-input">
                         <label for="event_name">Appointment Title</label> 
-                        <input type="text" id="event_name" placeholder="Event Name" class="event_name"></br>
+                        <input type="text" id="event_name" placeholder="Event Name" class="event_name" style="color: black !important;"></br>
                     </div>
                    
                     <div>
@@ -100,10 +100,10 @@
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">
                 <label for="doctor_specialization">Select a Specialization:</label><br>
-                <select name="doctor_specialization" id="doctor_specialization">
-                    <option value="">-- Select Specialization --</option>
+                <select name="doctor_specialization" id="doctor_specialization" style="color: black !important;">
+                    <option value="" style="color: black !important;">-- Select Specialization --</option>
                     @foreach($doctorSpecializations as $specialization)
-                        <option value="{{ $specialization->id }}">{{ $specialization->specialization }}</option>
+                        <option value="{{ $specialization->id }}" style="color: black !important;">{{ $specialization->specialization }}</option>
                     @endforeach
                 </select>
             </div>
@@ -111,8 +111,8 @@
 
                                     <div id="specialist-container">
                     <label for="specialist">Select a Specialist:</label>
-                    <select name="specialist" id="specialist" class="form-control">
-                        <option value="">-- Select a doctor --</option>
+                    <select name="specialist" id="specialist" class="form-control"  style="color: black !important;">>
+                        <option value="" style="color: black !important;">-- Select a doctor --</option>
                     </select>
                 </div>
 
@@ -135,11 +135,7 @@
 
 
 
-        
-       
-</div>
-
-<div id="reschedule-modal" class="hidden">
+       <div id="reschedule-modal" class="hidden">
     <div class="modal-content">
         <span id="close-modal" class="close">&times;</span>
         <h2>Reschedule Appointment</h2>
@@ -163,6 +159,10 @@
         </form>
     </div>
 </div>
+ 
+       
+</div>
+
 
 </div>
     </div>

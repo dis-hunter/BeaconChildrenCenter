@@ -682,3 +682,6 @@ body{
   display: none;
 }
 
+.reschedule-modal{
+  margin-bottom: 70px;
+}

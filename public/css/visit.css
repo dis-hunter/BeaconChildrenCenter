@@ -1,4 +1,3 @@
-/* Reset and Base */
 * {
     margin: 0;
     padding: 0;
@@ -9,9 +8,6 @@ body {
     font-family: system-ui, -apple-system, sans-serif;
     /* background-color: #f8fafc; */
     color: #1f2937;
-    padding: 40px;
-    padding-left: 20%;
-    padding-top: 5%;
 }
 
 /* Layout */

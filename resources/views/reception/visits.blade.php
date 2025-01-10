@@ -1,21 +1,11 @@
 <!-- Search Form -->
  <h2>jumanji</h2>
 @extends('reception.layout')
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{asset ('css/visit.css')}}">
-
-</head>
-<body>
-    
+@section('title','Visits')
+@section('content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="{{asset ('css/visit.css')}}">
 
 <h2>Search </h2>
 <form action="{{ route('parent.get-children') }}" method="post">
@@ -31,7 +21,7 @@
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
             <td><input type="submit" value="Search"></td>
         </tr>
-    </table>
+    </table>    
 </form>
 
 <!-- Error Message -->
@@ -107,9 +97,6 @@
 
 <button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
 
-</body>
-</html>
-<!--  -->
 
 
 <script>
@@ -434,3 +421,5 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 });
 
 </script>
+
+@endsection

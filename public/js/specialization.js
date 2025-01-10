@@ -186,6 +186,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Show success alert
                     alert("Appointment successfully created!");
                     addEventContainer.classList.remove("active");
+                    const selectedDate = document.getElementById("selected-date").value;
+                    updateEvents(selectedDate); // Call function to refresh the event list
             
                     // Close the form
                     const formModal = document.getElementById("form-modal");
@@ -194,8 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
             
                     // Refresh the appointments list
-                    const selectedDate = document.getElementById("selected-date").value;
-                    updateEvents(selectedDate); // Call function to refresh the event list
+                   
                 } else {
                     // Ensure the error message exists before showing it
                     const errorMessage = data && data.message ? data.message : "An unknown error occurred"; // Fallback message

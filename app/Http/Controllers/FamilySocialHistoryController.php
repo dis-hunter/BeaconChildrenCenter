@@ -34,47 +34,61 @@ class FamilySocialHistoryController extends Controller
     /**
      * Save or update Family and Social History data.
      */
-    public function saveFamilySocialHistory(Request $request, $registrationNumber)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'data' => 'required|array', // Ensure the data is an array
-        ]);
+    // ... other code ...
 
-        // Fetch the child record using the registration number
+public function saveFamilySocialHistory(Request $request, $registrationNumber)
+{
+    // Validate the incoming request data
+    $request->validate([
+        'data' => 'required|array', 
+    ]);
+
+    try {
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
 
         if (!$child) {
             return response()->json(['message' => 'Child not found'], 404);
         }
 
-        // Fetch the latest visit for the child
         $visit = DB::table('visits')
             ->where('child_id', $child->id)
-            ->orderBy('created_at', 'desc') // Order by the latest visit
+            ->orderBy('created_at', 'desc')
             ->first();
 
-        // Use a placeholder doctor ID if actual logic for determining doctor_id isn't available
-        $doctorId = auth()->user()->id; // Replace with logic to fetch the actual doctor ID if needed
+        $doctorId = auth()->user()->id; // Replace with your actual logic
 
-        try {
-            // Create or update the Family and Social History record
-            DB::table('family_social_history')->updateOrInsert(
-                [
-                    'child_id' => $child->id, // Ensure only one record per child
-                ],
-                [
-                    'visit_id' => $visit->id ?? null, // Update visit_id with the latest visit or null
-                    'data' => json_encode($request->data), // Ensure data is JSON encoded
-                    'doctor_id' => $doctorId,
-                    'updated_at' => now(),
-                    'created_at' => now(), // Required for insert operations
-                ]
-            );
+        // Check if a record exists for the child and doctor
+        $existingRecord = DB::table('family_social_history')
+                            ->where('child_id', $child->id)
+                            ->where('doctor_id', $doctorId) 
+                            ->first();
+
+        if ($existingRecord) {
+            DB::table('family_social_history')
+                ->where('id', $existingRecord->id) 
+                ->update([
+                    'visit_id' => $visit?->id, 
+                    'data' => json_encode($request->data), 
+                    'updated_at' => now(), 
+                ]);
+
+            return response()->json(['message' => 'Family and Social History updated successfully!']);
+
+        } else {
+            DB::table('family_social_history')->insert([
+                'child_id' => $child->id, 
+                'visit_id' => $visit?->id,
+                'data' => json_encode($request->data),
+                'doctor_id' => $doctorId, 
+                'updated_at' => now(),
+                'created_at' => now(), 
+            ]);
 
             return response()->json(['message' => 'Family and Social History saved successfully!']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to save Family and Social History', 'error' => $e->getMessage()], 500);
-        }
+        } 
+
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Failed to save Family and Social History', 'error' => $e->getMessage()], 500);
     }
+}
 }

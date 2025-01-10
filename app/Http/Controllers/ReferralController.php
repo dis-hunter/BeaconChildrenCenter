@@ -87,7 +87,7 @@ class ReferralController extends Controller
 
         Log::info("Visit found: ", (array) $visit);
 
-        $staffId = 1;
+        $staffId = auth()->user()->id;
 
         try {
             // Check if a referral exists for this visit

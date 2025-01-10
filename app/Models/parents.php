@@ -32,7 +32,7 @@ class Parents extends Model
         // Decode JSON 'fullname' and construct a single string
     $fullnameData = json_decode($this->fullname, true);
     $fullname = $fullnameData
-        ? trim(($fullnameData['firstname'] ?? '') . ' ' . ($fullnameData['lastname'] ?? ''))
+        ? trim(($fullnameData['first_name'] ?? '') .' '.($fullnameData['middle_name'] ?? ''). ' ' . ($fullnameData['last_name'] ?? ''))
         : '';
         return [
             'id'=>$this->id,

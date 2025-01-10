@@ -23,6 +23,18 @@ class CalendarController extends Controller
         return view('calendar', ['doctorSpecializations' => $doctorSpecializations]);
 
     }
+
+    public function showDoctorDashboard()
+{
+    $doctorSpecializations = DoctorSpecialization::all();
+    return view('doctorDash', ['doctorSpecializations' => $doctorSpecializations]);
+}
+
+public function showTherapistDashboard()
+{
+    $doctorSpecializations = DoctorSpecialization::all();
+    return view('/therapist/therapistDashboard', ['doctorSpecializations' => $doctorSpecializations]);
+}
     
 
 

@@ -81,22 +81,22 @@
                 <div class="add-event-body">
                     <div class="add-event-input">
                         <label for="event_name">Appointment Title</label> 
-                        <input type="text" id="event_name" placeholder="Event Name" class="event_name"></br>
+                        <input type="text" id="event_name" placeholder="Event Name" class="event_name" style="color: black !important;"></br>
                     </div>
                    
                     <div>
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('GdLWGCB')) {
-    $componentId = $_instance->getRenderedChildComponentId('GdLWGCB');
-    $componentTag = $_instance->getRenderedChildComponentTagName('GdLWGCB');
+} elseif ($_instance->childHasBeenRendered('SEtrCpC')) {
+    $componentId = $_instance->getRenderedChildComponentId('SEtrCpC');
+    $componentTag = $_instance->getRenderedChildComponentTagName('SEtrCpC');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('GdLWGCB');
+    $_instance->preserveRenderedChild('SEtrCpC');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('GdLWGCB', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('SEtrCpC', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -115,10 +115,10 @@ echo $html;
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">
                 <label for="doctor_specialization">Select a Specialization:</label><br>
-                <select name="doctor_specialization" id="doctor_specialization">
-                    <option value="">-- Select Specialization --</option>
+                <select name="doctor_specialization" id="doctor_specialization" style="color: black !important;">
+                    <option value="" style="color: black !important;">-- Select Specialization --</option>
                     <?php $__currentLoopData = $doctorSpecializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $specialization): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($specialization->id); ?>"><?php echo e($specialization->specialization); ?></option>
+                        <option value="<?php echo e($specialization->id); ?>" style="color: black !important;"><?php echo e($specialization->specialization); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
@@ -126,8 +126,8 @@ echo $html;
 
                                     <div id="specialist-container">
                     <label for="specialist">Select a Specialist:</label>
-                    <select name="specialist" id="specialist" class="form-control">
-                        <option value="">-- Select a doctor --</option>
+                    <select name="specialist" id="specialist" class="form-control"  style="color: black !important;">>
+                        <option value="" style="color: black !important;">-- Select a doctor --</option>
                     </select>
                 </div>
 
@@ -150,11 +150,7 @@ echo $html;
 
 
 
-        
-       
-</div>
-
-<div id="reschedule-modal" class="hidden">
+       <div id="reschedule-modal" class="hidden">
     <div class="modal-content">
         <span id="close-modal" class="close">&times;</span>
         <h2>Reschedule Appointment</h2>
@@ -178,6 +174,10 @@ echo $html;
         </form>
     </div>
 </div>
+ 
+       
+</div>
+
 
 </div>
     </div>

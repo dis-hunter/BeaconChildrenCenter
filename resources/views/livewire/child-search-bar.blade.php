@@ -42,6 +42,6 @@
             @endforeach
         </ul>
     @else
-        <p>No results found.</p>
+        <p style="color:white">No results found.</p>
     @endif
 </div>

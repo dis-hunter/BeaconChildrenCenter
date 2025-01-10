@@ -8,6 +8,7 @@
 function startConsultation(registrationNumber) {
   // Redirect to the URL with the registration number
   window.location.href = `/doctor/${registrationNumber}`;
+  
 }
 
 async function fetchPostTriageQueue() {
@@ -42,6 +43,32 @@ async function fetchPostTriageQueue() {
                       Start Consultation
                   </button>
               </td>
+              <style>
+  .consult-btn {
+    background-color: #008CBA; /* Blue background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth transitions for all properties */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  .consult-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Move up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+  }
+    td {
+    padding: 15px; 
+    text-align: center; 
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions */
+  }
+
+</style>
           `;
           patientList.appendChild(row);
       });
@@ -167,7 +194,7 @@ dropdownProfileLink.addEventListener('click', () => {
 });
 
 therapistLink.addEventListener('click', async () => {
-  therapistContent.innerHTML = '<p>Loading...</p>';
+  therapistContent.innerHTML = '</br> </br><p>Loading...</p>';
 
   try {
       const response = await fetch('/appointments/therapists');
@@ -209,11 +236,11 @@ therapistLink.addEventListener('click', async () => {
           therapistContent.innerHTML = table;
           therapistContent.style.display = 'block'; // Show the therapist content
       } else {
-          therapistContent.innerHTML = '<p>No appointments found.</p>';
+          therapistContent.innerHTML = '</br> </br><p>No appointments found.</p>';
       }
   } catch (error) {
       console.error('Error loading therapy appointments:', error);
-      therapistContent.innerHTML = '<p>Failed to load appointments. Please try again later.</p>';
+      therapistContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
   }
 });
 
@@ -227,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Event listener for "Booked Patients" link
 document.getElementById('booked-link').addEventListener('click', async () => {
   const bookedContent = document.getElementById('booked-content');
-  bookedContent.innerHTML = '<p>Loading...</p>'; // Show loading message
+  bookedContent.innerHTML = '</br> </br><p>Loading...</p>'; // Show loading message
 
   try {
     const response = await fetch('/appointments/booked-patients'); // Endpoint for fetching appointments
@@ -278,7 +305,7 @@ document.getElementById('booked-link').addEventListener('click', async () => {
       bookedContent.style.display = 'block'; // Show the booked appointments section
   } catch (error) {
       console.error('Error loading booked patients:', error);
-      bookedContent.innerHTML = '<p>Failed to load appointments. Please try again later.</p>';
+      bookedContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
   }
 });
 

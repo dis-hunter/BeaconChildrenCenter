@@ -230,6 +230,28 @@ class DoctorsController extends Controller
         if (!$visit) {
             return response()->json(['error' => 'No visit found for the child'], 404);
         }
+        $parentData = DB::table('child_parent')
+            ->where('child_id', $child->id)
+            ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+            ->join('relationships', 'parents.relationship_id', '=', 'relationships.id')
+            ->select(
+                'parents.fullname',
+                'parents.telephone',
+                'parents.email',
+                'relationships.relationship'
+            )
+            ->get();
+            $parents = [];
+        foreach ($parentData as $parent) {
+            $fullname = json_decode($parent->fullname);
+            $parents[$parent->relationship] = [
+                'fullname' => $fullname->first_name . ' ' . ($fullname->middle_name ?? '') . ' ' . $fullname->last_name,
+                'telephone' => $parent->telephone,
+                'email' => $parent->email,
+            ];
+        }
+
+        Log::info('Parent Data for Child ' . $child->id . ':', $parents);
 
         // Fetch triage data
         $triage = DB::table('triage')->where('child_id', $child->id)->first();
@@ -298,6 +320,8 @@ return view('doctor', [
     'lastName' => $lastName,
     'gender' => $gender,
     'doctorsNotes' => $doctorsNotes,
+    'parents' => $parents,
+    
 ]);
 
     } catch (\Exception $e) {
@@ -320,8 +344,8 @@ public function dashboard()
 
     return view('doctorDash', [
         'doctor' => $doctor,
-        'firstName' => $fullName->firstname, // Access as object properties
-        'lastName' => $fullName->lastname,   // Access as object properties
+        'firstName' => $fullName->first_name, // Access as object properties
+        'lastName' => $fullName->last_name,   // Access as object properties
     ]);
 }
 

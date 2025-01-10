@@ -45,9 +45,9 @@ class AuthController extends Controller
             'confirmpassword' => 'required'
         ]);
         $data['fullname'] = [
-            'firstname' => $request->firstname,
-            'middlename' => $request->middlename,
-            'lastname' => $request->lastname
+            'first_name' => $request->firstname,
+            'middle_name' => $request->middlename,
+            'last_name' => $request->lastname
         ];
         $data['gender_id'] = Gender::where('gender', $request->gender)->value('id');
         $data['telephone'] = $request->phone;
@@ -86,20 +86,31 @@ class AuthController extends Controller
         return redirect(route('login.post'))->with('error', 'Credentials are not valid!')->withInput($request->except('password'));
     }
 
-    public function authenticated(){
-        switch(Auth::user()->role_id){
-            case 1:
-                return redirect()->route('visits.page');
-            case 2:
-                return redirect()->route('doctor.dashboard');
-            case 3:
-                //return redirect()->route('user.dashboard');
-            case 4:
-                //return redirect()->route('user.dashboard');
-            default:
-                //return redirect()->route('home');
-        }
+    public function authenticated()
+{
+    switch (Auth::user()->role_id) {
+        case 1:
+            // return redirect()->route('visits.page');
+            // break; // Add break to stop execution after redirect
+            
+        case 2:
+            return redirect()->route('doctor.dashboard');
+            break;
+            
+        case 3:
+            return redirect()->route('reception.dashboard');
+            break;
+            
+        case 4:
+            // return redirect()->route('user.dashboard');
+            // break;
+            
+        default:
+            // return redirect()->route('home');
+            // break;
     }
+}
+
 
     public function logout(Request $request)
     {

@@ -46,7 +46,7 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>
     <?php else: ?>
-        <p>No results found.</p>
+        <p style="color:white">No results found.</p>
     <?php endif; ?>
 </div>
 <?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/livewire/child-search-bar.blade.php ENDPATH**/ ?>

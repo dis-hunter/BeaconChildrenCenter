@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-md-4"><strong>Full Name: </strong>{{$p_fullname['lastname'].' '.$p_fullname['firstname'].' '.$p_fullname['middlename']}}</div>
+                    <div class="col-md-4"><strong>Full Name: </strong>{{$p_fullname['last_name'].' '.$p_fullname['first_name'].' '.$p_fullname['middle_name']}}</div>
                     <div class="col-md-4"><strong>Email: </strong>{{$parent->email}}</div>
                     <div class="col-md-4"><strong>Phone: </strong>{{$parent->telephone}}</div>
                 </div>
@@ -50,7 +50,7 @@
                         <div class="card mb-2">                         
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4"><strong>Child Name:</strong> {{$fullname['lastname'].' '.$fullname['firstname'].' '.$fullname['middlename']}}</div>
+                                    <div class="col-md-4"><strong>Child Name:</strong> {{$fullname['last_name'].' '.$fullname['first_name'].' '.$fullname['middle_name']}}</div>
                                     <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
                                     <div class="col-md-4 text-end">
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal-{{$item->id}}">Edit</button>
