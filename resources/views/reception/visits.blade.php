@@ -1,27 +1,54 @@
 @extends('reception.layout')
-@section('title','Visits')
+@section('title','Visits | Reception')
 @extends('reception.header')
 @section('content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{asset ('css/visit.css')}}">
 
-<h2>Search </h2>
-<form action="{{ route('parent.get-children') }}" method="post">
-    @csrf
-    <table>
-    <tr>
-            <td>Search by Name</td>
-            <td><input type="text" name="child_name" placeholder="Enter Name" value="{{ old('fullname') }}"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-        <tr>
-            <td>Search by Telephone</td>
-            <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-    </table>    
-</form>
+ <!-- Children Card -->
+ <div class="card shadow-sm mt-3">
+    <div class="card-header bg-secondary text-white">
+        <h5>Patient Details</h5>
+    </div>
+    <div class="card-body">
+        <!-- List of Children -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                @if (!$children)
+
+                <div class="card mb-2">                         
+                    <div class="card-body justify-content-center">
+                        
+                            <p>Patient not selected</p> <br>
+                            <p>Search for Patient or <a href="/guardians">Register</a> a new patient</p>
+                        
+                    </div>
+                </div>
+
+                @else
+                    
+                @foreach ($children as $item)
+                
+                <div class="card mb-2">                         
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4"><strong>Child Name:</strong> {{$item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name}}</div>
+                            <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
+                            <div class="col-md-4 text-end">
+                                <a href="/patients/{{$item->id}}" class="btn btn-sm btn-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Error Message -->
 @if(session()->has('error'))

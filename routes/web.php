@@ -141,7 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/guardians', [ChildrenController::class, 'get']);
         Route::post('/guardians', [ChildrenController::class, 'create']);
         Route::get('/guardians/{id?}', [ChildrenController::class, 'childGet'])->name('guardians.search');
-        Route::view('/visithandle', 'reception.visits');
+        Route::get('/visithandle/{id?}', [ReceptionController::class,'search'])->name('search.visit');
     });
 
     // Admin Routes

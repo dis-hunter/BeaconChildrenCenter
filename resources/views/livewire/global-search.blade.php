@@ -16,33 +16,39 @@
     
         <!-- Results Dropdown -->
         @if(!empty($query))
-            <div class="dropdown-menu show w-100 position-absolute mt-1" style="z-index: 1050; max-height: 300px; overflow-y: auto;">
-                <button
+        <div class="dropdown-menu show w-100 position-absolute mt-1" style="z-index: 1050; max-height: 300px; overflow-y: auto;">
+            <button
                 type="button"
                 class="btn-close position-absolute top-0 end-0 m-2"
                 aria-label="Close"
                 wire:click="$set('query', '')"
                 style="z-index: 1051;"
             ></button>
-
-                @forelse($results as $model => $records)
-                    <h6 class="dropdown-header">{{ $model }}</h6>
-                    @if($records->isEmpty())
-                        <div class="dropdown-item text-muted">No {{ strtolower($model) }} found.</div>
-                    @else
-                        @foreach($records as $record)
+        
+            @forelse($results as $model => $records)
+                <h6 class="dropdown-header">{{ $model }}</h6>
+                @if($records->isEmpty())
+                    <div class="dropdown-item text-muted">No {{ strtolower($model) }} found.</div>
+                @else
+                    @foreach($records as $record)
                         @php
-                            $route=strtolower($model).'.search';
+                            $route = strtolower($model) . '.search';
                         @endphp
-                            <a href="{{route($route,['id'=>$record->id])}}" class="dropdown-item">
+                        <div class="dropdown-item d-flex justify-content-between align-items-center">
+                            <a href="{{ route($route, ['id' => $record->id]) }}" class="text-decoration-none">
                                 {{ (($record->fullname->first_name ?? '').' '.($record->fullname->middle_name ?? '').' '.($record->fullname->last_name ?? '')) ?? 'N/A' }}
                             </a>
-                        @endforeach
-                    @endif
-                @empty
-                    <div class="dropdown-item text-muted">No results found.</div>
-                @endforelse
-            </div>
+                            @if (strtolower($model) === 'patients')
+                                <a href="{{route('search.visit',['id'=>$record->id])}}"><button class="btn btn-dark btn-sm">Visit</button></a>
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
+            @empty
+                <div class="dropdown-item text-muted">No results found.</div>
+            @endforelse
+        </div>
+        
         @endif
     </div>
     
