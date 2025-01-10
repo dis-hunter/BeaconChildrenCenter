@@ -128,36 +128,41 @@ img {
             <div class="col-md-12 col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5>Today's Appointments</h5>
-                  <div class="row row-striped">
-                    {{-- <div class="col-2 text-right">
-                      <h1 class="display-4"><span class="badge badge-secondary">23</span></h1>
-                      <h2>OCT</h2>
-                    </div> --}}
-                    <div class="col-10">
-                      <h3 class="text-uppercase"><strong>Ice Cream Social</strong></h3>
-                      <ul class="list-inline">
-                          <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Monday</li>
-                        <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 12:30 PM - 2:00 PM</li>
-                        <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Cafe</li>
-                      </ul>
-                      <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
+                  <div class="row">
+                    <div class="d-flex justify-content-between">
+                    <h5>Today's Appointments</h5>
+                    <a href="#">View all</a>
                   </div>
-                  <div class="row row-striped">
-                    <div class="col-2 text-right">
-                      <h1 class="display-4"><span class="badge badge-secondary">27</span></h1>
-                      <h2>OCT</h2>
-                    </div>
-                    <div class="col-10">
-                      <h3 class="text-uppercase"><strong>Operations Meeting</strong></h3>
-                      <ul class="list-inline">
-                          <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i> Friday</li>
-                        <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> 2:30 PM - 4:00 PM</li>
-                        <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i> Room 4019</li>
-                      </ul>
-                      <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
+                  </div>
+                  <div style="height: 400px; overflow-y: auto; overflow-x:hidden;">
+                  @if($dashboard)
+                  @foreach ($dashboard->appointments as $item)
+                  <div class="row row-striped"> 
+                    <div class="col-10"> 
+                        <h5 class="text-uppercase"><strong>{{$item->appointment_title ?? 'Not Specified'}}</strong></h5> 
+                        <ul class="list-inline"> 
+                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> {{Carbon\Carbon::parse($item->appointment_date)->format('l');}}</li> 
+                            <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> {{$item->start_time}} - {{$item->end_time}}</li> 
+                            <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> {{ucwords($item->status)}}</li> 
+                        </ul> 
+                        <div class="row">
+                          <div class="d-flex justify-content-between align-content-center">
+                            <h6>Actions</h6>
+                            <div>
+                            <button class="btn btn-dark">Start</button>
+                            <button class="btn btn-dark">Reschedule</button>
+                            <button class="btn btn-dark">cancel</button>
+                          </div>
+                          </div>
+                        </div>
+                    </div> 
+                </div>
+                @endforeach
+                @else
+                <div>
+                  <div class="alert alert-danger">Error fetching Appointments</div>
+                </div>
+                @endif
                   </div>
                 </div>
               </div>
@@ -186,7 +191,6 @@ img {
             <div class="col-md-5 col-lg-3 p-3">
                 <div class="row">
                         <div class="d-flex justify-content-center">
-                          
                             <div id="calendar" class="calendar ml-auto">
                               <p id="monthName"></p>
                               <strong id="dayName"></strong>
@@ -251,6 +255,26 @@ img {
                           
                         </div>
                       
+                </div>
+                <div class="row mt-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6>Available Doctors</h6>
+
+                      <ul class="list-group">
+                        @forelse ($dashboard->activeUsers as $item)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <div>
+                                <span class="text-success">•</span>
+                               {{ ($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '') }}
+                              </div>
+                            </li>
+                        @empty
+                            <div>Error fetching Doctor Details</div>
+                        @endforelse
+                      </ul>
+                    </div>
+                  </div>
                 </div>
             </div>
     </div>
