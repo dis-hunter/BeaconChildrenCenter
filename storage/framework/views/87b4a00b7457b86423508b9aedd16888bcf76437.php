@@ -191,65 +191,130 @@ img {
             <div class="col-md-5 col-lg-3 p-3">
                 <div class="row">
                         <div class="d-flex justify-content-center">
-                            <div id="calendar" class="calendar ml-auto">
-                              <p id="monthName"></p>
-                              <strong id="dayName"></strong>
-                              <p id="day"></p>
-                              <strong id="year"></strong>
+                          <div class="calendar">
+                            <div class="header">
+                              <div class="month">July 2021</div>
+                              <div class="btns">
+                                <!-- today -->
+                                <div class="btn today">
+                                  <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <!-- previous month -->
+                                <div class="btn prev">
+                                  <i class="fas fa-chevron-left"></i>
+                                </div>
+                                <!-- next month -->
+                                <div class="btn next">
+                                  <i class="fas fa-chevron-right"></i>
+                                </div>
+                              </div>
                             </div>
-                            <script>
-                              let lang=navigator.language;
-                              let date = new Date();
-                              let day = date.getDate();
-                              let month= date.getMonth();
-                              let dayName= date.toLocaleString(lang,{weekday:'long'});
-                              let monthName= date.toLocaleString(lang,{month:'long'});
-                              let year=date.getFullYear();
-
-                              document.getElementById('monthName').innerHTML=monthName;
-                              document.getElementById('dayName').innerHTML=dayName;
-                              document.getElementById('day').innerHTML=day;
-                              document.getElementById('year').innerHTML=year;
-                            </script>
+                            <div class="weekdays">
+                              <div class="day">Sun</div>
+                              <div class="day">Mon</div>
+                              <div class="day">Tue</div>
+                              <div class="day">Wed</div>
+                              <div class="day">Thu</div>
+                              <div class="day">Fri</div>
+                              <div class="day">Sat</div>
+                            </div>
+                            <div class="days">
+                              <!-- render days with js -->
+                            </div>
+                          </div>
+                        <script src="<?php echo e(asset('js/dashboard_calendar.js')); ?>"></script>
                             <style>
-                              .calendar{
-                                position: relative;
-                                width: 200px;
-                                background-color:#ffffff; 
-                                border-radius: 8px;
-                                text-align: center;
-                                overflow: hidden;
+                              :root {
+                                --primary-color: #f90a39;
+                                --text-color: #FFFFFF;
+                                --bg-color: #000000;
                               }
-                              .calendar #monthName{
-                                position: relative;
-                                padding: 5px 10px;
-                                background: rgb(122, 20, 255);
-                                color: #ffffff;
-                                font-size: 30px;
-                                font-weight: 700;
+                              .calendar {
+                                width: 100%;
+                                max-width: 600px;
+                                background: var(--bg-color);
+                                padding: 30px 20px;
+                                border-radius: 10px;
                               }
-
-                              .calendar #dayName{
-                                margin-top: 20px;
-                                font-size: 20px;
-                                font-weight: 300;
-                                color: #000000;
-
-                              }
-                              .calendar #day{
-                                margin-top: 0px;
-                                line-height: 1em;
-                                font-size: 60px;
-                                font-weight: 700;
-                                color: #333333;
-                                
-                              }
-                              .calendar #year{
+                              .calendar .header {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
                                 margin-bottom: 20px;
-                                font-size: 20px;
-                                font-weight: 300;
-                                color: #000000;
-                                
+                                padding-bottom: 20px;
+                                border-bottom: 2px solid #ccc;
+                              }
+                              .calendar .header .month {
+                                display: flex;
+                                align-items: center;
+                                font-size: 25px;
+                                font-weight: 600;
+                                color: var(--text-color);
+                              }
+                              .calendar .header .btns {
+                                display: flex;
+                                gap: 10px;
+                              }
+                              .calendar .header .btns .btn {
+                                width: 50px;
+                                height: 40px;
+                                background: var(--primary-color);
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border-radius: 5px;
+                                color: #fff;
+                                font-size: 16px;
+                                cursor: pointer;
+                                transition: all 0.3s;
+                              }
+                              .calendar .header .btns .btn:hover {
+                                background: #db0933;
+                                transform: scale(1.05);
+                              }
+                              .calendar .weekdays {
+                                display: flex;
+                                gap: 10px;
+                                color: var(--text-color);
+                                margin-bottom: 10px;
+                              }
+                              .calendar .weekdays .day {
+                                width: calc(100% / 7 - 10px);
+                                text-align: center;
+                                font-size: 16px;
+                                font-weight: 600;
+                              }
+                              .calendar .days {
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 10px;
+                              }
+                              .calendar .days .day {
+                                width: calc(100% / 7 - 10px);
+                                height: 50px;
+                                background: #000000;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border-radius: 5px;
+                                font-size: 16px;
+                                font-weight: 400;
+                                color: var(--text-color);
+                                transition: all 0.3s;
+                                user-select: none;
+                              }
+                              .calendar .days .day:not(.next):not(.prev):hover {
+                                color: #fff;
+                                background: var(--primary-color);
+                                transform: scale(1.05);
+                              }
+                              .calendar .days .day.next,
+                              .calendar .days .day.prev {
+                                color: #ccc;
+                              }
+                              .calendar .days .day.today {
+                                color: #fff;
+                                background: var(--primary-color);
                               }
                             </style>
                           
