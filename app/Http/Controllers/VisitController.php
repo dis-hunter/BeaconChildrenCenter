@@ -55,7 +55,8 @@ class VisitController extends Controller
         ]);
     
         // Get authenticated user's ID
-        $doctorId = auth()->id();
+        //$doctorId = auth()->id();
+        $doctorId = 9; // Assuming the authenticated user is the doctor
     
         try {
             $latestVisit = DB::table('visits')
@@ -119,7 +120,7 @@ public function getDoctorNotes($registrationNumber)
             ->select(
                 'id',
                 'registration_number',
-                'fullname'  // Using fullname from children table
+                'fullname'  // Keep fullname as JSON
             )
             ->first();
 
@@ -129,6 +130,13 @@ public function getDoctorNotes($registrationNumber)
                 'message' => 'Child not found'
             ], 404);
         }
+
+        // Decode the fullname JSON and construct the full name
+        $fullname = json_decode($child->fullname);
+        $firstName = $fullname->first_name ?? '';
+        $middleName = $fullname->middle_name ?? '';
+        $lastName = $fullname->last_name ?? '';
+        $childName = trim("$firstName $middleName $lastName");
 
         // Get visits information
         $visits = DB::table('visits')
@@ -147,7 +155,7 @@ public function getDoctorNotes($registrationNumber)
             'status' => 'success',
             'data' => [
                 'registration_number' => $child->registration_number,
-                'child_name' => $child->fullname,
+                'child_name' => $childName,
                 'visits' => $visits->map(function($visit) {
                     return [
                         'visit_date' => $visit->visit_date,
@@ -167,4 +175,5 @@ public function getDoctorNotes($registrationNumber)
         ], 500);
     }
 }
+
 }
