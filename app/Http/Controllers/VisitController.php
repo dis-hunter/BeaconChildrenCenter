@@ -127,6 +127,12 @@ public function getDoctorNotes($registrationNumber) {
                 'message' => 'Child not found'
             ], 404);
         }
+        // Decode the fullname JSON and construct the full name
+        $fullname = json_decode($child->fullname);
+        $firstName = $fullname->first_name ?? '';
+        $middleName = $fullname->middle_name ?? '';
+        $lastName = $fullname->last_name ?? '';
+        $childName = trim("$firstName $middleName $lastName");
 
         // Get visits information
         $visits = DB::table('visits')
@@ -145,7 +151,7 @@ public function getDoctorNotes($registrationNumber) {
             'status' => 'success',
             'data' => [
                 'registration_number' => $child->registration_number,
-                'child_name' => $child->fullname,
+                'child_name' => $childName, // Use the formatted child name instead of the raw fullname JSON
                 'visits' => $visits->map(function($visit) {
                     // Handle both single value and multiple name parts
                     try {
@@ -181,7 +187,8 @@ public function getDoctorNotes($registrationNumber) {
                     return [
                         'visit_date' => $visit->visit_date,
                         'notes' => $visit->notes ?? 'No notes recorded',
-                        'doctor_name' => $doctorName
+                        'doctor_name' => $doctorName,
+                        
                     ];
                 })
             ]

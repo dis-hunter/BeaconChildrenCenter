@@ -303,29 +303,61 @@ function goToWorkspace() {
     }
 }
 
-// Get the menu button and the floating menu elements
+
+// Get the menu button and the floating menu elements 
 const menuButton = document.getElementById('menuButton');
 const floatingMenu = document.getElementById('floatingMenu');
+const menuLinks = floatingMenu.getElementsByTagName('a');
 
-// Function to hide the menu
-// function hideMenu() {
-//   floatingMenu.style.display = 'none';
-// }
+// Function to hide the menu links
+function hideMenuLinks() {
+    Array.from(menuLinks).forEach(link => {
+        link.style.display = 'none';
+    });
+}
 
-// Add a click event listener to the button to toggle the menu
+// Function to show the menu links
+function showMenuLinks() {
+    Array.from(menuLinks).forEach(link => {
+        link.style.display = 'block';
+    });
+}
+
+// Add a click event listener to the button to toggle the menu links
 menuButton.addEventListener('click', (event) => {
-  // Prevent the click event from propagating to the document
-  event.stopPropagation(); 
+    // Prevent the click event from propagating to the document
+    event.stopPropagation(); 
 
-  if (floatingMenu.style.display === 'none') {
-    floatingMenu.style.display = 'block';
-  } else {
-    floatingMenu.style.display = 'block';
-  }
+    // Check if links are hidden
+    const linksHidden = Array.from(menuLinks).some(link => 
+        link.style.display === 'none' || link.style.display === '');
+
+    if (linksHidden) {
+        showMenuLinks();
+    } else {
+        hideMenuLinks();
+    }
 });
+
+// Add a click event listener to the document to hide the menu links
+document.addEventListener('click', (event) => {
+    // Hide the menu links if the click is outside of the menu button or menu
+    if (!menuButton.contains(event.target) && !floatingMenu.contains(event.target)) {
+        hideMenuLinks();
+    }
+});
+
+// Add a click event listener to the menu itself to prevent hiding when clicking inside
+floatingMenu.addEventListener('click', (event) => {
+    event.stopPropagation(); 
+});
+
+// Initially hide the menu links
+hideMenuLinks();
 
 // Add a click event listener to the document to hide the menu
 document.addEventListener('click', (event) => {
+  // Hide the menu if the click is outside of the menu button or menu
   if (!menuButton.contains(event.target) && !floatingMenu.contains(event.target)) {
     hideMenu();
   }
@@ -335,6 +367,7 @@ document.addEventListener('click', (event) => {
 floatingMenu.addEventListener('click', (event) => {
   event.stopPropagation(); 
 });
+
 //Encouter Summary
 async function goToEncounterSummary() {
     event.preventDefault();
