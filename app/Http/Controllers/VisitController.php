@@ -55,8 +55,7 @@ class VisitController extends Controller
         ]);
     
         // Get authenticated user's ID
-        //$doctorId = auth()->id();
-        $doctorId = 9; // Assuming the authenticated user is the doctor
+        $doctorId = auth()->id();
     
         try {
             $latestVisit = DB::table('visits')
@@ -129,22 +128,6 @@ public function getDoctorNotes($registrationNumber) {
             ], 404);
         }
 
-        // Attempt to decode the fullname JSON, if it fails, use the original value
-        try {
-            $fullname = json_decode($child->fullname);
-            if (json_last_error() === JSON_ERROR_NONE && is_object($fullname)) {
-                $childName = trim(implode(' ', array_filter([
-                    $fullname->firstname ?? '',
-                    $fullname->middlename ?? '',
-                    $fullname->lastname ?? ''
-                ])));
-            } else {
-                $childName = $child->fullname;
-            }
-        } catch (\Exception $e) {
-            $childName = $child->fullname;
-        }
-
         // Get visits information
         $visits = DB::table('visits')
             ->join('staff', 'visits.doctor_id', '=', 'staff.id')
@@ -162,20 +145,32 @@ public function getDoctorNotes($registrationNumber) {
             'status' => 'success',
             'data' => [
                 'registration_number' => $child->registration_number,
-                'child_name' => $childName,
+                'child_name' => $child->fullname,
                 'visits' => $visits->map(function($visit) {
-                    // Simplified doctor name handling
+                    // Handle both single value and multiple name parts
                     try {
-                        $doctorFullname = json_decode($visit->doctor_name);
-                        if (json_last_error() === JSON_ERROR_NONE && is_object($doctorFullname)) {
-                            // Get available name parts and filter out empty ones
-                            $nameParts = [];
-                            if (!empty($doctorFullname->firstname)) $nameParts[] = $doctorFullname->firstname;
-                            if (!empty($doctorFullname->middlename)) $nameParts[] = $doctorFullname->middlename;
-                            if (!empty($doctorFullname->lastname)) $nameParts[] = $doctorFullname->lastname;
-                            
-                            // Join available parts with spaces
-                            $doctorName = !empty($nameParts) ? implode(' ', $nameParts) : $visit->doctor_name;
+                        $doctorData = json_decode($visit->doctor_name, true);
+                        
+                        if (is_array($doctorData)) {
+                            // Check if it's a simple single-value structure
+                            if (count($doctorData) === 1 && !is_array(reset($doctorData))) {
+                                $doctorName = reset($doctorData);
+                            } else {
+                                // Handle multiple name parts
+                                $nameParts = [];
+                                if (!empty($doctorData['firstname'])) $nameParts[] = $doctorData['firstname'];
+                                if (!empty($doctorData['middlename'])) $nameParts[] = $doctorData['middlename'];
+                                if (!empty($doctorData['lastname'])) $nameParts[] = $doctorData['lastname'];
+                                
+                                // Alternative keys if the above aren't found
+                                if (empty($nameParts)) {
+                                    if (!empty($doctorData['first_name'])) $nameParts[] = $doctorData['first_name'];
+                                    if (!empty($doctorData['middle_name'])) $nameParts[] = $doctorData['middle_name'];
+                                    if (!empty($doctorData['last_name'])) $nameParts[] = $doctorData['last_name'];
+                                }
+                                
+                                $doctorName = !empty($nameParts) ? implode(' ', $nameParts) : $visit->doctor_name;
+                            }
                         } else {
                             $doctorName = $visit->doctor_name;
                         }
