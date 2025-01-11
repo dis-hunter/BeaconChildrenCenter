@@ -335,13 +335,14 @@ document.addEventListener('click', (event) => {
 floatingMenu.addEventListener('click', (event) => {
   event.stopPropagation(); 
 });
+//Encouter Summary
 async function goToEncounterSummary() {
     event.preventDefault();
     console.log('EncounterSummary History link clicked.');
 
     const mainContent = document.querySelector('.main');
 
-    // Add CSS for the spinner directly to the document
+    // Enhanced CSS with modern design principles
     const style = document.createElement('style');
     style.innerHTML = `
         .loading-spinner {
@@ -349,75 +350,136 @@ async function goToEncounterSummary() {
             align-items: center;
             justify-content: center;
             height: 100vh;
+            background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
         }
+
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
+            border: 3px solid rgba(52, 152, 219, 0.1);
+            border-top: 3px solid #3498db;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
         .saving-button-spinner {
-            border: 2px solid #f3f3f3;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-top: 2px solid white;
             border-radius: 50%;
-            width: 14px;
-            height: 14px;
-            animation: spin 1s linear infinite;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.8s linear infinite;
             display: inline-block;
+            vertical-align: middle;
         }
+
         .error-message {
-            color: red;
+            color: #e74c3c;
             text-align: center;
+            padding: 20px;
+            background: #fdf0ef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin: 20px auto;
+            max-width: 500px;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
         .patient-info {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
             border-left: 4px solid #3498db;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
         }
-        .visits-container {
-            margin-top: 20px;
+
+        .patient-info:hover {
+            transform: translateY(-2px);
         }
-        .visit-entry {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .visit-entry h3 {
+
+        .patient-info h3 {
+            color: #2c3e50;
             margin-top: 0;
-            color: #333;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
         }
+
+        .patient-info p {
+            margin: 0.5rem 0;
+            color: #34495e;
+        }
+
+        .visits-container {
+            margin-top: 2rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .visit-entry {
+            border: none;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .visit-entry:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .visit-entry h3 {
+            margin: 0 0 1rem 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
         .visit-meta {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            color: #666;
-            font-size: 0.9rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #ecf0f1;
         }
+
         .notes {
             white-space: pre-wrap;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            border-left: 3px solid #ddd;
+            margin-top: 1rem;
+            padding: 1.25rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
+
         .section-title {
             color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
             border-bottom: 2px solid #3498db;
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
         }
     `;
     document.head.appendChild(style);
@@ -471,7 +533,11 @@ async function goToEncounterSummary() {
         }
     } catch (error) {
         console.error('Error:', error);
-        mainContent.innerHTML = `<p class="error-message">Failed to load notes. Please try again later.</p>`;
+        mainContent.innerHTML = `
+            <div class="container">
+                <p class="error-message">Failed to load notes. Please try again later.</p>
+            </div>
+        `;
     }
 }
 
