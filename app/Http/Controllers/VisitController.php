@@ -110,9 +110,7 @@ class VisitController extends Controller
 //     $paymentModes = PaymentMode::all(); // Assuming a PaymentMode model exists
 //     return view('your-view', compact('paymentModes'));
 // }
-
-public function getDoctorNotes($registrationNumber)
-{
+public function getDoctorNotes($registrationNumber) {
     try {
         // Get child details
         $child = DB::table('children')
@@ -120,7 +118,7 @@ public function getDoctorNotes($registrationNumber)
             ->select(
                 'id',
                 'registration_number',
-                'fullname'  // Keep fullname as JSON
+                'fullname'
             )
             ->first();
 
@@ -131,12 +129,21 @@ public function getDoctorNotes($registrationNumber)
             ], 404);
         }
 
-        // Decode the fullname JSON and construct the full name
-        $fullname = json_decode($child->fullname);
-        $firstName = $fullname->first_name ?? '';
-        $middleName = $fullname->middle_name ?? '';
-        $lastName = $fullname->last_name ?? '';
-        $childName = trim("$firstName $middleName $lastName");
+        // Attempt to decode the fullname JSON, if it fails, use the original value
+        try {
+            $fullname = json_decode($child->fullname);
+            if (json_last_error() === JSON_ERROR_NONE && is_object($fullname)) {
+                $childName = trim(implode(' ', array_filter([
+                    $fullname->firstname ?? '',
+                    $fullname->middlename ?? '',
+                    $fullname->lastname ?? ''
+                ])));
+            } else {
+                $childName = $child->fullname;
+            }
+        } catch (\Exception $e) {
+            $childName = $child->fullname;
+        }
 
         // Get visits information
         $visits = DB::table('visits')
@@ -146,7 +153,7 @@ public function getDoctorNotes($registrationNumber)
             ->select(
                 'visits.visit_date',
                 'visits.notes',
-                'staff.fullname as doctor_name'  // Assuming staff table has fullname column
+                'staff.fullname as doctor_name'
             )
             ->get();
 
@@ -157,10 +164,29 @@ public function getDoctorNotes($registrationNumber)
                 'registration_number' => $child->registration_number,
                 'child_name' => $childName,
                 'visits' => $visits->map(function($visit) {
+                    // Simplified doctor name handling
+                    try {
+                        $doctorFullname = json_decode($visit->doctor_name);
+                        if (json_last_error() === JSON_ERROR_NONE && is_object($doctorFullname)) {
+                            // Get available name parts and filter out empty ones
+                            $nameParts = [];
+                            if (!empty($doctorFullname->firstname)) $nameParts[] = $doctorFullname->firstname;
+                            if (!empty($doctorFullname->middlename)) $nameParts[] = $doctorFullname->middlename;
+                            if (!empty($doctorFullname->lastname)) $nameParts[] = $doctorFullname->lastname;
+                            
+                            // Join available parts with spaces
+                            $doctorName = !empty($nameParts) ? implode(' ', $nameParts) : $visit->doctor_name;
+                        } else {
+                            $doctorName = $visit->doctor_name;
+                        }
+                    } catch (\Exception $e) {
+                        $doctorName = $visit->doctor_name;
+                    }
+
                     return [
                         'visit_date' => $visit->visit_date,
                         'notes' => $visit->notes ?? 'No notes recorded',
-                        'doctor_name' => $visit->doctor_name
+                        'doctor_name' => $doctorName
                     ];
                 })
             ]
@@ -175,5 +201,4 @@ public function getDoctorNotes($registrationNumber)
         ], 500);
     }
 }
-
 }
