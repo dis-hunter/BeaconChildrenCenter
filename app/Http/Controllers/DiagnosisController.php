@@ -1,96 +1,70 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DiagnosisController extends Controller
 {
-    /**
-     * Fetch the most recent Diagnosis data for a child.
-     */
-    public function getDiagnosis($registrationNumber)
-    {
-        // Fetch the child record using the registration number
-        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
-        if (!$child) {
-            return response()->json(['message' => 'Child not found'], 404);
-        }
-
-        // Fetch the most recent diagnosis for the child
-        $diagnosis = DB::table('diagnosis')
-            ->where('child_id', $child->id)
-            ->orderBy('created_at', 'desc') // Fetch the most recent diagnosis
-            ->first();
-
-        if ($diagnosis) {
-            return response()->json([
-                'data' => json_decode($diagnosis->data),
-                'visit_id' => $diagnosis->visit_id, // Include visit ID for context
-            ], 200);
-        } else {
-            return response()->json([
-                'data' => null,
-                'message' => 'No Diagnosis found for this child',
-            ], 200);
-        }
-    }
-
-    /**
-     * Save or update Diagnosis data for the latest visit.
-     */
     public function saveDiagnosis(Request $request, $registrationNumber)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'primaryDiagnosis' => 'required|string', // Ensure primary diagnosis is provided
-            'secondaryDiagnosis' => 'nullable|string', // Secondary diagnosis is optional
-            'otherDiagnosis' => 'nullable|string', // Other diagnosis is optional
-        ]);
-
-        // Fetch the child record using the registration number
-        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
-        if (!$child) {
-            return response()->json(['message' => 'Child not found'], 404);
-        }
-
-        // Fetch the latest visit for the child
-        $visit = DB::table('visits')
-            ->where('child_id', $child->id)
-            ->orderBy('created_at', 'desc') // Get the latest visit
-            ->first();
-
-        if (!$visit) {
-            return response()->json(['message' => 'No visit found for this child'], 404);
-        }
-
-        // Placeholder doctor ID (replace this logic with actual doctor determination)
-        $doctorId = 1; // Replace with actual logic for determining doctor ID
+        Log::info("Registration number received: " . $registrationNumber);
 
         try {
-            // Prepare the data to be saved
-            $data = [
-                'primaryDiagnosis' => $request->primaryDiagnosis,
-                'secondaryDiagnosis' => $request->secondaryDiagnosis,
-                'otherDiagnosis' => $request->primaryDiagnosis === 'Other' ? $request->otherDiagnosis : null,
+            // 1. Access diagnoses directly from the request
+            $diagnoses = $request->input('diagnoses');
+
+            // Log the received diagnoses data
+            Log::info('Diagnoses received:', ['data' => $diagnoses]);
+
+            // 2. Validate that diagnoses is an array
+            if (!is_array($diagnoses)) {
+                return response()->json(['message' => 'The diagnoses must be an array.'], 400);
+            }
+
+            // Find the child by registration number
+            $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+
+            if (!$child) {
+                return response()->json(['message' => 'Child not found'], 404);
+            }
+
+            Log::info("Child found with ID: " . $child->id);
+
+            // Find the latest visit for the child
+            $visit = DB::table('visits')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+
+            if (!$visit) {
+                Log::error("No visit found for child ID: " . $child->id);
+                return response()->json(['message' => 'No visit found for this child'], 404);
+            }
+
+            Log::info("Visit found with ID: " . $visit->id);
+
+            // Prepare the data to be saved (only diagnoses)
+            $diagnosisData = [
+                'diagnoses' => $diagnoses, 
             ];
 
-            // Create a new Diagnosis record for the latest visit
-            DB::table('diagnosis')->insert([
-                'child_id' => $child->id,
+            // Insert the data into the diagnoses table (make sure you have this table)
+            DB::table('diagnosis')->insert([ 
                 'visit_id' => $visit->id,
-                'data' => json_encode($data), // Ensure data is JSON encoded
-                'doctor_id' => $doctorId,
+                'child_id' => $child->id,
+                'doctor_id' => 1, // Replace with actual staff ID logic
+                'data' => json_encode($diagnosisData),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            return response()->json(['message' => 'Diagnosis saved successfully!']);
+            return response()->json(['message' => 'Diagnoses saved successfully'], 201);
+
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to save Diagnosis', 'error' => $e->getMessage()], 500);
+            Log::error("Error saving diagnoses: {$e->getMessage()}");
+            return response()->json(['error' => 'Failed to save diagnoses'], 500);
         }
     }
 }

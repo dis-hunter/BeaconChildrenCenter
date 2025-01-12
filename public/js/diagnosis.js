@@ -128,9 +128,17 @@ function search(event) {
         .map(item => item.textContent.trim());
   
       console.log("Saving diagnoses:", selectedDiagnoses);
+      const registrationNumber = getRegistrationNumberFromUrl();
+      console.log('Registration number:', registrationNumber);
+  
+      function getRegistrationNumberFromUrl() {
+          const pathParts = window.location.pathname.split('/');
+          return pathParts[pathParts.length - 1];
+      }
+  
   
       try {
-        const response = await fetch('/save-diagnosis', {
+        const response = await fetch(`/save-diagnosis/${registrationNumber}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

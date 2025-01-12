@@ -189,7 +189,7 @@ Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessme
 
 
 Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getDiagnosis']);
-Route::post('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
+Route::post('/save-diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
 
 
 use App\Http\Controllers\InvestigationController;
