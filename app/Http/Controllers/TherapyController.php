@@ -215,8 +215,8 @@ class TherapyController extends Controller
     ? "Therapy Session plan and activities:\n" . formatKeyValue($Therapy_Session) . "\n\n" 
     : "Therapy Session plan and activities: No data available.\n\n";
     $doctorsNotes .= $Therapy_Individualized 
-    ? "Therapy Individualized :\n" . formatKeyValue($Therapy_Individualized) . "\n\n" 
-    : "Therapy Individualized : No data available.\n\n";
+    ? "Therapy Individualized plan and strategies:\n" . formatKeyValue($Therapy_Individualized) . "\n\n" 
+    : "Therapy Individualized plan and strategies: No data available.\n\n";
     
     $doctorsNotes .= $Therapy_Assessment 
     ? "Therapy Assessment :\n" . formatKeyValue($Therapy_Assessment) . "\n\n" 
