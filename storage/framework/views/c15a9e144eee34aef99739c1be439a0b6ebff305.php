@@ -43,7 +43,7 @@
                     <p class="text-muted"><?php echo e($gender->gender); ?>, Age <?php echo e($child->age); ?></p>
                     <p><strong><?php echo e($child->registration_number); ?></strong></p>
                     <p class="text-muted">Birth_Certificate: <?php echo e($child->birth_cert); ?></p>
-                    <p><strong>Last Visited:</strong> <?php echo e($last_visit->visit_date); ?>, <?php echo e($last_visit->visitType->first()->visit_type); ?></p>
+                    <p><strong>Last Visited:</strong> <?php echo e($last_visit->visit_date ?? 'First Time'); ?>, <?php echo e($last_visit?->visitType?->first()?->visit_type ?? 'N/A'); ?></p>
                     
                 </div>
             </div>
@@ -58,17 +58,17 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Head Circumference</p>
-                            <p><strong><?php echo e($triage->data->head_circumference.' m' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->head_circumference.' m' ?? 'Missing'); ?></strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Pulse Rate</p>
-                            <p><strong><?php echo e($triage->data->pulse_rate.' bpm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->pulse_rate.' bpm' ?? 'Missing'); ?></strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Temperature</p>
-                            <p><strong><?php echo e($triage->data->temperature.'°C' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->temperature.'°C' ?? 'Missing'); ?></strong></p>
                             
                             
                         </div>
@@ -76,18 +76,18 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Blood Pressure</p>
-                            <p><strong><?php echo e($triage->data->blood_pressure.' mm Hg' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->blood_pressure.' mm Hg' ?? 'Missing'); ?></strong></p>
                             
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Respiratory Rate</p>
-                            <p><strong><?php echo e($triage->data->respiratory_rate.' bpm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->respiratory_rate.' bpm' ?? 'Missing'); ?></strong></p>
                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Oxygen Saturation</p>
-                            <p><strong><?php echo e($triage->data->oxygen_saturation.'%' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->oxygen_saturation.'%' ?? 'Missing'); ?></strong></p>
         
                         </div>
                         
@@ -95,17 +95,17 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">MUAC</p>
-                            <p><strong><?php echo e($triage->data->muac.' cm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->muac.' cm' ?? 'Missing'); ?></strong></p>
                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Height</p>
-                            <p><strong><?php echo e($triage->data->height.' cm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->height.' cm' ?? 'Missing'); ?></strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Weight</p>
-                            <p><strong><?php echo e($triage->data->weight.' Kg' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->weight.' Kg' ?? 'Missing'); ?></strong></p>
                             
                             
                         </div>
@@ -128,7 +128,7 @@
                 <div id="collapsePastRecords" class="accordion-collapse collapse show" aria-labelledby="headingPastRecords" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
                         <?php if($careplan): ?>
-                            <p>Return Date:  <strong><?php echo e($careplan->data->returnDate ?? 'Not Specified'); ?></strong></p>
+                            <p>Return Date:  <strong><?php echo e($careplan?->data?->returnDate ?? 'Not Specified'); ?></strong></p>
                             <strong>Notes</strong>
                             <?php if($careplan->notes): ?>
                             <ul>

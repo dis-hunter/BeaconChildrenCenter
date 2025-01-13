@@ -33,7 +33,7 @@
                 <div class="card mb-2">                         
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4"><strong>Child Name:</strong> {{$item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name}}</div>
+                            <div class="col-md-4"><strong>Child Name:</strong> {{($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')}}</div>
                             <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
                             <div class="col-md-4 text-end">
                                 <a href="/patients/{{$item->id}}" class="btn btn-sm btn-primary">
@@ -73,7 +73,7 @@
             @foreach($children as $child)
                 <tr>
                     <td>{{ $child->id }}</td>
-                    <td>{{ $child->fullname->first_name }} {{ $child->fullname->last_name }}</td>
+                    <td>{{ ($child->fullname->first_name ?? '') }} {{ ($child->fullname->last_name ?? '') }}</td>
                     <td>{{ $child->dob }}</td>
                     <td>{{ $child->gender_id }}</td>
                     <td>

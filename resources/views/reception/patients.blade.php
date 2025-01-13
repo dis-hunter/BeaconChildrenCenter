@@ -43,7 +43,7 @@
                     <p class="text-muted">{{$gender->gender}}, Age {{$child->age}}</p>
                     <p><strong>{{$child->registration_number}}</strong></p>
                     <p class="text-muted">Birth_Certificate: {{$child->birth_cert}}</p>
-                    <p><strong>Last Visited:</strong> {{$last_visit->visit_date}}, {{$last_visit->visitType->first()->visit_type}}</p>
+                    <p><strong>Last Visited:</strong> {{$last_visit->visit_date ?? 'First Time'}}, {{$last_visit?->visitType?->first()?->visit_type ?? 'N/A'}}</p>
                     {{-- <div>
                         <span class="pill">Peanut Allergy</span>
                         <span class="pill">Lactose Intolerant</span>
@@ -61,17 +61,17 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Head Circumference</p>
-                            <p><strong>{{$triage->data->head_circumference.' m' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->head_circumference.' m' ?? 'Missing'}}</strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Pulse Rate</p>
-                            <p><strong>{{$triage->data->pulse_rate.' bpm' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->pulse_rate.' bpm' ?? 'Missing'}}</strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Temperature</p>
-                            <p><strong>{{$triage->data->temperature.'°C' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->temperature.'°C' ?? 'Missing'}}</strong></p>
                             
                             
                         </div>
@@ -79,18 +79,18 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Blood Pressure</p>
-                            <p><strong>{{$triage->data->blood_pressure.' mm Hg' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->blood_pressure.' mm Hg' ?? 'Missing'}}</strong></p>
                             
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Respiratory Rate</p>
-                            <p><strong>{{$triage->data->respiratory_rate.' bpm' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->respiratory_rate.' bpm' ?? 'Missing'}}</strong></p>
                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Oxygen Saturation</p>
-                            <p><strong>{{$triage->data->oxygen_saturation.'%' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->oxygen_saturation.'%' ?? 'Missing'}}</strong></p>
         
                         </div>
                         
@@ -98,17 +98,17 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">MUAC</p>
-                            <p><strong>{{$triage->data->muac.' cm' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->muac.' cm' ?? 'Missing'}}</strong></p>
                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Height</p>
-                            <p><strong>{{$triage->data->height.' cm' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->height.' cm' ?? 'Missing'}}</strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Weight</p>
-                            <p><strong>{{$triage->data->weight.' Kg' ?? 'Missing'}}</strong></p>
+                            <p><strong>{{$triage?->data?->weight.' Kg' ?? 'Missing'}}</strong></p>
                             
                             
                         </div>
@@ -131,7 +131,7 @@
                 <div id="collapsePastRecords" class="accordion-collapse collapse show" aria-labelledby="headingPastRecords" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
                         @if ($careplan)
-                            <p>Return Date:  <strong>{{$careplan->data->returnDate ?? 'Not Specified'}}</strong></p>
+                            <p>Return Date:  <strong>{{$careplan?->data?->returnDate ?? 'Not Specified'}}</strong></p>
                             <strong>Notes</strong>
                             @if($careplan->notes)
                             <ul>

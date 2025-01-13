@@ -10,6 +10,7 @@ use App\Models\Parents; // Ensure the model name matches your file structure
 use App\Models\Relationship;
 use App\Models\Triage;
 use App\Models\Visits;
+use App\Services\RegistrationNumberManager;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -54,30 +55,31 @@ class ChildrenController extends Controller
             'dob2' => 'required|date',
             'birth_cert' => 'required|string|max:50|unique:children,birth_cert',
             'gender_id2' => 'required',
-            'registration_number' => 'required|string|max:20|unique:children,registration_number',
         ]);
+        $reg_no=new RegistrationNumberManager('children','registration_number');
+        $regis=$reg_no->generateUniqueRegNumber();
 
         // Combine fullname fields into a JSON object
         $parent_fullname = [
-            'first_name' => $validatedData['firstname'],
-            'middle_name' => $validatedData['middlename'],
-            'last_name' => $validatedData['lastname'],
+            'first_name' => ucwords($validatedData['firstname']),
+            'middle_name' => ucwords($validatedData['middlename']),
+            'last_name' => ucwords($validatedData['lastname']),
         ];
 
         // Combine fullname fields into a JSON object
         $child_fullname = [
-            'first_name' => $validatedData['firstname2'],
-            'middle_name' => $validatedData['middlename2'],
-            'last_name' => $validatedData['lastname2'],
+            'first_name' => ucwords($validatedData['firstname2']),
+            'middle_name' => ucwords($validatedData['middlename2']),
+            'last_name' => ucwords($validatedData['lastname2']),
         ];
 
 
         //transaction for data consistency
         try {
-            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData) {
+            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData,$regis) {
                 //Create the parent record
                 $parent = Parents::create([
-                    'fullname' => json_encode($parent_fullname),
+                    'fullname' => $parent_fullname,
                     'dob' => $validatedData['dob'],
                     'gender_id' =>  Gender::where('gender', $validatedData['gender_id'])->value('id'),
                     'telephone' => $validatedData['telephone'],
@@ -91,11 +93,11 @@ class ChildrenController extends Controller
 
                 // Create the parent record
                 $children = children::create([
-                    'fullname' => json_encode($child_fullname),
+                    'fullname' => $child_fullname,
                     'dob' => $validatedData['dob2'],
                     'gender_id' => Gender::where('gender', $validatedData['gender_id2'])->value('id'),
                     'birth_cert' => $validatedData['birth_cert'],
-                    'registration_number' => $validatedData['registration_number'],
+                    'registration_number' => $regis,
                 ]);
 
                 $child_parent = ChildParent::create([
@@ -167,19 +169,23 @@ class ChildrenController extends Controller
     {
         if ($id) {
             $child = Children::findOrFail($id);
-            $gender = Gender::find($child->gender_id);
+            $gender = Gender::find($child->gender_id) ?? (object)['gender'=>'Unknown'];
             if($child->dob){
-                $child->age=Carbon::parse($child->dob)->age;
+                $child->age= $child->dob ? Carbon::parse($child->dob)->age: 'Unknown';
             }else{
                 $child->age='Unknown';
             }
             $last_visit=Visits::where('child_id',$child->id)
             ->orderBy('created_at','desc')
             ->first();
-            $last_visit->visitType=DB::table('visit_type')->where('id',$last_visit->visit_type)->get();
+            if($last_visit){
+                $last_visit->visitType=$last_visit->visit_type ? DB::table('visit_type')->where('id',$last_visit->visit_type)->get() : 'Unknown';
+        
+            }
             $triage=Triage::where('child_id',$child->id)
-            ->orderBy('created_at','desc')
-            ->first();
+                ->orderBy('created_at','desc')
+                ->first() ?? null;
+
             $careplan = Careplan::where('child_id',$child->id)
             ->latest()
             ->first();

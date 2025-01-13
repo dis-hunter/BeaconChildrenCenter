@@ -9,6 +9,7 @@
   </div>
   <div class="text-center">
     <img src="<?php echo e(asset('images/logo-transparent.png')); ?>" 
+      loading="lazy"
       style="width: 100px; transform: scale(1.8);" alt="logo">
   </div>
 </div>
