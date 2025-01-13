@@ -468,6 +468,7 @@ async function goToEncounterSummary() {
             background: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .visit-entry:hover {
@@ -503,6 +504,7 @@ async function goToEncounterSummary() {
             color: #2c3e50;
             font-size: 0.95rem;
             line-height: 1.6;
+            display: none; /* Initially hide the notes */
         }
 
         .section-title {
@@ -546,7 +548,7 @@ async function goToEncounterSummary() {
 
                     <div class="visits-container">
                         ${result.data.visits.map(visit => `
-                            <div class="visit-entry">
+                            <div class="visit-entry" onclick="toggleDetails(this)">
                                 <h3>Visit Details</h3>
                                 <div class="visit-meta">
                                     <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
@@ -574,6 +576,10 @@ async function goToEncounterSummary() {
     }
 }
 
+function toggleDetails(element) {
+    const notes = element.querySelector('.notes');
+    notes.style.display = notes.style.display === 'none' ? 'block' : 'none';
+}
 
     </script>
     <script>
