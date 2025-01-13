@@ -64,7 +64,7 @@
             <h2 class="text-gray-800 text-center font-semibold">
                 <i class="fas fa-user-md text-2xl text-blue-600 mb-2"></i>
                 <div class="text-sm text-gray-600">Active Patient</div>
-                <div class="text-lg text-blue-600 font-bold mt-1">John Michael Doe</div>
+                <div class="text-lg text-blue-600 font-bold mt-1" id="child-name-div"></div>
             </h2>
         </div>
 
@@ -582,10 +582,17 @@ function toggleDetails(element) {
 }
 
     </script>
-    <script>
-        
-    
-    </script>
+ <script>
+    //to show name in side bar dynamically 
+document.addEventListener("DOMContentLoaded", function() {
+    const result = {
+        data: {
+            child_name: {!! json_encode($firstName . ' ' . $middleName . ' ' . $lastName) !!}
+        }
+    };
+    document.getElementById("child-name-div").textContent = result.data.child_name;
+});
+</script>
     <script src="{{ asset('js/doctor.js') }}"></script>
 
 </body>
