@@ -75,13 +75,13 @@ async function handleFormSubmission(e) {
   console.log('FormData:', Object.fromEntries(formData));
 
   // Process selected checkboxes for triage_sorting
-  const selectedDepartments = [];
-  document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-      selectedDepartments.push(checkbox.value);
-  });
-  selectedDepartments.forEach((dept) => {
-      formData.append('triage_sorting[]', dept);
-  });
+  // const selectedDepartments = [];
+  // document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+  //     selectedDepartments.push(checkbox.value);
+  // });
+  // selectedDepartments.forEach((dept) => {
+  //     formData.append('triage_sorting[]', dept);
+  // });
 
   try {
       const response = await fetch('/triage', {

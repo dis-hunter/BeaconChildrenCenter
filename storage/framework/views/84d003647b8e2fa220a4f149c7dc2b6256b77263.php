@@ -2,10 +2,11 @@
 <html>
 <head>
     <title><?php echo $__env->yieldContent('title','Reception'); ?></title>
+    <link rel="icon" type="image/png" href="<?php echo e(asset('images/favicon.png')); ?>">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php echo \Livewire\Livewire::styles(); ?>
 
@@ -124,16 +125,32 @@
 
         .main {
             margin-left: 200px;
-            padding: 40px;
+            padding: 20px;
             background-color: #f3f4f6;
             min-height: 100vh;
             transition: margin-left 0.3s ease;
+        }
+        .global-search{
+            margin-left: 250px;
         }
 
         .main.expanded {
             margin-left: 60px;
         }
+        .dropdown-menu {
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e3e3e3;
+        }
 
+        @media (max-width: 768px) {
+                    .main{
+                        margin-left: 0;
+                        width: 100%;
+                    }
+                    .global-search{
+                        margin-left: 20px;
+                    }
+                }
         .search-bar {
             display: flex;
             justify-content: space-between;
@@ -473,38 +490,18 @@
 </head>
 <body>
 
-<div class="sidebar" id="sidebar">
-    <img src="<?php echo e(asset('images/logo.jpg')); ?>" alt="Logo">
-    <a href="/dashboard"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
-    <a href="/patients"><span class="icon">➕</span> <span class="text">Patients</span></a>
-    <a href="/patients/search"><span class="icon">🔍</span> <span class="text">Search</span></a>
-    
-    <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
-    <a href="/visithandle"><span class="icon">🕒</span> <span class="text">Visit</span></a>
-    
-</div>
-
-<div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
-
 <div class="main">
     <?php echo $__env->yieldContent('content'); ?>
 </div>
 
-<script>
-    //Sidebar toggle
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const main = document.querySelector('.main');
-        const toggleButton = document.getElementById('toggle-button');
-        
-        sidebar.classList.toggle('collapsed');
-        main.classList.toggle('expanded');
-        toggleButton.classList.toggle('collapsed');
-    }
-    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 <?php echo \Livewire\Livewire::scripts(); ?>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine-ie11.min.js" integrity="sha512-Atu8sttM7mNNMon28+GHxLdz4Xo2APm1WVHwiLW9gW4bmHpHc/E2IbXrj98SmefTmbqbUTOztKl5PDPiu0LD/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     Livewire.on('parentUpdated', message => {
 

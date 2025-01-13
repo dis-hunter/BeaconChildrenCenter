@@ -1,26 +1,54 @@
 
-<?php $__env->startSection('title','Visits'); ?>
+<?php $__env->startSection('title','Visits | Reception'); ?>
+
 <?php $__env->startSection('content'); ?>
 
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 <link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
 
-<h2>Search </h2>
-<form action="<?php echo e(route('parent.get-children')); ?>" method="post">
-    <?php echo csrf_field(); ?>
-    <table>
-    <tr>
-            <td>Search by Name</td>
-            <td><input type="text" name="child_name" placeholder="Enter Name" value="<?php echo e(old('fullname')); ?>"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-        <tr>
-            <td>Search by Telephone</td>
-            <td><input type="text" name="telephone" placeholder="Enter Telephone" value="<?php echo e(old('telephone')); ?>"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-    </table>    
-</form>
+ <!-- Children Card -->
+ <div class="card shadow-sm mt-3">
+    <div class="card-header bg-secondary text-white">
+        <h5>Patient Details</h5>
+    </div>
+    <div class="card-body">
+        <!-- List of Children -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <?php if(!$children): ?>
+
+                <div class="card mb-2">                         
+                    <div class="card-body justify-content-center">
+                        
+                            <p>Patient not selected</p> <br>
+                            <p>Search for Patient or <a href="/guardians">Register</a> a new patient</p>
+                        
+                    </div>
+                </div>
+
+                <?php else: ?>
+                    
+                <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                
+                <div class="card mb-2">                         
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name); ?></div>
+                            <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
+                            <div class="col-md-4 text-end">
+                                <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Error Message -->
 <?php if(session()->has('error')): ?>
@@ -96,8 +124,18 @@
     <option value="10">Other</option>
 </select>
     <p id="output"></p>
-
 </div>
+
+<div id="triage-selection">
+    <h3>Triage Selection</h3>
+    <label for="triage_pass">Does the patient need triage?</label>
+    <select id="triage_pass">
+        <option value="" disabled selected>Select an option</option>
+        <option value="false">Yes, needs triage</option>
+        <option value="true">No, directly to doctor</option>
+    </select>
+</div>
+
 <div id="paymentMode">
 <h3>💳 Payment Mode</h3>
 <label for="payment_mode"><strong>Select Payment Mode:</strong></label>
@@ -438,6 +476,12 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a valid payment method before proceeding.');
             return;
         }
+        const triagePassDropdown = document.getElementById('triage_pass');
+        const triagePass = triagePassDropdown.value;
+        if (!triagePass) {
+            alert('Please select whether the patient needs triage.');
+            return;
+        }
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -447,12 +491,12 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             visit_date: todayDate,
             source_type: 'MySource',
             source_contact: '123456249',
-            staff_id: parseInt(3),
-            doctor_id: 9,
+            staff_id: 3,
+            doctor_id: selectedDoctorId,
+            triage_pass: triagePass, // Convert to boolean
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
-            payment_mode_id:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);
@@ -490,4 +534,5 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 </script>
 
 <?php $__env->stopSection(); ?>
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/reception/visits.blade.php ENDPATH**/ ?>

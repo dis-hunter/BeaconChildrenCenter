@@ -1,8 +1,6 @@
 <div>
     <?php if($parent): ?>
-    <?php
-        $p_fullname=json_decode($parent->fullname,true);
-    ?>
+    
     <div class="container card card-body my-4">
         <!-- Parent Card -->
             <div class="card-header bg-primary text-white">
@@ -10,7 +8,7 @@
             </div>
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-md-4"><strong>Full Name: </strong><?php echo e($p_fullname['last_name'].' '.$p_fullname['first_name'].' '.$p_fullname['middle_name']); ?></div>
+                    <div class="col-md-4"><strong>Full Name: </strong><?php echo e($parent->fullname->last_name .' '.$parent->fullname->first_name.' '.$parent->fullname->middle_name); ?></div>
                     <div class="col-md-4"><strong>Email: </strong><?php echo e($parent->email); ?></div>
                     <div class="col-md-4"><strong>Phone: </strong><?php echo e($parent->telephone); ?></div>
                 </div>
@@ -58,16 +56,29 @@ echo $html;
                 <!-- List of Children -->
                 <div class="row mb-3">
                     <div class="col-md-12">
+                        <?php if(!$children): ?>
+
+                        <div class="card mb-2">                         
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <p>No children related to this Parent</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php else: ?>
+                            
                         <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php
-                            $fullname=json_decode($item->fullname,true);    
-                        ?>
+                        
                         <div class="card mb-2">                         
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($fullname['last_name'].' '.$fullname['first_name'].' '.$fullname['middle_name']); ?></div>
+                                    <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name); ?></div>
                                     <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
                                     <div class="col-md-4 text-end">
+                                        <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">
+                                            View Details
+                                        </a>
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editChildModal-<?php echo e($item->id); ?>">Edit</button>
                                         <?php
 if (! isset($_instance)) {
@@ -89,6 +100,7 @@ echo $html;
                             </div>
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
                         <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addChildModal">Add Child</button>
                         <?php
 if (! isset($_instance)) {

@@ -116,13 +116,13 @@
         <option value="routine">Routine</option>
     </select>
 
-    <label>Department Referral:</label>
+    <!-- <label>Department Referral:</label>
     <div>
         <input type="checkbox" name="triage_sorting[]" value="general"> General Doctor<br>
         <input type="checkbox" name="triage_sorting[]" value="occupational"> Occupational Therapist<br>
         <input type="checkbox" name="triage_sorting[]" value="speech"> Speech Therapist<br>
         <input type="checkbox" name="triage_sorting[]" value="physio"> Physiotherapist<br>
-    </div>
+    </div> -->
 
     <label for="temperature">Temperature (°C):</label>
     <input type="number" name="temperature" required>
