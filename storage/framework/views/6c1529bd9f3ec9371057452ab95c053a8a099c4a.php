@@ -29,10 +29,13 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><span class="icon">📅</span> <span class="text">Appointments</span></a>
+                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
             </li>
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
             </li>
             
             
@@ -49,15 +52,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('GFYxR6J')) {
-    $componentId = $_instance->getRenderedChildComponentId('GFYxR6J');
-    $componentTag = $_instance->getRenderedChildComponentTagName('GFYxR6J');
+} elseif ($_instance->childHasBeenRendered('ybFMQQ1')) {
+    $componentId = $_instance->getRenderedChildComponentId('ybFMQQ1');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ybFMQQ1');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('GFYxR6J');
+    $_instance->preserveRenderedChild('ybFMQQ1');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('GFYxR6J', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ybFMQQ1', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 

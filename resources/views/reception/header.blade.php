@@ -29,10 +29,13 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><span class="icon">📅</span> <span class="text">Appointments</span></a>
+                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
             </li>
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
             </li>
             
             

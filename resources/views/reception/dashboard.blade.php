@@ -315,6 +315,8 @@ img {
                               .calendar .days .day.today {
                                 color: #fff;
                                 background: var(--primary-color);
+                                font-size: 16px;
+                                font-weight: 700;
                               }
                             </style>
                           
