@@ -1,9 +1,9 @@
-@extends('layout')
-@section('title','Login')
-@section('content')
+
+<?php $__env->startSection('title','Login'); ?>
+<?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
   <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
-  <a class="btn btn-close btn-md" href="{{ route('login') }}"></a>
+  <a class="btn btn-close btn-md" href="<?php echo e(route('login')); ?>"></a>
 </div>
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -14,46 +14,49 @@
               <div class="card-body p-md-5 mx-md-4">
 
                 <div class="text-center">
-                  <img src="{{ asset('images/logo.jpg') }}"
+                  <img src="<?php echo e(asset('images/logo.jpg')); ?>"
                     style="width: 100px;" alt="logo">
                  
                 </div>
 
                 <form action="/login" method="post">
-                  @csrf
+                  <?php echo csrf_field(); ?>
                   <p>Please login to your account</p>
-                  @if($errors->any())
-                  @foreach ($errors->all() as $error)
+                  <?php if($errors->any()): ?>
+                  <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <div class="alert alert-danger d-flex align-items-center" role="alert">
                     <svg class="bi flex-shrink-0 me-2" width="18px" height="18px" role="img" aria-label="Danger:">
                       <use xlink:href="#exclamation-triangle-fill" />
                     </svg>
                     <div>
-                      {{$error}}
+                      <?php echo e($error); ?>
+
                     </div>
                   </div>
-                  @endforeach
-                  @endif
-                  @if(session()->has('error'))
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                  <?php endif; ?>
+                  <?php if(session()->has('error')): ?>
                   <div class="alert alert-danger d-flex align-items-center" role="alert">
                     <svg class="bi flex-shrink-0 me-2" width="18px" height="18px" role="img" aria-label="Danger:">
                       <use xlink:href="#exclamation-triangle-fill" />
                     </svg>
                     <div>
-                      {{session('error')}}
+                      <?php echo e(session('error')); ?>
+
                     </div>
                   </div>
-                  @endif
-                  @if(session()->has('success'))
+                  <?php endif; ?>
+                  <?php if(session()->has('success')): ?>
                   <div class="alert alert-success d-flex align-items-center" role="alert">
                     <svg class="bi flex-shrink-0 me-2" width="18px" height="18px" role="img" aria-label="Success:">
                       <use xlink:href="#check-circle-fill" />
                     </svg>
                     <div>
-                      {{session('success')}}
+                      <?php echo e(session('success')); ?>
+
                     </div>
                   </div>
-                  @endif
+                  <?php endif; ?>
 
                   <div data-mdb-input-init class="form-floating form-outline mb-4">
                     <input type="email" name="email" id="email_login" class="form-control"
@@ -94,4 +97,5 @@
     </div>
   </div>
 </section>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/login.blade.php ENDPATH**/ ?>

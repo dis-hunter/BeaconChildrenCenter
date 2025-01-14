@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Physiotherapy Therapist Session Documentation</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
+    <title>Occupational Therapist Session Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .tab-button.active {
@@ -14,7 +15,7 @@
             background-color: #fff;
         }
         
-        /* .tabs-content {
+        .tabs-content {
             max-height: 60vh;
             overflow-y: auto;
             scrollbar-width: thin;
@@ -31,15 +32,15 @@
         .tabs-content::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 3px;
-        } */
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-bold text-blue-800 mb-6">Physiotherapy</h1>
+        <h1 class="text-2xl font-bold text-blue-800 mb-6">Occupational Therapy</h1>
         
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <!-- <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
                 <h2 class="text-lg font-medium text-gray-900">Session Documentation</h2>
                 <button 
                     onclick="handleGenerateReport()"
@@ -47,160 +48,180 @@
                 >
                     Generate Report
                 </button>
-            </div> -->
+            </div>
             
             <div class="p-4">
                 <form id="therapy-form" class="space-y-4" onsubmit="handleSubmit(event)">
-                    <!-- <input 
+                    <input 
                         type="date" 
                         id="session_date"
                         class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         onchange="handleDateChange(event)"
-                    /> -->
+                    />
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
-                        <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssesment" onclick="showTabContent('therapyAssesment')">Therapy Assessment</button>
+                        <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="therapyAssessment" onclick="showTabContent('therapyAssessment')">Therapy Assessment</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="goals" onclick="showTabContent('goals')">Therapy Goals</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="individualPlanAndStrategies" onclick="showTabContent('individualPlanAndStrategies')">Individualized Plan & Strategies</button>
                             <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="session" onclick="showTabContent('session')">Therapy Session Notes</button>
-                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Post Session Activities</button>
+                            <button type="button" class="tab-button px-3 py-2 text-sm font-medium" data-value="followup" onclick="showTabContent('followup')">Follow-up</button>
                         </nav>
                     </div>
-                     <!-- Therapy Assessment Tab-->
-                     <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Gross Motor Skills', 'Fine Motor Skills', 'Family Assessment','Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges','Orthotics','Assistive devices'] as $category)
-                            <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
-            <textarea 
-                class="form-control"
-                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                id="assessment_{{ $category }}"
-                onchange="handleChange('preparation', '{{ $category }}', event)"
-            ></textarea>
-        </div>
-                            @endforeach
+                    <!-- Therapy Assessment Tab-->
+                    <div id="therapyAssessment" class="tabs-content space-y-4 p-4 hidden">
+                            <?php $__currentLoopData = ['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Processing','Behaviour Challenges']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
+                                    <textarea 
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="assessment_<?php echo e($category); ?>"
+                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
+                                    ></textarea>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
                     <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
-                            @foreach(['Activities of Daily Living(ADLs)', 'Instrumental Activities of Daily Living(IADLs)', 'Fine and Gross Motor Skills','Sensory Integration and Processing' ,'Cognitive Skills', 'Emotional and Social Skills', 'School goals','Rehabilitation goals'] as $category)
+                            <?php $__currentLoopData = ['Activities of Daily Living(ADLs)', 'Instrumental Activities of Daily Living(IADLs)', 'Fine and Gross Motor Skills','Sensory Integration and Processing' ,'Cognitive Skills', 'Emotional and Social Skills', 'School goals','Rehabilitation goals']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                class="form-control"
-                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;" 
-                                        id="goals_{{ $category }}"
-                                        onchange="handleChange('goals', '{{ $category }}', event)"
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="goals_<?php echo e($category); ?>"
+                                        onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyGoals()">Save Goals</button>
+
+
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Therapy frequency and Duration', 'Therapy Setting/Resources', 'Strengthening excercises', 'Balance Training', 'Gait Training', 'Sensory simulation','Parent involvement/training','Assistive Devices'] as $category)
-                            <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                            <?php $__currentLoopData = ['Therapy frequency and Duration', 'Therapy Setting', 'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive skills', 'Activity of Daily Living','Sensory Integration and Processing','Behaviour Management','Parent involvement/training']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                class="form-control"
-                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                                        id="individualized_{{ $category }}"
-                                        onchange="handleChange('goals', '{{ $category }}', event)"
+                                    class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="individualized_<?php echo e($category); ?>"
+                                        onchange="handleChange('goals', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualized()">Save individualized plan and strategies</button>
 
                         </div>
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Targeted excercises', 'Manual therapy', 'Functional Training', 'Gait training', 'Sensory Integration And Processing','Stretching and range of motion','Monitor Progress','Planned home based tasks'] as $category)
-                            <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                            <?php $__currentLoopData = ['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 'Sensory Integration And Processing','Provide Guidance','Planned Home based tasks']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                                    <textarea 
-                class="form-control"
-                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                                        id="session_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="session_<?php echo e($category); ?>"
+                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
                         <!-- Follow-up Tab-->
                         <div id="followup" class="tabs-content space-y-4 p-4 hidden">
-                        @foreach(['Home Practice Assignments', 'Next Session Plan'] as $category)
-                        <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                        <?php $__currentLoopData = ['Home Practice Assignments', 'Next Session Plan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
-                class="form-control"
-                style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                                        id="followup_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
+                                        class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                        id="followup_<?php echo e($category); ?>"
+                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
-                            @endforeach
-                            <!-- Multi-date picker -->
-    <label class="block text-sm font-medium text-gray-700 mt-2">Select return Date(s)</label>
-            <div id="date-picker-container_{{ $category }}">
-                <input 
-                    type="text" 
-                    class="multi-date-picker form-control border rounded px-2 py-1 mb-2" 
-                    id="dates_{{ $category }}" 
-                    onchange="handleDatesChange('dates', '{{ $category }}', event)" 
-                    placeholder="Select multiple dates" 
-                />
-            </div>
-            <button type="button" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="addDatePicker('{{ $category }}')">Add Another Date</button>
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
-                            </div>
-                            <script>
-    // Initialize Flatpickr for multi-date selection
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.multi-date-picker').forEach(function (input) {
-            flatpickr(input, {
-                mode: 'multiple', // Allow multiple date selection
-                dateFormat: 'Y-m-d', // Format dates as desired
-            });
-        });
-    });
-
-    // Handle changes in selected dates
-    function handleDatesChange(type, category, event) {
-        const selectedDates = event.target.value;
-        console.log(`Selected dates for ${category}:`, selectedDates);
-        // Add logic to save or process these dates as needed
-    }
-
-    // Add another date picker
-    function addDatePicker(category) {
-        const container = document.getElementById(`date-picker-container_${category}`);
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'multi-date-picker form-control border rounded px-2 py-1 mb-2';
-        input.placeholder = 'Select multiple dates';
-        input.onchange = function(event) {
-            handleDatesChange('dates', category, event);
-        };
-        container.appendChild(input);
-        flatpickr(input, {
-            mode: 'multiple',
-            dateFormat: 'Y-m-d',
-        });
-    }
-</script>
-<!-- Include Flatpickr CSS and JS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Follow-up</button>
                         </div>
+                    </div>
+
+                    
                 </form>
             </div>
         </div>
     </div>
+    <script src="<?php echo e(asset('js/loader.js')); ?>"></script> 
+    <script >
+            document.addEventListener('DOMContentLoaded', () => {
+        showTabContent('therapyAssessment'); // Default tab to show
 
+        document.addEventListener('keydown', (event) => {
+            const activeTab = document.querySelector('.tabs-content.active');
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const activeButton = document.querySelector('.tab-button.active');
+            const activeIndex = Array.from(tabButtons).indexOf(activeButton);
+
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                if (activeTab) {
+                    const textareas = activeTab.querySelectorAll('textarea');
+                    if (textareas.length > 0) {
+                        const focusedElement = document.activeElement;
+                        const index = Array.from(textareas).indexOf(focusedElement);
+
+                        if (event.key === 'ArrowUp' && index > 0) {
+                            textareas[index - 1].focus();
+                            event.preventDefault();
+                        } else if (event.key === 'ArrowDown' && index < textareas.length - 1) {
+                            textareas[index + 1].focus();
+                            event.preventDefault();
+                        }
+                    }
+                }
+            } else if (event.key === 'ArrowRight' && activeIndex < tabButtons.length - 1) {
+                tabButtons[activeIndex + 1].click();
+                event.preventDefault();
+            } else if (event.key === 'ArrowLeft' && activeIndex > 0) {
+                tabButtons[activeIndex - 1].click();
+                event.preventDefault();
+            }
+        });
+    });
+    </script>  
+    <script >
+            document.addEventListener('DOMContentLoaded', () => {
+        showTabContent('therapyAssesment'); // Default tab to show
+
+        document.addEventListener('keydown', (event) => {
+            const activeTab = document.querySelector('.tabs-content.active');
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const activeButton = document.querySelector('.tab-button.active');
+            const activeIndex = Array.from(tabButtons).indexOf(activeButton);
+
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                if (activeTab) {
+                    const textareas = activeTab.querySelectorAll('textarea');
+                    if (textareas.length > 0) {
+                        const focusedElement = document.activeElement;
+                        const index = Array.from(textareas).indexOf(focusedElement);
+
+                        if (event.key === 'ArrowUp' && index > 0) {
+                            textareas[index - 1].focus();
+                            event.preventDefault();
+                        } else if (event.key === 'ArrowDown' && index < textareas.length - 1) {
+                            textareas[index + 1].focus();
+                            event.preventDefault();
+                        }
+                    }
+                }
+            } else if (event.key === 'ArrowRight' && activeIndex < tabButtons.length - 1) {
+                tabButtons[activeIndex + 1].click();
+                event.preventDefault();
+            } else if (event.key === 'ArrowLeft' && activeIndex > 0) {
+                tabButtons[activeIndex - 1].click();
+                event.preventDefault();
+            }
+        });
+    });
+    </script>    
     <script>
         // JavaScript remains unchanged
         let formData = {
@@ -295,32 +316,21 @@
             });
             document.querySelector(`[data-value="${tab}"]`).classList.add('active');
         }
-       
-        document.addEventListener('DOMContentLoaded', () => {
-            showTabContent('therapyAssesment'); // Default tab to show
-            	
-        });
-    </script>
-        <script src="{{ asset('js/loader.js') }}"></script>    
-        <script src="{{ asset('js/movement.js')}}"></script>   
-    <script>
-     // handles submission of goals to db
+        
+        // handles submission of goals to db
         
         async function saveTherapyGoals() {
-            //'Activities of Daily Living(ADLs)','Fine and Gross Motor Skills','Sensory Integration and Processing' ,
-            // 'Cognitive Skills', 'School goals','Rehabilitation goals','Assistive devices'] as $category)
-
         showLoadingIndicator('Saving...', 0);
         const categories = [
-            'Activities of Daily Living(ADLs)',
-            'Fine and Gross Motor Skills',
-            'Sensory Integration and Processing',
-            'Cognitive Skills',
-            'School goals',
-            'Rehabilitation goals',
-            'Assistive devices'
-        ];
-        
+        'Activities of Daily Living(ADLs)',
+        'Instrumental Activities of Daily Living(IADLs)',
+        'Fine and Gross Motor Skills',
+        'Sensory Integration and Processing',
+        'Cognitive Skills',
+        'Emotional and Social Skills',
+        'School goals',
+        'Rehabilitation goals'
+    ];
 
     const goalsData = {};
     // Collect data from the textareas - no delay needed here
@@ -383,26 +393,20 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            showTabContent('therapyAssesment'); // Default tab to show
+            showTabContent('therapyAssessment'); // Default tab to show
         });
     </script>
         <script>
                 //pushing data to the db therapy_assessment table
     async function saveAssessment() {
-        // 'Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 
-        // 'Sensory Processing','Behaviour Challenges','Orthotics','Assistive devices'] as $category)
-
         showLoadingIndicator('Saving...', 0);
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
             'Cognitive Skills',
-            'Family Assessment',
             'Activity of Daily Living',
             'Sensory Processing',
             'Behaviour Challenges',
-            'Orthotics',
-            'Assistive devices',
         ];
 
         const assessmentData = {};
@@ -468,19 +472,17 @@ headers: {
     //pushing data to the db therapy_individualized table
     
     async function saveIndividualized() {
-        //'Therapy frequency and Duration', 'Therapy Setting', 'Strengthening excercises', 'Balance Training', 'Gait Training',
-        //  'Sensory simulation','Parent involvement/training','Assistive Devices'] as $category)
-
         showLoadingIndicator('Saving...', 0);
-        const categories = [        
+        const categories = [
             'Therapy frequency and Duration',
-            'Therapy Setting/Resources',
-            'Strengthening excercises',
-            'Balance Training',
-            'Gait Training',
-            'Sensory simulation',
+            'Therapy Setting',
+            'Gross Motor Skills',
+            'Fine Motor Skills',
+            'Cognitive skills',
+            'Activity of Daily Living',
+            'Sensory Integration and Processing',
+            'Behaviour Management',
             'Parent involvement/training',
-            'Assistive Devices',
         ];
 
         const individualizedData = {};
@@ -548,21 +550,16 @@ headers: {
     //['Gross Motor Skills', 'Fine Motor Skills', 'Cognitive Skills', 'Activity of Daily Living', 
     // 'Sensory Integration And Processing','Provide Guidance','Planned Home based tasks'] as $category)
 
-    
     async function saveSession() {
-        // 'Targeted excercises', 'Manual therapy', 'Functional Training', 'Gait training', 'Sensory Integration And Processing',
-        // 'Stretching and range of motion','Monitor Progress','Planned home based tasks'] as $category)
-
         showLoadingIndicator('Saving...', 0);
         const categories = [
-            'Targeted excercises',
-            'Manual therapy',
-            'Functional Training',
-            'Gait training',
+            'Gross Motor Skills',
+            'Fine Motor Skills',
+            'Cognitive Skills',
+            'Activity of Daily Living',
             'Sensory Integration And Processing',
-            'Stretching and range of motion',
-            'Monitor Progress',
-            'Planned home based tasks',
+            'Provide Guidance',
+            'Planned Home based tasks',
         ];
 
         const sessionData = {};
@@ -632,7 +629,6 @@ headers: {
     const categories = [
         'Home Practice Assignments',
         'Next Session Plan',
-        'Dates'
     ];
 
     const followupData = {};
@@ -647,12 +643,6 @@ headers: {
                 followupData[category] = textarea.value.trim();
             }
         });
-        // Collect dates from the date picker
-        const datePickers = document.querySelectorAll('.multi-date-picker');
-            followupData['Dates'] = [];
-            datePickers.forEach(picker => {
-                followupData['Dates'].push(picker.value);
-            });
 
         const payload = {
             child_id: 1,
@@ -702,6 +692,4 @@ headers: {
 </script>
 
 </body>
-</html>
-</body>
-</html>
+</html><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/therapists/occupationalTherapist.blade.php ENDPATH**/ ?>

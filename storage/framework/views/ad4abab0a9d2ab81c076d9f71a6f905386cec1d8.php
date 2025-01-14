@@ -56,7 +56,7 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body class="m-0 font-sans bg-gray-50">
     <div class="sidebar h-screen fixed left-0 top-0 bg-gradient-to-b from-sky-100 to-sky-200 overflow-x-hidden pt-5 transition-all duration-300 border-r border-sky-300 shadow-lg" id="sidebar">
@@ -164,20 +164,20 @@ function goToWorkspace() {
                         <form id="patient-form" class="p-6 space-y-6">
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
-                                            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
-                                            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
+                                            <input type="hidden" id="child_id" name="child_id" value="<?php echo e($child_id); ?>">
+                                            <input type="hidden" id="specialization_id" name="specialization_id" value="<?php echo e($specialization_id); ?>">
 
 
                                     <label class="block text-sm font-medium text-gray-700" for="firstName">First Name</label>
-                                    <input type="text" id="firstName" name="firstName" value="{{ $firstName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="middleName">Middle Name</label>
-                                    <input type="text" id="middleName" name="middleName" value="{{ $middleName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="middleName" name="middleName" value="<?php echo e($middleName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="lastName">Last Name</label>
-                                    <input type="text" id="lastName" name="lastName" value="{{ $lastName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="lastName" name="lastName" value="<?php echo e($lastName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
                             
@@ -238,7 +238,7 @@ function goToWorkspace() {
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
                                 <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
-                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{$doctorsNotes}}</textarea>
+                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y"><?php echo e($doctorsNotes); ?></textarea>
                             </div>
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
@@ -583,17 +583,17 @@ function toggleDetails(element) {
 
     </script>
  <script>
-    //to show name in side bar dynamically 
 document.addEventListener("DOMContentLoaded", function() {
     const result = {
         data: {
-            child_name: {!! json_encode($firstName . ' ' . $middleName . ' ' . $lastName) !!}
+            child_name: <?php echo json_encode($firstName . ' ' . $middleName . ' ' . $lastName); ?>
+
         }
     };
     document.getElementById("child-name-div").textContent = result.data.child_name;
 });
 </script>
-    <script src="{{ asset('js/doctor.js') }}"></script>
+    <script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationaltherapyDashboard.blade.php ENDPATH**/ ?>

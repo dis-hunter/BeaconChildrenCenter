@@ -37,14 +37,16 @@ class RegistrationNumberManager
             ? intval(explode('/', $lastRegNumber)[0]) 
             : 0;
 
-        // Increment the number
-        $newNumber = $lastNumber + 1;
-
-        // Format the registration number as '001/2025'
-        $regNumber = str_pad($newNumber, 3, '0', STR_PAD_LEFT) . "/{$year}";
+        do {
+            // Increment the number
+            $lastNumber++;
+            // Format the registration number as '001/2025'
+            $regNumber = str_pad($lastNumber, 3, '0', STR_PAD_LEFT) . "/{$year}";
+        } while ($this->isRegNumberExists($regNumber));
 
         return $regNumber;
     }
+
 
     /**
      * Check if a registration number already exists.

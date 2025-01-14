@@ -3,10 +3,34 @@
 <!-- Search Form -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
+
+</head>
+<body>
+    
+
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
 <h2>Welcome</h2>
 <form action="{{ route('parent.get-children') }}" method="post">
     @csrf
+<h2>Search </h2>
+<form action="<?php echo e(route('parent.get-children')); ?>" method="post">
+    <?php echo csrf_field(); ?>
     <table>
+    <tr>
+            <td>Search by Name</td>
+            <td><input type="text" name="child_name" placeholder="Enter Name" value="<?php echo e(old('fullname')); ?>"></td>
+            <td><input type="submit" value="Search"></td>
+        </tr>
         <tr>
             <td>Search by Telephone</td>
             <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
@@ -41,6 +65,10 @@
                     <td>{{ $child->fullname->first_name }} {{ $child->fullname->last_name }}</td>
                     <td>{{ $child->dob }}</td>
                     <td>{{ $child->gender_id }}</td>
+                    <td><?php echo e($child->id); ?></td>
+                    <td><?php echo e($child->fullname->first_name); ?> <?php echo e($child->fullname->last_name); ?></td>
+                    <td><?php echo e($child->dob); ?></td>
+                    <td><?php echo e($child->gender_id); ?></td>
                     <td>
     <button type="button" class="select-child" data-child-id="{{ $child->id }}">Select</button>
 </td>
@@ -87,8 +115,10 @@
 </div>
 
 <button  id="submit-appointment">Create Appointment</button>
+<button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
 
-
+</body>
+</html>
 <!--  -->
 
 
@@ -295,8 +325,6 @@ function showValue() {
             output.innerHtml = `You selected: ${dropdown.value}`;
         }
 
-
-
 const dropdown = document.getElementById('specialization');
 // Event listener for the specialization dropdown
 dropdown.addEventListener('change', async function () {
@@ -416,3 +444,5 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 });
 
 </script>
+
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/Reception/visits.blade.php ENDPATH**/ ?>
