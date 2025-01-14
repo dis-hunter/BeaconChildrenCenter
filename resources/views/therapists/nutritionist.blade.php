@@ -185,7 +185,7 @@
         </div>
     @endforeach
     <!-- Multi-date picker -->
-    <label class="block text-sm font-medium text-gray-700 mt-2">Select Dates</label>
+    <label class="block text-sm font-medium text-gray-700 mt-2">Select return Date(s)</label>
             <div id="date-picker-container_{{ $category }}">
                 <input 
                     type="text" 
@@ -734,8 +734,10 @@ headers: {
     showLoadingIndicator('Saving...', 0);
     const categories = [
         'Home Practice Assignments',
+        'Evaluate and Adapt',
         'Next Session Plan',
     ];
+    
 
     const followupData = {};
 
@@ -749,12 +751,14 @@ headers: {
                 followupData[category] = textarea.value.trim();
             }
         });
+        
 
         const payload = {
             child_id: childId,
             staff_id: 8,
             therapy_id: 1,
-            data: followupData
+            data: followupData,
+            dates: [], // Add the selected dates here
         };
 
         // Make the request - natural network delay will occur here

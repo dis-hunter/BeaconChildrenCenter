@@ -734,6 +734,7 @@ headers: {
     showLoadingIndicator('Saving...', 0);
     const categories = [
         'Home Practice Assignments',
+        'Evaluate and Adapt',
         'Next Session Plan',
     ];
 
