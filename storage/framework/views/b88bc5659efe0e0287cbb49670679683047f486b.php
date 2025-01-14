@@ -137,8 +137,58 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <!-- Multi-date picker -->
+    <label class="block text-sm font-medium text-gray-700 mt-2">Select return Date(s)</label>
+            <div id="date-picker-container_<?php echo e($category); ?>">
+                <input 
+                    type="text" 
+                    class="multi-date-picker form-control border rounded px-2 py-1 mb-2" 
+                    id="dates_<?php echo e($category); ?>" 
+                    onchange="handleDatesChange('dates', '<?php echo e($category); ?>', event)" 
+                    placeholder="Select multiple dates" 
+                />
+            </div>
+            <button type="button" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="addDatePicker('<?php echo e($category); ?>')">Add Another Date</button>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Follow-up</button>
                         </div>
+                        <script>
+    // Initialize Flatpickr for multi-date selection
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.multi-date-picker').forEach(function (input) {
+            flatpickr(input, {
+                mode: 'multiple', // Allow multiple date selection
+                dateFormat: 'Y-m-d', // Format dates as desired
+            });
+        });
+    });
+
+    // Handle changes in selected dates
+    function handleDatesChange(type, category, event) {
+        const selectedDates = event.target.value;
+        console.log(`Selected dates for ${category}:`, selectedDates);
+        // Add logic to save or process these dates as needed
+    }
+
+    // Add another date picker
+    function addDatePicker(category) {
+        const container = document.getElementById(`date-picker-container_${category}`);
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'multi-date-picker form-control border rounded px-2 py-1 mb-2';
+        input.placeholder = 'Select multiple dates';
+        input.onchange = function(event) {
+            handleDatesChange('dates', category, event);
+        };
+        container.appendChild(input);
+        flatpickr(input, {
+            mode: 'multiple',
+            dateFormat: 'Y-m-d',
+        });
+    }
+</script>
+<!-- Include Flatpickr CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                     </div>
                 </form>
             </div>
@@ -563,6 +613,7 @@ headers: {
     const categories = [
         'Home Practice Assignments',
         'Next Session Plan',
+        'Dates'
     ];
 
     const followupData = {};
@@ -577,6 +628,13 @@ headers: {
                 followupData[category] = textarea.value.trim();
             }
         });
+        // Collect dates from the date picker
+        const datePickers = document.querySelectorAll('.multi-date-picker');
+            followupData['Dates'] = [];
+            datePickers.forEach(picker => {
+                followupData['Dates'].push(picker.value);
+            });
+
 
         const payload = {
             child_id: 1,
