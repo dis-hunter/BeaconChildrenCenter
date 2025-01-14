@@ -1,5 +1,6 @@
 
 <?php $__env->startSection('title','Child | Reception'); ?>
+
 <?php $__env->startSection('content'); ?>
 
 <div class="container mt-5">
@@ -8,7 +9,7 @@
         <button @click="showForm = !showForm" class="btn btn-primary mb-3">
         New Parent & Child
     </button>
-    <form action="/patients" method="post" class="bg-light p-4 rounded shadow-sm"  x-show="showForm" 
+    <form action="/guardians" method="post" class="bg-light p-4 rounded shadow-sm"  x-show="showForm" 
     x-transition >
 
         <?php echo csrf_field(); ?>
@@ -147,10 +148,7 @@
                 <label for="birth_cert" class="form-label">Birth Certificate</label>
                 <input type="text" id="birth_cert" name="birth_cert" value="<?php echo e(old('birth_cert')); ?>" class="form-control">
             </div>
-            <div class="col-md-6">
-                <label for="registration_number" class="form-label">Registration Number</label>
-                <input type="text" id="registration_number" name="registration_number" value="<?php echo e(old('registration_number')); ?>" class="form-control">
-            </div>
+            <div class="col-md-6"></div>
         </div>
 
         <!-- Submit Button -->
@@ -186,4 +184,5 @@
 
 
 <?php $__env->stopSection(); ?>
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/child.blade.php ENDPATH**/ ?>

@@ -71,7 +71,13 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i> Account
+                    <i class="fa fa-user"></i> 
+                    <?php if(auth()->guard()->check()): ?>
+                    <?php echo e(auth()->user()->fullname->first_name ?? ''.' '.auth()->user()->fullname->last_name ?? ''); ?>
+
+                    <?php else: ?>
+                    Account
+                    <?php endif; ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <?php if(auth()->guard()->check()): ?>

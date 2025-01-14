@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-OfficialBranch',
-        'version' => 'dev-OfficialBranch',
-        'reference' => 'c8d79a21d4e868d387a62acfce99c2232747fb87',
+        'pretty_version' => 'dev-BeaconAdmin',
+        'version' => 'dev-BeaconAdmin',
+        'reference' => '98e3239e0aeef9fef3e36d21f56645c523d71add',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -383,9 +383,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-OfficialBranch',
-            'version' => 'dev-OfficialBranch',
-            'reference' => 'c8d79a21d4e868d387a62acfce99c2232747fb87',
+            'pretty_version' => 'dev-BeaconAdmin',
+            'version' => 'dev-BeaconAdmin',
+            'reference' => '98e3239e0aeef9fef3e36d21f56645c523d71add',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
