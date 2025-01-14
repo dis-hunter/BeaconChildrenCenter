@@ -14,7 +14,7 @@
             background-color: #fff;
         }
         
-        .tabs-content {
+        /* .tabs-content {
             max-height: 60vh;
             overflow-y: auto;
             scrollbar-width: thin;
@@ -31,7 +31,7 @@
         .tabs-content::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 3px;
-        }
+        } */
     </style>
 </head>
 <body class="bg-gray-50">
@@ -39,7 +39,7 @@
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Physiotherapy</h1>
         
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+            <!-- <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
                 <h2 class="text-lg font-medium text-gray-900">Session Documentation</h2>
                 <button 
                     onclick="handleGenerateReport()"
@@ -47,16 +47,16 @@
                 >
                     Generate Report
                 </button>
-            </div>
+            </div> -->
             
             <div class="p-4">
                 <form id="therapy-form" class="space-y-4" onsubmit="handleSubmit(event)">
-                    <input 
+                    <!-- <input 
                         type="date" 
                         id="session_date"
                         class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         onchange="handleDateChange(event)"
-                    />
+                    /> -->
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
@@ -143,8 +143,58 @@
                                     ></textarea>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <!-- Multi-date picker -->
+    <label class="block text-sm font-medium text-gray-700 mt-2">Select return Date(s)</label>
+            <div id="date-picker-container_<?php echo e($category); ?>">
+                <input 
+                    type="text" 
+                    class="multi-date-picker form-control border rounded px-2 py-1 mb-2" 
+                    id="dates_<?php echo e($category); ?>" 
+                    onchange="handleDatesChange('dates', '<?php echo e($category); ?>', event)" 
+                    placeholder="Select multiple dates" 
+                />
+            </div>
+            <button type="button" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="addDatePicker('<?php echo e($category); ?>')">Add Another Date</button>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
                             </div>
+                            <script>
+    // Initialize Flatpickr for multi-date selection
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.multi-date-picker').forEach(function (input) {
+            flatpickr(input, {
+                mode: 'multiple', // Allow multiple date selection
+                dateFormat: 'Y-m-d', // Format dates as desired
+            });
+        });
+    });
+
+    // Handle changes in selected dates
+    function handleDatesChange(type, category, event) {
+        const selectedDates = event.target.value;
+        console.log(`Selected dates for ${category}:`, selectedDates);
+        // Add logic to save or process these dates as needed
+    }
+
+    // Add another date picker
+    function addDatePicker(category) {
+        const container = document.getElementById(`date-picker-container_${category}`);
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'multi-date-picker form-control border rounded px-2 py-1 mb-2';
+        input.placeholder = 'Select multiple dates';
+        input.onchange = function(event) {
+            handleDatesChange('dates', category, event);
+        };
+        container.appendChild(input);
+        flatpickr(input, {
+            mode: 'multiple',
+            dateFormat: 'Y-m-d',
+        });
+    }
+</script>
+<!-- Include Flatpickr CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                         </div>
                 </form>
             </div>
@@ -582,6 +632,7 @@ headers: {
     const categories = [
         'Home Practice Assignments',
         'Next Session Plan',
+        'Dates'
     ];
 
     const followupData = {};
@@ -596,6 +647,12 @@ headers: {
                 followupData[category] = textarea.value.trim();
             }
         });
+        // Collect dates from the date picker
+        const datePickers = document.querySelectorAll('.multi-date-picker');
+            followupData['Dates'] = [];
+            datePickers.forEach(picker => {
+                followupData['Dates'].push(picker.value);
+            });
 
         const payload = {
             child_id: 1,

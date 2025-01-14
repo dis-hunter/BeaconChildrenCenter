@@ -39,7 +39,7 @@
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Phychotherapy</h1>
         
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+            <!-- <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
                 <h2 class="text-lg font-medium text-gray-900">Session Documentation</h2>
                 <button 
                     onclick="handleGenerateReport()"
@@ -47,16 +47,16 @@
                 >
                     Generate Report
                 </button>
-            </div>
+            </div> -->
             
             <div class="p-4">
                 <form id="therapy-form" class="space-y-4" onsubmit="handleSubmit(event)">
-                    <input 
+                    <!-- <input 
                         type="date" 
                         id="session_date"
                         class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         onchange="handleDateChange(event)"
-                    />
+                    /> -->
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
