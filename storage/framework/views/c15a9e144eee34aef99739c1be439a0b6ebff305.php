@@ -150,12 +150,12 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingReasons">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReasons" aria-expanded="false" aria-controls="collapseReasons">
-                        Reasons for Consultation
+                        Therapist's Careplan
                     </button>
                 </h2>
                 <div id="collapseReasons" class="accordion-collapse collapse" aria-labelledby="headingReasons" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
-                        <!-- Dynamic Form Here -->
+                        
                     </div>
                 </div>
             </div>
@@ -164,12 +164,17 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingDiagnosis">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiagnosis" aria-expanded="false" aria-controls="collapseDiagnosis">
-                        Diagnosis
+                        Prescription
                     </button>
                 </h2>
                 <div id="collapseDiagnosis" class="accordion-collapse collapse" aria-labelledby="headingDiagnosis" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
-                        <!-- Dynamic Form Here -->
+                        <?php if($prescription): ?>
+                            <?php echo e(implode(',', $prescription->data->prescribed_drugs) ?? $prescription?->data?->prescribed_drugs); ?>
+
+                        <?php else: ?>
+                            <p>No prescription available...</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -178,12 +183,21 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingMedication">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedication" aria-expanded="false" aria-controls="collapseMedication">
-                        Medication
+                        Referral Letter
                     </button>
                 </h2>
                 <div id="collapseMedication" class="accordion-collapse collapse" aria-labelledby="headingMedication" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
-                        <!-- Dynamic Form Here -->
+                        <?php if($referral): ?>
+                        <ul>
+                            <li><strong>Summary History: </strong><?php echo e($referral?->data?->summaryHistory ?? 'N/A'); ?></li>
+                            <li><strong>Differential Diagnosis: </strong><?php echo e($referral?->data?->differentialDiagnosis ?? 'N/A'); ?></li>
+                            <li><strong>Reasons for Referral: </strong><?php echo e($referral?->data?->reasonsForReferral ?? 'N/A'); ?></li>
+                            <li><strong>Referred To: </strong><?php echo e($referral?->data?->referredTo ?? 'N/A'); ?></li>
+                        </ul>
+                        <?php else: ?>
+                            <p>No Referral Letter available...</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,8 @@ use App\Models\ChildParent;
 use App\Models\Children; // Ensure the model name matches your file structure
 use App\Models\Gender;
 use App\Models\Parents; // Ensure the model name matches your file structure
+use App\Models\Prescription;
+use App\Models\Referral;
 use App\Models\Relationship;
 use App\Models\Triage;
 use App\Models\Visits;
@@ -183,19 +185,25 @@ class ChildrenController extends Controller
         
             }
             $triage=Triage::where('child_id',$child->id)
-                ->orderBy('created_at','desc')
+                ->latest()
                 ->first() ?? null;
 
             $careplan = Careplan::where('child_id',$child->id)
             ->latest()
             ->first();
-            if(!$careplan){
-                $careplan=null;
-            }else{
-                $careplan->notes=Careplan::notes($careplan);
+            if($careplan){
+                $careplan->notes=Careplan::notes($careplan) ?? null;
+
+                $prescription=Prescription::where('child_id',$child->id)
+                ->latest()
+                ->first() ?? null;
+
+                $referral=Referral::where('child_id',$child->id)
+                ->latest()
+                ->first() ?? null;
             }
             
-            return view('reception.patients', compact('child','gender','last_visit','triage','careplan'));
+            return view('reception.patients', compact('child','gender','last_visit','triage','careplan','prescription','referral'));
         } else {
             return view('reception.patients',['child' => null]);
         }

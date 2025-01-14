@@ -36,7 +36,7 @@
                         ?>
                         <div class="dropdown-item d-flex justify-content-between align-items-center">
                             <a href="<?php echo e(route($route, ['id' => $record->id])); ?>" class="text-decoration-none">
-                                <?php echo e((($record->fullname->first_name ?? '').' '.($record->fullname->middle_name ?? '').' '.($record->fullname->last_name ?? '')) ?? 'N/A'); ?>
+                                <?php echo e((($record->fullname?->first_name ?? '').' '.($record->fullname?->middle_name ?? '').' '.($record->fullname?->last_name ?? '')) ?? 'N/A'); ?>
 
                             </a>
                             <?php if(strtolower($model) === 'patients'): ?>

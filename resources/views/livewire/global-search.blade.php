@@ -36,7 +36,7 @@
                         @endphp
                         <div class="dropdown-item d-flex justify-content-between align-items-center">
                             <a href="{{ route($route, ['id' => $record->id]) }}" class="text-decoration-none">
-                                {{ (($record->fullname->first_name ?? '').' '.($record->fullname->middle_name ?? '').' '.($record->fullname->last_name ?? '')) ?? 'N/A' }}
+                                {{ (($record->fullname?->first_name ?? '').' '.($record->fullname?->middle_name ?? '').' '.($record->fullname?->last_name ?? '')) ?? 'N/A' }}
                             </a>
                             @if (strtolower($model) === 'patients')
                                 <a href="{{route('search.visit',['id'=>$record->id])}}"><button class="btn btn-dark btn-sm">Visit</button></a>
