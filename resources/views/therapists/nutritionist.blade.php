@@ -169,20 +169,75 @@
                         </div>
                         
                         <!-- Follow-up Tab-->
-                        <div id="followup" class="tabs-content space-y-4 p-4 hidden">
-                        @foreach(['Home Practice Assignments', 'Evaluate and Adapt','Next Session Plan',] as $category)
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
-                                    <textarea 
+<div id="followup" class="tabs-content space-y-4 p-4 hidden">
+    @foreach(['Home Practice Assignments', 'Evaluate and Adapt', 'Next Session Plan'] as $category)
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <!-- Textarea for notes -->
+            <textarea 
                 class="form-control"
                 style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                                        id="followup_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
-                                    ></textarea>
-                                </div>
-                            @endforeach
-                            <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
-                        </div>
+                id="followup_{{ $category }}"
+                onchange="handleChange('preparation', '{{ $category }}', event)"
+            ></textarea>
+
+            
+        </div>
+    @endforeach
+    <!-- Multi-date picker -->
+    <label class="block text-sm font-medium text-gray-700 mt-2">Select Dates</label>
+            <div id="date-picker-container_{{ $category }}">
+                <input 
+                    type="text" 
+                    class="multi-date-picker form-control border rounded px-2 py-1 mb-2" 
+                    id="dates_{{ $category }}" 
+                    onchange="handleDatesChange('dates', '{{ $category }}', event)" 
+                    placeholder="Select multiple dates" 
+                />
+            </div>
+            <button type="button" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="addDatePicker('{{ $category }}')">Add Another Date</button>
+    <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
+</div>
+
+<script>
+    // Initialize Flatpickr for multi-date selection
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.multi-date-picker').forEach(function (input) {
+            flatpickr(input, {
+                mode: 'multiple', // Allow multiple date selection
+                dateFormat: 'Y-m-d', // Format dates as desired
+            });
+        });
+    });
+
+    // Handle changes in selected dates
+    function handleDatesChange(type, category, event) {
+        const selectedDates = event.target.value;
+        console.log(`Selected dates for ${category}:`, selectedDates);
+        // Add logic to save or process these dates as needed
+    }
+
+    // Add another date picker
+    function addDatePicker(category) {
+        const container = document.getElementById(`date-picker-container_${category}`);
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'multi-date-picker form-control border rounded px-2 py-1 mb-2';
+        input.placeholder = 'Select multiple dates';
+        input.onchange = function(event) {
+            handleDatesChange('dates', category, event);
+        };
+        container.appendChild(input);
+        flatpickr(input, {
+            mode: 'multiple',
+            dateFormat: 'Y-m-d',
+        });
+    }
+</script>
+
+<!-- Include Flatpickr CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     </div>
                 </form>
             
