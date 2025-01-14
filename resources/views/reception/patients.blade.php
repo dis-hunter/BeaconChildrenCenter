@@ -39,10 +39,11 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
+                    <div class="toReferral">
                     <h5 class="card-title">{{($child->fullname->first_name ?? '').' '.($child->fullname->middle_name ?? '').' '.( $child->fullname->last_name ?? '')}}</h5>
                     <p class="text-muted">{{$gender->gender}}, Age {{$child->age}}</p>
                     <p><strong>{{$child->registration_number}}</strong></p>
-                    <p class="text-muted">Birth_Certificate: {{$child->birth_cert}}</p>
+                    <p class="text-muted">Birth Certificate: {{$child->birth_cert}}</p></div>
                     <p><strong>Last Visited:</strong> {{$last_visit->visit_date ?? 'First Time'}}, {{$last_visit?->visitType?->first()?->visit_type ?? 'N/A'}}</p>
                     {{-- <div>
                         <span class="pill">Peanut Allergy</span>
@@ -173,7 +174,101 @@
                 <div id="collapseDiagnosis" class="accordion-collapse collapse" aria-labelledby="headingDiagnosis" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
                         @if ($prescription)
+                        <div class="prescription">
                             {{implode(' , ', $prescription->data->prescribed_drugs) ?? $prescription?->data?->prescribed_drugs }}
+                        </div>
+                            <div><button class="btn btn-outline-success" id="printButton">Print</button></div>
+                        <script>
+                            const printButton = document.getElementById('printButton');
+                            printButton.addEventListener('click', () => {
+                            console.log("Print button clicked");
+                            const printWindow = window.open('', '_blank');
+                            const prescriptionContent = document.querySelector('.prescription').innerHTML;
+                            const patientDetails=document.querySelector('.toReferral').innerHTML;
+                            printWindow.document.write(`
+                                <html>
+                                <head>
+                                    <title>Prescription</title>
+                                    <style>
+                                    body {
+                                    font-family: sans-serif;
+                                    margin: 0;
+                                }
+                                .referral-letter {
+                                    max-width: 800px;
+                                    margin: 20px auto;
+                                    padding: 30px;
+                                    font-family: Arial, sans-serif;
+                                    line-height: 1.6;
+                                    color: #333;
+                                    background: white;
+                                }
+
+                                /* List Styling */
+                                .referral-letter ul {
+                                    list-style-type: none;
+                                    padding: 0;
+                                    margin: 0;
+                                }
+
+                                .referral-letter li {
+                                    margin-bottom: 1.2em;
+                                    padding-bottom: 0.8em;
+                                    border-bottom: 1px solid #eee;
+                                }
+
+                                /* Last list item shouldn't have a border */
+                                .referral-letter li:last-child {
+                                    border-bottom: none;
+                                }
+
+                                /* Strong tags (labels) */
+                                .referral-letter strong {
+                                    display: inline-block;
+                                    min-width: 180px;
+                                    color: #2c3e50;
+                                    font-weight: 600;
+                                }
+
+                                /* Print-specific styles */
+                                @media print {
+                                    .referral-letter {
+                                        margin: 0;
+                                        padding: 20px;
+                                        box-shadow: none;
+                                    }
+                                    
+                                    /* Ensure page breaks don't occur within list items */
+                                    .referral-letter li {
+                                        page-break-inside: avoid;
+                                    }
+                                    
+                                    /* Improve text contrast for printing */
+                                    .referral-letter strong {
+                                        color: #000;
+                                    }
+                                }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div>
+                                        <h4>
+                                            Prescription
+                                        </h4>
+                                    </div>
+                                    <div class="patient">${patientDetails}</div>
+                                    <div class="referral-letter">
+                                    ${prescriptionContent}
+                                    </div>
+                                </body>
+                                </html>
+                            `);
+                            printWindow.document.close();
+                            printWindow.focus();
+                            printWindow.print();
+                            printWindow.close();
+                            });
+                        </script>
                         @else
                             <p>No prescription available...</p>
                         @endif
@@ -191,12 +286,106 @@
                 <div id="collapseMedication" class="accordion-collapse collapse" aria-labelledby="headingMedication" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
                         @if ($referral)
+                        <div class="referral-letter">
                         <ul>
                             <li><strong>Summary History: </strong>{{$referral?->data?->summaryHistory ?? 'N/A'}}</li>
                             <li><strong>Differential Diagnosis: </strong>{{$referral?->data?->differentialDiagnosis ?? 'N/A'}}</li>
                             <li><strong>Reasons for Referral: </strong>{{$referral?->data?->reasonsForReferral ?? 'N/A'}}</li>
                             <li><strong>Referred To: </strong>{{$referral?->data?->referredTo ?? 'N/A'}}</li>
                         </ul>
+                    </div>
+                        <div><button class="btn btn-outline-success" id="printButton">Print</button></div>
+                        <script>
+                            const printButton = document.getElementById('printButton');
+                            printButton.addEventListener('click', () => {
+                            console.log("Print button clicked");
+                            const printWindow = window.open('', '_blank');
+                            const referralLetterContent = document.querySelector('.referral-letter').innerHTML;
+                            const patientDetails=document.querySelector('.toReferral').innerHTML;
+                            printWindow.document.write(`
+                                <html>
+                                <head>
+                                    <title>Referral Letter</title>
+                                    <style>
+                                    body {
+                                    font-family: sans-serif;
+                                    margin: 0;
+                                }
+                                .referral-letter {
+                                    max-width: 800px;
+                                    margin: 20px auto;
+                                    padding: 30px;
+                                    font-family: Arial, sans-serif;
+                                    line-height: 1.6;
+                                    color: #333;
+                                    background: white;
+                                }
+
+                                /* List Styling */
+                                .referral-letter ul {
+                                    list-style-type: none;
+                                    padding: 0;
+                                    margin: 0;
+                                }
+
+                                .referral-letter li {
+                                    margin-bottom: 1.2em;
+                                    padding-bottom: 0.8em;
+                                    border-bottom: 1px solid #eee;
+                                }
+
+                                /* Last list item shouldn't have a border */
+                                .referral-letter li:last-child {
+                                    border-bottom: none;
+                                }
+
+                                /* Strong tags (labels) */
+                                .referral-letter strong {
+                                    display: inline-block;
+                                    min-width: 180px;
+                                    color: #2c3e50;
+                                    font-weight: 600;
+                                }
+
+                                /* Print-specific styles */
+                                @media print {
+                                    .referral-letter {
+                                        margin: 0;
+                                        padding: 20px;
+                                        box-shadow: none;
+                                    }
+                                    
+                                    /* Ensure page breaks don't occur within list items */
+                                    .referral-letter li {
+                                        page-break-inside: avoid;
+                                    }
+                                    
+                                    /* Improve text contrast for printing */
+                                    .referral-letter strong {
+                                        color: #000;
+                                    }
+                                }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div>
+                                        <h4>
+                                            Referral Letter
+                                        </h4>
+                                    </div>
+                                    <div class="patient">${patientDetails}</div>
+                                    <div class="referral-letter">
+                                    ${referralLetterContent}
+                                    </div>
+                                </body>
+                                </html>
+                            `);
+                            printWindow.document.close();
+                            printWindow.focus();
+                            printWindow.print();
+                            printWindow.close();
+                            });
+                        </script>
                         @else
                             <p>No Referral Letter available...</p>
                         @endif
