@@ -14,7 +14,26 @@
                 wire:blur="$set('isFocused',false)"
                 style="width: 300px;" 
             />
-        </div>
+            </div>
+            <div wire:loading.block class="loader"></div>
+            <style>
+                .loader {
+                    height: 5px;
+                    width: inherit;
+                    --c:no-repeat linear-gradient(#6100ee 0 0);
+                    background: var(--c),var(--c),#d7b8fc;
+                    background-size: 60% 100%;
+                    animation: l16 3s infinite;
+                    border-radius: 5px;
+                    }
+                @keyframes l16 {
+                    0%   {background-position:-150% 0,-150% 0}
+                    66%  {background-position: 250% 0,-150% 0}
+                    100% {background-position: 250% 0, 250% 0}
+                    }
+            </style>
+            
+        
     
         <!-- Results Dropdown -->
         <?php if($isFocused && (!empty($query) || !empty($history))): ?>
@@ -45,7 +64,7 @@
 
             <?php $__empty_1 = true; $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model => $records): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <h6 class="dropdown-header"><?php echo e($model); ?></h6>
-                <?php if($records->isEmpty()): ?>
+                <?php if(empty($records)): ?>
                     <div class="dropdown-item text-muted">No <?php echo e(strtolower($model)); ?> found.</div>
                 <?php else: ?>
                     <?php $__currentLoopData = $records; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $record): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -70,7 +89,6 @@
         
         <?php endif; ?>
     </div>
-    
     
 </div>
 <?php /**PATH D:\github\BeaconChildrenCenter\resources\views/livewire/global-search.blade.php ENDPATH**/ ?>

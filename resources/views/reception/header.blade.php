@@ -7,6 +7,7 @@
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  @livewireStyles
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 

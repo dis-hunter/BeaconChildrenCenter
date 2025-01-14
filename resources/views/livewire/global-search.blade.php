@@ -14,7 +14,26 @@
                 wire:blur="$set('isFocused',false)"
                 style="width: 300px;" 
             />
-        </div>
+            </div>
+            <div wire:loading.block class="loader"></div>
+            <style>
+                .loader {
+                    height: 5px;
+                    width: inherit;
+                    --c:no-repeat linear-gradient(#6100ee 0 0);
+                    background: var(--c),var(--c),#d7b8fc;
+                    background-size: 60% 100%;
+                    animation: l16 3s infinite;
+                    border-radius: 5px;
+                    }
+                @keyframes l16 {
+                    0%   {background-position:-150% 0,-150% 0}
+                    66%  {background-position: 250% 0,-150% 0}
+                    100% {background-position: 250% 0, 250% 0}
+                    }
+            </style>
+            
+        
     
         <!-- Results Dropdown -->
         @if($isFocused && (!empty($query) || !empty($history)))
@@ -44,7 +63,7 @@
 
             @forelse($results as $model => $records)
                 <h6 class="dropdown-header">{{ $model }}</h6>
-                @if($records->isEmpty())
+                @if(empty($records))
                     <div class="dropdown-item text-muted">No {{ strtolower($model) }} found.</div>
                 @else
                     @foreach($records as $record)
@@ -68,6 +87,5 @@
         
         @endif
     </div>
-    
     
 </div>

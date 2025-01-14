@@ -7,6 +7,8 @@
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <?php echo \Livewire\Livewire::styles(); ?>
+
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
@@ -52,15 +54,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('Pd6Dt6o')) {
-    $componentId = $_instance->getRenderedChildComponentId('Pd6Dt6o');
-    $componentTag = $_instance->getRenderedChildComponentTagName('Pd6Dt6o');
+} elseif ($_instance->childHasBeenRendered('DExBQKH')) {
+    $componentId = $_instance->getRenderedChildComponentId('DExBQKH');
+    $componentTag = $_instance->getRenderedChildComponentTagName('DExBQKH');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('Pd6Dt6o');
+    $_instance->preserveRenderedChild('DExBQKH');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('Pd6Dt6o', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('DExBQKH', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 

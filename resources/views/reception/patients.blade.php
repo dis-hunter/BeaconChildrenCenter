@@ -177,7 +177,7 @@
                         <div class="prescription">
                             {{implode(' , ', $prescription->data->prescribed_drugs) ?? $prescription?->data?->prescribed_drugs }}
                         </div>
-                            <div><button class="btn btn-outline-success" id="printButton">Print</button></div>
+                            <div><button class="btn btn-outline-success mt-4" id="printButton">Print</button></div>
                         <script>
                             const printButton = document.getElementById('printButton');
                             printButton.addEventListener('click', () => {
