@@ -736,6 +736,7 @@ headers: {
         'Home Practice Assignments',
         'Evaluate and Adapt',
         'Next Session Plan',
+        'Dates',
     ];
     
 
@@ -751,14 +752,18 @@ headers: {
                 followupData[category] = textarea.value.trim();
             }
         });
-        
+        // Collect dates from the date picker
+        const datePickers = document.querySelectorAll('.multi-date-picker');
+            followupData['Dates'] = [];
+            datePickers.forEach(picker => {
+                followupData['Dates'].push(picker.value);
+            });
 
         const payload = {
             child_id: childId,
             staff_id: 8,
             therapy_id: 1,
             data: followupData,
-            dates: [], // Add the selected dates here
         };
 
         // Make the request - natural network delay will occur here

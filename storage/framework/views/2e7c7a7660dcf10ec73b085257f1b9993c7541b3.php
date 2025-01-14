@@ -185,7 +185,7 @@
         </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <!-- Multi-date picker -->
-    <label class="block text-sm font-medium text-gray-700 mt-2">Select Dates</label>
+    <label class="block text-sm font-medium text-gray-700 mt-2">Select return Date(s)</label>
             <div id="date-picker-container_<?php echo e($category); ?>">
                 <input 
                     type="text" 
@@ -736,7 +736,9 @@ headers: {
         'Home Practice Assignments',
         'Evaluate and Adapt',
         'Next Session Plan',
+        'Dates',
     ];
+    
 
     const followupData = {};
 
@@ -750,12 +752,18 @@ headers: {
                 followupData[category] = textarea.value.trim();
             }
         });
+        // Collect dates from the date picker
+        const datePickers = document.querySelectorAll('.multi-date-picker');
+            followupData['Dates'] = [];
+            datePickers.forEach(picker => {
+                followupData['Dates'].push(picker.value);
+            });
 
         const payload = {
             child_id: childId,
             staff_id: 8,
             therapy_id: 1,
-            data: followupData
+            data: followupData,
         };
 
         // Make the request - natural network delay will occur here
