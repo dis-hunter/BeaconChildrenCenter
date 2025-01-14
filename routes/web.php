@@ -437,6 +437,29 @@ Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatien
 
 Route::get('/doctorDashboard',[DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
 
+Route::get('/past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'getPastMedicalHistory']);
+Route::post('/save-past-medical-history/{registrationNumber}', [PastMedicalHistoryController::class, 'savePastMedicalHistory']);
+
+
+
+
+
+Route::get('/general-exam/{registrationNumber}', [GeneralExamController::class, 'getGeneralExam']);
+Route::post('/general-exam/{registrationNumber}', [GeneralExamController::class, 'saveGeneralExam']);
+
+
+
+
+Route::get('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'getDevelopmentAssessment']);
+Route::post('/development-assessment/{registrationNumber}', [DevelopmentAssessmentController::class, 'saveDevelopmentAssessment']);
+
+
+
+Route::get('/diagnosis/{registrationNumber}', [DiagnosisController::class, 'getDiagnosis']);
+Route::post('/save-diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
+
+
+
 Route::get('/sign_in', function () {
     return view('sign_in');
 });
@@ -515,6 +538,23 @@ Route::get('/visithandle', function () {
     return view('Receiptionist/visits');
 });
 Route::get('/staff-dropdown', [StaffController::class, 'index']);
+
+Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
+Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
+
+
+use App\Http\Controllers\IcdSearchController;
+
+Route::post('/search', [IcdSearchController::class, 'search']);
+
+
+
+
+
+
+
+
+
 
 Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
 Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');

@@ -160,18 +160,14 @@
       cursor: pointer;
     }
   </style>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body>
 
 <div class="sidebar">
-  <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;">{{ $firstName }} {{ $middleName }} {{ $lastName }}</span></h2> 
+  <h2><i class="fas fa-user-md"></i> Active Patient <br> <span style="color:blue;"><?php echo e($firstName); ?> <?php echo e($middleName); ?> <?php echo e($lastName); ?></span></h2> 
   <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
-  <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-  </form>
-
+  <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
   <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
   <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
 </div>
@@ -184,7 +180,7 @@
 
 <div class="floating-menu" id="floatingMenu">
   <a href="#triageExam">Triage Exam</a><div id="triageExam"></div>
-  <a href="#EncounterSummary">Encounters Summary</a>
+  <a href="#">Encounters Summary</a>
   <a href="#perinatalHistory">Perinatal History</a><div id="perinatalHistory"></div>
   <a href="#pastMedicalHistory">Past Medical History</a><div id="pastMedicalHistory"></div>
   <a href="#devMilestones">Developmental Milestones</a><div id="devMilestones"></div>
@@ -214,64 +210,63 @@
         <form id="patient-form">
           <div class="input-group">
             <div>
-            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
               <label for="firstName">First Name:</label>
-              <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
+              <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>">
             </div>
             <div>
               <label for="middleName">Middle Name:</label>
-              <input type="text" id="middleName" name="middleName" value="{{ $middleName }}">
+              <input type="text" id="middleName" name="middleName" value="<?php echo e($middleName); ?>">
             </div>
             <div>
               <label for="lastName">Last Name:</label>
-              <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
+              <input type="text" id="lastName" name="lastName" value="<?php echo e($lastName); ?>">
             </div>
           </div>
           
           <div class="input-group">
             <div>
               <label for="dob">DOB:</label>
-              <input type="date" id="dob" name="dob" value="{{ $child->dob }}"> 
+              <input type="date" id="dob" name="dob" value="<?php echo e($child->dob); ?>"> 
             </div>
             <div>
               <label for="genderAge">Gender/Age:</label>
-              <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}">
+              <input type="text" id="genderAge" name="genderAge" value="<?php echo e($gender); ?>">
             </div>
             <div>
               <label for="hnu">HNU:</label>
-              <input type="text" id="hnu" name="hnu" value="{{ $child->registration_number }}">
+              <input type="text" id="hnu" name="hnu" value="<?php echo e($child->registration_number); ?>">
             </div>
           </div>
 
           <div class="input-group">
-    <div>
-      <label for="mothersName">Mother's Name:</label>
-      <input type="text" id="mothersName" name="mothersName" value="{{ $parents['Mother']['fullname'] ?? '' }}"> 
-    </div>
-    <div>
-      <label for="motherTel">Tel:</label>
-      <input type="text" id="motherTel" name="motherTel" value="{{ $parents['Mother']['telephone'] ?? '' }}"> 
-    </div>
-    <div>
-      <label for="motherEmail">Email:</label>
-      <input type="text" id="motherEmail" name="motherEmail" value="{{ $parents['Mother']['email'] ?? '' }}"> 
-    </div>
-  </div>
+            <div>
+              <label for="mothersName">Mother's Name:</label>
+              <input type="text" id="mothersName" name="mothersName">
+            </div>
+            <div>
+              <label for="motherTel">Tel:</label>
+              <input type="text" id="motherTel" name="motherTel">
+            </div>
+            <div>
+              <label for="motherEmail">Email:</label>
+              <input type="text" id="motherEmail" name="motherEmail">
+            </div>
+          </div>
 
           <div class="input-group">
-    <div>
-      <label for="fathersName">Father's Name:</label>
-      <input type="text" id="fathersName" name="fathersName" value="{{ $parents['Father']['fullname'] ?? '' }}"> 
-    </div>
-    <div>
-      <label for="fatherTel">Tel:</label>
-      <input type="text" id="fatherTel" name="fatherTel" value="{{ $parents['Father']['telephone'] ?? '' }}"> 
-    </div>
-    <div>
-      <label for="fatherEmail">Email:</label>
-      <input type="text" id="fatherEmail" name="fatherEmail" value="{{ $parents['Father']['email'] ?? '' }}"> 
-    </div>
-  </div>
+            <div>
+              <label for="fathersName">Father's Name:</label>
+              <input type="text" id="fathersName" name="fathersName">
+            </div>
+            <div>
+              <label for="fatherTel">Tel:</label>
+              <input type="text" id="fatherTel" name="fatherTel">
+            </div>
+            <div>
+              <label for="fatherEmail">Email:</label>
+              <input type="text" id="fatherEmail" name="fatherEmail">
+            </div>
+          </div>
 
           <label for="informant">Informant:</label>
           <input type="text" id="informant" name="informant">
@@ -283,7 +278,7 @@
 
          <div class="highlighted">
     <label for="doctorsNotes">Doctor's Notes:</label>
-   <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50">{{ $doctorsNotes }}</textarea>
+    <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50"><?php echo e($doctorsNotes); ?></textarea>
 </div>
 
 
@@ -292,80 +287,39 @@
             <input type="text" id="createdBy" name="createdBy">
           </div>
 
-<button id="saveButton" type="button">Save</button>
+          <button type="submit">Save</button>
         </form> 
       </div>
     `;
-    const saveButton = document.getElementById("saveButton");
-      saveButton.addEventListener("click", function(event) {
-          event.preventDefault();
-          saveDoctorNotes();
-      });
     }
 
+    // Event listener for Home link
     const homeLink = document.getElementById('homeLink');
     if (homeLink) {
       homeLink.addEventListener('click', showHomeForm);
     }
 
+    // Call showHomeForm() to display the form initially
     showHomeForm();
-});
-async function saveDoctorNotes() {
-    try {
-        const doctorNotes = document.getElementById("doctorsNotes").value;
-        const childId = document.getElementById('child_id').value;
-
-        const dataToSend = {
-            child_id: childId,
-            notes: doctorNotes
-        };
-
-        const response = await fetch('/saveDoctorNotes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            body: JSON.stringify(dataToSend)
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        if (result.status === 'success') {
-            alert('Notes saved successfully!');
-        } else {
-            alert('Failed to save notes. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error saving notes');
-    }
-}
-
-
-
-        
+  });
 </script>
-<script src="{{ asset('js/doctor.js') }}"></script>
-<script src="{{ asset('js/Referral.js') }}"></script>
-<script src="{{ asset('js/careplan.js') }}"></script>
-<script src="{{ asset('js/developmentalAssesment.js') }}"></script>
-<script src="{{ asset('js/examination.js') }}"></script>
-<script src="{{ asset('js/pastMedicalHistory.js') }}"></script>
-<script src="{{ asset('js/familyAndSocial.js') }}"></script>
-<script src="{{ asset('js/developmentalMilestones.js') }}"></script>
-<script src="{{ asset('js/perinatalHistory.js') }}"></script>
-<script src="{{ asset('js/behaviourAssesment.js') }}"></script>
-<script src="{{ asset('js/generalExam.js') }}"></script>
-<script src="{{ asset('js/diagnosis.js') }}"></script>
-<script src="{{ asset('js/triageresults.js') }}"></script>
-<script src="{{ asset('js/investigations.js') }}"></script>
-<script src="{{ asset('js/recordResults.js') }}"></script>
-<script src="{{ asset('js/EncounterSummary.js') }}"></script>
-
+<script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
+<script src="<?php echo e(asset('js/Referral.js')); ?>"></script>
+<script src="<?php echo e(asset('js/careplan.js')); ?>"></script>
+<script src="<?php echo e(asset('js/developmentalAssesment.js')); ?>"></script>
+<script src="<?php echo e(asset('js/examination.js')); ?>"></script>
+<script src="<?php echo e(asset('js/pastMedicalHistory.js')); ?>"></script>
+<script src="<?php echo e(asset('js/familyAndSocial.js')); ?>"></script>
+<script src="<?php echo e(asset('js/developmentalMilestones.js')); ?>"></script>
+<script src="<?php echo e(asset('js/perinatalHistory.js')); ?>"></script>
+<script src="<?php echo e(asset('js/behaviourAssesment.js')); ?>"></script>
+<script src="<?php echo e(asset('js/generalExam.js')); ?>"></script>
+<script src="<?php echo e(asset('js/diagnosis.js')); ?>"></script>
+<script src="<?php echo e(asset('js/triageresults.js')); ?>"></script>
+<script src="<?php echo e(asset('js/investigations.js')); ?>"></script>
+<script src="<?php echo e(asset('js/recordResults.js')); ?>"></script>
+<script src="<?php echo e(asset('js/prescriptions.js')); ?>"></script>
 
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/doctor.blade.php ENDPATH**/ ?>

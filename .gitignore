@@ -3,4 +3,8 @@ npm-debug.log
 yarn-error.log
 .vite/
 public/hot/
+<<<<<<< HEAD
 .env
+=======
+.env
+>>>>>>> 27e997c97ef2be4598a28fc00bc5a7fe2625fa80
