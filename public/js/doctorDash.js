@@ -383,53 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-document.getElementById('doctor_specialization').addEventListener('change', function () {
-  const specializationId = this.value;
 
-  // Clear existing specialists
-  const specialistDropdown = document.getElementById('specialist');
-  specialistDropdown.innerHTML = '<option value="">-- Select a doctor --</option>';
-
-  // Clear the no-specialists message
-  document.getElementById('no-specialists-message').style.display = 'none';
-
-  if (specializationId) {
-      fetch(`/specialists?specialization_id=${specializationId}`)
-          .then(response => response.json())
-          .then(specialists => {
-              if (specialists.length > 0) {
-                  specialists.forEach(specialist => {
-                      const option = document.createElement('option');
-                      option.value = specialist.id;
-                      option.textContent = specialist.name;
-                      specialistDropdown.appendChild(option);
-                  });
-              } else {
-                  // Show "no specialists" message if none found
-                  document.getElementById('no-specialists-message').style.display = 'block';
-              }
-          })
-          .catch(error => {
-              console.error('Error fetching specialists:', error);
-          });
-  }
-});
-document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/get-specializations') // Replace with the actual route
-      .then((response) => response.json())
-      .then((data) => {
-          if (data.status === 'success') {
-              const select = document.getElementById('doctor_specialization');
-              data.data.forEach((specialization) => {
-                  const option = document.createElement('option');
-                  option.value = specialization.id;
-                  option.textContent = specialization.specialization;
-                  select.appendChild(option);
-              });
-          }
-      })
-      .catch((error) => console.error('Error fetching specializations:', error));
-});
 
 // Start consultation button event listener
 startConsultationButton.addEventListener('click', () => {

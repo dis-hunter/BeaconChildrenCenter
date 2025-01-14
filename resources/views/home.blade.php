@@ -95,13 +95,14 @@
 
   @auth
     <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p> 
+    <p>{{auth()->user()->staff_no}}</p>
   @endauth
 
   <div class="features">
     <div class="feature">
       <i class="fas fa-user-md"></i>
-      <h3>Experienced Doctors</h3>
-      <p>Our clinic has a team of experienced and qualified doctors.</p>
+      <h3>Experienced Professionals</h3>
+      <p>The center has a team of experienced professionals.</p>
     </div>
     <div class="feature">
       <i class="fas fa-calendar-check"></i>
@@ -111,12 +112,12 @@
     <div class="feature">
       <i class="fas fa-heartbeat"></i>
       <h3>Quality Care</h3>
-      <p>We are dedicated to providing the highest quality care to our patients.</p>
+      <p>We are committed to providing the highest quality care to our clients.</p>
     </div>
     <div class="feature"> 
       <i class="fas fa-child"></i> 
       <h3>Child-Friendly Environment</h3>
-      <p>We provide a comfortable and welcoming space for children.</p>
+      <p>We provide a welcoming, comfortable and safe space for all children.</p>
     </div>
   </div>
 

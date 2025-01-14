@@ -15,11 +15,10 @@ class EditChildModal extends Component
 
     public function mount($child)
     {
-        $this->child = $child;
-        $c_fullname = json_decode($child->fullname, true);
-        $this->firstname = $c_fullname['first_name'];
-        $this->middlename = $c_fullname['middle_name'];
-        $this->lastname = $c_fullname['last_name'];
+        $this->child = $child;     
+        $this->firstname = $child->fullname->first_name;
+        $this->middlename = $child->fullname->middle_name;
+        $this->lastname = $child->fullname->last_name;
         $this->dob = $child->dob;
         $this->birth_cert = $child->birth_cert;
         $this->registration_number = $child->registration_number;

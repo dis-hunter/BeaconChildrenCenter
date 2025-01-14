@@ -10,7 +10,7 @@
     
         <!-- Search Input -->
         <div class="col-lg-5 col-md-5 col-sm-10 p-2">
-            <input type="text" wire:model.debounce.300ms="query" class="form-control search-input" placeholder="Enter search term">
+            <input type="text" wire:model.debounce.300ms="query" class="form-control search-input" placeholder="Enter parent details">
             @error('query') 
                 <span class="text-danger error-message">{{ $message }}</span>
             @enderror
@@ -40,10 +40,8 @@
                     @foreach($parents as $parent)
                         <li class="result-item">
                             <a href="search/{{$parent->id}}" class="result-link">
-                                @php
-                                    $fullname=json_decode($parent->fullname,true);
-                                @endphp
-                                <span class="result-title">{{$fullname['first_name'] .' '. $fullname['last_name']}}</span>
+                                
+                                <span class="result-title">{{$parent->fullname->last_name .' '.$parent->fullname->first_name.' '.$parent->fullname->middle_name}}</span>
                                 <span class="result-title">{{ $parent->telephone }}</span>
                                 <span class="result-title">{{ $parent->email }}</span>
                                 <span class="result-title">{{ $parent->national_id }}</span>

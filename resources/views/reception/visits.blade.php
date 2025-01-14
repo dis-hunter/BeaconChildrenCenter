@@ -1,28 +1,56 @@
 <!-- Search Form -->
  <h2>jumanji</h2>
 @extends('reception.layout')
-@section('title','Visits')
+@section('title','Visits | Reception')
+@extends('reception.header')
 @section('content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{asset ('css/visit.css')}}">
 
-<h2>Search </h2>
-<form action="{{ route('parent.get-children') }}" method="post">
-    @csrf
-    <table>
-    <tr>
-            <td>Search by Name</td>
-            <td><input type="text" name="child_name" placeholder="Enter Name" value="{{ old('fullname') }}"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-        <tr>
-            <td>Search by Telephone</td>
-            <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-    </table>    
-</form>
+ <!-- Children Card -->
+ <div class="card shadow-sm mt-3">
+    <div class="card-header bg-secondary text-white">
+        <h5>Patient Details</h5>
+    </div>
+    <div class="card-body">
+        <!-- List of Children -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                @if (!$children)
+
+                <div class="card mb-2">                         
+                    <div class="card-body justify-content-center">
+                        
+                            <p>Patient not selected</p> <br>
+                            <p>Search for Patient or <a href="/guardians">Register</a> a new patient</p>
+                        
+                    </div>
+                </div>
+
+                @else
+                    
+                @foreach ($children as $item)
+                
+                <div class="card mb-2">                         
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4"><strong>Child Name:</strong> {{$item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name}}</div>
+                            <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
+                            <div class="col-md-4 text-end">
+                                <a href="/patients/{{$item->id}}" class="btn btn-sm btn-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Error Message -->
 @if(session()->has('error'))
@@ -83,16 +111,35 @@
 </div>
 <div id="visitType">
     <h3>Visit Type</h3>
-<select id="visit_type" onchange="showValue()">
-        <option value="" disabled selected>Select an option</option>
-        <option value="1">Consultation</option>
-        <option value="2">Follow-Up</option>
-        <option value="3">Emergency</option>
-        <option value="4">Walk-In</option>
-
-    </select>
+    <select id="visit_type" onchange="showValue()">
+    <option value="" disabled selected>Select an option</option>
+    <option value="1">Developmental Assessment</option>
+    <option value="2">Paediatric Consultation</option>
+    <option value="3">General Consultation</option>
+    <option value="4">Therapy Assessment</option>
+    <option value="5">Therapy Session</option>
+    <option value="6">Nutrition Session</option>
+    <option value="7">Psychotherapy Session</option>
+    <option value="8">Specific Developmental Tests</option>
+    <option value="9">Review</option>
+    <option value="10">Other</option>
+</select>
     <p id="output"></p>
 
+</div>
+<div id="paymentMode">
+<h3>💳 Payment Mode</h3>
+<label for="payment_mode"><strong>Select Payment Mode:</strong></label>
+<select id="payment_mode"  onchange="showPayment()" name="payment_mode" style="width: 200px; padding: 5px; margin-top: 10px;">
+    <option value="" disabled selected>Select Payment Mode</option>
+    <option value="1">Insurance</option>
+      <option value="2">NCPD</option>
+      <option value="3">Cash</option>
+      <option value="4">Probono</option>
+      <option value="5">Other</option>
+      
+</select>
+<p id="output"></p>
 </div>
 
 <button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
@@ -161,6 +208,40 @@ async function fetchDoctors(specializationId) {
         return [];
     }
 }
+// Fetch Payment Modes
+// async function fetchPaymentModes() {
+//     try {
+//         const response = await fetch('/payment-modes');
+//         const data = await response.json();
+
+//         if (data.status === 'success') {
+//             const paymentDropdown = document.getElementById('payment_type');
+//             paymentDropdown.innerHTML = '<option value="">-- Select Payment Method --</option>';
+
+//             data.data.forEach(mode => {
+//                 const option = document.createElement('option');
+//                 option.value = mode.id;
+//                 option.textContent = mode.mode_name;
+//                 paymentDropdown.appendChild(option);
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Error fetching payment modes:', error);
+//     }
+// }
+
+// Call on page load
+// document.addEventListener('DOMContentLoaded', fetchPaymentModes);
+
+
+
+// const selectedPaymentMode = document.getElementById('payment_mode').value;
+// if (!selectedPaymentMode) {
+//     alert('Please select a payment mode.');
+//     return;
+// }
+// dataToSend.payment_mode_id = parseInt(selectedPaymentMode);
+
 
 
 // Function to fetch staff names based on staff IDs
@@ -292,7 +373,13 @@ function displayCurrentAndFutureTime() {
 
 // Example usage
 displayCurrentAndFutureTime();
-
+function showPayment() {
+            const dropdown2 = document.getElementById('payment_mode');
+            
+            const output = document.getElementById('output');
+            console.log(dropdown2.value);
+            output.innerHtml = `Mode selected ${dropdown.value}`;
+  }
 
 function showValue() {
             const dropdown = document.getElementById('visit_type');
@@ -372,6 +459,14 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a valid visit type before proceeding.');
             return;
         }
+        // Get payment Method
+        const paymentDropdown = document.getElementById('payment_mode');
+        const paymentMode = parseInt(paymentDropdown.value);
+        if (! paymentMode|| isNaN(paymentMode)) {
+            console.error('Invalid payment method.');
+            alert('Please select a valid payment method before proceeding.');
+            return;
+        }
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -382,10 +477,11 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             source_type: 'MySource',
             source_contact: '123456249',
             staff_id: parseInt(3),
-            doctor_id: selectedDoctorId,
+            doctor_id: 9,
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
+            payment_mode_id:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);

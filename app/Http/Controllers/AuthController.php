@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
+use App\Models\DoctorSpecialization;
 use App\Models\Gender;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\RegistrationNumberManager;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use Carbon\Carbon;
@@ -24,8 +27,8 @@ class AuthController extends Controller
         }
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
-
-        return view('register', compact('roles', 'genders'));
+        $specializations= DoctorSpecialization::select('specialization')->get();
+        return view('register', compact('roles', 'genders', 'specializations'));
     }
 
     function registerPost(Request $request)
@@ -36,28 +39,35 @@ class AuthController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'role' => 'required',
+            'specialization'=>'string',
             'email' => 'required|email|unique:staff',
-            'phone' => 'required',
+            'telephone' => 'required|unique:staff',
             'password' => [
                 'required',
                 Password::default()
             ],
             'confirmpassword' => 'required'
         ]);
+        $reg=new RegistrationNumberManager('staff','staff_no');
+        $staff_no=$reg->generateUniqueRegNumber();
         $data['fullname'] = [
             'first_name' => $request->firstname,
             'middle_name' => $request->middlename,
             'last_name' => $request->lastname
         ];
         $data['gender_id'] = Gender::where('gender', $request->gender)->value('id');
-        $data['telephone'] = $request->phone;
-        $data['staff_no'] = Str::uuid();
+        $data['telephone'] = $request->telephone;
+        $data['staff_no'] = $staff_no;
         $data['role_id'] = Role::where('role', $request->role)->value('id');
+        $data['specialization_id']=DoctorSpecialization::where('specialization',$request->specialization)->value('id');
         $data['email'] = $request->email;
         if (strcmp($request->password, $request->confirmpassword) == 0) {
             $data['password'] = Hash::make($request->confirmpassword);
+            $staff = User::create($data);
+        }else{
+            return redirect(route('register.post'))->with('error', 'Passwords do not match!')->withInput($request->except(['password','confirmpassword']));
         }
-        $staff = User::create($data);
+        
         if (!$staff) {
             return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password','confirmpassword']));
         }
@@ -90,8 +100,8 @@ class AuthController extends Controller
 {
     switch (Auth::user()->role_id) {
         case 1:
-            // return redirect()->route('visits.page');
-            // break; // Add break to stop execution after redirect
+            return redirect()->route('triage.dashboard');
+            break; // Add break to stop execution after redirect
             
         case 2:
             return redirect()->route('doctor.dashboard');
@@ -160,6 +170,35 @@ class AuthController extends Controller
         // Return the results as JSON
         return response()->json($appointments);
     }
+
+    public function getUserSpecializationAndDoctor(Request $request)
+{
+    // Ensure the user is authenticated
+    if (!Auth::check()) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // Get the authenticated user's ID
+    $userId = Auth::id();
+
+    // Fetch the specialization ID and specialist name of the logged-in user
+    $userDetails = DB::table('staff')
+        ->join('doctor_specializations', 'staff.specialization_id', '=', 'doctor_specializations.id')
+        ->join('doctors', 'doctor_specializations.id', '=', 'doctors.specialization_id')
+        ->where('staff.user_id', $userId)
+        ->select('doctor_specializations.id AS specialization_id', 'doctor_specializations.specialization', 
+                 'doctors.id AS doctor_id', 
+                 DB::raw("CONCAT(doctors.fullname->>'first_name', ' ', doctors.fullname->>'middle_name', ' ', doctors.fullname->>'last_name') AS doctor_name"))
+        ->first();
+
+    if (!$userDetails) {
+        return response()->json(['error' => 'Specialization or Doctor not found for user'], 400);
+    }
+
+    // Return the specialization and doctor details
+    return response()->json($userDetails);
+}
+
     
 
 }

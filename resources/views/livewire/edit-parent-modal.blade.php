@@ -1,8 +1,6 @@
 <div>
     {{-- Be like water. --}}
-    @php
-        $p_fullname=json_decode($parent->fullname,true);
-    @endphp
+    
     <div class="modal fade" id="editParentModal" tabindex="-1" aria-labelledby="editParentModalLabel" aria-modal="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -16,15 +14,15 @@
         <div class="row g-3">
             <div class="col-md-4">
                 <label for="firstname" class="form-label">First Name</label>
-                <input type="text" id="firstname" wire:model.defer="firstname" value="{{ old('firstname',$p_fullname['first_name']) }}" class="form-control" required>
+                <input type="text" id="firstname" wire:model.defer="firstname" value="{{ old('firstname',$parent->fullname->first_name) }}" class="form-control" required>
             </div>
             <div class="col-md-4">
                 <label for="middlename" class="form-label">Middle Name</label>
-                <input type="text" id="middlename" wire:model.defer="middlename" value="{{ old('middlename',$p_fullname['middle_name']) }}" class="form-control">
+                <input type="text" id="middlename" wire:model.defer="middlename" value="{{ old('middlename',$parent->fullname->middle_name) }}" class="form-control">
             </div>
             <div class="col-md-4">
                 <label for="lastname" class="form-label">Surname</label>
-                <input type="text" id="lastname" wire:model.defer="lastname" value="{{ old('lastname',$p_fullname['last_name']) }}" class="form-control" required>
+                <input type="text" id="lastname" wire:model.defer="lastname" value="{{ old('lastname',$parent->fullname->last_name) }}" class="form-control" required>
             </div>
         </div>
 

@@ -186,9 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Show success alert
                     alert("Appointment successfully created!");
                     addEventContainer.classList.remove("active");
-                    const selectedDate = document.getElementById("selected-date").value;
-                    updateEvents(selectedDate); // Call function to refresh the event list
-            
+                    
                     // Close the form
                     const formModal = document.getElementById("form-modal");
                     if (formModal) {

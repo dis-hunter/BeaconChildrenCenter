@@ -608,6 +608,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Models\\ParentModel' => __DIR__ . '/../..' . '/app/Models/ParentModel.php',
         'App\\Models\\Relationship' => __DIR__ . '/../..' . '/app/Models/Relationship.php',
         'App\\Models\\Parents' => __DIR__ . '/../..' . '/app/Models/Parents.php',
+        'App\\Models\\PaymentMode' => __DIR__ . '/../..' . '/app/Models/PaymentMode.php',
         'App\\Models\\Relationship' => __DIR__ . '/../..' . '/app/Models/Relationship.php',
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\Specialization' => __DIR__ . '/../..' . '/app/Models/Specialization.php',

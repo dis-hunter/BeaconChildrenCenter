@@ -344,8 +344,8 @@ public function dashboard()
 
     return view('doctorDash', [
         'doctor' => $doctor,
-        'firstName' => $fullName->first_name, // Access as object properties
-        'lastName' => $fullName->last_name,   // Access as object properties
+        'firstName' => $fullName->firstname, // Access as object properties
+        'lastName' => $fullName->lastname,   // Access as object properties
     ]);
 }
 

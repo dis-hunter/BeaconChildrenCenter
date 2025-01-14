@@ -16,7 +16,41 @@
 
     <title>Calendar</title>
 </head>
+
+<style>
+
+    /* Styling for the heading */
+div h2 {
+    margin: 0;
+    font-size: 18px; /* Adjust size if needed */
+}
+
+/* Styling for the close button */
+#close-modal {
+    cursor: pointer;
+    font-size: 20px; /* Slightly larger for visibility */
+    font-weight: bold;
+    color: black;
+    background-color: transparent; /* No background */
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effect for the close button */
+#close-modal:hover {
+    background-color: lightblue;
+    color: white; /* Optional - for contrast */
+    border-radius: 4px; /* Slightly rounded edges */
+    padding: 2px 6px; /* Optional padding for better appearance */
+}
+    </style>
 <body>
+
+
+
+
+
 
 <div class="calendar-container">
     <!-- Your calendar HTML and scripts go here -->
@@ -122,6 +156,9 @@
                 </div>
 
                 </div>
+                <br>
+                <br>
+                <br><br> <br> <br> <br><br> <br> <br>
                 <div class="add-event-footer">
                     <button class="add-event-btn" type="submit">Create Appointment</button>
                 </div>
@@ -133,32 +170,61 @@
                 <i class="fas fa-plus"></i>
             </button>
 
+</div>
 
 
-       <div id="reschedule-modal" class="hidden">
-    <div class="modal-content">
-        <span id="close-modal" class="close">&times;</span>
+
+       
+</div>
+
+<div id="reschedule-modal" class="hidden" style= " position: fixed; /* Keeps it fixed on the screen */
+  top: 0; /* Position it at the top */
+  left: 50%;
+  width: 70%;
+  height: 1600px !important; /* Automatically adjust height based on content */
+  max-height: 500px; /* Force the modal to expand to 500px (you can adjust this as needed) */
+  overflow: auto; /* Allow scrolling if the content exceeds max height */
+  border-radius: 5px;
+  background-color: #lightblue;
+  transform: translateX(-50%);
+  transition: max-height 0.5s;
+  z-index: 1000; /* Make sure it appears on top of other content */
+  padding: 20px;">
+    <div class="modal-content"  style="width: 100%; /* Set width */">
+        <div style=" display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Optional for a neat divider */
+">
         <h2>Reschedule Appointment</h2>
-        <form id="reschedule-form">
+        <span id="close-modal" class="close">&times;</span>
+        </div>
+        <form id="reschedule-form"  style="background-color: #fff; /* White background */
+border: 2px solid ; /* Light gray border */
+border-radius: 8px; /* Rounded corners */
+padding: 20px; /* Internal spacing */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+width: 75%; /* Set width */
+margin: 20px auto; /* Center form */">
             @csrf
-            <input type="hidden" id="hidden-start-time">
-            <input type="hidden" id="hidden-end-time">
-            <label for="appointment-title">Title:</label>
-            <input type="text" id="appointment-title" name="title" required>
+            <input type="hidden" id="hidden-start-time" style="border: 1px solid black !important;">
+            <input type="hidden" id="hidden-end-time"style="border: 1px solid black !important;">
+            <label for="appointment-title">Title:</label> 
+            <input type="text" id="appointment-title" name="title" required style="border: 1px solid black !important;">
 
-            <label for="appointment-start-time">Start Time:</label>
-            <input type="time" id="appointment-start-time" name="start_time" required>
+            <label for="appointment-start-time">Start Time:</label> <br>
+            <input type="time" id="appointment-start-time" name="start_time" required style="border: 1px solid black !important;">
 
-            <label for="appointment-end-time">End Time:</label>
-            <input type="time" id="appointment-end-time" name="end_time" required>
+            <label for="appointment-end-time">End Time:</label> </br>
+            <input type="time" id="appointment-end-time" name="end_time" required style="border: 1px solid black !important;">
 
-            <label for="newDate">Date:</label>
-            <input type="date" id="newDate" name="newDate" required>
-
-            <button type="submit">Save</button>
+            <label for="newDate">Date:</label> </br>
+            <input type="date" id="newDate" name="newDate" required style="border: 1px solid black !important;">
+</br> </br>
+            <button type="submit"   style="background-color: lightblue; color:white;">Save</button>
         </form>
     </div>
-</div>
  
        
 </div>
@@ -169,7 +235,7 @@
 
     <script src="{{asset('js/calendar.js')}}"></script>
     <script src="{{asset('js/appointments.js')}}"></script>
-    <script src="{{asset('js/specialization.js')}}"></script>
+    <script type="module" src="{{asset('js/specialization.js')}}"></script>
     <script src="{{asset('js/isDoctorAvailable.js')}}"></script>
 
  </div>

@@ -1,5 +1,6 @@
 @extends('reception.layout')
 @section('title','Child | Reception')
+@extends('reception.header')
 @section('content')
 
 <div class="container mt-5">
@@ -8,7 +9,7 @@
         <button @click="showForm = !showForm" class="btn btn-primary mb-3">
         New Parent & Child
     </button>
-    <form action="/patients" method="post" class="bg-light p-4 rounded shadow-sm"  x-show="showForm" 
+    <form action="/guardians" method="post" class="bg-light p-4 rounded shadow-sm"  x-show="showForm" 
     x-transition >
 
         @csrf

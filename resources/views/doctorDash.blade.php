@@ -135,6 +135,43 @@
     updateGreeting(); 
     setInterval(updateGreeting, 60 * 60 * 1000);
   </script>
+
+
+
+<script>
+    // Fetch user's specialization and doctor details on page load
+    window.onload = function() {
+        fetch('{{ route('get.user.specialization.doctor') }}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Prefill specialization select dropdown
+            var specializationSelect = document.getElementById('doctor_specialization');
+            var option = document.createElement('option');
+            option.value = data.specialization_id;
+            option.textContent = data.specialization;
+            specializationSelect.appendChild(option);
+
+            // Prefill doctor select dropdown
+            var doctorSelect = document.getElementById('specialist');
+            var doctorOption = document.createElement('option');
+            doctorOption.value = data.doctor_id;
+            doctorOption.textContent = data.doctor_name;
+            doctorSelect.appendChild(doctorOption);
+
+            // Disable both dropdowns after pre-filling
+            specializationSelect.disabled = true;
+            doctorSelect.disabled = true;
+        })
+        .catch(error => {
+            console.error('Error fetching user specialization and doctor:', error);
+        });
+    }
+</script>
 </body>
 </html>
 

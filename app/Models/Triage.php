@@ -20,6 +20,8 @@ class Triage extends Model
         'height',
         'muac',
         'head_circumference',
+        'visitId',
+        'staffId',
     ];
 
     // Define the inverse relationship to the Child model

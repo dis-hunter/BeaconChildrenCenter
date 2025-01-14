@@ -60,20 +60,18 @@ async function fetchUntriagedVisits() {
     const response = await fetch('/untriaged-visits');
     const data = await response.json();
     console.log('Data:', data);
-    
+
     const tableBody = document.getElementById('patient-list');
     tableBody.innerHTML = '';
-    
+
     data.data.forEach(visit => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        
         <td>${visit.patient_name || 'N/A'}</td>
-       
-        
-       
         <td>
-          <button class="triage-btn" data-patient-id="${visit.child_id}">Start Triage</button>
+          <button class="triage-btn" data-patient-id="${visit.child_id}" data-visit-id="${visit.id}">
+            Start Triage
+          </button>
         </td>
       `;
       tableBody.appendChild(row);
@@ -81,13 +79,11 @@ async function fetchUntriagedVisits() {
       // Add event listener to the triage button
       const triageButton = row.querySelector('.triage-btn');
       triageButton.addEventListener('click', () => {
-       
+        const patientId = triageButton.dataset.patientId;
+        const visitId = triageButton.dataset.visitId;
 
-        // Redirect to the consultation page
-        setTimeout(() => {
-          window.location.href = `http://127.0.0.1:8000/triage?patientId=${visit.child_id}`;
-          // ?visitId=${visit.visit_id}
-        }, 500); // Slight delay for visual loading
+        // Redirect to triage page with patientId and visitId as query parameters
+        window.location.href = `/triage?patientId=${patientId}&visitId=${visitId}`;
       });
     });
   } catch (error) {
@@ -95,9 +91,13 @@ async function fetchUntriagedVisits() {
   }
 }
 
+// Initialize on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', fetchUntriagedVisits);
+
+
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Page loaded');
-  fetchUntriagedVisits();
+  // fetchUntriagedVisits();
 });
 
 // Make sure this runs when the page loads

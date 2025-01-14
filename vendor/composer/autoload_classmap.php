@@ -85,6 +85,7 @@ return array(
     'App\\Models\\Parents' => $baseDir . '/app/Models/Parents.php',
     'App\\Models\\Relationship' => $baseDir . '/app/Models/Relationship.php',
     'App\\Models\\ParentModel' => $baseDir . '/app/Models/ParentModel.php',
+    'App\\Models\\PaymentMode' => $baseDir . '/app/Models/PaymentMode.php',
     'App\\Models\\Relationship' => $baseDir . '/app/Models/Relationship.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\Specialization' => $baseDir . '/app/Models/Specialization.php',

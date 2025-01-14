@@ -6,14 +6,16 @@ use App\Models\ChildParent;
 use App\Models\children;
 use App\Models\Gender;
 use App\Models\Parents;
+use App\Services\RegistrationNumberManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class AddChildModal extends Component
 {
     public $parent;
-    public $firstname, $middlename, $lastname, $dob, $birth_cert, $gender_id, $registration_number;
+    public $firstname, $middlename, $lastname, $dob, $birth_cert, $gender_id;
     public $genders, $message;
+    public $registration_number;
     //protected $listeners = ['childUpdated' => 'handleChildUpdated'];
 
     public function mount($parent){
@@ -30,14 +32,17 @@ class AddChildModal extends Component
                 'dob' => 'required|date',
                 'birth_cert' => 'required|string|max:15',
                 'gender_id' => 'required',
-                'registration_number'=>'required|string',
             ]);
+            
+            $reg=new RegistrationNumberManager('children','registration_number');
+            $this->registration_number=$reg->generateUniqueRegNumber();
 
             $fullname=json_encode([
                 'first_name' => $this->firstname,
                 'middle_name' => $this->middlename,
                 'last_name' => $this->lastname,
             ]);
+            
             $validatedData=[
                 'fullname'=>$fullname,
                 'dob'=>$this->dob,
