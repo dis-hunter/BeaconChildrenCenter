@@ -193,16 +193,15 @@ class ChildrenController extends Controller
             ->first();
             if($careplan){
                 $careplan->notes=Careplan::notes($careplan) ?? null;
-
-                $prescription=Prescription::where('child_id',$child->id)
+            }
+            $prescription=Prescription::where('child_id',$child->id)
                 ->latest()
                 ->first() ?? null;
 
                 $referral=Referral::where('child_id',$child->id)
                 ->latest()
                 ->first() ?? null;
-            }
-            
+                
             return view('reception.patients', compact('child','gender','last_visit','triage','careplan','prescription','referral'));
         } else {
             return view('reception.patients',['child' => null]);

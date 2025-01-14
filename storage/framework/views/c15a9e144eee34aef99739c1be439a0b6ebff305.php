@@ -58,17 +58,17 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Head Circumference</p>
-                            <p><strong><?php echo e($triage?->data?->head_circumference.' m' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->head_circumference ? $triage?->data?->head_circumference.' m' : 'Missing'); ?></strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Pulse Rate</p>
-                            <p><strong><?php echo e($triage?->data?->pulse_rate.' bpm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->pulse_rate ? $triage?->data?->pulse_rate.' bpm' : 'Missing'); ?></strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Temperature</p>
-                            <p><strong><?php echo e($triage?->data?->temperature.'°C' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->temperature ? $triage?->data?->temperature.'°C' : 'Missing'); ?></strong></p>
                             
                             
                         </div>
@@ -76,18 +76,18 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">Blood Pressure</p>
-                            <p><strong><?php echo e($triage?->data?->blood_pressure.' mm Hg' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->blood_pressure ? $triage?->data?->blood_pressure.' mm Hg' : 'Missing'); ?></strong></p>
                             
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Respiratory Rate</p>
-                            <p><strong><?php echo e($triage?->data?->respiratory_rate.' bpm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->respiratory_rate ? $triage?->data?->respiratory_rate.' bpm' : 'Missing'); ?></strong></p>
                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Oxygen Saturation</p>
-                            <p><strong><?php echo e($triage?->data?->oxygen_saturation.'%' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->oxygen_saturation ? $triage?->data?->oxygen_saturation.'%' : 'Missing'); ?></strong></p>
         
                         </div>
                         
@@ -95,17 +95,17 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             <p class="text-muted">MUAC</p>
-                            <p><strong><?php echo e($triage?->data?->muac.' cm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->muac? $triage?->data?->muac.' cm' : 'Missing'); ?></strong></p>
                            
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Height</p>
-                            <p><strong><?php echo e($triage?->data?->height.' cm' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->height ? $triage?->data?->height.' cm' : 'Missing'); ?></strong></p>
                             
                         </div>
                         <div class="col-sm-4">
                             <p class="text-muted">Weight</p>
-                            <p><strong><?php echo e($triage?->data?->weight.' Kg' ?? 'Missing'); ?></strong></p>
+                            <p><strong><?php echo e($triage?->data?->weight ? $triage?->data?->weight.' Kg' : 'Missing'); ?></strong></p>
                             
                             
                         </div>
@@ -170,7 +170,7 @@
                 <div id="collapseDiagnosis" class="accordion-collapse collapse" aria-labelledby="headingDiagnosis" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
                         <?php if($prescription): ?>
-                            <?php echo e(implode(',', $prescription->data->prescribed_drugs) ?? $prescription?->data?->prescribed_drugs); ?>
+                            <?php echo e(implode(' , ', $prescription->data->prescribed_drugs) ?? $prescription?->data?->prescribed_drugs); ?>
 
                         <?php else: ?>
                             <p>No prescription available...</p>

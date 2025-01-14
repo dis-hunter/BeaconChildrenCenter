@@ -10,12 +10,14 @@
                 class="form-control"
                 placeholder="Search..."
                 wire:model.debounce.300ms="query"
+                wire:focus="$set('isFocused',true)"
+                wire:blur="$set('isFocused',false)"
                 style="width: 300px;" 
             />
         </div>
     
         <!-- Results Dropdown -->
-        @if(!empty($query))
+        @if($isFocused && (!empty($query) || !empty($history)))
         <div class="dropdown-menu show w-100 position-absolute mt-1" style="z-index: 1050; max-height: 300px; overflow-y: auto;">
             <button
                 type="button"
@@ -25,6 +27,21 @@
                 style="z-index: 1051;"
             ></button>
         
+            {{-- Search History --}}
+            @if(empty($query) && !empty($history))
+            <h6 class="dropdown-header">Search History</h6>
+            @foreach($history as $item)
+                <div class="dropdown-item">
+                    <a href="{{ route(strtolower($item['model']) . '.search', ['id' => $item['id']]) }}" class="text-decoration-none">
+                        {{ $item['name'] }}
+                    </a>
+                </div>
+            @endforeach
+            <div class="dropdown-item">
+                <button class="btn btn-link text-danger p-0" wire:click="clearHistory">Clear</button>
+            </div>
+            @endif
+
             @forelse($results as $model => $records)
                 <h6 class="dropdown-header">{{ $model }}</h6>
                 @if($records->isEmpty())
