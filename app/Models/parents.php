@@ -3,11 +3,12 @@
 // app/Models/Parents.php
 namespace App\Models;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-class Parents extends Model
+class Parents extends Model implements ShouldQueue
 {
     use HasFactory;
     use Searchable;
@@ -29,15 +30,13 @@ class Parents extends Model
 
     public function toSearchableArray()
     {
-    $fullname = $this->fullname
-        ? trim(($this->fullname->first_name ?? '') .' '.($this->fullname->middle_name ?? ''). ' ' . ($this->fullname->last_name ?? ''))
+        $fullname = $this->fullname
+            ? trim(($this->fullname->first_name ?? '') .' '.($this->fullname->middle_name ?? ''). ' ' . ($this->fullname->last_name ?? ''))
         : '';
         return [
-            'id'=>$this->id,
             'fullname'=>$fullname,
             'telephone' => $this->telephone,
             'email' => $this->email,
-            'national_id'=>$this->national_id
         ];
     }
 

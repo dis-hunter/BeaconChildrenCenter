@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,5 +67,15 @@ class User extends Authenticatable
     public function specialization()
     {
         return $this->belongsTo(Specialization::class); 
+    }
+
+    public function activeSession(){
+        return $this->hasOne(ActiveUser::class,'staff_id');
+    }
+
+    public static function getActiveUsers($minutes=5){
+        return self::whereHas('activeSession', function ($query) use ($minutes){
+            $query->where('last_activity', '>=', Carbon::now()->subMinutes($minutes));
+        })->with('activeSession')->get();
     }
 }

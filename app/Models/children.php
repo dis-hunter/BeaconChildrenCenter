@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-class children extends Model
+class children extends Model implements ShouldQueue
 {
     use HasFactory;
     use Searchable;
@@ -26,17 +27,20 @@ class children extends Model
         'fullname' => 'array',
     ];
 
+    public function getFullnameAttribute($value)
+    {
+        return json_decode($value);
+    }
+
     public function toSearchableArray()
     {
+        
     $fullname = $this->fullname
         ? trim(($this->fullname->first_name ?? '') .' '.($this->fullname->middle_name ?? ''). ' ' . ($this->fullname->last_name ?? ''))
         : '';
         return [
-            'id'=>$this->id,
             'fullname'=>$fullname,
-            'birth_cert' => $this->birth_cert,
-            'dob' => $this->dob,
-            'registration_number'=>$this->registration_number
+            'registration_number'=>$this->registration_number,
         ];
     }
 
@@ -58,12 +62,7 @@ class children extends Model
         return $this->hasOne(Triage::class);
     }
 
-    // Accessor for fullname (assuming it's stored as JSON)
-    public function getFullnameAttribute($value)
-    {
-        return json_decode($value);
-    }
-
+    
     public function parents()
 {
     return $this->hasManyThrough(Parents::class, ChildParent::class, 'child_id', 'id', 'id', 'parent_id');

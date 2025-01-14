@@ -1,0 +1,59 @@
+[
+  {
+    "id": "2",
+    "fullname": {
+      "first_name": "David",
+      "middle_name": "Lee",
+      "last_name": "Johnson"
+    },
+    "dob": "1978-11-20",
+    "gender_id": "1",
+    "telephone": "9876543210",
+    "email": "david.johnson@example.com",
+    "national_id": "98765432",
+    "employer": "Tech Solutions",
+    "insurance": "Life Insurance Inc",
+    "referer": null,
+    "relationship_id": "2",
+    "created_at": "2024-12-30 16:17:45",
+    "updated_at": "2024-12-30 16:17:45"
+  },
+  {
+    "id": "11",
+    "fullname": {
+      "first_name": "Edinson",
+      "middle_name": "Cavani",
+      "last_name": "GOAT"
+    },
+    "dob": "2024-12-30",
+    "gender_id": "3",
+    "telephone": "07074454555",
+    "email": "ediie@gmail.com",
+    "national_id": "4004940040",
+    "employer": null,
+    "insurance": null,
+    "referer": null,
+    "relationship_id": "2",
+    "created_at": "2025-01-13 17:26:49",
+    "updated_at": "2025-01-13 17:26:49"
+  },
+  {
+    "id": "1",
+    "fullname": {
+      "first_name": "Jane",
+      "middle_name": "Martha",
+      "last_name": "Smith"
+    },
+    "dob": "1980-03-15",
+    "gender_id": "2",
+    "telephone": "1234567890",
+    "email": "jane.smith@example.com",
+    "national_id": "12345678",
+    "employer": "Acme Corp",
+    "insurance": "Health Insurance Co",
+    "referer": "Dr. Referer",
+    "relationship_id": "1",
+    "created_at": "2024-12-30 16:17:45",
+    "updated_at": "2024-12-30 16:17:45"
+  }
+]

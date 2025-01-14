@@ -1,7 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="<?php echo e(asset('css/navbar-fixed-left.min.css')); ?>">
-<<<<<<< HEAD
 <style>
     .container-fluid {
         display: flex;
@@ -25,14 +24,14 @@
     }
 </style>
 
-=======
->>>>>>> 27e997c97ef2be4598a28fc00bc5a7fe2625fa80
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <?php echo \Livewire\Livewire::styles(); ?>
+
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
@@ -49,33 +48,24 @@
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD
-=======
-                <a href="/guardians/search" class="nav-link"><span class="icon">🔍</span> <span class="text">Search</span></a>
-            </li>
-            <li class="nav-item">
->>>>>>> 27e997c97ef2be4598a28fc00bc5a7fe2625fa80
                 <a href="/patients" class="nav-link"><span class="icon">🚑</span> <span class="text">Patients</span></a>
             </li>
             <li class="nav-item">
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD
                 <a href="<?php echo e(route('reception.calendar')); ?>" class="nav-link">
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
+                
             </li>
 
 
-=======
-                <a href="#" class="nav-link"><span class="icon">📅</span> <span class="text">Appointments</span></a>
-            </li>
->>>>>>> 27e997c97ef2be4598a28fc00bc5a7fe2625fa80
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
+           
             
             
             
@@ -87,26 +77,22 @@
     <!-- User Dropdown Menu at Top-Right -->
     
 </nav>
-<<<<<<< HEAD
 <nav class="navbar navbar-expand-md responsive-navbar" id="Account">
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('O6E0Y1v')) {
-    $componentId = $_instance->getRenderedChildComponentId('O6E0Y1v');
-    $componentTag = $_instance->getRenderedChildComponentTagName('O6E0Y1v');
+} elseif ($_instance->childHasBeenRendered('ulLeNa3')) {
+    $componentId = $_instance->getRenderedChildComponentId('ulLeNa3');
+    $componentTag = $_instance->getRenderedChildComponentTagName('ulLeNa3');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('O6E0Y1v');
+    $_instance->preserveRenderedChild('ulLeNa3');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('O6E0Y1v', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('ulLeNa3', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 
-=======
-<nav class="navbar navbar-expand-md responsive-navbar" id="Account"> 
->>>>>>> 27e997c97ef2be4598a28fc00bc5a7fe2625fa80
 <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -130,7 +116,6 @@ echo $html;
                 </div>
             </li>
         </ul>
-<<<<<<< HEAD
 
         <div id="calendar-section" class="col-md-9 p-4" style="display: none;">
             <!-- Calendar will be displayed here dynamically -->
@@ -181,7 +166,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 <?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/header.blade.php ENDPATH**/ ?>
-=======
-    </div>
-    </nav><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/header.blade.php ENDPATH**/ ?>
->>>>>>> 27e997c97ef2be4598a28fc00bc5a7fe2625fa80

@@ -15,6 +15,7 @@ class Staff extends Model
 =======
     protected $fillable = ['fullname', 'telephone', 'email', 'email_verified', 'password', 'staff_no', 'remember_token', 'role_id', 'specialization_id', 'gender_id'];
 
+<<<<<<< HEAD
     public function doctors()
 >>>>>>> 4ffaa8539790faf3134ff89a602e71fb7eeac372
     {
@@ -27,4 +28,6 @@ class Staff extends Model
     ];
 =======
 >>>>>>> 4ffaa8539790faf3134ff89a602e71fb7eeac372
+=======
+>>>>>>> d72161ed07d123d1b0a77e9b4afff990f86026b0
 }

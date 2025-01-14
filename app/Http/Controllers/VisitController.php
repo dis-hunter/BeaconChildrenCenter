@@ -22,6 +22,7 @@ class VisitController extends Controller
             'doctor_id' => 'required|integer|exists:staff,id',
             'appointment_id' => 'nullable|integer',
             'payment_mode_id' => 'required|integer|exists:payment_modes,id', // Validate payment mode
+            'triage_pass' => 'required|boolean',
         ]);
     
         try {
@@ -35,6 +36,7 @@ class VisitController extends Controller
                 'doctor_id' => $validatedData['doctor_id'],
                 'appointment_id' => $validatedData['appointment_id'],
                 'payment_mode_id' => $validatedData['payment_mode_id'],
+                'triage_pass' => $validatedData['triage_pass'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

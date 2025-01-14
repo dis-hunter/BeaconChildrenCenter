@@ -35,7 +35,7 @@
                 <div class="card mb-2">                         
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4"><strong>Child Name:</strong> {{$item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name}}</div>
+                            <div class="col-md-4"><strong>Child Name:</strong> {{($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')}}</div>
                             <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
                             <div class="col-md-4 text-end">
                                 <a href="/patients/{{$item->id}}" class="btn btn-sm btn-primary">
@@ -91,7 +91,7 @@
             @foreach($children as $child)
                 <tr>
                     <td>{{ $child->id }}</td>
-                    <td>{{ $child->fullname->first_name }} {{ $child->fullname->last_name }}</td>
+                    <td>{{ ($child->fullname->first_name ?? '') }} {{ ($child->fullname->last_name ?? '') }}</td>
                     <td>{{ $child->dob }}</td>
                     <td>{{ $child->gender_id }}</td>
                     <td>
@@ -141,8 +141,18 @@
     <option value="10">Other</option>
 </select>
     <p id="output"></p>
-
 </div>
+
+<div id="triage-selection">
+    <h3>Triage Selection</h3>
+    <label for="triage_pass">Does the patient need triage?</label>
+    <select id="triage_pass">
+        <option value="" disabled selected>Select an option</option>
+        <option value="false">Yes, needs triage</option>
+        <option value="true">No, directly to doctor</option>
+    </select>
+</div>
+
 <div id="paymentMode">
 <h3>💳 Payment Mode</h3>
 <label for="payment_mode"><strong>Select Payment Mode:</strong></label>
@@ -483,6 +493,12 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a valid payment method before proceeding.');
             return;
         }
+        const triagePassDropdown = document.getElementById('triage_pass');
+        const triagePass = triagePassDropdown.value;
+        if (!triagePass) {
+            alert('Please select whether the patient needs triage.');
+            return;
+        }
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -492,12 +508,12 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             visit_date: todayDate,
             source_type: 'MySource',
             source_contact: '123456249',
-            staff_id: parseInt(3),
-            doctor_id: 9,
+            staff_id: 3,
+            doctor_id: selectedDoctorId,
+            triage_pass: triagePass, // Convert to boolean
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
-            payment_mode_id:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);

@@ -98,7 +98,9 @@ class AuthController extends Controller
     }
 
     public function authenticated()
-    {
+{
+    
+
         switch (Auth::user()->role_id) {
             case 1:
                 return redirect()->route('triage.dashboard');

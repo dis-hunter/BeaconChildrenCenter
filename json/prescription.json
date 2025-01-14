@@ -1,0 +1,90 @@
+[
+  {
+    "id": "1",
+    "visit_id": "12",
+    "child_id": "1",
+    "staff_id": "1",
+    "data": {
+      "drugs": {
+        "antibiotics": [
+          "amoxicillin"
+        ]
+      },
+      "formulation": "capsule",
+      "dose": "12345",
+      "units": "ml",
+      "frequency": "tds",
+      "duration": {
+        "type": "stat",
+        "value": null
+      }
+    },
+    "created_at": "2025-01-04 06:39:38",
+    "updated_at": "2025-01-04 06:39:38"
+  },
+  {
+    "id": "2",
+    "visit_id": "12",
+    "child_id": "1",
+    "staff_id": "1",
+    "data": {
+      "drugs": {
+        "antibiotics": [
+          "amox-clav"
+        ]
+      },
+      "formulation": "capsule",
+      "dose": "12345",
+      "units": "ml",
+      "frequency": "qid",
+      "duration": {
+        "type": "months",
+        "value": "thresxvvg"
+      }
+    },
+    "created_at": "2025-01-04 07:06:32",
+    "updated_at": "2025-01-04 07:06:32"
+  },
+  {
+    "id": "3",
+    "visit_id": "20",
+    "child_id": "1",
+    "staff_id": "1",
+    "data": {
+      "prescribed_drugs": [
+        "ibuprofen syrup 12mg od stat"
+      ]
+    },
+    "created_at": "2025-01-06 17:07:08",
+    "updated_at": "2025-01-06 17:07:08"
+  },
+  {
+    "id": "4",
+    "visit_id": "20",
+    "child_id": "1",
+    "staff_id": "1",
+    "data": {
+      "prescribed_drugs": [
+        "ibuprofen syrup 12mg od stat",
+        "cefuroxime syrup 12mg od stat",
+        "mebendazole syrup 12mg od stat"
+      ]
+    },
+    "created_at": "2025-01-06 17:08:18",
+    "updated_at": "2025-01-06 17:08:18"
+  },
+  {
+    "id": "5",
+    "visit_id": "20",
+    "child_id": "1",
+    "staff_id": "1",
+    "data": {
+      "prescribed_drugs": [
+        "ibuprofen syrup 12ml od 7 days",
+        "cetrizine syrup 12ml od 6 months"
+      ]
+    },
+    "created_at": "2025-01-06 17:40:46",
+    "updated_at": "2025-01-06 17:40:46"
+  }
+]

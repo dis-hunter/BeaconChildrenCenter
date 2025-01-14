@@ -154,6 +154,9 @@
 form {
   color:black !important;
 }
+.calendar-content{
+  margin-left : 100px !important;
+}
   </style>
 </head>
 <body class="bg-gray-100">
@@ -854,7 +857,7 @@ async function startConsultation() {
     });
 }
 
-    function selectPatient(index) {
+function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
       patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
       patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');

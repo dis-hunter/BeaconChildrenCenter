@@ -30,6 +30,7 @@
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  @livewireStyles
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
@@ -56,12 +57,14 @@
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
+                
             </li>
 
 
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
+           
             
             
             {{-- <li class="nav-item dropdown">

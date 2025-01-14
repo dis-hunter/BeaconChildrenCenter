@@ -67,7 +67,7 @@
   <header>
     <div class="profile">
       <div>
-        <h2  style="margin-bottom: 6px;">Nurse Toby</h2>
+      <h3 id="nurse-name" style="text-align: center; margin-bottom: 20px;"></h3>
         <p style="margin-top:0">Nurse</p>
       </div>
     </div>

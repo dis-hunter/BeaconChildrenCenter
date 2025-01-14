@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
   <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
-  <a class="btn btn-close btn-md" href="<?php echo e(route('home')); ?>"></a>
+  <a class="btn btn-close btn-md" href="<?php echo e(route('login')); ?>"></a>
 </div>
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -65,7 +65,8 @@
                   </div>
 
                   <div data-mdb-input-init class="form-floating form-outline mb-4">
-                    <input type="password" name="password" id="password_login" class="form-control" placeholder="Password" required />
+                    <input type="password" name="password" id="password-input" class="form-control" placeholder="Password" required />
+                    <i class="bi bi-eye-slash" id="togglePassword" style="transform: scale(1.2);"></i>
                     <label class="form-label" for="password_login">Password</label>
                   </div>
 

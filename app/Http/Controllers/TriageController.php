@@ -187,6 +187,20 @@ class TriageController extends Controller
             ], 500);
         }
     }
+    public function getNurseName() {
+        $nurse = auth()->user();
+
+        if (is_object($nurse->fullname)) {
+            $fullName = $nurse->fullname;
+            Log::info('fullname is already an object:', (array)$fullName);
+        } else {
+            $fullName = json_decode($nurse->fullname, true);
+            Log::info('fullname decoded from JSON:', $fullName);
+        }
+        return
+        $fullName->firstname;
+    
+    }
 
 
     public function getTriageData($child_id)
