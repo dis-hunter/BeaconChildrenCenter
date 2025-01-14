@@ -148,6 +148,7 @@ Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::c
 Route::get('/nutritionist_therapist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
 Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
 Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
+Route::get('/psychotherapist/{registrationNumber}', [TherapyController::class, 'PsychoTherapy']);
 
 
 
@@ -157,12 +158,12 @@ Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, '
 Route::get('/physical_therapist', function () {
     return view('therapists.physiotherapyTherapist');
 });
-Route::get('/psychotherapy_therapist', function () {
-    return view('therapists.psychotherapyTherapist');
-});
-Route::get('/physiotherapy_therapist', function () {
-    return view('therapists.physiotherapyTherapist');
-});
+// Route::get('/psychotherapy_therapist', function () {
+//     return view('therapists.psychotherapyTherapist');
+// });
+// Route::get('/physiotherapy_therapist', function () {
+//     return view('therapists.physiotherapyTherapist');
+// });
 
 Route::get('/nutritionist', function () {
     return view('therapists.nutritionist');

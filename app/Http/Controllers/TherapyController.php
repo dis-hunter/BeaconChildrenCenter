@@ -338,6 +338,46 @@ public function OccupationTherapy($registrationNumber)
    
 } 
 
+public function PsychoTherapy($registrationNumber)
+{
+   $child = DB::table('children')
+               ->where('registration_number', $registrationNumber)
+               ->first();
+
+   if (!$child) {
+       abort(404);
+   }
+
+   // Decode the fullname JSON
+   $fullname = json_decode($child->fullname);
+
+   // Access the first_name, middle_name, and last_name
+   $firstName = $fullname->first_name;
+   $middleName = $fullname->middle_name;
+   $lastName = $fullname->last_name;
+
+   // Get the gender name from the gender table
+   $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+   // Fetch triage data for the child
+
+   
+
+       // Pass the decoded triage data to the view
+       return view('therapists.psychotherapyTherapist', [
+           'child' => $child,
+           'child_id' => $child->id,
+           'firstName' => $firstName,
+           'middleName' => $middleName,
+           'lastName' => $lastName,
+           'gender' => $gender,
+           
+       ]);
+ 
+       // Handle case where no triage data is found
+     
+   
+} 
 public function NutritionalTherapy($registrationNumber)
 {
    $child = DB::table('children')

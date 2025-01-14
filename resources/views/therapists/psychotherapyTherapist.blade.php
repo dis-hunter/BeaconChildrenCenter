@@ -36,7 +36,7 @@
 </head>
 <body class="bg-gray-50">
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-bold text-blue-800 mb-6">Phychotherapy</h1>
+        <h1 class="text-2xl font-bold text-blue-800 mb-6">Psychotherapy</h1>
         
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <!-- <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
