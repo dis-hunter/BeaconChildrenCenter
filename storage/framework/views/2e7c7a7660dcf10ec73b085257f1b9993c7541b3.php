@@ -62,24 +62,11 @@
 
         
         <div class="bg-white shadow rounded-lg overflow-hidden">
-        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-                <h2 class="text-lg font-medium text-gray-900">Session Documentation</h2>
-                <button 
-                    onclick="handleGenerateReport()"
-                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                    Generate Report
-                </button>
-            </div>
+        
             
             <div class="p-4">
                 <form id="therapy-form" class="space-y-4" onsubmit="handleSubmit(event)">
-                    <input 
-                        type="date" 
-                        id="session_date"
-                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        onchange="handleDateChange(event)"
-                    />
+                    
                     <!--Tabs buttons-->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-4">
