@@ -161,3 +161,102 @@ main {
   cursor: pointer;
   margin-right: 10px;
 }
+/* doctorDash.css */
+
+.profile-content {
+  background-color: #fff;
+  width: 700px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-content h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.profile-content #profile-details {
+  margin-bottom: 30px;
+}
+
+.profile-content #profile-details p {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-content #profile-details strong {
+  font-weight: bold;
+}
+
+.profile-content #edit-profile-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-content #edit-profile-btn:hover {
+  background-color: #0069d9;
+  transform: translateY(-2px);
+}
+
+.profile-content #edit-profile-form {
+  margin-top: 30px;
+  display: none; /* Initially hidden */
+  /* Reduce the height of the form container */
+  max-height: 300px; /* Adjust this value as needed */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
+}
+
+.profile-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.profile-content input[type="text"],
+.profile-content input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-size: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.profile-content input[type="text"]:focus,
+.profile-content input[type="email"]:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.profile-content button[type="submit"] {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-content button[type="submit"]:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}

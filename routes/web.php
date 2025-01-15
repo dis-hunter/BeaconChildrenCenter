@@ -69,9 +69,7 @@ Route::get('/receiptionist_dashboard', function () {
 });
 
 Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
-Route::get('/doctorDashboard', function () {
-    return view('doctorDash');
-});
+
 
 
 //this handles parent related activity
@@ -220,6 +218,26 @@ Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::clas
 use App\Http\Controllers\IcdSearchController;
 
 Route::post('/search', [IcdSearchController::class, 'search']);
+
+
+// routes/web.php
+
+
+// routes/web.php
+
+Route::get('/doctor/dashboard', [DoctorsController::class, 'getDashboard'])->name('doctor.dashboard');
+Route::get('/doctor/profile', [DoctorsController::class, 'getProfile'])->name('doctor.profile');
+Route::post('/doctor/profile', [DoctorsController::class, 'updateProfile'])->name('doctor.profile.update');
+
+
+// Dashboard Route
+Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
+
+// Profile Route
+Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
+
+// Update Profile Route
+Route::post('/doctorDashboard/profile/update', [DoctorsController::class, 'updateProfile'])->name('doctor.profile.update');
 
 
 

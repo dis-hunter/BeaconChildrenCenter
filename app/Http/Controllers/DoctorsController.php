@@ -9,6 +9,33 @@ use Illuminate\Support\Facades\Log; // Import the Log facade
 
 class DoctorsController extends Controller
 { 
+    public function dashboard()
+    {
+        return view('doctorDash');
+    }
+
+    // Profile method
+    public function profile()
+    {
+        // Example profile data
+        $profile = [
+            'fullname' => ['first_name' => 'Florence', 'last_name' => 'Oringe'],
+            'telephone' => '123-456-7890',
+            'email' => 'florence.oringe@example.com',
+        ];
+
+        return view('doctorDash', compact('profile'));
+    }
+
+    // Update Profile method
+    public function updateProfile(Request $request)
+    {
+        // Logic to update the profile (you can replace this with database logic)
+        $updatedProfile = $request->all();
+
+        // Redirect back with success message
+        return redirect()->route('doctor.profile')->with('success', 'Profile updated successfully!');
+    }
     public function show($registrationNumber)
      {
         $child = DB::table('children')
