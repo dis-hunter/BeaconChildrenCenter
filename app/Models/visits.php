@@ -30,6 +30,7 @@ class Visits extends Model
         'staff_id',
         'doctor_id',
         'appointment_id',
+        'triage_pass',
         'created_at',
         'updated_at',
     ];

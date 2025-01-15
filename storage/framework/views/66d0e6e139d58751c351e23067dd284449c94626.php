@@ -7,6 +7,8 @@
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <?php echo \Livewire\Livewire::styles(); ?>
+
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
@@ -29,10 +31,13 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><span class="icon">📅</span> <span class="text">Appointments</span></a>
+                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
             </li>
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
             </li>
             
             
@@ -49,15 +54,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('nRg419a')) {
-    $componentId = $_instance->getRenderedChildComponentId('nRg419a');
-    $componentTag = $_instance->getRenderedChildComponentTagName('nRg419a');
+} elseif ($_instance->childHasBeenRendered('NjXshFH')) {
+    $componentId = $_instance->getRenderedChildComponentId('NjXshFH');
+    $componentTag = $_instance->getRenderedChildComponentTagName('NjXshFH');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('nRg419a');
+    $_instance->preserveRenderedChild('NjXshFH');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('nRg419a', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('NjXshFH', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 

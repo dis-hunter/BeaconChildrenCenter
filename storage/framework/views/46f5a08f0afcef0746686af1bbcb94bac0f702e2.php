@@ -33,7 +33,7 @@
                 <div class="card mb-2">                         
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4"><strong>Child Name:</strong> <?php echo e($item->fullname->last_name.' '.$item->fullname->first_name.' '.$item->fullname->middle_name); ?></div>
+                            <div class="col-md-4"><strong>Child Name:</strong> <?php echo e(($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')); ?></div>
                             <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
                             <div class="col-md-4 text-end">
                                 <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">
@@ -74,7 +74,7 @@
             <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td><?php echo e($child->id); ?></td>
-                    <td><?php echo e($child->fullname->first_name); ?> <?php echo e($child->fullname->last_name); ?></td>
+                    <td><?php echo e(($child->fullname->first_name ?? '')); ?> <?php echo e(($child->fullname->last_name ?? '')); ?></td>
                     <td><?php echo e($child->dob); ?></td>
                     <td><?php echo e($child->gender_id); ?></td>
                     <td>
@@ -435,13 +435,11 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
         // Get selected child ID
         const activeChildElement = document.querySelector('.select-child.active');
         if (!activeChildElement) {
-            console.error('No active child element found.');
             alert('Please select a child before proceeding.');
             return;
         }
         const selectedChildId = parseInt(activeChildElement.getAttribute('data-child-id'));
         if (!selectedChildId || isNaN(selectedChildId)) {
-            console.error('Invalid child ID.');
             alert('An error occurred while retrieving the selected child. Please try again.');
             return;
         }
@@ -449,13 +447,11 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
         // Get selected doctor ID
         const activeDoctorElement = document.querySelector('#doctor-table button.active');
         if (!activeDoctorElement) {
-            console.error('No active doctor element found.');
             alert('Please select a doctor before proceeding.');
             return;
         }
         const selectedDoctorId = parseInt(activeDoctorElement.getAttribute('data-doctor-id'));
         if (!selectedDoctorId || isNaN(selectedDoctorId)) {
-            console.error('Invalid doctor ID.');
             alert('An error occurred while retrieving the selected doctor. Please try again.');
             return;
         }
@@ -464,24 +460,27 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
         const visitTypeDropdown = document.getElementById('visit_type');
         const visitType = parseInt(visitTypeDropdown.value);
         if (!visitType || isNaN(visitType)) {
-            console.error('Invalid visit type.');
             alert('Please select a valid visit type before proceeding.');
             return;
         }
+
         // Get payment Method
         const paymentDropdown = document.getElementById('payment_mode');
-        const paymentMode = parseInt(paymentDropdown.value);
-        if (! paymentMode|| isNaN(paymentMode)) {
-            console.error('Invalid payment method.');
+        const paymentModeId = parseInt(paymentDropdown.value);
+        if (!paymentModeId || isNaN(paymentModeId)) {
             alert('Please select a valid payment method before proceeding.');
             return;
         }
+
+        // Get triage pass
         const triagePassDropdown = document.getElementById('triage_pass');
-        const triagePass = triagePassDropdown.value;
-        if (!triagePass) {
+        const triagePassValue = triagePassDropdown.value;
+        if (!triagePassValue) {
             alert('Please select whether the patient needs triage.');
             return;
         }
+        // Convert triage_pass to boolean
+        const triagePass = triagePassValue.toLowerCase() === 'true';
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -493,7 +492,8 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             source_contact: '123456249',
             staff_id: 3,
             doctor_id: selectedDoctorId,
-            triage_pass: triagePass, // Convert to boolean
+            triage_pass: triagePass,
+            payment_mode_id: paymentModeId,  // Added payment_mode_id
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
@@ -501,35 +501,38 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 
         console.log('Data to be sent to the controller:', dataToSend);
 
-        // Add error response logging
         const response = await fetch('/visits', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
             },
             body: JSON.stringify(dataToSend),
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
         const result = await response.json();
         console.log('Response from server:', result);
 
-        if (result.status === 'success') {
+        if (response.ok && result.status === 'success') {
             alert('Appointment created successfully!');
+            // Optionally redirect or refresh the page
+            window.location.reload();
         } else {
-            alert('Failed to create appointment. Please try again.');
+            const errorMessage = result.errors ? Object.values(result.errors).flat().join('\n') : result.message;
+            alert('Failed to create appointment: ' + errorMessage);
         }
     } catch (error) {
         console.error('Error details:', error);
         alert('An error occurred while creating the appointment. Please check the console for details.');
     }
 });
+
+// Helper function to get today's date in YYYY-MM-DD format
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+}
 
 </script>
 

@@ -9,6 +9,7 @@
   </div>
   <div class="text-center">
     <img src="<?php echo e(asset('images/logo-transparent.png')); ?>" 
+      loading="lazy"
       style="width: 100px; transform: scale(1.8);" alt="logo">
   </div>
 </div>
@@ -315,6 +316,8 @@ img {
                               .calendar .days .day.today {
                                 color: #fff;
                                 background: var(--primary-color);
+                                font-size: 16px;
+                                font-weight: 700;
                               }
                             </style>
                           
