@@ -62,7 +62,7 @@
                   </div>
 
                   <div data-mdb-input-init class="form-floating form-outline mb-4">
-                    <input type="password" name="password" id="password-input" class="form-control" placeholder="Password" required />
+                    <input type="password" name="password" class="form-control" placeholder="Password" required />
                     <i class="bi bi-eye-slash" id="togglePassword" style="transform: scale(1.2);"></i>
                     <label class="form-label" for="password_login">Password</label>
                   </div>
