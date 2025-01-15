@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Visits;
 use App\Models\PaymentMode;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class VisitController extends Controller
 {
@@ -43,6 +44,7 @@ class VisitController extends Controller
     
             return response()->json(['status' => 'success', 'message' => 'Appointment created successfully'], 201);
         } catch (\Exception $e) {
+            Log::error('Error creating appointment: ' . $e->getMessage());
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }

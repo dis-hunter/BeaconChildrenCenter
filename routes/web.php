@@ -77,8 +77,7 @@ Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
 // Visit Routes
 Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
-Route::view('/visits-page', 'visits')->name('visits.page'); 
-Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
+Route::view('/visits-page', 'visits')->name('visits.page');
 // Route::get('/payment-modes', [VisitController::class, 'getPaymentModes']);
 
 
@@ -142,6 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/guardians', [ChildrenController::class, 'create']);
         Route::get('/guardians/{id?}', [ChildrenController::class, 'childGet'])->name('guardians.search');
         Route::get('/visithandle/{id?}', [ReceptionController::class,'search'])->name('search.visit');
+        Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
     });
 
     // Admin Routes

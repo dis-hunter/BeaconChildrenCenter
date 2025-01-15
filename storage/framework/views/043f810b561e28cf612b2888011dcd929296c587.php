@@ -124,8 +124,18 @@
     <option value="10">Other</option>
 </select>
     <p id="output"></p>
-
 </div>
+
+<div id="triage-selection">
+    <h3>Triage Selection</h3>
+    <label for="triage_pass">Does the patient need triage?</label>
+    <select id="triage_pass">
+        <option value="" disabled selected>Select an option</option>
+        <option value="false">Yes, needs triage</option>
+        <option value="true">No, directly to doctor</option>
+    </select>
+</div>
+
 <div id="paymentMode">
 <h3>💳 Payment Mode</h3>
 <label for="payment_mode"><strong>Select Payment Mode:</strong></label>
@@ -466,6 +476,12 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a valid payment method before proceeding.');
             return;
         }
+        const triagePassDropdown = document.getElementById('triage_pass');
+        const triagePass = triagePassDropdown.value;
+        if (!triagePass) {
+            alert('Please select whether the patient needs triage.');
+            return;
+        }
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -475,12 +491,12 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             visit_date: todayDate,
             source_type: 'MySource',
             source_contact: '123456249',
-            staff_id: parseInt(3),
-            doctor_id: 9,
+            staff_id: 3,
+            doctor_id: selectedDoctorId,
+            triage_pass: triagePass, // Convert to boolean
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
-            payment_mode_id:paymentMode,
         };
 
         console.log('Data to be sent to the controller:', dataToSend);
@@ -491,6 +507,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
             },
             body: JSON.stringify(dataToSend),
         });

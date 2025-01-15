@@ -506,6 +506,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
             },
             body: JSON.stringify(dataToSend),
         });
