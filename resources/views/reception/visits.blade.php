@@ -1,5 +1,3 @@
-<!-- Search Form -->
- <h2>jumanji</h2>
 @extends('reception.layout')
 @section('title','Visits | Reception')
 @extends('reception.header')

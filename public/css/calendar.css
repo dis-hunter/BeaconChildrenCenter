@@ -2,7 +2,7 @@
   --primary-clr:#29B1DD80;
 
 }
-*{
+/* *{
   margin:0;
   padding:0;
   box-sizing:border-box;
@@ -15,7 +15,7 @@ body{
   justify-content: center;
   background-color: #e2e1dc;
 
-}
+} */
 .container{
   position: relative;
   width: 980px !important;

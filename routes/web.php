@@ -158,3 +158,5 @@ Route::post('/triage', [TriageController::class, 'store']);
 Route::get('/triage', [TriageController::class, 'create'])->name('triage');
 Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
