@@ -90,11 +90,11 @@
     <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
         Navigation Menu
     </div>
-    <!-- <button 
-        onclick="goToEncounterSummary(event)" 
+    <button 
+        onclick="window.location.href='/therapist_dashboard'" 
         class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
-        Go to back Dashboard
-    </button> -->
+        Go back to Dashboard
+    </button>
 
     <button 
         onclick="goToWorkspace(event)" 
