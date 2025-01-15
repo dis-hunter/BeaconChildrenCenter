@@ -61,11 +61,11 @@ Route::get('/children/create', [ChildrenController::class, 'create'])->name('chi
 Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
 
 // Doctor Routes
-Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
-Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
-Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])->name('doctors.specializationSearch');
-Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
-Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
+// Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
+// Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
+// Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])->name('doctors.specializationSearch');
+// Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
+// Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
 
 // Staff Routes
 Route::get('/staff-dropdown', [StaffController::class, 'index']); 
@@ -141,6 +141,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/guardians', [ChildrenController::class, 'create']);
         Route::get('/guardians/{id?}', [ChildrenController::class, 'childGet'])->name('guardians.search');
         Route::get('/visithandle/{id?}', [ReceptionController::class,'search'])->name('search.visit');
+        Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
+        Route::get('/reception/calendar', [ReceptionController::class, 'calendar'])->name('reception.calendar');
     });
 
     // Admin Routes
