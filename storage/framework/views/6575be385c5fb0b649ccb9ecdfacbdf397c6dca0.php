@@ -107,6 +107,8 @@ if (editProfileBtn && editProfileForm && profileDetails) {
 
     // Show the edit profile form
     editProfileForm.style.display = 'block'; 
+
+    editProfileBtn.style.display = 'none'; 
   });
 
   // Add an event listener for form submission
