@@ -501,6 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setupToggleVisibility('xray-checkbox', 'xray-options');
       setupToggleVisibility('mri-checkbox', 'mri-options');
       setupToggleVisibility('ct-checkbox', 'ct-options');
+      setupToggleVisibility('hormone-test-checkbox', 'hormone-test-options'); // Add this line
   
       // Toggle visibility of "Other" textareas
       setupToggleVisibility('haematology-other-checkbox', 'haematology-other-textarea');
