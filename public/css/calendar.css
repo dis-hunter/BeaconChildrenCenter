@@ -681,10 +681,6 @@ display: none;
 .hidden {
 display: none;
 }
-.main{
-  width:0px !important;
-}
-
 
 .reschedule-form input,
 .reschedule-form select {

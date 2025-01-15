@@ -1,28 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="<?php echo e(asset('css/navbar-fixed-left.min.css')); ?>">
-<style>
-    .container-fluid {
-        display: flex;
-    }
-
-    #mainNav {
-        height: 100vh;
-        overflow-y: auto;
-    }
-
-    #calendar-section {
-        background-color: #f8f9fa;
-        min-height: 100vh;
-        border-left: 1px solid #ddd;
-    }
-
-    .calendar {
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-</style>
 
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -81,15 +59,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('z9b8EfM')) {
-    $componentId = $_instance->getRenderedChildComponentId('z9b8EfM');
-    $componentTag = $_instance->getRenderedChildComponentTagName('z9b8EfM');
+} elseif ($_instance->childHasBeenRendered('5W2KByE')) {
+    $componentId = $_instance->getRenderedChildComponentId('5W2KByE');
+    $componentTag = $_instance->getRenderedChildComponentTagName('5W2KByE');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('z9b8EfM');
+    $_instance->preserveRenderedChild('5W2KByE');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('z9b8EfM', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('5W2KByE', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 
