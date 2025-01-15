@@ -522,6 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         const collectedData = {
           haematology: getCheckedValues('haematology'),
+          hormoneTests: getCheckedValues('hormone-test'),
           biochemistry: getCheckedValues('biochemistry'),
           urine: getCheckedValues('urine'),
           stool: getCheckedValues('stool'),
@@ -542,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         const postData = {
           haematology: collectedData.haematology,
+          hormoneTests: collectedData.hormoneTests,
           biochemistry: collectedData.biochemistry,
           urine: collectedData.urine,
           stool: collectedData.stool,
