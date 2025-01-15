@@ -87,20 +87,23 @@
     </div>
 
     <div class="fixed right-5 top-20 bg-white rounded-lg shadow-lg overflow-hidden" id="floatingMenu">
-        <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
-            Navigation Menu
-        </div>
-       
-        <button 
-   onclick="goToWorkspace()" 
-   class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
-   Therapist Workstation
-</button>
-<button 
-   onclick="goToEncounterSummary()" 
-   class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
-   Encounter Summary
-</button>
+    <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
+        Navigation Menu
+    </div>
+
+    <button 
+        onclick="goToWorkspace(event)" 
+        data-specialization-id="2"
+        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+        Therapist Workstation
+    </button>
+    <button 
+        onclick="goToEncounterSummary(event)" 
+        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+        Encounter Summary
+    </button>
+</div>
+
 
 
       
@@ -118,23 +121,44 @@
     const match = url.match(/\/([A-Z]+\-\d+)/); // Use regex to match the pattern
     return match ? match[1] : null; // Return the matched code or null if no match
 }
+function extractRegistrationCode() {
+    // Example: Assume registrationNumber is the last part of the current URL
+    const pathSegments = window.location.pathname.split('/');
+    return pathSegments[pathSegments.length - 1]; // Returns the last segment as registrationNumber
+}
+function handleMissingData() {
+    window.location.href = '/error'; // Redirect to an error page
+}
 
-function goToWorkspace() {
-    const registrationNumber = extractRegistrationCode(); // Function to extract registration number
-    const specializationId = document.getElementById('specialization_id').value; // Function to retrieve the specialization_id (implement this logic)
-    
+
+function goToWorkspace(event) {
+    // Retrieve the specialization ID from the button's data attribute
+    const specializationId = event.target.getAttribute('data-specialization-id');
+    const registrationNumber = extractRegistrationCode(); // Function to get registration number
+
+    if (!registrationNumber || !specializationId) {
+        alert('Error! Unable to access workspace. Please try again.');
+        console.error('Missing specialization ID or registration number.');
+        return;
+    }
+
     try {
-        // Perform redirection based on specialization_id
-        if (specializationId == 2) {
-            window.location.href = `/occupational_therapist/${registrationNumber}`;
-        } else if (specializationId == 5) {
-            window.location.href = `/nutritionist_therapist/${registrationNumber}`;
-        } else if (specializationId == 3) {
-            window.location.href = `/speech_therapist/${registrationNumber}`;
-        } else if (specializationId == 4) {
-            window.location.href = `/physiotherapist/${registrationNumber}`;
-        } else {
-            alert('Unauthorized specialization. Access denied.');
+        // Redirect to the appropriate workspace URL based on the specialization ID
+        switch (specializationId) {
+            case "2":
+                window.location.href = `/occupational_therapist/${registrationNumber}`;
+                break;
+            case "5":
+                window.location.href = `/nutritionist_therapist/${registrationNumber}`;
+                break;
+            case "3":
+                window.location.href = `/speech_therapist/${registrationNumber}`;
+                break;
+            case "4":
+                window.location.href = `/physiotherapist/${registrationNumber}`;
+                break;
+            default:
+                alert('Unauthorized specialization. Access denied.');
         }
     } catch (error) {
         console.error('Error navigating to workspace:', error);
