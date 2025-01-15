@@ -7,70 +7,81 @@ carePlan.addEventListener('click', (event) => {
     mainContent.innerHTML = `
     <head>
         <style>
-            .container {
-                width: 80%;
-                margin: 30px auto;
-                font-family: sans-serif;
-                background-color: #f9f9f9;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                padding: 20px;
-            }
+     .container {
+    width: 100%; 
+    margin: 0 auto; /* Remove margin */
+    font-family: sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 0; /* Remove border-radius */
+    box-shadow: none; /* Remove box-shadow */
+    padding: 10px; 
+}
 
-            h2 {
-                text-align: center;
-                color: #333;
-                margin-bottom: 20px;
-            }
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px; 
+}
 
-            .section {
-                margin-bottom: 20px;
-                padding: 15px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                background-color: #fff;
-            }
+.section {
+    display: flex; /* Use flexbox for better arrangement */
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 2px; /* Reduce margin further */
+    padding: 2px; /* Reduce padding further */
+    border: none; /* Remove border */
+    background-color: transparent; /* Remove background */
+}
 
-            .section-title {
-                font-weight: bold;
-                margin-bottom: 5px;
-                color: #007bff;
-            }
+.section-title {
+    font-weight: bold;
+    margin-bottom: 0; /* Remove margin */
+    color: #007bff;
+    width: 30%; /* Set width for the title */
+}
 
-            textarea {
-                width: 100%;
-                padding: 10px;
-                margin-top: 5px;
-                border: 1px solid #ccc;
-                box-sizing: border-box;
-                resize: vertical;
-                border-radius: 4px;
-            }
+textarea {
+    width: 70%; /* Adjust width for textarea */
+    padding: 5px; /* Reduce padding further */
+    margin-top: 0; /* Remove margin */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: none; /* Disable resizing */
+    border-radius: 4px;
+    height: 30px; /* Reduce textarea height further */
+}
 
-            input[type="checkbox"] {
-                margin-right: 10px;
-                accent-color: #007bff;
-            }
+input[type="checkbox"] {
+    margin-right: 5px; 
+    accent-color: #007bff;
+    margin-top: 8px; /* Align checkbox with text */
+}
 
-            button[type="submit"] {
-                background-color: #007bff;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add margin to separate button */
+}
 
-            button[type="submit"]:hover {
-                background-color: #0056b3;
-            }
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
 
-            .loading-indicator {
-                display: none;
-                text-align: center;
-                margin-top: 10px;
-            }
+.loading-indicator {
+    display: none;
+    text-align: center;
+    margin-top: 5px; 
+}
+
+/* Optional: Adjust date input */
+input[type="date"] {
+    height: 40px; 
+    padding: 5px;
+}
         </style>
     </head>
     <body>
