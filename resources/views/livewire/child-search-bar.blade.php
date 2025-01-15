@@ -11,16 +11,16 @@
                     <li class="result-item {{ $loop->index % 2 == 0 ? 'light-gray' : 'white' }} py-2 px-3" style="border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
                         <div style="flex: 1;">
                             <strong>Child Name:</strong> 
-                            {{ json_decode($result->fullname)->first_name ?? 'N/A' }} 
-                            {{ json_decode($result->fullname)->middle_name ?? '' }} 
-                            {{ json_decode($result->fullname)->last_name ?? 'N/A' }} 
+                            {{ $result->fullname->first_name ?? 'N/A' }} 
+                            {{ $result->fullname->middle_name ?? '' }} 
+                            {{ $result->fullname->last_name ?? 'N/A' }} 
                             <br>
                             <strong>Date of Birth:</strong> {{ $result->dob }}
                             <br>
                             <strong>Parent Name:</strong> 
-                            {{ json_decode($result->parent_fullname)->first_name ?? 'N/A' }} 
-                            {{ json_decode($result->parent_fullname)->middle_name ?? 'N/A' }} 
-                            {{ json_decode($result->parent_fullname)->last_name ?? 'N/A' }}
+                            {{ $result->parent_fullname->first_name ?? 'N/A' }} 
+                            {{ $result->parent_fullname->middle_name ?? 'N/A' }} 
+                            {{ $result->parent_fullname->last_name ?? 'N/A' }}
                             <br>
                             <strong>Parent Email:</strong> {{ $result->email }}
                             <br>

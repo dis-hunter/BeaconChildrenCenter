@@ -53,10 +53,6 @@ div h2 {
 
 
 <div class="calendar-container">
-    <!-- Your calendar HTML and scripts go here -->
-
-<?php echo \Livewire\Livewire::scripts(); ?>
-
 
     <div class="container">
         <div class="left">
@@ -122,15 +118,15 @@ div h2 {
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('4C66l0V')) {
-    $componentId = $_instance->getRenderedChildComponentId('4C66l0V');
-    $componentTag = $_instance->getRenderedChildComponentTagName('4C66l0V');
+} elseif ($_instance->childHasBeenRendered('5Ey8S45')) {
+    $componentId = $_instance->getRenderedChildComponentId('5Ey8S45');
+    $componentTag = $_instance->getRenderedChildComponentTagName('5Ey8S45');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('4C66l0V');
+    $_instance->preserveRenderedChild('5Ey8S45');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('4C66l0V', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('5Ey8S45', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

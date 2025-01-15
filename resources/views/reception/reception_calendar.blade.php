@@ -4,14 +4,12 @@
 @section('content')
 
 <style>
-/* Ensure the parent container takes full height of the viewport */
-
 .cancel-btn,
 .reschedule-btn {
     background-color: white !important;
     color: black !important;
 }
-/* Style the search bar */
+
 #search-bar {
     width: 250px !important;
     margin-left: 220px; /* Make the search bar take up the full width of its container */
@@ -61,6 +59,7 @@
 .result-item:nth-child(odd) {
     background-color: #ffffff;
 }
+
 </style>
 
  @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])

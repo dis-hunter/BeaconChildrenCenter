@@ -53,9 +53,6 @@ div h2 {
 
 
 <div class="calendar-container">
-    <!-- Your calendar HTML and scripts go here -->
-
-@livewireScripts
 
     <div class="container">
         <div class="left">

@@ -186,7 +186,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Show success alert
                     alert("Appointment successfully created!");
                     addEventContainer.classList.remove("active");
-                    
+                    let event = new CustomEvent('appointmentModified');
+                    dispatchEvent(event);
+                
                     // Close the form
                     const formModal = document.getElementById("form-modal");
                     if (formModal) {
@@ -213,16 +215,5 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('request data',request);
         
     });
-    console.log('Trying to get CSRF token...');
-const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
-console.log('Element found:', csrfTokenMeta);
 
-if (csrfTokenMeta) {
-    const csrfToken = csrfTokenMeta.getAttribute('content');
-    console.log('CSRF Token:', csrfToken);
-} else {
-    console.error('CSRF token meta tag not found');
-}
-
-    
     });
