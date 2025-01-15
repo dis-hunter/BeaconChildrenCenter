@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OccupationalTherapy Dashboard</title>
+    <title>Therapy Dashboard</title>
     <style>
         .sidebar {
             width: 200px;
@@ -64,7 +64,7 @@
             <h2 class="text-gray-800 text-center font-semibold">
                 <i class="fas fa-user-md text-2xl text-blue-600 mb-2"></i>
                 <div class="text-sm text-gray-600">Active Patient</div>
-                <div class="text-lg text-blue-600 font-bold mt-1">John Michael Doe</div>
+                <div class="text-lg text-blue-600 font-bold mt-1" id="child-name-div"></div>
             </h2>
         </div>
 
@@ -90,25 +90,20 @@
         <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
             Navigation Menu
         </div>
-        <a href="#triageExam" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Triage Exam</a>
-        <div id="triageExam"></div>
-        <a href="#" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Encounters Summary</a>
-        <a href="#perinatalHistory" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Perinatal History</a>
-        <div id="perinatalHistory"></div>
-        <a href="#pastMedicalHistory" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Past Medical History</a>
-        <div id="pastMedicalHistory"></div>
-        <a href="#familyAndSocial" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Family and Social History</a>
-        <div id="familyAndSocial"></div>
-        <a href="#generalExam" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Assesment</a>
-        <div id="generalExam"></div>
-        <a href="#Examination" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Goals</a>
-        <div id="Examination"></div>
-        <a href="#devAssesment" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Session</a>
-        <div id="devAssesment"></div>
-        <a href="#diagnosis" class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">OT Individualized Therapy Plan</a>
-        <div id="diagnosis"></div>
-        <a href="#investigations" class="block px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">Feedback</a>
-    </div>
+       
+        <button 
+   onclick="goToWorkspace()" 
+   class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+   Therapist Workstation
+</button>
+<button 
+   onclick="goToEncounterSummary()" 
+   class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+   Encounter Summary
+</button>
+
+
+      
 
     <button id="menuButton" class="fixed right-5 top-5 bg-gradient-to-r from-blue-500 to-sky-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
         <i class="fas fa-bars"></i>
@@ -116,6 +111,38 @@
     </button>
 
     <script>
+        
+        // starts here
+          function extractRegistrationCode() {
+    const url = window.location.pathname; // Get the current URL path
+    const match = url.match(/\/([A-Z]+\-\d+)/); // Use regex to match the pattern
+    return match ? match[1] : null; // Return the matched code or null if no match
+}
+
+function goToWorkspace() {
+    const registrationNumber = extractRegistrationCode(); // Function to extract registration number
+    const specializationId = document.getElementById('specialization_id').value; // Function to retrieve the specialization_id (implement this logic)
+    
+    try {
+        // Perform redirection based on specialization_id
+        if (specializationId == 2) {
+            window.location.href = `/occupational_therapist/${registrationNumber}`;
+        } else if (specializationId == 5) {
+            window.location.href = `/nutritionist_therapist/${registrationNumber}`;
+        } else if (specializationId == 3) {
+            window.location.href = `/speech_therapist/${registrationNumber}`;
+        } else if (specializationId == 4) {
+            window.location.href = `/physiotherapist/${registrationNumber}`;
+        } else {
+            alert('Unauthorized specialization. Access denied.');
+        }
+    } catch (error) {
+        console.error('Error navigating to workspace:', error);
+        alert('Error accessing workspace. Please try again.');
+    }
+}
+
+// ends here
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const main = document.getElementById('main');
@@ -138,6 +165,8 @@
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                             <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+                                            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
+
 
                                     <label class="block text-sm font-medium text-gray-700" for="firstName">First Name</label>
                                     <input type="text" id="firstName" name="firstName" value="{{ $firstName }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -208,7 +237,7 @@
                             </div>
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Doctor's Notes</label>
+                                <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
                                 <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{$doctorsNotes}}</textarea>
                             </div>
 
@@ -273,8 +302,298 @@
         alert(`Error: ${error.message}`);
     }
 }
+
+
+// Get the menu button and the floating menu elements 
+const menuButton = document.getElementById('menuButton');
+const floatingMenu = document.getElementById('floatingMenu');
+const menuLinks = floatingMenu.getElementsByTagName('a');
+
+// Function to hide the menu links
+function hideMenuLinks() {
+    Array.from(menuLinks).forEach(link => {
+        link.style.display = 'none';
+    });
+}
+
+// Function to show the menu links
+function showMenuLinks() {
+    Array.from(menuLinks).forEach(link => {
+        link.style.display = 'block';
+    });
+}
+
+// Add a click event listener to the button to toggle the menu links
+menuButton.addEventListener('click', (event) => {
+    // Prevent the click event from propagating to the document
+    event.stopPropagation(); 
+
+    // Check if links are hidden
+    const linksHidden = Array.from(menuLinks).some(link => 
+        link.style.display === 'none' || link.style.display === '');
+
+    if (linksHidden) {
+        showMenuLinks();
+    } else {
+        hideMenuLinks();
+    }
+});
+
+// Add a click event listener to the document to hide the menu links
+document.addEventListener('click', (event) => {
+    // Hide the menu links if the click is outside of the menu button or menu
+    if (!menuButton.contains(event.target) && !floatingMenu.contains(event.target)) {
+        hideMenuLinks();
+    }
+});
+
+// Add a click event listener to the menu itself to prevent hiding when clicking inside
+floatingMenu.addEventListener('click', (event) => {
+    event.stopPropagation(); 
+});
+
+// Initially hide the menu links
+hideMenuLinks();
+
+// Add a click event listener to the document to hide the menu
+document.addEventListener('click', (event) => {
+  // Hide the menu if the click is outside of the menu button or menu
+  if (!menuButton.contains(event.target) && !floatingMenu.contains(event.target)) {
+    hideMenu();
+  }
+});
+
+// Add a click event listener to the menu itself to prevent hiding when clicking inside
+floatingMenu.addEventListener('click', (event) => {
+  event.stopPropagation(); 
+});
+
+//Encouter Summary
+async function goToEncounterSummary() {
+    event.preventDefault();
+    console.log('EncounterSummary History link clicked.');
+
+    const mainContent = document.querySelector('.main');
+
+    // Enhanced CSS with modern design principles
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
+        }
+
+        .spinner {
+            border: 3px solid rgba(52, 152, 219, 0.1);
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .saving-button-spinner {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+            background: #fdf0ef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin: 20px auto;
+            max-width: 500px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .patient-info {
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .patient-info:hover {
+            transform: translateY(-2px);
+        }
+
+        .patient-info h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .patient-info p {
+            margin: 0.5rem 0;
+            color: #34495e;
+        }
+
+        .visits-container {
+            margin-top: 2rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .visit-entry {
+            border: none;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .visit-entry:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .visit-entry h3 {
+            margin: 0 0 1rem 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .visit-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .notes {
+            white-space: pre-wrap;
+            margin-top: 1rem;
+            padding: 1.25rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none; /* Initially hide the notes */
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Show loading spinner
+    mainContent.innerHTML = `
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+        </div>
+    `;
+
+    try {
+        const registrationNumber = window.location.pathname.split('/').pop();
+        console.log('Registration number extracted:', registrationNumber);
     
+        const response = await fetch(`/getDoctorNotes/${registrationNumber}`);
+        const result = await response.json();
+    
+        console.log('Fetch response:', result);
+    
+        if (result.status === 'success') {
+            mainContent.innerHTML = `
+                <div class="container">
+                    <h2 class="section-title">Encounter Summary History</h2>
+                    
+                    <div class="patient-info">
+                        <h3>Patient Information</h3>
+                        <p><strong>Registration Number:</strong> ${result.data.registration_number}</p>
+                        <p><strong>Patient Name:</strong> ${result.data.child_name}</p>
+                    </div>
+
+                    <div class="visits-container">
+                        ${result.data.visits.map(visit => `
+                            <div class="visit-entry" onclick="toggleDetails(this)">
+                                <h3>Visit Details</h3>
+                                <div class="visit-meta">
+                                    <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
+                                    <span><strong>Doctor:</strong> ${visit.doctor_name}</span>
+                                </div>
+                                <div class="notes">
+                                    <strong>Doctor's Notes:</strong><br>
+                                    ${visit.notes || 'No notes recorded'}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        mainContent.innerHTML = `
+            <div class="container">
+                <p class="error-message">Failed to load notes. Please try again later.</p>
+            </div>
+        `;
+    }
+}
+
+function toggleDetails(element) {
+    const notes = element.querySelector('.notes');
+    notes.style.display = notes.style.display === 'none' ? 'block' : 'none';
+}
+
     </script>
+ <script>
+    //to show name in side bar dynamically 
+document.addEventListener("DOMContentLoaded", function() {
+    const result = {
+        data: {
+            child_name: {!! json_encode($firstName . ' ' . $middleName . ' ' . $lastName) !!}
+        }
+    };
+    document.getElementById("child-name-div").textContent = result.data.child_name;
+});
+</script>
     <script src="{{ asset('js/doctor.js') }}"></script>
+
 </body>
 </html>

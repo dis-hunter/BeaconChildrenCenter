@@ -1,3 +1,5 @@
+<!-- Search Form -->
+ <h2>jumanji</h2>
 @extends('reception.layout')
 @section('title','Visits | Reception')
 @extends('reception.header')
@@ -49,6 +51,22 @@
         </div>
     </div>
 </div>
+<h2>Search </h2>
+<form action="{{ route('parent.get-children') }}" method="post">
+    @csrf
+    <table>
+    <tr>
+            <td>Search by Name</td>
+            <td><input type="text" name="child_name" placeholder="Enter Name" value="{{ old('fullname') }}"></td>
+            <td><input type="submit" value="Search"></td>
+        </tr>
+        <tr>
+            <td>Search by Telephone</td>
+            <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
+            <td><input type="submit" value="Search"></td>
+        </tr>
+    </table>    
+</form>
 
 <!-- Error Message -->
 @if(session()->has('error'))

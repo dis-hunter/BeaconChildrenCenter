@@ -489,6 +489,23 @@
 </head>
 <body>
 
+<div class="sidebar" id="sidebar">
+    <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
+        <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
+        <a href="/patients" class="nav-link"><span class="icon">🚑</span> <span class="text">Patients</span></a>
+        <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
+        <a href="{{ route('reception.calendar') }}" class="nav-link">
+                    <span class="icon">📅</span>
+                    <span class="text">Appointments</span>
+                </a>
+
+         <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+           
+            
+</div>
+
+<div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
+
 <div class="main">
     @yield('content')
 </div>

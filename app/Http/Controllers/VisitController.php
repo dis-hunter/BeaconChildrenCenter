@@ -41,6 +41,8 @@ class VisitController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+            return response()->json(['status' => 'success', 'data' => 'yes'], 201);
     
             return response()->json(['status' => 'success', 'message' => 'Appointment created successfully'], 201);
         } catch (\Exception $e) {
@@ -50,34 +52,53 @@ class VisitController extends Controller
     }
     
     public function doctorNotes(Request $request)
-{
-    $validatedData = $request->validate([
-        'child_id' => 'required|exists:children,id',
-        'notes' => 'nullable|string'
-    ]);
-
-    try {
-        $latestVisit = DB::table('visits')
-            ->where('child_id', $validatedData['child_id'])
-            ->latest()
-            ->first();
-
-        if (!$latestVisit) {
-            return response()->json(['status' => 'error', 'message' => 'No visit found'], 404);
+    {
+        $validatedData = $request->validate([
+            'child_id' => 'required|exists:children,id',
+            'notes' => 'nullable|string'
+        ]);
+    
+        // Get authenticated user's ID
+        $doctorId = auth()->id();
+    
+        try {
+            $latestVisit = DB::table('visits')
+                ->where('child_id', $validatedData['child_id'])
+                ->latest()
+                ->first();
+    
+            if (!$latestVisit) {
+                return response()->json(['status' => 'error', 'message' => 'No visit found'], 404);
+            }
+            
+            // Check if the requesting doctor is authorized
+            if ($latestVisit->doctor_id != $doctorId) {
+                return response()->json([
+                    'status' => 'error', 
+                    'message' => 'Not authorized: Only the assigned doctor can update these notes'
+                ], 403);
+            }
+    
+            // Update notes and set completed to true
+            DB::table('visits')
+                ->where('id', $latestVisit->id)
+                ->update([
+                    'notes' => $validatedData['notes'],
+                    'completed' => true,
+                    'updated_at' => now()
+                ]);
+    
+            return response()->json([
+                'status' => 'success', 
+                'message' => 'Notes updated successfully and visit marked as completed'
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
-
-        DB::table('visits')
-            ->where('id', $latestVisit->id)
-            ->update([
-                'notes' => $validatedData['notes'],
-                'updated_at' => now()
-            ]);
-
-        return response()->json(['status' => 'success', 'message' => 'Notes updated successfully'], 200);
-    } catch (\Exception $e) {
-        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
-}
+
+
 // public function getPaymentModes()
 // {
 //     try {
@@ -95,4 +116,98 @@ class VisitController extends Controller
 //     return view('your-view', compact('paymentModes'));
 // }
 
+public function getDoctorNotes($registrationNumber) {
+    try {
+        // Get child details
+        $child = DB::table('children')
+            ->where('registration_number', $registrationNumber)
+            ->select(
+                'id',
+                'registration_number',
+                'fullname'
+            )
+            ->first();
+
+        if (!$child) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Child not found'
+            ], 404);
+        }
+        // Decode the fullname JSON and construct the full name
+        $fullname = json_decode($child->fullname);
+        $firstName = $fullname->first_name ?? '';
+        $middleName = $fullname->middle_name ?? '';
+        $lastName = $fullname->last_name ?? '';
+        $childName = trim("$firstName $middleName $lastName");
+
+        // Get visits information
+        $visits = DB::table('visits')
+            ->join('staff', 'visits.doctor_id', '=', 'staff.id')
+            ->where('visits.child_id', $child->id)
+            ->orderBy('visits.visit_date', 'desc')
+            ->select(
+                'visits.visit_date',
+                'visits.notes',
+                'staff.fullname as doctor_name'
+            )
+            ->get();
+
+        // Format the response
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'registration_number' => $child->registration_number,
+                'child_name' => $childName, // Use the formatted child name instead of the raw fullname JSON
+                'visits' => $visits->map(function($visit) {
+                    // Handle both single value and multiple name parts
+                    try {
+                        $doctorData = json_decode($visit->doctor_name, true);
+                        
+                        if (is_array($doctorData)) {
+                            // Check if it's a simple single-value structure
+                            if (count($doctorData) === 1 && !is_array(reset($doctorData))) {
+                                $doctorName = reset($doctorData);
+                            } else {
+                                // Handle multiple name parts
+                                $nameParts = [];
+                                if (!empty($doctorData['firstname'])) $nameParts[] = $doctorData['firstname'];
+                                if (!empty($doctorData['middlename'])) $nameParts[] = $doctorData['middlename'];
+                                if (!empty($doctorData['lastname'])) $nameParts[] = $doctorData['lastname'];
+                                
+                                // Alternative keys if the above aren't found
+                                if (empty($nameParts)) {
+                                    if (!empty($doctorData['first_name'])) $nameParts[] = $doctorData['first_name'];
+                                    if (!empty($doctorData['middle_name'])) $nameParts[] = $doctorData['middle_name'];
+                                    if (!empty($doctorData['last_name'])) $nameParts[] = $doctorData['last_name'];
+                                }
+                                
+                                $doctorName = !empty($nameParts) ? implode(' ', $nameParts) : $visit->doctor_name;
+                            }
+                        } else {
+                            $doctorName = $visit->doctor_name;
+                        }
+                    } catch (\Exception $e) {
+                        $doctorName = $visit->doctor_name;
+                    }
+
+                    return [
+                        'visit_date' => $visit->visit_date,
+                        'notes' => $visit->notes ?? 'No notes recorded',
+                        'doctor_name' => $doctorName,
+                        
+                    ];
+                })
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error('Error in getDoctorNotes: ' . $e->getMessage());
+        
+        return response()->json([
+            'status' => 'error',
+            'message' => 'An error occurred while retrieving the doctor notes: ' . $e->getMessage()
+        ], 500);
+    }
+}
 }

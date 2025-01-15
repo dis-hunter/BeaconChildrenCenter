@@ -36,4 +36,9 @@ class AppointmentController extends Controller
         // Redirect with success message
         return redirect()->back()->with('success', 'Appointment successfully created!');
     }
+
+    public function index()
+{
+    return view('calendar'); // Make sure the path matches your actual view folder structure
+}
 }

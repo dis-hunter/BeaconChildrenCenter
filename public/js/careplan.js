@@ -6,7 +6,72 @@ carePlan.addEventListener('click', (event) => {
     const mainContent = document.querySelector('.main');
     mainContent.innerHTML = `
     <head>
-        <link rel="stylesheet" href="../css/carePlan.css">
+        <style>
+            .container {
+                width: 80%;
+                margin: 30px auto;
+                font-family: sans-serif;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            h2 {
+                text-align: center;
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            .section {
+                margin-bottom: 20px;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #fff;
+            }
+
+            .section-title {
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #007bff;
+            }
+
+            textarea {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                resize: vertical;
+                border-radius: 4px;
+            }
+
+            input[type="checkbox"] {
+                margin-right: 10px;
+                accent-color: #007bff;
+            }
+
+            button[type="submit"] {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+
+            .loading-indicator {
+                display: none;
+                text-align: center;
+                margin-top: 10px;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
@@ -152,4 +217,3 @@ carePlan.addEventListener('click', (event) => {
         }
     });
 });
-

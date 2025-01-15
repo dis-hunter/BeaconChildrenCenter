@@ -1,6 +1,29 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="{{asset('css/navbar-fixed-left.min.css')}}">
+<style>
+    .container-fluid {
+        display: flex;
+    }
+
+    #mainNav {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    #calendar-section {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        border-left: 1px solid #ddd;
+    }
+
+    .calendar {
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
@@ -30,14 +53,18 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
+                <a href="{{ route('reception.calendar') }}" class="nav-link">
+                    <span class="icon">📅</span>
+                    <span class="text">Appointments</span>
+                </a>
+                
             </li>
+
+
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
-            <li class="nav-item">
-                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
-            </li>
+           
             
             
             {{-- <li class="nav-item dropdown">
@@ -103,5 +130,52 @@
                 </div>
             </li>
         </ul>
+
+        <div id="calendar-section" class="col-md-9 p-4" style="display: none;">
+            <!-- Calendar will be displayed here dynamically -->
+        </div>
     </div>
     </nav>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarSection = document.getElementById('calendar-section');
+    const sidebarLinks = document.querySelectorAll('.load-section');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const section = this.getAttribute('data-section');
+
+            if (section === 'calendar-section') {
+                // Fetch calendar content (if not already loaded)
+                if (!calendarSection.innerHTML.trim()) {
+                    fetch('/calendar')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to load calendar');
+                            }
+                            return response.text();
+                        })
+                        .then(html => {
+                            calendarSection.innerHTML = html;
+                            calendarSection.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            calendarSection.innerHTML = '<p class="text-danger">Failed to load calendar.</p>';
+                            calendarSection.style.display = 'block';
+                        });
+                } else {
+                    calendarSection.style.display = 'block';
+                }
+            } else {
+                // Hide the calendar section for other links
+                calendarSection.style.display = 'none';
+            }
+        });
+    });
+});
+
+</script>

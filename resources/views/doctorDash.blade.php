@@ -6,7 +6,7 @@
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
- 
+
 </head>
 <body>
 
@@ -41,7 +41,9 @@
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
           <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
-          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy </a></li> 
+          <li> <a id="therapist-link" href="#">Therapy</a></li>
+
+          <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
         </ul>
       </nav>
     </aside>
@@ -75,19 +77,39 @@
     </section>
 
     <section class="profile-content" id="profile-content" style="display: none;">
+
+    <br><br>
       <h2>Doctor's Profile</h2>
       <p>This is where you would display the doctor's profile information.</p>
     </section>
 
     <section class="content" id="booked-content" style="display: none;">
-      <h2>Booked Patients</h2>
-      <p>This is where you would display the booked patients list.</p>
-    </section>
+    <!-- This section will be populated with the doctor's booked appointments -->
+</section>
+
+
+
+
 
     <section class="content" id="therapist-content" style="display: none;">
-      <h2>Therapy List</h2>
-      <p>This is where you would display the therapy list.</p>
+    <div id="therapist-content" style="display: none;">
+    <div id="therapy-appointments-table"></div>
+        
+    </div>
+
+
     </section>
+  
+    
+    <!-- Section for Calendar (Initially Hidden) -->
+    <section class="content" id="calendar-content" style="display: none;">
+    @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+
+
+    
+</section>
+
+
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
@@ -113,5 +135,43 @@
     updateGreeting(); 
     setInterval(updateGreeting, 60 * 60 * 1000);
   </script>
+
+
+
+<script>
+    // Fetch user's specialization and doctor details on page load
+    window.onload = function() {
+        fetch('{{ route('get.user.specialization.doctor') }}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Prefill specialization select dropdown
+            var specializationSelect = document.getElementById('doctor_specialization');
+            var option = document.createElement('option');
+            option.value = data.specialization_id;
+            option.textContent = data.specialization;
+            specializationSelect.appendChild(option);
+
+            // Prefill doctor select dropdown
+            var doctorSelect = document.getElementById('specialist');
+            var doctorOption = document.createElement('option');
+            doctorOption.value = data.doctor_id;
+            doctorOption.textContent = data.doctor_name;
+            doctorSelect.appendChild(doctorOption);
+
+            // Disable both dropdowns after pre-filling
+            specializationSelect.disabled = true;
+            doctorSelect.disabled = true;
+        })
+        .catch(error => {
+            console.error('Error fetching user specialization and doctor:', error);
+        });
+    }
+</script>
 </body>
 </html>
+

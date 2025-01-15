@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
     <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
-        <a class="btn btn-close btn-md" href="<?php echo e(route('home')); ?>"></a>
+        <a class="btn btn-close btn-md" href="<?php echo e(route('register')); ?>"></a>
       </div>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -27,9 +27,7 @@
                                 </svg>
                                 
                                 <div>
-                                    
                                     <p><?php echo e($error); ?></p>
-                                    
                                 </div>
                                 
                             </div>
@@ -82,6 +80,8 @@
                                         <label for="lastname">Last Name</label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
                                         <select class="form-select" name="gender" id="gender">
@@ -93,6 +93,8 @@
                                         <label for="gender">Gender</label>
                                     </div>
                                 </div>
+
+
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
                                         <select class="form-select" name="role" id="role">
@@ -104,6 +106,34 @@
                                         <label for="role">Role</label>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6" id="specs" style="display: none">
+                                    <div class="form-floating mb-4">
+                                        <select class="form-select" name="specialization" id="specialization">
+                                            <option disabled <?php echo e(old('specialization') === null ? 'selected' : ''); ?>></option>
+                                            <?php $__currentLoopData = $specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($item->specialization); ?>" <?php echo e(old('specialization') === $item->specialization ? 'selected' : ''); ?>><?php echo e($item->specialization); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
+                                        <label for="specialization">Specialization</label>
+                                    </div>
+                                </div>
+                                <script>
+                                    $('#role').change(function() {
+                                        if ($(this).val() === 'Doctor' || 'Therapist') {
+                                            $('#specs').css('display', 'block');  // Show specialization input
+                                        } else {
+                                            $('#specs').css('display', 'none'); 
+                                        }
+                                    }
+
+                                    toggleSpecialization();
+
+                                    $('#role').change(function (){
+                                        toggleSpecialization();
+                                    });
+
+                                </script>
                             </div>
 
                             <div class="row">
@@ -115,8 +145,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-4">
-                                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="<?php echo e(old('phone')); ?>" required />
-                                        <label for="phone">Phone Number</label>
+                                        <input type="text" id="telephone" name="telephone" class="form-control" placeholder="Phone Number" value="<?php echo e(old('telephone')); ?>" required />
+                                        <label for="telephone">Phone Number</label>
                                     </div>
                                 </div>
                             </div>
@@ -125,15 +155,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('XiNqFbo')) {
-    $componentId = $_instance->getRenderedChildComponentId('XiNqFbo');
-    $componentTag = $_instance->getRenderedChildComponentTagName('XiNqFbo');
+} elseif ($_instance->childHasBeenRendered('QNCgASR')) {
+    $componentId = $_instance->getRenderedChildComponentId('QNCgASR');
+    $componentTag = $_instance->getRenderedChildComponentTagName('QNCgASR');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('XiNqFbo');
+    $_instance->preserveRenderedChild('QNCgASR');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('XiNqFbo', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('QNCgASR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

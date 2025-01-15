@@ -24,4 +24,10 @@ class ReceptionController extends Controller
         $children = $id ? children::where('id',$id)->get() : null;
         return view('reception.visits', compact('children'));
     }
+
+    public function calendar()
+{
+    return view('reception.reception_calendar'); // Path to your Blade file
+}
+
 }

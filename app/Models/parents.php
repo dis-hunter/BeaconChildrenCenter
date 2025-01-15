@@ -1,5 +1,6 @@
 <?php
 
+// app/Models/Parents.php
 namespace App\Models;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,11 +13,10 @@ class Parents extends Model implements ShouldQueue
     use HasFactory;
     use Searchable;
 
-    protected $table='parents';
+    protected $table = 'parents';
 
-    // Define fillable attributes
     protected $fillable = [
-        'fullname',
+        'fullname', // JSON field for parent's full name
         'dob',
         'gender_id',
         'telephone',
@@ -71,3 +71,4 @@ class Parents extends Model implements ShouldQueue
         return json_decode($value);
     }
 }
+

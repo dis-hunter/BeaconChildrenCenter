@@ -248,8 +248,8 @@
     <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
     <a href="#"><span class="icon">➕</span> <span class="text">Add Patient</span></a>
     <a href="#"><span class="icon">👥</span> <span class="text">Parents</span></a>
-    <a href="#"><span class="icon">📅</span> <span class="text">Appointments</span></a>
-    <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+    <a href="{{route('appointments.index') }}"><span class="icon">📅</span> <span class="text">Appointments</span></a>
+   <a href="#"><span class="icon">🕒</span> <span class="text">Visit</span></a>
     <a href="{{route('doctors')}}"><span class="icon">👨‍⚕️</span> <span class="text">Doctors</span></a>       <!--so apo ndo link ya kwenda iyo page ya kuadd,search an kuview doctors-->
     <a href="#"><span class="icon">💰</span> <span class="text">Payments</span></a>
     <a href="#"><span class="icon">👥</span> <span class="text">Staff</span></a>
@@ -303,6 +303,13 @@
     </table>
 </div>
 
+@section('content')
+<div class="page-title">Appointments</div>
+
+@include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+
+@endsection
+
 <script>
     // Function to toggle the sidebar
     function toggleSidebar() {
@@ -351,9 +358,57 @@
             });
     }
 
+    <!-- Section for Calendar (Initially Hidden) -->
+    <section class="content" id="calendar-content" style="display: none;">
+    @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+
+
+    
+</section>
+
+
     // Load progress data on page load
     loadProgress();
-</script>
 
+    
+</script>
+<script src="{{asset ('js/doctorDash.js')}}"></script>
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('.sidebar a'); // Sidebar links
+        const contentArea = document.querySelector('.main'); // Main content area
+
+        links.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default navigation
+                const url = this.getAttribute('href'); // Get the URL to load
+                
+                // Add 'active' class to highlight the selected menu item
+                links.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+
+                // Dynamically load content via AJAX
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        contentArea.innerHTML = html; // Replace the main content
+                    })
+                    .catch(error => console.error('Error loading page:', error));
+            });
+        });
+    });
+
+    // Sidebar toggle functionality
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const main = document.querySelector('.main');
+        const toggleButton = document.getElementById('toggle-button');
+        
+        sidebar.classList.toggle('collapsed');
+        main.classList.toggle('expanded');
+        toggleButton.classList.toggle('collapsed');
+    }
+</script>
