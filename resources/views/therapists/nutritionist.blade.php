@@ -53,6 +53,10 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Add Back and Next buttons -->
+    <div class="flex justify-between mb-4">
+        <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+    </div>
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Nutritional Therapy</h1>
         <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
@@ -231,6 +235,7 @@
         </div>
     </div>
     <script src="{{ asset('js/loader.js') }}"></script> 
+    <script src="{{asset('js/backAndNextButton.js')}}"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         showTabContent('therapyAssessment'); // Default tab to show

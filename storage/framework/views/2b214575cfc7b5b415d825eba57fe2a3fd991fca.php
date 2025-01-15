@@ -49,6 +49,11 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Add Back and Next buttons -->
+    <div class="flex justify-between mb-4">
+        <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+    </div>
+
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Occupational Therapy</h1>
         <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>">
@@ -228,6 +233,7 @@
         </div>
     </div>
     <script src="<?php echo e(asset('js/loader.js')); ?>"></script> 
+    <script src="<?php echo e(asset('js/backAndNextButton.js')); ?>"></script>
     <script >
     document.addEventListener('DOMContentLoaded', () => {
         showTabContent('therapyAssessment'); // Default tab to show
@@ -848,6 +854,7 @@ headers: {
     }
 }
 </script>
+
 
 </body>
 </html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationalTherapist.blade.php ENDPATH**/ ?>

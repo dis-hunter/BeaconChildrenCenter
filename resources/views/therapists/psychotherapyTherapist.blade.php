@@ -35,6 +35,11 @@
     </style>
 </head>
 <body class="bg-gray-50">
+     <!-- Add Back and Next buttons -->
+     <div class="flex justify-between mb-4">
+        <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+    </div>
+
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Psychotherapy</h1>
         <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
@@ -299,6 +304,7 @@
     </script>
     </script>
         <script src="{{ asset('js/loader.js') }}"></script> 
+        <script src="{{asset('js/backAndNextButton.js')}}"></script>
         <script src="{{ asset('js/movement.js')}}"></script>      
     <script>
      const childId = document.getElementById('child_id').value;

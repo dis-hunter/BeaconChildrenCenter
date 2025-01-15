@@ -90,6 +90,11 @@
     <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
         Navigation Menu
     </div>
+    <!-- <button 
+        onclick="goToEncounterSummary(event)" 
+        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+        Go to back Dashboard
+    </button> -->
 
     <button 
         onclick="goToWorkspace(event)" 
@@ -211,8 +216,8 @@ function goToWorkspace(event) {
                                     <input type="date" id="dob" name="dob" value="2018-02-28" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="genderAge">Gender/Age</label>
-                                    <input type="text" id="genderAge" name="genderAge" value="male/3yrs" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <label class="block text-sm font-medium text-gray-700" for="gender">Gender/Age</label>
+                                    <input type="text" id="genderAge" name="genderAge" value="<?php echo e($gender); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
