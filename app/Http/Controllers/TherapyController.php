@@ -82,92 +82,110 @@ class TherapyController extends Controller
     //fix this later for the doctors notes in therapy
 
 
-public function getChildDetails($registrationNumber)
-{
-    try {
-        // Retrieve child by registration number
-        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-        if (!$child) {
-            return response()->json(['error' => 'Child not found'], 404);
-        }
-
-        // Decode the fullname JSON
-        $fullname = json_decode($child->fullname);
-        $firstName = $fullname->first_name ?? null;
-        $middleName = $fullname->middle_name ?? null;
-        $lastName = $fullname->last_name ?? null;
-
-        // Get gender name
-        $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
-
-        // Get the staff details
-        $staff_id = auth()->user()->id;
-        $staff = DB::table('staff')->where('id', $staff_id)->first();
-
-        // Retrieve the latest visit for the child
-        $visit = DB::table('visits')->where('child_id', $child->id)->latest()->first();
-        if (!$visit) {
-            return response()->json(['error' => 'No visit found for the child'], 404);
-        }
-
-        // Fetch additional child-related data (repeated code omitted for brevity)
-        $milestonesData = DB::table('development_milestones')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-        $milestonesData = $milestonesData ? json_decode($milestonesData->data) : null;
-
-        // Retrieve parent details based on gender
-        $parentIds = DB::table('child_parent')->where('child_id', $child->id)->pluck('parent_id');
-
-        $maleParent = DB::table('parents')
-            ->whereIn('id', $parentIds)
-            ->where('gender_id', 1) // Male
-            ->first();
-
-        $femaleParent = DB::table('parents')
-            ->whereIn('id', $parentIds)
-            ->where('gender_id', 2) // Female
-            ->first();
-
-        $preferNotToSayParent = DB::table('parents')
-            ->whereIn('id', $parentIds)
-            ->where('gender_id', 3) // Prefer not to say
-            ->first();
-
-        // Assign default "N/A" values if parents are not found
-        $maleParentDetails = $maleParent ? [
-            'fullname' => $maleParent->fullname ?? 'N/A',
-            'telephone' => $maleParent->telephone ?? 'N/A',
-            'email' => $maleParent->email ?? 'N/A',
-        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
-
-        $femaleParentDetails = $femaleParent ? [
-            'fullname' => $femaleParent->fullname ?? 'N/A',
-            'telephone' => $femaleParent->telephone ?? 'N/A',
-            'email' => $femaleParent->email ?? 'N/A',
-        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
-
-        $preferNotToSayParentDetails = $preferNotToSayParent ? [
-            'fullname' => $preferNotToSayParent->fullname ?? 'N/A',
-            'telephone' => $preferNotToSayParent->telephone ?? 'N/A',
-            'email' => $preferNotToSayParent->email ?? 'N/A',
-        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
-
-        // Prepare doctor's notes
-        $doctorsNotes = "";
-        $doctorsNotes .= $milestonesData 
-            ? "Milestones :\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" 
-            : "Milestones : No data available.\n\n";
-
-        // Return response
-        if (request()->wantsJson() || request()->ajax()) {
-            return response()->json([
+    public function getChildDetails($registrationNumber)
+    {
+        try {
+            // Retrieve child by registration number
+            $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+            if (!$child) {
+                return response()->json(['error' => 'Child not found'], 404);
+            }
+    
+            // Decode the fullname JSON
+            $fullname = json_decode($child->fullname);
+            $firstName = $fullname->first_name ?? null;
+            $middleName = $fullname->middle_name ?? null;
+            $lastName = $fullname->last_name ?? null;
+    
+            // Combine the names into a single string
+            $fullName = trim("{$firstName} {$middleName} {$lastName}");
+    
+            // Get gender name
+            $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+    
+            // Get the staff details
+            $staff_id = auth()->user()->id;
+            $staff = DB::table('staff')->where('id', $staff_id)->first();
+    
+            // Retrieve the latest visit for the child
+            $visit = DB::table('visits')->where('child_id', $child->id)->latest()->first();
+            if (!$visit) {
+                return response()->json(['error' => 'No visit found for the child'], 404);
+            }
+    
+            // Fetch additional child-related data (repeated code omitted for brevity)
+            $milestonesData = DB::table('development_milestones')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $milestonesData = $milestonesData ? json_decode($milestonesData->data) : null;
+    
+            // Retrieve parent details based on gender
+            $parentIds = DB::table('child_parent')->where('child_id', $child->id)->pluck('parent_id');
+    
+            $maleParent = DB::table('parents')
+                ->whereIn('id', $parentIds)
+                ->where('gender_id', 1) // Male
+                ->first();
+    
+            $femaleParent = DB::table('parents')
+                ->whereIn('id', $parentIds)
+                ->where('gender_id', 2) // Female
+                ->first();
+    
+            $preferNotToSayParent = DB::table('parents')
+                ->whereIn('id', $parentIds)
+                ->where('gender_id', 3) // Prefer not to say
+                ->first();
+    
+            // Assign default "N/A" values if parents are not found
+            $maleParentDetails = $maleParent ? [
+                'fullname' => $maleParent->fullname ?? 'N/A',
+                'telephone' => $maleParent->telephone ?? 'N/A',
+                'email' => $maleParent->email ?? 'N/A',
+            ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+    
+            $femaleParentDetails = $femaleParent ? [
+                'fullname' => $femaleParent->fullname ?? 'N/A',
+                'telephone' => $femaleParent->telephone ?? 'N/A',
+                'email' => $femaleParent->email ?? 'N/A',
+            ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+    
+            $preferNotToSayParentDetails = $preferNotToSayParent ? [
+                'fullname' => $preferNotToSayParent->fullname ?? 'N/A',
+                'telephone' => $preferNotToSayParent->telephone ?? 'N/A',
+                'email' => $preferNotToSayParent->email ?? 'N/A',
+            ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+    
+            // Prepare doctor's notes
+            $doctorsNotes = "";
+            $doctorsNotes .= $milestonesData 
+                ? "Milestones :\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" 
+                : "Milestones : No data available.\n\n";
+    
+            // Return response
+            if (request()->wantsJson() || request()->ajax()) {
+                return response()->json([
+                    'child' => $child,
+                    'child_id' => $child->id,
+                    'fullName' => $fullName,  // Use concatenated full name here
+                    'gender' => $gender,
+                    'parents' => [
+                        'maleParent' => $maleParentDetails,
+                        'femaleParent' => $femaleParentDetails,
+                        'preferNotToSayParent' => $preferNotToSayParentDetails,
+                    ],
+                    'doctorsNotes' => $doctorsNotes,
+                    'staff_id' => auth()->user()->id,
+                    'specialization_id' => $staff->specialization_id
+                ]);
+            }
+    
+            // Otherwise, return view
+            return view('therapists.occupationaltherapyDashboard', [
                 'child' => $child,
                 'child_id' => $child->id,
-                'firstName' => $firstName,
-                'middleName' => $middleName,
-                'lastName' => $lastName,
+                'fullName' => $fullName,  // Use concatenated full name here
                 'gender' => $gender,
                 'parents' => [
                     'maleParent' => $maleParentDetails,
@@ -175,31 +193,13 @@ public function getChildDetails($registrationNumber)
                     'preferNotToSayParent' => $preferNotToSayParentDetails,
                 ],
                 'doctorsNotes' => $doctorsNotes,
-                'staff_id' => auth()->user()->id,
                 'specialization_id' => $staff->specialization_id
             ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        // Otherwise, return view
-        return view('therapists.occupationaltherapyDashboard', [
-            'child' => $child,
-            'child_id' => $child->id,
-            'firstName' => $firstName,
-            'middleName' => $middleName,
-            'lastName' => $lastName,
-            'gender' => $gender,
-            'parents' => [
-                'maleParent' => $maleParentDetails,
-                'femaleParent' => $femaleParentDetails,
-                'preferNotToSayParent' => $preferNotToSayParentDetails,
-            ],
-            'doctorsNotes' => $doctorsNotes,
-            'specialization_id' => $staff->specialization_id
-        ]);
-    } catch (Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
     }
-}
+    
 
 
 
