@@ -72,10 +72,10 @@
             <i class="fas fa-comments"></i>
             <span>Multidisciplinary Communication</span>
         </a>
-        <a href="#" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </a>
+        <a href="http://127.0.0.1:8000/login" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Logout</span>
+</a>
     </div>
 
     <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
@@ -228,15 +228,15 @@ function goToWorkspace(event) {
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
-                                    <input type="text" id="mothersName" name="mothersName" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="mothersName" name="mothersName" value="<?php echo e($parent['fullname']); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
-                                    <input type="tel" id="motherTel" name="motherTel" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="tel" id="motherTel" name="motherTel" value="<?php echo e($parent['telephone']); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
-                                    <input type="email" id="motherEmail" name="motherEmail" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="email" id="motherEmail" name="motherEmail"value="<?php echo e($parent['email']); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
