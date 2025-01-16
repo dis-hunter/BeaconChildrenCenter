@@ -61,9 +61,9 @@
 }
 
 </style>
-
+<div class="w-100">
  <?php echo $__env->make('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+</div>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

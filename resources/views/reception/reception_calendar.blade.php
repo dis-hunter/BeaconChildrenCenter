@@ -61,7 +61,7 @@
 }
 
 </style>
-
+<div class="w-100">
  @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
-
+</div>
 @endsection
