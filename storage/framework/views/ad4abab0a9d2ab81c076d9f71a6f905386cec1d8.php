@@ -228,30 +228,30 @@ function goToWorkspace(event) {
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
-                                    <input type="text" id="mothersName" name="mothersName" value="<?php echo e($parent['fullname']); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="mothersName" name="mothersName" value="<?php echo e($parents['femaleParent']['fullname'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
-                                    <input type="tel" id="motherTel" name="motherTel" value="<?php echo e($parent['telephone']); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="tel" id="motherTel" name="motherTel" value="<?php echo e($parents['femaleParent']['telephone'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
-                                    <input type="email" id="motherEmail" name="motherEmail"value="<?php echo e($parent['email']); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="email" id="motherEmail" name="motherEmail"value="<?php echo e($parents['femaleParent']['email'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="fathersName">Father's Name</label>
-                                    <input type="text" id="fathersName" name="fathersName" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="fathersName" name="fathersName" value="<?php echo e($parents['maleParent']['fullname'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="fatherTel">Tel</label>
-                                    <input type="tel" id="fatherTel" name="fatherTel" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="tel" id="fatherTel" name="fatherTel" value="<?php echo e($parents['maleParent']['telephone'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="fatherEmail">Email</label>
-                                    <input type="email" id="fatherEmail" name="fatherEmail" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="email" id="fatherEmail" name="fatherEmail" value="<?php echo e($parents['maleParent']['email'] ?? 'N/A'); ?>"class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
