@@ -86,37 +86,65 @@
         </div>
     </div>
 
-    <div class="fixed right-5 top-20 bg-white rounded-lg shadow-lg overflow-hidden" id="floatingMenu">
-    <div class="bg-gradient-to-r from-blue-500 to-sky-500 text-white py-3 px-4 font-semibold">
-        Navigation Menu
-    </div>
+    <!-- Navigation Menu Button -->
+<button 
+    id="menuButton" 
+    class="fixed right-5 top-5 bg-gradient-to-r from-blue-500 to-sky-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+    onclick="toggleMenu()"
+>
+    <i class="fas fa-bars"></i>
+    <span>Navigation Menu</span>
+</button>
+
+<!-- Menu Links -->
+<div 
+    id="floatingMenu" 
+    class="fixed right-5 top-20 bg-white rounded-lg shadow-lg overflow-hidden"
+>
     <button 
         onclick="window.location.href='/therapist_dashboard'" 
-        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
+    >
         Go back to Dashboard
     </button>
 
     <button 
         onclick="goToWorkspace(event)" 
         data-specialization-id="2"
-        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
+    >
         Therapist Workstation
     </button>
+
     <button 
         onclick="goToEncounterSummary(event)" 
-        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600">
+        class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
+    >
         Encounter Summary
     </button>
 </div>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('floatingMenu');
+        // Toggle the "hidden" class to show/hide the menu links
+        menu.classList.toggle('hidden');
+    }
+</script>
+
+<style>
+    /* Add a "hidden" class to hide the menu links */
+    .hidden {
+        display: none;
+    }
+</style>
+
 
 
 
       
 
-    <button id="menuButton" class="fixed right-5 top-5 bg-gradient-to-r from-blue-500 to-sky-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
-        <i class="fas fa-bars"></i>
-        <span>Menu</span>
-    </button>
+    
 
     <script>
         
@@ -214,7 +242,7 @@ function goToWorkspace(event) {
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
-                                    <input type="text" id="hnu" name="hnu" value="123456" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="hnu" name="hnu" value="<?php echo e($child->id); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
