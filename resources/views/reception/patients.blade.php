@@ -238,7 +238,7 @@
         }
 
         const data = await response.json();
-        alert(`Number of records found for today: ${data.count}`);
+        alert(`Invoice generated for ${data.registration_number}`);
     } catch (error) {
         console.error('Error:', error);
         alert('Error fetching records. Please try again.');
