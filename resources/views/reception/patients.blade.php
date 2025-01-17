@@ -209,12 +209,31 @@
 
     <!-- Review Button -->
     <div class="text-center review-btn">
-        <button class="btn btn-primary">Review</button>
+    <button 
+        class="btn btn-primary" 
+        id="generateInvoiceBtn" 
+        data-registration-number="{{ $child->registration_number }}">
+        Generate Invoice
+    </button>
     </div>
 
     @else
         <p>Search for patient in the Search Component above</p>
     @endif
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const generateInvoiceBtn = document.getElementById("generateInvoiceBtn");
+        
+        generateInvoiceBtn.addEventListener("click", () => {
+            // Log the registration number
+            const registrationNumber = generateInvoiceBtn.getAttribute("data-registration-number");
+            console.log("Registration Number:", registrationNumber);
+
+            // Add functionality to generate the invoice here (e.g., redirect to an invoice page)
+            alert(`Generating invoice for Registration Number: ${registrationNumber}`);
+        });
+    });
+</script>
 
 @endsection
