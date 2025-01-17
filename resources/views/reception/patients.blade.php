@@ -440,7 +440,7 @@
         }
 
         const data = await response.json();
-        alert(`Invoice generated for ${data.registration_number}`);
+        alert(`Invoice generated for  Registration Number: ${registrationNumber}`);
     } catch (error) {
         console.error('Error:', error);
         alert('Error fetching records. Please try again.');
