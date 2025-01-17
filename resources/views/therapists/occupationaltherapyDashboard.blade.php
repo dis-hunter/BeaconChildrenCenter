@@ -101,12 +101,15 @@
     id="floatingMenu" 
     class="fixed right-5 top-20 bg-white rounded-lg shadow-lg overflow-hidden"
 >
-    <button 
-        onclick="window.location.href='/therapist_dashboard'" 
+<button 
+        id="backToDashboardButton"
+        onclick="handleBackToDashboardClick()"
         class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
     >
         Go back to Dashboard
     </button>
+
+
 
     <button 
         onclick="goToWorkspace(event)" 
@@ -138,14 +141,7 @@
         display: none;
     }
 </style>
-
-
-
-
-      
-
-    
-
+<script src="{{ asset('js/loader.js') }}"></script> 
     <script>
         
         // starts here
@@ -166,6 +162,7 @@ function handleMissingData() {
 
 function goToWorkspace(event) {
     // Retrieve the specialization ID from the button's data attribute
+    showLoadingIndicator('Opening Workstation...', 0);
     const specializationId = event.target.getAttribute('data-specialization-id');
     const registrationNumber = extractRegistrationCode(); // Function to get registration number
 
@@ -176,6 +173,7 @@ function goToWorkspace(event) {
     }
 
     try {
+        updateLoadingProgress(70, 'Loading Workstation...');
         // Redirect to the appropriate workspace URL based on the specialization ID
         switch (specializationId) {
             case "2":
@@ -644,6 +642,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
     <script src="{{ asset('js/doctor.js') }}"></script>
+    <script>
+    //for Going to Dashboard loader
+    function handleBackToDashboardClick() {
+        showLoadingIndicator('Loading...',70);
+        window.location.href = '/therapist_dashboard';
+    }
+</script>
 
 </body>
 </html>

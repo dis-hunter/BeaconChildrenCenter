@@ -18,7 +18,7 @@
         /* .tabs-content {
             max-height: 60vh;
             overflow-y: auto;
-            scrollbar-width: thin;
+            scrollbar-width: thin;l
         }
         
         .tabs-content::-webkit-scrollbar {
