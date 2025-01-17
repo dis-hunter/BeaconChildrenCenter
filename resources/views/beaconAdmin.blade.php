@@ -105,10 +105,12 @@
     <td>{{ \Carbon\Carbon::parse($child->dob)->age }}</td>
     <td>{{ $child->gender }}</td>
     <td>{{ $child->registration_number }}</td>
+    <td><p>Status?</p></td>
+    <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
+
 </tr>
 @endforeach
 
-              <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
             </tr>
           </tbody>
         </table>

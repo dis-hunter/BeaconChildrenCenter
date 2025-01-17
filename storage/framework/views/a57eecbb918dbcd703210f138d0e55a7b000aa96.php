@@ -106,10 +106,12 @@
     <td><?php echo e(\Carbon\Carbon::parse($child->dob)->age); ?></td>
     <td><?php echo e($child->gender); ?></td>
     <td><?php echo e($child->registration_number); ?></td>
+    <td><p>Status?</p></td>
+    <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
+
 </tr>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-              <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
             </tr>
           </tbody>
         </table>
