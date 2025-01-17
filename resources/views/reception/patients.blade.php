@@ -411,12 +411,42 @@
 
     <!-- Review Button -->
     <div class="text-center review-btn">
-        <button class="btn btn-primary">Review</button>
+    <button 
+        class="btn btn-primary" 
+        id="generateInvoiceBtn" 
+        data-registration-number="{{ $child->registration_number }}">
+        Generate Invoice
+    </button>
     </div>
 
     @else
         <p>Search for patient in the Search Component above</p>
     @endif
 </div>
+<script>
+    document.querySelector('.btn-primary').addEventListener('click', async function () {
+    const registrationNumber = '{{ $child->registration_number }}'; // Use Blade to dynamically pass registration number
+
+    try {
+        const response = await fetch(`/invoice/${registrationNumber}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch records');
+        }
+
+        const data = await response.json();
+        alert(`Invoice generated for  Registration Number: ${registrationNumber}`);
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error fetching records. Please try again.');
+    }
+});
+
+</script>
 
 @endsection

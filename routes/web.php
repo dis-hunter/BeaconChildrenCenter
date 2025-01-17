@@ -28,6 +28,11 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
 
+
+Route::get('/admin', function () {
+    return view('beaconAdmin');
+});
+
 // General Routes
 Route::view('/', 'home')->name('home');
 
@@ -175,3 +180,16 @@ Route::post('/triage', [TriageController::class, 'store']);
 Route::get('/triage', [TriageController::class, 'create'])->name('triage');
 Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+
+
+
+use App\Http\Controllers\InvoiceController;
+
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
+
+
+
+
+
+
+//Temporary Admin route

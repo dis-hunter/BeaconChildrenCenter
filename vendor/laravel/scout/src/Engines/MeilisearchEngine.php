@@ -4,13 +4,14 @@ namespace Laravel\Scout\Engines;
 
 use Illuminate\Support\LazyCollection;
 use Laravel\Scout\Builder;
+use Laravel\Scout\Contracts\UpdatesIndexSettings;
 use Laravel\Scout\Jobs\RemoveableScoutCollection;
 use Meilisearch\Client as MeilisearchClient;
 use Meilisearch\Contracts\IndexesQuery;
 use Meilisearch\Meilisearch;
 use Meilisearch\Search\SearchResult;
 
-class MeilisearchEngine extends Engine
+class MeilisearchEngine extends Engine implements UpdatesIndexSettings
 {
     /**
      * The Meilisearch client.
@@ -383,17 +384,25 @@ class MeilisearchEngine extends Engine
     }
 
     /**
-     * Update an index's settings.
+     * Update the index settings for the given index.
      *
-     * @param  string  $name
-     * @param  array  $options
-     * @return array
-     *
-     * @throws \Meilisearch\Exceptions\ApiException
+     * @return void
      */
-    public function updateIndexSettings($name, array $options = [])
+    public function updateIndexSettings($name, array $settings = [])
     {
-        return $this->meilisearch->index($name)->updateSettings($options);
+        $this->meilisearch->index($name)->updateSettings($settings);
+    }
+
+    /**
+     * Configure the soft delete filter within the given settings.
+     *
+     * @return array
+     */
+    public function configureSoftDeleteFilter(array $settings = [])
+    {
+        $settings['filterableAttributes'][] = '__soft_deleted';
+
+        return $settings;
     }
 
     /**
