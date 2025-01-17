@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
+   
     /**
-     * Count today's visits for a child based on the registration number.
+     * Count today's visits for a child based on the registration number
+     * and log the visit types.
      *
      * @param string $registrationNumber
      * @return \Illuminate\Http\JsonResponse
@@ -29,16 +31,26 @@ class InvoiceController extends Controller
             ], 404);
         }
 
-        // Count visits for today's date
+        // Get today's date
         $today = now()->toDateString();
-        $visitCount = DB::table('visits')
-            ->where('child_id', $child->id)
-            ->whereDate('visit_date', $today)
-            ->count();
 
+        // Fetch visits for today, including their visit_type details
+        $visits = DB::table('visits')
+            ->join('visit_type', 'visits.visit_type', '=', 'visit_type.id')
+            ->where('visits.child_id', $child->id)
+            ->whereDate('visits.visit_date', $today)
+            ->select('visit_type.visit_type as visit_type_name')
+            ->get();
+
+        // Log the visit types to the console
+        foreach ($visits as $visit) {
+            logger('Visit Type: ' . $visit->visit_type_name);
+        }
+
+        // Return the count of visits
         return response()->json([
             'message' => 'Records found',
-            'count' => $visitCount,
+            'count' => $visits->count(),
         ]);
     }
 }
