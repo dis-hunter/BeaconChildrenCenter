@@ -106,10 +106,13 @@
     <td>{{ $child->gender }}</td>
     <td>{{ $child->registration_number }}</td>
     <td><p>Status?</p></td>
-    <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
-
+    <td>
+        <!-- Pass the child's ID dynamically into the onclick function -->
+        <button onclick="showInvoiceDates('{{ $child->id }}')">See Invoices</button>
+    </td>
 </tr>
 @endforeach
+
 
             </tr>
           </tbody>
