@@ -5,6 +5,8 @@ class Calendar {
         this.initializeEventListeners();
         this.initializeModalEventListeners();
         this.render();
+        this.initElements();
+        this.bindEvents();
     }
 
     initializeElements() {
@@ -23,11 +25,49 @@ class Calendar {
         };
     }
 
+    initElements() {
+        this.addEventBtn = document.querySelector(".add-event");
+        this.addEventContainer = document.querySelector(".add-event-wrapper");
+        this.addEventCloseBtn = document.querySelector(".close");
+        this.addEventTitle = document.querySelector(".event_name");
+        this.addEventFrom = document.querySelector(".event_time_from");
+        this.addEventTo = document.querySelector(".event_time_end");
+        this.addEventsSubmit = document.querySelector(".add-event-btn");
+        this.serviceDropdown = document.getElementById("service");
+        this.specialistContainer = document.getElementById("specialist-container");
+        this.specialistDropdown = document.getElementById("specialist");
+        this.bookAppointmentBtn = document.getElementById("book-appointment");
+        this.dateText = document.querySelector(".event-date")?.textContent || "";
+        this.formattedDate = this.getFormattedDate();
+    }
+
+    bindEvents() {
+        if (this.addEventBtn && this.addEventContainer && this.addEventCloseBtn) {
+            this.addEventBtn.addEventListener("click", () => this.toggleAddEventForm());
+            this.addEventCloseBtn.addEventListener("click", () => this.closeAddEventForm());
+        }
+
+        if (this.serviceDropdown && this.specialistDropdown && this.specialistContainer) {
+            this.serviceDropdown.addEventListener("change", () => this.loadSpecialists());
+            this.specialistDropdown?.addEventListener("change", () => this.checkDoctorAvailability());
+        }
+
+        if (this.addEventsSubmit) {
+            this.addEventsSubmit.addEventListener("click", (event) => this.submitAppointment(event));
+        }
+
+        $(document).ready(() => {
+            $('#doctor_specialization').change(() => this.loadDoctorsBySpecialization());
+        });
+    }
+
+
     initializeState() {
         this.today = new Date();
         this.activeDay = null;
         this.month = this.today.getMonth();
         this.year = this.today.getFullYear();
+        this.selectedDate=null;
         this.months = [
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
@@ -176,6 +216,17 @@ class Calendar {
         this.updateEvents(formattedDate);
     }
 
+    getFormattedDate() {
+        if(!this.selectedDate){
+            return null;
+        }
+        const date = new Date(this.selectedDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth()+1).padStart(2,'0');
+        const day = String(date.getDate()).padStart(2,'0');
+        return `${year}-${month}-${day}`;
+    }
+
     formatDate(date) {
         return `${this.year}-${(this.month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
     }
@@ -185,7 +236,16 @@ class Calendar {
         this.updateEvents(formattedDate);
     }
 
-    
+    // Toggle Add Event Form visibility
+    toggleAddEventForm() {
+        this.addEventContainer.classList.toggle("active");
+    }
+
+    // Close Add Event Form
+    closeAddEventForm() {
+        this.addEventContainer.classList.remove("active");
+    }
+
     addDayClickListeners() {
         const days = document.querySelectorAll(".day");
         days.forEach((day) => {
@@ -196,19 +256,31 @@ class Calendar {
     handleDayClick(e) {
         const days = document.querySelectorAll(".day");
         days.forEach(day => day.classList.remove("active"));
-        
+
         const clickedDay = e.target;
         const dayNumber = Number(clickedDay.innerHTML);
-        
+
+        const selectedDate = new Date(this.year,this.month, dayNumber);
+        const today= new Date();
+        today.setHours(0.0,0,0);
+        if(selectedDate<today){
+            alert('Cannot create appointments for past Dates');
+            return;
+        }
+        console.log(selectedDate);
+
         // Handle month transitions
         if (clickedDay.classList.contains("prev-date")) {
             this.prevMonth();
             this.activeDay = dayNumber;
+            this.selectedDate= new Date(this.year,this.month - 1, dayNumber);
         } else if (clickedDay.classList.contains("next-date")) {
             this.nextMonth();
             this.activeDay = dayNumber;
+            this.selectedDate= new Date(this.year,this.month + 1, dayNumber);
         } else {
             this.activeDay = dayNumber;
+            this.selectedDate= new Date(this.year,this.month,dayNumber);
             clickedDay.classList.add("active");
         }
 
@@ -237,13 +309,12 @@ class Calendar {
         }
 
         // Update active day display and fetch appointments
-        console.log(this.activeDay);
         this.getActiveDay(this.activeDay);
     }
 
     async updateEvents(date) {
         const container = document.getElementById("events-container");
-        
+
         try {
             // Show loading state
             container.innerHTML = `
@@ -270,14 +341,14 @@ class Calendar {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             const appointments = await response.json();
-            
+
             // Clear existing appointments before rendering new ones
             container.innerHTML = "";
-            
+
             this.renderEvents(appointments);
-            
+
         } catch (error) {
             console.error("Error fetching appointments:", error);
             container.innerHTML = `
@@ -341,6 +412,94 @@ class Calendar {
         `;
 
         return eventDiv;
+    }
+
+    loadSpecialists() {
+        const selectedService = this.serviceDropdown.value;
+        this.specialistDropdown.innerHTML = '<option value="">-- Select Specialist --</option>';
+
+        if (selectedService) {
+            fetch(`/api/specialists?service=${selectedService}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.length > 0) {
+                        this.specialistContainer.style.display = "block";
+                        data.forEach((specialist) => {
+                            const option = document.createElement("option");
+                            option.value = specialist.id;
+                            option.textContent = specialist.name;
+                            this.specialistDropdown.appendChild(option);
+                        });
+                    } else {
+                        this.specialistContainer.style.display = "none";
+                        alert("No specialists found for the selected service.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching specialists:", error);
+                    alert("An error occurred while fetching specialists.");
+                });
+        } else {
+            this.specialistContainer.style.display = "none";
+        }
+    }
+
+    checkDoctorAvailability() {
+        const doctorId = this.specialistDropdown?.value;
+        const datePicker = document.getElementById("event_date");
+        const timeStart = document.getElementById("event_time_from")?.value;
+        const timeEnd = document.getElementById("event_time_end")?.value;
+
+        if (doctorId && datePicker?.value && timeStart && timeEnd) {
+            fetch(`/check-availability?doctor_id=${doctorId}&date=${datePicker.value}&start_time=${timeStart}&end_time=${timeEnd}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (!data.available) {
+                        alert("Doctor is unavailable during this time. Please select a different time.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error checking doctor availability:", error);
+                });
+        } else {
+            console.warn("Missing required fields for availability check.");
+        }
+    }
+
+    loadDoctorsBySpecialization() {
+        const specializationId = $('#doctor_specialization').val();
+        const specialistSelect = $('#specialist');
+        const specialistContainer = $('#specialist-container');
+        const noSpecialistsMessage = $('#no-specialists-message');
+
+        specialistSelect.empty();
+        specialistSelect.append('<option value="">-- Select Specialist --</option>');
+        specialistContainer.hide();
+        noSpecialistsMessage.hide();
+
+        if (specializationId) {
+            specialistContainer.show();
+
+            $.ajax({
+                url: `/get-doctors/${specializationId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    if (data.message) {
+                        noSpecialistsMessage.text(data.message).show();
+                    } else if (data.length > 0) {
+                        data.forEach((doctor) => {
+                            specialistSelect.append(`<option value="${doctor.id}">${doctor.full_name}</option>`);
+                        });
+                        noSpecialistsMessage.hide();
+                    }
+                },
+                error: (xhr, status, error) => {
+                    console.error('Error fetching doctors:', error);
+                    alert('An error occurred while fetching doctors.');
+                },
+            });
+        }
     }
 
     formatNames(appointment) {
@@ -503,13 +662,67 @@ class Calendar {
         });
     }
 
+    submitAppointment(event) {
+        event.preventDefault();
+
+
+        const selectedChildCheckbox = document.querySelector('input[type="checkbox"]:checked[id^="child_id_"]');
+        const selectedChildId = selectedChildCheckbox?.value || "";
+
+        const formattedDate = this.getFormattedDate();
+        if(!formattedDate){
+            alert("Please select a date for the appointment");
+            return;
+        }
+
+        const request = {
+            appointment_title: this.addEventTitle?.value || "",
+            staff_id: this.specialistDropdown?.value || "",
+            start_time: this.addEventFrom?.value || "",
+            end_time: this.addEventTo?.value || "",
+            child_id: selectedChildId,
+            appointment_date: formattedDate,
+            doctor_id: this.specialistDropdown?.value || null,
+            status: "pending",
+        };
+
+        fetch("http://127.0.0.1:8000/appointments", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(request),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data && data.success) {
+                    alert("Appointment successfully created!");
+                    this.addEventContainer.classList.remove("active");
+                    this.onAppointmentActionSuccess();
+                } else {
+                    const errorMessage = data?.message || "An unknown error occurred";
+                    alert("Error: " + errorMessage);
+                    console.error("Error:", errorMessage);
+                }
+            })
+            .catch((error) => {
+                alert("An unexpected error occurred: " + error.message || error);
+                console.error("Error:", error);
+            });
+    }
+
+
     onAppointmentActionSuccess() {
         const event = new Event("appointmentModified");
         document.dispatchEvent(event);
     }
 
+
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const calendar = new Calendar();
+    new Calendar();
 });

@@ -118,15 +118,15 @@ div h2 {
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('5Ey8S45')) {
-    $componentId = $_instance->getRenderedChildComponentId('5Ey8S45');
-    $componentTag = $_instance->getRenderedChildComponentTagName('5Ey8S45');
+} elseif ($_instance->childHasBeenRendered('UB51MuI')) {
+    $componentId = $_instance->getRenderedChildComponentId('UB51MuI');
+    $componentTag = $_instance->getRenderedChildComponentTagName('UB51MuI');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('5Ey8S45');
+    $_instance->preserveRenderedChild('UB51MuI');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('5Ey8S45', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('UB51MuI', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -244,9 +244,7 @@ margin: 20px auto; /* Center form */">
 </div>
     </div>
 
-    <script src="<?php echo e(asset('js/calendar.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/appointments.js')); ?>"></script>
-    <script type="module" src="<?php echo e(asset('js/specialization.js')); ?>"></script>
+    <script type="module" src="<?php echo e(asset('js/calendar.js')); ?>"></script>
     <script src="<?php echo e(asset('js/isDoctorAvailable.js')); ?>"></script>
 
  </div>

@@ -230,9 +230,7 @@ margin: 20px auto; /* Center form */">
 </div>
     </div>
 
-    <script src="{{asset('js/calendar.js')}}"></script>
-    <script src="{{asset('js/appointments.js')}}"></script>
-    <script type="module" src="{{asset('js/specialization.js')}}"></script>
+    <script type="module" src="{{asset('js/calendar.js')}}"></script>
     <script src="{{asset('js/isDoctorAvailable.js')}}"></script>
 
  </div>
