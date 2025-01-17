@@ -24,17 +24,17 @@ class InvoiceController extends Controller
             ->where('registration_number', $registrationNumber)
             ->select('id')
             ->first();
-
+    
         if (!$child) {
             return response()->json([
                 'message' => 'Child not found',
                 'count' => 0,
             ], 404);
         }
-
+    
         // Get today's date (without the time)
         $today = Carbon::now()->toDateString();
-
+    
         // Fetch visits for today, including visit type and prices
         $visits = DB::table('visits')
             ->join('visit_type', 'visits.visit_type', '=', 'visit_type.id')
@@ -47,28 +47,31 @@ class InvoiceController extends Controller
                 'visits.payment_mode_id'
             )
             ->get();
-
-        // Initialize total amount and prepare invoice details
-        $totalAmount = 0;
+    
+        // Initialize invoice details
         $invoiceDetails = [];
-
-        // Log the visit types with associated prices and calculate the total amount
+    
+        // Populate invoice details and calculate the total amount
         foreach ($visits as $visit) {
-            $price = ($visit->payment_mode_id == 3) ? $visit->sponsored_price : $visit->normal_price;
-            $invoiceDetails[$visit->visit_type_name] = $price; // Store visit type and price in invoice details
-            logger("Visit Type: {$visit->visit_type_name}, Price: {$price}");
-            $totalAmount += $price;
+            $price = ($visit->payment_mode_id == 3) 
+                ? $visit->sponsored_price 
+                : $visit->normal_price;
+            
+            $invoiceDetails[$visit->visit_type_name] = $price;
         }
-
+    
+        // Calculate the total amount based on stored prices in invoice details
+        $totalAmount = array_sum($invoiceDetails);
+    
         // Log the total amount
         logger("Total Amount: {$totalAmount}");
-
+    
         // Check if an invoice already exists for today
         $existingInvoice = DB::table('invoices')
             ->where('child_id', $child->id)
             ->whereDate('invoice_date', $today) // Use `whereDate` for date comparison only
             ->first();
-
+    
         if ($existingInvoice) {
             // Update the existing invoice
             DB::table('invoices')
@@ -77,7 +80,7 @@ class InvoiceController extends Controller
                     'invoice_details' => json_encode($invoiceDetails),
                     'total_amount' => $totalAmount,
                 ]);
-
+    
             return response()->json([
                 'message' => 'Invoice updated successfully',
                 'invoice_id' => $existingInvoice->id,
@@ -92,7 +95,7 @@ class InvoiceController extends Controller
                 'total_amount' => $totalAmount,
                 'invoice_date' => $today, // Only date (no time)
             ]);
-
+    
             return response()->json([
                 'message' => 'Invoice generated successfully',
                 'invoice_id' => $invoiceId,
@@ -101,4 +104,53 @@ class InvoiceController extends Controller
             ]);
         }
     }
+    
+    public function getInvoices()
+{
+    $today = now()->format('Y-m-d');
+
+    $invoices = DB::table('invoices')
+        ->whereDate('invoice_date', $today)
+        ->get();
+
+    $invoicesWithNames = $invoices->map(function ($invoice) {
+        $child = DB::table('children')->where('id', $invoice->child_id)->first();
+        $fullName = json_decode($child->fullname);
+
+        $invoice->patient_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
+
+        return $invoice;
+    });
+
+    return view('reception.invoice', ['invoices' => $invoicesWithNames]);
+}
+
+    public function getInvoiceDetails($invoiceId)
+{
+    // Fetch the invoice
+    $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
+
+    if (!$invoice) {
+        return redirect()->back()->withErrors(['error' => 'Invoice not found.']);
+    }
+
+    // Get child details
+    $child = DB::table('children')->where('id', $invoice->child_id)->first();
+    $gender = DB::table('gender')->where('id', $child->gender_id)->first()->gender ?? 'Unknown';
+
+    // Decode child name
+    $fullName = json_decode($child->fullname);
+    $child->full_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
+
+    // Decode invoice details
+    $invoice->invoice_details = json_decode($invoice->invoice_details, true);
+
+    return view('reception.invoice-details', [
+        'invoice' => $invoice,
+        'child' => $child,
+        'gender' => $gender,
+    ]);
+}
+
+    
 }
