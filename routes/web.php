@@ -165,6 +165,9 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 
 
+use App\Http\Controllers\InvoiceController;
+
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
 
 
 

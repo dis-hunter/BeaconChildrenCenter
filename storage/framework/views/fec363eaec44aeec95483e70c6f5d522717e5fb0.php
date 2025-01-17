@@ -219,18 +219,29 @@
     <?php endif; ?>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const generateInvoiceBtn = document.getElementById("generateInvoiceBtn");
-        
-        generateInvoiceBtn.addEventListener("click", () => {
-            // Log the registration number
-            const registrationNumber = generateInvoiceBtn.getAttribute("data-registration-number");
-            console.log("Registration Number:", registrationNumber);
+    document.querySelector('.btn-primary').addEventListener('click', async function () {
+    const registrationNumber = '<?php echo e($child->registration_number); ?>'; // Use Blade to dynamically pass registration number
 
-            // Add functionality to generate the invoice here (e.g., redirect to an invoice page)
-            alert(`Generating invoice for Registration Number: ${registrationNumber}`);
+    try {
+        const response = await fetch(`/invoice/${registrationNumber}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
-    });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch records');
+        }
+
+        const data = await response.json();
+        alert(`Number of records found for today: ${data.count}`);
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error fetching records. Please try again.');
+    }
+});
+
 </script>
 
 <?php $__env->stopSection(); ?>
