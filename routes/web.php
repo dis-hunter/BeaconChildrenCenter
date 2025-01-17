@@ -66,9 +66,9 @@ Route::post('/children/store', [ChildrenController::class, 'store'])->name('chil
 // Doctor Routes
 // Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
 // Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
-// Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])->name('doctors.specializationSearch');
-// Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
-// Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
+Route::get('/doctors/specialization-search', [VisitController::class, 'showSpecializations'])->name('doctors.specializationSearch');
+Route::get('/specializations', [VisitController::class, 'getSpecializations']);
+Route::get('/doctors', [VisitController::class, 'getDoctorsBySpecialization']);
 
 // Staff Routes
 Route::get('/staff-dropdown', [StaffController::class, 'index']);

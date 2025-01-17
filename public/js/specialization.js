@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const addEventFrom = document.querySelector(".event_time_from");
     const addEventTo = document.querySelector(".event_time_end");
     const addEventsSubmit = document.querySelector(".add-event-btn");
-
     const serviceDropdown = document.getElementById("service");
     const specialistContainer = document.getElementById("specialist-container");
     const specialistDropdown = document.getElementById("specialist");

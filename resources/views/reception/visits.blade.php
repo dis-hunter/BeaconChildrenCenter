@@ -1,3 +1,4 @@
+@ -1,536 +1,538 @@
 @extends('reception.layout')
 @section('title','Visits | Reception')
 @extends('reception.header')
@@ -49,22 +50,6 @@
         </div>
     </div>
 </div>
-<h2>Search </h2>
-<form action="{{ route('parent.get-children') }}" method="post">
-    @csrf
-    <table>
-    <tr>
-            <td>Search by Name</td>
-            <td><input type="text" name="child_name" placeholder="Enter Name" value="{{ old('fullname') }}"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-        <tr>
-            <td>Search by Telephone</td>
-            <td><input type="text" name="telephone" placeholder="Enter Telephone" value="{{ old('telephone') }}"></td>
-            <td><input type="submit" value="Search"></td>
-        </tr>
-    </table>    
-</form>
 
 <!-- Error Message -->
 @if(session()->has('error'))
@@ -171,6 +156,7 @@
 
 
 <script>
+
   document.addEventListener('DOMContentLoaded', function () {
     console.log("welcome");
     getChildId();
@@ -446,15 +432,17 @@ dropdown.addEventListener('change', async function () {
 
 // Add event listener to "Submit Appointment" button
 document.getElementById('submit-appointment').addEventListener('click', async function () {
-    try {
+    
         // Get selected child ID
         const activeChildElement = document.querySelector('.select-child.active');
         if (!activeChildElement) {
+            console.error('No active child element found.');
             alert('Please select a child before proceeding.');
             return;
         }
         const selectedChildId = parseInt(activeChildElement.getAttribute('data-child-id'));
         if (!selectedChildId || isNaN(selectedChildId)) {
+            console.error('Invalid child ID.');
             alert('An error occurred while retrieving the selected child. Please try again.');
             return;
         }
@@ -462,11 +450,13 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
         // Get selected doctor ID
         const activeDoctorElement = document.querySelector('#doctor-table button.active');
         if (!activeDoctorElement) {
+            console.error('No active doctor element found.');
             alert('Please select a doctor before proceeding.');
             return;
         }
         const selectedDoctorId = parseInt(activeDoctorElement.getAttribute('data-doctor-id'));
         if (!selectedDoctorId || isNaN(selectedDoctorId)) {
+            console.error('Invalid doctor ID.');
             alert('An error occurred while retrieving the selected doctor. Please try again.');
             return;
         }
@@ -475,12 +465,16 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
         const visitTypeDropdown = document.getElementById('visit_type');
         const visitType = parseInt(visitTypeDropdown.value);
         if (!visitType || isNaN(visitType)) {
+            console.error('Invalid visit type.');
             alert('Please select a valid visit type before proceeding.');
             return;
         }
 
         // Get payment Method
         const paymentDropdown = document.getElementById('payment_mode');
+        const paymentMode = parseInt(paymentDropdown.value);
+        if (! paymentMode|| isNaN(paymentMode)) {
+            console.error('Invalid payment method.');
         const paymentModeId = parseInt(paymentDropdown.value);
         if (!paymentModeId || isNaN(paymentModeId)) {
             alert('Please select a valid payment method before proceeding.');
@@ -489,6 +483,8 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 
         // Get triage pass
         const triagePassDropdown = document.getElementById('triage_pass');
+        const triagePass = triagePassDropdown.value;
+        if (!triagePass) {
         const triagePassValue = triagePassDropdown.value;
         if (!triagePassValue) {
             alert('Please select whether the patient needs triage.');
@@ -507,6 +503,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             source_contact: '123456249',
             staff_id: 3,
             doctor_id: selectedDoctorId,
+            triage_pass: triagePass, // Convert to boolean
             triage_pass: triagePass,
             payment_mode_id: paymentModeId,  // Added payment_mode_id
             appointment_id: null,
@@ -516,6 +513,7 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 
         console.log('Data to be sent to the controller:', dataToSend);
 
+        // Add error response logging
         const response = await fetch('/visits', {
             method: 'POST',
             headers: {
@@ -526,20 +524,28 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             body: JSON.stringify(dataToSend),
         });
 
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const result = await response.json();
         console.log('Response from server:', result);
 
+        if (result.status === 'success') {
         if (response.ok && result.status === 'success') {
             alert('Appointment created successfully!');
             // Optionally redirect or refresh the page
             window.location.reload();
         } else {
+            alert('Failed to create appointment. Please try again.');
             const errorMessage = result.errors ? Object.values(result.errors).flat().join('\n') : result.message;
             alert('Failed to create appointment: ' + errorMessage);
         }
-    } catch (error) {
-        console.error('Error details:', error);
-        alert('An error occurred while creating the appointment. Please check the console for details.');
+   
+}
+}
     }
 });
 

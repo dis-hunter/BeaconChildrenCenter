@@ -216,7 +216,7 @@ class Calendar {
         const eventsContainer = document.getElementById("events-container");
         if (eventsContainer) {
             eventsContainer.innerHTML = `
-                <div class="loader"></div>
+                <div class="loader ml-3"></div>
             <style>
                 .loader {
                     height: 5px;
@@ -237,6 +237,7 @@ class Calendar {
         }
 
         // Update active day display and fetch appointments
+        console.log(this.activeDay);
         this.getActiveDay(this.activeDay);
     }
 
@@ -246,7 +247,7 @@ class Calendar {
         try {
             // Show loading state
             container.innerHTML = `
-                <div class="loader"></div>
+                <div class="loader ml-3"></div>
             <style>
                 .loader {
                     height: 5px;
@@ -294,7 +295,7 @@ class Calendar {
 
         if (!appointments || appointments.length === 0) {
             container.innerHTML = `
-                <div class="no-event">
+                <div class="no-event ml-4">
                     <h3>No Appointments for ${this.activeDay} ${this.months[this.month]} ${this.year}</h3>
                 </div>`;
             return;
