@@ -35,12 +35,15 @@
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
-                
             </li>
 
 
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
             </li>
            
             

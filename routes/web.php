@@ -187,6 +187,11 @@ use App\Http\Controllers\InvoiceController;
 
 Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
 
+Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
+Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
+
+
+
 
 
 
