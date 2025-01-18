@@ -158,7 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:4'], function () {
         // Add admin-specific routes here
     });
-
+    Route::get('/admin', [ChildrenController::class, 'showChildren2']);
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
     Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);

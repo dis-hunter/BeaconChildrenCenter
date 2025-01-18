@@ -217,6 +217,33 @@ class ChildrenController extends Controller
         $children = DB::table('children')->select('id', 'fullname', 'dob', 'birth_cert', 'gender_id', 'registration_number', 'created_at', 'updated_at')->get();
         return view('therapists.therapistsDashboard', ['children' => $children]);
     }
+    
+
+    public function showChildren2()
+{
+    $children = DB::table('children')
+        ->join('gender', 'children.gender_id', '=', 'gender.id')
+        ->select('children.id', 'children.fullname', 'children.dob', 'children.birth_cert', 'gender.gender', 'children.registration_number', 'children.created_at', 'children.updated_at')
+        ->get()
+        ->map(function ($child) {
+            // Check for double-encoded JSON
+            if (is_string($child->fullname)) {
+                $decodedOnce = json_decode($child->fullname);
+                if (is_string($decodedOnce)) {
+                    // Decode again if necessary
+                    $child->fullname = json_decode($decodedOnce);
+                } else {
+                    $child->fullname = $decodedOnce;
+                }
+            }
+            return $child;
+        });
+
+    return view('beaconAdmin', ['children' => $children]);
+}
+
+    
+
 }
 
 
