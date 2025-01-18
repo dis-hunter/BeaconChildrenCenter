@@ -45,7 +45,7 @@ class GlobalSearch extends Component
                 return [
                     'model'=>$model,
                     'id'=>$record->id,
-                    'name'=>(($record->fullname?->first_name ?? '').' '.($record->fullname?->middle_name ?? '').' '.($record->fullname?->lastname ?? '')),
+                    'name'=>(($record->fullname?->first_name ?? '').' '.($record->fullname?->middle_name ?? '').' '.($record->fullname?->last_name ?? '')),
                 ];
             });
         });

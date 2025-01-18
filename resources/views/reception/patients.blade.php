@@ -159,7 +159,20 @@
                 </h2>
                 <div id="collapseReasons" class="accordion-collapse collapse" aria-labelledby="headingReasons" data-bs-parent="#dashboardAccordion">
                     <div class="accordion-body">
+                        @if ($therapist_careplan)
+                        <div class="row">
+
+                            <p>Return Dates:</p>
                         
+                              <strong>
+                                @foreach ($therapist_careplan?->data?->Dates as $item)
+                                {{$item ?? 'Not Specified'}} <br>
+                                @endforeach
+                            </strong>
+                        </div>
+                        @else
+                        <p>No careplan available...</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -175,6 +188,7 @@
                     <div class="accordion-body">
                         @if ($prescription)
                         <div class="prescription">
+                            <p>Prescribed on: <strong>{{$prescription->updated_at ?? 'N/A'}}</strong></p>
                             {{implode(' , ', $prescription->data->prescribed_drugs) ?? $prescription?->data?->prescribed_drugs }}
                         </div>
                             <div><button class="btn btn-outline-success mt-4" id="printButton">Print</button></div>
@@ -287,6 +301,7 @@
                     <div class="accordion-body">
                         @if ($referral)
                         <div class="referral-letter">
+                            <p>Referred on: <strong>{{$referral->updated_at ?? 'N/A'}}</strong></p>
                         <ul>
                             <li><strong>Summary History: </strong>{{$referral?->data?->summaryHistory ?? 'N/A'}}</li>
                             <li><strong>Differential Diagnosis: </strong>{{$referral?->data?->differentialDiagnosis ?? 'N/A'}}</li>
@@ -294,11 +309,11 @@
                             <li><strong>Referred To: </strong>{{$referral?->data?->referredTo ?? 'N/A'}}</li>
                         </ul>
                     </div>
-                        <div><button class="btn btn-outline-success" id="printButton">Print</button></div>
+                        <div><button class="btn btn-outline-success mt-4" id="printReferralButton">Print</button></div>
                         <script>
-                            const printButton = document.getElementById('printButton');
-                            printButton.addEventListener('click', () => {
-                            console.log("Print button clicked");
+                            const printReferralButton = document.getElementById('printReferralButton');
+                            printReferralButton.addEventListener('click', () => {
+                            console.log("Print referral button clicked");
                             const printWindow = window.open('', '_blank');
                             const referralLetterContent = document.querySelector('.referral-letter').innerHTML;
                             const patientDetails=document.querySelector('.toReferral').innerHTML;
@@ -393,23 +408,10 @@
                 </div>
             </div>
 
-            <!-- Follow-Up -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingFollowUp">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFollowUp" aria-expanded="false" aria-controls="collapseFollowUp">
-                        Follow Up
-                    </button>
-                </h2>
-                <div id="collapseFollowUp" class="accordion-collapse collapse" aria-labelledby="headingFollowUp" data-bs-parent="#dashboardAccordion">
-                    <div class="accordion-body">
-                        <!-- Content Here -->
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- Review Button -->
+    {{-- <!-- Review Button -->
     <div class="text-center review-btn">
     <button 
         class="btn btn-primary" 
@@ -417,7 +419,7 @@
         data-registration-number="{{ $child->registration_number }}">
         Generate Invoice
     </button>
-    </div>
+    </div> --}}
 
     @else
         <p>Search for patient in the Search Component above</p>

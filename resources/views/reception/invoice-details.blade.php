@@ -1,6 +1,6 @@
 @extends('reception.layout')
 @section('title', 'Invoice Details')
-
+@extends('reception.header')
 @section('content')
 <style>
     /* Hide buttons when printing */

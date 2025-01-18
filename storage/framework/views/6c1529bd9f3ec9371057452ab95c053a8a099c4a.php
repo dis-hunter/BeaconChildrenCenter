@@ -36,12 +36,15 @@
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
-                
             </li>
 
 
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
             </li>
            
             
@@ -59,15 +62,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('nTCllOk')) {
-    $componentId = $_instance->getRenderedChildComponentId('nTCllOk');
-    $componentTag = $_instance->getRenderedChildComponentTagName('nTCllOk');
+} elseif ($_instance->childHasBeenRendered('NiVN0Ev')) {
+    $componentId = $_instance->getRenderedChildComponentId('NiVN0Ev');
+    $componentTag = $_instance->getRenderedChildComponentTagName('NiVN0Ev');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('nTCllOk');
+    $_instance->preserveRenderedChild('NiVN0Ev');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('nTCllOk', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('NiVN0Ev', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 
