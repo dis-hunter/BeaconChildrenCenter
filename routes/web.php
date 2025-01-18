@@ -185,7 +185,7 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 use App\Http\Controllers\InvoiceController;
 
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']) ->where('registrationNumber', '.*');
 
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
 Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
