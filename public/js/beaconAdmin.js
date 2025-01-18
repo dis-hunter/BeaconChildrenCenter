@@ -537,18 +537,28 @@ const invoices = [
   }
   
   // Function to show invoice details (not implemented here)
-  function showInvoiceDetails(invoiceId) {
-    // TODO: Implement logic to fetch and display invoice details
-    console.log(`Showing details for invoice ${invoiceId}`);
-  }
-  function showExpenseForm() {
-    const expenseForm = document.getElementById("expense-form");
-    if (expenseForm.style.display === "none") {
-      expenseForm.style.display = "block";
+  function showInvoiceDates(childId) {
+    const invoiceOutput = document.getElementById("invoice-output");
+    invoiceOutput.innerHTML = ""; // Clear any previous data
+  
+    // Filter invoices by the given child_id
+    const childInvoices = invoices.filter(invoice => invoice.child_id === childId);
+  
+    if (childInvoices.length > 0) {
+      // Create a list of invoice dates
+      const dateList = document.createElement("ul");
+      childInvoices.forEach(invoice => {
+        const listItem = document.createElement("li");
+        listItem.textContent = invoice.date; // Display the date
+        dateList.appendChild(listItem);
+      });
+  
+      invoiceOutput.appendChild(dateList);
     } else {
-      expenseForm.style.display = "none";
+      invoiceOutput.innerHTML = "<p>No invoices found for this child.</p>";
     }
   }
+  
   function updateExpenseDescriptions() {
     const category = document.getElementById("expense-category").value;
     const descriptionSelect = document.getElementById("expense-description");

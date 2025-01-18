@@ -158,7 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:4'], function () {
         // Add admin-specific routes here
     });
-
+    Route::get('/admin', [ChildrenController::class, 'showChildren2']);
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
     Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);
@@ -185,7 +185,12 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 use App\Http\Controllers\InvoiceController;
 
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']) ->where('registrationNumber', '.*');
+
+Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
+Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
+
+
 
 
 

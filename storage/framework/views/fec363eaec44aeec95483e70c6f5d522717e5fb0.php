@@ -422,30 +422,39 @@
     <?php endif; ?>
 </div>
 <script>
-    document.querySelector('.btn-primary').addEventListener('click', async function () {
+document.querySelector('.btn-primary').addEventListener('click', async function () {
     const registrationNumber = '<?php echo e($child->registration_number); ?>'; // Use Blade to dynamically pass registration number
+    const encodedRegistrationNumber = encodeURIComponent(registrationNumber); // Encode the registration number
 
     try {
-        const response = await fetch(`/invoice/${registrationNumber}`, {
+        const response = await fetch(`/invoice/${encodedRegistrationNumber}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch records');
-        }
-
         const data = await response.json();
-        alert(`Invoice generated for  Registration Number: ${registrationNumber}`);
+
+        if (response.ok && data.message === 'Invoice generated successfully') {
+            // Invoice generated successfully
+            alert(`Invoice generated for Registration Number: ${registrationNumber}`);
+        } else if (data.message === 'No visit for today') {
+            // No visits for today
+            alert('No visit for today');
+        } else {
+            // Handle other cases
+            alert(data.message || 'Unexpected response from the server.');
+        }
     } catch (error) {
         console.error('Error:', error);
         alert('Error fetching records. Please try again.');
     }
 });
 
+
 </script>
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

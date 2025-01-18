@@ -1,12 +1,15 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="<?php echo e(asset('css/navbar-fixed-left.min.css')); ?>">
+
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <?php echo \Livewire\Livewire::styles(); ?>
+
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
@@ -29,14 +32,21 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
+                <a href="<?php echo e(route('reception.calendar')); ?>" class="nav-link">
+                    <span class="icon">📅</span>
+                    <span class="text">Appointments</span>
+                </a>
             </li>
+
+
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
+
             <li class="nav-item">
-                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
+                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
             </li>
+           
             
             
             
@@ -52,15 +62,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('lM8BYjC')) {
-    $componentId = $_instance->getRenderedChildComponentId('lM8BYjC');
-    $componentTag = $_instance->getRenderedChildComponentTagName('lM8BYjC');
+} elseif ($_instance->childHasBeenRendered('E9H4xug')) {
+    $componentId = $_instance->getRenderedChildComponentId('E9H4xug');
+    $componentTag = $_instance->getRenderedChildComponentTagName('E9H4xug');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('lM8BYjC');
+    $_instance->preserveRenderedChild('E9H4xug');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('lM8BYjC', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('E9H4xug', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 
@@ -87,5 +97,53 @@ echo $html;
                 </div>
             </li>
         </ul>
+
+        <div id="calendar-section" class="col-md-9 p-4" style="display: none;">
+            <!-- Calendar will be displayed here dynamically -->
+        </div>
     </div>
-    </nav><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/header.blade.php ENDPATH**/ ?>
+    </nav>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarSection = document.getElementById('calendar-section');
+    const sidebarLinks = document.querySelectorAll('.load-section');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const section = this.getAttribute('data-section');
+
+            if (section === 'calendar-section') {
+                // Fetch calendar content (if not already loaded)
+                if (!calendarSection.innerHTML.trim()) {
+                    fetch('/calendar')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to load calendar');
+                            }
+                            return response.text();
+                        })
+                        .then(html => {
+                            calendarSection.innerHTML = html;
+                            calendarSection.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            calendarSection.innerHTML = '<p class="text-danger">Failed to load calendar.</p>';
+                            calendarSection.style.display = 'block';
+                        });
+                } else {
+                    calendarSection.style.display = 'block';
+                }
+            } else {
+                // Hide the calendar section for other links
+                calendarSection.style.display = 'none';
+            }
+        });
+    });
+});
+
+</script>
+<?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/header.blade.php ENDPATH**/ ?>
