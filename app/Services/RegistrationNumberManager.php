@@ -28,20 +28,20 @@ class RegistrationNumberManager
 
         // Find the maximum registration number for the current year
         $lastRegNumber = DB::table($this->table)
-            ->where($this->field, 'like', "%/{$year}")
+            ->where($this->field, 'like', "%-{$year}")
             ->orderBy($this->field, 'desc')
             ->value($this->field);
 
         // Extract the numeric part of the last registration number
         $lastNumber = $lastRegNumber 
-            ? intval(explode('/', $lastRegNumber)[0]) 
+            ? intval(explode('-', $lastRegNumber)[0]) 
             : 0;
 
         do {
             // Increment the number
             $lastNumber++;
             // Format the registration number as '001/2025'
-            $regNumber = str_pad($lastNumber, 3, '0', STR_PAD_LEFT) . "/{$year}";
+            $regNumber = str_pad($lastNumber, 3, '0', STR_PAD_LEFT) . "-{$year}";
         } while ($this->isRegNumberExists($regNumber));
 
         return $regNumber;
