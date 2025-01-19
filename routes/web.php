@@ -27,6 +27,7 @@ use App\Http\Controllers\BookedController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
+use App\Http\Controllers\InvoiceController;
 
 
 Route::get('/admin', function () {
@@ -170,9 +171,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
 
     Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
+    Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
+    Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
+    Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
+
 
 });
 
+Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
+Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
 
 // Triage Routes (These should likely be within the Nurse's authenticated routes)
 Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');;
@@ -183,7 +190,6 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 
 
-use App\Http\Controllers\InvoiceController;
 
 Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
 

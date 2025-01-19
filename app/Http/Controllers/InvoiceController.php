@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Child;
+use App\Models\Children;
+use App\Models\Invoice;
 
 class InvoiceController extends Controller
 {
@@ -125,32 +128,96 @@ class InvoiceController extends Controller
     return view('reception.invoice', ['invoices' => $invoicesWithNames]);
 }
 
-    public function getInvoiceDetails($invoiceId)
+//     public function getInvoiceDetails($invoiceId)
+// {
+//     // Fetch the invoice
+//     $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
+
+//     if (!$invoice) {
+//         return redirect()->back()->withErrors(['error' => 'Invoice not found.']);
+//     }
+
+//     // Get child details
+//     $child = DB::table('children')->where('id', $invoice->child_id)->first();
+//     $gender = DB::table('gender')->where('id', $child->gender_id)->first()->gender ?? 'Unknown';
+
+//     // Decode child name
+//     $fullName = json_decode($child->fullname);
+//     $child->full_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
+
+//     // Decode invoice details
+//     $invoice->invoice_details = json_decode($invoice->invoice_details, true);
+
+//     return view('reception.invoice-details', [
+//         'invoice' => $invoice,
+//         'child' => $child,
+//         'gender' => $gender,
+//     ]);
+// }
+
+// Method to fetch invoice dates for a child
+public function getInvoiceDates($childId)
 {
-    // Fetch the invoice
-    $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
-
-    if (!$invoice) {
-        return redirect()->back()->withErrors(['error' => 'Invoice not found.']);
+    try {
+        // Log the incoming request
+        \Log::info('Fetching invoices for child ID: ' . $childId);
+        
+        // Validate child exists
+        $child = Children::findOrFail($childId);
+        \Log::info('Found child:', ['child_id' => $child->id]);
+        
+        // Get invoice dates
+        $dates = Invoice::getInvoicesByChild($childId);
+        \Log::info('Found invoice dates:', ['dates' => $dates->toArray()]);
+        
+        // Return empty array if no dates found
+        if ($dates->isEmpty()) {
+            return response()->json([]);
+        }
+        
+        return response()->json($dates);
+        
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        \Log::error('Child not found: ' . $childId);
+        return response()->json(['error' => 'Child not found'], 404);
+        
+    } catch (\Exception $e) {
+        \Log::error('Error fetching invoice dates:', [
+            'child_id' => $childId,
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+        return response()->json(['error' => 'Internal Server Error'], 500);
     }
-
-    // Get child details
-    $child = DB::table('children')->where('id', $invoice->child_id)->first();
-    $gender = DB::table('gender')->where('id', $child->gender_id)->first()->gender ?? 'Unknown';
-
-    // Decode child name
-    $fullName = json_decode($child->fullname);
-    $child->full_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
-
-    // Decode invoice details
-    $invoice->invoice_details = json_decode($invoice->invoice_details, true);
-
-    return view('reception.invoice-details', [
-        'invoice' => $invoice,
-        'child' => $child,
-        'gender' => $gender,
-    ]);
+}
+public function getInvoiceDetails($childId)
+{
+    try {
+        $date = request()->get('date');
+        
+        // Validate child exists
+        $child = Child::find($childId);
+        if (!$child) {
+            return response()->json(['error' => 'Child not found'], 404);
+        }
+        
+        $invoice = Invoice::where('child_id', $childId)
+            ->whereDate('invoice_date', $date)
+            ->first();
+            
+        if (!$invoice) {
+            return response()->json(['error' => 'Invoice not found'], 404);
+        }
+        
+        return response()->json($invoice);
+    } catch (\Exception $e) {
+        \Log::error('Error fetching invoice details: ' . $e->getMessage());
+        return response()->json(['error' => 'Internal Server Error'], 500);
+    }
+}
 }
 
-    
-}
+
+
+
+  

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
   <title>Hospital Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="<?php echo e(asset('css/beaconAdmin.css')); ?>">
@@ -95,20 +98,22 @@
           <tbody>
             <tr>
 
-            <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    
+<?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <tr>
     <td>
-        <?php echo e($child->fullname->first_name ?? ''); ?> 
-        <?php echo e($child->fullname->middle_name ?? ''); ?> 
+        <?php echo e($child->fullname->first_name ?? ''); ?>
+
+        <?php echo e($child->fullname->middle_name ?? ''); ?>
+
         <?php echo e($child->fullname->last_name ?? ''); ?>
 
     </td>
     <td><?php echo e(\Carbon\Carbon::parse($child->dob)->age); ?></td>
-    <td><?php echo e($child->gender); ?></td>
+    <td><?php echo e($child->gender->name ?? ''); ?></td>
     <td><?php echo e($child->registration_number); ?></td>
     <td><p>Status?</p></td>
     <td>
-        <!-- Pass the child's ID dynamically into the onclick function -->
         <button onclick="showInvoiceDates('<?php echo e($child->id); ?>')">See Invoices</button>
     </td>
 </tr>

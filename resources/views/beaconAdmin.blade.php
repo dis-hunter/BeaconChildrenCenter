@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Hospital Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('css/beaconAdmin.css') }}">
@@ -95,19 +98,19 @@
           <tbody>
             <tr>
 
-            @foreach ($children as $child)
+    
+@foreach ($children as $child)
 <tr>
     <td>
-        {{ $child->fullname->first_name ?? '' }} 
-        {{ $child->fullname->middle_name ?? '' }} 
+        {{ $child->fullname->first_name ?? '' }}
+        {{ $child->fullname->middle_name ?? '' }}
         {{ $child->fullname->last_name ?? '' }}
     </td>
     <td>{{ \Carbon\Carbon::parse($child->dob)->age }}</td>
-    <td>{{ $child->gender }}</td>
+    <td>{{ $child->gender->name ?? '' }}</td>
     <td>{{ $child->registration_number }}</td>
     <td><p>Status?</p></td>
     <td>
-        <!-- Pass the child's ID dynamically into the onclick function -->
         <button onclick="showInvoiceDates('{{ $child->id }}')">See Invoices</button>
     </td>
 </tr>
