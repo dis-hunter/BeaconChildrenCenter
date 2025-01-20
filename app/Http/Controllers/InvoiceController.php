@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+<<<<<<< HEAD
 use App\Models\Child;
 use App\Models\Children;
 use App\Models\Invoice;
+=======
+use Illuminate\Support\Facades\Log;
+
+>>>>>>> d329dbba4c52e4e53c6d4249ff0581caf49b53ad
 
 class InvoiceController extends Controller
 {
@@ -22,6 +27,7 @@ class InvoiceController extends Controller
      */
     public function countVisitsForToday($registrationNumber)
     {
+        \Log::info('Received Registration Number: ' . $registrationNumber);
         // Fetch the child ID using the registration number directly from the database
         $child = DB::table('children')
             ->where('registration_number', $registrationNumber)
@@ -51,6 +57,12 @@ class InvoiceController extends Controller
             )
             ->get();
     
+        if ($visits->isEmpty()) {
+            return response()->json([
+                'message' => 'No visit for today',
+            ], 200); // Success status, but no visits
+        }
+    
         // Initialize invoice details
         $invoiceDetails = [];
     
@@ -65,9 +77,6 @@ class InvoiceController extends Controller
     
         // Calculate the total amount based on stored prices in invoice details
         $totalAmount = array_sum($invoiceDetails);
-    
-        // Log the total amount
-        logger("Total Amount: {$totalAmount}");
     
         // Check if an invoice already exists for today
         $existingInvoice = DB::table('invoices')
@@ -107,6 +116,7 @@ class InvoiceController extends Controller
             ]);
         }
     }
+    
     
     public function getInvoices()
 {

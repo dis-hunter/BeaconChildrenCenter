@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Careplan;
 use App\Models\ChildParent;
 use App\Models\Children; // Ensure the model name matches your file structure
+use App\Models\Follow_Up;
 use App\Models\Gender;
 use App\Models\Parents; // Ensure the model name matches your file structure
 use App\Models\Prescription;
@@ -201,11 +202,15 @@ class ChildrenController extends Controller
                 ->latest()
                 ->first() ?? null;
 
-                $referral=Referral::where('child_id',$child->id)
+            $referral=Referral::where('child_id',$child->id)
                 ->latest()
                 ->first() ?? null;
+            
+            $therapist_careplan = Follow_Up::where('child_id',$child->id)
+            ->latest()
+            ->first() ?? null;         
                 
-            return view('reception.patients', compact('child','gender','last_visit','triage','careplan','prescription','referral'));
+            return view('reception.patients', compact('child','gender','last_visit','triage','careplan','prescription','referral','therapist_careplan'));
         } else {
             return view('reception.patients',['child' => null]);
         }

@@ -116,19 +116,14 @@
                                         <label for="specialization">Specialization</label>
                                     </div>
                                 </div>
+
                                 <script>
-                                    $('#role').change(function() {
-                                        if ($(this).val() === 'Doctor' || 'Therapist') {
-                                            $('#specs').css('display', 'block');  // Show specialization input
+                                    $('#role').change( function() {
+                                        if ($(this).val() === 'Doctor' || $(this).val() === 'Therapist') {
+                                            $('#specs').css('display', 'block');  
                                         } else {
                                             $('#specs').css('display', 'none'); 
                                         }
-                                    }
-
-                                    toggleSpecialization();
-
-                                    $('#role').change(function (){
-                                        toggleSpecialization();
                                     });
 
                                 </script>

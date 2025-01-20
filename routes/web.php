@@ -70,8 +70,8 @@ Route::get('/children/create', [ChildrenController::class, 'create'])->name('chi
 Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
 
 // Doctor Routes
-// Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
-// Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
+Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
+Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
 Route::get('/doctors/specialization-search', [VisitController::class, 'showSpecializations'])->name('doctors.specializationSearch');
 Route::get('/specializations', [VisitController::class, 'getSpecializations']);
 Route::get('/doctors', [VisitController::class, 'getDoctorsBySpecialization']);
@@ -191,7 +191,7 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 
 
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']) ->where('registrationNumber', '.*');
 
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
 Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
