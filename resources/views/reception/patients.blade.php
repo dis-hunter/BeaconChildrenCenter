@@ -411,7 +411,7 @@
         </div>
     </div>
 
-    {{-- <!-- Review Button -->
+     <!-- Review Button -->
     <div class="text-center review-btn">
     <button 
         class="btn btn-primary" 
@@ -419,7 +419,7 @@
         data-registration-number="{{ $child->registration_number }}">
         Generate Invoice
     </button>
-    </div> --}}
+    </div> 
 
     @else
         <p>Search for patient in the Search Component above</p>

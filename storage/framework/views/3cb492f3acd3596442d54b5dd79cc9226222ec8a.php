@@ -1,4 +1,3 @@
-@ -1,536 +1,538 @@
 
 <?php $__env->startSection('title','Visits | Reception'); ?>
 
@@ -7,44 +6,35 @@
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 <link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
 
- <!-- Children Card -->
- <div class="card shadow-sm mt-3">
+<!-- Patient Details Card -->
+<div class="card shadow-sm mt-3">
     <div class="card-header bg-secondary text-white">
         <h5>Patient Details</h5>
     </div>
     <div class="card-body">
-        <!-- List of Children -->
         <div class="row mb-3">
             <div class="col-md-12">
                 <?php if(!$children): ?>
-
-                <div class="card mb-2">                         
-                    <div class="card-body justify-content-center">
-                        
-                            <p>Patient not selected</p> <br>
+                    <div class="card mb-2">                         
+                        <div class="card-body justify-content-center">
+                            <p>Patient not selected</p>
                             <p>Search for Patient or <a href="/guardians">Register</a> a new patient</p>
-                        
-                    </div>
-                </div>
-
-                <?php else: ?>
-                    
-                <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                
-                <div class="card mb-2">                         
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4"><strong>Child Name:</strong> <?php echo e(($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')); ?></div>
-                            <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
-                            <div class="col-md-4 text-end">
-                                <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">
-                                    View Details
-                                </a>
-                            </div>
                         </div>
                     </div>
-                </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php else: ?>
+                    <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="card mb-2">                         
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Child Name:</strong> <?php echo e(($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')); ?></div>
+                                    <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
+                                    <div class="col-md-4 text-end">
+                                        <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -53,15 +43,13 @@
 
 <!-- Error Message -->
 <?php if(session()->has('error')): ?>
-<p style="color: red;">
-    <?php echo e(session()->get('error')); ?>
-
-</p>
+    <p style="color: red;"><?php echo e(session()->get('error')); ?></p>
 <?php endif; ?>
 
+<!-- Patient Selection Table -->
 <?php if(isset($children) && $children->count() > 0): ?>
     <h3>Children Records</h3>
-    <table border="1">
+    <table border="1" class="patient-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -79,483 +67,381 @@
                     <td><?php echo e($child->dob); ?></td>
                     <td><?php echo e($child->gender_id); ?></td>
                     <td>
-    <button type="button" class="select-child" data-child-id="<?php echo e($child->id); ?>">Select</button>
-</td>
-
+                        <button type="button" class="select-child btn btn-primary btn-sm" data-child-id="<?php echo e($child->id); ?>">
+                            <span class="button-text">Select</span>
+                            <span class="selected-text" style="display: none">Selected ✓</span>
+                        </button>
+                    </td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </tbody>
     </table>
 <?php endif; ?>
+<!-- Appointment Form -->
+<div class="appointment-form mt-4">
+    <div class="form-group">
+        <label for="specialization">Select Specialization:</label>
+        <select name="specialization_id" id="specialization" class="form-control">
+            <option value="">-- Select Specialization --</option>
+        </select>
+    </div>
 
+    <div id="doctor-list" class="mt-3">
+        <h3>Doctors</h3>
+        <table border="1" id="doctor-table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
+    <div id="visitType" class="mt-3">
+        <h3>Visit Type</h3>
+        <select id="visit_type" class="form-control">
+            <option value="" disabled selected>Select an option</option>
+            <option value="1">Developmental Assessment</option>
+            <option value="2">Paediatric Consultation</option>
+            <option value="3">General Consultation</option>
+            <option value="4">Therapy Assessment</option>
+            <option value="5">Therapy Session</option>
+            <option value="6">Nutrition Session</option>
+            <option value="7">Psychotherapy Session</option>
+            <option value="8">Specific Developmental Tests</option>
+            <option value="9">Review</option>
+            <option value="10">Other</option>
+        </select>
+    </div>
 
-<label for="specialization">Select Specialization:</label>
-<select name="specialization_id" id="specialization">
-    <option value="">-- Select Specialization --</option>
-</select>
+    <div id="triage-selection" class="mt-3">
+        <h3>Triage Selection</h3>
+        <select id="triage_pass" class="form-control">
+            <option value="" disabled selected>Select an option</option>
+            <option value="false">Yes, needs triage</option>
+            <option value="true">No, directly to doctor</option>
+        </select>
+    </div>
 
-<div id="doctor-list">
-    <h3>Doctors</h3>
-    <table border="1" id="doctor-table">
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Doctor rows will be dynamically inserted here -->
-        </tbody>
-    </table>
+    <div id="paymentMode" class="mt-3">
+        <h3>💳 Payment Mode</h3>
+        <select id="payment_mode" class="form-control">
+            <option value="" disabled selected>Select Payment Mode</option>
+            <option value="1">Insurance</option>
+            <option value="2">NCPD</option>
+            <option value="3">Cash</option>
+            <option value="4">Probono</option>
+            <option value="5">Other</option>
+        </select>
+    </div>
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+        <div class="loading-text">Creating appointment...</div>
+    </div>
 </div>
-<div id="visitType">
-    <h3>Visit Type</h3>
-    <select id="visit_type" onchange="showValue()">
-    <option value="" disabled selected>Select an option</option>
-    <option value="1">Developmental Assessment</option>
-    <option value="2">Paediatric Consultation</option>
-    <option value="3">General Consultation</option>
-    <option value="4">Therapy Assessment</option>
-    <option value="5">Therapy Session</option>
-    <option value="6">Nutrition Session</option>
-    <option value="7">Psychotherapy Session</option>
-    <option value="8">Specific Developmental Tests</option>
-    <option value="9">Review</option>
-    <option value="10">Other</option>
-</select>
-    <p id="output"></p>
+    <button id="submit-appointment" class="btn btn-primary mt-4">Create Appointment</button>
 </div>
-
-<div id="triage-selection">
-    <h3>Triage Selection</h3>
-    <label for="triage_pass">Does the patient need triage?</label>
-    <select id="triage_pass">
-        <option value="" disabled selected>Select an option</option>
-        <option value="false">Yes, needs triage</option>
-        <option value="true">No, directly to doctor</option>
-    </select>
-</div>
-
-<div id="paymentMode">
-<h3>💳 Payment Mode</h3>
-<label for="payment_mode"><strong>Select Payment Mode:</strong></label>
-<select id="payment_mode"  onchange="showPayment()" name="payment_mode" style="width: 200px; padding: 5px; margin-top: 10px;">
-    <option value="" disabled selected>Select Payment Mode</option>
-    <option value="1">Insurance</option>
-      <option value="2">NCPD</option>
-      <option value="3">Cash</option>
-      <option value="4">Probono</option>
-      <option value="5">Other</option>
-      
-</select>
-<p id="output"></p>
-</div>
-
-<button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
-
-
 
 <script>
+// Utility Functions
+const utils = {
+    showLoading(tableId, message = 'Loading...') {
+        const table = document.getElementById(tableId);
+        if (!table) return;
 
-  document.addEventListener('DOMContentLoaded', function () {
-    console.log("welcome");
-    getChildId();
-    console.log(getTodayDate());
-    displayCurrentAndFutureTime();
-     
-    // Fetch specializations
-    fetchSpecializations();
-    
-});
+        let loadingSpinner = table.previousElementSibling;
+        if (!loadingSpinner?.classList.contains('loading-spinner')) {
+            loadingSpinner = document.createElement('div');
+            loadingSpinner.className = 'loading-spinner';
+            loadingSpinner.innerHTML = `
+                <div class="spinner"></div>
+                <div class="loading-text">${message}</div>
+            `;
+            table.parentNode.insertBefore(loadingSpinner, table);
+        }
+        loadingSpinner.classList.add('active');
+        table.classList.add('table-loading');
+        document.getElementById('loading-overlay').style.display = 'flex';
+        document.getElementById('submit-appointment').disabled = true;
+    },
 
+    hideLoading(tableId) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
+        const loadingSpinner = table.previousElementSibling;
+        if (loadingSpinner?.classList.contains('loading-spinner')) {
+            loadingSpinner.classList.remove('active');
+        }
+        table.classList.remove('table-loading');
+        document.getElementById('loading-overlay').style.display = 'none';
+        document.getElementById('submit-appointment').disabled = false;
+    },
 
-// Function to fetch specializations
-async function fetchSpecializations() {
-    try {
-        const response = await fetch('/specializations'); // Adjust the URL if needed
+    getTodayDate() {
+        return new Date().toISOString().split('T')[0];
+    },
+
+    parseFullName(fullnameString) {
+        try {
+            const data = typeof fullnameString === 'string' ? JSON.parse(fullnameString) : fullnameString;
+            return {
+                firstName: data?.first_name || '',
+                lastName: data?.last_name || '',
+                middleName: data?.middle_name || ''
+            };
+        } catch (e) {
+            console.warn('Error parsing fullname:', e);
+            return { firstName: '', lastName: '', middleName: '' };
+        }
+    }
+};
+
+// API Functions
+const api = {
+    async fetchSpecializations() {
+        const response = await fetch('/specializations');
         const data = await response.json();
+        return data.status === 'success' ? data.data : [];
+    },
 
-        if (data.status === 'success') {
-            const specializations = data.data;
-            console.log("this is:", specializations);
+    async fetchDoctors(specializationId) {
+        utils.showLoading('doctor-table', 'Fetching doctors...');
+        try {
+            const response = await fetch(`/doctors?specialization_id=${specializationId}`);
+            const data = await response.json();
+            return data.status === 'success' ? data.data : [];
+        } finally {
+            utils.hideLoading('doctor-table');
+        }
+    },
 
-            const dropdown = document.getElementById('specialization');
-            // Clear existing options
-            dropdown.innerHTML = '<option value="">-- Select Specialization --</option>';
+    async submitAppointment(data) {
+        console.log('Submitting appointment with data:', data); // Debug log
 
-            // Populate dropdown
-            specializations.forEach(specialization => {
-                const option = document.createElement('option');
-                option.value = specialization.id;
-                option.textContent = specialization.specialization;
-                dropdown.appendChild(option);
+        try {
+            const response = await fetch('/visits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
-        }
-    } catch (error) {
-        console.error('Error fetching specializations:', error);
-    }
-}
 
-// Function to fetch doctors based on specialization
-async function fetchDoctors(specializationId) {
-    try {
-        const response = await fetch(`http://127.0.0.1:8000/doctors?specialization_id=${specializationId}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+            const responseText = await response.text();
+            console.log('Raw server response:', responseText); // Debug log
 
-        const data = await response.json();
-        console.log('Doctors response:', data);
+            if (!response.ok) {
+                throw new Error(`Server Error: ${responseText}`);
+            }
 
-        if (data.status === 'success' && data.data) {
-            console.log(data.data);
-            return data.data; // Return full doctor objects
-        } else {
-            return [];
-        }
-    } catch (error) {
-        console.error('Error fetching doctors:', error);
-        return [];
-    }
-}
-// Fetch Payment Modes
-// async function fetchPaymentModes() {
-//     try {
-//         const response = await fetch('/payment-modes');
-//         const data = await response.json();
-
-//         if (data.status === 'success') {
-//             const paymentDropdown = document.getElementById('payment_type');
-//             paymentDropdown.innerHTML = '<option value="">-- Select Payment Method --</option>';
-
-//             data.data.forEach(mode => {
-//                 const option = document.createElement('option');
-//                 option.value = mode.id;
-//                 option.textContent = mode.mode_name;
-//                 paymentDropdown.appendChild(option);
-//             });
-//         }
-//     } catch (error) {
-//         console.error('Error fetching payment modes:', error);
-//     }
-// }
-
-// Call on page load
-// document.addEventListener('DOMContentLoaded', fetchPaymentModes);
-
-
-
-// const selectedPaymentMode = document.getElementById('payment_mode').value;
-// if (!selectedPaymentMode) {
-//     alert('Please select a payment mode.');
-//     return;
-// }
-// dataToSend.payment_mode_id = parseInt(selectedPaymentMode);
-
-
-
-// Function to fetch staff names based on staff IDs
-// async function fetchStaffNames(staffIds) {
-//     try {
-//         const response = await fetch(`http://127.0.0.1:8000/staff/names?staff_ids=${staffIds.join(',')}`);
-        
-//         if (!response.ok) {
-//             const errorText = await response.text();
-//             console.error('Staff response error:', errorText);
-//             throw new Error(`Staff fetch failed: ${response.status}`);
-//         }
-
-//         const data = await response.json();
-//         console.log('Staff data:', data);
-
-//         if (data.status === 'success') {
-//             return data.data;
-//         } else {
-//             return [];
-//         }
-//     } catch (error) {
-//         console.error('Error fetching staff names:', error);
-//         return [];
-//     }
-// }
-// Function to update the doctor table
-function populateDoctorTable(staffData) {
-    const tableBody = document.querySelector('#doctor-table tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
-
-    staffData.forEach(doctor => {
-        const row = document.createElement('tr');
-        const nameCell = document.createElement('td');
-        const actionCell = document.createElement('td');
-
-        let fullName = "Unknown Name";
-        if (doctor.fullname) {
             try {
-                fullName = JSON.parse(doctor.fullname)?.first_name || "Unknown Name";
+                return JSON.parse(responseText);
             } catch (e) {
-                console.error("Error parsing fullname:", e);
+                console.error('Error parsing JSON response:', e);
+                throw new Error('Invalid JSON response from server');
+            }
+        } catch (error) {
+            console.error('Appointment submission error:', error);
+            throw error;
+        }
+    }
+};
+// UI Functions
+const ui = {
+    populateDoctorTable(doctors) {
+        const tableBody = document.querySelector('#doctor-table tbody');
+        tableBody.innerHTML = '';
+
+        doctors.forEach(doctor => {
+            const nameData = utils.parseFullName(doctor.fullname);
+            const fullName = [nameData.firstName, nameData.middleName, nameData.lastName]
+                .filter(Boolean)
+                .join(' ') || 'Unknown Name';
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${fullName}</td>
+                <td>
+                    <button class="doctor-select-btn" data-doctor-id="${doctor.id}">Select</button>
+                </td>
+            `;
+
+            const button = row.querySelector('button');
+            button.addEventListener('click', () => this.handleDoctorSelection(button, row));
+            tableBody.appendChild(row);
+        });
+    },
+    handleChildSelection() {
+        const patientTable = document.querySelector('.patient-table');
+        if (!patientTable) return;
+
+        patientTable.addEventListener('click', (e) => {
+            const selectButton = e.target.closest('.select-child');
+            if (!selectButton) return;
+
+            // Remove active class and reset text from all child selection buttons
+            document.querySelectorAll('.select-child').forEach(btn => {
+                btn.classList.remove('active');
+                btn.querySelector('.button-text').style.display = 'inline';
+                btn.querySelector('.selected-text').style.display = 'none';
+            });
+
+            // Add active class and update text for selected button
+            selectButton.classList.add('active');
+            selectButton.querySelector('.button-text').style.display = 'none';
+            selectButton.querySelector('.selected-text').style.display = 'inline';
+
+            // Optional: Add selected class to parent row for visual feedback
+            document.querySelectorAll('.patient-table tr').forEach(row => row.classList.remove('selected'));
+            selectButton.closest('tr').classList.add('selected');
+
+            const childId = selectButton.getAttribute('data-child-id');
+            console.log('Selected child ID:', childId);
+        });
+    },
+    
+
+    handleDoctorSelection(button, row) {
+        document.querySelectorAll('#doctor-table tr').forEach(r => r.classList.remove('selected'));
+        document.querySelectorAll('.doctor-select-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.textContent = 'Select';
+        });
+
+        row.classList.add('selected');
+        button.classList.add('active');
+        button.textContent = 'Selected';
+    },
+
+    async initializeSpecializations() {
+        const specializations = await api.fetchSpecializations();
+        const dropdown = document.getElementById('specialization');
+        dropdown.innerHTML = '<option value="">-- Select Specialization --</option>';
+        specializations.forEach(spec => {
+            dropdown.innerHTML += `<option value="${spec.id}">${spec.specialization}</option>`;
+        });
+    }
+};
+
+// Validation Functions
+const validation = {
+    async prepareAppointmentData() {
+        try {
+            const activeChild = document.querySelector('.select-child.active');
+            const activeDoctor = document.querySelector('.doctor-select-btn.active');
+            const visitType = document.getElementById('visit_type');
+            const paymentMode = document.getElementById('payment_mode');
+            const triagePass = document.getElementById('triage_pass');
+
+            if (!activeChild || !activeDoctor || !visitType.value || !paymentMode.value || !triagePass.value) {
+                throw new Error('Missing required fields');
+            }
+
+            const data = {
+                child_id: parseInt(activeChild.dataset.childId),
+                doctor_id: parseInt(activeDoctor.dataset.doctorId),
+                visit_type: parseInt(visitType.value),
+                payment_mode_id: parseInt(paymentMode.value),
+                triage_pass: triagePass.value === 'true',
+                visit_date: utils.getTodayDate(),
+                source_type: 'Reception',
+                source_contact: '123456789',
+                staff_id: 3,
+                appointment_id: null,  // Added this field
+                created_at: utils.getTodayDate(),
+                updated_at: utils.getTodayDate()
+            };
+
+            // Validate all fields have proper values
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'appointment_id') continue; // Skip validation for appointment_id since it can be null
+                if (value === undefined || value === null || Number.isNaN(value)) {
+                    throw new Error(`Invalid value for field: ${key}`);
+                }
+            }
+
+            console.log('Prepared appointment data:', data);
+            return data;
+        } catch (error) {
+            console.error('Error preparing appointment data:', error);
+            throw error;
+        }
+    },
+
+    validateAppointmentData() {
+        const required = {
+            child: document.querySelector('.select-child.active'),
+            doctor: document.querySelector('.doctor-select-btn.active'),
+            visitType: document.getElementById('visit_type').value,
+            paymentMode: document.getElementById('payment_mode').value,
+            triagePass: document.getElementById('triage_pass').value
+        };
+
+        for (const [key, value] of Object.entries(required)) {
+            if (!value) {
+                return {
+                    isValid: false,
+                    message: `Please select a ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}.`
+                };
             }
         }
 
-        nameCell.textContent = fullName;
+        return { isValid: true };
+    }
+};
 
-        const button = document.createElement('button');
-        button.textContent = 'Select';
-        button.setAttribute('data-doctor-id', doctor.id);
-        button.addEventListener('click', () => {
-            // Remove "active" class from all buttons
-            document.querySelectorAll('#doctor-table button').forEach(btn => btn.classList.remove('active'));
+// Event Listeners
+document.addEventListener('DOMContentLoaded', async () => {
+   ui.handleChildSelection();
+    await ui.initializeSpecializations();
 
-            // Add "active" class to the clicked button
-            button.classList.add('active');
-
-            console.log(`Selected Doctor ID: ${doctor.id}`);
-        });
-
-        actionCell.appendChild(button);
-        row.appendChild(nameCell);
-        row.appendChild(actionCell);
-        tableBody.appendChild(row);
-    });
-}
-
-
-
-
-
-async function ListVariables()
-{
-    
-}
-
-function getChildId() {
-    const selectButtons = document.querySelectorAll('.select-child');
-
-    selectButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove .active class from all buttons
-            selectButtons.forEach(btn => btn.classList.remove('active'));
-
-            // Add .active class to the clicked button
-            button.classList.add('active');
-
-            // Log the selected child ID for debugging
-            const childId = button.getAttribute('data-child-id');
-            console.log('Selected child ID:', childId);
-        });
-    });
-}
-
-// Call getChildId when the DOM is loaded
-document.addEventListener('DOMContentLoaded', getChildId);
-
-
-// Call getChildId when the DOM is loaded
-
-
-function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const day = String(today.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-}
-function displayCurrentAndFutureTime() {
-    const now = new Date();
-
-    // Get current time
-    const currentHours = String(now.getHours()).padStart(2, '0');
-    const currentMinutes = String(now.getMinutes()).padStart(2, '0');
-    const currentSeconds = String(now.getSeconds()).padStart(2, '0');
-    const currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
-
-    // Calculate time after 1 hour
-    const futureTime = new Date(now.getTime() + 60 * 60 * 1000); // Add 1 hour in milliseconds
-    const futureHours = String(futureTime.getHours()).padStart(2, '0');
-    const futureMinutes = String(futureTime.getMinutes()).padStart(2, '0');
-    const futureSeconds = String(futureTime.getSeconds()).padStart(2, '0');
-    const oneHourLaterTime = `${futureHours}:${futureMinutes}:${futureSeconds}`;
-
-    console.log(`Current Time: ${currentTime}`);
-    console.log(`Time After 1 Hour: ${oneHourLaterTime}`);
-}
-
-// Example usage
-displayCurrentAndFutureTime();
-function showPayment() {
-            const dropdown2 = document.getElementById('payment_mode');
-            
-            const output = document.getElementById('output');
-            console.log(dropdown2.value);
-            output.innerHtml = `Mode selected ${dropdown.value}`;
-  }
-
-function showValue() {
-            const dropdown = document.getElementById('visit_type');
-            
-            const output = document.getElementById('output');
-            console.log(dropdown.value);
-            output.innerHtml = `You selected: ${dropdown.value}`;
+    document.getElementById('specialization').addEventListener('change', async (e) => {
+        if (e.target.value) {
+            const doctors = await api.fetchDoctors(e.target.value);
+            ui.populateDoctorTable(doctors);
         }
+    });
 
-const dropdown = document.getElementById('specialization');
-// Event listener for the specialization dropdown
-dropdown.addEventListener('change', async function () {
+    document.getElementById('submit-appointment').addEventListener('click', async () => {
     try {
-        const selectedId = this.value;
-        console.log('Selected Specialization ID:', selectedId);
-
-        if (!selectedId) {
-            console.log('No specialization selected');
+        const validationResult = validation.validateAppointmentData();
+        if (!validationResult.isValid) {
+            alert(validationResult.message);
             return;
         }
 
-        // Fetch doctors
-        const staffIds = await fetchDoctors(selectedId);
+        utils.showLoading(); // Show loading state
 
-        if (staffIds.length === 0) {
-            console.log('No staff IDs found');
-            return;
+        const appointmentData = await validation.prepareAppointmentData();
+        
+        try {
+            const result = await api.submitAppointment(appointmentData);
+            
+            if (result.status === 'success') {
+                alert('Appointment created successfully!');
+                window.location.reload();
+            } else {
+                const errorMessage = result.message || 'Failed to create appointment';
+                console.error('Server returned error:', result);
+                alert(errorMessage);
+            }
+        } catch (error) {
+            console.error('Submission error details:', error);
+            alert(`Error creating appointment: ${error.message}`);
         }
-
-        // Fetch staff names
-        // const staffData = await fetchStaffNames(staffIds);
-        // console.log('Successfully fetched staff:', staffData);
-
-        // Populate the doctor table
-        populateDoctorTable(staffIds);
     } catch (error) {
-        console.error('Error in fetch operation:', error);
+        console.error('Form error details:', error);
+        alert(`Form error: ${error.message}`);
+    } finally {
+        utils.hideLoading(); // Hide loading state regardless of success/failure
     }
 });
-
-// Add event listener to "Submit Appointment" button
-document.getElementById('submit-appointment').addEventListener('click', async function () {
-    
-        // Get selected child ID
-        const activeChildElement = document.querySelector('.select-child.active');
-        if (!activeChildElement) {
-            console.error('No active child element found.');
-            alert('Please select a child before proceeding.');
-            return;
-        }
-        const selectedChildId = parseInt(activeChildElement.getAttribute('data-child-id'));
-        if (!selectedChildId || isNaN(selectedChildId)) {
-            console.error('Invalid child ID.');
-            alert('An error occurred while retrieving the selected child. Please try again.');
-            return;
-        }
-
-        // Get selected doctor ID
-        const activeDoctorElement = document.querySelector('#doctor-table button.active');
-        if (!activeDoctorElement) {
-            console.error('No active doctor element found.');
-            alert('Please select a doctor before proceeding.');
-            return;
-        }
-        const selectedDoctorId = parseInt(activeDoctorElement.getAttribute('data-doctor-id'));
-        if (!selectedDoctorId || isNaN(selectedDoctorId)) {
-            console.error('Invalid doctor ID.');
-            alert('An error occurred while retrieving the selected doctor. Please try again.');
-            return;
-        }
-
-        // Get visit type
-        const visitTypeDropdown = document.getElementById('visit_type');
-        const visitType = parseInt(visitTypeDropdown.value);
-        if (!visitType || isNaN(visitType)) {
-            console.error('Invalid visit type.');
-            alert('Please select a valid visit type before proceeding.');
-            return;
-        }
-
-        // Get payment Method
-        const paymentDropdown = document.getElementById('payment_mode');
-        const paymentMode = parseInt(paymentDropdown.value);
-        if (! paymentMode|| isNaN(paymentMode)) {
-            console.error('Invalid payment method.');
-        const paymentModeId = parseInt(paymentDropdown.value);
-        if (!paymentModeId || isNaN(paymentModeId)) {
-            alert('Please select a valid payment method before proceeding.');
-            return;
-        }
-
-        // Get triage pass
-        const triagePassDropdown = document.getElementById('triage_pass');
-        const triagePass = triagePassDropdown.value;
-        if (!triagePass) {
-        const triagePassValue = triagePassDropdown.value;
-        if (!triagePassValue) {
-            alert('Please select whether the patient needs triage.');
-            return;
-        }
-        // Convert triage_pass to boolean
-        const triagePass = triagePassValue.toLowerCase() === 'true';
-
-        // Prepare data
-        const todayDate = getTodayDate();
-        const dataToSend = {
-            child_id: selectedChildId,
-            visit_type: visitType,
-            visit_date: todayDate,
-            source_type: 'MySource',
-            source_contact: '123456249',
-            staff_id: 3,
-            doctor_id: selectedDoctorId,
-            triage_pass: triagePass, // Convert to boolean
-            triage_pass: triagePass,
-            payment_mode_id: paymentModeId,  // Added payment_mode_id
-            appointment_id: null,
-            created_at: todayDate,
-            updated_at: todayDate,
-        };
-
-        console.log('Data to be sent to the controller:', dataToSend);
-
-        // Add error response logging
-        const response = await fetch('/visits', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify(dataToSend),
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log('Response from server:', result);
-
-        if (result.status === 'success') {
-        if (response.ok && result.status === 'success') {
-            alert('Appointment created successfully!');
-            // Optionally redirect or refresh the page
-            window.location.reload();
-        } else {
-            alert('Failed to create appointment. Please try again.');
-            const errorMessage = result.errors ? Object.values(result.errors).flat().join('\n') : result.message;
-            alert('Failed to create appointment: ' + errorMessage);
-        }
-   
-}
-}
-    }
 });
-
-// Helper function to get today's date in YYYY-MM-DD format
-function getTodayDate() {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-}
-
 </script>
 
 <?php $__env->stopSection(); ?>
