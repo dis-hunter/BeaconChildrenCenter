@@ -25,11 +25,6 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AppointmentController;
 
 
-
-Route::get('/admin', function () {
-    return view('beaconAdmin');
-});
-
 // General Routes
 Route::view('/', 'home')->name('home'); 
 
@@ -172,6 +167,8 @@ Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVis
 
 
 
-
-
 //Temporary Admin route
+Route::get('/admin1', function () {
+    return view('beaconAdmin');
+});
+

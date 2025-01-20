@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('visit_type', function (Blueprint $table) {
             $table->id();
             $table->string('visit_type');
+            $table->decimal('normal_price',10,2);
+            $table->decimal('sponsored_price',10,2);
             $table->timestamps();
         });
     }

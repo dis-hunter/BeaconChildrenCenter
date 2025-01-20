@@ -10,6 +10,10 @@ class Relationship extends Model
     use HasFactory;
     protected $table='relationships';
 
+    protected $fillable = [
+        'relationship',
+    ];
+
     public function parent(){
         return $this->hasOne(Parents::class,'relationship_id','id');
     }

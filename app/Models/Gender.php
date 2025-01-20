@@ -10,6 +10,10 @@ class Gender extends Model
     use HasFactory;
     protected $table = 'gender';
 
+    protected $fillable =[
+        'gender',
+    ];
+
     public function parent()
     {
         return $this->hasOne(Parents::class);
