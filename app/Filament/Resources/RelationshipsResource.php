@@ -31,7 +31,8 @@ class RelationshipsResource extends Resource
         return $form
             ->schema([
                 TextInput::make('relationship')
-                    ->rules(['required','unique:relationships,relationship']),
+                    ->required()
+                    ->unique(),
             ]);
     }
 
@@ -48,6 +49,7 @@ class RelationshipsResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

@@ -31,7 +31,8 @@ class RolesResource extends Resource
         return $form
             ->schema([
                 TextInput::make('role')
-                    ->rules(['required','unique:roles,role']),
+                    ->required()
+                    ->unique(),
             ]);
     }
 
@@ -48,6 +49,7 @@ class RolesResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
