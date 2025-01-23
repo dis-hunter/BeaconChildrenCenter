@@ -19,7 +19,7 @@ class children extends Model implements ShouldQueue
         'dob',
         'birth_cert',
         'gender_id',
-        'registration_number',        
+        'registration_number',
     ];
 
     // Automatically handle JSON serialization for 'fullname'
@@ -34,13 +34,13 @@ class children extends Model implements ShouldQueue
 
     public function toSearchableArray()
     {
-        
-    $fullname = $this->fullname
-        ? trim(($this->fullname->first_name ?? '') .' '.($this->fullname->middle_name ?? ''). ' ' . ($this->fullname->last_name ?? ''))
-        : '';
+
+        $fullname = $this->fullname
+            ? trim(($this->fullname->first_name ?? '') . ' ' . ($this->fullname->middle_name ?? '') . ' ' . ($this->fullname->last_name ?? ''))
+            : '';
         return [
-            'fullname'=>$fullname,
-            'registration_number'=>$this->registration_number,
+            'fullname' => $fullname,
+            'registration_number' => $this->registration_number,
         ];
     }
 
@@ -62,9 +62,9 @@ class children extends Model implements ShouldQueue
         return $this->hasOne(Triage::class);
     }
 
-    
+
     public function parents()
-{
-    return $this->hasManyThrough(Parents::class, ChildParent::class, 'child_id', 'id', 'id', 'parent_id');
-}
+    {
+        return $this->hasManyThrough(Parents::class, ChildParent::class, 'child_id', 'id', 'id', 'parent_id');
+    }
 }

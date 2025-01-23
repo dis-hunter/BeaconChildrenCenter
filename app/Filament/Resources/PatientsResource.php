@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PatientsResource\Pages;
 use App\Filament\Resources\PatientsResource\RelationManagers;
+use App\Filament\Resources\PatientsResource\RelationManagers\ParentRelationManager;
+use App\Filament\Resources\PatientsResource\Widgets\PatientStats;
 use App\Models\children;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -19,7 +21,6 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use League\CommonMark\Parser\MarkdownParser;
 
 class PatientsResource extends Resource
 {
@@ -47,26 +48,26 @@ class PatientsResource extends Resource
         return $form
             ->schema([
                 TextInput::make('registration_number')
-                ->disabled(),
+                    ->disabled(),
 
                 KeyValue::make('fullname')
-                ->disableAddingRows()
-                ->disableEditingKeys()
-                ->keyLabel('Name')
-                ->required(),
+                    ->disableAddingRows()
+                    ->disableEditingKeys()
+                    ->keyLabel('Name')
+                    ->required(),
 
                 Select::make('genderId')
-                ->relationship('gender','gender')
-                ->preload()
-                ->required(),
+                    ->relationship('gender', 'gender')
+                    ->preload()
+                    ->required(),
 
                 DatePicker::make('dob')
-                ->label('Date of Birth')
-                ->required(),
+                    ->label('Date of Birth')
+                    ->required(),
 
                 TextInput::make('birth_cert')
-                ->label('Birth Certificate')
-                ->required(),
+                    ->label('Birth Certificate')
+                    ->required(),
 
             ]);
     }
@@ -76,13 +77,13 @@ class PatientsResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('registration_number')
-                ->sortable(),
+                    ->sortable(),
 
                 TextColumn::make('fullname')
-                ->formatStateUsing(fn ($state) => is_string($state) ? $state : trim("{$state->last_name} {$state->first_name} {$state->middle_name}")),
+                    ->formatStateUsing(fn($state) => is_string($state) ? $state : trim("{$state->last_name} {$state->first_name} {$state->middle_name}")),
 
                 TextColumn::make('dob')
-                ->label('Date of Birth'),
+                    ->label('Date of Birth'),
 
             ])
             ->filters([
@@ -100,7 +101,7 @@ class PatientsResource extends Resource
     public static function getRelations(): array
     {
         return [
-
+            ParentRelationManager::class,
         ];
     }
 
@@ -110,6 +111,13 @@ class PatientsResource extends Resource
             'index' => Pages\ListPatients::route('/'),
             'create' => Pages\CreatePatients::route('/create'),
             'edit' => Pages\EditPatients::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            PatientStats::class,
         ];
     }
 }
