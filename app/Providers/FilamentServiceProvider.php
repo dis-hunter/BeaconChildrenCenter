@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Filament\Facades\Filament;
-use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\ServiceProvider;
 
 class FilamentServiceProvider extends ServiceProvider
@@ -30,10 +29,4 @@ class FilamentServiceProvider extends ServiceProvider
         ]);
     }
 
-    public function navigation() : array {
-        return [
-            NavigationGroup::make('Static Data')
-                ->collapsed(),
-        ];        
-    }
 }

@@ -113,11 +113,4 @@ class PatientsResource extends Resource
             'edit' => Pages\EditPatients::route('/{record}/edit'),
         ];
     }
-
-    public static function getWidgets(): array
-    {
-        return [
-            PatientStats::class,
-        ];
-    }
 }
