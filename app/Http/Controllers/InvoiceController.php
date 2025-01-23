@@ -6,14 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-<<<<<<< HEAD
 use App\Models\Child;
 use App\Models\Children;
 use App\Models\Invoice;
-=======
 use Illuminate\Support\Facades\Log;
 
->>>>>>> d329dbba4c52e4e53c6d4249ff0581caf49b53ad
 
 class InvoiceController extends Controller
 {
@@ -27,7 +24,7 @@ class InvoiceController extends Controller
      */
     public function countVisitsForToday($registrationNumber)
     {
-        \Log::info('Received Registration Number: ' . $registrationNumber);
+        Log::info('Received Registration Number: ' . $registrationNumber);
         // Fetch the child ID using the registration number directly from the database
         $child = DB::table('children')
             ->where('registration_number', $registrationNumber)
@@ -170,15 +167,15 @@ public function getInvoiceDates($childId)
 {
     try {
         // Log the incoming request
-        \Log::info('Fetching invoices for child ID: ' . $childId);
+        Log::info('Fetching invoices for child ID: ' . $childId);
         
         // Validate child exists
         $child = Children::findOrFail($childId);
-        \Log::info('Found child:', ['child_id' => $child->id]);
+        Log::info('Found child:', ['child_id' => $child->id]);
         
         // Get invoice dates
         $dates = Invoice::getInvoicesByChild($childId);
-        \Log::info('Found invoice dates:', ['dates' => $dates->toArray()]);
+        Log::info('Found invoice dates:', ['dates' => $dates->toArray()]);
         
         // Return empty array if no dates found
         if ($dates->isEmpty()) {
@@ -188,11 +185,11 @@ public function getInvoiceDates($childId)
         return response()->json($dates);
         
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        \Log::error('Child not found: ' . $childId);
+        Log::error('Child not found: ' . $childId);
         return response()->json(['error' => 'Child not found'], 404);
         
     } catch (\Exception $e) {
-        \Log::error('Error fetching invoice dates:', [
+        Log::error('Error fetching invoice dates:', [
             'child_id' => $childId,
             'error' => $e->getMessage(),
             'trace' => $e->getTraceAsString()
@@ -221,7 +218,7 @@ public function getInvoiceDetails($childId)
         
         return response()->json($invoice);
     } catch (\Exception $e) {
-        \Log::error('Error fetching invoice details: ' . $e->getMessage());
+        Log::error('Error fetching invoice details: ' . $e->getMessage());
         return response()->json(['error' => 'Internal Server Error'], 500);
     }
 }
