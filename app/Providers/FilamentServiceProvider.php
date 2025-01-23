@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\ServiceProvider;
 
 class FilamentServiceProvider extends ServiceProvider
@@ -27,5 +28,12 @@ class FilamentServiceProvider extends ServiceProvider
         Filament::registerNavigationGroups([
             ['name'=>'Static Data', 'icon'=>'heroicon-o-circle-stack'],
         ]);
+    }
+
+    public function navigation() : array {
+        return [
+            NavigationGroup::make('Static Data')
+                ->collapsed(),
+        ];        
     }
 }
