@@ -12,10 +12,6 @@ use App\Models\DoctorSpecialization;
 
 class DoctorsController extends Controller
 { 
-    public function dashboard()
-    {
-        return view('doctorDash');
-    }
 
     // Profile method
     public function profile()
