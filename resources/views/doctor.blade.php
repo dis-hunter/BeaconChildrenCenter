@@ -174,6 +174,7 @@
 
   <a href="#"><i class="fas fa-comments"></i> Multidisciplinary Communication</a>
   <a href="#"><i class="fas fa-file-medical"></i> Therapy Summaries</a>
+  <a href="/doctorDashboard"><i class="fas fa-tachometer-alt"></i> Return to Dashboard</a>
 </div>
 
 <div class="main">

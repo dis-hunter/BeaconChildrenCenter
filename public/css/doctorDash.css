@@ -171,324 +171,102 @@ main {
   cursor: pointer;
   margin-right: 10px;
 }
-  /* General table styling */
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-family: Arial, sans-serif;
+/* doctorDash.css */
+
+.profile-content {
+  background-color: #fff;
+  width: 700px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Styling for table headers */
-.table th {
-    background-color: #3498db; /* Blue */
-    color: white;
-    font-weight: bold;
-    padding: 12px;
-    text-align: center;
-    font-size: 14px;
-    border: 1px solid #ddd; /* Add a light border around the header */
-}
-
-/* Styling for table rows */
-.table td {
-    padding: 12px;
-    text-align: left;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
-
-/* Stripe rows - alternating row colors */
-.table tr:nth-child(odd) {
-    background-color: #f9f9f9; /* Light gray */
-}
-
-.table tr:nth-child(even) {
-    background-color: #ffffff; /* White */
-}
-
-/* Hover effect for rows */
-.table tr:hover {
-    background-color: #f2f2f2; /* Light gray on hover */
-}
-
-/* Center text in some specific columns */
-.table td:nth-child(2), .table td:nth-child(3), .table td:nth-child(4) {
-    text-align: center;
-}
-
-/* Styling the first column (ID column) */
-.table td:first-child {
-    font-weight: bold;
-    color: #333;
-}
-
-/* Add a small shadow for a soft effect around the table */
-.table {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Adding responsive styles for smaller screens */
-@media (max-width: 768px) {
-    .table {
-        width: 100%;
-        border: none;
-        font-size: 14px;
-    }
-
-    .table thead {
-        display: none;
-    }
-
-    .table tr {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .table td {
-        display: block;
-        text-align: right;
-        padding-left: 50%;
-    }
-
-    .table td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        text-transform: uppercase;
-        margin-right: 10px;
-    }
-}
-
-/* Add a responsive container around the table */
-.table-container {
-    overflow-x: auto;
-    margin: 20px;
-}
-
-/* Responsive design for tables */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.table-responsive table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table-responsive th, .table-responsive td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-.table-responsive tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-.table-responsive tr:nth-child(even) {
-    background-color: #ffffff;
-}
-
-.table-responsive tr:hover {
-    background-color: #f2f2f2;
-}
-
-
-
-/* Sidebar Links Consistency */
-.sidebar a,
-.sidebar a.dashboard {
-  color: white;
-  text-decoration: none;
-  display: block;
-  padding: 10px;
-  transition: all 0.3s ease;
-}
-
-.sidebar a.dashboard:hover,
-.sidebar li:hover a {
-  background-color: lightskyblue;
+.profile-content h2 {
+  font-size: 28px;
+  font-weight: 600;
   color: #333;
-  padding-left: 20px;
-  transform: translateX(5px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
 }
 
-.sidebar a.active,
-.sidebar a.dashboard.active {
-  background-color: lightskyblue;
+.profile-content #profile-details {
+  margin-bottom: 30px;
+}
+
+.profile-content #profile-details p {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-content #profile-details strong {
   font-weight: bold;
 }
 
-/* Dashboard Content Styling */
-.dashboard {
-  flex-grow: 1;
-  padding: 20px;
+.profile-content #edit-profile-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-
-/* Reset for better control */
-body {
-  font-family: sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+.profile-content #edit-profile-btn:hover {
+  background-color: #0069d9;
+  transform: translateY(-2px);
 }
 
-/* Header */
-header {
-  background-color: #f2f2f2;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+.profile-content #edit-profile-form {
+  margin-top: 30px;
+  display: none; /* Initially hidden */
+  /* Reduce the height of the form container */
+  max-height: 300px; /* Adjust this value as needed */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
 }
 
-/* Sidebar */
-.sidebar {
-  background-color: lightblue;
-  color: white;
-  width: 250px;
-  height: calc(100vh - 70px); /* Full height minus header height */
-  position: fixed;
-  top: 70px; /* Align below the header */
-  left: 0;
-  padding: 20px;
-  overflow-y: auto; /* Allow scrolling for longer content */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
-}
-
-/* Main Content Area */
-main {
-  margin-left: 250px; /* Match the width of the sidebar */
-  margin-top: 70px; /* Match the height of the header */
-  padding: 20px;
-  flex-grow: 1;
-  background-color: #f4f4f4; /* Light background for better readability */
-  overflow-y: auto; /* Allow scrolling for longer content */
-  height: calc(100vh - 70px); /* Adjust to fill remaining height */
-}
-
-/* Welcome Message */
-.welcome {
-  margin-bottom: 20px;
-}
-
-/* Dashboard Section */
-.dashboard {
-  flex-grow: 1;
-  padding: 20px;
-}
-
-/* Sidebar Links */
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li {
-  margin-bottom: 10px;
-}
-
-.sidebar a {
-  color: white;
-  text-decoration: none;
+.profile-content label {
   display: block;
-  padding: 10px;
-  transition: all 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.sidebar li:hover a {
-  background-color: lightskyblue;
+  margin-bottom: 8px;
+  font-weight: 500;
   color: #333;
-  padding-left: 20px; /* Indent on hover */
-  transform: translateX(5px); /* Slight movement on hover */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
 }
 
-.sidebar .active {
-  background-color: lightskyblue;
+.profile-content input[type="text"],
+.profile-content input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-size: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  main {
-    margin-left: 200px; /* Adjust for smaller sidebar */
-  }
+.profile-content input[type="text"]:focus,
+.profile-content input[type="email"]:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
 }
 
-/* Calendar Container Styling */
-.calendar-container {
-  height: calc(100vh - 70px); /* Full height minus header height */
-  padding: 20px;
-  overflow: auto; /* Allow scrolling if necessary */
-  background-color: white; /* Optional, adjust according to your design */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
-
-  width: 1000px !important;;
+.profile-content button[type="submit"] {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure the main content area has the correct space */
-main {
-  margin-left: 250px; /* Match the width of the sidebar */
-  margin-top: 70px; /* Match the height of the header */
-  padding: 20px;
-  flex-grow: 1;
-  background-color: #f4f4f4; /* Light background for better readability */
-  height: calc(100vh - 70px); /* Adjust to fill remaining height */
-  overflow-y: auto; /* Allow scrolling for longer content */
-}
-
-/* Sidebar adjustments to maintain fixed layout */
-.sidebar {
-  background-color: lightblue;
-  color: white;
-  width: 250px;
-  height: calc(100vh - 70px); /* Full height minus header height */
-  position: fixed;
-  top: 70px; /* Align below the header */
-  left: 0;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
-}
-
-/* Make sure the dashboard section within main has enough space */
-.dashboard {
-  flex-grow: 1;
-  padding: 20px;
-}
-
-
-.cancel-btn,
-.reschedule-btn {
-    display: none;
-}
-
-.notifications {
-  display: flex; /* Use flexbox for easy alignment */
-  align-items: center; /* Vertically center the items */
-}
-
-.clock {
-  font-size: 1.2em;
-  margin-right: 20px; /* Space between clock and user icon */
-  order: -1; /* Place the clock before the user icon */
+.profile-content button[type="submit"]:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
 }

@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // Updated to match the new JSON format
         renderTestSection('Haematology', data.investigationData.haematology, data.investigationData.results);
+        renderTestSection('hormoneTests', data.investigationData.hormoneTests, data.investigationData.results);
         renderTestSection('Biochemistry', data.investigationData.biochemistry, data.investigationData.results);
         renderTestSection('Urine', data.investigationData.urine, data.investigationData.results);
         renderTestSection('Stool', data.investigationData.stool, data.investigationData.results);

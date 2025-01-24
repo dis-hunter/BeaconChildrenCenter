@@ -18,6 +18,7 @@ class InvestigationController extends Controller
         // Validate the incoming data (adjusted for the new format)
         $data = $request->validate([
             'haematology' => 'array',
+            'hormoneTests' => 'array',
             'biochemistry' => 'array',
             'urine' => 'array',
             'stool' => 'array',
@@ -68,6 +69,7 @@ class InvestigationController extends Controller
         // Collect the data into an array (store as JSON) - Adjusted for the new format
         $investigationData = [
             'haematology' => $data['haematology'] ?? [],
+            'hormoneTests' => $data['hormoneTests'] ?? [],
             'biochemistry' => $data['biochemistry'] ?? [],
             'urine' => $data['urine'] ?? [],
             'stool' => $data['stool'] ?? [],
