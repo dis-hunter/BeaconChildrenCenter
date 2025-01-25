@@ -143,6 +143,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
         Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
         Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
+        Route::get('/get-user-specialization-and-doctor', [AuthController::class, 'getUserSpecializationAndDoctor'])->name('get.user.specialization.doctor');
     });
 
     // Receptionist Routes
