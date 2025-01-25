@@ -37,7 +37,7 @@ class PatientsResource extends Resource
         return 'Patients';
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-s-user';
 
     public static function canCreate(): bool
     {

@@ -25,7 +25,7 @@ class GuardiansResource extends Resource
 {
     protected static ?string $model = Parents::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function getModelLabel(): string
     {

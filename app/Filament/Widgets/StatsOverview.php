@@ -15,7 +15,7 @@ class StatsOverview extends BaseWidget
                 ->description('Increase in Patients')
                 ->descriptionIcon('heroicon-o-trending-up')
                 ->color('success')
-                ->chart([0,2,5,9,15]),
+                ->chart([0,7,4,9,15]),
         ];
     }
 }

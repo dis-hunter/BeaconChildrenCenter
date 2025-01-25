@@ -18,7 +18,7 @@ class InvoicesResource extends Resource
 {
     protected static ?string $model = Invoice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-tax';
 
     public static function getNavigationGroup(): ?string{
         return 'Finance';
