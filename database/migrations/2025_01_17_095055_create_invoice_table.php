@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,7 +20,7 @@ return new class extends Migration
                 ->constrained('children')
                 ->onDelete('cascade');
             $table->decimal('total_amount', 10, 2);
-            $table->json('invoice_details'); // To store the JSON data
+            $table->json('invoice_details');
             $table->date('invoice_date')->default(DB::raw('CURRENT_DATE'));
             $table->timestamps();
         });

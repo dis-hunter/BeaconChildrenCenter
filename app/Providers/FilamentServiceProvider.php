@@ -27,6 +27,7 @@ class FilamentServiceProvider extends ServiceProvider
         Filament::registerNavigationGroups([
             ['name'=>'Static Data', 'icon'=>'heroicon-o-circle-stack'],
         ]);
+        
     }
 
 }

@@ -267,7 +267,7 @@ return [
     |
     */
 
-    'favicon' => 'public\images\favicon.png',
+    'favicon' => "images/favicon.png",
 
     /*
     |--------------------------------------------------------------------------
