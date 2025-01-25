@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Actions\CustomViewAction;
 use App\Filament\Resources\PatientsResource\Pages;
 use App\Filament\Resources\PatientsResource\RelationManagers;
 use App\Filament\Resources\PatientsResource\RelationManagers\ParentRelationManager;
