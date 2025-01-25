@@ -77,10 +77,10 @@ class PatientsResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('registration_number')
-                    ->sortable(),
+                    ->sortable()->searchable(),
 
                 TextColumn::make('fullname')
-                    ->formatStateUsing(fn($state) => is_string($state) ? $state : trim("{$state->last_name} {$state->first_name} {$state->middle_name}")),
+                    ->formatStateUsing(fn($state) => is_string($state) ? $state : trim("{$state->last_name} {$state->first_name} {$state->middle_name}"))->searchable(),
 
                 TextColumn::make('dob')
                     ->label('Date of Birth'),

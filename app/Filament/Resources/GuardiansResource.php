@@ -103,7 +103,8 @@ class GuardiansResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('fullname')
-                    ->formatStateUsing(fn($state) => is_string($state) ? $state : trim("{$state->last_name} {$state->first_name} {$state->middle_name}")),
+                    ->formatStateUsing(fn($state) => is_string($state) ? $state : trim("{$state->last_name} {$state->first_name} {$state->middle_name}"))
+                    ->searchable(),
 
                 TextColumn::make('gender.gender')
                     ->label('Gender'),
