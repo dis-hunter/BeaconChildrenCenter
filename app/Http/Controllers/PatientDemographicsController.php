@@ -53,7 +53,8 @@ class PatientDemographicsController extends Controller
 
         // Calculate gender distribution
         foreach ($children as $child) {
-            switch ($child->gender) {
+            $genderId = $child->gender->id;
+            switch ($genderId) {
                 case 1:
                     $genderDistribution['Male']++;
                     break;

@@ -92,69 +92,86 @@
         </div>
     </section>
   
-   
-    <h1 class="text-xl font-bold mb-2 text-black">Patient Demographics</h1>
-    <p class="text-black mb-4">View the age and gender distribution of registered children.</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Age Distribution Chart -->
-        <div>
-            <h2 class="text-lg font-semibold text-black mb-2">Age Distribution</h2>
-            <canvas id="ageDistributionChart"></canvas>
-        </div>
-        <!-- Gender Distribution Chart -->
-        <div>
-            <h2 class="text-lg font-semibold text-black mb-2">Gender Distribution</h2>
-            <canvas id="genderDistributionChart"></canvas>
+    <section class="bg-white p-6 rounded-lg shadow-md">
+    <!-- Collapsible Button -->
+    <button style="color:black;" id="toggleButton" class="bg-blue-500 text-white py-2 px-4 rounded mb-4">
+        Toggle Patient Demographics
+    </button>
+    
+    <!-- Demographics Content -->
+    <div id="demographicsContent" class="hidden">
+        <h1 class="text-xl font-bold mb-2" style="color:black;">Patient Demographics</h1>
+        <p class="text-black mb-4" style="color:black;">View the age and gender distribution of registered children.</p>
+        
+        <!-- Demographics Charts Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Age Distribution Chart -->
+            <div>
+                <h2 class="text-lg font-semibold text-black mb-2" style="color:black;">Age Distribution</h2>
+                <canvas id="ageDistributionChart"></canvas>
+            </div>
+            
+            <!-- Gender Distribution Chart -->
+            <div>
+                <h2 class="text-lg font-semibold text-black mb-2" style="color:black;">Gender Distribution</h2>
+                <canvas id="genderDistributionChart"></canvas>
+            </div>
         </div>
     </div>
 
+    <!-- ChartJS Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Fetch data for demographics from the backend
+        fetch('/patient-demographics')
+            .then(response => response.json())
+            .then(data => {
+                // Log the server response to the console
+                console.log('Demographics Data:', data);
 
-<!-- ChartJS Script -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Fetch data from backend
-    fetch('/patient-demographics')
-        .then(response => response.json())
-        .then(data => {
-            // Log the server response to the console
-            console.log('Demographics Data:', data);
+                // Extract age and gender data from the response
+                const ageData = Object.values(data.ageGroups);
+                const genderData = Object.values(data.genderDistribution);
 
-            // Get the age and gender data from the response
-            const ageData = Object.values(data.ageGroups);
-            const genderData = Object.values(data.genderDistribution);
+                // Age Distribution Pie Chart
+                const ageCtx = document.getElementById('ageDistributionChart').getContext('2d');
+                new Chart(ageCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['0-5', '6-12', '13-18', '19+'],
+                        datasets: [{
+                            label: 'Age Groups',
+                            data: ageData,
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                        }]
+                    }
+                });
 
-            // Age Distribution Chart
-            const ageCtx = document.getElementById('ageDistributionChart').getContext('2d');
-            new Chart(ageCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['0-5', '6-12', '13-18', '19+'],
-                    datasets: [{
-                        label: 'Age Groups',
-                        data: ageData,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-                    }]
-                }
+                // Gender Distribution Pie Chart
+                const genderCtx = document.getElementById('genderDistributionChart').getContext('2d');
+                new Chart(genderCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Male', 'Female', 'Other'],
+                        datasets: [{
+                            label: 'Gender',
+                            data: genderData,
+                            backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+                        }]
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching demographics data:', error);
             });
 
-            // Gender Distribution Chart
-            const genderCtx = document.getElementById('genderDistributionChart').getContext('2d');
-            new Chart(genderCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Male', 'Female', 'Other'],
-                    datasets: [{
-                        label: 'Gender',
-                        data: genderData,
-                        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
-                    }]
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching demographics data:', error);
+        // Toggle visibility of the demographics section
+        document.getElementById('toggleButton').addEventListener('click', function () {
+            const content = document.getElementById('demographicsContent');
+            content.classList.toggle('hidden');  // Toggle the "hidden" class to show/hide content
         });
-</script>
+    </script>
+</section>
 
 
 
