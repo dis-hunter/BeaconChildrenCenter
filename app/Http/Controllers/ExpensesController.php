@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ExpensesController extends Controller
 {
@@ -21,13 +23,12 @@ class ExpensesController extends Controller
     try {
         // Insert data into the expenses table
         DB::table('expenses')->insert([
-            'visit_date' => $validatedData['visit_date'],
             'category' => $validatedData['category'],
             'description' => $validatedData['description'],
             'fullname' => $validatedData['fullname'],
             'amount' => $validatedData['amount'],
             'payment_method' => $validatedData['payment_method'],
-            'staff_id' => $validatedData['staff_id'],
+            'staff_id' => 2,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

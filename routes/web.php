@@ -23,6 +23,7 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ExpensesController;
 
 
 // General Routes
@@ -147,6 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Admin Routes
     Route::group(['middleware' => 'role:4'], function () {
         // Add admin-specific routes here
+
     });
 });
 
@@ -181,4 +183,5 @@ use App\Http\Controllers\PatientDemographicsController;
 // Route to fetch data for the pie charts
 Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
 
+Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
 
