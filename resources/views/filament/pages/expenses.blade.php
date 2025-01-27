@@ -2,21 +2,7 @@
     <section id="finances" class="content-section">
         <h2>Finances</h2>
 
-        <div class="finances-buttons">
-            <button id="generate-revenue-btn">Generate Revenue Report</button>
-            <button id="view-expenses-btn">View Expense Breakdown</button>
-            <button id="connect-to-quickbooks-btn">Connect to QuickBooks</button>
-        </div>
-
-        <div id="finances-content"></div>
-        <h1>welcome</h1>
-
-        <h3>Invoice Management</h3>
-        <div id="invoice-management">
-            <input type="date" id="invoice-date" onchange="showInvoicesForDate()">
-            <div id="invoice-list"></div>
-        </div>
-
+       
         <h3>Expense Tracking</h3>
         <div id="expense-tracking">
             <button onclick="showExpenseForm()">Add Expense</button>
@@ -116,8 +102,13 @@
     const category = document.getElementById("expense-category").value;
     const descriptionSelect = document.getElementById("expense-description");
     const otherDescriptionInput = document.getElementById("other-description");
+    const fullNameContainer = document.getElementById("full-name-container") || createFullNameContainer();
+    
     descriptionSelect.innerHTML = '<option value="">Select Description</option>'; // Clear previous options
     otherDescriptionInput.style.display = "none"; // Hide "other" input by default
+    
+    // Show/hide full name input based on category
+    fullNameContainer.style.display = category === "2" ? "block" : "none";
 
     let descriptions = [];
     switch (category) {
@@ -137,38 +128,30 @@
             // Insuarance descriptions
             descriptions = ["Beacon facility indemnity", "Fire cover"," Buglary","Professional indemnity(Dr.Oringe)","Other"];
             break;
-
         case "5":
             //ICT needs descriptions
             descriptions = ["Software development","Hardware purchase", "Techincal support", "Database hosting subscription", "Internet Service Providers","Other"];
             break;
-    
         case "6":
             //Continuous Professional development
             descriptions = ["Trainings","Workshops/Seminars", "Journal subscriptions", "E-book subscriptions", "Conferences", "Newspapers/Editorials", "Other"];
             break;
-    
         case "7":
             //Marketing and advertising
             descriptions = ["Online marketting","Webinars", "Meeting costs", "Banners", "Marketting tools", "Branding", "Other"];
             break;
-    
         case "8":
              // Transportation and delivery
             descriptions = ["Fuel costs", "Car Hire", "Uber/Bolt", "Rider charges", "Other"];
             break;
-    
         case "9":
             // Therapy equipment descriptions
             descriptions = ["Treadmill", "Standing bike", "Walking Frame", "Walking Support Bar","Hammock swing","Mini step","Therapy balls","Trampoline","Play pen","Filler balls","Massager","Play toys","Weighted blanket","Floor matts","Gym matts","Beam bag","Therapy foam blocks","Therapy mirrors","Therapy boards","Therapy music system","Other"];
             break;
-
         case "10":
             //Funiture equipment descriptions
             descriptions = ["Office Tables","Chairs", "Cabinets", "Beds", "Steps", "Other"];
             break;
-
-        
         case "11":
             // Office space maintenance descriptions
             descriptions = ["Construction Work","Plumbing repairs", "Electrical maintenance", "Painting work", "Welders", "Capentery works","Security services", "Other"];
@@ -204,6 +187,32 @@
             otherDescriptionInput.style.display = "none";
         }
     });
+}
+
+// Function to create the full name input container
+function createFullNameContainer() {
+    const container = document.createElement("div");
+    container.id = "full-name-container";
+    container.style.display = "none";
+    
+    const label = document.createElement("label");
+    label.htmlFor = "full-name";
+    label.textContent = "Full Name:";
+    
+    const input = document.createElement("input");
+    input.type = "text";
+    input.id = "full-name";
+    input.name = "full-name";
+    input.required = true;
+    
+    container.appendChild(label);
+    container.appendChild(input);
+    
+    // Insert the container after the expense description
+    const expenseDescription = document.getElementById("expense-description");
+    expenseDescription.parentNode.insertBefore(container, expenseDescription.nextSibling);
+    
+    return container;
 }
     </script>
 </x-filament::page>
