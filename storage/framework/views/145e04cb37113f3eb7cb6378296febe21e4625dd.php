@@ -1,28 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="<?php echo e(asset('css/navbar-fixed-left.min.css')); ?>">
-<style>
-    .container-fluid {
-        display: flex;
-    }
-
-    #mainNav {
-        height: 100vh;
-        overflow-y: auto;
-    }
-
-    #calendar-section {
-        background-color: #f8f9fa;
-        min-height: 100vh;
-        border-left: 1px solid #ddd;
-    }
-
-    .calendar {
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-</style>
 
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -55,14 +33,20 @@
             </li>
             <li class="nav-item">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
                 <a href="<?php echo e(route('reception.calendar')); ?>" class="nav-link">
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
+<<<<<<< HEAD
                 
 =======
                 <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
             </li>
 
 
@@ -70,12 +54,20 @@
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
 <<<<<<< HEAD
+<<<<<<< HEAD
            
 =======
+=======
+
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
             <li class="nav-item">
-                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
+                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
             </li>
+<<<<<<< HEAD
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+           
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
             
             
             
@@ -92,14 +84,21 @@
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
 <<<<<<< HEAD
+<<<<<<< HEAD
 } elseif ($_instance->childHasBeenRendered('ulLeNa3')) {
     $componentId = $_instance->getRenderedChildComponentId('ulLeNa3');
     $componentTag = $_instance->getRenderedChildComponentTagName('ulLeNa3');
+=======
+} elseif ($_instance->childHasBeenRendered('xG7yNqA')) {
+    $componentId = $_instance->getRenderedChildComponentId('xG7yNqA');
+    $componentTag = $_instance->getRenderedChildComponentTagName('xG7yNqA');
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('ulLeNa3');
+    $_instance->preserveRenderedChild('xG7yNqA');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
+<<<<<<< HEAD
     $_instance->logRenderedChild('ulLeNa3', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 =======
 } elseif ($_instance->childHasBeenRendered('lM8BYjC')) {
@@ -112,6 +111,9 @@ if (! isset($_instance)) {
     $html = $response->html();
     $_instance->logRenderedChild('lM8BYjC', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+    $_instance->logRenderedChild('xG7yNqA', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
 }
 echo $html;
 ?></div> 

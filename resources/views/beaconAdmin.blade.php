@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Hospital Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('css/beaconAdmin.css') }}">
@@ -94,20 +97,26 @@
           </thead>
           <tbody>
             <tr>
-              <td>Jane Doe</td>
-              <td>8</td>
-              <td>Female</td>
-              <td>12345</td>
-              <td>Inpatient</td>
-              <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
-            </tr>
-            <tr>
-              <td>Peter Pan</td>
-              <td>10</td>
-              <td>Male</td>
-              <td>67890</td>
-              <td>Outpatient</td>
-              <td><button onclick="showInvoiceDates('Peter Pan', 67890)">See Invoices</button></td>
+
+    
+@foreach ($children as $child)
+<tr>
+    <td>
+        {{ $child->fullname->first_name ?? '' }}
+        {{ $child->fullname->middle_name ?? '' }}
+        {{ $child->fullname->last_name ?? '' }}
+    </td>
+    <td>{{ \Carbon\Carbon::parse($child->dob)->age }}</td>
+    <td>{{ $child->gender->name ?? '' }}</td>
+    <td>{{ $child->registration_number }}</td>
+    <td><p>Status?</p></td>
+    <td>
+        <button onclick="showInvoiceDates('{{ $child->id }}')">See Invoices</button>
+    </td>
+</tr>
+@endforeach
+
+
             </tr>
           </tbody>
         </table>

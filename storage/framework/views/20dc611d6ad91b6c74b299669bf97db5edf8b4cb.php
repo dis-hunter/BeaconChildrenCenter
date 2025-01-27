@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <section class="h-100 gradient-form" style="background-color: #eee;">
     <div class="d-flex justify-content-start align-items-start" style="position: absolute; top: 40px; left: 40px;">
-        <a class="btn btn-close btn-md" href="<?php echo e(route('register')); ?>"></a>
+        <a class="btn btn-close btn-md" href="<?php echo e(route('home')); ?>"></a>
       </div>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -155,15 +155,15 @@
                             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('password-generator')->html();
-} elseif ($_instance->childHasBeenRendered('QNCgASR')) {
-    $componentId = $_instance->getRenderedChildComponentId('QNCgASR');
-    $componentTag = $_instance->getRenderedChildComponentTagName('QNCgASR');
+} elseif ($_instance->childHasBeenRendered('NlOPS2a')) {
+    $componentId = $_instance->getRenderedChildComponentId('NlOPS2a');
+    $componentTag = $_instance->getRenderedChildComponentTagName('NlOPS2a');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('QNCgASR');
+    $_instance->preserveRenderedChild('NlOPS2a');
 } else {
     $response = \Livewire\Livewire::mount('password-generator');
     $html = $response->html();
-    $_instance->logRenderedChild('QNCgASR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('NlOPS2a', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

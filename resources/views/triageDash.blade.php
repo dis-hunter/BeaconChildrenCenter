@@ -98,7 +98,7 @@
     
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
-        <h3>Good morning!</h3>
+        <h3>Hello</h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>

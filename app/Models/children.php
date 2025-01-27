@@ -67,4 +67,8 @@ class children extends Model implements ShouldQueue
 {
     return $this->hasManyThrough(Parents::class, ChildParent::class, 'child_id', 'id', 'id', 'parent_id');
 }
+public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'child_id'); // Adjust the foreign key if needed
+    }
 }

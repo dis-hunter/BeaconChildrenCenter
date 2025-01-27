@@ -2,7 +2,7 @@
   --primary-clr:#3498db;
 
 }
-*{
+/* *{
   margin:0;
   padding:0;
   box-sizing:border-box;
@@ -15,10 +15,9 @@ body{
   justify-content: center;
   background-color: #e2e1dc;
 
-}
+} */
 .container{
   position: relative;
-  width: 980px !important;
   min-height: 600px;
   margin: 0 auto;
   padding: 5px;
@@ -681,10 +680,6 @@ display: none;
 .hidden {
 display: none;
 }
-.main{
-  width:0px !important;
-}
-
 
 .reschedule-form input,
 .reschedule-form select {

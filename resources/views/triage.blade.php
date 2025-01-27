@@ -3,90 +3,85 @@
 <head>
   <title>Health Assessment Form</title>
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-    }
+  body {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 14px;
+}
 
-    .sidebar {
-      height: 100%;
-      width: 200px;
-      position: fixed;
-      left: 0;
-      top: 0;
-      background-color: #f1f1f1;
-      overflow-x: hidden;
-      padding-top: 20px;
-    }
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #f1f1f1;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
 
-    .sidebar a {
-      padding: 6px 8px 6px 16px;
-      text-decoration: none;
-      font-size: 18px;
-      color: #333;
-      display: block;
-    }
-    .sidebar h2  {
-      padding: 6px 0px 0px 16px;
-      text-decoration: none;
-      font-size: 18px;
-      color: #333;
-      display: block;
-    }
+.sidebar a,
+.sidebar h2 {
+  font-size: 14px;
+  padding: 4px 8px;
+}
 
-    .sidebar a:hover {
-      background-color: #ddd;
-    }
+.sidebar h3 {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 15px;
+}
 
-    .logout {
-      padding: 6px 8px 6px 16px;
-      text-decoration: none;
-      font-size: 18px;
-      color: white;
-      background-color: #ff4d4d;
-      display: block;
-      text-align: center;
-      margin-bottom: 20px;
-      cursor: pointer;
-    }
+.logout {
+  font-size: 14px;
+  padding: 5px 8px;
+}
 
-    .logout:hover {
-      background-color: #ff1a1a;
-    }
+.main {
+  margin-left: 200px;
+  padding: 15px;
+  width: 50%; /* Restrict the width to half the page */
+  box-sizing: border-box; /* Ensure padding is included within the width */
+}
 
-    .main {
-      margin-left: 200px;
-      padding: 20px;
-    }
+.form-section {
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  width: 100%; /* Make it occupy the full width of the container */
+  box-sizing: border-box; /* Prevent padding from affecting width */
+}
 
-    .form-section {
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      padding: 15px;
-      background-color: #f9f9f9;
-    }
+.form-section h3 {
+  font-size: 16px;
+  margin-top: 0;
+}
 
-    .form-section h3 {
-      margin-top: 0;
-    }
+.form-section input,
+.form-section select,
+.form-section button {
+  font-size: 13px;
+  padding: 6px;
+  margin: 4px 0;
+  width: calc(50% - 12px); /* Adjust input fields to fit neatly */
+  display: inline-block; /* Arrange inputs side by side */
+  box-sizing: border-box;
+}
 
-    .form-section input, .form-section select, .form-section button {
-      margin: 5px 0;
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
-    }
+.form-section button {
+  background-color: #add8e6;
+  border: 1px solid #ccc;
+  color: #333;
+}
 
-    .form-section button {
-      background-color: #add8e6;
-      border: 1px solid #ccc;
-      color: #333;
-    }
+.form-section button:hover {
+  background-color: #87ceeb;
+}
 
-    .form-section button:hover {
-      background-color: #87ceeb;
-    }
-  </style>
+</style>
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
@@ -116,14 +111,7 @@
         <option value="routine">Routine</option>
     </select>
 
-    <!-- <label>Department Referral:</label>
-    <div>
-        <input type="checkbox" name="triage_sorting[]" value="general"> General Doctor<br>
-        <input type="checkbox" name="triage_sorting[]" value="occupational"> Occupational Therapist<br>
-        <input type="checkbox" name="triage_sorting[]" value="speech"> Speech Therapist<br>
-        <input type="checkbox" name="triage_sorting[]" value="physio"> Physiotherapist<br>
-    </div> -->
-
+<br>
     <label for="temperature">Temperature (°C):</label>
     <input type="number" name="temperature" required>
 

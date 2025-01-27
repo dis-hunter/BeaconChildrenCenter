@@ -94,20 +94,27 @@
           </thead>
           <tbody>
             <tr>
-              <td>Jane Doe</td>
-              <td>8</td>
-              <td>Female</td>
-              <td>12345</td>
-              <td>Inpatient</td>
-              <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
-            </tr>
-            <tr>
-              <td>Peter Pan</td>
-              <td>10</td>
-              <td>Male</td>
-              <td>67890</td>
-              <td>Outpatient</td>
-              <td><button onclick="showInvoiceDates('Peter Pan', 67890)">See Invoices</button></td>
+
+            <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<tr>
+    <td>
+        <?php echo e($child->fullname->first_name ?? ''); ?> 
+        <?php echo e($child->fullname->middle_name ?? ''); ?> 
+        <?php echo e($child->fullname->last_name ?? ''); ?>
+
+    </td>
+    <td><?php echo e(\Carbon\Carbon::parse($child->dob)->age); ?></td>
+    <td><?php echo e($child->gender); ?></td>
+    <td><?php echo e($child->registration_number); ?></td>
+    <td><p>Status?</p></td>
+    <td>
+        <!-- Pass the child's ID dynamically into the onclick function -->
+        <button onclick="showInvoiceDates('<?php echo e($child->id); ?>')">See Invoices</button>
+    </td>
+</tr>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+
             </tr>
           </tbody>
         </table>

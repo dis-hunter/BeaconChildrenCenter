@@ -53,10 +53,6 @@ div h2 {
 
 
 <div class="calendar-container">
-    <!-- Your calendar HTML and scripts go here -->
-
-<?php echo \Livewire\Livewire::scripts(); ?>
-
 
     <div class="container">
         <div class="left">
@@ -122,15 +118,15 @@ div h2 {
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('uOcltft')) {
-    $componentId = $_instance->getRenderedChildComponentId('uOcltft');
-    $componentTag = $_instance->getRenderedChildComponentTagName('uOcltft');
+} elseif ($_instance->childHasBeenRendered('fVPUqYU')) {
+    $componentId = $_instance->getRenderedChildComponentId('fVPUqYU');
+    $componentTag = $_instance->getRenderedChildComponentTagName('fVPUqYU');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('uOcltft');
+    $_instance->preserveRenderedChild('fVPUqYU');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('uOcltft', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('fVPUqYU', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -248,9 +244,7 @@ margin: 20px auto; /* Center form */">
 </div>
     </div>
 
-    <script src="<?php echo e(asset('js/calendar.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/appointments.js')); ?>"></script>
-    <script type="module" src="<?php echo e(asset('js/specialization.js')); ?>"></script>
+    <script type="module" src="<?php echo e(asset('js/calendar.js')); ?>"></script>
     <script src="<?php echo e(asset('js/isDoctorAvailable.js')); ?>"></script>
 
  </div>

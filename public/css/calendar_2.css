@@ -1,9 +1,9 @@
-body {
+/* body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
-}
+} */
 
 .container {
     display: flex;
@@ -220,14 +220,14 @@ margin-bottom: 12px; /* Space between inputs */
 .add-event-footer {
 text-align: center;
 }
-ul {
+/* ul {
 list-style-type: none;
 padding: 0;
-}
+} */
 
-li {
+/* li {
 background-color: #f9f9f9;
 padding: 10px;
 border: 1px solid #ddd;
 margin-bottom: 5px;
-}
+} */

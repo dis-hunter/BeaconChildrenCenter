@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\DoctorSpecialization;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Models\Visits;
 use App\Models\PaymentMode;
+use App\Models\User;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class VisitController extends Controller
 {
@@ -45,6 +49,7 @@ class VisitController extends Controller
     
             return response()->json(['status' => 'success', 'message' => 'Appointment created successfully'], 201);
         } catch (\Exception $e) {
+            Log::error('Error creating appointment: ' . $e->getMessage());
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
@@ -200,7 +205,7 @@ public function getDoctorNotes($registrationNumber) {
         ]);
 
     } catch (\Exception $e) {
-        \Log::error('Error in getDoctorNotes: ' . $e->getMessage());
+        Log::error('Error in getDoctorNotes: ' . $e->getMessage());
         
         return response()->json([
             'status' => 'error',
@@ -208,4 +213,54 @@ public function getDoctorNotes($registrationNumber) {
         ], 500);
     }
 }
+
+public function showSpecializations()
+{
+    // Fetch distinct specializations
+    $specializations = DoctorSpecialization::select('specialization_id', 'specialization')->distinct()->get();
+    return view('Receiptionist/visit', compact('specializations'));
+}
+
+public function specializationSearch(Request $request)
+{
+    $validated = $request->validate([
+        'specialization_id' => 'required|exists:doctor_specialization,specialization_id',
+    ]);
+
+    // Query for staff IDs with the selected specialization
+    $staffIds = DoctorSpecialization::where('specialization_id', $validated['specialization_id'])
+        ->pluck('staff_id');
+
+    // Redirect to the staff controller with the list of staff IDs
+    return redirect()->route('staff.fetch', ['staff_ids' => $staffIds->toArray()]);
+}
+public function getSpecializations()
+{
+    // Fetch distinct specializations
+    $specializations = DoctorSpecialization::select('id', 'specialization')->distinct()->get();
+
+    // Return the data as a JSON response
+    return response()->json([
+        'status' => 'success',
+        'data' => $specializations,
+    ]);
+}
+
+public function getDoctorsBySpecialization(Request $request)
+{
+    // Retrieve the specialization ID from the query parameters
+    $specializationId = $request->query('specialization_id');
+
+    // Fetch doctors with the matching specialization ID
+    $doctors = User::where('specialization_id', $specializationId)->get();
+
+    // Return the data as a JSON response
+    return response()->json([
+        'status' => 'success',
+        'data' => $doctors,
+    ]);
+}
+
+
+
 }

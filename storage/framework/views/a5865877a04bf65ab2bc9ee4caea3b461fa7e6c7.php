@@ -11,17 +11,17 @@
                     <li class="result-item <?php echo e($loop->index % 2 == 0 ? 'light-gray' : 'white'); ?> py-2 px-3" style="border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
                         <div style="flex: 1;">
                             <strong>Child Name:</strong> 
-                            <?php echo e(json_decode($result->fullname)->first_name ?? 'N/A'); ?> 
-                            <?php echo e(json_decode($result->fullname)->middle_name ?? ''); ?> 
-                            <?php echo e(json_decode($result->fullname)->last_name ?? 'N/A'); ?> 
+                            <?php echo e($result->fullname->first_name ?? 'N/A'); ?> 
+                            <?php echo e($result->fullname->middle_name ?? ''); ?> 
+                            <?php echo e($result->fullname->last_name ?? 'N/A'); ?> 
                             <br>
                             <strong>Date of Birth:</strong> <?php echo e($result->dob); ?>
 
                             <br>
                             <strong>Parent Name:</strong> 
-                            <?php echo e(json_decode($result->parent_fullname)->first_name ?? 'N/A'); ?> 
-                            <?php echo e(json_decode($result->parent_fullname)->middle_name ?? 'N/A'); ?> 
-                            <?php echo e(json_decode($result->parent_fullname)->last_name ?? 'N/A'); ?>
+                            <?php echo e($result->parent_fullname->first_name ?? 'N/A'); ?> 
+                            <?php echo e($result->parent_fullname->middle_name ?? 'N/A'); ?> 
+                            <?php echo e($result->parent_fullname->last_name ?? 'N/A'); ?>
 
                             <br>
                             <strong>Parent Email:</strong> <?php echo e($result->email); ?>

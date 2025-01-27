@@ -53,7 +53,7 @@ class FetchAppointments extends Controller
         Log::error("Error fetching appointments for date: $date", ['error' => $e->getMessage()]);
         
         // Return a 500 error with the message
-        return response()->json(['error' => 'An error occurred while fetching appointments.'], 500);
+        return response()->json(['error' => $e->getMessage()], 500);
     }
 }
 

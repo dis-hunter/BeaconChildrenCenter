@@ -11,6 +11,9 @@
                 placeholder="Search..."
                 wire:model.debounce.300ms="query"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
                 wire:focus="$set('isFocused',true)"
                 wire:blur="$set('isFocused',false)"
                 style="width: 300px;" 
@@ -38,6 +41,7 @@
     
         <!-- Results Dropdown -->
         <?php if($isFocused && (!empty($query) || !empty($history))): ?>
+<<<<<<< HEAD
 =======
                 style="width: 300px;" 
             />
@@ -46,6 +50,8 @@
         <!-- Results Dropdown -->
         <?php if(!empty($query)): ?>
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
         <div class="dropdown-menu show w-100 position-absolute mt-1" style="z-index: 1050; max-height: 300px; overflow-y: auto;">
             <button
                 type="button"
@@ -56,6 +62,9 @@
             ></button>
         
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
             
             <?php if(empty($query) && !empty($history)): ?>
             <h6 class="dropdown-header">Search History</h6>
@@ -75,11 +84,14 @@
             <?php $__empty_1 = true; $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model => $records): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <h6 class="dropdown-header"><?php echo e($model); ?></h6>
                 <?php if(empty($records)): ?>
+<<<<<<< HEAD
 =======
             <?php $__empty_1 = true; $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model => $records): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <h6 class="dropdown-header"><?php echo e($model); ?></h6>
                 <?php if($records->isEmpty()): ?>
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
                     <div class="dropdown-item text-muted">No <?php echo e(strtolower($model)); ?> found.</div>
                 <?php else: ?>
                     <?php $__currentLoopData = $records; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $record): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -89,10 +101,14 @@
                         <div class="dropdown-item d-flex justify-content-between align-items-center">
                             <a href="<?php echo e(route($route, ['id' => $record->id])); ?>" class="text-decoration-none">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <?php echo e((($record->fullname?->first_name ?? '').' '.($record->fullname?->middle_name ?? '').' '.($record->fullname?->last_name ?? '')) ?? 'N/A'); ?>
 =======
                                 <?php echo e((($record->fullname->first_name ?? '').' '.($record->fullname->middle_name ?? '').' '.($record->fullname->last_name ?? '')) ?? 'N/A'); ?>
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+                                <?php echo e((($record->fullname?->first_name ?? '').' '.($record->fullname?->middle_name ?? '').' '.($record->fullname?->last_name ?? '')) ?? 'N/A'); ?>
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
 
                             </a>
                             <?php if(strtolower($model) === 'patients'): ?>
@@ -110,8 +126,11 @@
     </div>
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     
 >>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
+=======
+>>>>>>> 35ebdb2fdc66a4507a02e8bbf537f8e133c98ffe
 </div>
 <?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/livewire/global-search.blade.php ENDPATH**/ ?>

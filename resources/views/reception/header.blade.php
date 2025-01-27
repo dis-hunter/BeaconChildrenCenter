@@ -1,28 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="{{asset('css/navbar-fixed-left.min.css')}}">
-<style>
-    .container-fluid {
-        display: flex;
-    }
-
-    #mainNav {
-        height: 100vh;
-        overflow-y: auto;
-    }
-
-    #calendar-section {
-        background-color: #f8f9fa;
-        min-height: 100vh;
-        border-left: 1px solid #ddd;
-    }
-
-    .calendar {
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-</style>
 
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -57,12 +35,15 @@
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
-                
             </li>
 
 
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
             </li>
            
             

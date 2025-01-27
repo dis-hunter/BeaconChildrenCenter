@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FetchAppointments;
+use App\Http\Controllers\RescheduleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

@@ -76,6 +76,9 @@ class User extends Authenticatable
     public static function getActiveUsers($minutes=5){
         return self::whereHas('activeSession', function ($query) use ($minutes){
             $query->where('last_activity', '>=', Carbon::now()->subMinutes($minutes));
-        })->with('activeSession')->get();
+        })
+        ->whereIn('specialization_id',[2,5])
+        ->with('activeSession')
+        ->get();
     }
 }
