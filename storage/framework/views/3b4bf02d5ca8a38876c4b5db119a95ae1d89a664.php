@@ -274,7 +274,7 @@
                 ];
                 break;
             case "5":
-                descriptions = ["Software development", "Hardware purchase", "Techincal support",
+                descriptions = ["Software development", "Hardware purchase", "Technical support",
                     "Database hosting subscription", "Internet Service Providers", "Other"
                 ];
                 break;
@@ -284,7 +284,7 @@
                 ];
                 break;
             case "7":
-                descriptions = ["Online marketting", "Webinars", "Meeting costs", "Banners", "Marketting tools",
+                descriptions = ["Online marketing", "Webinars", "Meeting costs", "Banners", "Marketing tools",
                     "Branding", "Other"
                 ];
                 break;
