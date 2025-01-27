@@ -489,6 +489,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
 <div class="sidebar" id="sidebar">
     <img src="<?php echo e(asset('images/logo.jpg')); ?>" alt="Logo">
         <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
@@ -510,6 +511,12 @@
     <?php echo $__env->yieldContent('content'); ?>
 </div>
 
+=======
+<div class="main">
+    <?php echo $__env->yieldContent('content'); ?>
+</div>
+
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
@@ -517,8 +524,12 @@
     crossorigin="anonymous"></script>
 <?php echo \Livewire\Livewire::scripts(); ?>
 
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+=======
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine-ie11.min.js" integrity="sha512-Atu8sttM7mNNMon28+GHxLdz4Xo2APm1WVHwiLW9gW4bmHpHc/E2IbXrj98SmefTmbqbUTOztKl5PDPiu0LD/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
 <script>
     Livewire.on('parentUpdated', message => {
 

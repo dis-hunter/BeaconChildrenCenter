@@ -3,22 +3,14 @@
 <!-- Search Form -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<?php $__env->startSection('title','Visits | Reception'); ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
-
-</head>
-<body>
-    
+<?php $__env->startSection('content'); ?>
 
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+<link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
 
+<<<<<<< HEAD:app/Http/Controllers/visits.blade.php
 <h2>Welcome</h2>
 <form action="{{ route('parent.get-children') }}" method="post">
     @csrf
@@ -38,6 +30,51 @@
         </tr>
     </table>
 </form>
+=======
+ <!-- Children Card -->
+ <div class="card shadow-sm mt-3">
+    <div class="card-header bg-secondary text-white">
+        <h5>Patient Details</h5>
+    </div>
+    <div class="card-body">
+        <!-- List of Children -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <?php if(!$children): ?>
+
+                <div class="card mb-2">                         
+                    <div class="card-body justify-content-center">
+                        
+                            <p>Patient not selected</p> <br>
+                            <p>Search for Patient or <a href="/guardians">Register</a> a new patient</p>
+                        
+                    </div>
+                </div>
+
+                <?php else: ?>
+                    
+                <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                
+                <div class="card mb-2">                         
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4"><strong>Child Name:</strong> <?php echo e(($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')); ?></div>
+                            <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
+                            <div class="col-md-4 text-end">
+                                <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499:storage/framework/views/3cb492f3acd3596442d54b5dd79cc9226222ec8a.php
 
 <!-- Error Message -->
 @if(session()->has('error'))
@@ -66,7 +103,7 @@
                     <td>{{ $child->dob }}</td>
                     <td>{{ $child->gender_id }}</td>
                     <td><?php echo e($child->id); ?></td>
-                    <td><?php echo e($child->fullname->first_name); ?> <?php echo e($child->fullname->last_name); ?></td>
+                    <td><?php echo e(($child->fullname->first_name ?? '')); ?> <?php echo e(($child->fullname->last_name ?? '')); ?></td>
                     <td><?php echo e($child->dob); ?></td>
                     <td><?php echo e($child->gender_id); ?></td>
                     <td>
@@ -102,24 +139,50 @@
 </div>
 <div id="visitType">
     <h3>Visit Type</h3>
-<select id="visit_type" onchange="showValue()">
-        <option value="" disabled selected>Select an option</option>
-        <option value="1">Consultation</option>
-        <option value="2">Follow-Up</option>
-        <option value="3">Emergency</option>
-        <option value="4">Walk-In</option>
-
-    </select>
+    <select id="visit_type" onchange="showValue()">
+    <option value="" disabled selected>Select an option</option>
+    <option value="1">Developmental Assessment</option>
+    <option value="2">Paediatric Consultation</option>
+    <option value="3">General Consultation</option>
+    <option value="4">Therapy Assessment</option>
+    <option value="5">Therapy Session</option>
+    <option value="6">Nutrition Session</option>
+    <option value="7">Psychotherapy Session</option>
+    <option value="8">Specific Developmental Tests</option>
+    <option value="9">Review</option>
+    <option value="10">Other</option>
+</select>
     <p id="output"></p>
+</div>
 
+<div id="triage-selection">
+    <h3>Triage Selection</h3>
+    <label for="triage_pass">Does the patient need triage?</label>
+    <select id="triage_pass">
+        <option value="" disabled selected>Select an option</option>
+        <option value="false">Yes, needs triage</option>
+        <option value="true">No, directly to doctor</option>
+    </select>
+</div>
+
+<div id="paymentMode">
+<h3>💳 Payment Mode</h3>
+<label for="payment_mode"><strong>Select Payment Mode:</strong></label>
+<select id="payment_mode"  onchange="showPayment()" name="payment_mode" style="width: 200px; padding: 5px; margin-top: 10px;">
+    <option value="" disabled selected>Select Payment Mode</option>
+    <option value="1">Insurance</option>
+      <option value="2">NCPD</option>
+      <option value="3">Cash</option>
+      <option value="4">Probono</option>
+      <option value="5">Other</option>
+      
+</select>
+<p id="output"></p>
 </div>
 
 <button  id="submit-appointment">Create Appointment</button>
 <button style="background-color: #4f46e5" style="border-radius: 5%" id="submit-appointment">Create Appointment</button>
 
-</body>
-</html>
-<!--  -->
 
 
 <script>
@@ -184,6 +247,40 @@ async function fetchDoctors(specializationId) {
         return [];
     }
 }
+// Fetch Payment Modes
+// async function fetchPaymentModes() {
+//     try {
+//         const response = await fetch('/payment-modes');
+//         const data = await response.json();
+
+//         if (data.status === 'success') {
+//             const paymentDropdown = document.getElementById('payment_type');
+//             paymentDropdown.innerHTML = '<option value="">-- Select Payment Method --</option>';
+
+//             data.data.forEach(mode => {
+//                 const option = document.createElement('option');
+//                 option.value = mode.id;
+//                 option.textContent = mode.mode_name;
+//                 paymentDropdown.appendChild(option);
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Error fetching payment modes:', error);
+//     }
+// }
+
+// Call on page load
+// document.addEventListener('DOMContentLoaded', fetchPaymentModes);
+
+
+
+// const selectedPaymentMode = document.getElementById('payment_mode').value;
+// if (!selectedPaymentMode) {
+//     alert('Please select a payment mode.');
+//     return;
+// }
+// dataToSend.payment_mode_id = parseInt(selectedPaymentMode);
+
 
 
 // Function to fetch staff names based on staff IDs
@@ -315,7 +412,13 @@ function displayCurrentAndFutureTime() {
 
 // Example usage
 displayCurrentAndFutureTime();
-
+function showPayment() {
+            const dropdown2 = document.getElementById('payment_mode');
+            
+            const output = document.getElementById('output');
+            console.log(dropdown2.value);
+            output.innerHtml = `Mode selected ${dropdown.value}`;
+  }
 
 function showValue() {
             const dropdown = document.getElementById('visit_type');
@@ -395,6 +498,20 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             alert('Please select a valid visit type before proceeding.');
             return;
         }
+        // Get payment Method
+        const paymentDropdown = document.getElementById('payment_mode');
+        const paymentMode = parseInt(paymentDropdown.value);
+        if (! paymentMode|| isNaN(paymentMode)) {
+            console.error('Invalid payment method.');
+            alert('Please select a valid payment method before proceeding.');
+            return;
+        }
+        const triagePassDropdown = document.getElementById('triage_pass');
+        const triagePass = triagePassDropdown.value;
+        if (!triagePass) {
+            alert('Please select whether the patient needs triage.');
+            return;
+        }
 
         // Prepare data
         const todayDate = getTodayDate();
@@ -404,8 +521,9 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
             visit_date: todayDate,
             source_type: 'MySource',
             source_contact: '123456249',
-            staff_id: parseInt(3),
+            staff_id: 3,
             doctor_id: selectedDoctorId,
+            triage_pass: triagePass, // Convert to boolean
             appointment_id: null,
             created_at: todayDate,
             updated_at: todayDate,
@@ -445,4 +563,10 @@ document.getElementById('submit-appointment').addEventListener('click', async fu
 
 </script>
 
+<<<<<<< HEAD:app/Http/Controllers/visits.blade.php
 <?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/Reception/visits.blade.php ENDPATH**/ ?>
+=======
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/visits.blade.php ENDPATH**/ ?>
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499:storage/framework/views/3cb492f3acd3596442d54b5dd79cc9226222ec8a.php

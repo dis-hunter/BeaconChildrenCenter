@@ -41,6 +41,11 @@ use App\Http\Controllers\VisitsController;
 
 
 
+
+Route::get('/admin', function () {
+    return view('beaconAdmin');
+});
+
 // General Routes
 Route::view('/', 'home')->name('home'); 
 
@@ -589,3 +594,16 @@ Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualize
 Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
 
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+
+
+
+use App\Http\Controllers\InvoiceController;
+
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
+
+
+
+
+
+
+//Temporary Admin route

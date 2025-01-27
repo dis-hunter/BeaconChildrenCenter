@@ -54,18 +54,28 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
+<<<<<<< HEAD
                 <a href="<?php echo e(route('reception.calendar')); ?>" class="nav-link">
                     <span class="icon">📅</span>
                     <span class="text">Appointments</span>
                 </a>
                 
+=======
+                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
             </li>
 
 
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
+<<<<<<< HEAD
            
+=======
+            <li class="nav-item">
+                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
+            </li>
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
             
             
             
@@ -81,6 +91,7 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
+<<<<<<< HEAD
 } elseif ($_instance->childHasBeenRendered('ulLeNa3')) {
     $componentId = $_instance->getRenderedChildComponentId('ulLeNa3');
     $componentTag = $_instance->getRenderedChildComponentTagName('ulLeNa3');
@@ -90,6 +101,17 @@ if (! isset($_instance)) {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
     $_instance->logRenderedChild('ulLeNa3', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+=======
+} elseif ($_instance->childHasBeenRendered('lM8BYjC')) {
+    $componentId = $_instance->getRenderedChildComponentId('lM8BYjC');
+    $componentTag = $_instance->getRenderedChildComponentTagName('lM8BYjC');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('lM8BYjC');
+} else {
+    $response = \Livewire\Livewire::mount('global-search');
+    $html = $response->html();
+    $_instance->logRenderedChild('lM8BYjC', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+>>>>>>> b335664e68a5fed68c943394e1f74d79f1992499
 }
 echo $html;
 ?></div> 
