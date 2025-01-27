@@ -53,127 +53,96 @@
                         <option value="bank_transfer">Bank Transfer</option>
                     </select><br><br>
 
-                    <button type="submit">Add Expense</button>
                 </form>
+                <button  onclick="showValues() ">Add Expense</button>
+
             </div>
         </div>
     </section>
 
     <script >
-      function showInvoicesForDate() {
-    const selectedDate = document.getElementById("invoice-date").value;
-    const invoiceList = document.getElementById("invoice-list");
-    invoiceList.innerHTML = ""; // Clear previous list
-  
-    const filteredInvoices = invoices.filter(invoice => invoice.date === selectedDate);
-  
-    if (filteredInvoices.length > 0) {
-        const table = document.createElement("table");
-        table.innerHTML = `
-            <thead>
-                <tr>
-                    <th>Invoice ID</th>
-                    <th>Patient Name</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Payment Method</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${filteredInvoices.map(invoice => `
-                    <tr>
-                        <td>${invoice.invoiceId}</td>
-                        <td>${invoice.patient}</td>
-                        <td>$${invoice.amount}</td>
-                        <td>${invoice.status}</td>
-                        <td>${invoice.paymentMethod}</td>
-                        <td><button onclick="showInvoiceDetails('${invoice.invoiceId}')">View</button></td>
-                    </tr>
-                `).join("")}
-            </tbody>
-        `;
-        invoiceList.appendChild(table);
-    } else {
-      invoiceList.innerHTML = "<p>No invoices found for this date.</p>";
-    }
-  }   
-  function showExpenseForm() {
+      
+      let selectedCategory = '';
+let selectedDescription = '';
+let enteredFullName = '';
+let Amount;
+let PaymentMethod='';
+
+function showExpenseForm() {
     const expenseForm = document.getElementById("expense-form");
     if (expenseForm.style.display === "none") {
-      expenseForm.style.display = "block";
+        expenseForm.style.display = "block";
     } else {
-      expenseForm.style.display = "none";
+        expenseForm.style.display = "none";
     }
-  }
-  function updateExpenseDescriptions() {
-    const category = document.getElementById("expense-category").value;
+}
+
+function updateExpenseDescriptions() {
+    const categorySelect = document.getElementById("expense-category");
     const descriptionSelect = document.getElementById("expense-description");
     const otherDescriptionInput = document.getElementById("other-description");
     const fullNameContainer = document.getElementById("full-name-container") || createFullNameContainer();
     
-    descriptionSelect.innerHTML = '<option value="">Select Description</option>'; // Clear previous options
-    otherDescriptionInput.style.display = "none"; // Hide "other" input by default
+    // Store the selected category
+    selectedCategory = categorySelect.value;
+    
+    descriptionSelect.innerHTML = '<option value="">Select Description</option>';
+    otherDescriptionInput.style.display = "none";
     
     // Show/hide full name input based on category
-    fullNameContainer.style.display = category === "2" ? "block" : "none";
-
+    if (selectedCategory === "2") {
+        fullNameContainer.style.display = "block";
+        const fullNameInput = document.getElementById("full-name");
+        fullNameInput.required = true;
+    } else {
+        fullNameContainer.style.display = "none";
+        const fullNameInput = document.getElementById("full-name");
+        if (fullNameInput) {
+            fullNameInput.required = false;
+        }
+    }
     let descriptions = [];
-    switch (category) {
+    switch (selectedCategory) {
         case "1":
-            // Rent and service charge descriptions
             descriptions = ["Rent", "Service Charge", "Other"];
             break;
         case "2":
-            // Salaries/wages descriptions
             descriptions = ["Doctor","Nurse","Nurse Aid","Speech Therapist","Occupational Therapist","Physiotherapist","Psychologist","Nutritionist","Therapy Assistant","Accountant","Administrator","Receptionist", "Errand boy", "Cleaner", "Accountant", "Other"];
             break;
         case "3":
-            // Licences and permits descriptions
             descriptions = ["KMPDB Annual retention(Dr Oringe)", "KMPBD clinic annual registration","Association of Speech Therapists","Physiotherapy Counsel of Kenya","Kenya Occupational Therapy Assosciation","Kenya Health Professionals Authority", "Medical Waste disposal","Business Permit","Public Health Lisence", "Single business permit", "Public health Permit", "Solid waste disposal", "Other"];
             break;
         case "4":
-            // Insuarance descriptions
             descriptions = ["Beacon facility indemnity", "Fire cover"," Buglary","Professional indemnity(Dr.Oringe)","Other"];
             break;
         case "5":
-            //ICT needs descriptions
             descriptions = ["Software development","Hardware purchase", "Techincal support", "Database hosting subscription", "Internet Service Providers","Other"];
             break;
         case "6":
-            //Continuous Professional development
             descriptions = ["Trainings","Workshops/Seminars", "Journal subscriptions", "E-book subscriptions", "Conferences", "Newspapers/Editorials", "Other"];
             break;
         case "7":
-            //Marketing and advertising
             descriptions = ["Online marketting","Webinars", "Meeting costs", "Banners", "Marketting tools", "Branding", "Other"];
             break;
         case "8":
-             // Transportation and delivery
             descriptions = ["Fuel costs", "Car Hire", "Uber/Bolt", "Rider charges", "Other"];
             break;
         case "9":
-            // Therapy equipment descriptions
             descriptions = ["Treadmill", "Standing bike", "Walking Frame", "Walking Support Bar","Hammock swing","Mini step","Therapy balls","Trampoline","Play pen","Filler balls","Massager","Play toys","Weighted blanket","Floor matts","Gym matts","Beam bag","Therapy foam blocks","Therapy mirrors","Therapy boards","Therapy music system","Other"];
             break;
         case "10":
-            //Funiture equipment descriptions
             descriptions = ["Office Tables","Chairs", "Cabinets", "Beds", "Steps", "Other"];
             break;
         case "11":
-            // Office space maintenance descriptions
             descriptions = ["Construction Work","Plumbing repairs", "Electrical maintenance", "Painting work", "Welders", "Capentery works","Security services", "Other"];
             break;
         case "12":
-            // Monthly utility bills descriptions
             descriptions = ["Electricity bills", "Medical waste disposal", "Internet provider", "Online Marketing", "Photocopy/printing","Airtime","Deliveries","Online Marketing","Monthly staff meeting", "Other"];
             break;
         case "13":
-            // Consumables descriptions
             descriptions = ["Gloves", "Sanitizers", "Bleach and detergents", "Wooden spatulas", "Sugar and tea/coffee", "Drinking mineral water", "Cleaning materials", "Stationary", "Other"];
             break;
         case "14":
-            // Other charges descriptions
             descriptions = ["Conference attendance/CME", "Newspaper", "Journals and e-subscriptions", "Rider charges", "Fuel", "Other"];
             break;
         default:
@@ -187,17 +156,21 @@
         descriptionSelect.appendChild(option);
     });
 
-    // Show "other" input if "Other" is selected
+    // Add event listener for description changes
     descriptionSelect.addEventListener("change", () => {
-        if (descriptionSelect.value === "other") {
+        selectedDescription = descriptionSelect.value;
+        if (selectedDescription === "other") {
             otherDescriptionInput.style.display = "block";
+            // Update selectedDescription when "other" description is entered
+            otherDescriptionInput.addEventListener("input", () => {
+                selectedDescription = otherDescriptionInput.value;
+            });
         } else {
             otherDescriptionInput.style.display = "none";
         }
     });
 }
 
-// Function to create the full name input container
 function createFullNameContainer() {
     const container = document.createElement("div");
     container.id = "full-name-container";
@@ -213,15 +186,86 @@ function createFullNameContainer() {
     input.name = "full-name";
     input.required = true;
     
+    // Add event listener for full name changes
+    input.addEventListener("input", () => {
+        enteredFullName = input.value;
+    });
+    
     container.appendChild(label);
     container.appendChild(input);
     
-    // Insert the container after the expense description
     const expenseDescription = document.getElementById("expense-description");
     expenseDescription.parentNode.insertBefore(container, expenseDescription.nextSibling);
     
     return container;
 }
+const categoryMapping = {
+    "1": "Rent and service charge",
+    "2": "Salaries/wages",
+    "3": "Licences and permits",
+    "4": "Insurance",
+    "5": "ICT needs",
+    "6": "Continuous Professional Development",
+    "7": "Marketing and Advertising",
+    "8": "Transport and Delivery",
+    "9": "Therapy Equipment",
+    "10": "Furniture",
+    "11": "Office repairs and maintenance",
+    "12": "Monthly utility bills",
+    "13": "Consumables",
+    "14": "Other charges"
+};
+
+async function showValues() {
+    const Amount = document.getElementById("expense-amount").value;
+    const PaymentMethod = document.getElementById("payment-method").value;
+    
+    // Get the category name from the mapping
+    const categoryName = categoryMapping[selectedCategory] || selectedCategory;
+    
+    // Log the values with category name instead of number
+    console.log(
+        "Category:", categoryName,
+        "Description:", selectedDescription,
+        "Full Name:", enteredFullName || "N/A",
+        "Amount:", Amount,
+        "Payment Method:", PaymentMethod
+    );
+    try {
+       
+        // Save the doctor's notes
+        const response = await fetch('/AddExpense', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              category: categoryName,
+        description: selectedDescription,
+        fullname: enteredFullName ,
+        amount: Amount,
+        payment_method: PaymentMethod
+            })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.status === 'success') {
+            alert(result.message);
+            // document.getElementById("new-expense-form").reset();
+        } else {
+            throw new Error(result.message || 'Failed to save notes');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+    }
+    
+}
+
     </script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

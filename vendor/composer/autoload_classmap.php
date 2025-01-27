@@ -80,6 +80,7 @@ return array(
     'App\\Http\\Controllers\\DoctorFormController' => $baseDir . '/app/Http/Controllers/DoctorFormController.php',
     'App\\Http\\Controllers\\DoctorsController' => $baseDir . '/app/Http/Controllers/DoctorsController.php',
     'App\\Http\\Controllers\\ExampleController' => $baseDir . '/app/Http/Controllers/ExampleController.php',
+    'App\\Http\\Controllers\\ExpensesController' => $baseDir . '/app/Http/Controllers/ExpensesController.php',
     'App\\Http\\Controllers\\FamilySocialHistoryController' => $baseDir . '/app/Http/Controllers/FamilySocialHistoryController.php',
     'App\\Http\\Controllers\\GeneralExamController' => $baseDir . '/app/Http/Controllers/GeneralExamController.php',
     'App\\Http\\Controllers\\InvestigationController' => $baseDir . '/app/Http/Controllers/InvestigationController.php',

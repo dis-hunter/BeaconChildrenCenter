@@ -2,113 +2,136 @@
 <html>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
     :root {
+        color-scheme: light dark;
+
+        /* Dark mode colors */
         --navy-blue: #1B2433;
         --gold: #C4A862;
+        --text-primary: #ffffff;
+        --text-secondary: #C4A862;
+        --bg-primary: #1B2433;
+        --bg-secondary: rgba(27, 36, 51, 0.9);
+        --border-color: #C4A862;
+        --input-bg: #1B2433;
+        --input-border: #C4A862;
+        --button-hover: #C4A862;
+        --button-text-hover: #1B2433;
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --navy-blue: #ffffff;
+            --text-primary: #1B2433;
+            --text-secondary: #C4A862;
+            --bg-primary: #ffffff;
+            --bg-secondary: rgba(255, 255, 255, 0.9);
+            --border-color: #C4A862;
+            --input-bg: #ffffff;
+            --input-border: #C4A862;
+            --button-hover: #C4A862;
+            --button-text-hover: #ffffff;
+        }
     }
 
     body {
-        background-color: var(--navy-blue);
-        color: #fff;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
         font-family: 'Arial', sans-serif;
     }
 
     .content-section {
         padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    h2 {
-        color: var(--gold);
-        font-size: 2rem;
+    h2,
+    h3,
+    h4 {
+        color: var(--text-secondary);
         margin-bottom: 1.5rem;
     }
 
+    h2 {
+        font-size: 2rem;
+    }
+
     h3 {
-        color: var(--gold);
         font-size: 1.5rem;
-        margin-bottom: 1rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
     }
 
     #expense-tracking button {
         background-color: transparent;
-        border: 2px solid var(--gold);
-        color: var(--gold);
+        border: 2px solid var(--border-color);
+        color: var(--text-secondary);
         padding: 0.75rem 1.5rem;
         border-radius: 0.375rem;
         cursor: pointer;
         transition: all 0.3s ease;
+        font-weight: 500;
     }
 
     #expense-tracking button:hover {
-        background-color: var(--gold);
-        color: var(--navy-blue);
+        background-color: var(--button-hover);
+        color: var(--button-text-hover);
     }
 
     #expense-form {
-        background-color: rgba(27, 36, 51, 0.9);
-        border: 1px solid var(--gold);
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
         border-radius: 0.5rem;
         padding: 2rem;
         margin-top: 1.5rem;
         backdrop-filter: blur(8px);
-        transition: opacity 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    #expense-form h4 {
-        color: var(--gold);
-        font-size: 1.25rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
     }
 
     label {
         display: block;
-        color: var(--gold);
+        color: var(--text-secondary);
         margin-bottom: 0.5rem;
+        font-weight: 500;
     }
 
     select,
     input {
         width: 100%;
         padding: 0.75rem;
-        background-color: var(--navy-blue);
-        border: 1px solid var(--gold);
+        background-color: var(--input-bg);
+        border: 1px solid var(--input-border);
         border-radius: 0.375rem;
-        color: #fff;
-        margin-bottom: 1rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
     }
 
     select:focus,
     input:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(196, 168, 98, 0.5);
+        box-shadow: 0 0 0 2px rgba(196, 168, 98, 0.3);
+        border-color: var(--text-secondary);
     }
 
     #full-name-container {
-        margin-top: 1rem;
+        margin: 1rem 0;
     }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
+    /* Animation classes */
+    .fade-in {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
     }
 
-    th,
-    td {
-        padding: 0.75rem;
-        border: 1px solid var(--gold);
-        color: #fff;
-    }
-
-    th {
-        background-color: rgba(196, 168, 98, 0.2);
-        color: var(--gold);
+    .fade-in.active {
+        opacity: 1;
     }
     </style>
 </head>
@@ -121,72 +144,69 @@
             <h3>Expense Tracking</h3>
             <div id="expense-tracking">
                 <button onclick="showExpenseForm()">Add Expense</button>
-                <div id="expense-form" style="display: none;">
+                <div id="expense-form" style="display: none;" class="fade-in">
                     <h4>Add New Expense</h4>
                     <form id="new-expense-form">
-                        <div class="form-group">
-                            <label for="expense-category">Category:</label>
-                            <select id="expense-category" name="expense-category"
-                                onchange="updateExpenseDescriptions()">
-                                <option value="">Select Category</option>
-                                <option value="1">Rent and service charge</option>
-                                <option value="2">Salaries/wages</option>
-                                <option value="3">Licences and permits</option>
-                                <option value="4">Insurance</option>
-                                <option value="5">ICT needs</option>
-                                <option value="6">Continuous Professional Development</option>
-                                <option value="7">Marketing and Advertising</option>
-                                <option value="8">Transport and Delivery</option>
-                                <option value="9">Therapy Equipment</option>
-                                <option value="10">Furniture</option>
-                                <option value="11">Office repairs and maintenance</option>
-                                <option value="12">Monthly utility bills</option>
-                                <option value="13">Consumables</option>
-                                <option value="14">Other charges</option>
-                            </select>
-                        </div>
+                        <label for="expense-category">Category:</label>
+                        <select id="expense-category" name="expense-category" onchange="updateExpenseDescriptions()">
+                            <option value="">Select Category</option>
+                            <option value="1">Rent and service charge</option>
+                            <option value="2">Salaries/wages</option>
+                            <option value="3">Licences and permits</option>
+                            <option value="4">Insurance</option>
+                            <option value="5">ICT needs</option>
+                            <option value="6">Continuous Professional Development</option>
+                            <option value="7">Marketing and Advertising</option>
+                            <option value="8">Transport and Delivery</option>
+                            <option value="9">Therapy Equipment</option>
+                            <option value="10">Furniture</option>
+                            <option value="11">Office repairs and maintenance</option>
+                            <option value="12">Monthly utility bills</option>
+                            <option value="13">Consumables</option>
+                            <option value="14">Other charges</option>
+                        </select>
 
-                        <div class="form-group">
-                            <label for="expense-description">Description:</label>
-                            <select id="expense-description" name="expense-description">
-                                <option value="">Select Description</option>
-                            </select>
-                            <input type="text" id="other-description" name="other-description" style="display: none;"
-                                placeholder="Enter other description">
-                        </div>
+                        <label for="expense-description">Description:</label>
+                        <select id="expense-description" name="expense-description">
+                            <option value="">Select Description</option>
+                        </select>
+                        <input type="text" id="other-description" name="other-description" style="display: none;"
+                            placeholder="Enter other description">
 
-                        <div class="form-group">
-                            <label for="expense-amount">Amount:</label>
-                            <input type="number" id="expense-amount" name="expense-amount" required>
-                        </div>
+                        <label for="expense-amount">Amount:</label>
+                        <input type="number" id="expense-amount" name="expense-amount" required>
 
-                        <div class="form-group">
-                            <label for="payment-method">Payment Method:</label>
-                            <select id="payment-method" name="payment-method">
-                                <option value="cash">Cash</option>
-                                <option value="card">Card</option>
-                                <option value="bank_transfer">Bank Transfer</option>
-                            </select>
-                        </div>
-
-                        <button type="submit">Add Expense</button>
+                        <label for="payment-method">Payment Method:</label>
+                        <select id="payment-method" name="payment-method">
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                        </select>
                     </form>
+                    <button onclick="showValues()">Add Expense</button>
                 </div>
             </div>
         </section>
     </x-filament::page>
 
     <script>
+    let selectedCategory = '';
+    let selectedDescription = '';
+    let enteredFullName = '';
+    let Amount;
+    let PaymentMethod = '';
+
     function showExpenseForm() {
         const expenseForm = document.getElementById("expense-form");
         if (expenseForm.style.display === "none") {
-            expenseForm.style.opacity = "0";
             expenseForm.style.display = "block";
+            // Add small delay to trigger fade in
             setTimeout(() => {
-                expenseForm.style.opacity = "1";
+                expenseForm.classList.add('active');
             }, 10);
         } else {
-            expenseForm.style.opacity = "0";
+            expenseForm.classList.remove('active');
+            // Wait for fade out before hiding
             setTimeout(() => {
                 expenseForm.style.display = "none";
             }, 300);
@@ -194,18 +214,31 @@
     }
 
     function updateExpenseDescriptions() {
-        const category = document.getElementById("expense-category").value;
+        const categorySelect = document.getElementById("expense-category");
         const descriptionSelect = document.getElementById("expense-description");
         const otherDescriptionInput = document.getElementById("other-description");
         const fullNameContainer = document.getElementById("full-name-container") || createFullNameContainer();
 
+        selectedCategory = categorySelect.value;
+
         descriptionSelect.innerHTML = '<option value="">Select Description</option>';
         otherDescriptionInput.style.display = "none";
 
-        fullNameContainer.style.display = category === "2" ? "block" : "none";
+        if (selectedCategory === "2") {
+            fullNameContainer.style.display = "block";
+            const fullNameInput = document.getElementById("full-name");
+            fullNameInput.required = true;
+        } else {
+            fullNameContainer.style.display = "none";
+            const fullNameInput = document.getElementById("full-name");
+            if (fullNameInput) {
+                fullNameInput.required = false;
+            }
+        }
 
         let descriptions = [];
-        switch (category) {
+        /
+        switch (selectedCategory) {
             case "1":
                 descriptions = ["Rent", "Service Charge", "Other"];
                 break;
@@ -289,8 +322,12 @@
         });
 
         descriptionSelect.addEventListener("change", () => {
-            if (descriptionSelect.value === "other") {
+            selectedDescription = descriptionSelect.value;
+            if (selectedDescription === "other") {
                 otherDescriptionInput.style.display = "block";
+                otherDescriptionInput.addEventListener("input", () => {
+                    selectedDescription = otherDescriptionInput.value;
+                });
             } else {
                 otherDescriptionInput.style.display = "none";
             }
@@ -301,7 +338,6 @@
         const container = document.createElement("div");
         container.id = "full-name-container";
         container.style.display = "none";
-        container.className = "form-group";
 
         const label = document.createElement("label");
         label.htmlFor = "full-name";
@@ -313,6 +349,10 @@
         input.name = "full-name";
         input.required = true;
 
+        input.addEventListener("input", () => {
+            enteredFullName = input.value;
+        });
+
         container.appendChild(label);
         container.appendChild(input);
 
@@ -322,11 +362,58 @@
         return container;
     }
 
-    // Add form submission handler
-    document.getElementById("new-expense-form").addEventListener("submit", function(e) {
-        e.preventDefault();
-        // Add your form submission logic here
-    });
+    const categoryMapping = {
+        "1": "Rent and service charge",
+        "2": "Salaries/wages",
+        "3": "Licences and permits",
+        "4": "Insurance",
+        "5": "ICT needs",
+        "6": "Continuous Professional Development",
+        "7": "Marketing and Advertising",
+        "8": "Transport and Delivery",
+        "9": "Therapy Equipment",
+        "10": "Furniture",
+        "11": "Office repairs and maintenance",
+        "12": "Monthly utility bills",
+        "13": "Consumables",
+        "14": "Other charges"
+    };
+
+    async function showValues() {
+        const Amount = document.getElementById("expense-amount").value;
+        const PaymentMethod = document.getElementById("payment-method").value;
+        const categoryName = categoryMapping[selectedCategory] || selectedCategory;
+
+        try {
+            const response = await fetch('/AddExpense', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content'),
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    category: categoryName,
+                    description: selectedDescription,
+                    fullname: enteredFullName,
+                    amount: Amount,
+                    payment_method: PaymentMethod
+                })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.status === 'success') {
+                alert(result.message);
+            } else {
+                throw new Error(result.message || 'Failed to save notes');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(`Error: ${error.message}`);
+        }
+    }
     </script>
 </body>
 
