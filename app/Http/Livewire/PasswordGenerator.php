@@ -4,18 +4,17 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Enums\PasswordPart;
+use Faker\Factory;
 
 class PasswordGenerator extends Component
 {
+    public $password = '';
+    public $confirmpassword='';
+
     public function render()
     {
         return view('livewire.password-generator');
     }
-
-    public $password = '';
-    public $confirmpassword='';
-
-
 
     public function generatePassword()
     {
@@ -26,11 +25,10 @@ class PasswordGenerator extends Component
         $characters .= PasswordPart::Symbols->value;
 
         $this->password = $this->generateRandomString(10, $characters);
+        //$this->password = $this->generateDistortedPassword();
         $this->confirmpassword=$this->password;
+        
         $this->dispatchBrowserEvent('passwordGenerated',['password'=> $this->password]);
-        //test
-        // dd('Triggered');
-    
     }
 
 
@@ -44,4 +42,25 @@ class PasswordGenerator extends Component
 
         return $randomString;
     }
+
+    private function generateDistortedPassword()
+    {
+        $faker= Factory::create();
+        $word = $faker->word();
+        $rules = [
+            'a'=>'4',
+            'e'=>'3',
+            'o'=>'0',
+        ];
+        $distorted_word='';
+        foreach(str_split($word) as $char){
+            $distorted_word .= $rules[strtolower($char)] ?? $char;
+        }
+
+        $complexity = rand(0,9) . rand(0,1) ? '!':'';
+        $distorted_word .= $complexity;
+
+        return $distorted_word;
+    }
+
 }

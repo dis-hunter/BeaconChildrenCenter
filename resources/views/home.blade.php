@@ -95,9 +95,8 @@
 
   @auth
     <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p> 
-    <p>{{auth()->user()->staff_no}}</p>
   @endauth
-
+  
   <div class="features">
     <div class="feature">
       <i class="fas fa-user-md"></i>

@@ -13,7 +13,7 @@
   <header>
   <div class="profile">
   <i class="fas fa-user-md fa-4x"></i> <div>
-    <h2 style="margin-bottom: 6px;">Dr. {{ $firstName }} {{ $lastName }}</h2>
+    <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
     <p style="margin-top:0">Pediatrician</p>
   </div>
 </div>

@@ -82,7 +82,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <?php if(auth()->guard()->check()): ?>
                     <form action="/logout" method="post"><?php echo csrf_field(); ?><button class="dropdown-item" type="submit">Logout</button></form>
-                    <a class="dropdown-item" href="<?php echo e(route('profile')); ?>">Profile</a>
+                    <a class="dropdown-item" href="<?php echo e(route('profile.show')); ?>">Profile</a>
                     <?php else: ?>
                     <a class="dropdown-item" href="<?php echo e(route('login')); ?>">Login</a>
                     <a class="dropdown-item" href="<?php echo e(route('register')); ?>">Register</a>

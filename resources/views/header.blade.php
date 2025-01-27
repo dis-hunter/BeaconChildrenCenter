@@ -81,7 +81,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     @auth
                     <form action="/logout" method="post">@csrf<button class="dropdown-item" type="submit">Logout</button></form>
-                    <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                    <a class="dropdown-item" href="{{route('profile.show')}}">Profile</a>
                     @else
                     <a class="dropdown-item" href="{{route('login')}}">Login</a>
                     <a class="dropdown-item" href="{{route('register')}}">Register</a>

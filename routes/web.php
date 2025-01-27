@@ -37,13 +37,6 @@ Route::get('/admin', function () {
 // General Routes
 Route::view('/', 'home')->name('home');
 
-// Authentication Routes
-Route::get('login', [AuthController::class, 'loginGet'])->name('login');
-Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
-Route::get('register', [AuthController::class, 'registerGet'])->name('register');
-Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
 // Therapist Routes
 Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
 Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
@@ -71,7 +64,7 @@ Route::post('/children/store', [ChildrenController::class, 'store'])->name('chil
 
 // Doctor Routes
 Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
-Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
+Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');
 Route::get('/doctors/specialization-search', [VisitController::class, 'showSpecializations'])->name('doctors.specializationSearch');
 Route::get('/specializations', [VisitController::class, 'getSpecializations']);
 Route::get('/doctors', [VisitController::class, 'getDoctorsBySpecialization']);
@@ -94,9 +87,6 @@ Route::view('/visits-page', 'visits')->name('visits.page');
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('profile', [AuthController::class, 'profileGet'])->name('profile');
-    Route::post('profile', [AuthController::class, 'profilePost'])->name('profile.post');
-
     // Nurse Routes
     Route::group(['middleware' => 'role:1'], function () {
         Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
@@ -105,10 +95,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
         Route::view('/post-triage', 'postTriageQueue');
         Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
+        Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');;
+        Route::post('/triage', [TriageController::class, 'store']);
+        Route::get('/triage', [TriageController::class, 'create'])->name('triage');
+        Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
+        Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
     });
 
     // Doctor Routes
-    Route::group(['middleware' => 'role:2'], function () {
+    Route::group(['middleware' => ['role:2','track_user_activity']], function () {
         Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
         Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
         // Update Profile Route
@@ -178,33 +173,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
     Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
     Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
-
-
 });
 
 Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
 Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
 
-// Triage Routes (These should likely be within the Nurse's authenticated routes)
-Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');;
-Route::post('/triage', [TriageController::class, 'store']);
-Route::get('/triage', [TriageController::class, 'create'])->name('triage');
-Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
-Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
-
-
-
-
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']) ->where('registrationNumber', '.*');
+Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday'])->where('registrationNumber', '.*');
 
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
 Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
-
-
-
-
-
-
-
-
-//Temporary Admin route
