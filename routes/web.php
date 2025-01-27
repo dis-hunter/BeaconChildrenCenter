@@ -172,3 +172,13 @@ Route::get('/admin1', function () {
     return view('beaconAdmin');
 });
 
+use App\Http\Controllers\ReportController;
+
+Route::post('/generate-report', [ReportController::class, 'generate'])->name('generate.report');
+
+use App\Http\Controllers\PatientDemographicsController;
+
+// Route to fetch data for the pie charts
+Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
+
+
