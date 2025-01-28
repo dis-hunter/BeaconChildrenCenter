@@ -53,6 +53,7 @@ class ReportController extends Controller
                     'child_id' => $visit->child_id,
                     'doctor_id' => $visit->doctor_id,
                     'child_fullname' => $child ? $this->formatChildFullname($child->fullname) : 'N/A',
+                    'staff_object' => $staff ? $staff->toArray() : 'N/A', // Log staff as an array if available
                     'specialist_fullname' => $staff ? $this->formatStaffFullname($staff) : 'N/A',
                 ]);
     
@@ -124,12 +125,13 @@ class ReportController extends Controller
     {
         if ($staff && $staff->fullname) {
             // Log the raw fullname before decoding
-           
+            Log::info('Raw staff fullname:', ['fullname' => $staff->fullname]);
 
             // Decode the specialist_fullname string to access first_name, middle_name, last_name
             $specialistName = json_decode($staff->fullname);
             if ($specialistName) {
-               
+                // Log the decoded specialist name object
+                Log::info('Decoded staff fullname:', ['specialistName' => $specialistName]);
 
                 return ucfirst(strtolower($specialistName->first_name . ' ' . $specialistName->middle_name . ' ' . $specialistName->last_name));
             }
