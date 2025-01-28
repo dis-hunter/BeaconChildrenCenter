@@ -93,7 +93,10 @@
   <p class="subheading">Your Neurodevelopmental Clinic</p> 
 
   @auth
-    <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p> 
+    <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p>
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="{{ route(auth()->user()->getDashboardRoute()) }}" class="btn" style="background-color: #7909E1FF">My Dashboard</a>
+    </div> 
   @endauth
   
   <div class="features">

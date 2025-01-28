@@ -93,7 +93,10 @@
   <p class="subheading">Your Neurodevelopmental Clinic</p> 
 
   <?php if(auth()->guard()->check()): ?>
-    <p class="welcome-message">Hello, <?php echo e(auth()->user()->fullname->first_name); ?>!</p> 
+    <p class="welcome-message">Hello, <?php echo e(auth()->user()->fullname->first_name); ?>!</p>
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="<?php echo e(route(auth()->user()->getDashboardRoute())); ?>" class="btn" style="background-color: #7909E1FF">My Dashboard</a>
+    </div> 
   <?php endif; ?>
   
   <div class="features">
