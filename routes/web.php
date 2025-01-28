@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Doctor Routes
     Route::group(['middleware' => ['role:2','track_user_activity']], function () {
         Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
-        Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
+        //Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
         // Update Profile Route
         Route::post('/doctorDashboard/profile/update', [DoctorsController::class, 'updateProfile'])->name('doctor.profile.update');
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');

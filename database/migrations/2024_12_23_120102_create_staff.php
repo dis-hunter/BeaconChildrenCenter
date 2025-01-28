@@ -52,7 +52,8 @@ return new class extends Migration
                     ->after('two_factor_recovery_codes')
                     ->nullable();
             }
-
+            
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
     }

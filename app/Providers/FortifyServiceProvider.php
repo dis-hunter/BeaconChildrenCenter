@@ -11,7 +11,6 @@ use App\Http\Responses\RegisterResponse;
 use App\Models\DoctorSpecialization;
 use App\Models\Gender;
 use App\Models\Role;
-use App\Models\Specialization;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;

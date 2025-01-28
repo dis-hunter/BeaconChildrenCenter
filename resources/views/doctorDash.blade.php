@@ -22,8 +22,7 @@
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
-          <a href="{{ route('doctor.profile') }}">View Profile</a>
-          <a href="#">Settings</a>
+          <a href="{{ route('profile.show') }}">View Profile</a>
           <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
 
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -41,7 +40,7 @@
       <nav>
         <ul>
           <li class="active"><a href="{{ route('doctor.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-          <li><a href="{{ route('doctor.profile') }}"><i class="fas fa-user"></i> Profile</a></li>
+          <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> My Profile</a></li>
           <li><a href="#"><i class="fas fa-book"></i> Booked Patients</a></li>
           <li><a href="#"><i class="fas fa-user-md"></i> Therapy</a></li>
         </ul>

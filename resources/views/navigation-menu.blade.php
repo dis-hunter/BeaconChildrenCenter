@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('reception.dashboard') }}">
+                    <a href="{{ route(auth()->user()->getDashboardRoute()) }}">
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('reception.dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route(auth()->user()->getDashboardRoute()) }}" :active="request()->routeIs(auth()->user()->getDashboardRoute())">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>

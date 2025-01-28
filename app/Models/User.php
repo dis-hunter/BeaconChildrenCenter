@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -60,6 +61,7 @@ class User extends Authenticatable
     protected $casts = [
         'fullname' => 'array',
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     /**
@@ -109,5 +111,14 @@ class User extends Authenticatable
         ])->filter()->join(' ');
 
         return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&color=FFFFFF&background=000000';
+    }
+
+    public function getDashboardRoute(){
+        return match($this->role_id){
+            1 => 'triage.dashboard',
+            2 => 'doctor.dashboard',
+            3 => 'reception.dashboard',
+            default => RouteServiceProvider::HOME,
+        };
     }
 }
