@@ -185,6 +185,6 @@ Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatis
 
 use App\Http\Controllers\ReportController;
 
-Route::post('/generate-report', [ReportController::class, 'generateEncounterSummary']);
+Route::post('/generate-encounter-summary', [ReportController::class, 'generateEncounterSummary']);
 
 

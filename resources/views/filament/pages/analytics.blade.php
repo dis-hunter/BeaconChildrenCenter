@@ -1,10 +1,14 @@
 <x-filament::page>
+<style>
+    td,th,button,option,select{
+        color:black;
+    }
+</style>
 <section class="bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-xl font-bold mb-2" style="color: black;">Custom Report</h1>
     <p class="text-gray-600 mb-4" style="color: black;">Select parameters to generate a custom report.</p>
 
-    <!-- Report Parameters -->
-    <div x-data="{ open: true, showReport: false, reportContent: '' }">
+    <div x-data="{ open: true, showReport: false, reportContent: [], isLoading: false }">
         <!-- Toggle Button -->
         <button 
             @click="open = !open" 
@@ -25,13 +29,12 @@
 
         <!-- Parameters Form -->
         <div x-show="open" x-transition class="mt-4">
-            <form @submit.prevent="fetchReport()" method="POST" class="space-y-4">
+            <form @submit.prevent="fetchReport" method="POST" class="space-y-4">
                 @csrf
-                <!-- Start Date -->
                 <div>
                     <label for="start_date" class="block text-sm font-medium" style="color: black;">Start Date</label>
                     <input 
-                    style="color: black;"
+                     style="color: black;"
                         type="date" 
                         id="start_date" 
                         name="start_date" 
@@ -39,7 +42,6 @@
                         required
                     >
                 </div>
-                <!-- End Date -->
                 <div>
                     <label for="end_date" class="block text-sm font-medium" style="color: black;">End Date</label>
                     <input 
@@ -51,10 +53,10 @@
                         required
                     >
                 </div>
-                <!-- Report Type -->
                 <div>
                     <label for="report_type" class="block text-sm font-medium" style="color: black;">Report Type</label>
-                    <select 
+                    <select
+                    style="color: black;" 
                         id="report_type" 
                         name="report_type" 
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
@@ -67,23 +69,25 @@
                         <option style="color: black;" value="staff_performance">Staff Performance</option>
                     </select>
                 </div>
-                <!-- Submit Button -->
                 <div>
-                    <button 
-                    style="color: black;"
+                    <button
+                    style="color: black;" 
                         type="submit" 
                         class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700"
+                        :disabled="isLoading"
                     >
-                        <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            class="h-5 w-5 mr-2" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            stroke="currentColor"
-                        >
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        Generate Report
+                        <template x-if="isLoading">
+                            <svg 
+                                class="animate-spin h-5 w-5 mr-2 text-white" 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                fill="none" 
+                                viewBox="0 0 24 24"
+                            >
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </template>
+                        <span x-text="isLoading ? 'Generating...' : 'Generate Report'"></span>
                     </button>
                 </div>
             </form>
@@ -93,122 +97,41 @@
         <div x-show="showReport" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-semibold" style="color: black;">Generated Report</h2>
+                    <h2  style="color: black;" class="text-lg font-semibold" style="color: black;">Generated Report</h2>
                     <button 
-                        @click="showReport = false; reportContent = '';" 
+                     style="color: black;"
+                        @click="showReport = false; reportContent = [];" 
                         class="text-red-500 hover:text-red-700"
                     >
                         Close
                     </button>
                 </div>
                 <div class="mt-4">
-                    <div x-text="reportContent" style="color: black;"></div>
+                    <table class="min-w-full bg-white border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="text-left">
+                                <th class="border px-4 py-2" style="color: black;">Date</th>
+                                <th class="border px-4 py-2" style="color: black;">Child Name</th>
+                                <th class="border px-4 py-2" style="color: black;">Specialist Name</th>
+                                <th class="border px-4 py-2" style="color: black;">Invoice ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="(row, index) in reportContent" :key="index">
+                                <tr>
+                                    <td class="border px-4 py-2" x-text="row.date"></td>
+                                    <td class="border px-4 py-2" x-text="row.child_name"></td>
+                                    <td class="border px-4 py-2" x-text="row.specialist_name"></td>
+                                    <td class="border px-4 py-2" x-text="row.invoice_id"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<script>
-    function fetchReport() {
-        const startDate = document.querySelector('#start_date').value;
-        const endDate = document.querySelector('#end_date').value;
-        const reportType = document.querySelector('#report_type').value;
-
-        fetch(`/generate-report`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({ start_date: startDate, end_date: endDate, report_type: reportType })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Store the report content in the variable and show the modal
-                this.reportContent = data.report;
-                this.showReport = true;
-            } else {
-                alert('Failed to generate the report');
-            }
-        })
-        .catch(error => console.error('Error fetching report:', error));
-    }
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -284,35 +207,15 @@
     </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Fetch data from backend and display the Disease Statistics chart
-    fetch('/disease-statistics')
-        .then(response => response.json())
-        .then(data => {
-            const diseaseLabels = Object.keys(data);
-            const diseaseCounts = Object.values(data);
 
-            const ctx = document.getElementById('diseaseStatisticsChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: diseaseLabels,
-                    datasets: [{
-                        label: 'Diseases',
-                        data: diseaseCounts,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-                    }]
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching disease statistics:', error);
-        });
-</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Fetch data from backend and display charts
+
+
+        // Fetching patient demographics data
         fetch('/patient-demographics')
             .then(response => response.json())
             .then(data => {
@@ -350,7 +253,79 @@
             .catch(error => {
                 console.error('Error fetching demographics data:', error);
             });
+
+         
+
+
+
+        // Fetching Disease Statistics
+
+        fetch('/disease-statistics')
+        .then(response => response.json())
+        .then(data => {
+            const diseaseLabels = Object.keys(data);
+            const diseaseCounts = Object.values(data);
+
+            const ctx = document.getElementById('diseaseStatisticsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: diseaseLabels,
+                    datasets: [{
+                        label: 'Diseases',
+                        data: diseaseCounts,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                    }]
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching disease statistics:', error);
+        });
+
+
+
+
+
+        //Encounter Summary Report
+
+        function fetchReport() {
+        const startDate = document.querySelector('#start_date').value;
+        const endDate = document.querySelector('#end_date').value;
+        const reportType = document.querySelector('#report_type').value;
+
+        // Check if the selected report type is 'Encounter Summary'
+        if (reportType === 'encounter_summary') {
+            this.isLoading = true;
+
+            fetch(`/generate-encounter-summary`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ start_date: startDate, end_date: endDate, report_type: reportType })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Ensure the fetched data is an array
+                    this.reportContent = Array.isArray(data.encounters) ? [...data.encounters] : [];
+                    this.showReport = true;
+                } else {
+                    alert('Failed to generate the report.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching report:', error);
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
+            } else {
+                alert('This report type is not supported. Please select "Encounter Summary".');
+            }
+        }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 </x-filament::page>
