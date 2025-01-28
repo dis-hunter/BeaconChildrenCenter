@@ -70,6 +70,39 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // ... (other JavaScript code) ...
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/age-distribution')
+        .then(response => response.json())
+        .then(data => {
+            const ages = data.map(item => item.age);
+            const counts = data.map(item => item.count);
+
+            const ctx = document.getElementById('ageDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ages,
+                    datasets: [{
+                        label: 'Number of Children',
+                        data: counts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching age distribution:', error));
+});
+
 function showDemographics() {
     const analyticsContent = document.getElementById('analytics-content');
     analyticsContent.innerHTML = `

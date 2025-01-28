@@ -29,6 +29,8 @@ use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
 use App\Http\Controllers\InvoiceController;
 
+use App\Http\Controllers\MetricsController;
+
 
 Route::get('/admin', function () {
     return view('beaconAdmin');
@@ -37,12 +39,20 @@ Route::get('/admin', function () {
 // General Routes
 Route::view('/', 'home')->name('home');
 
+
+
 // Authentication Routes
 Route::get('login', [AuthController::class, 'loginGet'])->name('login');
 Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('register', [AuthController::class, 'registerGet'])->name('register');
 Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/calendar', [CalendarController::class, 'create'])->name('calendar');
+
+Route::get('/doctor/calendar', [CalendarController::class, 'showDoctorDashboard'])->name('doctor.calendar');
+Route::get('/therapist/calendar', [CalendarController::class, 'showTherapistDashboard'])->name('therapist.calendar');
 
 // Therapist Routes
 Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
@@ -181,6 +191,64 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 });
+    //Doctor
+    Route::group(['middleware'=>'role:2'], function(){
+        
+    });
+
+    //Admin
+    Route::group(['middleware'=>'role:3'], function(){
+        
+    });
+    
+    Route::group(['middleware'=>'role:5'], function(){
+        Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
+Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
+Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
+    });
+    Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
+Route::get('/psychotherapy_dashboard', function () {
+    return view('therapists.psychotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+
+Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
+
+
+Route::get('/speechtherapy_dashboard', function () {
+    return view('therapists.speechtherapyDashboard');
+});
+Route::get('/nutritionist_dashboard', function () {
+    return view('therapists.nutritionistDashboard');
+});
+Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
+Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
+Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
+Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
+Route::get('/psychotherapist/{registrationNumber}', [TherapyController::class, 'PsychoTherapy']);
+
+
+
+Route::get('/key-metrics', [MetricsController::class, 'keyMetrics'])->name('key.metrics');
+Route::get('/age-distribution', [MetricsController::class, 'ageDistribution'])->name('age.distribution');
+
+
+
+
+Route::get('/physical_therapist', function () {
+    return view('therapists.physiotherapyTherapist');
+});
+// Route::get('/psychotherapy_therapist', function () {
+//     return view('therapists.psychotherapyTherapist');
+// });
+// Route::get('/physiotherapy_therapist', function () {
+//     return view('therapists.physiotherapyTherapist');
+// });
 
 Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
 Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
@@ -218,7 +286,7 @@ Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualize
 Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
 
 
-});
+
 
 
 
@@ -412,7 +480,7 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 
 
-use App\Http\Controllers\InvoiceController;
+
 
 Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
 

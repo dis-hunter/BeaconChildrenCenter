@@ -36,24 +36,23 @@
     <section id="dashboard" class="content-section">
       <h2>Dashboard</h2>
 
-      <section class="key-metrics">
-        <h3>Key Metrics</h3>
-        <div class="metric">
-          <i class="fas fa-user-injured"></i>
-          <h4>Total Patients</h4>
-          <p>358</p>
+      <div class="metric">
+            <i class="fas fa-user-injured"></i>
+            <h4>Total Patients</h4>
+            <p>{{ $totalPatients }}</p>
         </div>
         <div class="metric">
-          <i class="fas fa-user-plus"></i>
-          <h4>New Registrations (Today)</h4>
-          <p>24</p>
+            <i class="fas fa-user-plus"></i>
+            <h4>New Registrations (Today)</h4>
+            <p>{{ $newRegistrations }}</p>
         </div>
         <div class="metric">
-          <i class="fas fa-chart-line"></i>
-          <h4>Occupancy Rate</h4>
-          <p>78%</p>
+            <i class="fas fa-chart-bar"></i>
+            <h4>Age Distribution</h4>
+            <canvas id="ageDistributionChart" width="400" height="200"></canvas>
         </div>
-      </section>
+    </section>
+
 
       <section class="charts">
         <div class="chart">

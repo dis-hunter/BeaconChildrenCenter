@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addEventFrom = document.querySelector(".event_time_from");
     const addEventTo = document.querySelector(".event_time_end");
     const addEventsSubmit = document.querySelector(".add-event-btn");
+
     const serviceDropdown = document.getElementById("service");
     const specialistContainer = document.getElementById("specialist-container");
     const specialistDropdown = document.getElementById("specialist");
@@ -185,9 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Show success alert
                     alert("Appointment successfully created!");
                     addEventContainer.classList.remove("active");
-                    let event = new CustomEvent('appointmentModified');
-                    dispatchEvent(event);
-                
+                    
                     // Close the form
                     const formModal = document.getElementById("form-modal");
                     if (formModal) {
@@ -195,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
             
                     // Refresh the appointments list
-                   
+                    location.reload(); // Reloads the current page
                 } else {
                     // Ensure the error message exists before showing it
                     const errorMessage = data && data.message ? data.message : "An unknown error occurred"; // Fallback message
@@ -214,5 +213,16 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('request data',request);
         
     });
+    console.log('Trying to get CSRF token...');
+const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+console.log('Element found:', csrfTokenMeta);
 
+if (csrfTokenMeta) {
+    const csrfToken = csrfTokenMeta.getAttribute('content');
+    console.log('CSRF Token:', csrfToken);
+} else {
+    console.error('CSRF token meta tag not found');
+}
+
+    
     });

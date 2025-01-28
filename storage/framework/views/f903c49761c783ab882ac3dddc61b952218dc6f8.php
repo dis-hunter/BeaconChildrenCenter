@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
   <title>Hospital Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="<?php echo e(asset('css/beaconAdmin.css')); ?>">
@@ -33,24 +36,23 @@
     <section id="dashboard" class="content-section">
       <h2>Dashboard</h2>
 
-      <section class="key-metrics">
-        <h3>Key Metrics</h3>
-        <div class="metric">
-          <i class="fas fa-user-injured"></i>
-          <h4>Total Patients</h4>
-          <p>358</p>
+      <div class="metric">
+            <i class="fas fa-user-injured"></i>
+            <h4>Total Patients</h4>
+            <p><?php echo e($totalPatients); ?></p>
         </div>
         <div class="metric">
-          <i class="fas fa-user-plus"></i>
-          <h4>New Registrations (Today)</h4>
-          <p>24</p>
+            <i class="fas fa-user-plus"></i>
+            <h4>New Registrations (Today)</h4>
+            <p><?php echo e($newRegistrations); ?></p>
         </div>
         <div class="metric">
-          <i class="fas fa-chart-line"></i>
-          <h4>Occupancy Rate</h4>
-          <p>78%</p>
+            <i class="fas fa-chart-bar"></i>
+            <h4>Age Distribution</h4>
+            <canvas id="ageDistributionChart" width="400" height="200"></canvas>
         </div>
-      </section>
+    </section>
+
 
       <section class="charts">
         <div class="chart">
@@ -95,20 +97,22 @@
           <tbody>
             <tr>
 
-            <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    
+<?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <tr>
     <td>
-        <?php echo e($child->fullname->first_name ?? ''); ?> 
-        <?php echo e($child->fullname->middle_name ?? ''); ?> 
+        <?php echo e($child->fullname->first_name ?? ''); ?>
+
+        <?php echo e($child->fullname->middle_name ?? ''); ?>
+
         <?php echo e($child->fullname->last_name ?? ''); ?>
 
     </td>
     <td><?php echo e(\Carbon\Carbon::parse($child->dob)->age); ?></td>
-    <td><?php echo e($child->gender); ?></td>
+    <td><?php echo e($child->gender->name ?? ''); ?></td>
     <td><?php echo e($child->registration_number); ?></td>
     <td><p>Status?</p></td>
     <td>
-        <!-- Pass the child's ID dynamically into the onclick function -->
         <button onclick="showInvoiceDates('<?php echo e($child->id); ?>')">See Invoices</button>
     </td>
 </tr>
