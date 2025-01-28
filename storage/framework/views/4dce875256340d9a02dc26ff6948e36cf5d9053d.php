@@ -5,11 +5,22 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <style>
     :root {
-        color-scheme: light dark;
+        /* Light mode colors */
+        --navy-blue: #ffffff;
+        --text-primary: #1B2433;
+        --text-secondary: #C4A862;
+        --bg-primary: #ffffff;
+        --bg-secondary: rgba(255, 255, 255, 0.9);
+        --border-color: #C4A862;
+        --input-bg: #ffffff;
+        --input-border: #C4A862;
+        --button-hover: #C4A862;
+        --button-text-hover: #ffffff;
+    }
 
+    .dark {
         /* Dark mode colors */
         --navy-blue: #1B2433;
-        --gold: #C4A862;
         --text-primary: #ffffff;
         --text-secondary: #C4A862;
         --bg-primary: #1B2433;
@@ -19,21 +30,6 @@
         --input-border: #C4A862;
         --button-hover: #C4A862;
         --button-text-hover: #1B2433;
-    }
-
-    @media (prefers-color-scheme: light) {
-        :root {
-            --navy-blue: #ffffff;
-            --text-primary: #1B2433;
-            --text-secondary: #C4A862;
-            --bg-primary: #ffffff;
-            --bg-secondary: rgba(255, 255, 255, 0.9);
-            --border-color: #C4A862;
-            --input-bg: #ffffff;
-            --input-border: #C4A862;
-            --button-hover: #C4A862;
-            --button-text-hover: #ffffff;
-        }
     }
 
     body {
@@ -108,8 +104,7 @@
         background-color: var(--input-bg);
         border: 1px solid var(--input-border);
         border-radius: 0.375rem;
-        color: black;
-        /* Ensure text color is black */
+        color: var(--text-primary);
         margin-bottom: 1.5rem;
         transition: all 0.3s ease;
     }
@@ -137,7 +132,7 @@
 
     /* Ensure placeholder text color is black */
     input::placeholder {
-        color: black;
+        color: var(--text-primary);
     }
     </style>
 </head>
@@ -152,6 +147,9 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+        <!-- Optional: Add a theme toggle button -->
+        <button id="theme-toggle">Toggle Dark Mode</button>
+
         <section id="finances" class="content-section">
             <h2>Finances</h2>
 
@@ -432,6 +430,11 @@
             alert(`Error: ${error.message}`);
         }
     }
+
+    // Optional: Add theme toggle functionality
+    document.getElementById('theme-toggle').addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+    });
     </script>
 </body>
 
