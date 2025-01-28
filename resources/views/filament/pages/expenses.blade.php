@@ -120,6 +120,12 @@
         margin: 1rem 0;
     }
 
+    /* Ensure Full Name and Amount fields have black text */
+    #full-name,
+    #expense-amount {
+        color: black;
+    }
+
     /* Animation classes */
     .fade-in {
         opacity: 0;
