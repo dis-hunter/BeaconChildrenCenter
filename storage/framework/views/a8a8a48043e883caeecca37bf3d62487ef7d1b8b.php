@@ -113,12 +113,12 @@
             <!-- Age Distribution Chart -->
             <div>
                 <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Age Distribution</h2>
-                <canvas id="ageDistributionChart"></canvas>
+                <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="ageDistributionChart"></canvas>
             </div>
             <!-- Gender Distribution Chart -->
             <div>
                 <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Gender Distribution</h2>
-                <canvas id="genderDistributionChart"></canvas>
+                <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="genderDistributionChart"></canvas>
             </div>
         </div>
     </section>
