@@ -70,7 +70,6 @@
       }
       .responsive-navbar{
         position: static;
-        margin-top:10px;
       }
       #mainNav.show ~ #Account{
         margin-top: 200px;

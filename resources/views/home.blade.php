@@ -5,7 +5,6 @@
 
 <style>
   body {
-    margin-left: 200px; /* Keep this if you have a sidebar */
     font-family: 'Arial', sans-serif;
     background: #f4f4f4;
     color: #333;
@@ -13,7 +12,7 @@
 
   .container {
     max-width: 960px;
-    margin: 50px auto;
+    margin: 10px auto;
     padding: 20px;
     background: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
