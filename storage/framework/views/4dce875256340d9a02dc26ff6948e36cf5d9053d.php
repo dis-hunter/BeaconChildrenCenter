@@ -153,13 +153,11 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-        <!-- Optional: Add a theme toggle button -->
-        <button id="theme-toggle">Toggle Dark Mode</button>
+
 
         <section id="finances" class="content-section">
-            <h2>Finances</h2>
 
-            <h3>Expense Tracking</h3>
+            <h3>Add Expense Below</h3>
             <div id="expense-tracking">
                 <button onclick="showExpenseForm()">Add Expense</button>
                 <div id="expense-form" style="display: none;" class="fade-in">
