@@ -172,9 +172,7 @@ Route::get('/admin1', function () {
     return view('beaconAdmin');
 });
 
-use App\Http\Controllers\ReportController;
 
-Route::post('/generate-report', [ReportController::class, 'generate'])->name('generate.report');
 
 use App\Http\Controllers\PatientDemographicsController;
 
@@ -183,5 +181,10 @@ Route::get('/patient-demographics', [PatientDemographicsController::class, 'getD
 
 
 Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
+
+
+use App\Http\Controllers\ReportController;
+
+Route::post('/generate-report', [ReportController::class, 'generateEncounterSummary']);
 
 

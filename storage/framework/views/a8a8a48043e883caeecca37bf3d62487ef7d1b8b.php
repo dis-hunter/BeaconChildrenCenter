@@ -7,89 +7,223 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-    <section class="bg-white p-6 rounded-lg shadow-md">
-        <h1 style="color:black;" class="text-xl font-bold mb-2 text-black">Custom Report</h1> 
-        <p class="text-gray-600 mb-4">Select parameters to generate a custom report.</p>
-        <div x-data="{ open: true }">
-            <button 
-                @click="open = !open" 
-                class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
+<section class="bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-xl font-bold mb-2" style="color: black;">Custom Report</h1>
+    <p class="text-gray-600 mb-4" style="color: black;">Select parameters to generate a custom report.</p>
+
+    <!-- Report Parameters -->
+    <div x-data="{ open: true, showReport: false, reportContent: '' }">
+        <!-- Toggle Button -->
+        <button 
+            @click="open = !open" 
+            class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
+        >
+            <span style="color: black;">Report Parameters</span>
+            <svg 
+                :class="open ? 'rotate-180' : ''" 
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-5 w-5 transform transition-transform duration-300" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
             >
-                <span>Report Parameters</span>
-                <svg 
-                    x-bind:class="open ? 'rotate-180' : ''" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    class="h-5 w-5 transform transition-transform duration-300" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
-            <div x-show="open" x-transition:enter="transition-all duration-1000 ease-in-out" x-transition:leave="transition-all duration-1000 ease-in-out" x-collapse class="mt-4">
-                <form action="<?php echo e(route('generate.report')); ?>" method="POST" class="space-y-4">
-                    <?php echo csrf_field(); ?>
-                    <div>
-                        <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
-                        <input 
-                            type="date" 
-                            id="start_date" 
-                            name="start_date" 
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-                            style="color:black;" 
-                            required
-                        >
-                    </div>
-                    <div>
-                        <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
-                        <input 
-                            type="date" 
-                            id="end_date" 
-                            name="end_date" 
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-                            style="color:black;" 
-                            required
-                        >
-                    </div>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </button>
 
-                    <div>
-                        <label for="report_type" class="block text-sm font-medium text-gray-700">Report Type</label>
-                        <select 
-                            id="report_type" 
-                            name="report_type" 
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-                            style="color:black;" 
-                            required
+        <!-- Parameters Form -->
+        <div x-show="open" x-transition class="mt-4">
+            <form @submit.prevent="fetchReport()" method="POST" class="space-y-4">
+                <?php echo csrf_field(); ?>
+                <!-- Start Date -->
+                <div>
+                    <label for="start_date" class="block text-sm font-medium" style="color: black;">Start Date</label>
+                    <input 
+                    style="color: black;"
+                        type="date" 
+                        id="start_date" 
+                        name="start_date" 
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
+                        required
+                    >
+                </div>
+                <!-- End Date -->
+                <div>
+                    <label for="end_date" class="block text-sm font-medium" style="color: black;">End Date</label>
+                    <input 
+                    style="color: black;"
+                        type="date" 
+                        id="end_date" 
+                        name="end_date" 
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
+                        required
+                    >
+                </div>
+                <!-- Report Type -->
+                <div>
+                    <label for="report_type" class="block text-sm font-medium" style="color: black;">Report Type</label>
+                    <select 
+                        id="report_type" 
+                        name="report_type" 
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
+                        required
+                    >
+                        <option style="color: black;" value="encounter_summary">Encounter Summary</option>
+                        <option style="color: black;" value="financial_summary">Financial Summary</option>
+                        <option style="color: black;" value="expenses_breakdown">Expenses Breakdown</option>
+                        <option style="color: black;" value="revenue_breakdown">Revenue Breakdown</option>
+                        <option style="color: black;" value="staff_performance">Staff Performance</option>
+                    </select>
+                </div>
+                <!-- Submit Button -->
+                <div>
+                    <button 
+                    style="color: black;"
+                        type="submit" 
+                        class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700"
+                    >
+                        <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            class="h-5 w-5 mr-2" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke="currentColor"
                         >
-                            <option style="color:black;" value="financial_summary">Financial Summary</option>
-                            <option style="color:black;" value="expenses_breakdown">Expenses Breakdown</option>
-                            <option style="color:black;" value="revenue_breakdown">Revenue Breakdown</option>
-                            <option style="color:black;" value="staff_performance">Staff Performance</option>
-                        </select>
-                    </div>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Generate Report
+                    </button>
+                </div>
+            </form>
+        </div>
 
-                    <div>
-                        <button 
-                            type="submit" 
-                            class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                        >
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                class="h-5 w-5 mr-2" 
-                                fill="none" 
-                                viewBox="0 0 24 24" 
-                                stroke="currentColor"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                            <span style="color:black;">Generate Report</span> 
-                        </button>
-                    </div>
-                </form>
+        <!-- Report Modal -->
+        <div x-show="showReport" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-semibold" style="color: black;">Generated Report</h2>
+                    <button 
+                        @click="showReport = false; reportContent = '';" 
+                        class="text-red-500 hover:text-red-700"
+                    >
+                        Close
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <div x-text="reportContent" style="color: black;"></div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<script>
+    function fetchReport() {
+        const startDate = document.querySelector('#start_date').value;
+        const endDate = document.querySelector('#end_date').value;
+        const reportType = document.querySelector('#report_type').value;
+
+        fetch(`/generate-report`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ start_date: startDate, end_date: endDate, report_type: reportType })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Store the report content in the variable and show the modal
+                this.reportContent = data.report;
+                this.showReport = true;
+            } else {
+                alert('Failed to generate the report');
+            }
+        })
+        .catch(error => console.error('Error fetching report:', error));
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Patient Demographics and Disease Statistics -->
 
     <section class="bg-white p-6 rounded-lg shadow-md" x-data="{ open: false }">
         <button 
