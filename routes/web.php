@@ -182,3 +182,6 @@ use App\Http\Controllers\PatientDemographicsController;
 Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
 
 
+Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
+
+

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Diagnosis;
+use Illuminate\Support\Facades\Log;
 
 class DiagnosisController extends Controller
 {
@@ -105,4 +107,44 @@ class DiagnosisController extends Controller
             return response()->json(['message' => 'Failed to save Diagnosis', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function getDiseaseStatistics()
+    {
+        $targetDiseases = ['Autism', 'ADHD', 'Learning disorder', 'Intellectual development'];
+        $diseaseCounts = [
+            'Autism' => 0,
+            'ADHD' => 0,
+            'Learning disorder' => 0,
+            'Intellectual development' => 0,
+            'Other' => 0,
+        ];
+
+        // Fetch all records
+        $diagnoses = Diagnosis::all();
+
+        foreach ($diagnoses as $diagnosis) {
+            $data = $diagnosis->data['diagnoses'] ?? [];
+            $foundDiseases = [];
+
+            foreach ($data as $entry) {
+                foreach ($targetDiseases as $disease) {
+                    if (stripos($entry, $disease) !== false && !in_array($disease, $foundDiseases)) {
+                        $diseaseCounts[$disease]++;
+                        $foundDiseases[] = $disease;
+                    }
+                }
+            }
+
+            // If no target disease found, classify as "Other"
+            if (empty($foundDiseases)) {
+                $diseaseCounts['Other']++;
+            }
+        }
+
+        // Log the results for debugging
+        Log::info('Disease Statistics: ', $diseaseCounts);
+
+        return response()->json($diseaseCounts);
+    }
 }
+

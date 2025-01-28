@@ -123,6 +123,67 @@
         </div>
     </section>
 
+    <!-- Disease Statisctics -->
+    <section class="bg-white p-6 rounded-lg shadow-md" x-data="{ open: false }">
+    <button 
+        @click="open = !open" 
+        class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
+    >
+        <span class="text-xl font-bold">Disease Statistics</span>
+        <svg 
+            :class="open ? 'rotate-180' : ''" 
+            xmlns="http://www.w3.org/2000/svg" 
+            class="h-5 w-5 transform transition-transform duration-300"
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+        >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <div 
+        x-show="open" 
+        x-transition:enter="transition-all duration-1000 ease-in-out" 
+        x-transition:leave="transition-all duration-1000 ease-in-out" 
+        x-bind:style="open ? 'max-height: 500px' : 'max-height: 0'"
+        style="overflow: hidden; max-height: 0;"
+        class="grid grid-cols-1 gap-6 mt-4"
+    >
+        <!-- Disease Statistics Chart -->
+        <div>
+            <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Disease Statistics</h2>
+            <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="diseaseStatisticsChart"></canvas>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fetch data from backend and display the Disease Statistics chart
+    fetch('/disease-statistics')
+        .then(response => response.json())
+        .then(data => {
+            const diseaseLabels = Object.keys(data);
+            const diseaseCounts = Object.values(data);
+
+            const ctx = document.getElementById('diseaseStatisticsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: diseaseLabels,
+                    datasets: [{
+                        label: 'Diseases',
+                        data: diseaseCounts,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                    }]
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching disease statistics:', error);
+        });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Fetch data from backend and display charts
