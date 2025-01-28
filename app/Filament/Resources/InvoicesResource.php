@@ -6,6 +6,7 @@ use App\Filament\Resources\InvoicesResource\Pages;
 use App\Models\Invoice;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -55,38 +56,89 @@ class InvoicesResource extends Resource
                     ->label('ID')
                     ->sortable()
                     ->searchable(),
-
+    
                 TextColumn::make('child_id')
                     ->label('Child ID')
                     ->sortable()
                     ->searchable(),
-
+    
                 TextColumn::make('total_amount')
                     ->label('Total Amount')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('invoice_details')
-                    ->label('Invoice Details')
-                    ->getStateUsing(function ($record) {
-                        return json_encode($record->invoice_details); // Convert array back to JSON for display
-                    }),
-
+                    ->sortable(),
+    
                 TextColumn::make('invoice_date')
                     ->label('Invoice Date')
-                    ->sortable()
-                    ->searchable(),
-
+                    ->date()
+                    ->sortable(),
+    
                 TextColumn::make('created_at')
                     ->label('Created At')
                     ->sortable(),
-
+    
                 TextColumn::make('updated_at')
                     ->label('Updated At')
                     ->sortable(),
             ])
             ->filters([
-                // Add table filters here if needed
+                // Date filter with before/after options
+                Tables\Filters\Filter::make('date_filter')
+                    ->form([
+                        Select::make('date_condition')
+                            ->label('Date Condition')
+                            ->options([
+                                'exact' => 'Exact Date',
+                                'before' => 'Before Date',
+                                'after' => 'After Date'
+                            ])
+                            ->required(),
+                        DatePicker::make('date')
+                            ->label('Select Date')
+                            ->required(),
+                    ])
+                    ->query(function ($query, array $data) {
+                        if (isset($data['date']) && isset($data['date_condition'])) {
+                            return $query->when($data['date_condition'] === 'exact', function ($query) use ($data) {
+                                return $query->whereDate('invoice_date', $data['date']);
+                            })
+                            ->when($data['date_condition'] === 'before', function ($query) use ($data) {
+                                return $query->whereDate('invoice_date', '<=', $data['date']);
+                            })
+                            ->when($data['date_condition'] === 'after', function ($query) use ($data) {
+                                return $query->whereDate('invoice_date', '>=', $data['date']);
+                            });
+                        }
+                        return $query;
+                    }),
+
+                // Existing Child ID filter
+                Tables\Filters\Filter::make('child_id')
+                    ->label('Search by Child ID')
+                    ->form([
+                        TextInput::make('child_id')
+                            ->numeric()
+                            ->placeholder('Enter Child ID'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query->when(
+                            $data['child_id'],
+                            fn ($q, $childId) => $q->where('child_id', $childId)
+                        );
+                    }),
+    
+                // Existing Price Range filter
+                Tables\Filters\Filter::make('price_range')
+                    ->label('Price Range (Max)')
+                    ->form([
+                        TextInput::make('max_price')
+                            ->numeric()
+                            ->placeholder('Enter Max Price'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query->when(
+                            $data['max_price'],
+                            fn ($q, $maxPrice) => $q->where('total_amount', '<=', $maxPrice)
+                        );
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -95,7 +147,7 @@ class InvoicesResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-
+    
     public static function getPages(): array
     {
         return [
