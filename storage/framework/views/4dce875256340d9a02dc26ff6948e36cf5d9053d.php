@@ -108,7 +108,8 @@
         background-color: var(--input-bg);
         border: 1px solid var(--input-border);
         border-radius: 0.375rem;
-        color: var(--text-primary);
+        color: black;
+        /* Ensure text color is black */
         margin-bottom: 1.5rem;
         transition: all 0.3s ease;
     }
@@ -132,6 +133,11 @@
 
     .fade-in.active {
         opacity: 1;
+    }
+
+    /* Ensure placeholder text color is black */
+    input::placeholder {
+        color: black;
     }
     </style>
 </head>
