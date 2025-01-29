@@ -110,4 +110,4 @@ class InvoicesResource extends Resource
             'edit' => Pages\EditInvoices::route('/{record}/edit'),
         ];
     }
-}
+}   
