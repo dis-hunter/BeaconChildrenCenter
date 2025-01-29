@@ -6,7 +6,7 @@ use App\Filament\Resources\InvoicesResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\Textarea;
-use Filament\Resources\Form; // Import the correct Form class
+use Filament\Resources\Form;
 
 class EditInvoices extends EditRecord
 {
@@ -26,7 +26,24 @@ class EditInvoices extends EditRecord
                 Textarea::make('invoice_details')
                     ->label('Invoice Details')
                     ->rows(5)
-                    ->required(),
+                    ->required()
+                    ->formatStateUsing(function ($state) {
+                        // Convert the object to a JSON string
+                        return is_array($state) || is_object($state) ? json_encode($state, JSON_PRETTY_PRINT) : $state;
+                    })
+                    ->dehydrateStateUsing(function ($state) {
+                        $lines = explode("\n", $state);
+                        $data = [];
+                        
+                        foreach ($lines as $line) {
+                            if (strpos($line, ':') !== false) {
+                                [$service, $amount] = array_map('trim', explode(':', $line, 2));
+                                $data[$service] = $amount;
+                            }
+                        }
+                        
+                        return json_encode($data);
+                    }),
             ]);
     }
 }
