@@ -139,4 +139,76 @@ class ReportController extends Controller
         }
         return 'N/A';
     }
+
+
+    //Staff Perfomance
+    public function generateStaffPerformance(Request $request)
+{
+    try {
+        Log::info('Generating Staff Performance Report', $request->all());
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
+            ->selectRaw('visit_date, staff_id, visit_type, COUNT(*) as sessions')
+            ->groupBy('visit_date', 'staff_id', 'visit_type')
+            ->with(['staff:id,fullname', 'visitType:id,visit_type'])
+            ->get();
+
+        Log::info('Fetched Visits Data:', ['visits' => $visits]);
+
+        $performance = $visits->map(function ($visit) {
+            $staffName = $this->formatSpecialistFullname($visit->staff->fullname);
+
+            return [
+                'date' => $visit->visit_date,
+                'staff_name' => $staffName,
+                'service' => $visit->visitType->visit_type,
+                'number_of_sessions' => $visit->sessions,
+            ];
+        });
+
+        Log::info('Generated Performance Data:', ['performance' => $performance]);
+
+        return response()->json([
+            'success' => true,
+            'performance' => $performance,
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Error generating staff performance report: ' . $e->getMessage());
+        return response()->json(['success' => false]);
+    }
+}
+
+/**
+ * Format the staff fullname correctly.
+ *
+ * @param mixed $fullname
+ * @return string
+ */
+private function formatSpecialistFullname($fullname)
+{
+    // If the staff fullname is an object (stdClass), format it correctly
+    if (is_object($fullname)) {
+        $firstName = $fullname->first_name ?? '';
+        $middleName = $fullname->middle_name ?? '';
+        $lastName = $fullname->last_name ?? '';
+        return trim($firstName . ' ' . $middleName . ' ' . $lastName);
+    }
+    
+    // If fullname is a JSON string, decode and format it
+    if (is_string($fullname)) {
+        $decodedName = json_decode($fullname, true);
+        if (is_array($decodedName)) {
+            $firstName = $decodedName['first_name'] ?? '';
+            $middleName = $decodedName['middle_name'] ?? '';
+            $lastName = $decodedName['last_name'] ?? '';
+            return trim($firstName . ' ' . $middleName . ' ' . $lastName);
+        }
+    }
+
+    return 'N/A';
+}
+
 }

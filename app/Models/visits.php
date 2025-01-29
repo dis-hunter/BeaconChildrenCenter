@@ -42,4 +42,14 @@ class Visits extends Model
     protected $casts = [
         'triage_pass' => 'boolean',
     ];
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
+
+    public function visitType()
+    {
+        return $this->belongsTo(VisitType::class, 'visit_type');
+    }
 }

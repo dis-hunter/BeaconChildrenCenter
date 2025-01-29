@@ -1,6 +1,6 @@
 <x-filament::page>
 <style>
-    td,th,button,option,select{
+    td,th,button,option,select,input{
         color:black;
     }
 </style>
@@ -8,7 +8,7 @@
     <h1 class="text-xl font-bold mb-2" style="color: black;">Custom Report</h1>
     <p class="text-gray-600 mb-4" style="color: black;">Select parameters to generate a custom report.</p>
 
-    <div x-data="{ open: true, showReport: false, reportContent: [], isLoading: false }">
+    <div x-data="{ open: true, showReport: false, reportContent: [], reportType: '', isLoading: false }">
         <!-- Toggle Button -->
         <button 
             @click="open = !open" 
@@ -34,7 +34,6 @@
                 <div>
                     <label for="start_date" class="block text-sm font-medium" style="color: black;">Start Date</label>
                     <input 
-                     style="color: black;"
                         type="date" 
                         id="start_date" 
                         name="start_date" 
@@ -45,7 +44,6 @@
                 <div>
                     <label for="end_date" class="block text-sm font-medium" style="color: black;">End Date</label>
                     <input 
-                    style="color: black;"
                         type="date" 
                         id="end_date" 
                         name="end_date" 
@@ -55,23 +53,24 @@
                 </div>
                 <div>
                     <label for="report_type" class="block text-sm font-medium" style="color: black;">Report Type</label>
-                    <select
-                    style="color: black;" 
+                    <select 
                         id="report_type" 
                         name="report_type" 
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-                        required
+                        required 
+                        @change="reportType = $event.target.value"
                     >
-                        <option style="color: black;" value="encounter_summary">Encounter Summary</option>
-                        <option style="color: black;" value="financial_summary">Financial Summary</option>
-                        <option style="color: black;" value="expenses_breakdown">Expenses Breakdown</option>
-                        <option style="color: black;" value="revenue_breakdown">Revenue Breakdown</option>
-                        <option style="color: black;" value="staff_performance">Staff Performance</option>
+                        <option value="">Select Report</option>
+                        <option value="encounter_summary">Encounter Summary</option>
+                        <option value="financial_summary">Financial Summary</option>
+                        <option value="expenses_breakdown">Expenses Breakdown</option>
+                        <option value="revenue_breakdown">Revenue Breakdown</option>
+                        <option value="staff_performance">Staff Performance</option>
                     </select>
                 </div>
                 <div>
-                    <button
-                    style="color: black;" 
+                    <button 
+                    style="color:black;"
                         type="submit" 
                         class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700"
                         :disabled="isLoading"
@@ -94,42 +93,17 @@
         </div>
 
         <!-- Report Modal -->
-        <div x-show="showReport" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
-                <div class="flex justify-between items-center">
-                    <h2  style="color: black;" class="text-lg font-semibold" style="color: black;">Generated Report</h2>
-                    <button 
-                     style="color: black;"
-                        @click="showReport = false; reportContent = [];" 
-                        class="text-red-500 hover:text-red-700"
-                    >
-                        Close
-                    </button>
-                </div>
-                <div class="mt-4">
-                    <table class="min-w-full bg-white border-collapse border border-gray-300">
-                        <thead>
-                            <tr class="text-left">
-                                <th class="border px-4 py-2" style="color: black;">Date</th>
-                                <th class="border px-4 py-2" style="color: black;">Child Name</th>
-                                <th class="border px-4 py-2" style="color: black;">Specialist Name</th>
-                                <th class="border px-4 py-2" style="color: black;">Invoice ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <template x-for="(row, index) in reportContent" :key="index">
-                                <tr>
-                                    <td class="border px-4 py-2" x-text="row.date"></td>
-                                    <td class="border px-4 py-2" x-text="row.child_name"></td>
-                                    <td class="border px-4 py-2" x-text="row.specialist_name"></td>
-                                    <td class="border px-4 py-2" x-text="row.invoice_id"></td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div id="reportModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+       <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
+        <div class="flex justify-between items-center">
+            <h2 class="text-lg font-semibold" style="color: black;">Generated Report</h2>
+            <button onclick="closeModal()" class="text-red-500 hover:text-red-700">Close</button>
         </div>
+        <div id="reportTableContainer" class="mt-4"></div>
+    </div>
+</div>
+        
+    
     </div>
 </section>
 
@@ -289,43 +263,117 @@
 
         //Encounter Summary Report
 
-        function fetchReport() {
-        const startDate = document.querySelector('#start_date').value;
-        const endDate = document.querySelector('#end_date').value;
-        const reportType = document.querySelector('#report_type').value;
+       
+function fetchReport() {
+    const startDate = document.querySelector('#start_date').value;
+    const endDate = document.querySelector('#end_date').value;
+    const reportType = document.querySelector('#report_type').value;
+    
+    this.isLoading = true;
 
-        // Check if the selected report type is 'Encounter Summary'
-        if (reportType === 'encounter_summary') {
-            this.isLoading = true;
+    let endpoint;
 
-            fetch(`/generate-encounter-summary`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ start_date: startDate, end_date: endDate, report_type: reportType })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Ensure the fetched data is an array
-                    this.reportContent = Array.isArray(data.encounters) ? [...data.encounters] : [];
-                    this.showReport = true;
-                } else {
-                    alert('Failed to generate the report.');
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching report:', error);
-            })
-            .finally(() => {
-                this.isLoading = false;
-            });
-            } else {
-                alert('This report type is not supported. Please select "Encounter Summary".');
+    // Determine the endpoint based on the selected report type
+    if (reportType === 'encounter_summary') {
+        endpoint = '/generate-encounter-summary';
+    } else if (reportType === 'staff_performance') {
+        endpoint = '/generate-staff-performance';
+    } else {
+        alert('This report type is not supported. Please select a valid report type.');
+        this.isLoading = false;
+        return;
+    }
+
+    fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ start_date: startDate, end_date: endDate, report_type: reportType }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.success) {
+            let reportData = [];
+            if (reportType === 'encounter_summary') {
+                reportData = data.encounters;
+            } else if (reportType === 'staff_performance') {
+                reportData = data.performance;
             }
+
+            // Dynamically render the table
+            renderReportTable(reportData, reportType);
+            document.getElementById("reportModal").style.display = "flex";
+        } else {
+            alert('Failed to generate the report.');
         }
+    })
+    .catch((error) => {
+        console.error('Error fetching report:', error);
+    })
+    .finally(() => {
+        this.isLoading = false;
+    });
+}
+
+function renderReportTable(data, reportType) {
+    const tableContainer = document.getElementById("reportTableContainer");
+    tableContainer.innerHTML = ""; // Clear previous content
+
+    if (data.length === 0) {
+        tableContainer.innerHTML = "<p class='text-red-500'>No data available for the selected period.</p>";
+        return;
+    }
+
+    const table = document.createElement("table");
+    table.classList.add("min-w-full", "bg-white", "border-collapse", "border", "border-gray-300");
+
+    // Create table headers based on report type
+    const thead = document.createElement("thead");
+    const trHead = document.createElement("tr");
+
+    let headers = [];
+    if (reportType === 'encounter_summary') {
+        headers = ["Date", "Child Name", "Specialist Name", "Invoice ID"];
+    } else if (reportType === 'staff_performance') {
+        headers = ["Date", "Staff Name", "Service", "Sessions"];
+    }
+
+    headers.forEach(header => {
+        const th = document.createElement("th");
+        th.textContent = header;
+        th.classList.add("border", "px-4", "py-2", "text-left");
+        trHead.appendChild(th);
+    });
+
+    thead.appendChild(trHead);
+    table.appendChild(thead);
+
+    // Create table body
+    const tbody = document.createElement("tbody");
+
+    data.forEach(row => {
+        const tr = document.createElement("tr");
+        headers.forEach((key, index) => {
+            const td = document.createElement("td");
+            const dataKey = Object.keys(row)[index]; // Map header to object key
+            td.textContent = row[dataKey];
+            td.classList.add("border", "px-4", "py-2");
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
+}
+
+function closeModal() {
+    document.getElementById("reportModal").style.display = "none";
+}
+
+
     </script>
 
 </x-filament::page>
