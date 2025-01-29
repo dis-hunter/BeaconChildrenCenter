@@ -14,8 +14,18 @@ class EditInvoices extends EditRecord
 
     protected function getActions(): array
     {
+        // Remove the Delete action
+        return [];
+    }
+
+    protected function getFormActions(): array
+    {
+        // Remove the Save action and rename the Cancel button to Back
         return [
-            Actions\DeleteAction::make(),
+            Actions\Action::make('cancel')
+                ->label('Back')
+                ->url($this->previousUrl ?? static::getResource()::getUrl())
+                ->color('secondary'),
         ];
     }
 
@@ -32,17 +42,7 @@ class EditInvoices extends EditRecord
                         return is_array($state) || is_object($state) ? json_encode($state, JSON_PRETTY_PRINT) : $state;
                     })
                     ->dehydrateStateUsing(function ($state) {
-                        $lines = explode("\n", $state);
-                        $data = [];
-                        
-                        foreach ($lines as $line) {
-                            if (strpos($line, ':') !== false) {
-                                [$service, $amount] = array_map('trim', explode(':', $line, 2));
-                                $data[$service] = $amount;
-                            }
-                        }
-                        
-                        return json_encode($data);
+                        return json_decode($state, true);
                     }),
             ]);
     }
