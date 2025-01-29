@@ -22,6 +22,11 @@ class Invoice extends Model
         'invoice_details' => 'array',
     ];
 
+    public function child()
+    {
+        return $this->belongsTo(Child::class, 'child_id');
+    }
+
     public function getInvoiceDetailsAttribute($value){
         return json_decode($value);
     }

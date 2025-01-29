@@ -22,7 +22,7 @@ class InvoiceController extends Controller
         // Fetch the child ID using the registration number directly from the database
         $child = DB::table('children')
             ->where('registration_number', $registrationNumber)
-            ->select('id')
+            ->select('id', 'fullname')
             ->first();
 
         if (!$child) {
@@ -83,6 +83,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $existingInvoice->id,
                 'total_amount' => $totalAmount,
                 'invoice_details' => $invoiceDetails,
+                'child_fullname' => $child->fullname,
             ]);
         } else {
             // Insert a new invoice
@@ -98,6 +99,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $invoiceId,
                 'total_amount' => $totalAmount,
                 'invoice_details' => $invoiceDetails,
+                'child_fullname' => $child->fullname,
             ]);
         }
     }

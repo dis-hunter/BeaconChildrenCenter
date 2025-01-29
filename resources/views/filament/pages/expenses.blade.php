@@ -63,6 +63,10 @@
         font-size: 1.25rem;
     }
 
+
+    
+
+
     #expense-tracking button {
         background-color: transparent;
         border: 2px solid var(--border-color);
