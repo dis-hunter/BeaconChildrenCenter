@@ -6,13 +6,12 @@ use App\Filament\Resources\InvoicesResource\Pages;
 use App\Models\Invoice;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 
 class InvoicesResource extends Resource
@@ -95,7 +94,7 @@ class InvoicesResource extends Resource
                 // Add your filters here
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make()->label('More Details'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -110,4 +109,4 @@ class InvoicesResource extends Resource
             'edit' => Pages\EditInvoices::route('/{record}/edit'),
         ];
     }
-}   
+}
