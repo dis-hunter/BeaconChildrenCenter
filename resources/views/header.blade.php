@@ -49,13 +49,13 @@
     <div class="d-flex mx-auto justify-content-center">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="{{route('home')}}">Home</a>
+                <a class="nav-link" href="{{route('home')}}"> Home </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">About</a>
+                <a class="nav-link"> About Us </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Contact</a>
+                <a class="nav-link"> Contact Us </a>
             </li>
     </ul>
 </div>
