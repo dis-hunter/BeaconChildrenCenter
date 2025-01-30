@@ -120,66 +120,32 @@
 
 
     <!-- Patient Demographics and Disease Statistics -->
+    <section class="bg-white p-6 rounded-lg shadow-md">
+    <div class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700">
+        <span class="text-xl font-bold">Patient Demographics</span>
+    </div>
 
-    <section class="bg-white p-6 rounded-lg shadow-md" x-data="{ open: false }">
-        <button 
-            @click="open = !open" 
-            class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
-        >
-            <span class="text-xl font-bold">Patient Demographics</span>
-            <svg 
-                :class="open ? 'rotate-180' : ''" 
-                xmlns="http://www.w3.org/2000/svg" 
-                class="h-5 w-5 transform transition-transform duration-300"
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-            >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </button>
-
-        <div x-show="open" x-transition:enter="transition-all duration-1000 ease-in-out" x-transition:leave="transition-all duration-1000 ease-in-out" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 max-h-0 overflow-hidden">
-            <!-- Age Distribution Chart -->
-            <div>
-                <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Age Distribution</h2>
-                <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="ageDistributionChart"></canvas>
-            </div>
-            <!-- Gender Distribution Chart -->
-            <div>
-                <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Gender Distribution</h2>
-                <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="genderDistributionChart"></canvas>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <!-- Age Distribution Chart -->
+        <div>
+            <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Age Distribution</h2>
+            <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="ageDistributionChart"></canvas>
         </div>
-    </section>
+        <!-- Gender Distribution Chart -->
+        <div>
+            <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Gender Distribution</h2>
+            <canvas style="max-width: 300px; max-height: 300px; margin: auto;" id="genderDistributionChart"></canvas>
+        </div>
+    </div>
+</section>
 
     <!-- Disease Statisctics -->
-    <section class="bg-white p-6 rounded-lg shadow-md" x-data="{ open: false }">
-    <button 
-        @click="open = !open" 
-        class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
-    >
+    <section class="bg-white p-6 rounded-lg shadow-md">
+    <div class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700">
         <span class="text-xl font-bold">Disease Statistics</span>
-        <svg 
-            :class="open ? 'rotate-180' : ''" 
-            xmlns="http://www.w3.org/2000/svg" 
-            class="h-5 w-5 transform transition-transform duration-300"
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-        >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-    </button>
+    </div>
 
-    <div 
-        x-show="open" 
-        x-transition:enter="transition-all duration-1000 ease-in-out" 
-        x-transition:leave="transition-all duration-1000 ease-in-out" 
-        x-bind:style="open ? 'max-height: 500px' : 'max-height: 0'"
-        style="overflow: hidden; max-height: 0;"
-        class="grid grid-cols-1 gap-6 mt-4"
-    >
+    <div class="mt-4">
         <!-- Disease Statistics Chart -->
         <div>
             <h2 style="color:black;" class="text-lg font-semibold text-black mb-2">Disease Statistics</h2>
@@ -187,6 +153,7 @@
         </div>
     </div>
 </section>
+
 
 
 
