@@ -181,4 +181,4 @@ Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvo
 Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday'])->where('registrationNumber', '.*');
 
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
-Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
+Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');

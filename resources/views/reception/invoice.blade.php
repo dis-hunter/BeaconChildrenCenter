@@ -48,7 +48,7 @@
                 <td>KES {{ number_format($invoice->total_amount, 2) }}</td>
                 <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}</td>
                 <td>
-                    <a href="{{ route('invoice.details', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
+                    <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
                         View
                     </a>
                 </td>
