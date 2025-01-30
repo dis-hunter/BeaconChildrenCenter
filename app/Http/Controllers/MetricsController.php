@@ -8,23 +8,19 @@ use Carbon\Carbon;
 class MetricsController extends Controller
 {
     public function keyMetrics()
-    {
-        // Count total patients
-        $totalPatients = DB::table('children')->count();
+{
+    $totalPatients = DB::table('children')->count();
 
-        // Count today's registrations
-        $today = Carbon::today()->toDateString();
-        $newRegistrations = DB::table('children')
-            ->whereDate('created_at', $today)
-            ->count();
+    $today = Carbon::today()->toDateString();
+    $newRegistrations = DB::table('children')
+        ->whereDate('created_at', $today)
+        ->count();
 
-        // Return data to the view
-        return view('beaconAdmin', [
-            'totalPatients' => $totalPatients,
-            'newRegistrations' => $newRegistrations,
-        ]);
-        
-    }
+    return view('beaconAdmin', [
+        'totalPatients' => $totalPatients,
+        'newRegistrations' => $newRegistrations,
+    ]);
+}
 
     public function ageDistribution()
     {

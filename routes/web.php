@@ -28,18 +28,32 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
 use App\Http\Controllers\InvoiceController;
-
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MetricsController;
+use App\Http\Controllers\FinanceController;
 
-
-Route::get('/admin', function () {
-    return view('beaconAdmin');
-});
+//Route::get('/admin', function () {
+   // return view('beaconAdmin');
+//});
 
 // General Routes
 Route::view('/', 'home')->name('home');
 
+Route::get('/adm', [MetricsController::class, 'keyMetrics'])->name('admin.dashboard');
 
+Route::get('/api/visit-data', [VisitController::class, 'getVisitData']);
+Route::get('/api/finance-data', [FinanceController::class, 'getFinanceData']);
+Route::get('/get-gender-distribution', [ChildrenController::class, 'getGenderDistribution']);
+Route::get('/get-visit-types', [VisitController::class, 'getVisitTypesData']);
+
+
+Route::get('/visits/last7days', [VisitController::class, 'getVisitsLast7Days']);
+
+Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
+
+Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
+
+Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
 
 // Authentication Routes
 Route::get('login', [AuthController::class, 'loginGet'])->name('login');
@@ -180,14 +194,21 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
 
-    Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
-
-    Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
-
-    Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
+    
     Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
     Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
     Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
+
+    Route::get('/payment-methods', function () {
+        // Fetch payment data from database, assuming 'payments' table has payment_mode_id
+        return \App\Models\Payment::select('payment_mode_id')->get();
+    });
+    
+    
+
+    
+
+    Route::get('/payment-methods', [PaymentController::class, 'getPaymentMethods']);
 
 
 });
@@ -399,14 +420,6 @@ Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'ge
 Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
 
 
-Route::get('/get-appointments', [App\Http\Controllers\FetchAppointments::class, 'getAppointments']);
-
-Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
-//Route::post('/reschedule-appointment/{id}', [RescheduleController::class, 'rescheduleAppointment']);
-
-Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
-
-//Route::post('/api/reschedule', [RescheduleController::class, 'reschedule']);
 
 Route::get('/booked-patients', [BookedController::class, 'getBookedPatients'])->name('booked.patients');
 

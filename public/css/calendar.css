@@ -132,26 +132,70 @@ body{
   align-items: center;
   justify-content: center;
 }
+.calendar .month {
+  height: 100px; /* Reduce height */
+  padding: 0 20px; /* Reduce padding */
+  font-size: 1rem; /* Adjust font size */
+}
+
+.calendar .weekdays {
+  height: 50px; /* Reduce height */
+  padding: 0 10px; /* Reduce padding */
+  font-size: 0.9rem; /* Adjust font size */
+}
+
+.weekdays div {
+  height: 50px; /* Reduce height for individual weekday boxes */
+}
+
+.calendar .days .day {
+  height: 60px; /* Reduce height for day cells */
+  font-size: 0.8rem; /* Adjust font size */
+}
+
+.calendar .goto-today {
+  height: 40px; /* Reduce height */
+  font-size: 0.9rem; /* Adjust font size */
+}
+
+.calendar .goto-today .goto input {
+  height: 25px; /* Reduce input height */
+  font-size: 0.8rem; /* Adjust font size */
+}
+
+.calendar .goto-today button {
+  padding: 4px 8px; /* Reduce padding */
+  font-size: 0.8rem; /* Adjust font size */
+}
+
+.calendar .today {
+  font-size: 1.5rem; /* Reduce font size for the highlighted "today" */
+  padding: 3px 4px; /* Reduce padding */
+}
+
 .calendar .days {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 0 20px;
-  font-size: 1rem;
+  padding: 0 10px; /* Reduce horizontal padding */
+  font-size: 0.9rem; /* Slightly smaller text */
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduce vertical space between weeks */
 }
+
 .calendar .days .day {
-  width: 14.28%;
-  height: 90px;
+  width: 13%; /* Maintain equal distribution across 7 columns */
+  height: 60px; /* Reduce height of day boxes */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: var(--primary-clr);
   border: 1px solid #f5f5f5;
+  margin: 1px; /* Add a small margin for tighter spacing */
 }
+
 .calendar.day:not(.prev-date,.next-date):hover{
   color:#fff;
   background-color: var(--primary-clr);

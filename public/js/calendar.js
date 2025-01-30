@@ -415,36 +415,34 @@ function updateEvents(date) {
             .querySelector('meta[name="csrf-token"]')
             .getAttribute('content');
 
-        fetch(`/reschedule-appointment/${appointmentId}`, {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(requestData),
-        })
+            fetch(`/reschedule-appointment/${appointmentId}`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(requestData),
+            })
             .then((response) => response.json())
             .then((data) => {
+                submitButton.disabled = false; // Re-enable the button
+            
                 if (data.success) {
                     alert(data.message);
-                    document
-                        .getElementById("reschedule-modal")
-                        .classList.add("hidden");
-                    updateEvents(newDate);
-
-                    console.log(data);
+                    document.getElementById("reschedule-modal").classList.add("hidden");
+                    location.reload(); // Refresh the page
                 } else {
                     alert(data.message || "Error occurred.");
-                    console.log(data);
                 }
             })
             .catch((error) => {
                 console.error("Error rescheduling appointment:", error);
-
+                submitButton.disabled = false; // Re-enable the button on error
+            });
                 
                
-            });
+           
     });
 
 }

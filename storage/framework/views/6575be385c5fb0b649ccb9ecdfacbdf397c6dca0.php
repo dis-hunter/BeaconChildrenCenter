@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
+  <link rel=stylesheet href="<?php echo e(asset ('css/doctorDash.css')); ?>">
 
 </head>
 <body>
@@ -13,7 +13,7 @@
   <header>
   <div class="profile">
   <i class="fas fa-user-md fa-4x"></i> <div>
-    <h2 style="margin-bottom: 6px;">Dr. {{ $firstName }} {{ $lastName }}</h2>
+    <h2 style="margin-bottom: 6px;">Dr. <?php echo e($firstName); ?> <?php echo e($lastName); ?></h2>
     <p style="margin-top:0">Pediatrician</p>
   </div>
 </div>
@@ -24,10 +24,10 @@
         <div class="dropdown-content">
           <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
-          <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+          <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
 
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
+          <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+            <?php echo csrf_field(); ?>
           </form>
         </div>
       </div>
@@ -103,7 +103,7 @@
     
     <!-- Section for Calendar (Initially Hidden) -->
     <section class="content" id="calendar-content" style="display: none;">
-    @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+    <?php echo $__env->make('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
     
@@ -113,7 +113,7 @@
   </main>
 
   <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
-  <script src="{{asset ('js/doctorDash.js')}}"></script>
+  <script src="<?php echo e(asset ('js/doctorDash.js')); ?>"></script>
   <script>
     function updateClock() {
       const now = new Date();
@@ -130,7 +130,7 @@
       } else if (hours >= 18) {
         greeting = "Good evening";
       }
-      document.getElementById('greeting').textContent = `${greeting}, Dr. {{ $lastName }}!`;
+      document.getElementById('greeting').textContent = `${greeting}, Dr. <?php echo e($lastName); ?>!`;
     }
     updateGreeting(); 
     setInterval(updateGreeting, 60 * 60 * 1000);
@@ -141,7 +141,7 @@
 <script>
     // Fetch user's specialization and doctor details on page load
     window.onload = function() {
-        fetch('{{ route('get.user.specialization.doctor') }}')
+        fetch('<?php echo e(route('get.user.specialization.doctor')); ?>')
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -173,4 +173,4 @@
     }
 </script>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/doctorDash.blade.php ENDPATH**/ ?>

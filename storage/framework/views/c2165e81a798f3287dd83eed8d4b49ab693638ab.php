@@ -1,14 +1,14 @@
-@extends('reception.layout')
-@section('title','Dashboard | Reception')
-@extends('reception.header')
-@section('content')
+
+<?php $__env->startSection('title','Dashboard | Reception'); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <div class="d-flex flex-column align-items-center mt-1">
   <div class="w-100 text-left">
     <h6>Welcome</h6>
   </div>
   <div class="text-center">
-    <img src="{{ asset('images/logo-transparent.png') }}" 
+    <img src="<?php echo e(asset('images/logo-transparent.png')); ?>" 
       loading="lazy"
       style="width: 100px; transform: scale(1.8);" alt="logo">
   </div>
@@ -43,36 +43,36 @@ img {
         <div class="row">
             <div class="col-md-8 col-lg-9 p-3">
                 <div class="row gy-3">
-                    {{-- Appointments --}}
+                    
                     <div class="col-md-6 col-lg-6">
                       <div class="card shadow-sm border-0">
                           <div class="card-body">
                           <h6 class="text-uppercase text-muted mb-4">Today's Appointment Overview</h6>
                     <div class="d-flex justify-content-between align-items-center kontainer">
-                        @if ($dashboard)
+                        <?php if($dashboard): ?>
 
                         <div class="text-center">
-                            <span class="mb-1 text-primary fs-1">{{ $dashboard->totalAppointments }}</span>
+                            <span class="mb-1 text-primary fs-1"><?php echo e($dashboard->totalAppointments); ?></span>
                             <p class="font-weight-bold">Total</p>
                         </div>
                         <div class="text-center">
-                            <span class="mb-1 text-success fs-1">{{ $dashboard->ongoingAppointments }}</span>
+                            <span class="mb-1 text-success fs-1"><?php echo e($dashboard->ongoingAppointments); ?></span>
                             <p class="font-weight-bold">On-going</p>
                         </div>
                         <div class="text-center">
-                            <span class="mb-1 text-warning fs-1">{{ $dashboard->pendingAppointments }}</span>
+                            <span class="mb-1 text-warning fs-1"><?php echo e($dashboard->pendingAppointments); ?></span>
                             <p class="font-weight-bold">Pending</p>
                         </div>
                         <div class="text-center">
-                            <span class="mb-1 text-danger fs-1">{{ $dashboard->rejectedAppointments }}</span>
+                            <span class="mb-1 text-danger fs-1"><?php echo e($dashboard->rejectedAppointments); ?></span>
                             <p class="font-weight-bold">Rejected</p>
                         </div>
 
-                        @else
+                        <?php else: ?>
                         <div class="alert alert-danger w-100" role="alert">
                                 <strong>Error</strong> Fetching Details
                               </div>
-                                @endif
+                                <?php endif; ?>
                               </div>
                           </div>
                       </div>
@@ -84,7 +84,7 @@ img {
                         <div class="card-body">
                             <h6 class="text-uppercase text-muted mb-4">Payment Overview</h6>
                             <div class="d-flex justify-content-between align-items-center kontainer px-4">
-                              @if ($dashboard)
+                              <?php if($dashboard): ?>
                       
                                 <div class="text-center">
                                   <span class="mb-1 text-success fs-1">40</span>
@@ -101,7 +101,7 @@ img {
                                     <p class="font-weight-bold">Rejected</p>
                                   
                                 </div>
-                                @else
+                                <?php else: ?>
 
                                 <div
                                   class="alert alert-danger w-100"
@@ -109,7 +109,7 @@ img {
                                 >
                                   <strong>Error</strong> Fetching Details
                                 </div>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -129,32 +129,32 @@ img {
                   </div>
                   </div>
                   <div style="height: 400px; overflow-y: auto; overflow-x:hidden;">
-                  @if($dashboard)
-                  @foreach ($dashboard->appointments as $item)
+                  <?php if($dashboard): ?>
+                  <?php $__currentLoopData = $dashboard->appointments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <div class="row row-striped"> 
                     <div class="col-10"> 
-                        <h5 class="text-uppercase"><strong>{{$item->appointment_title ?? 'Not Specified'}}</strong></h5> 
+                        <h5 class="text-uppercase"><strong><?php echo e($item->appointment_title ?? 'Not Specified'); ?></strong></h5> 
                         <ul class="list-inline"> 
-                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> {{Carbon\Carbon::parse($item->appointment_date)->format('l');}}</li> 
-                            <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> {{$item->start_time}} - {{$item->end_time}}</li> 
-                            <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> {{ucwords($item->status)}}</li> 
+                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> <?php echo e(Carbon\Carbon::parse($item->appointment_date)->format('l')); ?></li> 
+                            <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> <?php echo e($item->start_time); ?> - <?php echo e($item->end_time); ?></li> 
+                            <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> <?php echo e(ucwords($item->status)); ?></li> 
                         </ul> 
                         <div class="row">
                           <div class="d-flex justify-content-between align-content-center">
                             <h6>Actions</h6>
                             <div>
-                            <a href="{{ route('reception.calendar') }}" class="nav-link"><button class="btn btn-dark">Follow up</button></a>
+                            <a href="<?php echo e(route('reception.calendar')); ?>" class="nav-link"><button class="btn btn-dark">Follow up</button></a>
                           </div>
                           </div>
                         </div>
                     </div> 
                 </div>
-                @endforeach
-                @else
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php else: ?>
                 <div>
                   <div class="alert alert-danger">Error fetching Appointments</div>
                 </div>
-                @endif
+                <?php endif; ?>
                   </div>
                 </div>
               </div>
@@ -214,7 +214,7 @@ img {
                               <!-- render days with js -->
                             </div>
                           </div>
-                        <script src="{{asset('js/dashboard_calendar.js')}}"></script>
+                        <script src="<?php echo e(asset('js/dashboard_calendar.js')); ?>"></script>
                             <style>
                               :root {
                                 --primary-color: #f90a39;
@@ -322,16 +322,17 @@ img {
                       <h6>Available Doctors</h6>
 
                       <ul class="list-group">
-                        @forelse ($dashboard->activeUsers as $item)
+                        <?php $__empty_1 = true; $__currentLoopData = $dashboard->activeUsers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                               <div>
                                 <span class="text-success">•</span>
-                               {{ ($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '') }}
+                               <?php echo e(($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '')); ?>
+
                               </div>
                             </li>
-                        @empty
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <div>Error fetching Doctor Details</div>
-                        @endforelse
+                        <?php endif; ?>
                       </ul>
                     </div>
                   </div>
@@ -340,4 +341,6 @@ img {
     </div>
         </div>   
     
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/dashboard.blade.php ENDPATH**/ ?>

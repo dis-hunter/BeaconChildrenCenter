@@ -5,7 +5,7 @@
 
     <!-- Results Display -->
     @if (!empty($results))
-        <div class="results-container" style="width: 330px !important; max-height:  300px; margin-left:120px !important;overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+        <div class="results-container" style="width: 330px !important; max-height:  300px; margin-left:50px ;overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
             <ul wire:ignore style="color: black; list-style-type: none; padding: 0; margin: 0;">
                 @foreach ($results as $result)
                     <li class="result-item {{ $loop->index % 2 == 0 ? 'light-gray' : 'white' }} py-2 px-3" style="border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">

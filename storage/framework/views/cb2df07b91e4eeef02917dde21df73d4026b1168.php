@@ -1,7 +1,7 @@
-@extends('reception.layout')
-@section('title','Appontments | Reception')
-@extends('reception.header')
-@section('content')
+
+<?php $__env->startSection('title','Appontments | Reception'); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <style>
 .cancel-btn,
@@ -66,6 +66,9 @@
 
 </style>
 <div class="w-100">
- @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+ <?php echo $__env->make('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/reception_calendar.blade.php ENDPATH**/ ?>

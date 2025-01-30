@@ -11,9 +11,25 @@ use App\Models\PaymentMode;
 use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+
 
 class VisitController extends Controller
 {
+    public function getVisitsLast7Days()
+    {
+        // Get the last 7 days from the current date
+        $sevenDaysAgo = Carbon::now()->subDays(7);
+
+        // Fetch visit data for the last 7 days
+        $visits = Visits::where('visit_date', '>=', $sevenDaysAgo)
+                       ->groupBy('visit_date')
+                       ->selectRaw('visit_date, count(*) as visit_count')
+                       ->orderBy('visit_date', 'asc')
+                       ->get();
+
+        return response()->json($visits);
+    }
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -53,6 +69,64 @@ class VisitController extends Controller
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+
+    public function getVisitData(Request $request)
+    {
+        $period = $request->query('period', 'weekly');
+        $startDate = match ($period) {
+            'weekly' => Carbon::now()->subDays(7),
+            'monthly' => Carbon::now()->subDays(30),
+            'annually' => Carbon::now()->startOfYear(),
+            default => Carbon::now()->subDays(7),
+        };
+    
+        // Prepare a list of all months in the current year (for annual data)
+        $allMonths = collect(range(1, 12))->map(fn($month) => Carbon::createFromDate(null, $month, 1)->format('Y-m'));
+    
+        // Adjust visits query based on the period
+        if ($period === 'annually') {
+            // Group by month (YYYY-MM) for annually
+            $visits = DB::table('visits')
+                ->select(DB::raw("TO_CHAR(created_at, 'YYYY-MM') as month"), DB::raw('COUNT(id) as total'))
+                ->whereBetween('created_at', [$startDate, Carbon::now()])
+                ->groupBy('month')
+                ->orderBy('month')
+                ->pluck('total', 'month');
+    
+            // Merge all months and set missing months to 0
+            $labels = $allMonths->toArray();
+            $visitCounts = $allMonths->map(fn($month) => $visits->get($month, 0))->toArray();
+        } else {
+            // Group by day for weekly or monthly
+            $visits = DB::table('visits')
+                ->select(DB::raw("TO_CHAR(created_at, 'YYYY-MM-DD') as day"), DB::raw('COUNT(id) as total'))
+                ->whereBetween('created_at', [$startDate, Carbon::now()])
+                ->groupBy('day')
+                ->orderBy('day')
+                ->pluck('total', 'day');
+    
+            $labels = array_keys($visits->toArray());
+            $visitCounts = array_values($visits->toArray());
+        }
+    
+        return response()->json([
+            'labels' => $labels,
+            'visits' => $visitCounts,
+        ]);
+    }
+    public function getVisitTypesData()
+{
+    // Join visits with visit_types and count occurrences of each visit_type
+    $visitTypes = DB::table('visits')
+        ->join('visit_type', 'visits.visit_type', '=', 'visit_type.id')
+        ->select('visit_type.visit_type', DB::raw('COUNT(visits.id) as visit_count'))
+        ->groupBy('visit_type.visit_type')
+        ->orderByDesc('visit_count')
+        ->get();
+
+    return response()->json($visitTypes);
+}
+
     
     public function doctorNotes(Request $request)
     {
@@ -260,6 +334,7 @@ public function getDoctorsBySpecialization(Request $request)
         'data' => $doctors,
     ]);
 }
+
 
 
 
