@@ -14,19 +14,28 @@ class EditInvoices extends EditRecord
 
     protected function getActions(): array
     {
-        // Remove the Delete action
         return [];
     }
 
     protected function getFormActions(): array
     {
-        // Remove the Save action and rename the Cancel button to Back
-        return [
+        $invoice = $this->record; // Get the current invoice record
+
+        $actions = [
             Actions\Action::make('cancel')
                 ->label('Back')
                 ->url($this->previousUrl ?? static::getResource()::getUrl())
                 ->color('secondary'),
         ];
+
+        // Show the Edit button only if invoice_status is false (Pending)
+        if (!$invoice->invoice_status) {
+            $actions[] = Actions\EditAction::make()
+                ->label('Edit')
+                ->color('primary');
+        }
+
+        return $actions;
     }
 
     protected function form(Form $form): Form
@@ -38,7 +47,6 @@ class EditInvoices extends EditRecord
                     ->rows(5)
                     ->required()
                     ->formatStateUsing(function ($state) {
-                        // Convert the object to a JSON string
                         return is_array($state) || is_object($state) ? json_encode($state, JSON_PRETTY_PRINT) : $state;
                     })
                     ->dehydrateStateUsing(function ($state) {

@@ -13,6 +13,8 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BadgeColumn;
+
 
 class InvoicesResource extends Resource
 {
@@ -82,13 +84,22 @@ class InvoicesResource extends Resource
                     ->date()
                     ->sortable(),
 
-                TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->sortable(),
+                // TextColumn::make('created_at')
+                //     ->label('Created At')
+                //     ->sortable(),
 
-                TextColumn::make('updated_at')
-                    ->label('Updated At')
-                    ->sortable(),
+                BadgeColumn::make('invoice_status')
+    ->label('Invoice Status')
+    ->enum([
+        true => 'Delivered',
+        false => 'Not Delivered',
+    ])
+    ->colors([
+        'success' => true, // Green for "Paid"
+        'warning' => false, // Yellow for "Pending"
+    ])
+    ->sortable()
+
             ])
             ->filters([
                 // Add your filters here

@@ -16,6 +16,7 @@ class Invoice extends Model
         'total_amount',
         'invoice_details',
         'invoice_date',
+        'invoice_status'
     ];
 
     protected $casts = [
