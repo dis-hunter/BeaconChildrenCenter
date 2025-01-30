@@ -152,7 +152,7 @@ class TriageController extends Controller
                 ->select('visits.*', 'children.fullname', 'children.registration_number')
                 ->where('visits.triage_pass', true)
                 ->whereDate('visits.visit_date', $date)
-                ->where('visits.staff_id', $doctorId) // Compare with authenticated user's ID
+                ->where('visits.doctor_id', $doctorId) // Compare with authenticated user's ID
                 ->get()
                 ->map(function ($visit) {
                     try {
