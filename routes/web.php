@@ -184,8 +184,16 @@ Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatis
 
 
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RevenueReportController;
 
 Route::post('/generate-encounter-summary', [ReportController::class, 'generateEncounterSummary']);
 Route::post('/generate-staff-performance', [ReportController::class, 'generateStaffPerformance']);
 
+Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
+    ->name('revenue.breakdown');
 
+
+
+Route::post('/generate-report', [RevenueReportController::class, 'generate'])->name('generate.report');
+Route::post('/generate-revenue-report', [RevenueReportController::class, 'generateRevenueReport'])->name('generate.revenue.report');
+Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');

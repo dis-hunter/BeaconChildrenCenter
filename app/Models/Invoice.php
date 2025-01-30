@@ -19,10 +19,18 @@ class Invoice extends Model
     ];
 
     protected $casts = [
-        'invoice_details' => 'array',
+        'invoice_date' => 'date',
+        'invoice_details' => 'json',
+        'total_amount' => 'decimal:2'
     ];
 
     public function getInvoiceDetailsAttribute($value){
         return json_decode($value);
+    }
+    
+
+    public function visit()
+    {
+        return $this->belongsTo(Visits::class);
     }
 }
