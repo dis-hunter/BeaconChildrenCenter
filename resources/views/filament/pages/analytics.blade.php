@@ -1,20 +1,21 @@
-<x-filament::page>
-<style>
-    td,th,button,option,select,input{
-        color:black;
-    }
-</style>
-<section class="bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-xl font-bold mb-2" style="color: black;">Custom Report</h1>
-    <p class="text-gray-600 mb-4" style="color: black;">Select parameters to generate a custom report.</p>
 
-    <div x-data="{ open: true, showReport: false, reportContent: [], reportType: '', isLoading: false }">
+<x-filament::page>
+    <style>
+        td, th, button, option, select, input,label {
+            color: black;
+        }
+    </style>
+<section class="bg-white p-6 rounded-lg shadow-md">
+    <h1 style="color:black;" class="text-xl font-bold mb-2 text-black">Custom Report</h1>
+    <p class="text-gray-600 mb-4 text-black">Select parameters to generate a custom report.</p>
+
+    <div x-data="{ open: true, isLoading: false, showReport: false, reportContent: [], reportType: '' }">
         <!-- Toggle Button -->
         <button 
             @click="open = !open" 
             class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
         >
-            <span style="color: black;">Report Parameters</span>
+            <span class="text-black">Report Parameters</span>
             <svg 
                 :class="open ? 'rotate-180' : ''" 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -32,7 +33,7 @@
             <form @submit.prevent="fetchReport" method="POST" class="space-y-4">
                 @csrf
                 <div>
-                    <label for="start_date" class="block text-sm font-medium" style="color: black;">Start Date</label>
+                    <label for="start_date" class="block text-sm font-medium text-black">Start Date</label>
                     <input 
                         type="date" 
                         id="start_date" 
@@ -41,8 +42,9 @@
                         required
                     >
                 </div>
+
                 <div>
-                    <label for="end_date" class="block text-sm font-medium" style="color: black;">End Date</label>
+                    <label for="end_date" class="block text-sm font-medium text-black">End Date</label>
                     <input 
                         type="date" 
                         id="end_date" 
@@ -51,8 +53,9 @@
                         required
                     >
                 </div>
+
                 <div>
-                    <label for="report_type" class="block text-sm font-medium" style="color: black;">Report Type</label>
+                    <label for="report_type" class="block text-sm font-medium text-black">Report Type</label>
                     <select 
                         id="report_type" 
                         name="report_type" 
@@ -62,15 +65,13 @@
                     >
                         <option value="">Select Report</option>
                         <option value="encounter_summary">Encounter Summary</option>
-                        <option value="financial_summary">Financial Summary</option>
-                        <option value="expenses_breakdown">Expenses Breakdown</option>
-                        <option value="revenue_breakdown">Revenue Breakdown</option>
                         <option value="staff_performance">Staff Performance</option>
                     </select>
                 </div>
+
                 <div>
                     <button 
-                    style="color:black;"
+                        style="color:black;"
                         type="submit" 
                         class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700"
                         :disabled="isLoading"
@@ -94,18 +95,23 @@
 
         <!-- Report Modal -->
         <div id="reportModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-       <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
-        <div class="flex justify-between items-center">
-            <h2 class="text-lg font-semibold" style="color: black;">Generated Report</h2>
-            <button onclick="closeModal()" class="text-red-500 hover:text-red-700">Close</button>
+            <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-semibold text-black">Generated Report</h2>
+                    <button onclick="closeModal()" class="text-red-500 hover:text-red-700">Close</button>
+                </div>
+
+                <!-- Report Table -->
+                <div id="reportTableContainer" class="mt-4"></div>
+
+                <!-- Pagination Controls -->
+                <div id="pagination" class="flex justify-between items-center mt-4"></div>
+            </div>
         </div>
-        <div id="reportTableContainer" class="mt-4"></div>
-    </div>
-</div>
-        
-    
     </div>
 </section>
+
+   
 
 
 
@@ -262,12 +268,15 @@
 
 
         //Encounter Summary Report
+        let currentPage = 1;
+const rowsPerPage = 10; // Set the number of rows per page
+let reportData = [];
+let reportType = '';
 
-       
 function fetchReport() {
     const startDate = document.querySelector('#start_date').value;
     const endDate = document.querySelector('#end_date').value;
-    const reportType = document.querySelector('#report_type').value;
+    reportType = document.querySelector('#report_type').value;
     
     this.isLoading = true;
 
@@ -295,15 +304,9 @@ function fetchReport() {
     .then((response) => response.json())
     .then((data) => {
         if (data.success) {
-            let reportData = [];
-            if (reportType === 'encounter_summary') {
-                reportData = data.encounters;
-            } else if (reportType === 'staff_performance') {
-                reportData = data.performance;
-            }
-
-            // Dynamically render the table
-            renderReportTable(reportData, reportType);
+            reportData = reportType === 'encounter_summary' ? data.encounters : data.performance;
+            currentPage = 1; // Reset to first page
+            updateTable(); // Render table with pagination
             document.getElementById("reportModal").style.display = "flex";
         } else {
             alert('Failed to generate the report.');
@@ -317,11 +320,12 @@ function fetchReport() {
     });
 }
 
-function renderReportTable(data, reportType) {
+// Function to render the paginated report table
+function renderReportTable(page = 1) {
     const tableContainer = document.getElementById("reportTableContainer");
     tableContainer.innerHTML = ""; // Clear previous content
 
-    if (data.length === 0) {
+    if (reportData.length === 0) {
         tableContainer.innerHTML = "<p class='text-red-500'>No data available for the selected period.</p>";
         return;
     }
@@ -350,10 +354,12 @@ function renderReportTable(data, reportType) {
     thead.appendChild(trHead);
     table.appendChild(thead);
 
-    // Create table body
+    // Create table body with pagination
     const tbody = document.createElement("tbody");
+    const start = (page - 1) * rowsPerPage;
+    const paginatedData = reportData.slice(start, start + rowsPerPage);
 
-    data.forEach(row => {
+    paginatedData.forEach(row => {
         const tr = document.createElement("tr");
         headers.forEach((key, index) => {
             const td = document.createElement("td");
@@ -367,12 +373,46 @@ function renderReportTable(data, reportType) {
 
     table.appendChild(tbody);
     tableContainer.appendChild(table);
+
+    updatePaginationControls();
+}
+
+// Function to update the table and pagination controls
+function updateTable() {
+    renderReportTable(currentPage);
+}
+
+// Function to update pagination controls
+function updatePaginationControls() {
+    const totalPages = Math.ceil(reportData.length / rowsPerPage);
+    const paginationContainer = document.getElementById('pagination');
+
+    paginationContainer.innerHTML = `
+        <button onclick="prevPage()" class="px-4 py-2 bg-gray-200 rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
+        <span class="mx-2">Page ${currentPage} of ${totalPages}</span>
+        <button onclick="nextPage()" class="px-4 py-2 bg-gray-200 rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
+    `;
+}
+
+// Pagination functions
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+    }
+}
+
+function nextPage() {
+    const totalPages = Math.ceil(reportData.length / rowsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        updateTable();
+    }
 }
 
 function closeModal() {
     document.getElementById("reportModal").style.display = "none";
 }
-
 
     </script>
 
