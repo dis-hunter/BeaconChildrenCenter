@@ -442,7 +442,7 @@ main {
   background-color: white; /* Optional, adjust according to your design */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
 
-  width: 1000px !important;;
+  width: 980px !important;;
 }
 
 /* Ensure the main content area has the correct space */
