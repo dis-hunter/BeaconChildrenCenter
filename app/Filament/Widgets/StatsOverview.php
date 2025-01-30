@@ -10,6 +10,8 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 
 class StatsOverview extends BaseWidget
 {
+    protected static bool $isLazy = true;
+    
     protected function getCards(): array
     {
         return [

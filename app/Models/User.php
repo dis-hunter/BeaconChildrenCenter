@@ -6,13 +6,16 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    //use SoftDeletes, HasRoles;
 
     protected $table = 'staff';
     /**
@@ -29,6 +32,7 @@ class User extends Authenticatable
         'gender_id',
         'role_id',
         'specialization_id',
+        'is_admin',
     ];
 
     /**
@@ -38,6 +42,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'remember_token',
+        'is_admin',
     ];
 
     /**
@@ -48,6 +53,7 @@ class User extends Authenticatable
     protected $casts = [
         'fullname'=> 'array',
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean'
     ];
 
    // Accessor for fullname (assuming it's stored as JSON)
