@@ -23,6 +23,7 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AppointmentController;
+
 use App\Http\Controllers\BookedController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FetchAppointments;
@@ -502,6 +503,35 @@ Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVis
 
 
 
+//Temporary Admin route
+Route::get('/admin1', function () {
+    return view('beaconAdmin');
+});
 
+
+
+use App\Http\Controllers\PatientDemographicsController;
+
+// Route to fetch data for the pie charts
+Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
+
+
+Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
+
+
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RevenueReportController;
+
+Route::post('/generate-encounter-summary', [ReportController::class, 'generateEncounterSummary']);
+Route::post('/generate-staff-performance', [ReportController::class, 'generateStaffPerformance']);
+
+Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
+    ->name('revenue.breakdown');
+
+
+
+Route::post('/generate-report', [RevenueReportController::class, 'generate'])->name('generate.report');
+Route::post('/generate-revenue-report', [RevenueReportController::class, 'generateRevenueReport'])->name('generate.revenue.report');
+Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
 Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');

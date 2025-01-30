@@ -23,7 +23,7 @@ return new class extends Migration
                 ->constrained('children')
                 ->onDelete('set null');
             $table->decimal('total_amount', 10, 2);
-            $table->json('invoice_details'); // To store the JSON data
+            $table->json('invoice_details');
             $table->date('invoice_date')->default(DB::raw('CURRENT_DATE'));
             $table->timestamps();
         });
