@@ -95,7 +95,7 @@ Route::post('/children/store', [ChildrenController::class, 'store'])->name('chil
 
 // Doctor Routes
 Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
-Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); 
+Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');
 Route::get('/doctors/specialization-search', [VisitController::class, 'showSpecializations'])->name('doctors.specializationSearch');
 Route::get('/specializations', [VisitController::class, 'getSpecializations']);
 Route::get('/doctors', [VisitController::class, 'getDoctorsBySpecialization']);
@@ -118,9 +118,6 @@ Route::view('/visits-page', 'visits')->name('visits.page');
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('profile', [AuthController::class, 'profileGet'])->name('profile');
-    Route::post('profile', [AuthController::class, 'profilePost'])->name('profile.post');
-
     // Nurse Routes
     Route::group(['middleware' => 'role:1'], function () {
         Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
@@ -129,12 +126,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
         Route::view('/post-triage', 'postTriageQueue');
         Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
+        Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');;
+        Route::post('/triage', [TriageController::class, 'store']);
+        Route::get('/triage', [TriageController::class, 'create'])->name('triage');
+        Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']);
+        Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
     });
 
     // Doctor Routes
-    Route::group(['middleware' => 'role:2'], function () {
+    Route::group(['middleware' => ['role:2','track_user_activity']], function () {
         Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
-        Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
+        //Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
         // Update Profile Route
         Route::post('/doctorDashboard/profile/update', [DoctorsController::class, 'updateProfile'])->name('doctor.profile.update');
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
@@ -502,13 +504,4 @@ Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVis
 
 
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
-Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceDetails'])->name('invoice.details');
-
-
-
-
-
-
-
-
-//Temporary Admin route
+Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');

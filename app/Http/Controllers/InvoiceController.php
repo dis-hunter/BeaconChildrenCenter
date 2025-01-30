@@ -135,32 +135,32 @@ class InvoiceController extends Controller
     return view('reception.invoice', ['invoices' => $invoicesWithNames]);
 }
 
-//     public function getInvoiceDetails($invoiceId)
-// {
-//     // Fetch the invoice
-//     $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
+    public function getInvoiceContent($invoiceId)
+{
+    // Fetch the invoice
+    $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
 
-//     if (!$invoice) {
-//         return redirect()->back()->withErrors(['error' => 'Invoice not found.']);
-//     }
+    if (!$invoice) {
+        return redirect()->back()->withErrors(['error' => 'Invoice not found.']);
+    }
 
-//     // Get child details
-//     $child = DB::table('children')->where('id', $invoice->child_id)->first();
-//     $gender = DB::table('gender')->where('id', $child->gender_id)->first()->gender ?? 'Unknown';
+    // Get child details
+    $child = DB::table('children')->where('id', $invoice->child_id)->first();
+    $gender = DB::table('gender')->where('id', $child->gender_id)->first()->gender ?? 'Unknown';
 
-//     // Decode child name
-//     $fullName = json_decode($child->fullname);
-//     $child->full_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
+    // Decode child name
+    $fullName = json_decode($child->fullname);
+    $child->full_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
 
-//     // Decode invoice details
-//     $invoice->invoice_details = json_decode($invoice->invoice_details, true);
+    // Decode invoice details
+    $invoice->invoice_details = json_decode($invoice->invoice_details, true);
 
-//     return view('reception.invoice-details', [
-//         'invoice' => $invoice,
-//         'child' => $child,
-//         'gender' => $gender,
-//     ]);
-// }
+    return view('reception.invoice-details', [
+        'invoice' => $invoice,
+        'child' => $child,
+        'gender' => $gender,
+    ]);
+}
 
 // Method to fetch invoice dates for a child
 public function getInvoiceDates($childId)

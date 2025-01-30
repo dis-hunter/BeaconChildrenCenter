@@ -54,16 +54,22 @@
       right: 20px;
       position: relative;
       z-index: 2;
-
     }
 
+    #toggleLoginPassword{
+      float: right;
+      margin-left: -25px;
+      margin-top: -40px;
+      right: 20px;
+      position: relative;
+      z-index: 2;
+    }
     @media (min-width: 768px) {
       .gradient-form {
         height: 100vh !important;
       }
       .responsive-navbar{
         position: static;
-        margin-top:10px;
       }
       #mainNav.show ~ #Account{
         margin-top: 200px;
@@ -100,7 +106,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-  <script src="<?php echo e('js/script.js'); ?>"></script>
+  <script src="<?php echo e(asset('js/script.js')); ?>"></script>
   <?php echo \Livewire\Livewire::scripts(); ?>
 
   <script>

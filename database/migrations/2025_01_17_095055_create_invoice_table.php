@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,9 +16,12 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('visit_id')
+                ->constrained('visits')
+                ->onDelete('set null');
             $table->foreignId('child_id')
                 ->constrained('children')
-                ->onDelete('cascade');
+                ->onDelete('set null');
             $table->decimal('total_amount', 10, 2);
             $table->json('invoice_details'); // To store the JSON data
             $table->date('invoice_date')->default(DB::raw('CURRENT_DATE'));

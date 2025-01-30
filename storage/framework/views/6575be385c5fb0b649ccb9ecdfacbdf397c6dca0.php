@@ -13,7 +13,7 @@
   <header>
   <div class="profile">
   <i class="fas fa-user-md fa-4x"></i> <div>
-    <h2 style="margin-bottom: 6px;">Dr. <?php echo e($firstName); ?> <?php echo e($lastName); ?></h2>
+    <h2 style="margin-bottom: 6px;">Dr. <?php echo e($firstName ?? ''); ?> <?php echo e($lastName ?? ''); ?></h2>
     <p style="margin-top:0">Pediatrician</p>
   </div>
 </div>
@@ -24,6 +24,7 @@
         <div class="dropdown-content">
           <a href="#"  id="dropdown-profile-link">View Profile</a>
           <a href="#">Settings</a>
+          <a href="<?php echo e(route('profile.show')); ?>">View Profile</a>
           <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
 
           <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
@@ -44,6 +45,10 @@
           <li> <a id="therapist-link" href="#">Therapy</a></li>
 
           <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
+          <li class="active"><a href="<?php echo e(route('doctor.dashboard')); ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="<?php echo e(route('profile.show')); ?>"><i class="fas fa-user"></i> My Profile</a></li>
+          <li><a href="#"><i class="fas fa-book"></i> Booked Patients</a></li>
+          <li><a href="#"><i class="fas fa-user-md"></i> Therapy</a></li>
         </ul>
       </nav>
     </aside>

@@ -5,7 +5,6 @@
 
 <style>
   body {
-    margin-left: 200px; /* Keep this if you have a sidebar */
     font-family: 'Arial', sans-serif;
     background: #f4f4f4;
     color: #333;
@@ -13,7 +12,7 @@
 
   .container {
     max-width: 960px;
-    margin: 50px auto;
+    margin: 10px auto;
     padding: 20px;
     background: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -94,10 +93,12 @@
   <p class="subheading">Your Neurodevelopmental Clinic</p> 
 
   @auth
-    <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p> 
-    <p>{{auth()->user()->staff_no}}</p>
+    <p class="welcome-message">Hello, {{ auth()->user()->fullname->first_name }}!</p>
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="{{ route(auth()->user()->getDashboardRoute()) }}" class="btn" style="background-color: #7909E1FF">My Dashboard</a>
+    </div> 
   @endauth
-
+  
   <div class="features">
     <div class="feature">
       <i class="fas fa-user-md"></i>

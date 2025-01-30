@@ -62,15 +62,15 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
-} elseif ($_instance->childHasBeenRendered('wIXO7m3')) {
-    $componentId = $_instance->getRenderedChildComponentId('wIXO7m3');
-    $componentTag = $_instance->getRenderedChildComponentTagName('wIXO7m3');
+} elseif ($_instance->childHasBeenRendered('tYclotT')) {
+    $componentId = $_instance->getRenderedChildComponentId('tYclotT');
+    $componentTag = $_instance->getRenderedChildComponentTagName('tYclotT');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('wIXO7m3');
+    $_instance->preserveRenderedChild('tYclotT');
 } else {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
-    $_instance->logRenderedChild('wIXO7m3', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('tYclotT', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></div> 
@@ -89,7 +89,7 @@ echo $html;
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <?php if(auth()->guard()->check()): ?>
                     <form action="/logout" method="post"><?php echo csrf_field(); ?><button class="dropdown-item" type="submit">Logout</button></form>
-                    <a class="dropdown-item" href="<?php echo e(route('profile')); ?>">Profile</a>
+                    <a class="dropdown-item" href="<?php echo e(route('profile.show')); ?>">Profile</a>
                     <?php else: ?>
                     <a class="dropdown-item" href="<?php echo e(route('login')); ?>">Login</a>
                     <a class="dropdown-item" href="<?php echo e(route('register')); ?>">Register</a>

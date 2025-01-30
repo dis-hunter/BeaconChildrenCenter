@@ -28,7 +28,7 @@ class AuthController extends Controller
         $roles = Role::select('role')->get();
         $genders = Gender::select('gender')->get();
         $specializations = DoctorSpecialization::select('specialization')->get();
-        return view('register', compact('roles', 'genders', 'specializations'));
+        return view('auth/register', compact('roles', 'genders', 'specializations'));
     }
 
     function registerPost(Request $request)
@@ -81,7 +81,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return redirect(route('home'));
         }
-        return view('login');
+        return view('auth/login');
     }
 
     function loginPost(Request $request)
