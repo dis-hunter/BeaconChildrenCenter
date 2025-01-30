@@ -7,6 +7,7 @@ use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Form;
+use Illuminate\Database\Eloquent\Model;
 
 class EditInvoices extends EditRecord
 {
@@ -19,7 +20,7 @@ class EditInvoices extends EditRecord
 
     protected function getFormActions(): array
     {
-        $invoice = $this->record; // Get the current invoice record
+        $invoice = $this->record;
 
         $actions = [
             Actions\Action::make('cancel')
@@ -28,11 +29,22 @@ class EditInvoices extends EditRecord
                 ->color('secondary'),
         ];
 
-        // Show the Edit button only if invoice_status is false (Pending)
+        // Show the Payment button only if invoice_status is false (Pending)
         if (!$invoice->invoice_status) {
-            $actions[] = Actions\EditAction::make()
-                ->label('Edit')
-                ->color('primary');
+            $actions[] = Actions\Action::make('markAsPaid')
+                ->label('Mark as Paid')
+                ->color('success')
+                ->action(function () use ($invoice) {
+                    $invoice->invoice_status = true;
+                    $invoice->save();
+                    
+                    $this->notify('success', 'Invoice marked as paid successfully.');
+                    return redirect()->to(static::getResource()::getUrl());
+                })
+                ->requiresConfirmation()
+                ->modalHeading('Mark Invoice as Paid')
+                ->modalSubheading('Are you sure you want to mark this invoice as paid? This action cannot be undone.')
+                ->modalButton('Yes, mark as paid');
         }
 
         return $actions;
@@ -45,7 +57,7 @@ class EditInvoices extends EditRecord
                 Textarea::make('invoice_details')
                     ->label('Invoice Details')
                     ->rows(5)
-                    ->required()
+                    ->disabled() // Make the field read-only
                     ->formatStateUsing(function ($state) {
                         return is_array($state) || is_object($state) ? json_encode($state, JSON_PRETTY_PRINT) : $state;
                     })

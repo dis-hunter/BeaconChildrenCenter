@@ -7,6 +7,8 @@ use App\Models\Invoice;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -14,7 +16,9 @@ use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
-
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class InvoicesResource extends Resource
 {
@@ -84,25 +88,98 @@ class InvoicesResource extends Resource
                     ->date()
                     ->sortable(),
 
-                // TextColumn::make('created_at')
-                //     ->label('Created At')
-                //     ->sortable(),
-
                 BadgeColumn::make('invoice_status')
-    ->label('Invoice Status')
-    ->enum([
-        true => 'Delivered',
-        false => 'Not Delivered',
-    ])
-    ->colors([
-        'success' => true, // Green for "Paid"
-        'warning' => false, // Yellow for "Pending"
-    ])
-    ->sortable()
-
+                    ->label('Invoice Status')
+                    ->enum([
+                        true => 'Paid',
+                        false => 'Pending',
+                    ])
+                    ->colors([
+                        'success' => true,
+                        'warning' => false,
+                    ])
+                    ->sortable()
             ])
             ->filters([
-                // Add your filters here
+                // Child ID Filter
+                Filter::make('child_id')
+                    ->form([
+                        TextInput::make('child_id')
+                            ->label('Child ID')
+                            ->numeric()
+                            ->placeholder('Enter Child ID'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['child_id'],
+                            fn (Builder $query, $value): Builder => $query->where('child_id', $value)
+                        );
+                    }),
+
+                // Invoice Status Filter
+                SelectFilter::make('invoice_status')
+                    ->label('Payment Status')
+                    ->options([
+                        '1' => 'Paid',
+                        '0' => 'Pending',
+                    ]),
+
+                // Price Range Filter
+                Filter::make('amount_range')
+                    ->form([
+                        TextInput::make('amount_from')
+                            ->label('Minimum Amount')
+                            ->numeric()
+                            ->placeholder('Min Amount'),
+                        TextInput::make('amount_to')
+                            ->label('Maximum Amount')
+                            ->numeric()
+                            ->placeholder('Max Amount'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['amount_from'],
+                                fn (Builder $query, $amount): Builder => $query->where('total_amount', '>=', $amount)
+                            )
+                            ->when(
+                                $data['amount_to'],
+                                fn (Builder $query, $amount): Builder => $query->where('total_amount', '<=', $amount)
+                            );
+                    }),
+
+                // Date Range Filter
+                Filter::make('invoice_date_range')
+                    ->form([
+                        DatePicker::make('date_from')
+                            ->label('From Date'),
+                        DatePicker::make('date_to')
+                            ->label('To Date'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '>=', $date)
+                            )
+                            ->when(
+                                $data['date_to'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '<=', $date)
+                            );
+                    }),
+
+                // Exact Date Filter
+                Filter::make('exact_date')
+                    ->form([
+                        DatePicker::make('date')
+                            ->label('Exact Date'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['date'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '=', $date)
+                        );
+                    }),
             ])
             ->actions([
                 EditAction::make()->label('More Details'),
