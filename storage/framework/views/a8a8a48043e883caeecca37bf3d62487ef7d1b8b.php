@@ -38,7 +38,7 @@
 
         <!-- Parameters Form -->
         <div x-show="open" x-transition class="mt-4">
-            <form @submit.prevent="fetchReport" method="POST" class="space-y-4">
+            <form id="reportForm" method="POST" class="space-y-4">
                 <?php echo csrf_field(); ?>
                 <div>
                     <label for="start_date" class="block text-sm font-medium text-black">Start Date</label>
@@ -69,7 +69,6 @@
                         name="report_type" 
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
                         required 
-                        @change="reportType = $event.target.value"
                     >
                         <option value="">Select Report</option>
                         <option value="encounter_summary">Encounter Summary</option>
@@ -79,7 +78,8 @@
 
                 <div>
                     <button 
-                        style="color:black;"
+                    style="color:black;"
+                        id="submitButton"
                         type="submit" 
                         class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700"
                         :disabled="isLoading"
@@ -118,6 +118,7 @@
         </div>
     </div>
 </section>
+
 
    
 
@@ -280,13 +281,25 @@
 const rowsPerPage = 10; // Set the number of rows per page
 let reportData = [];
 let reportType = '';
+let isLoading = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const reportForm = document.getElementById('reportForm');
+    
+    // Add submit event listener to the form
+    reportForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        fetchReport();
+    });
+});
 
 function fetchReport() {
     const startDate = document.querySelector('#start_date').value;
     const endDate = document.querySelector('#end_date').value;
     reportType = document.querySelector('#report_type').value;
     
-    this.isLoading = true;
+    isLoading = true;
+    document.getElementById('submitButton').disabled = true; // Disable the submit button while loading
 
     let endpoint;
 
@@ -297,7 +310,8 @@ function fetchReport() {
         endpoint = '/generate-staff-performance';
     } else {
         alert('This report type is not supported. Please select a valid report type.');
-        this.isLoading = false;
+        isLoading = false;
+        document.getElementById('submitButton').disabled = false; // Re-enable the button
         return;
     }
 
@@ -324,7 +338,8 @@ function fetchReport() {
         console.error('Error fetching report:', error);
     })
     .finally(() => {
-        this.isLoading = false;
+        isLoading = false;
+        document.getElementById('submitButton').disabled = false; // Re-enable the button after loading is finished
     });
 }
 
@@ -402,7 +417,6 @@ function updatePaginationControls() {
     `;
 }
 
-// Pagination functions
 function prevPage() {
     if (currentPage > 1) {
         currentPage--;
@@ -421,6 +435,7 @@ function nextPage() {
 function closeModal() {
     document.getElementById("reportModal").style.display = "none";
 }
+
 
     </script>
 
