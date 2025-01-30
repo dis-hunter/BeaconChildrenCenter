@@ -101,19 +101,21 @@
 
     <div id="visitType" class="mt-3">
         <h3>Visit Type</h3>
-        <select id="visit_type" class="form-control">
-            <option value="" disabled selected>Select an option</option>
-            <option value="1">Developmental Assessment</option>
-            <option value="2">Paediatric Consultation</option>
-            <option value="3">General Consultation</option>
-            <option value="4">Therapy Assessment</option>
-            <option value="5">Therapy Session</option>
-            <option value="6">Nutrition Session</option>
-            <option value="7">Psychotherapy Session</option>
-            <option value="8">Specific Developmental Tests</option>
-            <option value="9">Review</option>
-            <option value="10">Other</option>
-        </select>
+       <select id="visit_type" class="form-control">
+    <option value="" disabled selected>Select an option</option>
+    <option value="1">Paediatric Consultation</option>
+    <option value="3">Therapy Assessment</option>
+    <option value="4">Occupational Therapy</option>
+    <option value="5">Sensory Integration</option>
+    <option value="6">Speech Therapy</option>
+    <option value="7">Physiotherapy</option>
+    <option value="8">Psychotherapy</option>
+    <option value="11">Review</option>
+    <option value="2">General Consultation</option>
+    <option value="15">Developmental Reports</option>
+    <option value="16">Medical Report</option>
+    <option value="17">Therapy Reports</option>
+</select>
     </div>
 
     <div id="triage-selection" class="mt-3">
