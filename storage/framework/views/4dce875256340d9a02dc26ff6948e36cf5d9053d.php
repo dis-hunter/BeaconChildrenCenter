@@ -32,6 +32,39 @@
         --button-text-hover: #1B2433;
     }
 
+    /* Loader styles */
+    .loader-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid var(--bg-primary);
+        border-radius: 50%;
+        border-top-color: var(--text-secondary);
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .loader-active {
+        display: flex;
+    }
+
     body {
         background-color: var(--bg-primary);
         color: var(--text-primary);
@@ -141,6 +174,11 @@
 </head>
 
 <body>
+    <!-- Loader overlay -->
+    <div class="loader-overlay">
+        <div class="loader"></div>
+    </div>
+
     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.page','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('filament::page'); ?>
@@ -210,7 +248,6 @@
     let Amount;
     let PaymentMethod = '';
 
-    // Add this function to show the form on page load
     window.onload = function() {
         const expenseForm = document.getElementById("expense-form");
         setTimeout(() => {
@@ -384,6 +421,10 @@
     };
 
     async function showValues() {
+        // Show loader
+        const loaderOverlay = document.querySelector('.loader-overlay');
+        loaderOverlay.classList.add('loader-active');
+
         const Amount = document.getElementById("expense-amount").value;
         const PaymentMethod = document.getElementById("payment-method").value;
         const categoryName = categoryMapping[selectedCategory] || selectedCategory;
