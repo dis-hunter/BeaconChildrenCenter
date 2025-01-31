@@ -20,6 +20,7 @@
 
 .nav-item .nav-link {
     padding: 10px 15px;
+    color:white;
 }
 
 .navbar-toggler {
@@ -66,10 +67,10 @@
                 <a class="nav-link" href="<?php echo e(route('home')); ?>"> Home </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"> About Us </a>
+                <a style="color:white;" class="nav-link"> About Us </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"> Contact Us </a>
+                <a style="color:white;"  class="nav-link"> Contact Us </a>
             </li>
     </ul>
 </div>
