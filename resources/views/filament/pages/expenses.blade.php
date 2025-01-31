@@ -63,10 +63,6 @@
         font-size: 1.25rem;
     }
 
-
-    
-
-
     #expense-tracking button {
         background-color: transparent;
         border: 2px solid var(--border-color);
@@ -124,13 +120,11 @@
         margin: 1rem 0;
     }
 
-    /* Ensure Full Name and Amount fields have black text */
     #full-name,
     #expense-amount {
         color: black;
     }
 
-    /* Animation classes */
     .fade-in {
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
@@ -140,7 +134,6 @@
         opacity: 1;
     }
 
-    /* Ensure placeholder text color is black */
     input::placeholder {
         color: var(--text-primary);
     }
@@ -149,14 +142,10 @@
 
 <body>
     <x-filament::page>
-
-
         <section id="finances" class="content-section">
-
             <h3>Add Expense Below</h3>
             <div id="expense-tracking">
-                <button onclick="showExpenseForm()">Add Expense</button>
-                <div id="expense-form" style="display: none;" class="fade-in">
+                <div id="expense-form" class="fade-in">
                     <h4>Add New Expense</h4>
                     <form id="new-expense-form">
                         <label for="expense-category">Category:</label>
@@ -208,21 +197,12 @@
     let Amount;
     let PaymentMethod = '';
 
-    function showExpenseForm() {
+    // Add this function to show the form on page load
+    window.onload = function() {
         const expenseForm = document.getElementById("expense-form");
-        if (expenseForm.style.display === "none") {
-            expenseForm.style.display = "block";
-            // Add small delay to trigger fade in
-            setTimeout(() => {
-                expenseForm.classList.add('active');
-            }, 10);
-        } else {
-            expenseForm.classList.remove('active');
-            // Wait for fade out before hiding
-            setTimeout(() => {
-                expenseForm.style.display = "none";
-            }, 300);
-        }
+        setTimeout(() => {
+            expenseForm.classList.add('active');
+        }, 10);
     }
 
     function updateExpenseDescriptions() {
@@ -248,7 +228,7 @@
             }
         }
 
-        let descriptions = []; // Your existing descriptions array stays the same
+        let descriptions = [];
         switch (selectedCategory) {
             case "1":
                 descriptions = ["Rent", "Service Charge", "Other"];
@@ -427,7 +407,7 @@
     }
 
     // Optional: Add theme toggle functionality
-    document.getElementById('theme-toggle').addEventListener('click', function() {
+    document.getElementById('theme-toggle')?.addEventListener('click', function() {
         document.documentElement.classList.toggle('dark');
     });
     </script>
