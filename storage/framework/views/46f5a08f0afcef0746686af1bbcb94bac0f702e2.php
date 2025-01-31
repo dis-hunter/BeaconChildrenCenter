@@ -1,10 +1,10 @@
-@extends('reception.layout')
-@section('title','Visits | Reception')
-@extends('reception.header')
-@section('content')
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="stylesheet" href="{{asset ('css/visit.css')}}">
+<?php $__env->startSection('title','Visits | Reception'); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+<link rel="stylesheet" href="<?php echo e(asset ('css/visit.css')); ?>">
 
 <!-- Patient Details Card -->
 <div class="card shadow-sm mt-3">
@@ -14,40 +14,40 @@
     <div class="card-body">
         <div class="row mb-3">
             <div class="col-md-12">
-                @if (!$children)
+                <?php if(!$children): ?>
                 <div class="card mb-2">
                     <div class="card-body justify-content-center">
                         <p>Patient not selected</p>
                         <p>Search for Patient or <a href="/guardians">Register</a> a new patient</p>
                     </div>
                 </div>
-                @else
-                @foreach ($children as $item)
+                <?php else: ?>
+                <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4"><strong>Child Name:</strong> {{($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')}}</div>
-                            <div class="col-md-4"><strong>Date of Birth:</strong> {{$item->dob}}</div>
+                            <div class="col-md-4"><strong>Child Name:</strong> <?php echo e(($item->fullname->last_name ?? '').' '.($item->fullname->first_name ?? '').' '.($item->fullname->middle_name ?? '')); ?></div>
+                            <div class="col-md-4"><strong>Date of Birth:</strong> <?php echo e($item->dob); ?></div>
                             <div class="col-md-4 text-end">
-                                <a href="/patients/{{$item->id}}" class="btn btn-sm btn-primary">View Details</a>
+                                <a href="/patients/<?php echo e($item->id); ?>" class="btn btn-sm btn-primary">View Details</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                @endforeach
-                @endif
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Error Message -->
-@if(session()->has('error'))
-<p style="color: red;">{{ session()->get('error') }}</p>
-@endif
+<?php if(session()->has('error')): ?>
+<p style="color: red;"><?php echo e(session()->get('error')); ?></p>
+<?php endif; ?>
 
 <!-- Patient Selection Table -->
-@if(isset($children) && $children->count() > 0)
+<?php if(isset($children) && $children->count() > 0): ?>
 <h3>Children Records</h3>
 <table border="1" class="patient-table">
     <thead>
@@ -60,23 +60,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($children as $child)
+        <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-            <td>{{ $child->id }}</td>
-            <td>{{ ($child->fullname->first_name ?? '') }} {{ ($child->fullname->last_name ?? '') }}</td>
-            <td>{{ $child->dob }}</td>
-            <td>{{ $child->gender_id }}</td>
+            <td><?php echo e($child->id); ?></td>
+            <td><?php echo e(($child->fullname->first_name ?? '')); ?> <?php echo e(($child->fullname->last_name ?? '')); ?></td>
+            <td><?php echo e($child->dob); ?></td>
+            <td><?php echo e($child->gender_id); ?></td>
             <td>
-                <button type="button" class="select-child btn btn-primary btn-sm" data-child-id="{{ $child->id }}">
+                <button type="button" class="select-child btn btn-primary btn-sm" data-child-id="<?php echo e($child->id); ?>">
                     <span class="button-text">Select</span>
                     <span class="selected-text" style="display: none">Selected ✓</span>
                 </button>
             </td>
         </tr>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </tbody>
 </table>
-@endif
+<?php endif; ?>
 <!-- Appointment Form -->
 <div class="appointment-form mt-4">
     <div class="form-group">
@@ -452,4 +452,6 @@
     });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/reception/visits.blade.php ENDPATH**/ ?>
