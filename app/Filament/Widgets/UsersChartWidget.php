@@ -12,6 +12,8 @@ class UsersChartWidget extends PieChartWidget
 {
     protected static ?string $heading = 'User Classification';
 
+    protected static bool $isLazy = true;
+
     protected function getData(): array
     {
         $roles = Role::pluck('role', 'id')->toArray();

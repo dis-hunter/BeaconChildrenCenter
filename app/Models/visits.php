@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Visits extends Model
 {
@@ -41,6 +42,8 @@ class Visits extends Model
      */
     protected $casts = [
         'triage_pass' => 'boolean',
+        'completed' => 'boolean',
+        'triage_pass' => 'boolean',
     ];
 
     public function staff()
@@ -51,5 +54,14 @@ class Visits extends Model
     public function visitType()
     {
         return $this->belongsTo(VisitType::class, 'visit_type');
+    }
+    public function paymentMode(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMode::class);
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
     }
 }
