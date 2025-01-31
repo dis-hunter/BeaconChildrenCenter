@@ -90,3 +90,19 @@
 [2025-01-31 21:44:37] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-01-31 21:44:38] local.INFO: select * from "doctor_specialization"  
 [2025-01-31 21:44:38] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:49:57] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:49:58] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:49:58] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:49:59] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:50:05] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:50:06] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:50:06] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:50:06] local.INFO: Fetched appointments for date: 2025-01-31 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":46,"appointment_date":"2025-01-31","start_time":"16:58:00","end_time":"17:59:00","appointment_title":"Alice's appointment","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"first_name\":\"Alice\",\"middle_name\":\"Wilson\",\"last_name\":\"Johnson\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-01-31 21:50:07] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:50:10] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:50:11] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:50:11] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:50:14] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:50:15] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:50:16] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:50:16] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
