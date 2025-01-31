@@ -6,26 +6,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const addEventFrom = document.querySelector(".event_time_from");
     const addEventTo = document.querySelector(".event_time_end");
     const addEventsSubmit = document.querySelector(".add-event-btn");
+
     const serviceDropdown = document.getElementById("service");
     const specialistContainer = document.getElementById("specialist-container");
     const specialistDropdown = document.getElementById("specialist");
     const bookAppointmentBtn = document.getElementById("book-appointment");
 
-    // Get the text content from the div
-    const dateText = document.querySelector(".event-date")?.textContent || "";
+    let formattedDate = ""; // Store the dynamically updated formatted date
 
-    // Convert it to a Date object (JavaScript will handle the parsing)
-    const date = new Date(dateText);
+    // Function to update the formatted date when the event date changes
+    function updateFormattedDate() {
+        const dateText = document.querySelector(".event-date")?.textContent.trim() || "";
 
-    // Get the time offset in minutes for the East Africa Time (EAT) zone
-    const timezoneOffset = 3 * 60; // EAT is UTC+3
-    
-    // Adjust the date by adding the timezone offset in milliseconds
-    date.setMinutes(date.getMinutes() + timezoneOffset);
-    
-    // Format the date to 'YYYY-MM-DD'
-    const formattedDate = date.toISOString().split('T')[0];
-    
+        if (!dateText) return;
+
+        const date = new Date(dateText);
+        if (isNaN(date)) return; // Ignore invalid dates
+
+        const timezoneOffset = 3 * 60; // EAT (UTC+3)
+        date.setMinutes(date.getMinutes() + timezoneOffset);
+
+        formattedDate = date.toISOString().split("T")[0];
+        console.log("Updated formatted date:", formattedDate);
+    }
+
+    // Initial call to set formattedDate when the page loads
+    updateFormattedDate();
+
+    // Observe changes to the event date element
+    const eventDateElement = document.querySelector(".event-date");
+    if (eventDateElement) {
+        const observer = new MutationObserver(updateFormattedDate);
+        observer.observe(eventDateElement, { childList: true, subtree: true });
+    }
+
 
     const checkDoctorAvailability = () => {
         const doctorId = specialistDropdown?.value;
@@ -185,9 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Show success alert
                     alert("Appointment successfully created!");
                     addEventContainer.classList.remove("active");
-                    let event = new CustomEvent('appointmentModified');
-                    dispatchEvent(event);
-                
+                    
                     // Close the form
                     const formModal = document.getElementById("form-modal");
                     if (formModal) {
@@ -195,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
             
                     // Refresh the appointments list
-                   
+                    location.reload(); // Reloads the current page
                 } else {
                     // Ensure the error message exists before showing it
                     const errorMessage = data && data.message ? data.message : "An unknown error occurred"; // Fallback message
@@ -214,5 +226,16 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('request data',request);
         
     });
+    console.log('Trying to get CSRF token...');
+const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+console.log('Element found:', csrfTokenMeta);
 
+if (csrfTokenMeta) {
+    const csrfToken = csrfTokenMeta.getAttribute('content');
+    console.log('CSRF Token:', csrfToken);
+} else {
+    console.error('CSRF token meta tag not found');
+}
+
+    
     });

@@ -53,6 +53,10 @@ div h2 {
 
 
 <div class="calendar-container">
+    <!-- Your calendar HTML and scripts go here -->
+
+<?php echo \Livewire\Livewire::scripts(); ?>
+
 
     <div class="container">
         <div class="left">
@@ -118,15 +122,15 @@ div h2 {
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('nnXN3X5')) {
-    $componentId = $_instance->getRenderedChildComponentId('nnXN3X5');
-    $componentTag = $_instance->getRenderedChildComponentTagName('nnXN3X5');
+} elseif ($_instance->childHasBeenRendered('bWYG5EQ')) {
+    $componentId = $_instance->getRenderedChildComponentId('bWYG5EQ');
+    $componentTag = $_instance->getRenderedChildComponentTagName('bWYG5EQ');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('nnXN3X5');
+    $_instance->preserveRenderedChild('bWYG5EQ');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('nnXN3X5', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('bWYG5EQ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -167,6 +171,9 @@ echo $html;
                 </div>
 
                 </div>
+                <br>
+                <br>
+                <br><br> <br> <br> <br><br> <br> <br>
                 <div class="add-event-footer">
                     <button class="add-event-btn" type="submit">Create Appointment</button>
                 </div>
@@ -241,7 +248,9 @@ margin: 20px auto; /* Center form */">
 </div>
     </div>
 
-    <script type="module" src="<?php echo e(asset('js/calendar.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/calendar.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/appointments.js')); ?>"></script>
+    <script type="module" src="<?php echo e(asset('js/specialization.js')); ?>"></script>
     <script src="<?php echo e(asset('js/isDoctorAvailable.js')); ?>"></script>
 
  </div>
@@ -251,5 +260,4 @@ margin: 20px auto; /* Center form */">
 
 
 </body>
-</html>
-<?php /**PATH D:\github\BeaconChildrenCenter\resources\views/calendar.blade.php ENDPATH**/ ?>
+</html><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/calendar.blade.php ENDPATH**/ ?>

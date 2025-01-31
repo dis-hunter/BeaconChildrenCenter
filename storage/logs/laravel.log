@@ -1,0 +1,92 @@
+[2025-01-31 21:42:48] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:42:49] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:42:49] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:42:50] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:42:54] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:42:54] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:42:55] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:42:55] local.INFO: Fetched appointments for date: 2025-01-31 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":46,"appointment_date":"2025-01-31","start_time":"16:58:00","end_time":"17:59:00","appointment_title":"Alice's appointment","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"first_name\":\"Alice\",\"middle_name\":\"Wilson\",\"last_name\":\"Johnson\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-01-31 21:42:55] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:42:58] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:42:59] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:42:59] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:03] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:03] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:04] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:43:04] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:07] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:08] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:08] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:43:08] local.INFO: Fetched appointments for date: 2025-02-03 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":47,"appointment_date":"2025-02-03","start_time":"17:19:00","end_time":"19:19:00","appointment_title":"KDB","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"first_name\":\"KDB\",\"middle_name\":\"Junior\",\"last_name\":\"Ankara\"}","staff_name":"{\"first_name\":\"Occupational Therapist\"}"}]}} 
+[2025-01-31 21:43:09] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:12] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:12] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:13] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:16] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:17] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:17] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:43:17] local.INFO: Fetched appointments for date: 2025-02-02 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-01-31 21:43:18] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:21] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:22] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:22] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:26] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:26] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:27] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:43:27] local.INFO: Fetched appointments for date: 2025-02-04 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-01-31 21:43:27] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:30] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:31] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:31] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:35] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:35] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:36] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:43:36] local.INFO: Fetched appointments for date: 2025-02-01 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-01-31 21:43:36] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:39] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:40] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:40] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:43] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:44] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:45] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:43:45] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:48] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:49] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:49] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:43:49] local.INFO: Fetched appointments for date: 2025-02-02 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-01-31 21:43:50] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:53] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:54] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:54] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:43:57] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:43:58] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:43:58] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:43:59] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:02] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:03] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:03] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:44:04] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:07] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:07] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:08] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:44:08] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:11] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:12] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:12] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:44:13] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:22] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:23] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:23] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:44:24] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:27] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:28] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:28] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ?  
+[2025-01-31 21:44:28] local.INFO: Fetched appointments for date: 2025-01-31 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":46,"appointment_date":"2025-01-31","start_time":"16:58:00","end_time":"17:59:00","appointment_title":"Alice's appointment","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"first_name\":\"Alice\",\"middle_name\":\"Wilson\",\"last_name\":\"Johnson\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-01-31 21:44:29] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:32] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:33] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:33] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-01-31 21:44:37] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-01-31 21:44:37] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-01-31 21:44:38] local.INFO: select * from "doctor_specialization"  
+[2025-01-31 21:44:38] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
