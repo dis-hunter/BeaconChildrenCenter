@@ -51,7 +51,8 @@
   }
 
   .btn:hover {
-    
+    background: black; /* Blue background on hover */
+    color:white;
     transform: translateY(-5px);
     border:2px solid white;
    

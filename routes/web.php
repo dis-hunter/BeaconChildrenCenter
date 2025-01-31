@@ -28,6 +28,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\IcdSearchController;
 
 
 Route::get('/admin', function () {
@@ -139,6 +140,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
         Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
         Route::get('/get-user-specialization-and-doctor', [AuthController::class, 'getUserSpecializationAndDoctor'])->name('get.user.specialization.doctor');
+        Route::post('/search', [IcdSearchController::class, 'search']);
     });
 
     // Receptionist Routes
@@ -152,6 +154,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
         //Joy's Routes
         Route::get('/reception/calendar', [ReceptionController::class, 'calendar'])->name('reception.calendar');
+        Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
+        Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
+        Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday'])->where('registrationNumber', '.*');
     });
 
     // Admin Routes
@@ -178,7 +183,6 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
 Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
 
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday'])->where('registrationNumber', '.*');
 
-Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
-Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
+
+
