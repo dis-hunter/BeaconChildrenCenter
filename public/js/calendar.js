@@ -3,10 +3,10 @@ class Calendar {
         this.initializeElements();
         this.initializeState();
         this.initializeEventListeners();
-        this.initializeModalEventListeners();
         this.render();
         this.initElements();
         this.bindEvents();
+        this.initializeModals();
     }
 
     initializeElements() {
@@ -37,8 +37,6 @@ class Calendar {
         this.specialistContainer = document.getElementById("specialist-container");
         this.specialistDropdown = document.getElementById("specialist");
         this.bookAppointmentBtn = document.getElementById("book-appointment");
-        this.dateText = document.querySelector(".event-date")?.textContent || "";
-        this.formattedDate = this.getFormattedDate();
     }
 
     bindEvents() {
@@ -64,6 +62,7 @@ class Calendar {
 
     initializeState() {
         this.today = new Date();
+        this.today.setHours(0,0,0,0);//Normalize
         this.activeDay = null;
         this.month = this.today.getMonth();
         this.year = this.today.getFullYear();
@@ -74,12 +73,42 @@ class Calendar {
         ];
     }
 
+    initializeModals() {
+        // const openModalButton = document.getElementById("openModalButton");
+        // const closeModalButton = document.querySelector("#reschedule-modal .close");
+
+        this.rescheduleModal = document.getElementById("reschedule-modal");
+        document.getElementById("close-modal").addEventListener("click", () => {
+            this.rescheduleModal.classList.add("hidden");
+        })
+
+        window.addEventListener("click", (event) => {
+            if (event.target === this.rescheduleModal) {
+                this.rescheduleModal.classList.add("hidden");
+            }
+        });
+
+
+        // if (openModalButton) {
+        //     openModalButton.addEventListener("click", () => {
+        //         rescheduleModal.style.display = "flex";
+        //     });
+        // }
+
+        // if (closeModalButton) {
+        //     closeModalButton.addEventListener("click", () => {
+        //         rescheduleModal.style.display = "none";
+        //     });
+        // }
+    }
+
     initializeEventListeners() {
         this.elements.prev.addEventListener("click", () => this.prevMonth());
         this.elements.next.addEventListener("click", () => this.nextMonth());
         this.elements.todayBtn.addEventListener("click", () => this.goToToday());
         this.elements.gotoBtn.addEventListener("click", () => this.gotoDate());
         this.elements.dateInput.addEventListener("input", (e) => this.handleDateInput(e));
+
         document.addEventListener("appointmentModified", () => this.refreshEvents());
     }
 
@@ -118,6 +147,12 @@ class Calendar {
             days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
         }
         return days;
+    }
+
+    isValidFutureDate(selectedDate){
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        return selectedDate >= today;
     }
 
     getCurrentMonthDays(lastDate) {
@@ -261,13 +296,6 @@ class Calendar {
         const dayNumber = Number(clickedDay.innerHTML);
 
         const selectedDate = new Date(this.year,this.month, dayNumber);
-        const today= new Date();
-        today.setHours(0.0,0,0);
-        if(selectedDate<today){
-            alert('Cannot create appointments for past Dates');
-            return;
-        }
-        console.log(selectedDate);
 
         // Handle month transitions
         if (clickedDay.classList.contains("prev-date")) {
@@ -414,65 +442,80 @@ class Calendar {
         return eventDiv;
     }
 
-    loadSpecialists() {
-        const selectedService = this.serviceDropdown.value;
-        this.specialistDropdown.innerHTML = '<option value="">-- Select Specialist --</option>';
+    // loadSpecialists() {
+    //     const selectedService = this.serviceDropdown.value;
+    //     this.specialistDropdown.innerHTML = '<option value="">-- Select Specialist --</option>';
 
-        if (selectedService) {
-            fetch(`/api/specialists?service=${selectedService}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.length > 0) {
-                        this.specialistContainer.style.display = "block";
-                        data.forEach((specialist) => {
-                            const option = document.createElement("option");
-                            option.value = specialist.id;
-                            option.textContent = specialist.name;
-                            this.specialistDropdown.appendChild(option);
-                        });
-                    } else {
-                        this.specialistContainer.style.display = "none";
-                        alert("No specialists found for the selected service.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching specialists:", error);
-                    alert("An error occurred while fetching specialists.");
-                });
-        } else {
-            this.specialistContainer.style.display = "none";
+    //     if (selectedService) {
+    //         fetch(`/api/specialists?service=${selectedService}`)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 if (data.length > 0) {
+    //                     this.specialistContainer.style.display = "block";
+    //                     data.forEach((specialist) => {
+    //                         const option = document.createElement("option");
+    //                         option.value = specialist.id;
+    //                         option.textContent = specialist.name;
+    //                         this.specialistDropdown.appendChild(option);
+    //                     });
+    //                 } else {
+    //                     this.specialistContainer.style.display = "none";
+    //                     alert("No specialists found for the selected service.");
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error fetching specialists:", error);
+    //                 alert("An error occurred while fetching specialists.");
+    //             });
+    //     } else {
+    //         this.specialistContainer.style.display = "none";
+    //     }
+    // }
+
+    async checkTimeAvailability(doctor_id, date, startTime, endTime){
+        try {
+            const response = await fetch(
+                `/check-availability?doctor_id=${doctor_id}&date=${date}&start_time=${startTime}&end_time=${endTime}`
+            );
+            const data = await response.json();
+            return data.available;
+        } catch (error) {
+            console.error("Availability check failed: ", error);
+            return false;            
         }
     }
 
-    checkDoctorAvailability() {
-        const doctorId = this.specialistDropdown?.value;
-        const datePicker = document.getElementById("event_date");
-        const timeStart = document.getElementById("event_time_from")?.value;
-        const timeEnd = document.getElementById("event_time_end")?.value;
+    // checkDoctorAvailability() {
+    //     const doctorId = this.specialistDropdown?.value;
+    //     const datePicker = document.getElementById("event_date");
+    //     const timeStart = document.getElementById("event_time_from")?.value;
+    //     const timeEnd = document.getElementById("event_time_end")?.value;
 
-        if (doctorId && datePicker?.value && timeStart && timeEnd) {
-            fetch(`/check-availability?doctor_id=${doctorId}&date=${datePicker.value}&start_time=${timeStart}&end_time=${timeEnd}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (!data.available) {
-                        alert("Doctor is unavailable during this time. Please select a different time.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error checking doctor availability:", error);
-                });
-        } else {
-            console.warn("Missing required fields for availability check.");
-        }
-    }
+    //     if (doctorId && datePicker?.value && timeStart && timeEnd) {
+    //         fetch(`/check-availability?doctor_id=${doctorId}&date=${datePicker.value}&start_time=${timeStart}&end_time=${timeEnd}`)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 if (!data.available) {
+    //                     alert("Doctor is unavailable during this time. Please select a different time.");
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error checking doctor availability:", error);
+    //             });
+    //     } else {
+    //         console.warn("Missing required fields for availability check.");
+    //     }
+    // }
 
     loadDoctorsBySpecialization() {
+        console.log("loadDoctorsBySpecialization");
         const specializationId = $('#doctor_specialization').val();
         const specialistSelect = $('#specialist');
         const specialistContainer = $('#specialist-container');
         const noSpecialistsMessage = $('#no-specialists-message');
 
         specialistSelect.empty();
+        specialistContainer.append('')
         specialistSelect.append('<option value="">-- Select Specialist --</option>');
         specialistContainer.hide();
         noSpecialistsMessage.hide();
@@ -547,11 +590,10 @@ class Calendar {
         if (!confirm("Are you sure you want to cancel this appointment?")) return;
 
         try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
             const response = await fetch(`/cancel-appointment/${appointmentId}`, {
                 method: "DELETE",
                 headers: {
-                    "X-CSRF-TOKEN": csrfToken,
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
                     "Content-Type": "application/json",
                 }
             });
@@ -560,8 +602,7 @@ class Calendar {
                 alert("Appointment canceled successfully.");
                 this.onAppointmentActionSuccess();
             } else {
-                const data = await response.json();
-                throw new Error(data.message || "Failed to cancel appointment.");
+                throw new Error("Failed to cancel appointment.");
             }
         } catch (error) {
             console.error("Error canceling appointment:", error);
@@ -604,67 +645,62 @@ class Calendar {
         const appointmentId = form.dataset.appointmentId;
 
         const requestData = {
-            new_date: document.getElementById("newDate").value,
-            new_start_time: document.getElementById("appointment-start-time").value,
-            new_end_time: document.getElementById("appointment-end-time").value,
+            new_date: form.querySelector("#newDate").value,
+            new_start_time: form.querySelector("#appointment-start-time").value,
+            new_end_time: form.querySelector("#appointment-end-time").value,
             appointment_id: appointmentId,
         };
 
+        const newDate = new Date(requestData.new_date);
+        if(!this.isValidFutureDate(newDate)){
+            alert("Cannot Reschedule to a past date!");
+            return;
+        }
+
+        const isAvailable = await checkTimeAvailability(
+            form.doctor_id.value,
+            requestData.new_date,
+            requestData.new_start_time,
+            requestData.new_end_time
+        );
+
+        if(!isAvailable){
+            alert("Selected Time slot is not available");
+            return;
+        }
+
         try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const response = await fetch(`/reschedule-appointment/${appointmentId}`, {
                 method: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": csrfToken,
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     "Content-Type": "application/json",
-                    Accept: "application/json",
                 },
                 body: JSON.stringify(requestData)
             });
 
-            const data = await response.json();
+            const result = await response.json();
 
-            if (data.success) {
-                alert(data.message);
-                document.getElementById("reschedule-modal").classList.add("hidden");
+            if (result.success) {
+                this.rescheduleModal.classList.add("hidden");
                 this.onAppointmentActionSuccess();
+                alert("Appointment rescheduled successfully");
             } else {
-                alert(data.message || "Error occurred.");
+                throw new Error(result.message || "Failed to reschedule appointment.");
             }
         } catch (error) {
             console.error("Error rescheduling appointment:", error);
-            alert("An error occurred while rescheduling the appointment.");
+            alert(`Error: ${error.message}`);
         }
     }
 
-    initializeModalEventListeners() {
-        const openModalButton = document.getElementById("openModalButton");
-        const closeModalButton = document.querySelector("#reschedule-modal .close");
-        const rescheduleModal = document.getElementById("reschedule-modal");
-
-        if (openModalButton) {
-            openModalButton.addEventListener("click", () => {
-                rescheduleModal.style.display = "flex";
-            });
-        }
-
-        if (closeModalButton) {
-            closeModalButton.addEventListener("click", () => {
-                rescheduleModal.style.display = "none";
-            });
-        }
-
-        // Close modal when clicking outside
-        window.addEventListener("click", (event) => {
-            if (event.target === rescheduleModal) {
-                rescheduleModal.style.display = "none";
-            }
-        });
-    }
-
-    submitAppointment(event) {
+    async submitAppointment(event) {
         event.preventDefault();
 
+        if(!this.selectedDate || !this.isValidFutureDate(this.selectedDate)){
+            alert('Please select a valid future date');
+            return;
+        }
 
         const selectedChildCheckbox = document.querySelector('input[type="checkbox"]:checked[id^="child_id_"]');
         const selectedChildId = selectedChildCheckbox?.value || "";
@@ -675,44 +711,55 @@ class Calendar {
             return;
         }
 
+
         const request = {
             appointment_title: this.addEventTitle?.value || "",
-            staff_id: this.specialistDropdown?.value || "",
             start_time: this.addEventFrom?.value || "",
             end_time: this.addEventTo?.value || "",
             child_id: selectedChildId,
-            appointment_date: formattedDate,
+            appointment_date: this.getFormattedDate(),
             doctor_id: this.specialistDropdown?.value || null,
             status: "pending",
         };
 
-        fetch("http://127.0.0.1:8000/appointments", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            body: JSON.stringify(request),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data && data.success) {
-                    alert("Appointment successfully created!");
-                    this.addEventContainer.classList.remove("active");
-                    this.onAppointmentActionSuccess();
-                } else {
-                    const errorMessage = data?.message || "An unknown error occurred";
-                    alert("Error: " + errorMessage);
-                    console.error("Error:", errorMessage);
-                }
-            })
-            .catch((error) => {
-                alert("An unexpected error occurred: " + error.message || error);
-                console.error("Error:", error);
-            });
-    }
+        if(request.start_time >= request.end_time){
+            alert('End time must be after start time!');
+            return;
+        }
 
+        const isAvailable = await this.checkTimeAvailability(
+            request.doctor_id,
+            request.appointment_date,
+            request.start_time,
+            request.end_time
+        );
+
+        if(!isAvailable){
+            alert('Slected time slot is not avalaible!');
+        }
+        try {
+            const response = await fetch("/appointments", {
+                method:"POST",
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify(request),
+                });
+            const result = await response.json();
+
+            if(result.success){
+                this.closeAddEventForm();
+                this.onAppointmentActionSuccess();
+                alert("Appointment created successfully!");
+            }else{
+                throw new Error(result.message || "Failed to create Appointment");
+            }
+        } catch (error) {
+            console.error("Appointment creation error: ",error);
+            alert(`Error: ${error.message}`)
+        }
+    }
 
     onAppointmentActionSuccess() {
         const event = new Event("appointmentModified");
@@ -724,5 +771,10 @@ class Calendar {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    new Calendar();
+    const calendar = new Calendar();
+    document.addEventListener("click", (e) =>{
+        if(e.target.classList.contains("cancel-btn")){
+            calendar.handleCancelAppointment(e.target.dataset.id);
+        }
+    });
 });

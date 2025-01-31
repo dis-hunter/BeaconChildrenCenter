@@ -339,7 +339,7 @@ img {
                               </div>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <div>Error fetching Doctor Details</div>
+                            <div>No Active Doctors online</div>
                         <?php endif; ?>
                       </ul>
                     </div>

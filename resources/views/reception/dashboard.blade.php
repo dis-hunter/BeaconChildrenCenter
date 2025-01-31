@@ -338,7 +338,7 @@ img {
                               </div>
                             </li>
                         @empty
-                            <div>Error fetching Doctor Details</div>
+                            <div>No Active Doctors online</div>
                         @endforelse
                       </ul>
                     </div>

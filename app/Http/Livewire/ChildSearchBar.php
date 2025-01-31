@@ -28,8 +28,10 @@ class ChildSearchBar extends Component
             )
             ->join('child_parent', 'children.id', '=', 'child_parent.child_id')
             ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
-            ->where('children.fullname', 'like', "%{$this->search}%")
-            ->orWhere('parents.fullname', 'like', "%{$this->search}%")
+            ->where(function ($query){
+                $query->where('children.fullname', 'like', "%{$this->search}%")
+                    ->orWhere('parents.fullname', 'like', "%{$this->search}%");
+            })
             ->get();
     }
 
@@ -43,5 +45,6 @@ class ChildSearchBar extends Component
         'selectedChildId' => $this->selectedChildId, // Pass selected child ID to the view
     ]);
 }
+
 
 };

@@ -118,15 +118,15 @@ div h2 {
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
-} elseif ($_instance->childHasBeenRendered('2PKdV2z')) {
-    $componentId = $_instance->getRenderedChildComponentId('2PKdV2z');
-    $componentTag = $_instance->getRenderedChildComponentTagName('2PKdV2z');
+} elseif ($_instance->childHasBeenRendered('nnXN3X5')) {
+    $componentId = $_instance->getRenderedChildComponentId('nnXN3X5');
+    $componentTag = $_instance->getRenderedChildComponentTagName('nnXN3X5');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('2PKdV2z');
+    $_instance->preserveRenderedChild('nnXN3X5');
 } else {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
-    $_instance->logRenderedChild('2PKdV2z', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('nnXN3X5', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -167,9 +167,6 @@ echo $html;
                 </div>
 
                 </div>
-                <br>
-                <br>
-                <br><br> <br> <br> <br><br> <br> <br>
                 <div class="add-event-footer">
                     <button class="add-event-btn" type="submit">Create Appointment</button>
                 </div>

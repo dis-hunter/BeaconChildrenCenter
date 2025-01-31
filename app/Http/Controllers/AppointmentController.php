@@ -7,8 +7,11 @@ use App\Models\DoctorSpecialization; // Add the correct model here
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Appointments;
+use App\Models\Specialization;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentController extends Controller
 {
@@ -31,7 +34,7 @@ class AppointmentController extends Controller
     $appointmentDate = $validatedData['appointment_date'];
     $startTime = $validatedData['start_time'];
     $endTime = $validatedData['end_time'];
-    $staffId = $validatedData['staff_id'];
+    $staffId = Auth::user()->id;
     $doctorId = $validatedData['doctor_id'];
     $appointmentTitle = $validatedData['appointment_title'];
     $childId = $validatedData['child_id'];
@@ -114,7 +117,8 @@ class AppointmentController extends Controller
     // Show the form to create a new appointment
     public function create()
     {
-        return view('calendar'); // Adjust to your form view
+        $doctorSpecializations = Specialization::all();
+        return view('calendar',compact('doctorSpecializations')); // Adjust to your form view
     }
 
     // Create the appointment with initial date
@@ -130,7 +134,7 @@ class AppointmentController extends Controller
     public function getDoctors($specialization_id)
     {
         // Log the received specialization_id to check if it's correct
-        \Log::info('Received specialization_id: ' . $specialization_id);
+        Log::info('Received specialization_id: ' . $specialization_id);
 
         // Try fetching doctors from the database
         $doctors = DB::table('staff')
@@ -144,7 +148,7 @@ class AppointmentController extends Controller
 
         // If no doctors found, log that as well
         if ($doctors->isEmpty()) {
-            \Log::info('No doctors found for specialization_id: ' . $specialization_id);
+            Log::info('No doctors found for specialization_id: ' . $specialization_id);
             return response()->json(['message' => 'We currently don\'t have any specialists for this specialization.']);
         }
 
