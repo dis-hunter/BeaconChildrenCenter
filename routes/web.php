@@ -197,3 +197,7 @@ Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
 Route::post('/generate-report', [RevenueReportController::class, 'generate'])->name('generate.report');
 Route::post('/generate-revenue-report', [RevenueReportController::class, 'generateRevenueReport'])->name('generate.revenue.report');
 Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');
+
+
+use App\Http\Controllers\ExpenseController;
+Route::get('/expenses', [ExpenseController::class, 'getExpensesByDateRange'])->name('expenses');
