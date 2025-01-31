@@ -141,6 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
         Route::get('/get-user-specialization-and-doctor', [AuthController::class, 'getUserSpecializationAndDoctor'])->name('get.user.specialization.doctor');
         Route::post('/search', [IcdSearchController::class, 'search']);
+        Route::post('/save-diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
     });
 
     // Receptionist Routes
