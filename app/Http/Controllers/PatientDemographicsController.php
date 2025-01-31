@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PatientDemographicsController extends Controller
@@ -15,7 +16,19 @@ class PatientDemographicsController extends Controller
      */
     public function getDemographicsData()
     {
-        // Fetch all children records
+        // Check if the demographics data is already cached
+        $cacheKey = 'patient_demographics_data'; // Set a cache key
+        $cachedData = Cache::get($cacheKey);
+
+        if ($cachedData) {
+            // If data is found in the cache, log it
+            Log::info('Cached Data Retrieved:', $cachedData);
+            
+            // Return cached data
+            return response()->json($cachedData);
+        }
+
+        // If no cached data, fetch from database and calculate the demographics
         $children = Children::all();
 
         // Initialize age groups
@@ -40,9 +53,6 @@ class PatientDemographicsController extends Controller
                 $ageGroups['19+']++;
             }
         }
-
-        // Log the age groups
-        Log::info('Age Groups Data:', $ageGroups);
 
         // Initialize gender distribution
         $genderDistribution = [
@@ -69,13 +79,19 @@ class PatientDemographicsController extends Controller
             }
         }
 
-        // Log the gender distribution
-        Log::info('Gender Distribution Data:', $genderDistribution);
-
-        // Return data as JSON response
-        return response()->json([
+        // Prepare data to be cached
+        $dataToCache = [
             'ageGroups' => $ageGroups,
             'genderDistribution' => $genderDistribution,
-        ]);
+        ];
+
+        // Log the data before caching
+        Log::info('Data Before Caching:', $dataToCache);
+
+        // Cache the data for 60 minutes (you can adjust the time as needed)
+        Cache::put($cacheKey, $dataToCache, now()->addMinutes(60));
+
+        // Return the demographics data
+        return response()->json($dataToCache);
     }
 }

@@ -1,1 +1,0 @@
-<?php /**PATH D:\github\BeaconChildrenCenter\vendor\filament\filament\src\/../resources/views/components/layouts/app/sidebar/footer.blade.php ENDPATH**/ ?>

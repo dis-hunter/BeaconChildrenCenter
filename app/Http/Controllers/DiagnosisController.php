@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Diagnosis;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class DiagnosisController extends Controller
 {
@@ -107,9 +108,19 @@ class DiagnosisController extends Controller
             return response()->json(['message' => 'Failed to save Diagnosis', 'error' => $e->getMessage()], 500);
         }
     }
-
     public function getDiseaseStatistics()
     {
+        // Cache key for disease statistics
+        $cacheKey = 'disease_statistics'; 
+        $cachedData = Cache::get($cacheKey);
+
+        if ($cachedData) {
+            // If cached data exists, log it and return
+            Log::info('Cached Disease Statistics Retrieved:', $cachedData);
+            return response()->json($cachedData);
+        }
+
+        // Define target diseases and initialize disease counts
         $targetDiseases = ['Autism', 'ADHD', 'Learning disorder', 'Intellectual development'];
         $diseaseCounts = [
             'Autism' => 0,
@@ -119,13 +130,14 @@ class DiagnosisController extends Controller
             'Other' => 0,
         ];
 
-        // Fetch all records
+        // Fetch all diagnoses records
         $diagnoses = Diagnosis::all();
 
         foreach ($diagnoses as $diagnosis) {
             $data = $diagnosis->data['diagnoses'] ?? [];
             $foundDiseases = [];
 
+            // Loop through diagnoses data to match diseases
             foreach ($data as $entry) {
                 foreach ($targetDiseases as $disease) {
                     if (stripos($entry, $disease) !== false && !in_array($disease, $foundDiseases)) {
@@ -141,9 +153,13 @@ class DiagnosisController extends Controller
             }
         }
 
-        // Log the results for debugging
-        Log::info('Disease Statistics: ', $diseaseCounts);
+        // Log the data before caching
+        Log::info('Disease Statistics Before Caching:', $diseaseCounts);
 
+        // Cache the disease statistics data for 60 minutes
+        Cache::put($cacheKey, $diseaseCounts, now()->addMinutes(60));
+
+        // Return the disease statistics
         return response()->json($diseaseCounts);
     }
 }

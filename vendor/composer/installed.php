@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-BeaconAdmin',
         'version' => 'dev-BeaconAdmin',
-        'reference' => 'b335664e68a5fed68c943394e1f74d79f1992499',
+        'reference' => '7586cc91a3fb7b6bb04a61912c2f69dc70f1382d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -475,7 +475,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-BeaconAdmin',
             'version' => 'dev-BeaconAdmin',
-            'reference' => 'b335664e68a5fed68c943394e1f74d79f1992499',
+            'reference' => '7586cc91a3fb7b6bb04a61912c2f69dc70f1382d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -774,6 +774,15 @@
             'install_path' => __DIR__ . '/../phpunit/phpunit',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'predis/predis' => array(
+            'pretty_version' => 'v2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => 'bac46bfdb78cd6e9c7926c697012aae740cb9ec9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../predis/predis',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'psr/clock' => array(
             'pretty_version' => '1.0.0',

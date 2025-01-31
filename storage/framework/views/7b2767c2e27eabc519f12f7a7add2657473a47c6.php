@@ -1,1 +1,0 @@
-<?php /**PATH D:\github\BeaconChildrenCenter\vendor\filament\filament\src\/../resources/views/components/global-search/end.blade.php ENDPATH**/ ?>
