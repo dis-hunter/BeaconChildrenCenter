@@ -22,7 +22,7 @@
         /* Dark mode colors */
         --navy-blue: #1B2433;
         --text-primary: #ffffff;
-        --text-secondary: #C4A862;
+        --text-secondary:#C4A862;
         --bg-primary: #1B2433;
         --bg-secondary: rgba(27, 36, 51, 0.9);
         --border-color: #C4A862;
@@ -145,7 +145,7 @@
     select:focus,
     input:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(196, 168, 98, 0.3);
+        box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3); /* Adjusted to match Laravel Filament orange */
         border-color: var(--text-secondary);
     }
 
@@ -451,12 +451,18 @@
 
             if (response.ok && result.status === 'success') {
                 alert(result.message);
+                // Hide loader
+                loaderOverlay.classList.remove('loader-active');
+                // Refresh the page
+                window.location.reload();
             } else {
                 throw new Error(result.message || 'Failed to save notes');
             }
         } catch (error) {
             console.error('Error:', error);
             alert(`Error: ${error.message}`);
+            // Hide loader in case of error
+            loaderOverlay.classList.remove('loader-active');
         }
     }
 
