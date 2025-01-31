@@ -113,54 +113,64 @@ class DiagnosisController extends Controller
         // Cache key for disease statistics
         $cacheKey = 'disease_statistics'; 
         $cachedData = Cache::get($cacheKey);
-
+    
         if ($cachedData) {
             // If cached data exists, log it and return
             Log::info('Cached Disease Statistics Retrieved:', $cachedData);
             return response()->json($cachedData);
         }
-
+    
         // Define target diseases and initialize disease counts
-        $targetDiseases = ['Autism', 'ADHD', 'Learning disorder', 'Intellectual development'];
+        $targetDiseases = [
+            'Autism', 
+            'Attention deficit',  // Changed ADHD to Attention deficit
+            'Learning disorder', 
+            'Intellectual development'
+        ];
         $diseaseCounts = [
             'Autism' => 0,
-            'ADHD' => 0,
+            'ADHD' => 0,  // Displayed as ADHD in the view
             'Learning disorder' => 0,
             'Intellectual development' => 0,
             'Other' => 0,
         ];
-
+    
         // Fetch all diagnoses records
         $diagnoses = Diagnosis::all();
-
+    
         foreach ($diagnoses as $diagnosis) {
             $data = $diagnosis->data['diagnoses'] ?? [];
             $foundDiseases = [];
-
+    
             // Loop through diagnoses data to match diseases
             foreach ($data as $entry) {
                 foreach ($targetDiseases as $disease) {
                     if (stripos($entry, $disease) !== false && !in_array($disease, $foundDiseases)) {
-                        $diseaseCounts[$disease]++;
+                        // Update diseaseCounts for Attention deficit as ADHD
+                        if ($disease === 'Attention deficit') {
+                            $diseaseCounts['ADHD']++; // Increase ADHD count in the response
+                        } else {
+                            $diseaseCounts[$disease]++;
+                        }
                         $foundDiseases[] = $disease;
                     }
                 }
             }
-
+    
             // If no target disease found, classify as "Other"
             if (empty($foundDiseases)) {
                 $diseaseCounts['Other']++;
             }
         }
-
+    
         // Log the data before caching
         Log::info('Disease Statistics Before Caching:', $diseaseCounts);
-
+    
         // Cache the disease statistics data for 60 minutes
         Cache::put($cacheKey, $diseaseCounts, now()->addMinutes(60));
-
+    
         // Return the disease statistics
         return response()->json($diseaseCounts);
     }
+    
 }
-
