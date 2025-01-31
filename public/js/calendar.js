@@ -260,12 +260,15 @@ function updateEvents(date) {
                     let formattedChildName = "N/A";
                     let formattedStaffName = "N/A";
                     try {
-                        const parentName = JSON.parse(appointment.parent_name);
-                        formattedParentName = `${parentName.first_name} ${parentName.middle_name} ${parentName.last_name}`;
-                        const childrenName = JSON.parse(appointment.child_name);
-                        formattedChildName = `${childrenName.first_name} ${childrenName.middle_name} ${childrenName.last_name}`;
-                        const staffName = JSON.parse(appointment.staff_name);
-                        formattedStaffName = `${staffName.first_name} ${staffName.middle_name} ${staffName.last_name}`;
+                        const parentName = JSON.parse(appointment.parent_name || "{}");
+                        formattedParentName = `${parentName.first_name || ""} ${parentName.middle_name || ""} ${parentName.last_name || ""}`.trim();
+
+                        const childrenName = JSON.parse(appointment.child_name || "{}");
+                        formattedChildName = `${childrenName.first_name || ""} ${childrenName.middle_name || ""} ${childrenName.last_name || ""}`.trim();
+
+                        const staffName = JSON.parse(appointment.staff_name || "{}");
+                        formattedStaffName = `${staffName.first_name || ""} ${staffName.middle_name || ""} ${staffName.last_name || ""}`.trim();
+
                     } catch (error) {
                         console.error("Error parsing parent_name:", appointment.parent_name);
                     }

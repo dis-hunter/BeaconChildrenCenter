@@ -38,9 +38,10 @@ use App\Http\Controllers\FinanceController;
 //});
 
 // General Routes
+// General Routes
 Route::view('/', 'home')->name('home');
 
-Route::get('/adm', [MetricsController::class, 'keyMetrics'])->name('admin.dashboard');
+
 
 Route::get('/api/visit-data', [VisitController::class, 'getVisitData']);
 Route::get('/api/finance-data', [FinanceController::class, 'getFinanceData']);
