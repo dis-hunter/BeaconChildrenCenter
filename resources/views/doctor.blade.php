@@ -366,6 +366,7 @@ async function saveDoctorNotes() {
 <script src="{{ asset('js/investigations.js') }}"></script>
 <script src="{{ asset('js/recordResults.js') }}"></script>
 <script src="{{ asset('js/EncounterSummary.js') }}"></script>
+<script src="{{ asset('js/prescriptions.js') }}"></script>
 
 
 </body>

@@ -290,38 +290,45 @@ prescriptionsLink.addEventListener('click', async (event) => {
     function getSelectedDrug() {
         const selectedDrugs = [];
         const drugCategories = form.querySelectorAll('.drug-category');
-
+    
         drugCategories.forEach(category => {
             const categoryName = category.querySelector('label').textContent;
             const drugList = category.querySelectorAll('.drug-list input[type="checkbox"]:checked');
+            
             drugList.forEach(drug => {
-                selectedDrugs.push(drug.value);
+                // Make sure 'on' is not being added to selected drugs
+                if (drug.value !== 'on') {
+                    selectedDrugs.push(drug.value);
+                }
             });
+    
+            // Check if 'Other' drug is selected and its textarea has a value
             const otherDrugTextArea = category.querySelector('.drug-list textarea');
             if (otherDrugTextArea.style.display === 'block' && otherDrugTextArea.value.trim() !== '') {
                 selectedDrugs.push(otherDrugTextArea.value.trim());
             }
         });
-
+    
         const formulation = form.querySelector('#formulation').value;
         const dose = form.querySelector('#dose').value;
         const units = form.querySelector('#units').value;
         const frequency = form.querySelector('#frequency').value;
         const durationType = form.querySelector('input[name="duration"]:checked');
         const durationText = durationType ? document.getElementById('duration_text').value : '';
-
+    
         if (selectedDrugs.length === 0 || !formulation || !dose || !units || !frequency) {
-            return null; 
+            return null;
         }
-
+    
         let duration = durationType.value;
         if (duration !== 'stat') {
-          duration = durationText + ' ' + duration; // Changed order here
+            duration = durationText + ' ' + duration; // Changed order here
         }
-
-        return `${selectedDrugs.join(', ')} ${formulation} ${dose}${units} ${frequency} ${duration}`; 
+    
+        return `${selectedDrugs.join(', ')} ${formulation} ${dose}${units} ${frequency} ${duration}`;
     }
-
+    
+   
     // Function to reset the form
     function resetForm() {
         // Get all the input elements within the form

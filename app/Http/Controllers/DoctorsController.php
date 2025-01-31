@@ -183,19 +183,30 @@ class DoctorsController extends Controller
 
     public function getMilestones($registrationNumber)
     {
+        // Log the registration number being used for the query
+        Log::info('Querying child for registration number:', ['registration_number' => $registrationNumber]);
+    
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
+    
         if (!$child) {
             return response()->json(['error' => 'Child not found'], 404);
         }
-
+    
+        // Log the child_id retrieved from the database
+        Log::info('Child found:', ['child_id' => $child->id]);
+    
         $milestone = DB::table('development_milestones')
             ->where('child_id', $child->id)
             ->latest()
             ->first();
-
+    
+        // Log the milestone data
+        Log::info('Milestone data: ', ['milestone' => $milestone]);
+    
+        // Return null if no milestone is found
         return response()->json(['data' => $milestone ? $milestone->data : null], 200);
     }
+
 
     public function saveMilestones(Request $request, $registrationNumber)
     {
