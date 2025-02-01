@@ -200,4 +200,4 @@ Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->nam
 
 
 use App\Http\Controllers\ExpenseController;
-Route::get('/expenses', [ExpenseController::class, 'getExpensesByDateRange'])->name('expenses');
+Route::post('/expenses', [ExpenseController::class, 'getExpensesByDateRange'])->name('expenses');

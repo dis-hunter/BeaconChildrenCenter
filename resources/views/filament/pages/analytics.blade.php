@@ -81,6 +81,7 @@
                         <option value="">Select Report</option>
                         <option value="encounter_summary">Encounter Summary</option>
                         <option value="staff_performance">Staff Performance</option>
+                        <option value="expense_breakdown">Expense Breakdown</option>
                     </select>
                 </div>
 
@@ -287,6 +288,8 @@ function fetchReport() {
         endpoint = '/generate-encounter-summary';
     } else if (reportType === 'staff_performance') {
         endpoint = '/generate-staff-performance';
+    } else if (reportType === 'expense_breakdown') {
+        endpoint = '/expenses'; // New endpoint for expense breakdown
     } else {
         alert('Invalid report type. Please select a valid option.');
         showLoading(false);
@@ -305,7 +308,14 @@ function fetchReport() {
     .then((response) => response.json())
     .then((data) => {
         if (data.success) {
-            reportData = reportType === 'encounter_summary' ? data.encounters : data.performance;
+            if (reportType === 'encounter_summary') {
+                reportData = data.encounters;
+            } else if (reportType === 'staff_performance') {
+                reportData = data.performance;
+            } else if (reportType === 'expense_breakdown') {
+                reportData = data.data; // Use 'data' field from response
+            }
+
             currentPage = 1;
             updateTable();
             document.getElementById("reportModal").style.display = "flex";
@@ -358,6 +368,8 @@ function renderReportTable(page = 1) {
         headers = ["Date", "Child Name", "Specialist Name", "Invoice ID"];
     } else if (reportType === 'staff_performance') {
         headers = ["Date", "Staff Name", "Service", "Sessions"];
+    } else if (reportType === 'expense_breakdown') {
+        headers = ["Date", "Category", "Description", "Full Name", "Amount", "Payment Method"];
     }
 
     headers.forEach(header => {
@@ -377,13 +389,34 @@ function renderReportTable(page = 1) {
 
     paginatedData.forEach(row => {
         const tr = document.createElement("tr");
-        headers.forEach((key, index) => {
-            const td = document.createElement("td");
-            const dataKey = Object.keys(row)[index];
-            td.textContent = row[dataKey];
-            td.classList.add("border", "px-4", "py-2");
-            tr.appendChild(td);
-        });
+
+        if (reportType === 'expense_breakdown') {
+            const values = [
+                new Date(row.created_at).toLocaleDateString(),
+                row.category,
+                row.description,
+                row.fullname || "N/A",
+                row.amount,
+                row.payment_method
+            ];
+
+            values.forEach(value => {
+                const td = document.createElement("td");
+                td.textContent = value;
+                td.classList.add("border", "px-4", "py-2");
+                tr.appendChild(td);
+            });
+
+        } else {
+            headers.forEach((key, index) => {
+                const td = document.createElement("td");
+                const dataKey = Object.keys(row)[index];
+                td.textContent = row[dataKey];
+                td.classList.add("border", "px-4", "py-2");
+                tr.appendChild(td);
+            });
+        }
+
         tbody.appendChild(tr);
     });
 
@@ -392,6 +425,7 @@ function renderReportTable(page = 1) {
 
     updatePaginationControls();
 }
+
 
 // Function to update the table
 function updateTable() {
