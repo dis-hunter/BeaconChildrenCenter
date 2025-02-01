@@ -17,12 +17,20 @@ class ReceptionController extends Controller
     public function dashboard()
     {
         $dashboard = new stdClass();
-        $dashboard->appointments = Appointments::whereDate('appointment_date',Carbon::today())->get();
+        $dashboard->appointments = Appointments::whereDate('appointment_date', Carbon::today())->get();
 
-        $dashboard->totalAppointments = Appointments::count();
-        $dashboard->ongoingAppointments = Appointments::where('status','ongoing')->count();
-        $dashboard->pendingAppointments = Appointments::where('status','pending')->count();
-        $dashboard->rejectedAppointments = Appointments::where('status','rejected')->count();
+        $appointmentStats = Appointments::whereMonth('appointment_date', Carbon::now()->month)->whereYear('appointment_date', Carbon::now()->year)->selectRaw("
+            COUNT (*) as total,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+            SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
+            SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+        ")->first();
+        $dashboard->totalAppointments = $appointmentStats->total ?? '-';
+        $dashboard->ongoingAppointments = $appointmentStats->ongoing ?? '-';
+        $dashboard->pendingAppointments = $appointmentStats->pending ?? '-';
+        $dashboard->rejectedAppointments = $appointmentStats->rejected ?? '-';
+        $dashboard->successfulAppointments = $appointmentStats->success ?? '-';
 
         $dashboard->activeUsers = User::getActiveUsers();
         return view('reception.dashboard', compact('dashboard'));
@@ -38,5 +46,23 @@ class ReceptionController extends Controller
     {
         $doctorSpecializations = Specialization::all();
         return view('reception.reception_calendar', compact('doctorSpecializations'));
+    }
+
+    public function finishAppointment($id = null)
+    {
+        if (!$id) {
+            return redirect()->back();
+        }
+
+        $appointment = Appointments::where('child_id', $id)
+            ->whereDate('appointment_date', Carbon::today())
+            ->first();
+
+        if (!$appointment) {
+            return redirect()->back();
+        }
+        $appointment->update(['status' => 'success']);
+
+        return redirect()->route('patients.search', ['id' => $id]);
     }
 }
