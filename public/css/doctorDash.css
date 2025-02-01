@@ -1,272 +1,353 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Arial', sans-serif;
   margin: 0;
+  padding: 0;
+  background-color: #f4f7f6;
+  color: #333;
+  opacity: 0; /* Start with the page invisible */
+  animation: fadeIn 1s ease-in forwards; /* Apply the fade-in animation */
 }
 
+/* Fade-in Animation for the entire page */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header Animation */
 header {
-  background-color: #f2f2f2;
-  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
+  background-color: #2c3e50;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Start with the header invisible */
+  animation: slideDown 0.5s ease-in forwards; /* Slide down animation */
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Sidebar Animation */
+.sidebar {
+  width: 250px;
+  background-color: #34495e;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Start with the sidebar invisible */
+  animation: slideInLeft 0.5s ease-in 0.5s forwards; /* Slide in from left with delay */
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .profile {
   display: flex;
   align-items: center;
+  gap: 15px;
+}
+
+.notifications {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+#date {
+  font-size: 14px;
+  color: #bdc3c7;
+}
+
+.clock {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .profile i {
-  font-size: 4em; /* Adjust size as needed */
-  margin-right: 15px; /* Add space between icon and text */
-  color: Black; /* Example color - adjust as needed */
+  color: #3498db;
+  animation: pulse 2s infinite;
 }
 
-.profile div {
-  /* Target the div that contains the name and specialization */
+.profile h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile p {
+  margin: 0;
+  font-size: 14px;
+  color: #bdc3c7;
+}
+
+.notifications {
   display: flex;
-  flex-direction: column;
-  /* Stack the name and specialization vertically */
-  align-items: flex-start;
-  /* Align the text to the left */
+  align-items: center;
+  gap: 20px;
 }
 
-.notifications .fa-bell {
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
+.clock {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .dropbtn {
-  background-color: transparent;
+  background: none;
   border: none;
+  color: #fff;
+  font-size: 20px;
   cursor: pointer;
-  margin-right: 50px;
-  font-size: 1.5em;
+  transition: transform 0.3s ease;
+}
+
+.dropbtn:hover {
+  transform: scale(1.2);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
   z-index: 1;
-  right: 10px;
+  right: 20px;
+  min-width: 150px;
 }
 
 .dropdown-content a {
-  color: black;
+  color: #333;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #3498db;
+  color: #fff;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
+/* Main Content Styles */
 main {
   display: flex;
+  margin: 20px;
 }
 
-.sidebar {
-  width: 250px;
-  background-color: lightblue;
-  color: white;
-  padding: 20px;
-  height: 465px;
-}
-
-.sidebar ul {
+.sidebar nav ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.sidebar li {
-  margin-bottom: 10px;
-  
+.sidebar nav ul li {
+  margin: 15px 0;
 }
 
-.sidebar a {
-  color: white;
+.sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #bdc3c7;
   text-decoration: none;
-  display: block;
   padding: 10px;
-  transition: all 0.3s ease; /* Smooth transition for all properties */
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
-.sidebar li:hover a {
-  background-color: lightskyblue;
-  color: #333;
-  padding-left: 20px; /* Indent on hover */
-  transform: translateX(5px); /* Slight movement on hover */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+.sidebar nav ul li a:hover {
+  background-color: #3498db;
+  color: #fff;
+  transform: translateX(10px);
 }
 
-/* Active link */
-.sidebar .active {
-  background-color: lightskyblue;
+.sidebar nav ul li.active a {
+  background-color: #3498db;
+  color: #fff;
 }
 
-/* Non-active links */
-.sidebar li {
-  background-color: #5fa8d3; /* Subtle, muted blue for non-active items */
-}
-
-.sidebar li:hover {
-  background-color: lightskyblue; /* Highlight the link on hover */
-}
-
+/* Dashboard Section Styles */
 .dashboard {
-  flex-grow: 1;
+  flex: 1;
+  margin-left: 20px;
+  background-color: #fff;
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-
 
 .welcome {
   margin-bottom: 20px;
 }
 
-.patient-queue ul {
-  list-style: none;
-  padding: 0;
+.welcome h3 {
+  font-size: 24px;
+  color: #2c3e50;
 }
 
-.patient-queue li {
-  display: flex;
-  align-items: center;
-  padding: 1px; /* Increased padding for hover effect */
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-  transition: all 0.3s ease; /* Smooth transition for all properties */
+.patient-queue {
+  margin-top: 20px;
 }
 
-.patient-queue li:hover {
-  background-color: #e0f2f7; /* Light blue background on hover */
-  transform: translateY(-3px); /* Slightly move the item up */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+.patient-queue h2 {
+  font-size: 20px;
+  color: #2c3e50;
 }
 
-.patient-queue .active {
-  background-color: #e0f2f7;
-  font-weight: bold;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table thead th {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+}
+
+table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
 }
 
 .actions {
   margin-top: 20px;
+  display: flex;
+  gap: 10px;
 }
 
 .actions button {
-  background-color: #008CBA;
-  color: white;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
   cursor: pointer;
-  margin-right: 10px;
+  transition: all 0.3s ease;
 }
-/* doctorDash.css */
 
+.actions button:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}
+
+/* Profile Section Styles */
 .profile-content {
+  flex: 1;
+  margin-left: 20px;
   background-color: #fff;
-  width: 700px;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .profile-content h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 25px;
+  font-size: 24px;
+  color: #2c3e50;
 }
 
-.profile-content #profile-details {
-  margin-bottom: 30px;
-}
-
-.profile-content #profile-details p {
-  margin-bottom: 12px;
+#profile-details p {
   font-size: 16px;
-  color: #555;
+  margin: 10px 0;
 }
 
-.profile-content #profile-details strong {
+#edit-profile-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#edit-profile-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}
+
+#edit-profile-form {
+  margin-top: 20px;
+}
+
+#edit-profile-form label {
+  display: block;
+  margin-bottom: 5px;
   font-weight: bold;
 }
 
-.profile-content #edit-profile-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.profile-content #edit-profile-btn:hover {
-  background-color: #0069d9;
-  transform: translateY(-2px);
-}
-
-.profile-content #edit-profile-form {
-  margin-top: 30px;
-  display: none; /* Initially hidden */
-  /* Reduce the height of the form container */
-  max-height: 300px; /* Adjust this value as needed */
-  overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
-}
-
-.profile-content label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #333;
-}
-
-.profile-content input[type="text"],
-.profile-content input[type="email"] {
+#edit-profile-form input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  font-size: 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.profile-content input[type="text"]:focus,
-.profile-content input[type="email"]:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  outline: none;
-}
-
-.profile-content button[type="submit"] {
-  background-color: #28a745;
-  color: #fff;
+#edit-profile-form button {
+  padding: 10px 20px;
   border: none;
-  padding: 12px 25px;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.profile-content button[type="submit"]:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
+#edit-profile-form button:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

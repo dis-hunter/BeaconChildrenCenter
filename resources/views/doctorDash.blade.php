@@ -11,20 +11,23 @@
 <body>
   <!-- Header -->
   <header>
-  <div class="profile">
-  <i class="fas fa-user-md fa-4x"></i> <div>
-    <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
-    <p style="margin-top:0">Pediatrician</p>
-  </div>
-</div>
+    <div class="profile">
+      <i class="fas fa-user-md fa-4x"></i>
+      <div>
+        <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
+        <p style="margin-top:0">Pediatrician</p>
+      </div>
+    </div>
     <div class="notifications">
-    <div class="clock" id="clock"></div> 
+      <div class="datetime">
+        <div id="date"></div>
+        <div class="clock" id="clock"></div>
+      </div>
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
           <a href="{{ route('profile.show') }}">View Profile</a>
           <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
-
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
           </form>
@@ -51,29 +54,23 @@
     @if(!isset($profile))
     <section class="dashboard">
       <div class="welcome">
-      <h3 id="greeting"></h3>
+        <h3 id="greeting"></h3>
       </div>
       <div class="patient-queue">
         <h2>Patients Waiting</h2>
         <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
-        <thead>
+          <thead>
             <tr>
-               
-                <!-- <th>Patient Name</th> -->
-                
+              <!-- <th>Patient Name</th> -->
             </tr>
-        </thead>
-        <tbody id="post-triage-list">
+          </thead>
+          <tbody id="post-triage-list">
             <tr>
-                <td colspan="6" style="text-align: center;">Loading...</td>
+              <td colspan="6" style="text-align: center;">Loading...</td>
             </tr>
-        </tbody>
-    </table>
+          </tbody>
+        </table>
         <ul id="patient-list"></ul>
-      </div>
-      <div class="actions">
-       <button class="start-consult">Start Consultation</button>
-        <button class="view-schedule">View Schedule</button>
       </div>
     </section>
     @endif
@@ -114,31 +111,43 @@
   <script>
     // Toggle Edit Profile Form
     const editProfileBtn = document.getElementById('edit-profile-btn');
-const editProfileForm = document.getElementById('edit-profile-form');
-const profileDetails = document.getElementById('profile-details'); // Get the profile details div
+    const editProfileForm = document.getElementById('edit-profile-form');
+    const profileDetails = document.getElementById('profile-details');
 
-if (editProfileBtn && editProfileForm && profileDetails) {
-  editProfileBtn.addEventListener('click', () => {
-    // Hide the profile details
-    profileDetails.style.display = 'none'; 
+    if (editProfileBtn && editProfileForm && profileDetails) {
+      editProfileBtn.addEventListener('click', () => {
+        profileDetails.style.display = 'none';
+        editProfileForm.style.display = 'block';
+        editProfileBtn.style.display = 'none';
+      });
 
-    // Show the edit profile form
-    editProfileForm.style.display = 'block'; 
+      editProfileForm.addEventListener('submit', () => {
+        profileDetails.style.display = 'block';
+        editProfileForm.style.display = 'none';
+      });
+    }
 
-    editProfileBtn.style.display = 'none'; 
-  });
+    // Function to display live date and time
+    function updateDateTime() {
+      const now = new Date();
+      const dateElement = document.getElementById('date');
+      const clockElement = document.getElementById('clock');
 
-  // Add an event listener for form submission
-  editProfileForm.addEventListener('submit', () => {
-    // Show the profile details
-    profileDetails.style.display = 'block'; 
+      // Format the date
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = now.toLocaleDateString('en-US', options);
 
-    // Hide the edit profile form
-    editProfileForm.style.display = 'none'; 
-  });
-}
+      // Format the time
+      const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      // Update the DOM
+      dateElement.textContent = dateString;
+      clockElement.textContent = timeString;
+    }
+
+    // Update date and time every second
+    setInterval(updateDateTime, 1000);
+    updateDateTime(); // Initial call to display immediately
   </script>
 </body>
 </html>
-
-
