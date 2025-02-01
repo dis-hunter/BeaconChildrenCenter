@@ -4,6 +4,22 @@
         td, th, button, option, select, input,label {
             color: black;
         }
+        .loading-spinner {
+    display: none; /* Hidden by default */
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 255, 0.3); /* Light blue border */
+    border-top: 4px solid blue; /* Darker blue top border */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Apply rotation animation */
+    margin: 10px auto; /* Center horizontally */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
     </style>
 <section class="bg-white p-6 rounded-lg shadow-md">
     <h1 style="color:black;" class="text-xl font-bold mb-2 text-black">Custom Report</h1>
@@ -93,6 +109,11 @@
             </form>
         </div>
 
+      <!-- Loading Indicator -->
+<div id="loadingIndicator" class="loading-spinner"></div>
+
+
+
         <!-- Report Modal -->
         <div id="reportModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white p-6 rounded-lg shadow-md w-2/3">
@@ -110,7 +131,6 @@
         </div>
     </div>
 </section>
-
 
    
 
@@ -237,14 +257,14 @@
 
         //Encounter Summary Report
         let currentPage = 1;
-const rowsPerPage = 10; // Set the number of rows per page
+const rowsPerPage = 10; // Number of rows per page
 let reportData = [];
 let reportType = '';
 let isLoading = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const reportForm = document.getElementById('reportForm');
-    
+
     // Add submit event listener to the form
     reportForm.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -256,21 +276,21 @@ function fetchReport() {
     const startDate = document.querySelector('#start_date').value;
     const endDate = document.querySelector('#end_date').value;
     reportType = document.querySelector('#report_type').value;
-    
+
     isLoading = true;
-    document.getElementById('submitButton').disabled = true; // Disable the submit button while loading
+    showLoading(true);
+    document.getElementById('submitButton').disabled = true; // Disable the submit button
 
     let endpoint;
 
-    // Determine the endpoint based on the selected report type
     if (reportType === 'encounter_summary') {
         endpoint = '/generate-encounter-summary';
     } else if (reportType === 'staff_performance') {
         endpoint = '/generate-staff-performance';
     } else {
-        alert('This report type is not supported. Please select a valid report type.');
-        isLoading = false;
-        document.getElementById('submitButton').disabled = false; // Re-enable the button
+        alert('Invalid report type. Please select a valid option.');
+        showLoading(false);
+        document.getElementById('submitButton').disabled = false;
         return;
     }
 
@@ -286,8 +306,8 @@ function fetchReport() {
     .then((data) => {
         if (data.success) {
             reportData = reportType === 'encounter_summary' ? data.encounters : data.performance;
-            currentPage = 1; // Reset to first page
-            updateTable(); // Render table with pagination
+            currentPage = 1;
+            updateTable();
             document.getElementById("reportModal").style.display = "flex";
         } else {
             alert('Failed to generate the report.');
@@ -295,12 +315,26 @@ function fetchReport() {
     })
     .catch((error) => {
         console.error('Error fetching report:', error);
+        alert('An error occurred while fetching the report.');
     })
     .finally(() => {
         isLoading = false;
-        document.getElementById('submitButton').disabled = false; // Re-enable the button after loading is finished
+        showLoading(false);
+        document.getElementById('submitButton').disabled = false;
     });
 }
+
+
+// Function to show or hide the loading indicator
+function showLoading(show) {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    if (show) {
+        loadingIndicator.style.display = 'block';
+    } else {
+        loadingIndicator.style.display = 'none';
+    }
+}
+
 
 // Function to render the paginated report table
 function renderReportTable(page = 1) {
@@ -315,7 +349,7 @@ function renderReportTable(page = 1) {
     const table = document.createElement("table");
     table.classList.add("min-w-full", "bg-white", "border-collapse", "border", "border-gray-300");
 
-    // Create table headers based on report type
+    // Create table headers
     const thead = document.createElement("thead");
     const trHead = document.createElement("tr");
 
@@ -336,7 +370,7 @@ function renderReportTable(page = 1) {
     thead.appendChild(trHead);
     table.appendChild(thead);
 
-    // Create table body with pagination
+    // Create table body
     const tbody = document.createElement("tbody");
     const start = (page - 1) * rowsPerPage;
     const paginatedData = reportData.slice(start, start + rowsPerPage);
@@ -345,7 +379,7 @@ function renderReportTable(page = 1) {
         const tr = document.createElement("tr");
         headers.forEach((key, index) => {
             const td = document.createElement("td");
-            const dataKey = Object.keys(row)[index]; // Map header to object key
+            const dataKey = Object.keys(row)[index];
             td.textContent = row[dataKey];
             td.classList.add("border", "px-4", "py-2");
             tr.appendChild(td);
@@ -359,7 +393,7 @@ function renderReportTable(page = 1) {
     updatePaginationControls();
 }
 
-// Function to update the table and pagination controls
+// Function to update the table
 function updateTable() {
     renderReportTable(currentPage);
 }
@@ -394,7 +428,6 @@ function nextPage() {
 function closeModal() {
     document.getElementById("reportModal").style.display = "none";
 }
-
 
     </script>
 
