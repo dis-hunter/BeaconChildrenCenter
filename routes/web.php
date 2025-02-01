@@ -38,17 +38,6 @@ Route::get('/admin', function () {
 // General Routes
 Route::view('/', 'home')->name('home');
 
-// Therapist Routes
-Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
-Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
-Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
-
-// Therapist Views
-Route::view('/occupational_therapist', 'therapists.occupationalTherapist');
-Route::view('/speech_therapist', 'therapists.speechTherapist');
-Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');
-Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist');
-Route::view('/nutritionist', 'therapists.nutritionist');
 
 // Parent Routes
 Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
@@ -164,6 +153,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:4'], function () {
         // Add admin-specific routes here
     });
+
+    Route::group(['middleware' => 'role:5'], function (){
+
+        Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
+        Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
+        Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
+        Route::view('/occupational_therapist', 'therapists.occupationalTherapist');
+        Route::view('/speech_therapist', 'therapists.speechTherapist');
+        Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');
+        Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist');
+        Route::view('/nutritionist', 'therapists.nutritionist');
+
+    });
+    
     Route::get('/admin', [ChildrenController::class, 'showChildren2']);
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
@@ -179,6 +182,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
     Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
     Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
+
 });
 
 Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);

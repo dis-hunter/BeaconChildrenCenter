@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Responses\LoginResponse;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,6 +12,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+
+use function PHPUnit\Framework\returnSelf;
 
 class User extends Authenticatable
 {
@@ -118,6 +121,14 @@ class User extends Authenticatable
             1 => 'triage.dashboard',
             2 => 'doctor.dashboard',
             3 => 'reception.dashboard',
+            5 => $this->getTherapistRoute($this->specialization_id),
+            default => RouteServiceProvider::HOME,
+        };
+    }
+
+    public function getTherapistRoute($specialization_id){
+        return match($specialization_id){
+
             default => RouteServiceProvider::HOME,
         };
     }

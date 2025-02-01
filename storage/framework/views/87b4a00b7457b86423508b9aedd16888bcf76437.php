@@ -53,21 +53,21 @@ img {
                                 <?php if($dashboard): ?>
                                 
                                   <div class="text-center">
-                                    <span class="mb-1 text-primary fs-1">40</span>
+                                    <span class="mb-1 text-primary fs-1"> <?php echo e($dashboard->totalAppointments ?? '-'); ?> </span>
                                       <p class="font-weight-bold">Total</p>
                                   </div>
                                   <div class="text-center">
-                                    <span class="mb-1 text-success fs-1">40</span>
+                                    <span class="mb-1 text-success fs-1"><?php echo e($dashboard->ongoingAppointments ?? '-'); ?> </span>
                                       <p class="font-weight-bold">On-going</p>
                                       
                                   </div>
                                   <div class="text-center">
-                                    <span class="mb-1 text-warning fs-1">40</span>
+                                    <span class="mb-1 text-warning fs-1"> <?php echo e($dashboard->pendingAppointments ?? '-'); ?> </span>
                                       <p class="font-weight-bold">Pending</p>
                                       
                                   </div>
                                   <div class="text-center">
-                                    <span class="mb-1 text-danger fs-1">40</span>
+                                    <span class="mb-1 text-danger fs-1"> <?php echo e($dashboard->rejectedAppointments ?? '-'); ?> </span>
                                       <p class="font-weight-bold">Rejected</p>
                                       
                                   </div>
@@ -132,17 +132,17 @@ img {
                   <div class="row">
                     <div class="d-flex justify-content-between">
                     <h5>Today's Appointments</h5>
-                    <a href="#">View all</a>
+                    <a href="<?php echo e(route('reception.calendar')); ?>">View all</a>
                   </div>
                   </div>
-                  <div style="height: 400px; overflow-y: auto; overflow-x:hidden;">
-                  <?php if($dashboard): ?>
+                  <div style="max-height: 400px; overflow-y: auto; overflow-x:hidden;">
+                  <?php if($dashboard->appointments->isNotEmpty()): ?>
                   <?php $__currentLoopData = $dashboard->appointments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <div class="row row-striped"> 
                     <div class="col-10"> 
                         <h5 class="text-uppercase"><strong><?php echo e($item->appointment_title ?? 'Not Specified'); ?></strong></h5> 
                         <ul class="list-inline"> 
-                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> <?php echo e(Carbon\Carbon::parse($item->appointment_date)->format('l')); ?></li> 
+                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> <?php echo e(Carbon\Carbon::parse($item->appointment_date)->format('D, M j')); ?></li> 
                             <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> <?php echo e($item->start_time); ?> - <?php echo e($item->end_time); ?></li> 
                             <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> <?php echo e(ucwords($item->status)); ?></li> 
                         </ul> 
@@ -150,9 +150,14 @@ img {
                           <div class="d-flex justify-content-between align-content-center">
                             <h6>Actions</h6>
                             <div>
-                            <button class="btn btn-dark">Start</button>
-                            <button class="btn btn-dark">Reschedule</button>
-                            <button class="btn btn-dark">cancel</button>
+                              <?php if($item->status !== 'ongoing'): ?>
+                              <a href="<?php echo e(route('search.visit',['id'=>$item->child_id])); ?>" class="btn btn-dark"> Start Visit </a>
+                              <a href="<?php echo e(route('reception.calendar')); ?>" class="btn btn-dark"> Reschedule/Cancel </a>
+                              <?php else: ?>
+                              <a href="<?php echo e(route('patients.search',['id'=>$item->child_id])); ?>" class="btn btn-dark"> Finish Visit </a>
+                              <a href="<?php echo e(route('reception.calendar')); ?>" class="btn btn-dark"> Schedule Future Appointment </a>
+                              <?php endif; ?>
+                            
                           </div>
                           </div>
                         </div>
@@ -161,7 +166,7 @@ img {
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php else: ?>
                 <div>
-                  <div class="alert alert-danger">Error fetching Appointments</div>
+                  <div class="alert alert-info">No Appointments for Today</div>
                 </div>
                 <?php endif; ?>
                   </div>

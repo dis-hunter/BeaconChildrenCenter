@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\DoctorSpecialization;
 use Illuminate\Support\Facades\DB;
 
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Visits;
 use App\Models\PaymentMode;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
@@ -24,11 +26,19 @@ class VisitController extends Controller
             'source_contact' => 'required|string|max:15',
             'staff_id' => 'required|integer|exists:staff,id',
             'doctor_id' => 'required|integer|exists:staff,id',
-            'appointment_id' => 'nullable|integer',
             'payment_mode_id' => 'required|integer|exists:payment_modes,id', // Validate payment mode
             'triage_pass' => 'required|boolean',
         ]);
-    
+
+        $appointment = Appointment::where('child_id',$validatedData['child_id'])
+                                        ->whereDate('appointment_date',Carbon::today())
+                                        ->first() ?? null;
+
+        if($appointment){
+            $appointment->update(['status' => 'ongoing']);
+        }
+                                        
+
         try {
             DB::table('visits')->insert([
                 'child_id' => $validatedData['child_id'],
@@ -38,7 +48,7 @@ class VisitController extends Controller
                 'source_contact' => $validatedData['source_contact'],
                 'staff_id' => $validatedData['staff_id'],
                 'doctor_id' => $validatedData['doctor_id'],
-                'appointment_id' => $validatedData['appointment_id'],
+                'appointment_id' => $appointment->id ?? null,
                 'payment_mode_id' => $validatedData['payment_mode_id'],
                 'triage_pass' => $validatedData['triage_pass'],
                 'created_at' => now(),
