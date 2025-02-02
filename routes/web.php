@@ -160,7 +160,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
         Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
         Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
-        Route::view('/occupational_therapist', 'therapists.occupationalTherapist');
+        Route::view('/occupational_therapist', 'therapists.occupationalTherapist')->name('therapists.occupationalTherapist');
         Route::view('/speech_therapist', 'therapists.speechTherapist');
         Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');
         Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist');

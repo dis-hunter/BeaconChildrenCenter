@@ -119,7 +119,7 @@ class AuthController extends Controller
                 // break;
 
             case 5:
-                return $this->therapist_redirect();
+                return  redirect()->route('user.dashboard');
                 break;
             default:
                 // return redirect()->route('home');

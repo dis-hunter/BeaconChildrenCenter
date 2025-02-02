@@ -153,7 +153,7 @@ img {
                             <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> <?php echo e(ucwords($item->status)); ?></li> 
                         </ul> 
                         <div class="row">
-                          <div class="col-12 d-flex justify-content-between align-items-center mr-6">
+                          <div class="col-12 d-flex justify-content-between align-items-center">
                               <h6 class="mb-0">Actions</h6>
                               <div class="d-flex" style="gap: 15px">
                                   <?php if($item->status === 'pending'): ?>
