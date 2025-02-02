@@ -25,22 +25,23 @@ class InvoiceController extends Controller
     public function countVisitsForToday($registrationNumber)
     {
         Log::info('Received Registration Number: ' . $registrationNumber);
-        // Fetch the child ID using the registration number directly from the database
+
+        // Fetch the child ID using the registration number
         $child = DB::table('children')
             ->where('registration_number', $registrationNumber)
             ->select('id')
             ->first();
-    
+
         if (!$child) {
             return response()->json([
                 'message' => 'Child not found',
                 'count' => 0,
             ], 404);
         }
-    
-        // Get today's date (without the time)
+
+        // Get today's date
         $today = Carbon::now()->toDateString();
-    
+
         // Fetch visits for today, including visit type and prices
         $visits = DB::table('visits')
             ->join('visit_type', 'visits.visit_type', '=', 'visit_type.id')
@@ -53,16 +54,16 @@ class InvoiceController extends Controller
                 'visits.payment_mode_id'
             )
             ->get();
-    
+
         if ($visits->isEmpty()) {
             return response()->json([
                 'message' => 'No visit for today',
-            ], 200); // Success status, but no visits
+            ], 200);
         }
-    
+
         // Initialize invoice details
         $invoiceDetails = [];
-    
+
         // Populate invoice details and calculate the total amount
         foreach ($visits as $visit) {
             $price = ($visit->payment_mode_id == 3) 
@@ -71,16 +72,16 @@ class InvoiceController extends Controller
             
             $invoiceDetails[$visit->visit_type_name] = $price;
         }
-    
-        // Calculate the total amount based on stored prices in invoice details
+
+        // Calculate the total amount
         $totalAmount = array_sum($invoiceDetails);
-    
+
         // Check if an invoice already exists for today
         $existingInvoice = DB::table('invoices')
             ->where('child_id', $child->id)
-            ->whereDate('invoice_date', $today) // Use `whereDate` for date comparison only
+            ->whereDate('invoice_date', $today)
             ->first();
-    
+
         if ($existingInvoice) {
             // Update the existing invoice
             DB::table('invoices')
@@ -89,7 +90,7 @@ class InvoiceController extends Controller
                     'invoice_details' => json_encode($invoiceDetails),
                     'total_amount' => $totalAmount,
                 ]);
-    
+
             return response()->json([
                 'message' => 'Invoice updated successfully',
                 'invoice_id' => $existingInvoice->id,
@@ -97,14 +98,15 @@ class InvoiceController extends Controller
                 'invoice_details' => $invoiceDetails,
             ]);
         } else {
-            // Insert a new invoice
+            // Insert a new invoice with `invoice_status = false`
             $invoiceId = DB::table('invoices')->insertGetId([
                 'child_id' => $child->id,
                 'invoice_details' => json_encode($invoiceDetails),
                 'total_amount' => $totalAmount,
-                'invoice_date' => $today, // Only date (no time)
+                'invoice_date' => $today,
+                'invoice_status' => false, // Always set to false (or 0)
             ]);
-    
+
             return response()->json([
                 'message' => 'Invoice generated successfully',
                 'invoice_id' => $invoiceId,
@@ -113,7 +115,7 @@ class InvoiceController extends Controller
             ]);
         }
     }
-    
+
     
     public function getInvoices()
 {
@@ -131,6 +133,7 @@ class InvoiceController extends Controller
 
         return $invoice;
     });
+    log::info('Fetched Invoices Data:', ['invoices' => $invoicesWithNames]);
 
     return view('reception.invoice', ['invoices' => $invoicesWithNames]);
 }
