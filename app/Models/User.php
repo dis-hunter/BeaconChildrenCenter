@@ -128,7 +128,6 @@ class User extends Authenticatable
 
     public function getTherapistRoute($specialization_id){
         return match($specialization_id){
-
             default => RouteServiceProvider::HOME,
         };
     }

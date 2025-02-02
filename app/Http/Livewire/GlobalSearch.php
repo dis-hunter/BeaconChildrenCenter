@@ -29,7 +29,7 @@ class GlobalSearch extends Component
         if(strlen($this->query > 3)){
             $this->results = Cache::remember("search:{$this->query}",60,function (){
                 return [
-                    'Guardians'=>Parents::search($this->query)->get(),
+                    'Guardians'=>parents::search($this->query)->get(),
                     'Patients'=>children::search($this->query)->get(),
                 ];
             });

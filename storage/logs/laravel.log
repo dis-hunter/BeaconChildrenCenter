@@ -5009,3 +5009,134 @@ LINE 7:          from \"appointments\" where extract(month from \"appoi...
          from "appointments" where extract(month from "appointment_date") = ? and extract(year from "appointment_date") = ? limit 1  
 [2025-02-01 17:10:38] local.INFO: select * from "staff" where exists (select * from "active_users" where "staff"."id" = "active_users"."staff_id" and "last_activity" >= ?)  
 [2025-02-01 17:10:38] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-01 17:13:01] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-01 17:13:01] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-01 17:13:02] local.INFO: select * from "appointments" where "appointment_date"::date = ?  
+[2025-02-01 17:13:02] local.INFO: select 
+            COUNT (*) as total,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+            SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
+            SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+         from "appointments" where extract(month from "appointment_date") = ? and extract(year from "appointment_date") = ? limit 1  
+[2025-02-01 17:13:03] local.INFO: select * from "staff" where exists (select * from "active_users" where "staff"."id" = "active_users"."staff_id" and "last_activity" >= ?)  
+[2025-02-01 17:13:04] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:36:17] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:36:20] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:36:21] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
+[2025-02-02 17:36:30] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:36:31] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:36:44] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:36:45] local.INFO: select * from "staff" where "email" = ? limit 1  
+[2025-02-02 17:36:46] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:37:29] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:37:30] local.INFO: select * from "staff" where "staff"."id" = ? limit 1  
+[2025-02-02 17:37:32] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:38:19] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:38:19] local.INFO: select * from "staff" where "staff"."id" = ? limit 1  
+[2025-02-02 17:38:20] local.INFO: delete from "sessions" where "id" = ?  
+[2025-02-02 17:38:21] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:38:21] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
+[2025-02-02 17:38:25] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:38:25] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 17:38:26] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:38:33] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:38:33] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 17:38:39] local.INFO: select * from "sessions" where "user_id" = ? order by "last_activity" desc  
+[2025-02-02 17:38:43] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:38:50] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:38:51] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 17:38:52] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:39:04] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:39:04] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 17:39:05] local.INFO: select * from "staff" where "email" = ? limit 1  
+[2025-02-02 17:39:05] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:39:09] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:39:10] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 17:39:10] local.INFO: update "staff" set "two_factor_secret" = ?, "two_factor_recovery_codes" = ?, "two_factor_confirmed_at" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-02 17:39:11] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:39:22] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:39:23] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 17:39:23] local.INFO: delete from "sessions" where "id" = ?  
+[2025-02-02 17:39:24] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:39:24] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
+[2025-02-02 17:39:28] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:39:29] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:12:46] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:12:47] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:12:56] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:12:56] local.INFO: select * from "staff" where "email" = ? limit 1  
+[2025-02-02 18:12:58] local.INFO: select * from "staff" where "email" = ? limit 1  
+[2025-02-02 18:12:59] local.INFO: delete from "sessions" where "id" = ?  
+[2025-02-02 18:12:59] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:13:00] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
+[2025-02-02 18:13:05] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:13:05] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:13:06] local.INFO: select * from "appointments" where "appointment_date"::date = ?  
+[2025-02-02 18:13:07] local.INFO: select 
+            COUNT (*) as total,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+            SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
+            SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+         from "appointments" where extract(month from "appointment_date") = ? and extract(year from "appointment_date") = ? limit 1  
+[2025-02-02 18:13:09] local.INFO: select * from "staff" where exists (select * from "active_users" where "staff"."id" = "active_users"."staff_id" and "last_activity" >= ?)  
+[2025-02-02 18:13:11] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:15:40] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:15:40] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:15:41] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:15:46] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:15:46] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:15:47] local.INFO: select * from "parents" where ("parents"."fullname"::text ilike ? or "parents"."telephone"::text ilike ? or "parents"."email"::text ilike ?) order by "parents"."id" desc  
+[2025-02-02 18:15:48] local.INFO: select * from "children" where ("children"."fullname"::text ilike ? or "children"."registration_number"::text ilike ?) order by "children"."id" desc  
+[2025-02-02 18:15:49] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:16:12] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:16:14] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:16:15] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:16:29] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:16:30] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:16:31] local.INFO: select "id", "gender" from "gender"  
+[2025-02-02 18:16:32] local.INFO: select "id", "relationship" from "relationships"  
+[2025-02-02 18:16:32] local.INFO: select * from "parents" where "parents"."id" = ? limit 1  
+[2025-02-02 18:16:37] local.INFO: select "children".*, "child_parent"."parent_id" as "laravel_through_key" from "children" inner join "child_parent" on "child_parent"."child_id" = "children"."id" where "child_parent"."parent_id" in (2)  
+[2025-02-02 18:16:39] local.INFO: select * from "gender"  
+[2025-02-02 18:16:40] local.INFO: select * from "relationships"  
+[2025-02-02 18:16:42] local.INFO: select * from "gender"  
+[2025-02-02 18:16:49] local.INFO: select * from "gender"  
+[2025-02-02 18:17:02] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:29:42] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:29:43] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:29:43] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:29:46] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:29:47] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:29:47] local.INFO: select * from "parents" where ("parents"."fullname"::text ilike ? or "parents"."telephone"::text ilike ? or "parents"."email"::text ilike ?) order by "parents"."id" desc  
+[2025-02-02 18:29:48] local.INFO: select * from "children" where ("children"."fullname"::text ilike ? or "children"."registration_number"::text ilike ?) order by "children"."id" desc  
+[2025-02-02 18:29:49] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:30:05] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:30:05] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:30:06] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:30:09] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:30:09] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:30:10] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:33:56] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:33:57] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:33:57] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:34:00] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:34:01] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:34:01] local.INFO: select * from "parents" where ("parents"."fullname"::text ilike ? or "parents"."telephone"::text ilike ? or "parents"."email"::text ilike ?) order by "parents"."id" desc  
+[2025-02-02 18:34:02] local.INFO: select * from "children" where ("children"."fullname"::text ilike ? or "children"."registration_number"::text ilike ?) order by "children"."id" desc  
+[2025-02-02 18:34:02] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:34:09] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:34:10] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:34:10] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 18:34:13] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 18:34:14] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-02 18:34:14] local.INFO: select "id", "gender" from "gender"  
+[2025-02-02 18:34:14] local.INFO: select "id", "relationship" from "relationships"  
+[2025-02-02 18:34:15] local.INFO: select * from "parents" where "parents"."id" = ? limit 1  
+[2025-02-02 18:34:15] local.INFO: select "children".*, "child_parent"."parent_id" as "laravel_through_key" from "children" inner join "child_parent" on "child_parent"."child_id" = "children"."id" where "child_parent"."parent_id" in (15)  
+[2025-02-02 18:34:16] local.INFO: select * from "gender"  
+[2025-02-02 18:34:16] local.INFO: select * from "relationships"  
+[2025-02-02 18:34:17] local.INFO: select * from "gender"  
+[2025-02-02 18:34:17] local.INFO: select * from "gender"  
+[2025-02-02 18:34:18] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
