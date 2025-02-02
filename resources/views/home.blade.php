@@ -19,6 +19,8 @@
     margin-bottom: 20px;
     font-size: 3em;
     animation: fadeInDown 1s ease-in-out;
+    font-weight: 800;
+    
   }
 
   .subheading {

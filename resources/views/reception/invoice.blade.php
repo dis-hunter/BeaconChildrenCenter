@@ -37,6 +37,7 @@
             <th>Patient Name</th>
             <th>Total Amount</th>
             <th>Invoice Date</th>
+            <th>Payment Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -47,6 +48,13 @@
                 <td>{{ $invoice->patient_name }}</td>
                 <td>KES {{ number_format($invoice->total_amount, 2) }}</td>
                 <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}</td>
+                <td>
+                    @if ($invoice->invoice_status)
+                    <span style="color: green; font-weight: bold;">Paid</span>
+                    @else
+                    <span style="color: red; font-weight: bold;">Unpaid</span>
+                    @endif
+                </td>
                 <td>
                     <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
                         View

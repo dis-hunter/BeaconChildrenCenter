@@ -1,7 +1,7 @@
-@extends('reception.layout')
-@section('title', 'Invoice Details')
-@extends('reception.header')
-@section('content')
+
+<?php $__env->startSection('title', 'Invoice Details'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
     /* Hide buttons when printing */
     @media print {
@@ -101,17 +101,17 @@
 <div class="invoice-container">
     <!-- Invoice Header with Logo -->
     <div class="invoice-header">
-        <img style="margin-bottom:0;" src="{{ asset('images/logo.jpg') }}" alt="Organization Logo">
+        <img style="margin-bottom:0;" src="<?php echo e(asset('images/logo.jpg')); ?>" alt="Organization Logo">
         <h2 style="margin-top: 2px;">Invoice</h2>
     </div>
 
     <!-- Patient Details -->
     <div class="invoice-details">
-        <p><strong>Patient Name:</strong> {{ $child->full_name }}</p>
-        <p><strong>Registration Number:</strong> {{ $child->registration_number }}</p>
-        <p><strong>Gender:</strong> {{ $gender }}</p>
-        <p><strong>Date of Birth:</strong> {{ \Carbon\Carbon::parse($child->dob)->format('d M, Y') }}</p>
-        <p><strong>Invoice Date:</strong> {{ \Carbon\Carbon::now()->format('d M, Y') }}</p>
+        <p><strong>Patient Name:</strong> <?php echo e($child->full_name); ?></p>
+        <p><strong>Registration Number:</strong> <?php echo e($child->registration_number); ?></p>
+        <p><strong>Gender:</strong> <?php echo e($gender); ?></p>
+        <p><strong>Date of Birth:</strong> <?php echo e(\Carbon\Carbon::parse($child->dob)->format('d M, Y')); ?></p>
+        <p><strong>Invoice Date:</strong> <?php echo e(\Carbon\Carbon::now()->format('d M, Y')); ?></p>
     </div>
 
     <!-- Services Table -->
@@ -123,18 +123,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($invoice->invoice_details as $service => $price)
+            <?php $__currentLoopData = $invoice->invoice_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service => $price): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td>{{ $service }}</td>
-                    <td>{{ number_format($price, 2) }}</td>
+                    <td><?php echo e($service); ?></td>
+                    <td><?php echo e(number_format($price, 2)); ?></td>
                 </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </tbody>
     </table>
 
     <!-- Total Amount -->
     <div class="invoice-total">
-        <p><strong>Total Amount:</strong> KES {{ number_format($invoice->total_amount, 2) }}</p>
+        <p><strong>Total Amount:</strong> KES <?php echo e(number_format($invoice->total_amount, 2)); ?></p>
     </div>
 
     <!-- Terms and Conditions -->
@@ -149,7 +149,10 @@
     <!-- Actions -->
     <div class="invoice-actions">
         <button onclick="window.print()" class="btn btn-success">Print</button>
-        <a href="{{ route('invoices') }}" class="btn btn-secondary">Back</a>
+        <a href="<?php echo e(route('invoices')); ?>" class="btn btn-secondary">Back</a>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('reception.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('reception.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/invoice-details.blade.php ENDPATH**/ ?>
