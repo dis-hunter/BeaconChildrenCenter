@@ -13,14 +13,14 @@ class LoginResponse implements LoginResponseContract
         1 => 'triage.dashboard',    // Nurse
         2 => 'doctor.dashboard',    // Doctor
         3 => 'reception.dashboard', // Reception
-        4 => null,                  // RemoveAdmin
-        5 => null,                  // Therapist - handled separately
     ];
 
     protected const THERAPIST_REDIRECTS = [
-        2 => 'occupational_therapist',
-        // 3 => 'other_route',
-        // Add other specialization routes as needed
+        2 => 'therapists.occupationalTherapist',
+        3 => 'therapists.speechTherapist',
+        4 => 'therapists.physiotherapyTherapist',
+        5 => 'therapists.nutritionist',
+        9 => 'therapists.psychotherapyTherapist',
     ];
 
     public function toResponse($request)
@@ -40,9 +40,9 @@ class LoginResponse implements LoginResponseContract
         );
     }
 
-    protected function therapistRedirect($specializationId)
+    protected function therapistRedirect($specialization_id)
     {
-        $route = self::THERAPIST_REDIRECTS[$specializationId] ?? null;
+        $route = self::THERAPIST_REDIRECTS[$specialization_id] ?? null;
 
         return $route
             ? redirect()->route($route)
