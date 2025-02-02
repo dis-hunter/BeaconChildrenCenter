@@ -6768,3 +6768,23 @@ LINE 7:          from \"appointments\" where extract(month from \"appoi...
 [2025-02-02 17:00:51] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
 [2025-02-02 17:00:55] local.INFO: select * from "sessions" where "id" = ? limit 1  
 [2025-02-02 17:00:56] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:03:16] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:03:17] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:06:06] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:06:06] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:09:09] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:09:09] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:09:53] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:09:54] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:10:10] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:10:11] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:10:28] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:10:29] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:11:01] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:11:02] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:11:17] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:11:17] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:11:47] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:11:48] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-02 17:12:17] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-02 17:12:17] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
