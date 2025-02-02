@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <title>Nutritionist Therapist Session Documentation</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -59,9 +59,9 @@
     </div>
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Nutritional Therapy</h1>
-        <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
-        <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
-        <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+        <input type="text" id="firstName" name="firstName" value="<?php echo e($firstName); ?>">
+        <input type="text" id="lastName" name="lastName" value="<?php echo e($lastName); ?>">
+        <input   type="hidden" id="child_id" name="child_id" value="<?php echo e($child_id); ?>">
 
 
         
@@ -85,108 +85,108 @@
                     <!-- Nutrition Assessment Tab-->
                     <div id="therapyAssesment" class="tabs-content space-y-4 p-4 hidden">
                             <div class="grid-container">
-                                @foreach(['Weight(kg)', 'Weight for Age', 'Height(cm)', 'Height for Age', 'Head circumference','Weight for Height','BMI','MUAC(cm)','Girth circumference'] as $category)
+                                <?php $__currentLoopData = ['Weight(kg)', 'Weight for Age', 'Height(cm)', 'Height for Age', 'Head circumference','Weight for Height','BMI','MUAC(cm)','Girth circumference']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="grid-item mb-4">
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                         <textarea 
                                             class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                                            id="assessment_{{ $category }}"
-                                            onchange="handleChange('preparation', '{{ $category }}', event)"
+                                            id="assessment_<?php echo e($category); ?>"
+                                            onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                         ></textarea> 
                                     </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                
                             </div>
-                            @foreach(['Medical Problems', 'Dietry Intake', 'Lifestyle factors', 'Psychosocial/Behavioural factors', 'Biochemical Data'] as $category)
+                            <?php $__currentLoopData = ['Medical Problems', 'Dietry Intake', 'Lifestyle factors', 'Psychosocial/Behavioural factors', 'Biochemical Data']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
                                     <textarea 
                                         class="w-full h-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"  style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                                        id="assessment_{{ $category }}"
-                                        onchange="handleChange('preparation', '{{ $category }}', event)"
+                                        id="assessment_<?php echo e($category); ?>"
+                                        onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
                                     ></textarea>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveAssessment()">Save Therapy Assessment</button>
                         </div>
                     <!-- Goal Tabs-->
                     <div class="mt-4">
                         <div id="goals" class="tabs-content space-y-4 p-4">
-                            @foreach(['Achieve weight loss or gain','Manage micronutrients deficiencies','Reduce digestive issues','Enhance overall energy level
-                            and wellness','Manage Hyperactivity','Manage Oromotor problem'] as $category)
+                            <?php $__currentLoopData = ['Achieve weight loss or gain','Manage micronutrients deficiencies','Reduce digestive issues','Enhance overall energy level
+                            and wellness','Manage Hyperactivity','Manage Oromotor problem']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
             <textarea 
                 class="form-control"
                 style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                id="goals_{{ $category }}"
-                onchange="handleChange('preparation', '{{ $category }}', event)"
+                id="goals_<?php echo e($category); ?>"
+                onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
             ></textarea>
         </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveTherapyGoals()">Save Goals</button>
 
                         </div>
                         <!-- Individual Plan and Strategies Tab-->
                         <div id="individualPlanAndStrategies" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Therapy frequency and Duration', 'Meal Plan', 'Behaviour Management', 'Other Support services'] as $category)
+                            <?php $__currentLoopData = ['Therapy frequency and Duration', 'Meal Plan', 'Behaviour Management', 'Other Support services']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
             <textarea 
                 class="form-control"
                 style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                id="individualized_{{ $category }}"
-                onchange="handleChange('preparation', '{{ $category }}', event)"
+                id="individualized_<?php echo e($category); ?>"
+                onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
             ></textarea>
         </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveIndividualized()">Save individualized plan and strategies</button>
                         </div>
                         <!-- Session Notes Tab-->
                         <div id="session" class="tabs-content space-y-4 p-4 hidden">
-                            @foreach(['Nutrition education', 'Meal Plan', 'Behaviour strategies','Collaboration with other 
-                            professionals','Educate and adapt'] as $category)
+                            <?php $__currentLoopData = ['Nutrition education', 'Meal Plan', 'Behaviour strategies','Collaboration with other 
+                            professionals','Educate and adapt']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
             <textarea 
                 class="form-control"
                 style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                id="session_{{ $category }}"
-                onchange="handleChange('preparation', '{{ $category }}', event)"
+                id="session_<?php echo e($category); ?>"
+                onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
             ></textarea>
         </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveSession()">Save Session</button>
                         </div>
                         
                         <!-- Follow-up Tab-->
 <div id="followup" class="tabs-content space-y-4 p-4 hidden">
-    @foreach(['Home Practice Assignments', 'Evaluate and Adapt', 'Next Session Plan'] as $category)
+    <?php $__currentLoopData = ['Home Practice Assignments', 'Evaluate and Adapt', 'Next Session Plan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $category }}</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo e($category); ?></label>
             <!-- Textarea for notes -->
             <textarea 
                 class="form-control"
                 style="width: 100%; height: 10px; resize: vertical; overflow: hidden; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"
-                id="followup_{{ $category }}"
-                onchange="handleChange('preparation', '{{ $category }}', event)"
+                id="followup_<?php echo e($category); ?>"
+                onchange="handleChange('preparation', '<?php echo e($category); ?>', event)"
             ></textarea>
 
             
         </div>
-    @endforeach
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <!-- Multi-date picker -->
     <label class="block text-sm font-medium text-gray-700 mt-2">Select return Date(s)</label>
-            <div id="date-picker-container_{{ $category }}">
+            <div id="date-picker-container_<?php echo e($category); ?>">
                 <input 
                     type="text" 
                     class="multi-date-picker form-control border rounded px-2 py-1 mb-2" 
-                    id="dates_{{ $category }}" 
-                    onchange="handleDatesChange('dates', '{{ $category }}', event)" 
+                    id="dates_<?php echo e($category); ?>" 
+                    onchange="handleDatesChange('dates', '<?php echo e($category); ?>', event)" 
                     placeholder="Select multiple dates" 
                 />
             </div>
-            <button type="button" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="addDatePicker('{{ $category }}')">Add Another Date</button>
+            <button type="button" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="addDatePicker('<?php echo e($category); ?>')">Add Another Date</button>
     <button type="button" class="w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="saveFollowup()">Save Post Session Activities</button>
 </div>
 
@@ -234,8 +234,8 @@
             
         </div>
     </div>
-    <script src="{{ asset('js/loader.js') }}"></script> 
-    <script src="{{asset('js/backAndNextButton.js')}}"></script>
+    <script src="<?php echo e(asset('js/loader.js')); ?>"></script> 
+    <script src="<?php echo e(asset('js/backAndNextButton.js')); ?>"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         showTabContent('therapyAssessment'); // Default tab to show
@@ -799,4 +799,4 @@ headers: {
 </script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/nutritionist.blade.php ENDPATH**/ ?>

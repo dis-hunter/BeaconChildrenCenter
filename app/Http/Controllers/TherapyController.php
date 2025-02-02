@@ -80,6 +80,8 @@ class TherapyController extends Controller
     }
     
     //fix this later for the doctors notes in therapy
+
+
     public function getChildDetails($registrationNumber)
 {
     try {
@@ -88,212 +90,130 @@ class TherapyController extends Controller
         if (!$child) {
             return response()->json(['error' => 'Child not found'], 404);
         }
-        
 
-        // Decode the fullname JSON
+        // Decode the fullname JSON for the child
         $fullname = json_decode($child->fullname);
         $firstName = $fullname->first_name ?? null;
         $middleName = $fullname->middle_name ?? null;
         $lastName = $fullname->last_name ?? null;
 
+        // Combine the child's names into a single string
+        $fullName = trim("{$firstName} {$middleName} {$lastName}");
+
         // Get gender name
         $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
-        
-        
-        $staff_id = auth()->user()->id;
 
-    // Get the staff details, including specialization_id
-    $staff = DB::table('staff')->where('id', $staff_id)->first();
+        // Get the staff details
+        $staff_id = auth()->user()->id;
+        $staff = DB::table('staff')->where('id', $staff_id)->first();
 
         // Retrieve the latest visit for the child
-        $visit = DB::table('visits')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-
-        // Check if a visit exists
+        $visit = DB::table('visits')->where('child_id', $child->id)->latest()->first();
         if (!$visit) {
             return response()->json(['error' => 'No visit found for the child'], 404);
         }
-        
-        if (!$child) {
-            return response()->json(['error' => 'Child not found'], 404);
-        }
 
-        // Fetch triage data
-        $triage = DB::table('triage')->where('child_id', $child->id)->first();
-        $triageData = $triage ? json_decode($triage->data) : null;
-
-        // Fetch CNS data
-        $cnsData = DB::table('cns')
+        // Fetch additional child-related data (repeated code omitted for brevity)
+        $milestonesData = DB::table('development_milestones')
             ->where('child_id', $child->id)
             ->latest()
             ->first();
-        $cnsData = $cnsData ? json_decode($cnsData->data) : null;
-        
-        $perinatalHistory = DB::table('perinatal_history')
-            ->where('child_id', $child->id)
-            ->latest()
+        $milestonesData = $milestonesData ? json_decode($milestonesData->data) : null;
+
+        // Retrieve parent details based on gender
+        $parentIds = DB::table('child_parent')->where('child_id', $child->id)->pluck('parent_id');
+
+        $maleParent = DB::table('parents')
+            ->whereIn('id', $parentIds)
+            ->where('gender_id', 1) // Male
             ->first();
-        $perinatalHistory = $perinatalHistory ? json_decode($perinatalHistory->data) : null;
 
-        // Fetch developmental milestones
-        $milestones = DB::table('development_milestones')
-            ->where('child_id', $child->id)
-            ->latest()
+        $femaleParent = DB::table('parents')
+            ->whereIn('id', $parentIds)
+            ->where('gender_id', 2) // Female
             ->first();
-        $milestonesData = $milestones ? json_decode($milestones->data) : null;
-        
-        $pastMedicalHistory = DB::table('past_medical_history')
-        ->where('child_id', $child->id)
-        ->latest()
-        ->first();
-    $pastMedicalHistory = $pastMedicalHistory ? json_decode($pastMedicalHistory->data) : null;
-    
-    $BehaviourAssessment = DB::table('behaviour_assessment')
-        ->where('child_id', $child->id)
-        ->latest()
-        ->first();
-    $BehaviourAssessment = $BehaviourAssessment ? json_decode($BehaviourAssessment->data) : null;
-    
-    $FamilySocialHistory = DB::table('family_social_history')
-        ->where('child_id', $child->id)
-        ->latest()
-        ->first();
-    $FamilySocialHistory = $FamilySocialHistory ? json_decode($FamilySocialHistory->data) : null;
-    
-    $Therapy_Assessment = DB::table('therapy_assesment')
-    ->where('child_id', $child->id)
-    ->latest()
-    ->first();
-    $Therapy_Assessment = $Therapy_Assessment ? json_decode($Therapy_Assessment->data) : null;
-    
-    $Therapy_Goals = DB::table('therapy_goals')
-    ->where('child_id', $child->id)
-    ->latest()
-    ->first();
-    $Therapy_Goals = $Therapy_Goals ? json_decode($Therapy_Goals->data) : null;
 
-    $Therapy_Session = DB::table('therapy_session_2')
-    ->where('child_id', $child->id)
-    ->latest()
-    ->first();
-    $Therapy_Session = $Therapy_Session ? json_decode($Therapy_Session->data) : null;
+        $preferNotToSayParent = DB::table('parents')
+            ->whereIn('id', $parentIds)
+            ->where('gender_id', 3) // Prefer not to say
+            ->first();
 
-    $Therapy_Individualized = DB::table('therapy_individualized')
-    ->where('child_id', $child->id)
-    ->latest()
-    ->first();
-    $Therapy_Individualized = $Therapy_Individualized ? json_decode($Therapy_Individualized->data) : null;
-    
-    $Post_Session_Activities = DB::table('follow_up')
-    ->where('child_id', $child->id)
-    ->latest()
-    ->first();
-    $Post_Session_Activities = $Post_Session_Activities ? json_decode($Post_Session_Activities->data) : null;
-
-
-
-
-    function formatKeyValue($data, $indent = 0) {
-        if (!$data) return "No data available.";
-        $output = "";
-        $prefix = str_repeat(" ", $indent); // Indentation for nested arrays/objects
-        foreach ($data as $key => $value) {
-            if (is_object($value) || is_array($value)) {
-                $output .= "{$prefix}{$key}:\n" . formatKeyValue($value, $indent + 4); // Increase indentation for nested data
-            } else {
-                $output .= "{$prefix}{$key}: $value\n";
+        // Function to format parent's full name
+        function formatParentFullName($parent) {
+            if ($parent) {
+                $fullname = json_decode($parent->fullname);
+                return trim("{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}");
             }
+            return 'N/A';
         }
-        return $output;
+
+        // Assign formatted full names for each parent
+        $maleParentDetails = $maleParent ? [
+            'fullname' => formatParentFullName($maleParent),
+            'telephone' => $maleParent->telephone ?? 'N/A',
+            'email' => $maleParent->email ?? 'N/A',
+        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+
+        $femaleParentDetails = $femaleParent ? [
+            'fullname' => formatParentFullName($femaleParent),
+            'telephone' => $femaleParent->telephone ?? 'N/A',
+            'email' => $femaleParent->email ?? 'N/A',
+        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+
+        $preferNotToSayParentDetails = $preferNotToSayParent ? [
+            'fullname' => formatParentFullName($preferNotToSayParent),
+            'telephone' => $preferNotToSayParent->telephone ?? 'N/A',
+            'email' => $preferNotToSayParent->email ?? 'N/A',
+        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+
+        // Prepare doctor's notes
+        $doctorsNotes = "";
+        $doctorsNotes .= $milestonesData 
+            ? "Milestones :\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" 
+            : "Milestones : No data available.\n\n";
+
+        // Return response
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json([
+                'child' => $child,
+                'child_id' => $child->id,
+                'fullName' => $fullName,  // Use concatenated full name here
+                'gender' => $gender,
+                'parents' => [
+                    'maleParent' => $maleParentDetails,
+                    'femaleParent' => $femaleParentDetails,
+                    'preferNotToSayParent' => $preferNotToSayParentDetails,
+                ],
+                'doctorsNotes' => $doctorsNotes,
+                'staff_id' => auth()->user()->id,
+                'specialization_id' => $staff->specialization_id
+            ]);
+        }
+
+        // Otherwise, return view
+        return view('therapists.occupationaltherapyDashboard', [
+            'child' => $child,
+            'child_id' => $child->id,
+            'fullName' => $fullName,  // Use concatenated full name here
+            'gender' => $gender,
+            'parents' => [
+                'maleParent' => $maleParentDetails,
+                'femaleParent' => $femaleParentDetails,
+                'preferNotToSayParent' => $preferNotToSayParentDetails,
+            ],
+            'doctorsNotes' => $doctorsNotes,
+            'specialization_id' => $staff->specialization_id
+        ]);
+    } catch (Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
-    
-    // Prepare the $doctorsNotes
-    $doctorsNotes = "";
-    $doctorsNotes .= $Therapy_Session 
-    ? "Therapy Session plan and activities:\n" . formatKeyValue($Therapy_Session) . "\n\n" 
-    : "Therapy Session plan and activities: No data available.\n\n";
-    $doctorsNotes .= $Therapy_Individualized 
-    ? "Therapy Individualized plan and strategies:\n" . formatKeyValue($Therapy_Individualized) . "\n\n" 
-    : "Therapy Individualized plan and strategies: No data available.\n\n";
-    
-    $doctorsNotes .= $Therapy_Assessment 
-    ? "Therapy Assessment :\n" . formatKeyValue($Therapy_Assessment) . "\n\n" 
-    : "Therapy Assessment : No data available.\n\n";
-
-
-
-
-$doctorsNotes .= $Therapy_Goals 
-    ? "Therapy Goals :\n" . formatKeyValue($Therapy_Goals) . "\n\n" 
-    : "Therapy Goals : No data available.\n\n";
-
-    $doctorsNotes .= $Post_Session_Activities 
-        ? "Therapy Post Session Activities :\n" . formatKeyValue($Post_Session_Activities) . "\n\n" 
-        : "Therapy Post Session Activities : No data available.\n\n";
-  
-  
-    
-    
-    
-  
-    $doctorsNotes .= $milestonesData 
-        ? "Milestones :\n" . formatKeyValue($milestonesData) . "\n\n" 
-        : "Milestones : No data available.\n\n";
-    
-    $doctorsNotes .= $perinatalHistory 
-        ? "Perinatal History :\n" . formatKeyValue($perinatalHistory) . "\n\n" 
-        : "Perinatal History : No data available.\n\n";
-    
-    $doctorsNotes .= $pastMedicalHistory 
-        ? "Past Medical History :\n" . formatKeyValue($pastMedicalHistory) . "\n\n" 
-        : "Past Medical History : No data available.\n\n";
-    
-    $doctorsNotes .= $BehaviourAssessment 
-        ? "Behavior Assessment :\n" . formatKeyValue($BehaviourAssessment) . "\n\n" 
-        : "Behavior Assessment : No data available.\n\n";
-    
-    $doctorsNotes .= $FamilySocialHistory 
-        ? "Family Social History :\n" . formatKeyValue($FamilySocialHistory) . "\n\n" 
-        : "Family Social History : No data available.\n\n";
-    
-// Pass the notes to the view
-if (request()->wantsJson() || request()->ajax()) {
-    return response()->json([
-        'child' => $child,
-        'child_id' => $child->id,
-        'firstName' => $firstName,
-        'middleName' => $middleName,
-        'lastName' => $lastName,
-        'gender' => $gender,
-        'doctorsNotes' => $doctorsNotes,
-        'staff_id'=>auth()->user()->id,
-        'specialization_id'=>$staff->specialization_id
-    ]);
 }
 
-// Otherwise return the view
-return view('therapists.occupationaltherapyDashboard', [
-    'child' => $child,
-    'child_id' => $child->id,
-    'firstName' => $firstName,
-    'middleName' => $middleName,
-    'lastName' => $lastName,
-    'gender' => $gender,
-    'doctorsNotes' => $doctorsNotes,
-    'specialization_id'=>$staff->specialization_id
+    
 
-]);
 
-} catch (\Exception $e) {
-Log::error("Error in getChildDetails: " . $e->getMessage());
-if (request()->wantsJson() || request()->ajax()) {
-    return response()->json(['error' => 'Internal server error'], 500);
-}
-throw $e;
-}
-}
+
+
 
 
 
@@ -338,6 +258,46 @@ public function OccupationTherapy($registrationNumber)
    
 } 
 
+public function PsychoTherapy($registrationNumber)
+{
+   $child = DB::table('children')
+               ->where('registration_number', $registrationNumber)
+               ->first();
+
+   if (!$child) {
+       abort(404);
+   }
+
+   // Decode the fullname JSON
+   $fullname = json_decode($child->fullname);
+
+   // Access the first_name, middle_name, and last_name
+   $firstName = $fullname->first_name;
+   $middleName = $fullname->middle_name;
+   $lastName = $fullname->last_name;
+
+   // Get the gender name from the gender table
+   $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
+
+   // Fetch triage data for the child
+
+   
+
+       // Pass the decoded triage data to the view
+       return view('therapists.psychotherapyTherapist', [
+           'child' => $child,
+           'child_id' => $child->id,
+           'firstName' => $firstName,
+           'middleName' => $middleName,
+           'lastName' => $lastName,
+           'gender' => $gender,
+           
+       ]);
+ 
+       // Handle case where no triage data is found
+     
+   
+} 
 public function NutritionalTherapy($registrationNumber)
 {
    $child = DB::table('children')

@@ -56,7 +56,7 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body class="m-0 font-sans bg-gray-50">
     <div class="sidebar h-screen fixed left-0 top-0 bg-gradient-to-b from-sky-100 to-sky-200 overflow-x-hidden pt-5 transition-all duration-300 border-r border-sky-300 shadow-lg" id="sidebar">
@@ -141,7 +141,7 @@
         display: none;
     }
 </style>
-<script src="{{ asset('js/loader.js') }}"></script> 
+<script src="<?php echo e(asset('js/loader.js')); ?>"></script> 
     <script>
         
         // starts here
@@ -219,12 +219,12 @@ function goToWorkspace(event) {
                         <form id="patient-form" class="p-6 space-y-6">
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
-                                            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
-                                            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
+                                            <input type="hidden" id="child_id" name="child_id" value="<?php echo e($child_id); ?>">
+                                            <input type="hidden" id="specialization_id" name="specialization_id" value="<?php echo e($specialization_id); ?>">
 
 
                                     <label class="block text-sm font-medium text-gray-700" for="firstName"> Name</label>
-                                    <input type="text" id="firstName" name="firstName" value="{{ $fullName}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="firstName" name="firstName" value="<?php echo e($fullName); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 
                             </div>
@@ -236,41 +236,41 @@ function goToWorkspace(event) {
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="gender">Gender/Age</label>
-                                    <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="genderAge" name="genderAge" value="<?php echo e($gender); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
-                                    <input type="text" id="hnu" name="hnu" value="{{$child->id}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="hnu" name="hnu" value="<?php echo e($child->id); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
-                                    <input type="text" id="mothersName" name="mothersName" value="{{$parents['femaleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="mothersName" name="mothersName" value="<?php echo e($parents['femaleParent']['fullname'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
-                                    <input type="tel" id="motherTel" name="motherTel" value="{{$parents['femaleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="tel" id="motherTel" name="motherTel" value="<?php echo e($parents['femaleParent']['telephone'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
-                                    <input type="email" id="motherEmail" name="motherEmail"value="{{$parents['femaleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="email" id="motherEmail" name="motherEmail"value="<?php echo e($parents['femaleParent']['email'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-3 gap-6">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="fathersName">Father's Name</label>
-                                    <input type="text" id="fathersName" name="fathersName" value="{{$parents['maleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="text" id="fathersName" name="fathersName" value="<?php echo e($parents['maleParent']['fullname'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="fatherTel">Tel</label>
-                                    <input type="tel" id="fatherTel" name="fatherTel" value="{{$parents['maleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="tel" id="fatherTel" name="fatherTel" value="<?php echo e($parents['maleParent']['telephone'] ?? 'N/A'); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700" for="fatherEmail">Email</label>
-                                    <input type="email" id="fatherEmail" name="fatherEmail" value="{{$parents['maleParent']['email'] ?? 'N/A'}}"class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <input type="email" id="fatherEmail" name="fatherEmail" value="<?php echo e($parents['maleParent']['email'] ?? 'N/A'); ?>"class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                             </div>
 
@@ -286,7 +286,7 @@ function goToWorkspace(event) {
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
                                 <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
-                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{$doctorsNotes}}</textarea>
+                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y"><?php echo e($doctorsNotes); ?></textarea>
                             </div>
 
                             <div class="bg-sky-50 p-6 rounded-lg space-y-2">
@@ -635,13 +635,14 @@ function toggleDetails(element) {
 document.addEventListener("DOMContentLoaded", function() {
     const result = {
         data: {
-            child_name: {!! json_encode($fullName) !!}
+            child_name: <?php echo json_encode($fullName); ?>
+
         }
     };
     document.getElementById("child-name-div").textContent = result.data.child_name;
 });
 </script>
-    <script src="{{ asset('js/doctor.js') }}"></script>
+    <script src="<?php echo e(asset('js/doctor.js')); ?>"></script>
     <script>
     //for Going to Dashboard loader
     function handleBackToDashboardClick() {
@@ -651,4 +652,4 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\sharo\Desktop\Today\htdocs\BeaconChildrenCenter-4\resources\views/therapists/occupationaltherapyDashboard.blade.php ENDPATH**/ ?>
