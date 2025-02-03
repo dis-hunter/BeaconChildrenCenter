@@ -147,6 +147,8 @@
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Date/Time</th>
+                <th class="py-2 border">Completed</th>
+
               </tr>
             </thead>
             <tbody id="patient-table-body">
@@ -281,7 +283,7 @@ function selectPatient(index) {
 
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
-  alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
+  alert(`Selected Registration Number: ${registrationNumber}`);
   
   
   
@@ -424,6 +426,7 @@ async function startConsultation() {
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
+      <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
       <td class="py-2 border">
        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
@@ -453,4 +456,6 @@ async function startConsultation() {
   });
 </script>
 </body>
-</html><?php /**PATH C:\Users\User\Hospital\BeaconChildrenCenter\resources\views/therapists/therapistsDashboard.blade.php ENDPATH**/ ?>
+</html>
+<!-- therapistsDashboard.blade.php -->
+<?php /**PATH C:\Users\User\Hospital\BeaconChildrenCenter\resources\views/therapists/therapistsDashboard.blade.php ENDPATH**/ ?>

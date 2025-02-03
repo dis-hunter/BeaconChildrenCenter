@@ -166,7 +166,7 @@
       font-size: 1.3rem;
     }
   </style>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body>
   <div class="top-bar">
@@ -174,7 +174,7 @@
   </div>
 
   <div class="sidebar">
-  <a href="{{ route('triage.dashboard') }}" class="sidebar-item">
+  <a href="<?php echo e(route('triage.dashboard')); ?>" class="sidebar-item">
       Dashboard
     </a>
     <a href="#" class="sidebar-item">
@@ -194,7 +194,7 @@
   <div class="main-content">
     <div class="patient-info">
       <h2 id="patient-name">Patient Name</h2>
-      <a href="{{ route('triage.dashboard') }}" class="btn-outline">&larr; Back to Dashboard</a>
+      <a href="<?php echo e(route('triage.dashboard')); ?>" class="btn-outline">&larr; Back to Dashboard</a>
     </div>
 
     <div class="card">
@@ -269,6 +269,6 @@
     </div>
   </div>
 
-  <script src="{{ asset('js/triage.js') }}"></script>
+  <script src="<?php echo e(asset('js/triage.js')); ?>"></script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\tobik\OneDrive\Documents\GitHub\BeaconChildrenCenter\resources\views/triage.blade.php ENDPATH**/ ?>

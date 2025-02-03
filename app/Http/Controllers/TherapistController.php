@@ -43,11 +43,12 @@ class TherapistController extends Controller
 {
     $visits = DB::table('visits')
         ->join('children', 'visits.child_id', '=', 'children.id')
-        ->join('staff', 'visits.staff_id', '=', 'staff.id')
+        ->join('staff', 'visits.doctor_id', '=', 'staff.id')
         ->select(
             'visits.created_at',
             'children.registration_number',
             'children.fullname',
+            'visits.completed'
         )
         ->whereDate('visits.created_at', '=', now()->toDateString())  // Filter by today's date
         ->where('visits.triage_pass', true)  // Filter by triage_pass = true
