@@ -10,6 +10,188 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
+use App\Http\Controllers\DoctorsDisplayController;
+use App\Http\Controllers\appointmentsController;
+use App\Http\Controllers\TherapyController;
+
+
+
+//Doctor Form Routes
+
+Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
+Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
+
+//Therapist Routes
+
+Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Display the doctor form once the add doctor button is clicked
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+//therapist routes
+
+
+Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
+Route::get('/doctorDashboard', function () {
+    return view('doctorDash');
+});
+
+
+//this handles parent related activity
+Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
+// Handle form submission to store a new parent
+Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents.store');
+//search for parent
+Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
+
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
+
+//Handles child related operations
+Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
+// Handle form submission to store a new child
+Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
+Route::get('/parents',  [ParentsController::class,
+'create']
+);
+Route::get('/create',  [DiagnosisController::class,
+'create']
+);
+
+Route::get('login', [AuthController::class, 'loginGet'])->name('login');
+Route::get('register', [AuthController::class,'registerGet'])->name('register');
+Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
+Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
+Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+
+Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+
+Route::post('/save-cns-data/{registrationNumber}', [DoctorsController::class, 'saveCnsData']);
+
+
+Route::get('/get-development-milestones/{registrationNumber}', [DoctorsController::class, 'getMilestones']);
+
+Route::post('/save-development-milestones/{registrationNumber}', [DoctorsController::class, 'saveMilestones']);
+
+//routes accessible when logged in only
+Route::group(['middleware'=>'auth'], function(){
+    
+    Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
+    Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
+
+    //routes accessible based on role_id
+    //Nurse
+    Route::group(['middleware'=>'role:1'], function(){
+        // e.g. Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
+        
+
+    });
+
+    //Doctor
+    Route::group(['middleware'=>'role:2'], function(){
+        
+    });
+
+    //Admin
+    Route::group(['middleware'=>'role:3'], function(){
+        
+    });
+    
+    Route::group(['middleware'=>'role:5'], function(){
+        Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
+Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
+Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
+    });
+    Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
+Route::get('/psychotherapy_dashboard', function () {
+    return view('therapists.psychotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+Route::get('/physiotherapy_dashboard', function () {
+    return view('therapists.physiotherapyDashboard');
+});
+
+Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
+
+
+Route::get('/speechtherapy_dashboard', function () {
+    return view('therapists.speechtherapyDashboard');
+});
+Route::get('/nutritionist_dashboard', function () {
+    return view('therapists.nutritionistDashboard');
+});
+Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
+Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
+Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
+Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
+Route::get('/psychotherapist/{registrationNumber}', [TherapyController::class, 'PsychoTherapy']);
+
+
+
+
+
+
+Route::get('/physical_therapist', function () {
+    return view('therapists.physiotherapyTherapist');
+});
+// Route::get('/psychotherapy_therapist', function () {
+//     return view('therapists.psychotherapyTherapist');
+// });
+// Route::get('/physiotherapy_therapist', function () {
+//     return view('therapists.physiotherapyTherapist');
+// });
+
+Route::get('/nutritionist', function () {
+    return view('therapists.nutritionist');
+});
+//therapist routes end above
+
+Route::get('/receiptionist_dashboard', function () {
+    return view('Receiptionist\Receiptionist_dashboard');
+});
+Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard'])->name('occupational_therapist');
+
+Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
+Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
+
+
+Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
+Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
+Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
+Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
+
+
+});
+
+
+
+
+// Fetch Behaviour Assessment for a child
+Route::get('/get-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'getBehaviourAssessment']);
+
+// Save or update Behaviour Assessment for a child
+Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesmentController::class, 'saveBehaviourAssessment']);
+
+
+
+
+
+
 use App\Http\Controllers\FamilySocialHistoryController;
 use App\Http\Controllers\PerinatalHistoryController;
 use App\Http\Controllers\PastMedicalHistoryController;
@@ -160,7 +342,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
         Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
         Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
-        Route::view('/occupational_therapist', 'therapists.occupationalTherapist');
+        Route::view('/occupational_therapist', 'therapists.occupationalTherapist')->name('therapists.occupationalTherapist');
         Route::view('/speech_therapist', 'therapists.speechTherapist');
         Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');
         Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist');
@@ -185,10 +367,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
 
 });
+Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
 
 Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
 Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
-
-
-
-
+Route::get('/getDoctorNotes/{registrationNumber}', [VisitController::class, 'getDoctorNotes']);

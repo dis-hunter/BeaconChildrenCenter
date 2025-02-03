@@ -35,8 +35,15 @@
     </style>
 </head>
 <body class="bg-gray-50">
+     <!-- Add Back and Next buttons -->
+     <div class="flex justify-between mb-4">
+        <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+    </div>
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Physiotherapy</h1>
+        <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
+        <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
+        <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
         
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <!-- <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
@@ -301,9 +308,13 @@
             	
         });
     </script>
-        <script src="{{ asset('js/loader.js') }}"></script>    
+        <script src="{{ asset('js/loader.js') }}"></script> 
+        <script src="{{asset('js/backAndNextButton.js')}}"></script>
+   
         <script src="{{ asset('js/movement.js')}}"></script>   
     <script>
+        const childId = document.getElementById('child_id').value;
+
      // handles submission of goals to db
         
         async function saveTherapyGoals() {
@@ -336,9 +347,9 @@
 
     // Prepare the full payload with other required attributes
     const payload = {
-        child_id: 1, // Replace with the actual element ID or logic
+        child_id: childId, // Replace with the actual element ID or logic
         staff_id: 8, // Replace with the actual element ID or logic
-        therapy_id:1, // Replace with the actual element ID or logic
+        therapy_id:2, // Replace with the actual element ID or logic
         data: goalsData // Add the collected categories data as a JSON object
     };
 
@@ -419,9 +430,9 @@
 
         // Prepare the full payload with other required attributes
         const payload = {
-            child_id: 1, // Replace with the actual element ID or logic
+            child_id: childId, // Replace with the actual element ID or logic
             staff_id: 8, // Replace with the actual element ID or logic
-            therapy_id: 1, // Replace with the actual element ID or logic
+            therapy_id: 2, // Replace with the actual element ID or logic
             data: assessmentData // Add the collected categories data as a JSON object
         };
 
@@ -497,9 +508,9 @@ headers: {
 
         // Prepare the full payload with other required attributes
         const payload = {
-            child_id: 1, // Replace with the actual element ID or logic
+            child_id: childId, // Replace with the actual element ID or logic
             staff_id: 8, // Replace with the actual element ID or logic
-            therapy_id: 1, // Replace with the actual element ID or logic
+            therapy_id: 2, // Replace with the actual element ID or logic
             data: individualizedData // Add the collected categories data as a JSON object
         };
 
@@ -578,9 +589,9 @@ headers: {
 
         // Prepare the full payload with other required attributes
         const payload = {
-            child_id: 1, // Replace with the actual element ID or logic
+            child_id: childId, // Replace with the actual element ID or logic
             staff_id: 8, // Replace with the actual element ID or logic
-            therapy_id: 1, // Replace with the actual element ID or logic
+            therapy_id: 2, // Replace with the actual element ID or logic
             data: sessionData // Add the collected categories data as a JSON object
         };
 
@@ -655,9 +666,9 @@ headers: {
             });
 
         const payload = {
-            child_id: 1,
+            child_id: childId,
             staff_id: 8,
-            therapy_id: 1,
+            therapy_id: 2,
             data: followupData
         };
 

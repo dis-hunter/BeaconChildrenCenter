@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/scout/compare/v10.11.9...10.x)
+## [Unreleased](https://github.com/laravel/scout/compare/v10.12.1...10.x)
+
+## [v10.12.1](https://github.com/laravel/scout/compare/v10.12.0...v10.12.1) - 2025-01-21
+
+* [10.x] Check for default total count return in meilisearch by [@Boorinio](https://github.com/Boorinio) in https://github.com/laravel/scout/pull/900
+* Fix filtering `null` values in `where()` with Meilisearch by [@tobz-nz](https://github.com/tobz-nz) in https://github.com/laravel/scout/pull/901
+
+## [v10.12.0](https://github.com/laravel/scout/compare/v10.11.9...v10.12.0) - 2025-01-14
+
+* feat: Algolia settings sync by [@joostdebruijn](https://github.com/joostdebruijn) in https://github.com/laravel/scout/pull/889
+* perf(typesense): skip collection check for search operations by [@tharropoulos](https://github.com/tharropoulos) in https://github.com/laravel/scout/pull/898
 
 ## [v10.11.9](https://github.com/laravel/scout/compare/v10.11.8...v10.11.9) - 2024-12-10
 
