@@ -108,7 +108,13 @@
     >
         Go back to Dashboard
     </button>
-
+    <button 
+    id="backToDashboardButton"
+    onclick="handleBackToPatientInfo()"
+    class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
+>
+    Go back to patient info
+</button>
 
 
     <button 
@@ -217,87 +223,82 @@ function goToWorkspace(event) {
                             <h1 class="text-white text-xl font-semibold">Patient Information</h1>
                         </div>
                         <form id="patient-form" class="p-6 space-y-6">
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
-                                            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
 
+            <label class="block text-sm font-medium text-gray-700" for="firstName"> Name</label>
+            <input type="text" id="firstName" name="firstName" value="{{ $fullName}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                                    <label class="block text-sm font-medium text-gray-700" for="firstName"> Name</label>
-                                    <input type="text" id="firstName" name="firstName" value="{{ $fullName}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="dob">Date of Birth</label>
-                                    <input type="date" id="dob" name="dob" value="2018-02-28" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="gender">Gender/Age</label>
-                                    <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
-                                    <input type="text" id="hnu" name="hnu" value="{{$child->id}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" value="2018-02-28" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="gender">Gender/Age</label>
+            <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
+            <input type="text" id="hnu" name="hnu" value="{{$child->id}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
-                                    <input type="text" id="mothersName" name="mothersName" value="{{$parents['femaleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
-                                    <input type="tel" id="motherTel" name="motherTel" value="{{$parents['femaleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
-                                    <input type="email" id="motherEmail" name="motherEmail"value="{{$parents['femaleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
+            <input type="text" id="mothersName" name="mothersName" value="{{$parents['femaleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
+            <input type="tel" id="motherTel" name="motherTel" value="{{$parents['femaleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
+            <input type="email" id="motherEmail" name="motherEmail"value="{{$parents['femaleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="fathersName">Father's Name</label>
-                                    <input type="text" id="fathersName" name="fathersName" value="{{$parents['maleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="fatherTel">Tel</label>
-                                    <input type="tel" id="fatherTel" name="fatherTel" value="{{$parents['maleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="fatherEmail">Email</label>
-                                    <input type="email" id="fatherEmail" name="fatherEmail" value="{{$parents['maleParent']['email'] ?? 'N/A'}}"class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="fathersName">Father's Name</label>
+            <input type="text" id="fathersName" name="fathersName" value="{{$parents['maleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="fatherTel">Tel</label>
+            <input type="tel" id="fatherTel" name="fatherTel" value="{{$parents['maleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="fatherEmail">Email</label>
+            <input type="email" id="fatherEmail" name="fatherEmail" value="{{$parents['maleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="informant">Informant</label>
-                                <input type="text" id="informant" name="informant" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
+    
 
-                            <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="date">Date</label>
-                                <input type="date" id="date" name="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
+    <div class="bg-sky-50 p-6 rounded-lg space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="date">Date</label>
+        <input type="date" id="date" name="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+    </div>
 
-                            <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
-                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{$doctorsNotes}}</textarea>
-                            </div>
+    <div class="bg-sky-50 p-6 rounded-lg space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
+        <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y" >{{$doctorsNotes}}</textarea>
+    </div>
 
-                            <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="createdBy">Created By</label>
-                                <input type="text" id="createdBy" name="createdBy" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
+    <div class="bg-sky-50 p-6 rounded-lg space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="createdBy">Created By</label>
+        <input type="text" id="createdBy" name="createdBy" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+    </div>
 
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-gradient-to-r from-blue-500 to-sky-500 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300" onclick="CompletedVisit()">Save</button>
-                            </div>
-                        </form>
+    <div class="flex justify-end">
+        <button type="submit" class="bg-gradient-to-r from-blue-500 to-sky-500 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300" onclick="CompletedVisit()">Save</button>
+    </div>
+</form>
                     </div>
                 `;
             }
@@ -661,6 +662,21 @@ document.addEventListener("DOMContentLoaded", function() {
         showLoadingIndicator('Loading...',70);
         window.location.href = '/therapist_dashboard';
     }
+</script>
+<script>
+function handleBackToPatientInfo() {
+    const registrationNumber = extractRegistrationCode(); // Function to get registration number
+    if (registrationNumber) {
+        window.location.href = `/occupationaltherapy_dashboard/${registrationNumber}`;
+    } else {
+        alert('Registration number not found.');
+    }
+}
+
+function extractRegistrationCode() {
+    const pathSegments = window.location.pathname.split('/');
+    return pathSegments[pathSegments.length - 1]; // Returns the last segment as registrationNumber
+}
 </script>
 
 </body>
