@@ -609,7 +609,7 @@ async function goToEncounterSummary() {
                                 <h3>Visit Details</h3>
                                 <div class="visit-meta">
                                     <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
-                                    <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.last_name} </span>
+                                    <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
                                 </div>
                                 <div class="notes">
                                     <strong>Doctor's Notes:</strong><br>
