@@ -16028,3 +16028,57 @@ HINT:  Perhaps you meant to reference the column \"visits.doctor_id\". at C:\\Us
 [2025-02-03 20:36:07] local.INFO: select "visits"."visit_date", "visits"."notes", "staff"."fullname" as "doctor_name" from "visits" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."child_id" = ? order by "visits"."visit_date" desc  
 [2025-02-03 20:36:08] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-02-03 20:36:08] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 20:46:02] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 20:46:03] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 20:46:04] local.INFO: select * from "children" where "registration_number" = ? limit 1  
+[2025-02-03 20:46:04] local.INFO: select "gender" from "gender" where "id" = ? limit 1  
+[2025-02-03 20:46:05] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 20:46:05] local.INFO: select * from "visits" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:06] local.INFO: select "parent_id" from "child_parent" where "child_id" = ?  
+[2025-02-03 20:46:07] local.INFO: select * from "parents" where "id" in (?) and "gender_id" = ? limit 1  
+[2025-02-03 20:46:07] local.INFO: select * from "parents" where "id" in (?) and "gender_id" = ? limit 1  
+[2025-02-03 20:46:08] local.INFO: select * from "parents" where "id" in (?) and "gender_id" = ? limit 1  
+[2025-02-03 20:46:08] local.INFO: select * from "triage" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:09] local.INFO: select * from "development_milestones" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:10] local.INFO: select * from "perinatal_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:10] local.INFO: select * from "therapy_session_2" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:11] local.INFO: select * from "therapy_assesment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:11] local.INFO: select * from "therapy_goals" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:12] local.INFO: select * from "past_medical_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:13] local.INFO: select * from "prescriptions" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:13] local.INFO: select * from "family_social_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:14] local.INFO: select * from "diagnosis" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:14] local.INFO: select * from "behaviour_assessment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:46:15] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 20:46:59] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 20:47:00] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 20:47:00] local.INFO: select * from "children" where "registration_number" = ? limit 1  
+[2025-02-03 20:47:01] local.INFO: select "gender" from "gender" where "id" = ? limit 1  
+[2025-02-03 20:47:01] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 20:47:02] local.INFO: select * from "visits" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:02] local.INFO: select "parent_id" from "child_parent" where "child_id" = ?  
+[2025-02-03 20:47:03] local.INFO: select * from "parents" where "id" in (?) and "gender_id" = ? limit 1  
+[2025-02-03 20:47:03] local.INFO: select * from "parents" where "id" in (?) and "gender_id" = ? limit 1  
+[2025-02-03 20:47:04] local.INFO: select * from "parents" where "id" in (?) and "gender_id" = ? limit 1  
+[2025-02-03 20:47:05] local.INFO: select * from "triage" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:05] local.INFO: select * from "development_milestones" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:06] local.INFO: select * from "perinatal_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:06] local.INFO: select * from "therapy_session_2" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:07] local.INFO: select * from "therapy_assesment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:07] local.INFO: select * from "therapy_goals" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:08] local.INFO: select * from "past_medical_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:08] local.INFO: select * from "prescriptions" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:09] local.INFO: select * from "family_social_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:09] local.INFO: select * from "diagnosis" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:10] local.INFO: select * from "behaviour_assessment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 20:47:10] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 20:47:27] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 20:47:27] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 20:47:28] local.INFO: select * from "children" where "registration_number" = ? limit 1  
+[2025-02-03 20:47:28] local.INFO: select "gender" from "gender" where "id" = ? limit 1  
+[2025-02-03 20:47:29] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 20:47:40] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 20:47:41] local.INFO: select "id", "registration_number", "fullname" from "children" where "registration_number" = ? limit 1  
+[2025-02-03 20:47:42] local.INFO: select "visits"."visit_date", "visits"."notes", "staff"."fullname" as "doctor_name" from "visits" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."child_id" = ? order by "visits"."visit_date" desc  
+[2025-02-03 20:47:42] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 20:47:43] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
