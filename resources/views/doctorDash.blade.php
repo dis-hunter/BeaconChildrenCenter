@@ -48,10 +48,7 @@
           <li> <a id="therapist-link" href="#">Therapy</a></li>
 
           <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
-          <li class="active"><a href="{{ route('doctor.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-          <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> My Profile</a></li>
-          <li><a href="#"><i class="fas fa-book"></i> Booked Patients</a></li>
-          <li><a href="#"><i class="fas fa-user-md"></i> Therapy</a></li>
+          
         </ul>
       </nav>
     </aside>

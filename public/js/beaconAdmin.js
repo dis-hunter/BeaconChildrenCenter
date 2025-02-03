@@ -186,6 +186,7 @@ function updateFinanceChart(period) {
         url: `/api/finance-data?period=${period}`,
         method: 'GET',
         success: function(data) {
+            console.log("API Response:", data);
             if (financeChartInstance) financeChartInstance.destroy(); // Destroy old chart
 
             const ctx = document.getElementById('financeChart').getContext('2d');

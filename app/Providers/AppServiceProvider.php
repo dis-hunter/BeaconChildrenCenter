@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised();
         });
         
-        View::share('doctorSpecializations', DoctorSpecialization::all());
+        
 
         DB::listen(function ($query){
             Log::info($query->sql);

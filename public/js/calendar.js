@@ -191,17 +191,12 @@ function addlistener() {
     });
 }
 
-<<<<<<< HEAD
-
-
-=======
 function getActiveDay(date) {
     const day = new Date(year, month, date);
     const dayName = day.toString().split(" ")[0];
     eventDay.innerHTML = dayName;
     eventDate.innerHTML = `${date} ${months[month]} ${year}`;
 }
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 /*
 function updateEvents(date) {
     let events = "";
@@ -246,28 +241,8 @@ function updateEvents(date) {
     const loadingDiv = document.createElement("div");
     loadingDiv.classList.add("loading");
     loadingDiv.innerHTML = `
-<<<<<<< HEAD
-        <div class="loader"></div>
-            <style>
-                .loader {
-                    height: 5px;
-                    width: inherit;
-                    --c:no-repeat linear-gradient(#6100ee 0 0);
-                    background: var(--c),var(--c),#d7b8fc;
-                    background-size: 60% 100%;
-                    animation: l16 3s infinite;
-                    border-radius: 5px;
-                    }
-                @keyframes l16 {
-                    0%   {background-position:-150% 0,-150% 0}
-                    66%  {background-position: 250% 0,-150% 0}
-                    100% {background-position: 250% 0, 250% 0}
-                    }
-            </style>
-=======
         <div class="loading-spinner"></div>
         <p class="loading-text" style="color:white;">loading appointments... Please wait!</p>
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
     `;
     eventsContainer.appendChild(loadingDiv);
 
@@ -498,15 +473,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-<<<<<<< HEAD
-// function getActiveDay(date) {
-//     const day = new Date(year, month, date);
-//     const dayName = day.toString().split(" ")[0];
-//     eventDay.innerHTML = dayName;
-//     eventDate.innerHTML = `${date} ${months[month]} ${year}`;
-// }
-=======
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 
 function getActiveDay(date) {
     // Ensure date is a number

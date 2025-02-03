@@ -11,7 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use stdClass;
-use Carbon\Carbon;
+
 
 class ReceptionController extends Controller
 {
