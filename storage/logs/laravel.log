@@ -15613,3 +15613,51 @@ HINT:  Perhaps you meant to reference the column \"visits.doctor_id\". at C:\\Us
 [2025-02-03 15:57:20] local.INFO: select * from "sessions" where "id" = ? limit 1  
 [2025-02-03 15:57:21] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-02-03 15:57:21] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 16:03:34] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 16:03:34] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 16:03:35] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
+[2025-02-03 16:03:35] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 16:05:27] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 16:05:28] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 16:05:28] local.INFO: select * from "children" where "registration_number" = ? limit 1  
+[2025-02-03 16:05:29] local.INFO: select "gender" from "gender" where "id" = ? limit 1  
+[2025-02-03 16:05:29] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 16:05:30] local.INFO: select * from "visits" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:30] local.INFO: select "parent_id" from "child_parent" where "child_id" = ?  
+[2025-02-03 16:05:31] local.INFO: select * from "parents" where 0 = 1 and "gender_id" = ? limit 1  
+[2025-02-03 16:05:31] local.INFO: select * from "parents" where 0 = 1 and "gender_id" = ? limit 1  
+[2025-02-03 16:05:32] local.INFO: select * from "parents" where 0 = 1 and "gender_id" = ? limit 1  
+[2025-02-03 16:05:32] local.INFO: select * from "triage" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:33] local.INFO: select * from "development_milestones" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:33] local.INFO: select * from "perinatal_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:34] local.INFO: select * from "therapy_session_2" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:34] local.INFO: select * from "therapy_assesment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:35] local.INFO: select * from "therapy_goals" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:35] local.INFO: select * from "past_medical_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:36] local.INFO: select * from "prescriptions" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:36] local.INFO: select * from "family_social_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:36] local.INFO: select * from "diagnosis" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:37] local.INFO: select * from "behaviour_assessment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:37] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 16:05:41] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 16:05:41] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 16:05:42] local.INFO: select * from "children" where "registration_number" = ? limit 1  
+[2025-02-03 16:05:42] local.INFO: select "gender" from "gender" where "id" = ? limit 1  
+[2025-02-03 16:05:43] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 16:05:43] local.INFO: select * from "visits" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:44] local.INFO: select "parent_id" from "child_parent" where "child_id" = ?  
+[2025-02-03 16:05:44] local.INFO: select * from "parents" where 0 = 1 and "gender_id" = ? limit 1  
+[2025-02-03 16:05:45] local.INFO: select * from "parents" where 0 = 1 and "gender_id" = ? limit 1  
+[2025-02-03 16:05:45] local.INFO: select * from "parents" where 0 = 1 and "gender_id" = ? limit 1  
+[2025-02-03 16:05:46] local.INFO: select * from "triage" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:46] local.INFO: select * from "development_milestones" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:46] local.INFO: select * from "perinatal_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:47] local.INFO: select * from "therapy_session_2" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:47] local.INFO: select * from "therapy_assesment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:48] local.INFO: select * from "therapy_goals" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:48] local.INFO: select * from "past_medical_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:49] local.INFO: select * from "prescriptions" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:49] local.INFO: select * from "family_social_history" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:50] local.INFO: select * from "diagnosis" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:50] local.INFO: select * from "behaviour_assessment" where "child_id" = ? order by "created_at" desc limit 1  
+[2025-02-03 16:05:51] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
