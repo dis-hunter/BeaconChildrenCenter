@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [2025-01-31 21:42:48] local.INFO: select * from "sessions" where "id" = ? limit 1  
 [2025-01-31 21:42:49] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-01-31 21:42:49] local.INFO: select * from "doctor_specialization"  
@@ -24095,3 +24096,11 @@ HINT:  Perhaps you meant to reference the column \"visits.doctor_id\". at C:\\Us
 [2025-02-03 14:24:01] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
 [2025-02-03 14:24:02] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-02-03 14:24:02] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+=======
+>>>>>>> 9bff3dde14cf2590989b19be7e1c7a6358c7c510
+[2025-02-03 14:36:33] local.INFO: select * from "doctor_specialization"  
+[2025-02-03 14:36:55] local.INFO: select * from "doctor_specialization"  
+[2025-02-03 14:36:55] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 14:36:56] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
+[2025-02-03 14:36:56] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 14:36:57] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
