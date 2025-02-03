@@ -66,7 +66,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
     ];
-
     /**
      * The accessors to append to the model's array form.
      *

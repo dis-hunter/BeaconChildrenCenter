@@ -415,8 +415,18 @@ document.addEventListener('click', (event) => {
 floatingMenu.addEventListener('click', (event) => {
   event.stopPropagation(); 
 });
+// Helper function to check and parse JSON responses
+async function fetchAndParseJSON(url) {
+    const response = await fetch(url);
+    const contentType = response.headers.get('content-type');
+    
+    if (!contentType || !contentType.includes('application/json')) {
+        throw new TypeError('Response was not JSON');
+    }
+    
+    return response.json();
+}
 
-//Encouter Summary
 async function goToEncounterSummary() {
     event.preventDefault();
     console.log('EncounterSummary History link clicked.');
@@ -578,9 +588,8 @@ async function goToEncounterSummary() {
         const registrationNumber = window.location.pathname.split('/').pop();
         console.log('Registration number extracted:', registrationNumber);
     
-        const response = await fetch(`/getDoctorNotes/${registrationNumber}`);
-        const result = await response.json();
-    
+        // Use the new fetchAndParseJSON function
+        const result = await fetchAndParseJSON(`/getDoctorNotes/${registrationNumber}`);
         console.log('Fetch response:', result);
     
         if (result.status === 'success') {
@@ -600,7 +609,7 @@ async function goToEncounterSummary() {
                                 <h3>Visit Details</h3>
                                 <div class="visit-meta">
                                     <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
-                                    <span><strong>Doctor:</strong> ${visit.doctor_name}</span>
+                                    <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.last_name} </span>
                                 </div>
                                 <div class="notes">
                                     <strong>Doctor's Notes:</strong><br>
@@ -618,7 +627,11 @@ async function goToEncounterSummary() {
         console.error('Error:', error);
         mainContent.innerHTML = `
             <div class="container">
-                <p class="error-message">Failed to load notes. Please try again later.</p>
+                <p class="error-message">
+                    ${error instanceof TypeError ? 
+                        'Server response format error. Please contact support.' : 
+                        'Failed to load notes. Please try again later.'}
+                </p>
             </div>
         `;
     }

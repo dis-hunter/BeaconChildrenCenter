@@ -49,12 +49,13 @@ class TherapistController extends Controller
             'children.registration_number',
             'children.fullname',
         )
-        // ->whereDate('visits.created_at', '=', now()->toDateString())  // Filter by today's date
-        // ->where('visits.triage_pass', true)  // Filter by triage_pass = true
+        ->whereDate('visits.created_at', '=', now()->toDateString())  // Filter by today's date
+        ->where('visits.triage_pass', true)  // Filter by triage_pass = true
         ->orderBy('visits.created_at')
         ->get();
 
     return view('therapists.therapistsDashboard', compact('visits'));
 }
+
 
 }    

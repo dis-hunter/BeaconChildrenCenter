@@ -134,11 +134,7 @@ public function getDoctorNotes($registrationNumber) {
         // Get child details
         $child = DB::table('children')
             ->where('registration_number', $registrationNumber)
-            ->select(
-                'id',
-                'registration_number',
-                'fullname'
-            )
+            ->select('id', 'registration_number', 'fullname')
             ->first();
 
         if (!$child) {
@@ -147,6 +143,7 @@ public function getDoctorNotes($registrationNumber) {
                 'message' => 'Child not found'
             ], 404);
         }
+
         // Decode the fullname JSON and construct the full name
         $fullname = json_decode($child->fullname);
         $firstName = $fullname->first_name ?? '';
@@ -154,72 +151,44 @@ public function getDoctorNotes($registrationNumber) {
         $lastName = $fullname->last_name ?? '';
         $childName = trim("$firstName $middleName $lastName");
 
+       
+
+
         // Get visits information
         $visits = DB::table('visits')
             ->join('staff', 'visits.doctor_id', '=', 'staff.id')
             ->where('visits.child_id', $child->id)
             ->orderBy('visits.visit_date', 'desc')
-            ->select(
-                'visits.visit_date',
-                'visits.notes',
-                'staff.fullname as doctor_name'
-            )
+            ->select('visits.visit_date', 'visits.notes', 'staff.fullname as doctor_name')
             ->get();
 
         // Format the response
-        return response()->json([
+        $formattedResponse = [
             'status' => 'success',
             'data' => [
                 'registration_number' => $child->registration_number,
-                'child_name' => $childName, // Use the formatted child name instead of the raw fullname JSON
-                'visits' => $visits->map(function($visit) {
-                    // Handle both single value and multiple name parts
-                    try {
-                        $doctorData = json_decode($visit->doctor_name, true);
-                        
-                        if (is_array($doctorData)) {
-                            // Check if it's a simple single-value structure
-                            if (count($doctorData) === 1 && !is_array(reset($doctorData))) {
-                                $doctorName = reset($doctorData);
-                            } else {
-                                // Handle multiple name parts
-                                $nameParts = [];
-                                if (!empty($doctorData['firstname'])) $nameParts[] = $doctorData['firstname'];
-                                if (!empty($doctorData['middlename'])) $nameParts[] = $doctorData['middlename'];
-                                if (!empty($doctorData['lastname'])) $nameParts[] = $doctorData['lastname'];
-                                
-                                // Alternative keys if the above aren't found
-                                if (empty($nameParts)) {
-                                    if (!empty($doctorData['first_name'])) $nameParts[] = $doctorData['first_name'];
-                                    if (!empty($doctorData['middle_name'])) $nameParts[] = $doctorData['middle_name'];
-                                    if (!empty($doctorData['last_name'])) $nameParts[] = $doctorData['last_name'];
-                                }
-                                
-                                $doctorName = !empty($nameParts) ? implode(' ', $nameParts) : $visit->doctor_name;
-                            }
-                        } else {
-                            $doctorName = $visit->doctor_name;
-                        }
-                    } catch (\Exception $e) {
-                        $doctorName = $visit->doctor_name;
-                    }
-
+                'child_name' => $childName,
+                'visits' => $visits->map(function ($visit) {
+                    // Decode doctor_name JSON string to an array
+                    $doctor = json_decode(str_replace('Doctor: ', '', $visit->doctor_name), true);
+                    
                     return [
                         'visit_date' => $visit->visit_date,
-                        'notes' => $visit->notes ?? 'No notes recorded',
-                        'doctor_name' => $doctorName,
-                        
+                        'notes' => $visit->notes,
+                        'doctor_first_name' => $doctor['first_name'] ?? null, // Extract first name
+                        'doctor_last_name' => $doctor['last_name'] ?? null,  // Extract last name
                     ];
                 })
             ]
-        ]);
+        ];
+        
 
+        return response()->json($formattedResponse);
     } catch (\Exception $e) {
         Log::error('Error in getDoctorNotes: ' . $e->getMessage());
-        
         return response()->json([
             'status' => 'error',
-            'message' => 'An error occurred while retrieving the doctor notes: ' . $e->getMessage()
+            'message' => 'An error occurred while retrieving the doctor notes'
         ], 500);
     }
 }

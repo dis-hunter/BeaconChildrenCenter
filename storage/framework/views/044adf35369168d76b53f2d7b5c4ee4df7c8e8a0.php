@@ -289,8 +289,6 @@ function selectRegistrationNumber(registrationNumber, childId) {
 }
 
 async function startConsultation() {
-
-
   
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');

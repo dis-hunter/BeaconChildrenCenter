@@ -113,12 +113,36 @@ class TherapyController extends Controller
             return response()->json(['error' => 'No visit found for the child'], 404);
         }
 
-        // Fetch additional child-related data (repeated code omitted for brevity)
-        $milestonesData = DB::table('development_milestones')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-        $milestonesData = $milestonesData ? json_decode($milestonesData->data) : null;
+        // Define tables to fetch data from
+        $tables = [
+            'triage',
+            'development_milestones',
+            'perinatal_history',
+            'therapy_session_2',
+            'therapy_assesment',
+            'therapy_goals',
+            'past_medical_history',
+            'prescriptions',
+            'family_social_history',
+            'diagnosis',
+            'behaviour_assessment'
+            // Add other tables here as needed
+        ];
+
+        // Function to format data consistently
+        function formatDataSection($data, $sectionTitle) {
+            if (!$data) {
+                return "{$sectionTitle}: No data available.\n\n";
+            }
+
+            $formattedText = "{$sectionTitle}:\n";
+            foreach ((array)$data as $key => $value) {
+                $formattedKey = str_replace('_', ' ', $key);
+                $formattedKey = ucwords($formattedKey);
+                $formattedText .= "{$formattedKey}: {$value}\n";
+            }
+            return $formattedText . "\n";
+        }
 
         // Retrieve parent details based on gender
         $parentIds = DB::table('child_parent')->where('child_id', $child->id)->pluck('parent_id');
@@ -166,18 +190,32 @@ class TherapyController extends Controller
             'email' => $preferNotToSayParent->email ?? 'N/A',
         ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
 
-        // Prepare doctor's notes
+        // Initialize doctor's notes
         $doctorsNotes = "";
-        $doctorsNotes .= $milestonesData 
-            ? "Milestones :\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" 
-            : "Milestones : No data available.\n\n";
+        
+        // Fetch and format data from each table
+        foreach ($tables as $table) {
+            $data = DB::table($table)
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            
+            $sectionTitle = ucwords(str_replace('_', ' ', $table));
+            
+            if ($data) {
+                $decodedData = json_decode($data->data);
+                $doctorsNotes .= formatDataSection($decodedData, $sectionTitle);
+            } else {
+                $doctorsNotes .= "{$sectionTitle}: No data available.\n\n";
+            }
+        }
 
-        // Return response
+        // Return response for AJAX requests
         if (request()->wantsJson() || request()->ajax()) {
             return response()->json([
                 'child' => $child,
                 'child_id' => $child->id,
-                'fullName' => $fullName,  // Use concatenated full name here
+                'fullName' => $fullName,
                 'gender' => $gender,
                 'parents' => [
                     'maleParent' => $maleParentDetails,
@@ -194,7 +232,7 @@ class TherapyController extends Controller
         return view('therapists.occupationaltherapyDashboard', [
             'child' => $child,
             'child_id' => $child->id,
-            'fullName' => $fullName,  // Use concatenated full name here
+            'fullName' => $fullName,
             'gender' => $gender,
             'parents' => [
                 'maleParent' => $maleParentDetails,

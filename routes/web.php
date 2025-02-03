@@ -12,6 +12,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\DoctorsDisplayController;
 use App\Http\Controllers\appointmentsController;
+use App\Http\Controllers\TherapyController;
 
 
 
@@ -366,10 +367,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
 
 });
+Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
 
 Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
 Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
-
-
-
-
+Route::get('/getDoctorNotes/{registrationNumber}', [VisitController::class, 'getDoctorNotes']);
