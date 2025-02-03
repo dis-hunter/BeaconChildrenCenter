@@ -358,18 +358,16 @@
                     source_type: 'Reception',
                     source_contact: '123456789',
                     staff_id: 3,
-                    appointment_id: null, // Added this field
                     created_at: utils.getTodayDate(),
                     updated_at: utils.getTodayDate()
                 };
 
-                // Validate all fields have proper values
-                for (const [key, value] of Object.entries(data)) {
-                    if (key === 'appointment_id') continue; // Skip validation for appointment_id since it can be null
-                    if (value === undefined || value === null || Number.isNaN(value)) {
-                        throw new Error(`Invalid value for field: ${key}`);
-                    }
+            // Validate all fields have proper values
+            for (const [key, value] of Object.entries(data)) {
+                if (value === undefined || value === null || Number.isNaN(value)) {
+                    throw new Error(`Invalid value for field: ${key}`);
                 }
+            }
 
                 console.log('Prepared appointment data:', data);
                 return data;
