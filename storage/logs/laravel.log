@@ -24084,3 +24084,14 @@ HINT:  Perhaps you meant to reference the column \"visits.doctor_id\". at C:\\Us
 [2025-02-03 14:16:11] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
 [2025-02-03 14:16:12] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-02-03 14:16:12] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 14:23:48] local.INFO: select * from "doctor_specialization"  
+[2025-02-03 14:23:48] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 14:23:49] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
+[2025-02-03 14:23:49] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 14:23:50] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-03 14:23:56] local.INFO: select * from "doctor_specialization"  
+[2025-02-03 14:24:00] local.INFO: select * from "doctor_specialization"  
+[2025-02-03 14:24:01] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-03 14:24:01] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
+[2025-02-03 14:24:02] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-03 14:24:02] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
