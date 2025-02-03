@@ -43,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
         DB::listen(function ($query){
             Log::info($query->sql);
         });
+        View::share('doctorSpecializations', DoctorSpecialization::all());
+
     }
 }

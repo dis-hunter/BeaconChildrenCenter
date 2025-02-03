@@ -381,6 +381,8 @@
 
 
     </style>
+    <?php echo \Livewire\Livewire::styles(); ?>
+
 
 </head>
 <body>
@@ -419,6 +421,8 @@ Livewire.on('childAdded', message => {
 location.reload();
 });
 </script>
+
+<?php echo \Livewire\Livewire::scripts(); ?>
 
 </body>
 </html><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/reception/layout.blade.php ENDPATH**/ ?>

@@ -122,6 +122,7 @@ div h2 {
                     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('child-search-bar')->html();
+<<<<<<< HEAD
 } elseif ($_instance->childHasBeenRendered('BXo5Y0Z')) {
     $componentId = $_instance->getRenderedChildComponentId('BXo5Y0Z');
     $componentTag = $_instance->getRenderedChildComponentTagName('BXo5Y0Z');
@@ -131,6 +132,29 @@ if (! isset($_instance)) {
     $response = \Livewire\Livewire::mount('child-search-bar');
     $html = $response->html();
     $_instance->logRenderedChild('BXo5Y0Z', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+=======
+<<<<<<<< HEAD:storage/framework/views/f0715a980528f17245419f99fa0688418fac3cf3.php
+} elseif ($_instance->childHasBeenRendered('bWYG5EQ')) {
+    $componentId = $_instance->getRenderedChildComponentId('bWYG5EQ');
+    $componentTag = $_instance->getRenderedChildComponentTagName('bWYG5EQ');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('bWYG5EQ');
+} else {
+    $response = \Livewire\Livewire::mount('child-search-bar');
+    $html = $response->html();
+    $_instance->logRenderedChild('bWYG5EQ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+========
+} elseif ($_instance->childHasBeenRendered('khEVN0r')) {
+    $componentId = $_instance->getRenderedChildComponentId('khEVN0r');
+    $componentTag = $_instance->getRenderedChildComponentTagName('khEVN0r');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('khEVN0r');
+} else {
+    $response = \Livewire\Livewire::mount('child-search-bar');
+    $html = $response->html();
+    $_instance->logRenderedChild('khEVN0r', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+>>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef:storage/framework/views/2db9ab62933b836f6cf39aae11429a7361217492.php
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 }
 echo $html;
 ?>
@@ -260,4 +284,12 @@ margin: 20px auto; /* Center form */">
 
 
 </body>
+<<<<<<< HEAD
 </html><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/calendar.blade.php ENDPATH**/ ?>
+=======
+<<<<<<<< HEAD:storage/framework/views/f0715a980528f17245419f99fa0688418fac3cf3.php
+</html><?php /**PATH D:\github\BeaconChildrenCenter\resources\views/calendar.blade.php ENDPATH**/ ?>
+========
+</html><?php /**PATH C:\xampp\htdocs\BeaconChildrenCenter\resources\views/calendar.blade.php ENDPATH**/ ?>
+>>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef:storage/framework/views/2db9ab62933b836f6cf39aae11429a7361217492.php
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef

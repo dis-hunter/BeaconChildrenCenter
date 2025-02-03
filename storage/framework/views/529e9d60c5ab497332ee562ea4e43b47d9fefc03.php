@@ -28,7 +28,15 @@
 
 </span>
 
+<<<<<<< HEAD
 <?php if (! $__env->hasRenderedOnce('908f9a06-a594-4b8a-bcdc-df14165e5f72')): $__env->markAsRenderedOnce('908f9a06-a594-4b8a-bcdc-df14165e5f72'); ?>
+=======
+<<<<<<<< HEAD:storage/framework/views/8626ed0cd13214fc553e272cce0ff36250f36274.php
+<?php if (! $__env->hasRenderedOnce('bd99976f-cff2-4f96-86ea-03feb7166cd3')): $__env->markAsRenderedOnce('bd99976f-cff2-4f96-86ea-03feb7166cd3'); ?>
+========
+<?php if (! $__env->hasRenderedOnce('244b007e-c592-4c57-81c7-7cb7443067a7')): $__env->markAsRenderedOnce('244b007e-c592-4c57-81c7-7cb7443067a7'); ?>
+>>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef:storage/framework/views/529e9d60c5ab497332ee562ea4e43b47d9fefc03.php
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.dialog-modal','data' => ['wire:model' => 'confirmingPassword']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dialog-modal'); ?>

@@ -114,20 +114,20 @@ class User extends Authenticatable
 
         return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&color=FFFFFF&background=000000';
     }
-
     public function getDashboardRoute(){
         return match($this->role_id){
             1 => 'triage.dashboard',
             2 => 'doctor.dashboard',
             3 => 'reception.dashboard',
-            5 => $this->getTherapistRoute($this->specialization_id),
+            5 => $this->getTherapistRoute($this->specialization_id), // Calls therapist function
             default => RouteServiceProvider::HOME,
         };
     }
-
+    
     public function getTherapistRoute($specialization_id){
         return match($specialization_id){
-            default => RouteServiceProvider::HOME,
+            default => 'occupational_therapist', // Now redirects therapists to this route
         };
     }
+    
 }

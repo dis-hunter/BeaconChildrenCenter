@@ -1,4 +1,5 @@
 // Sample data for charts (replace with actual data later)
+/*
 const patientData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
@@ -26,15 +27,81 @@ const financeData = {
 };
 
 // Chart initialization
-const patientChart = new Chart(document.getElementById('patientChart'), {
-    type: 'line',
-    data: patientData
-});
+//const patientChart = new Chart(document.getElementById('patientChart'), {
+   // type: 'line',
+   // data: patientData
+//});
 
 const financeChart = new Chart(document.getElementById('financeChart'), {
     type: 'line',
     data: financeData
-});
+}); */
+
+/*
+async function fetchFinanceData() {
+    try {
+        const response = await fetch('/finance-data');
+        const data = await response.json();
+
+        console.log("Finance Data:", data); // Debugging: Check API response in the console
+
+        const financeData = {
+            labels: data.labels, // Last 30 days
+            datasets: [
+                {
+                    label: 'Revenue',
+                    data: data.revenue.map(value => parseFloat(value)), // Ensure float
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    fill: false
+                },
+                {
+                    label: 'Expenses',
+                    data: data.expenses.map(value => parseFloat(value)), // Ensure float
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    fill: false
+                }
+            ]
+        };
+
+        const ctx = document.getElementById('financeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: financeData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'category', // Ensures labels (dates) align correctly
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching finance data:", error);
+    }
+}
+
+// Call function to load and display chart
+fetchFinanceData();
+
+*/
+
+
 
 // Add this JavaScript code to handle the navigation
 document.addEventListener('DOMContentLoaded', function() {
@@ -69,6 +136,310 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dashboard').classList.add('active');
 });
 // ... (other JavaScript code) ...
+
+// Global variables to store Chart.js instances
+let visitChartInstance;
+let financeChartInstance;
+
+// Update Visit Chart for the Annual View
+function updateVisitChart(period) {
+    // Show loading indicator
+    document.getElementById('loadingVisit').style.display = 'block';
+
+    $.ajax({
+        url: `/api/visit-data?period=${period}`,
+        method: 'GET',
+        success: function(data) {
+            if (visitChartInstance) visitChartInstance.destroy(); // Destroy old chart
+
+            const ctx = document.getElementById('visitChart').getContext('2d');
+            visitChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels, // Time period (e.g., months for annual, weeks for weekly)
+                    datasets: [{
+                        label: 'Visits',
+                        data: data.visits.map(v => v || 0), // Show 0 if no data for a month/week
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        fill: false
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            // Hide loading indicator
+            document.getElementById('loadingVisit').style.display = 'none';
+        },
+        error: function(error) {
+            console.error("Error fetching visit data:", error);
+            document.getElementById('loadingVisit').style.display = 'none'; // Hide loading on error
+        }
+    });
+}
+
+// Update Finance Chart for Monthly and Annual Views
+function updateFinanceChart(period) {
+    // Show loading indicator
+    document.getElementById('loadingFinance').style.display = 'block';
+
+    $.ajax({
+        url: `/api/finance-data?period=${period}`,
+        method: 'GET',
+        success: function(data) {
+            if (financeChartInstance) financeChartInstance.destroy(); // Destroy old chart
+
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            financeChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels, // Time period (e.g., months for annual, weeks for weekly)
+                    datasets: [
+                        {
+                            label: 'Revenue',
+                            data: data.revenue.map(r => r || 0), // Show 0 if no revenue data for a month/week
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            fill: false
+                        },
+                        {
+                            label: 'Expenses',
+                            data: data.expenses.map(e => e || 0), // Show 0 if no expense data for a month/week
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            fill: false
+                        }
+                    ]
+                },
+                options: { responsive: true }
+            });
+
+            // Hide loading indicator
+            document.getElementById('loadingFinance').style.display = 'none';
+        },
+        error: function(error) {
+            console.error("Error fetching finance data:", error);
+            document.getElementById('loadingFinance').style.display = 'none'; // Hide loading on error
+        }
+    });
+}
+
+// Load default data on page load (weekly)
+$(document).ready(function() {
+    updateVisitChart('weekly');
+    updateFinanceChart('weekly');
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+
+    fetch('/age-distribution')
+        .then(response => response.json())
+        .then(data => {
+            const ages = data.map(item => item.age);
+            const counts = data.map(item => item.count);
+
+            const ctx = document.getElementById('ageDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ages,
+                    datasets: [{
+                        label: 'Number of Children',
+                        data: counts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Ages'  // Label for the x-axis
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Children'  // Label for the y-axis
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching age distribution:', error));
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch the gender distribution data
+    fetch('/get-gender-distribution')  // Replace with the correct route for your controller
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.gender);  // Gender names (Male, Female, etc.)
+            const counts = data.map(item => item.count);  // Count of children for each gender
+
+            // Set up the chart
+            const ctx = document.getElementById('genderDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',  // Pie chart to show gender distribution
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Gender Distribution',
+                        data: counts,
+                        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0'],  // Colors for different genders
+                        borderColor: ['#fff', '#fff', '#fff', '#fff'],  // Border color
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' children';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching gender distribution:', error);
+        });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/get-visit-types')  // Replace with the correct route
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.visit_type);  // Visit type names
+            const counts = data.map(item => item.visit_count);  // Visit counts
+
+            // Create the chart
+            const ctx = document.getElementById('visitTypesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',  // Bar chart for visit types
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Visit Types Frequency',
+                        data: counts,
+                        backgroundColor: '#36A2EB',
+                        borderColor: '#007BFF',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Visit Types'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Visits'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching visit types data:', error);
+        });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+    fetch('/payment-methods')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Data fetched:', data); // Log the fetched data for confirmation
+
+            // Group the data by payment_modes_id and count the occurrences
+            const paymentMethods = data.reduce((acc, payment) => {
+                const modeId = payment.payment_mode_id;
+                acc[modeId] = (acc[modeId] || 0) + 1;
+                return acc;
+            }, {});
+
+            // Prepare data for the donut chart
+            const labels = Object.keys(paymentMethods).map(modeId => {
+                switch (parseInt(modeId)) {
+                    case 1: return 'CASH';
+                    case 2: return 'INSURANCE';
+                    case 3: return 'NCPWD';
+                    case 4: return 'PROBONO';
+                    case 5: return 'OTHER';
+                    default: return 'UNKNOWN';
+                }
+            });
+
+            const counts = Object.values(paymentMethods);
+            console.log('Prepared labels:', labels);
+            console.log('Prepared counts:', counts);
+
+            const ctx = document.getElementById('paymentMethodsChart');
+            if (ctx) {
+                console.log('Canvas context:', ctx);
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,  // Payment method names as labels
+                        datasets: [{
+                            label: 'Payment Methods',
+                            data: counts,  // Count of each payment method
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 99, 132, 0.6)',
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw + ' payments';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('Chart initialized');
+            } else {
+                console.error('Canvas element not found');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching payment methods data:', error);
+        });
+});
 
 function showDemographics() {
     const analyticsContent = document.getElementById('analytics-content');

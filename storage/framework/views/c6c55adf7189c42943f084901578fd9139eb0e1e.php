@@ -5,24 +5,23 @@
 
     <!-- Results Display -->
     <?php if(!empty($results)): ?>
-        <div class="results-container" style="width: 330px !important; max-height:  300px; margin-left:140px !important;overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+        <div class="results-container" style="width: 330px !important; max-height:  300px; margin-left:50px ;overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
             <ul wire:ignore style="color: black; list-style-type: none; padding: 0; margin: 0;">
                 <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <li class="result-item <?php echo e($loop->index % 2 == 0 ? 'light-gray' : 'white'); ?> py-2 px-3" style="border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="flex: 1;">
+                    <div style="flex: 1;">
                             <strong>Child Name:</strong> 
-                            <?php echo e($result->fullname->first_name ?? 'N/A'); ?> 
-                            <?php echo e($result->fullname->middle_name ?? ''); ?> 
-                            <?php echo e($result->fullname->last_name ?? 'N/A'); ?> 
+                            <?php echo e(json_decode($result->fullname)->first_name); ?> 
+                            <?php echo e(json_decode($result->fullname)->middle_name ?? ''); ?> 
+                            <?php echo e(json_decode($result->fullname)->last_name); ?> 
                             <br>
                             <strong>Date of Birth:</strong> <?php echo e($result->dob); ?>
 
                             <br>
                             <strong>Parent Name:</strong> 
-                            <?php echo e($result->parent_fullname->first_name ?? 'N/A'); ?> 
-                            <?php echo e($result->parent_fullname->middle_name ?? 'N/A'); ?> 
-                            <?php echo e($result->parent_fullname->last_name ?? 'N/A'); ?>
-
+                            <?php echo e(json_decode($result->parent_fullname)->first_name ?? ''); ?> 
+                            <?php echo e(json_decode($result->parent_fullname)->middle_name ?? ''); ?> 
+                            <?php echo e(json_decode($result->parent_fullname)->last_name ?? ''); ?> 
                             <br>
                             <strong>Parent Email:</strong> <?php echo e($result->email); ?>
 

@@ -46,6 +46,9 @@ class DatabaseSeeder extends Seeder
             DevelopmentAssessmentSeeder::class,
             PastMedHistorySeeder::class,
             PerinatalHistorySeeder::class,
+            PaymentsTableSeeder::class,
+            StaffLeaveSeeder::class,
+
         ]);
     }
 }
