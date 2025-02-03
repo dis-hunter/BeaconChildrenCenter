@@ -33,8 +33,8 @@ class RescheduleController extends Controller
         $validatedData = $request->validate([
             'appointment_id' => 'required|exists:appointments,id',
             'new_date' => 'required|date',
-            'new_start_time' => 'required|date_format:H:i',
-            'new_end_time' => 'required|date_format:H:i',
+            'new_start_time' => 'required',
+            'new_end_time' => 'required',
         ]);
 
         // Get the appointment to reschedule

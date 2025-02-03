@@ -14,6 +14,13 @@ class PaymentMode extends Model
         'name',
         'description'
     ];
+
+    public const NCPWD_ID = 3;
+
+    public function visits()
+    {
+        return $this->hasMany(Visits::class);
+    }
 }
 
 

@@ -5,22 +5,22 @@
 
     <!-- Results Display -->
     @if (!empty($results))
-        <div class="results-container" style="width: 330px !important; max-height:  300px; margin-left:140px !important;overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+        <div class="results-container" style="width: 330px !important; max-height:  300px; margin-left:50px ;overflow-y: auto; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
             <ul wire:ignore style="color: black; list-style-type: none; padding: 0; margin: 0;">
                 @foreach ($results as $result)
                     <li class="result-item {{ $loop->index % 2 == 0 ? 'light-gray' : 'white' }} py-2 px-3" style="border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="flex: 1;">
+                    <div style="flex: 1;">
                             <strong>Child Name:</strong> 
-                            {{ $result->fullname->first_name ?? 'N/A' }} 
-                            {{ $result->fullname->middle_name ?? '' }} 
-                            {{ $result->fullname->last_name ?? 'N/A' }} 
+                            {{ json_decode($result->fullname)->first_name }} 
+                            {{ json_decode($result->fullname)->middle_name ?? '' }} 
+                            {{ json_decode($result->fullname)->last_name  }} 
                             <br>
                             <strong>Date of Birth:</strong> {{ $result->dob }}
                             <br>
                             <strong>Parent Name:</strong> 
-                            {{ $result->parent_fullname->first_name ?? 'N/A' }} 
-                            {{ $result->parent_fullname->middle_name ?? 'N/A' }} 
-                            {{ $result->parent_fullname->last_name ?? 'N/A' }}
+                            {{ json_decode($result->parent_fullname)->first_name ?? '' }} 
+                            {{ json_decode($result->parent_fullname)->middle_name ?? '' }} 
+                            {{ json_decode($result->parent_fullname)->last_name ?? '' }} 
                             <br>
                             <strong>Parent Email:</strong> {{ $result->email }}
                             <br>

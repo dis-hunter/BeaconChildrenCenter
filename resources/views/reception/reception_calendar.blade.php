@@ -46,6 +46,7 @@
 
 .result-item {
     display: flex;
+    /*margin-left: 200px !important;*/
     justify-content: space-between;
     align-items: center;
     padding: 10px;
@@ -58,6 +59,9 @@
 
 .result-item:nth-child(odd) {
     background-color: #ffffff;
+}
+.results-container {
+    margin-left: 200px !important; /* Override original CSS */
 }
 
 </style>

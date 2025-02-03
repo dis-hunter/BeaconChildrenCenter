@@ -381,6 +381,7 @@
 
 
     </style>
+    @livewireStyles
 
 </head>
 <body>
@@ -419,5 +420,6 @@ location.reload();
 });
 </script>
 
+@livewireScripts
 </body>
 </html>

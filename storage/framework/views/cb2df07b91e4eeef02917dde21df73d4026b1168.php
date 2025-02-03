@@ -46,6 +46,10 @@
 
 .result-item {
     display: flex;
+<<<<<<< HEAD
+=======
+    /*margin-left: 200px !important;*/
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
     justify-content: space-between;
     align-items: center;
     padding: 10px;
@@ -59,6 +63,12 @@
 .result-item:nth-child(odd) {
     background-color: #ffffff;
 }
+<<<<<<< HEAD
+=======
+.results-container {
+    margin-left: 200px !important; /* Override original CSS */
+}
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 
 </style>
 <div class="w-100">

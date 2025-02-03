@@ -62,6 +62,7 @@
     <div class="global-search"><?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('global-search')->html();
+<<<<<<< HEAD
 } elseif ($_instance->childHasBeenRendered('tw3Ee99')) {
     $componentId = $_instance->getRenderedChildComponentId('tw3Ee99');
     $componentTag = $_instance->getRenderedChildComponentTagName('tw3Ee99');
@@ -71,6 +72,17 @@ if (! isset($_instance)) {
     $response = \Livewire\Livewire::mount('global-search');
     $html = $response->html();
     $_instance->logRenderedChild('tw3Ee99', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+=======
+} elseif ($_instance->childHasBeenRendered('qepNPwl')) {
+    $componentId = $_instance->getRenderedChildComponentId('qepNPwl');
+    $componentTag = $_instance->getRenderedChildComponentTagName('qepNPwl');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('qepNPwl');
+} else {
+    $response = \Livewire\Livewire::mount('global-search');
+    $html = $response->html();
+    $_instance->logRenderedChild('qepNPwl', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 }
 echo $html;
 ?></div> 

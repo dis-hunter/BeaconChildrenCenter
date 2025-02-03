@@ -9,6 +9,10 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $fillable=[
+        'role',
+    ];
+
     public function staff()
     {
         return $this->hasOne(User::class); //describes Role Table

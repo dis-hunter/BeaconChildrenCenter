@@ -47,42 +47,29 @@ img {
                     <div class="col-md-12 col-lg-7">
                       <div class="card shadow-sm border-0">
                           <div class="card-body">
-                              <h6 class="text-uppercase text-muted mb-4">Appointment Overview (Monthly)</h6>
-                              <div class="d-flex justify-content-between align-items-center kontainer">
+                          <h6 class="text-uppercase text-muted mb-4">Today's Appointment Overview</h6>
+                    <div class="d-flex justify-content-between align-items-center kontainer">
+                        @if ($dashboard)
 
-                                @if ($dashboard)
-                                
-                                  <div class="text-center">
-                                    <span class="mb-1 text-primary fs-1"> {{$dashboard->totalAppointments ?? '-'}} </span>
-                                      <p class="font-weight-bold">Total</p>
-                                  </div>
-                                  <div class="text-center">
-                                    <span class="mb-1 text-success fs-1">{{$dashboard->ongoingAppointments ?? '-'}} </span>
-                                      <p class="font-weight-bold">On-going</p>
-                                      
-                                  </div>
-                                  <div class="text-center">
-                                    <span class="mb-1 text-warning fs-1"> {{$dashboard->pendingAppointments ?? '-'}} </span>
-                                      <p class="font-weight-bold">Pending</p>
-                                      
-                                  </div>
-                                  <div class="text-center">
-                                    <span class="mb-1 text-danger fs-1"> {{$dashboard->rejectedAppointments ?? '-'}} </span>
-                                      <p class="font-weight-bold">Rejected</p>
-                                      
-                                  </div>
+                        <div class="text-center">
+                            <span class="mb-1 text-primary fs-1">{{ $dashboard->totalAppointments }}</span>
+                            <p class="font-weight-bold">Total</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="mb-1 text-success fs-1">{{ $dashboard->ongoingAppointments }}</span>
+                            <p class="font-weight-bold">On-going</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="mb-1 text-warning fs-1">{{ $dashboard->pendingAppointments }}</span>
+                            <p class="font-weight-bold">Pending</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="mb-1 text-danger fs-1">{{ $dashboard->rejectedAppointments }}</span>
+                            <p class="font-weight-bold">Rejected</p>
+                        </div>
 
-                                  <div class="text-center">
-                                    <span class="mb-1 text-success fs-1"> {{$dashboard->successfulAppointments ?? '-'}} </span>
-                                      <p class="font-weight-bold">Done</p>
-                                      
-                                  </div>
-                                      
-                                @else
-                                <div
-                                class="alert alert-danger w-100"
-                                role="alert"
-                              >
+                        @else
+                        <div class="alert alert-danger w-100" role="alert">
                                 <strong>Error</strong> Fetching Details
                               </div>
                                 @endif
@@ -132,54 +119,60 @@ img {
 
         </div>
         <div class="row mt-4">
-            <div class="col-md-12 col-xl-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
                     <div class="d-flex justify-content-between">
-                    <h5>Today's Appointments</h5>
-                    <a href="{{route('reception.calendar')}}">View all</a>
-                  </div>
-                  </div>
-                  <div style="max-height: 400px; overflow-y: auto; overflow-x:hidden;">
-                  @if($dashboard->appointments->isNotEmpty())
-                  @foreach ($dashboard->appointments as $item)
-                  <div class="row row-striped"> 
-                    <div class="col-12"> 
-                        <h5 class="text-uppercase"><strong>{{$item->appointment_title ?? 'Not Specified'}}</strong></h5> 
-                        <ul class="list-inline"> 
-                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> {{Carbon\Carbon::parse($item->appointment_date)->format('D, M j')}}</li> 
-                            <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> {{$item->start_time}} - {{$item->end_time}}</li> 
-                            <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> {{ucwords($item->status)}}</li> 
-                        </ul> 
-                        <div class="row">
-                          <div class="col-12 d-flex justify-content-between align-items-center">
-                              <h6 class="mb-0">Actions</h6>
-                              <div class="d-flex" style="gap: 15px">
-                                  @if ($item->status === 'pending')
-                                  <a href="{{route('search.visit',['id'=>$item->child_id])}}" class="btn btn-dark"> Start Visit </a>
-                                  <a href="{{route('reception.calendar')}}" class="btn btn-dark"> Reschedule/Cancel </a>
-                                  @elseif ($item->status === 'ongoing')
-                                  <form action="{{ route('finish', ['id' => $item->child_id]) }}" method="POST" class="d-flex mb-0">
-                                      @csrf
-                                      <button class="btn btn-dark" type="submit">Finish Visit</button>
-                                  </form>
-                                  <a href="{{route('reception.calendar')}}" class="btn btn-dark"> Schedule Future Appointment </a>
-                                  @else
-                                  <a href="{{route('reception.calendar')}}" class="btn btn-dark"> Schedule Future Appointment </a>
-                                  @endif
-                              </div>
-                          </div>
-                      </div>
-                      
-                    </div> 
+                        <h5>Today's Appointments</h5>
+                        <a href="#">View all</a>
+                    </div>
                 </div>
-                @endforeach
-                @else
-                <div>
-                  <div class="alert alert-info">No Appointments for Today</div>
-                </div>
-                @endif
+
+                <div style="height: 400px; overflow-y: auto; overflow-x:hidden;">
+                    <!-- Loading Spinner -->
+                    <div id="loading" style="display: none;">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Check if dashboard exists -->
+                    @if($dashboard)
+                        <!-- Check if there are appointments -->
+                        @if($dashboard->appointments->isEmpty())
+                            <div class="alert alert-info">
+                                No appointments for today.
+                            </div>
+                        @else
+                            @foreach ($dashboard->appointments as $item)
+                                <div class="row row-striped"> 
+                                    <div class="col-10"> 
+                                        <h5 class="text-uppercase"><strong>{{$item->appointment_title ?? 'Not Specified'}}</strong></h5> 
+                                        <ul class="list-inline"> 
+                                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> {{Carbon\Carbon::parse($item->appointment_date)->format('l')}}</li> 
+                                            <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> {{$item->start_time}} - {{$item->end_time}}</li> 
+                                            <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> {{ucwords($item->status)}}</li> 
+                                        </ul> 
+                                        <div class="row">
+                                            <div class="d-flex justify-content-between align-content-center">
+                                                <h6>Actions</h6>
+                                                <div>
+                                                    <a href="{{ route('reception.calendar') }}" class="nav-link"><button class="btn btn-dark">Follow up</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            @endforeach
+                        @endif
+                    @else
+                        <div>
+                            <div class="alert alert-danger">Error fetching Appointments</div>
+                        </div>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -227,13 +220,13 @@ img {
                               </div>
                             </div>
                             <div class="weekdays">
-                              <div class="day">Sun</div>
-                              <div class="day">Mon</div>
-                              <div class="day">Tue</div>
-                              <div class="day">Wed</div>
-                              <div class="day">Thu</div>
-                              <div class="day">Fri</div>
-                              <div class="day">Sat</div>
+                              <div class="day">S</div>
+                              <div class="day">M</div>
+                              <div class="day">T</div>
+                              <div class="day">W</div>
+                              <div class="day">T</div>
+                              <div class="day">F</div>
+                              <div class="day">S</div>
                             </div>
                             <div class="days">
                               <!-- render days with js -->
@@ -271,10 +264,11 @@ img {
                               .calendar .header .btns {
                                 display: flex;
                                 gap: 10px;
+                                
                               }
                               .calendar .header .btns .btn {
-                                width: 50px;
-                                height: 40px;
+                                width: 20px;
+                                height: 20px;
                                 background: var(--primary-color);
                                 display: flex;
                                 justify-content: center;

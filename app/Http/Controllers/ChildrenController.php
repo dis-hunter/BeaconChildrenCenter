@@ -223,19 +223,18 @@ class ChildrenController extends Controller
         return view('therapists.therapistsDashboard', ['children' => $children]);
     }
     
-
     public function showChildren2()
 {
+    // Retrieve children data with gender details
     $children = DB::table('children')
         ->join('gender', 'children.gender_id', '=', 'gender.id')
         ->select('children.id', 'children.fullname', 'children.dob', 'children.birth_cert', 'gender.gender', 'children.registration_number', 'children.created_at', 'children.updated_at')
         ->get()
         ->map(function ($child) {
-            // Check for double-encoded JSON
+            // Decode JSON for fullname
             if (is_string($child->fullname)) {
                 $decodedOnce = json_decode($child->fullname);
                 if (is_string($decodedOnce)) {
-                    // Decode again if necessary
                     $child->fullname = json_decode($decodedOnce);
                 } else {
                     $child->fullname = $decodedOnce;
@@ -244,10 +243,86 @@ class ChildrenController extends Controller
             return $child;
         });
 
-    return view('beaconAdmin', ['children' => $children]);
-}
+    // Add key metrics
+    $totalPatients = DB::table('children')->count();
 
+    // Get today's date
+    $today = Carbon::today()->toDateString();
     
+    // New registrations today
+    $newRegistrations = DB::table('children')
+        ->whereDate('created_at', $today)
+        ->count();
+
+    // Calculate today's revenue
+    $todaysRevenue = DB::table('payments')
+        ->whereDate('payment_date', $today)
+        ->sum('amount');  // Sum of the 'amount' field for payments made today
+
+        $staff = DB::table('staff')
+        ->leftJoin('staff_leave', 'staff.id', '=', 'staff_leave.staff_id')
+        ->leftJoin('roles', 'staff.role_id', '=', 'roles.id')
+        ->select(
+            'staff.fullname',
+            'staff_leave.status as leave_status',
+            'staff_leave.start_date',
+            'staff_leave.end_date',
+            'roles.role as role'
+        )
+        ->get()
+        ->map(function ($staffMember) {
+            // Decode JSON for staff fullname (first_name, middle_name, last_name)
+            if (is_string($staffMember->fullname)) {
+                $decodedName = json_decode($staffMember->fullname, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $staffMember->fullname = $decodedName;
+                }
+            }
+    
+            // Extract full name ensuring proper spacing
+            $fullNameParts = [
+                $staffMember->fullname['first_name'] ?? '',
+                $staffMember->fullname['middle_name'] ?? '',
+                $staffMember->fullname['last_name'] ?? '',
+                $staffMember->fullname['firstname'] ?? '',
+                $staffMember->fullname['middlename'] ?? '',
+                $staffMember->fullname['lastname'] ?? ''
+            ];
+            $staffMember->full_name = trim(implode(' ', array_filter($fullNameParts)));
+    
+            // Determine leave status based on date range
+            $today = date('Y-m-d');
+            if ($staffMember->leave_status === 'Approved' && $staffMember->start_date <= $today && $staffMember->end_date >= $today) {
+                $staffMember->status = 'On Leave';
+            } else {
+                $staffMember->status = 'Available';
+            }
+    
+            return $staffMember;
+        });
+    
+    
+    // Pass all data to the view
+    return view('beaconAdmin', [
+        'children' => $children,
+        'totalPatients' => $totalPatients,
+        'newRegistrations' => $newRegistrations,
+        'todaysRevenue' => $todaysRevenue,  // Pass today's revenue
+        'staff' => $staff,
+    ]);
+}
+    
+public function getGenderDistribution()
+{
+    // Fetch the gender distribution data
+    $genderData = DB::table('children')
+        ->join('gender', 'children.gender_id', '=', 'gender.id')
+        ->select('gender.gender', DB::raw('COUNT(children.id) as count'))
+        ->groupBy('gender.gender')
+        ->get();
+
+    return response()->json($genderData);
+}
 
 }
 
