@@ -667,7 +667,10 @@ document.addEventListener("DOMContentLoaded", function() {
 function handleBackToPatientInfo() {
     const registrationNumber = extractRegistrationCode(); // Function to get registration number
     if (registrationNumber) {
+        showLoadingIndicator('Opening Workstation...', 0);
+        showLoadingIndicator('Loading...',70);
         window.location.href = `/occupationaltherapy_dashboard/${registrationNumber}`;
+        
     } else {
         alert('Registration number not found.');
     }
