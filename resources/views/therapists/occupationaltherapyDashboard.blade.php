@@ -71,11 +71,28 @@
         <a href="#" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
             <i class="fas fa-comments"></i>
             <span>Multidisciplinary Communication</span>
-        </a>
-        <a href="http://127.0.0.1:8000/login" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
-    <i class="fas fa-sign-out-alt"></i>
-    <span>Logout</span>
-</a>
+           <!-- Logout Link -->
+    <a href="http://127.0.0.1:8000/login" 
+       class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
+       onclick="showLoader(event)">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+    </a>
+    <script>
+        function showLoader(event) {
+            event.preventDefault(); // Prevent immediate navigation
+            showLoadingIndicator('Logging out...', 0);
+            showLoadingIndicator('Logging out...', 70);
+            
+
+
+            // Redirect after a short delay to allow loader to show
+            setTimeout(() => {
+                window.location.href = event.target.closest('a').href;
+            }, 1000);
+        }
+    </script>
+
     </div>
 
     <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
