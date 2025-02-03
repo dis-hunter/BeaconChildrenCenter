@@ -165,6 +165,71 @@
     h2 {
       font-size: 1.3rem;
     }
+    /* Alert System */
+#alert-container {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 400px;
+}
+
+.alert {
+  padding: 15px 20px;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  background: white;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.alert.error {
+  border-left: 4px solid #dc3545;
+}
+
+.alert.success {
+  border-left: 4px solid #28a745;
+}
+
+.alert-icon {
+  font-size: 1.4rem;
+  margin-right: 12px;
+}
+
+.alert-text {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+}
+
+.alert-close {
+  margin-left: 15px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+  opacity: 1;
+}
+
+/* Error highlighting */
+.form-group.error label {
+  color: #dc3545;
+}
+
+.form-group.error input,
+.form-group.error select {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
   </style>
   <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
@@ -196,7 +261,7 @@
       <h2 id="patient-name">Patient Name</h2>
       <a href="<?php echo e(route('triage.dashboard')); ?>" class="btn-outline">&larr; Back to Dashboard</a>
     </div>
-
+    <div id="alert-container"></div>
     <div class="card">
       <div class="form-header">
         <h2>Health Assessment Form</h2>
