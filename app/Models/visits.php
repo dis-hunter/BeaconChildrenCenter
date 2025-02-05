@@ -64,4 +64,8 @@ class Visits extends Model
     {
         return $this->hasOne(Invoice::class);
     }
+    public function child()
+    {
+        return $this->belongsTo(Children::class, 'child_id');
+    }
 }
