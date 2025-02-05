@@ -5,7 +5,7 @@ use App\Models\Children;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+
 
 class PatientDemographicsController extends Controller
 {
@@ -20,7 +20,7 @@ class PatientDemographicsController extends Controller
 
         if (Cache::has($cacheKey)) {
             $cachedData = Cache::get($cacheKey);
-            Log::info('Cached Data Retrieved:', $cachedData);
+           
             return response()->json($cachedData);
         }
 
@@ -66,7 +66,7 @@ class PatientDemographicsController extends Controller
             'genderDistribution' => $formattedGenderDistribution,
         ];
 
-        Log::info('Data Before Caching:', $dataToCache);
+       
         Cache::put($cacheKey, $dataToCache, now()->addMinutes(60));
 
         return response()->json($dataToCache);

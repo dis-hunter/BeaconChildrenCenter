@@ -7,17 +7,14 @@ use App\Models\Visits;
 use App\Models\Children;
 use App\Models\Staff;
 use App\Models\Invoice;
-use Illuminate\Support\Facades\Log;
+
 
 class ReportController extends Controller
 {
     public function generateEncounterSummary(Request $request)
     {
-        // Log the incoming request data
-        Log::info('Received request for generating encounter summary', [
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
-        ]);
+       
+      
     
         // Validate incoming request
         $validated = $request->validate([
@@ -29,11 +26,8 @@ class ReportController extends Controller
         $startDate = $validated['start_date'];
         $endDate = $validated['end_date'];
     
-        // Log the validated data
-        Log::info('Validated request data for encounter summary report', [
-            'start_date' => $startDate,
-            'end_date' => $endDate
-        ]);
+      
+       
     
         // Eager load child, staff, and invoice relationships, reducing query complexity
         $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
@@ -55,11 +49,6 @@ class ReportController extends Controller
                 'invoice_id' => $invoice ? $invoice->id : 'N/A',  // If invoice exists, fetch its id; otherwise, return 'N/A'
             ];
         })->toArray();  // Convert collection to array
-    
-        // Log the number of encounters processed
-        Log::info('Encounter summary generated', [
-            'encounter_count' => count($encounters)
-        ]);
     
         // Return the response with the encounters data
         return response()->json([
@@ -97,14 +86,12 @@ class ReportController extends Controller
     private function formatStaffFullname($staff)
     {
         if ($staff && $staff->fullname) {
-            // Log the raw fullname before decoding
-            Log::info('Raw staff fullname:', ['fullname' => $staff->fullname]);
+          
 
             // Decode the specialist_fullname string to access first_name, middle_name, last_name
             $specialistName = json_decode($staff->fullname);
             if ($specialistName) {
-                // Log the decoded specialist name object
-                Log::info('Decoded staff fullname:', ['specialistName' => $specialistName]);
+              
 
                 return ucfirst(strtolower($specialistName->first_name . ' ' . $specialistName->middle_name . ' ' . $specialistName->last_name));
             }
@@ -118,7 +105,7 @@ class ReportController extends Controller
     public function generateStaffPerformance(Request $request)
     {
         try {
-            Log::info('Generating Staff Performance Report', $request->all());
+           
     
             // Validate input
             $validated = $request->validate([
@@ -135,7 +122,7 @@ class ReportController extends Controller
                 ->groupBy('visit_date', 'staff_id', 'visit_type')
                 ->get();  // No eager loading here
     
-            Log::info('Fetched Visits Data:', ['visits_count' => $visits->count()]);
+           
     
             // Perform the mapping and formatting
             $performance = $visits->map(function ($visit) {
@@ -148,7 +135,7 @@ class ReportController extends Controller
                 ];
             });
     
-            Log::info('Generated Performance Data:', ['performance_count' => $performance->count()]);
+           
     
             // Return the performance data
             return response()->json([
@@ -156,7 +143,6 @@ class ReportController extends Controller
                 'performance' => $performance,
             ]);
         } catch (\Exception $e) {
-            Log::error('Error generating staff performance report: ' . $e->getMessage());
             return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
     }
