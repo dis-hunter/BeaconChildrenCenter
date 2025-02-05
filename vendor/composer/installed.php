@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-BeaconAdmin',
         'version' => 'dev-BeaconAdmin',
-        'reference' => '7586cc91a3fb7b6bb04a61912c2f69dc70f1382d',
+        'reference' => 'b47ac1ad178a4586631f3855eb8b33a1b4c6bd9b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -475,7 +475,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-BeaconAdmin',
             'version' => 'dev-BeaconAdmin',
-            'reference' => '7586cc91a3fb7b6bb04a61912c2f69dc70f1382d',
+            'reference' => 'b47ac1ad178a4586631f3855eb8b33a1b4c6bd9b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
