@@ -24915,3 +24915,72 @@ HINT:  Perhaps you meant to reference the column \"visits.doctor_id\". at C:\\Us
 #34 {main}
 "} 
 [2025-02-05 10:40:08] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:41:00] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:41:10] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:41:12] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:41:14] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:41:14] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
+[2025-02-05 10:41:27] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:41:27] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:41:28] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:41:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:41:41] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:41:41] local.INFO: select "role" from "roles"  
+[2025-02-05 10:41:42] local.INFO: select "gender" from "gender"  
+[2025-02-05 10:41:43] local.INFO: select "specialization" from "doctor_specialization"  
+[2025-02-05 10:41:45] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:45:33] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:45:34] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:45:34] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:46:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:46:41] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:46:43] local.INFO: select * from "staff" where "email" = ? limit 1  
+[2025-02-05 10:46:44] local.INFO: delete from "sessions" where "id" = ?  
+[2025-02-05 10:46:44] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:46:45] local.INFO: insert into "sessions" ("payload", "last_activity", "user_id", "ip_address", "user_agent", "id") values (?, ?, ?, ?, ?, ?)  
+[2025-02-05 10:46:49] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:46:50] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:46:51] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
+[2025-02-05 10:46:51] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-05 10:46:52] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:48:21] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:22] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:48:22] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-05 10:48:23] local.INFO: select "children"."id", "children"."fullname", "children"."dob", "children"."birth_cert", "gender"."gender", "children"."registration_number", "children"."created_at", "children"."updated_at" from "children" inner join "gender" on "children"."gender_id" = "gender"."id"  
+[2025-02-05 10:48:23] local.INFO: select count(*) as aggregate from "children"  
+[2025-02-05 10:48:24] local.INFO: select count(*) as aggregate from "children" where "created_at"::date = ?  
+[2025-02-05 10:48:24] local.INFO: select sum("amount") as aggregate from "payments" where "payment_date"::date = ?  
+[2025-02-05 10:48:25] local.INFO: select "staff"."fullname", "staff_leave"."status" as "leave_status", "staff_leave"."start_date", "staff_leave"."end_date", "roles"."role" as "role" from "staff" left join "staff_leave" on "staff"."id" = "staff_leave"."staff_id" left join "roles" on "staff"."role_id" = "roles"."id"  
+[2025-02-05 10:48:26] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:48:30] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:34] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:34] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:48:35] local.INFO: select EXTRACT(YEAR FROM AGE(dob)) AS age, COUNT(*) AS count from "children" group by "age" order by "age" asc  
+[2025-02-05 10:48:36] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-05 10:48:36] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:48:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:41] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:48:41] local.INFO: select "gender"."gender", COUNT(children.id) as count from "children" inner join "gender" on "children"."gender_id" = "gender"."id" group by "gender"."gender"  
+[2025-02-05 10:48:42] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-05 10:48:42] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:48:46] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:47] local.ERROR: Cannot use Carbon\Carbon as Carbon because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use Carbon\\Carbon as Carbon because the name is already in use at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\app\\Http\\Controllers\\VisitController.php:16)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-05 10:48:53] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:54] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:48:54] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-05 10:48:55] local.INFO: select "payment_mode_id" from "payments"  
+[2025-02-05 10:48:55] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
+[2025-02-05 10:48:59] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:48:59] local.ERROR: Cannot use Carbon\Carbon as Carbon because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use Carbon\\Carbon as Carbon because the name is already in use at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\app\\Http\\Controllers\\VisitController.php:16)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-05 10:49:03] local.INFO: select * from "doctor_specialization"  
+[2025-02-05 10:49:03] local.INFO: select * from "sessions" where "id" = ? limit 1  
+[2025-02-05 10:49:04] local.INFO: select TO_CHAR(payment_date, 'YYYY-MM-DD') as day, SUM(amount) as revenue from "payments" where "payment_date" between ? and ? group by "day" order by "day" asc  
+[2025-02-05 10:49:05] local.INFO: select TO_CHAR(created_at, 'YYYY-MM-DD') as day, SUM(amount) as expenses from "expenses" where "created_at" between ? and ? group by "day" order by "day" asc  
+[2025-02-05 10:49:06] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-05 10:49:06] local.INFO: update "sessions" set "payload" = ?, "last_activity" = ?, "user_id" = ?, "ip_address" = ?, "user_agent" = ? where "id" = ?  
