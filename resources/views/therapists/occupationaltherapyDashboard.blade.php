@@ -71,11 +71,28 @@
         <a href="#" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
             <i class="fas fa-comments"></i>
             <span>Multidisciplinary Communication</span>
-        </a>
-        <a href="http://127.0.0.1:8000/login" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
-    <i class="fas fa-sign-out-alt"></i>
-    <span>Logout</span>
-</a>
+           <!-- Logout Link -->
+    <a href="http://127.0.0.1:8000/login" 
+       class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
+       onclick="showLoader(event)">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+    </a>
+    <script>
+        function showLoader(event) {
+            event.preventDefault(); // Prevent immediate navigation
+            showLoadingIndicator('Logging out...', 0);
+            showLoadingIndicator('Logging out...', 70);
+            
+
+
+            // Redirect after a short delay to allow loader to show
+            setTimeout(() => {
+                window.location.href = event.target.closest('a').href;
+            }, 1000);
+        }
+    </script>
+
     </div>
 
     <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
@@ -108,7 +125,13 @@
     >
         Go back to Dashboard
     </button>
-
+    <button 
+    id="backToDashboardButton"
+    onclick="handleBackToPatientInfo()"
+    class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
+>
+    Go back to patient info
+</button>
 
 
     <button 
@@ -217,87 +240,82 @@ function goToWorkspace(event) {
                             <h1 class="text-white text-xl font-semibold">Patient Information</h1>
                         </div>
                         <form id="patient-form" class="p-6 space-y-6">
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
-                                            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <input type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+            <input type="hidden" id="specialization_id" name="specialization_id" value="{{ $specialization_id }}">
 
+            <label class="block text-sm font-medium text-gray-700" for="firstName"> Name</label>
+            <input type="text" id="firstName" name="firstName" value="{{ $fullName}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                                    <label class="block text-sm font-medium text-gray-700" for="firstName"> Name</label>
-                                    <input type="text" id="firstName" name="firstName" value="{{ $fullName}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="dob">Date of Birth</label>
-                                    <input type="date" id="dob" name="dob" value="2018-02-28" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="gender">Gender/Age</label>
-                                    <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
-                                    <input type="text" id="hnu" name="hnu" value="{{$child->id}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" value="2018-02-28" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="gender">Gender/Age</label>
+            <input type="text" id="genderAge" name="genderAge" value="{{ $gender }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="hnu">HNU</label>
+            <input type="text" id="hnu" name="hnu" value="{{$child->id}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
-                                    <input type="text" id="mothersName" name="mothersName" value="{{$parents['femaleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
-                                    <input type="tel" id="motherTel" name="motherTel" value="{{$parents['femaleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
-                                    <input type="email" id="motherEmail" name="motherEmail"value="{{$parents['femaleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="mothersName">Mother's Name</label>
+            <input type="text" id="mothersName" name="mothersName" value="{{$parents['femaleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="motherTel">Tel</label>
+            <input type="tel" id="motherTel" name="motherTel" value="{{$parents['femaleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="motherEmail">Email</label>
+            <input type="email" id="motherEmail" name="motherEmail"value="{{$parents['femaleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="fathersName">Father's Name</label>
-                                    <input type="text" id="fathersName" name="fathersName" value="{{$parents['maleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="fatherTel">Tel</label>
-                                    <input type="tel" id="fatherTel" name="fatherTel" value="{{$parents['maleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700" for="fatherEmail">Email</label>
-                                    <input type="email" id="fatherEmail" name="fatherEmail" value="{{$parents['maleParent']['email'] ?? 'N/A'}}"class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                </div>
-                            </div>
+    <div class="grid grid-cols-3 gap-6">
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="fathersName">Father's Name</label>
+            <input type="text" id="fathersName" name="fathersName" value="{{$parents['maleParent']['fullname'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="fatherTel">Tel</label>
+            <input type="tel" id="fatherTel" name="fatherTel" value="{{$parents['maleParent']['telephone'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+        <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700" for="fatherEmail">Email</label>
+            <input type="email" id="fatherEmail" name="fatherEmail" value="{{$parents['maleParent']['email'] ?? 'N/A'}}" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+        </div>
+    </div>
 
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="informant">Informant</label>
-                                <input type="text" id="informant" name="informant" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
+    
 
-                            <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="date">Date</label>
-                                <input type="date" id="date" name="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
+    <div class="bg-sky-50 p-6 rounded-lg space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="date">Date</label>
+        <input type="date" id="date" name="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+    </div>
 
-                            <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
-                                <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y">{{$doctorsNotes}}</textarea>
-                            </div>
+    <div class="bg-sky-50 p-6 rounded-lg space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="doctorsNotes">Therapy's Notes</label>
+        <textarea id="doctorsNotes" name="doctorsNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] resize-y" >{{$doctorsNotes}}</textarea>
+    </div>
 
-                            <div class="bg-sky-50 p-6 rounded-lg space-y-2">
-                                <label class="block text-sm font-medium text-gray-700" for="createdBy">Created By</label>
-                                <input type="text" id="createdBy" name="createdBy" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
+    <div class="bg-sky-50 p-6 rounded-lg space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="createdBy">Created By</label>
+        <input type="text" id="createdBy" name="createdBy" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" readonly>
+    </div>
 
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-gradient-to-r from-blue-500 to-sky-500 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300" onclick="CompletedVisit()">Save</button>
-                            </div>
-                        </form>
+    <div class="flex justify-end">
+        <button type="submit" class="bg-gradient-to-r from-blue-500 to-sky-500 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300" onclick="CompletedVisit()">Save</button>
+    </div>
+</form>
                     </div>
                 `;
             }
@@ -604,19 +622,24 @@ async function goToEncounterSummary() {
                     </div>
 
                     <div class="visits-container">
-                        ${result.data.visits.map(visit => `
-                            <div class="visit-entry" onclick="toggleDetails(this)">
-                                <h3>Visit Details</h3>
-                                <div class="visit-meta">
-                                    <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
-                                    <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
-                                </div>
-                                <div class="notes">
-                                    <strong>Doctor's Notes:</strong><br>
-                                    ${visit.notes || 'No notes recorded'}
-                                </div>
-                            </div>
-                        `).join('')}
+                    
+${result.data.visits.map(visit => `
+    <div class="visit-entry">
+        <h3>Visit Details</h3>
+        <div class="visit-meta">
+            <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
+            <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
+        </div>
+        <div class="notes">
+            <strong>Doctor's Notes:</strong><br>
+            ${visit.notes || 'No notes recorded'}
+        </div>
+            <button 
+                onclick="toggleDetails(this.parentElement)" 
+                class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
+                More Details
+            </button>    </div>
+`).join('')}
                     </div>
                 </div>
             `;
@@ -661,6 +684,24 @@ document.addEventListener("DOMContentLoaded", function() {
         showLoadingIndicator('Loading...',70);
         window.location.href = '/therapist_dashboard';
     }
+</script>
+<script>
+function handleBackToPatientInfo() {
+    const registrationNumber = extractRegistrationCode(); // Function to get registration number
+    if (registrationNumber) {
+        showLoadingIndicator('Opening Workstation...', 0);
+        showLoadingIndicator('Loading...',70);
+        window.location.href = `/occupationaltherapy_dashboard/${registrationNumber}`;
+        
+    } else {
+        alert('Registration number not found.');
+    }
+}
+
+function extractRegistrationCode() {
+    const pathSegments = window.location.pathname.split('/');
+    return pathSegments[pathSegments.length - 1]; // Returns the last segment as registrationNumber
+}
 </script>
 
 </body>
