@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
+            $table->date('visit_date');
             $table->string('category');
             $table->string('description');
             $table->string('fullname')->nullable(); // Fullname allows NULL

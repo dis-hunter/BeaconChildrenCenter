@@ -16,6 +16,7 @@ class Invoice extends Model
         'total_amount',
         'invoice_details',
         'invoice_date',
+        'invoice_status'
     ];
 
     protected $casts = [
@@ -23,6 +24,11 @@ class Invoice extends Model
         'invoice_details' => 'json',
         'total_amount' => 'decimal:2'
     ];
+
+    public function child()
+    {
+        return $this->belongsTo(Child::class, 'child_id');
+    }
 
     public function getInvoiceDetailsAttribute($value){
         return json_decode($value);
