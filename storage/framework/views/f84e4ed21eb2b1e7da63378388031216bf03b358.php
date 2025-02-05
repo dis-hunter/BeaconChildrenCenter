@@ -1,0 +1,1 @@
+<?php /**PATH C:\Users\sharo\Downloads\Beacon's\BeaconChildrenCenter-1\vendor\filament\filament\src\/../resources/views/components/global-search/end.blade.php ENDPATH**/ ?>
