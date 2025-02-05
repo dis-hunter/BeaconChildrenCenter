@@ -627,19 +627,24 @@ async function goToEncounterSummary() {
                     </div>
 
                     <div class="visits-container">
-                        ${result.data.visits.map(visit => `
-                            <div class="visit-entry" onclick="toggleDetails(this)">
-                                <h3>Visit Details</h3>
-                                <div class="visit-meta">
-                                    <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
-                                    <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
-                                </div>
-                                <div class="notes">
-                                    <strong>Doctor's Notes:</strong><br>
-                                    ${visit.notes || 'No notes recorded'}
-                                </div>
-                            </div>
-                        `).join('')}
+                    
+${result.data.visits.map(visit => `
+    <div class="visit-entry">
+        <h3>Visit Details</h3>
+        <div class="visit-meta">
+            <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
+            <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
+        </div>
+        <div class="notes">
+            <strong>Doctor's Notes:</strong><br>
+            ${visit.notes || 'No notes recorded'}
+        </div>
+            <button 
+                onclick="toggleDetails(this.parentElement)" 
+                class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
+                More Details
+            </button>    </div>
+`).join('')}
                     </div>
                 </div>
             `;
