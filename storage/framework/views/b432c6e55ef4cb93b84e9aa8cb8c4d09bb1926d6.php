@@ -1,0 +1,1 @@
+<?php /**PATH C:\Users\User\Hospital\BeaconChildrenCenter\vendor\filament\filament\src\/../resources/views/components/global-search/start.blade.php ENDPATH**/ ?>
