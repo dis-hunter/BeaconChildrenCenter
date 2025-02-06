@@ -23,6 +23,7 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ExpensesController;
 
 
 // General Routes
@@ -147,6 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Admin Routes
     Route::group(['middleware' => 'role:4'], function () {
         // Add admin-specific routes here
+
     });
 });
 
@@ -179,12 +181,26 @@ use App\Http\Controllers\PatientDemographicsController;
 // Route to fetch data for the pie charts
 Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
 
+Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
 
 Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
 
 
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RevenueReportController;
 
 Route::post('/generate-encounter-summary', [ReportController::class, 'generateEncounterSummary']);
+Route::post('/generate-staff-performance', [ReportController::class, 'generateStaffPerformance']);
+
+Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
+    ->name('revenue.breakdown');
 
 
+
+Route::post('/generate-report', [RevenueReportController::class, 'generate'])->name('generate.report');
+Route::post('/generate-revenue-report', [RevenueReportController::class, 'generateRevenueReport'])->name('generate.revenue.report');
+Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');
+
+
+use App\Http\Controllers\ExpenseController;
+Route::post('/expenses', [ExpenseController::class, 'getExpensesByDateRange'])->name('expenses');
