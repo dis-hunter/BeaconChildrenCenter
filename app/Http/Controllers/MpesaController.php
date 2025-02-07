@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\Http;
+use App\Events\InvoicePaid;
 
 class MpesaController extends Controller
 {
@@ -94,7 +95,7 @@ class MpesaController extends Controller
         "PartyA" => $phone,
         "PartyB" => $this->shortCode,
         "PhoneNumber" => $phone,
-        "CallBackURL" => $this->callbackUrl,
+        "CallBackURL" => "https://c872-197-237-175-62.ngrok-free.app/api/mpesa/callback",
         "AccountReference" => "BEACON CHILDREN'S CENTRE",
         "TransactionDesc" => "Payment for Invoice ID: " . $invoice->id
     ]);
@@ -113,62 +114,64 @@ class MpesaController extends Controller
         return response()->json(['error' => 'STK Push request failed'], 500);
     }
 }
-    /**
-     * Handle STK Callback
-     */
-    public function callback(Request $request)
-    {
-        $data = $request->all();
-       
 
-        try {
-            $mpesaResponse = json_decode(json_encode($data));
+     public function callback(Request $request)
+     {
+         // Log the raw request data
+         Log::info('Mpesa Callback Request Data:', $request->all());
+     
+         $data = $request->all();
+         
+         try {
+             $mpesaResponse = json_decode(json_encode($data));
+     
+             if (!isset($mpesaResponse->Body->stkCallback)) {
+                 // Log if the response is invalid
+                 Log::warning('Invalid callback data received:', $mpesaResponse);
+                 return response()->json(['error' => 'Invalid callback data'], 400);
+             }
+     
+             $callback = $mpesaResponse->Body->stkCallback;
+             $resultCode = $callback->ResultCode;
+             $checkoutRequestID = $callback->CheckoutRequestID;
+     
+             // Log the result of the callback
+             Log::info('Callback received. Result Code: ' . $resultCode . ', Checkout Request ID: ' . $checkoutRequestID);
+     
+             if ($resultCode == 0) {
+                 $invoice = Invoice::where('checkout_request_id', $checkoutRequestID)->first();
+     
+                 if ($invoice) {
+                     // Log the invoice found or not
+                     Log::info('Invoice found for checkout_request_id ' . $checkoutRequestID);
+     
+                     if (!$invoice->invoice_status) {
+                         $invoice->invoice_status = true;
+                         $invoice->save();
+     
+                         // Log the invoice status update
+                         Log::info('Invoice status updated to paid for invoice ID ' . $invoice->id);
+     
+                         // Broadcast event to update frontend in real-time
+                         broadcast(new InvoicePaid($invoice))->toOthers();
+                         Log::info('Invoice paid event broadcasted for invoice ID ' . $invoice->id);
+                     } else {
+                         Log::info('Invoice already marked as paid for invoice ID ' . $invoice->id);
+                     }
+                 } else {
+                     Log::warning('Invoice not found for checkout_request_id ' . $checkoutRequestID);
+                 }
+             } else {
+                 Log::warning('Non-zero result code received. Result Code: ' . $resultCode);
+             }
+         } catch (\Exception $e) {
+             // Log the exception error message
+             Log::error('Error processing callback: ' . $e->getMessage());
+             return response()->json(['error' => 'Error processing callback'], 500);
+         }
+     
+         return response()->json(['message' => 'Callback received']);
+     }
+     
 
-            if (!isset($mpesaResponse->Body->stkCallback)) {
-               
-                return response()->json(['error' => 'Invalid callback data'], 400);
-            }
-
-            $callback = $mpesaResponse->Body->stkCallback;
-            $resultCode = $callback->ResultCode;
-            $checkoutRequestID = $callback->CheckoutRequestID;
-            $merchantRequestID = $callback->MerchantRequestID;
-
-          
-
-            if ($resultCode == 0) {
-                $metadata = $callback->CallbackMetadata->Item ?? [];
-
-                $amount = null;
-                $receiptNumber = null;
-                $phone = null;
-
-                foreach ($metadata as $item) {
-                    if ($item->Name === "Amount") {
-                        $amount = $item->Value;
-                    } elseif ($item->Name === "MpesaReceiptNumber") {
-                        $receiptNumber = $item->Value;
-                    } elseif ($item->Name === "PhoneNumber") {
-                        $phone = $item->Value;
-                    }
-                }
-
-               
-
-                // Find the invoice using checkout_request_id
-                $invoice = Invoice::where('checkout_request_id', $checkoutRequestID)->first();
-
-                if ($invoice && !$invoice->invoice_status) {
-                    $invoice->invoice_status = true;
-                    $invoice->save();
-                   
-                } 
-            } 
-        } catch (\Exception $e) {
-           
-            return response()->json(['error' => 'Error processing callback'], 500);
-        }
-
-        return response()->json(['message' => 'Callback received']);
-    }
 }

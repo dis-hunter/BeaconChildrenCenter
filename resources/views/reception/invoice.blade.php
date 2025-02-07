@@ -125,6 +125,12 @@
 </style>
 
 <div class="container">
+<head>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    @vite(['resources/js/app.js'])
+ <!-- Ensure Echo is loaded -->
+</head>
+
     <h2 class="text-center">Invoices for {{ now()->format('d M, Y') }}</h2>
 
     @if($invoices->isEmpty())
@@ -142,33 +148,34 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($invoices as $index => $invoice)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $invoice->patient_name }}</td>
-                    <td>KES {{ number_format($invoice->total_amount, 2) }}</td>
-                    <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}</td>
-                    <td>
-                        @if ($invoice->invoice_status)
-                            <span style="color: green; font-weight: bold;">Paid</span>
-                        @else
-                            <span style="color: red; font-weight: bold;">Unpaid</span>
-                        @endif
-                    </td>
-                    <td>
-                        <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
-                            View
-                        </a>
+    @foreach ($invoices as $index => $invoice)
+        <tr data-invoice-id="{{ $invoice->id }}">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $invoice->patient_name }}</td>
+            <td>KES {{ number_format($invoice->total_amount, 2) }}</td>
+            <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}</td>
+            <td class="status">
+                @if ($invoice->invoice_status)
+                    <span style="color: green; font-weight: bold;">Paid</span>
+                @else
+                    <span style="color: red; font-weight: bold;">Unpaid</span>
+                @endif
+            </td>
+            <td>
+                <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
+                    View
+                </a>
 
-                        @if (!$invoice->invoice_status)
-                            <button class="pay-button" onclick="openPaymentModal({{ $invoice->id }}, '{{ $invoice->total_amount }}')">
-                                Pay Now
-                            </button>
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
+                @if (!$invoice->invoice_status)
+                    <button class="pay-button" onclick="openPaymentModal({{ $invoice->id }}, '{{ $invoice->total_amount }}')">
+                        Pay Now
+                    </button>
+                @endif
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
     </table>
     @endif
 </div>
@@ -189,59 +196,89 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
-    let currentInvoiceId = null;
-    let currentTotalAmount = null;
+ let currentInvoiceId = null;
+let currentTotalAmount = null;
 
-    // Open payment modal
-    function openPaymentModal(invoiceId, totalAmount) {
-        currentInvoiceId = invoiceId;
-        currentTotalAmount = totalAmount;
-        document.getElementById('paymentModal').style.display = 'flex';
-    }
-
-    // Close modal
-    function closePaymentModal() {
-        document.getElementById('paymentModal').style.display = 'none';
-        document.getElementById('phone').value = "";
-    }
-
-    // Process Payment
-    async function payInvoice() {
-        const phone = document.getElementById('phone').value;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        if (!/^(07|01)\d{8}$/.test(phone)) {
-    alert("Please enter a valid phone number starting with 07 or 01 (e.g., 0712345678 or 0112345678)");
-    return;
+// Open payment modal
+function openPaymentModal(invoiceId, totalAmount) {
+    currentInvoiceId = invoiceId;
+    currentTotalAmount = totalAmount;
+    document.getElementById('paymentModal').style.display = 'flex';
 }
 
+// Close modal
+function closePaymentModal() {
+    document.getElementById('paymentModal').style.display = 'none';
+    document.getElementById('phone').value = "";
+}
 
-        try {
-            let response = await fetch("{{ route('mpesa.stkpush') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": csrfToken
-                },
-                body: JSON.stringify({
-                    invoice_id: currentInvoiceId,
-                    phone: phone
-                }),
-            });
+// Process Payment
+async function payInvoice() {
+    const phone = document.getElementById('phone').value;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            let data = await response.json();
-
-            if (response.ok) {
-                alert("Payment initiated. Please check your phone.");
-                closePaymentModal();
-            } else {
-                alert(data.error || "Payment initiation failed. Try again.");
-            }
-
-        } catch (error) {
-            alert("Error processing payment. Try again.");
-        }
+    if (!/^(07|01)\d{8}$/.test(phone)) {
+        alert("Please enter a valid phone number starting with 07 or 01 (e.g., 0712345678 or 0112345678)");
+        return;
     }
+
+    try {
+        let response = await fetch("{{ route('mpesa.stkpush') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken
+            },
+            body: JSON.stringify({
+                invoice_id: currentInvoiceId,
+                phone: phone
+            }),
+        });
+
+        let data = await response.json();
+
+        if (response.ok) {
+            alert("Payment initiated. Please check your phone.");
+            closePaymentModal();
+        } else {
+            alert(data.error || "Payment initiation failed. Try again.");
+        }
+
+    } catch (error) {
+        alert("Error processing payment. Try again.");
+    }
+}
+
+// Listen for Payment Confirmation via Laravel Echo
+document.addEventListener('DOMContentLoaded', (event) => {
+    if (window.Echo) {
+        console.log("Echo initialized:", window.Echo);
+
+        window.Echo.channel('invoices')
+            .listen('invoice.paid', (event) => {
+                console.log("Payment received:", event);
+
+                // Find the invoice row in the table by invoice_id
+                let invoiceRow = document.querySelector(`tr[data-invoice-id="${event.invoice_id}"]`);
+
+                if (invoiceRow) {
+                    // Update status to "Paid"
+                    invoiceRow.querySelector(".status").innerHTML = '<span style="color: green; font-weight: bold;">Paid</span>';
+                    
+                    // Remove the "Pay Now" button
+                    let payButton = invoiceRow.querySelector(".pay-button");
+                    if (payButton) {
+                        payButton.remove();
+                    }
+                }
+            });
+    } else {
+        console.error("Echo is not available.");
+    }
+});
+
+
+    
 </script>
 
 @endsection
