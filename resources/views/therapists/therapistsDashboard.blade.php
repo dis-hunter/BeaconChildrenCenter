@@ -129,11 +129,8 @@
         <div id="calendar" class="section hidden">
           <div class="bg-white rounded-lg shadow p-6">
             <div class="calendar-container"></div>
-            <div id="appointments-list" class="mt-6 hidden">
-              <ul id="appointments-for-day" class="space-y-2"></ul>
-            </div>
-          </div>
-        </div>
+
+            @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
 
        <!-- Patients Section -->
       <section id="patients" class="section hidden">
@@ -206,44 +203,45 @@
       currentDate.textContent = now.toLocaleString();
     }
 
-    function generateCalendar() {
-      const calendarContainer = document.querySelector('.calendar-container');
-      const today = new Date();
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
+    // function generateCalendar() {
+    //   const calendarContainer = document.querySelector('.calendar-container');
+    //   const today = new Date();
+    //   const currentMonth = today.getMonth();
+    //   const currentYear = today.getFullYear();
 
-      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+    //   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    //   const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
 
-      let tableHtml = '<table class="w-full border-collapse">';
-      tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
+    //   let tableHtml = '<table class="w-full border-collapse">';
+    //   tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
 
-      let date = 1;
-      for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 7; j++) {
-          if (i === 0 && j < firstDay) {
-            tableHtml += '<td class="p-2 border"></td>';
-          } else if (date > daysInMonth) {
-            tableHtml += '<td class="p-2 border"></td>';
-          } else {
-            const currentDate = new Date(currentYear, currentMonth, date);
-            const formattedDate = currentDate.toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric'
-            });
-            tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
-            date++;
-          }
-        }
-        if (date > daysInMonth) {
-          break;
-        } else {
-          tableHtml += '</tr><tr>';
-        }
-      }
-      tableHtml += '</tr></table>';
-      calendarContainer.innerHTML = tableHtml;
-    }
+
+    //   let date = 1;
+    //   for (let i = 0; i < 6; i++) {
+    //     for (let j = 0; j < 7; j++) {
+    //       if (i === 0 && j < firstDay) {
+    //         tableHtml += '<td class="p-2 border"></td>';
+    //       } else if (date > daysInMonth) {
+    //         tableHtml += '<td class="p-2 border"></td>';
+    //       } else {
+    //         const currentDate = new Date(currentYear, currentMonth, date);
+    //         const formattedDate = currentDate.toLocaleDateString('en-US', {
+    //           month: 'short',
+    //           day: 'numeric'
+    //         });
+    //         tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
+    //         date++;
+    //       }
+    //     }
+    //     if (date > daysInMonth) {
+    //       break;
+    //     } else {
+    //       tableHtml += '</tr><tr>';
+    //     }
+    //   }
+    //   tableHtml += '</tr></table>';
+    //   calendarContainer.innerHTML = tableHtml;
+    // }
 
     function showAppointments(date) {
       const appointmentsList = document.getElementById('appointments-for-day');

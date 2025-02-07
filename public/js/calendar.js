@@ -191,17 +191,12 @@ function addlistener() {
     });
 }
 
-<<<<<<< HEAD
-
-
-=======
 function getActiveDay(date) {
     const day = new Date(year, month, date);
     const dayName = day.toString().split(" ")[0];
     eventDay.innerHTML = dayName;
     eventDate.innerHTML = `${date} ${months[month]} ${year}`;
 }
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 /*
 function updateEvents(date) {
     let events = "";
@@ -246,7 +241,6 @@ function updateEvents(date) {
     const loadingDiv = document.createElement("div");
     loadingDiv.classList.add("loading");
     loadingDiv.innerHTML = `
-<<<<<<< HEAD
         <div class="loader"></div>
             <style>
                 .loader {
@@ -264,10 +258,8 @@ function updateEvents(date) {
                     100% {background-position: 250% 0, 250% 0}
                     }
             </style>
-=======
         <div class="loading-spinner"></div>
         <p class="loading-text" style="color:white;">loading appointments... Please wait!</p>
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
     `;
     eventsContainer.appendChild(loadingDiv);
 
@@ -498,15 +490,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-<<<<<<< HEAD
 // function getActiveDay(date) {
 //     const day = new Date(year, month, date);
 //     const dayName = day.toString().split(" ")[0];
 //     eventDay.innerHTML = dayName;
 //     eventDate.innerHTML = `${date} ${months[month]} ${year}`;
 // }
-=======
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 
 function getActiveDay(date) {
     // Ensure date is a number
