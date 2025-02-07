@@ -114,6 +114,7 @@ class User extends Authenticatable
 
         return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&color=FFFFFF&background=000000';
     }
+    
     public function getDashboardRoute(){
         return match($this->role_id){
             1 => 'triage.dashboard',
