@@ -47,44 +47,6 @@ img {
                     <div class="col-md-12 col-lg-7">
                       <div class="card shadow-sm border-0">
                           <div class="card-body">
-<<<<<<< HEAD
-                              <h6 class="text-uppercase text-muted mb-4">Appointment Overview (Monthly)</h6>
-                              <div class="d-flex justify-content-between align-items-center kontainer">
-
-                                <?php if($dashboard): ?>
-                                
-                                  <div class="text-center">
-                                    <span class="mb-1 text-primary fs-1"> <?php echo e($dashboard->totalAppointments ?? '-'); ?> </span>
-                                      <p class="font-weight-bold">Total</p>
-                                  </div>
-                                  <div class="text-center">
-                                    <span class="mb-1 text-success fs-1"><?php echo e($dashboard->ongoingAppointments ?? '-'); ?> </span>
-                                      <p class="font-weight-bold">On-going</p>
-                                      
-                                  </div>
-                                  <div class="text-center">
-                                    <span class="mb-1 text-warning fs-1"> <?php echo e($dashboard->pendingAppointments ?? '-'); ?> </span>
-                                      <p class="font-weight-bold">Pending</p>
-                                      
-                                  </div>
-                                  <div class="text-center">
-                                    <span class="mb-1 text-danger fs-1"> <?php echo e($dashboard->rejectedAppointments ?? '-'); ?> </span>
-                                      <p class="font-weight-bold">Rejected</p>
-                                      
-                                  </div>
-
-                                  <div class="text-center">
-                                    <span class="mb-1 text-success fs-1"> <?php echo e($dashboard->successfulAppointments ?? '-'); ?> </span>
-                                      <p class="font-weight-bold">Done</p>
-                                      
-                                  </div>
-                                      
-                                <?php else: ?>
-                                <div
-                                class="alert alert-danger w-100"
-                                role="alert"
-                              >
-=======
                           <h6 class="text-uppercase text-muted mb-4">Today's Appointment Overview</h6>
                     <div class="d-flex justify-content-between align-items-center kontainer">
                         <?php if($dashboard): ?>
@@ -108,7 +70,6 @@ img {
 
                         <?php else: ?>
                         <div class="alert alert-danger w-100" role="alert">
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
                                 <strong>Error</strong> Fetching Details
                               </div>
                                 <?php endif; ?>
@@ -158,56 +119,6 @@ img {
 
         </div>
         <div class="row mt-4">
-<<<<<<< HEAD
-            <div class="col-md-12 col-xl-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="d-flex justify-content-between">
-                    <h5>Today's Appointments</h5>
-                    <a href="<?php echo e(route('reception.calendar')); ?>">View all</a>
-                  </div>
-                  </div>
-                  <div style="max-height: 400px; overflow-y: auto; overflow-x:hidden;">
-                  <?php if($dashboard->appointments->isNotEmpty()): ?>
-                  <?php $__currentLoopData = $dashboard->appointments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                  <div class="row row-striped"> 
-                    <div class="col-12"> 
-                        <h5 class="text-uppercase"><strong><?php echo e($item->appointment_title ?? 'Not Specified'); ?></strong></h5> 
-                        <ul class="list-inline"> 
-                            <li class="list-inline-item"><i class="bi bi-calendar" aria-hidden="true"></i> <?php echo e(Carbon\Carbon::parse($item->appointment_date)->format('D, M j')); ?></li> 
-                            <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> <?php echo e($item->start_time); ?> - <?php echo e($item->end_time); ?></li> 
-                            <li class="list-inline-item"><i class="bi bi-activity" aria-hidden="true"></i> <?php echo e(ucwords($item->status)); ?></li> 
-                        </ul> 
-                        <div class="row">
-                          <div class="col-12 d-flex justify-content-between align-items-center">
-                              <h6 class="mb-0">Actions</h6>
-                              <div class="d-flex" style="gap: 15px">
-                                  <?php if($item->status === 'pending'): ?>
-                                  <a href="<?php echo e(route('search.visit',['id'=>$item->child_id])); ?>" class="btn btn-dark"> Start Visit </a>
-                                  <a href="<?php echo e(route('reception.calendar')); ?>" class="btn btn-dark"> Reschedule/Cancel </a>
-                                  <?php elseif($item->status === 'ongoing'): ?>
-                                  <form action="<?php echo e(route('finish', ['id' => $item->child_id])); ?>" method="POST" class="d-flex mb-0">
-                                      <?php echo csrf_field(); ?>
-                                      <button class="btn btn-dark" type="submit">Finish Visit</button>
-                                  </form>
-                                  <a href="<?php echo e(route('reception.calendar')); ?>" class="btn btn-dark"> Schedule Future Appointment </a>
-                                  <?php else: ?>
-                                  <a href="<?php echo e(route('reception.calendar')); ?>" class="btn btn-dark"> Schedule Future Appointment </a>
-                                  <?php endif; ?>
-                              </div>
-                          </div>
-                      </div>
-                      
-                    </div> 
-                </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                <?php else: ?>
-                <div>
-                  <div class="alert alert-info">No Appointments for Today</div>
-                </div>
-                <?php endif; ?>
-=======
     <div class="col-md-12 col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -262,7 +173,6 @@ img {
                             <div class="alert alert-danger">Error fetching Appointments</div>
                         </div>
                     <?php endif; ?>
->>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
                   </div>
                 </div>
               </div>

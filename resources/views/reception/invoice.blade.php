@@ -22,6 +22,16 @@
     .container {
         padding: 20px;
     }
+    .pay-button {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    .pay-button:hover {
+        background-color: #218838;
+    }
 </style>
 
 <div class="container">
@@ -59,6 +69,12 @@
                     <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
                         View
                     </a>
+
+                    @if (!$invoice->invoice_status)
+                    <button class="pay-button" onclick="openPaymentModal({{ $invoice->id }}, {{ $invoice->total_amount }})">
+                        Pay Now
+                    </button>
+                    @endif
                 </td>
             </tr>
         @endforeach
@@ -67,4 +83,56 @@
 
     @endif
 </div>
+
+<!-- Payment Modal -->
+<div id="paymentModal" style="display:none;">
+    <div class="modal-content">
+        <label for="phone">Enter Phone Number:</label>
+        <input type="text" id="phone" placeholder="e.g. 2547XXXXXXXX">
+        <button onclick="payInvoice()">Pay</button>
+        <button onclick="closePaymentModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    // Store the invoiceId globally when opening the modal
+    function openPaymentModal(invoiceId, totalAmount) {
+        document.getElementById('paymentModal').style.display = 'block';
+        window.currentInvoiceId = invoiceId; // Store invoiceId
+        window.currentTotalAmount = totalAmount;
+    }
+
+    function closePaymentModal() {
+        document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    function payInvoice() {
+        const phone = document.getElementById('phone').value;
+
+        if (!phone) {
+            alert('Please enter a valid phone number.');
+            return;
+        }
+
+        fetch("{{ route('mpesa.stkpush') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                invoice_id: window.currentInvoiceId, // Pass the invoice_id here
+                phone: phone,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert("Payment initiated. Please check your phone.");
+            closePaymentModal();
+        })
+        .catch(error => {
+            alert("Payment initiation failed. Try again.");
+            closePaymentModal();
+        });
+    }
+</script>
 @endsection
