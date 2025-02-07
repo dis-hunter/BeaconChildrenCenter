@@ -141,7 +141,7 @@
 
     <button 
         onclick="goToWorkspace(event)" 
-        data-specialization-id="2"
+        data-specialization-id="5"
         class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
     >
         Therapist Workstation
@@ -204,11 +204,14 @@ function goToWorkspace(event) {
         updateLoadingProgress(70, 'Loading Workstation...');
         // Redirect to the appropriate workspace URL based on the specialization ID
         switch (specializationId) {
+            case "9":
+                window.location.href = `/psychotherapist/${registrationNumber}`;
+                break;
             case "2":
                 window.location.href = `/occupational_therapist/${registrationNumber}`;
                 break;
             case "5":
-                window.location.href = `/nutritionist_therapist/${registrationNumber}`;
+                window.location.href = `/nutritionist/${registrationNumber}`;
                 break;
             case "3":
                 window.location.href = `/speech_therapist/${registrationNumber}`;
