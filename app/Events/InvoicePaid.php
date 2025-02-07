@@ -20,6 +20,7 @@ class InvoicePaid implements ShouldBroadcastNow
     public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
+        Log::info('Emitting InvoicePaid event for invoice ID: ' . $invoice->id);
     }
 
     public function broadcastOn()

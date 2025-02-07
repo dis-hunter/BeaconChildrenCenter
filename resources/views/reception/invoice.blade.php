@@ -196,7 +196,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
- let currentInvoiceId = null;
+let currentInvoiceId = null;
 let currentTotalAmount = null;
 
 // Open payment modal
@@ -270,6 +270,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     if (payButton) {
                         payButton.remove();
                     }
+
+                    // Show a popup or alert
+                    showPaymentReceivedPopup(event.invoice_id);
                 }
             });
     } else {
@@ -277,8 +280,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 });
 
+// Function to show payment received popup
+function showPaymentReceivedPopup(invoiceId) {
+    let popup = document.createElement('div');
+    popup.classList.add('payment-received-popup');
+    popup.innerHTML = `
+        <div class="popup-content">
+            <h3>Payment Received</h3>
+            <p>Invoice #${invoiceId} has been paid successfully.</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+}
 
-    
+// Close popup
+function closePopup() {
+    let popup = document.querySelector('.payment-received-popup');
+    if (popup) {
+        popup.remove();
+    }
+}
+
 </script>
 
 @endsection
