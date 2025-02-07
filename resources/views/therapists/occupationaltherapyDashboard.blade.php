@@ -71,7 +71,13 @@
         <a href="#" class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3">
             <i class="fas fa-comments"></i>
             <span>Multidisciplinary Communication</span>
-           <!-- Logout Link -->
+        </a>
+       <!-- Loader (Hidden by default) -->
+    <div id="loader" class="hidden fixed inset-0 flex items-center justify-center bg-white bg-opacity-75">
+        <div class="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Logout Link -->
     <a href="http://127.0.0.1:8000/login" 
        class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
        onclick="showLoader(event)">
@@ -92,7 +98,6 @@
             }, 1000);
         }
     </script>
-
     </div>
 
     <div class="toggle-button" id="toggle-button" onclick="toggleSidebar()"></div>
