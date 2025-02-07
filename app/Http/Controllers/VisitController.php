@@ -13,7 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
+
 
 
 class VisitController extends Controller

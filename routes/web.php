@@ -743,3 +743,14 @@ Route::post('/generate-revenue-report', [RevenueReportController::class, 'genera
 Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');
 Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
 Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
+
+
+
+
+
+
+use App\Http\Controllers\MpesaController;
+
+Route::post('mpesa/stkpush', [MpesaController::class, 'stkPush'])->name('mpesa.stkpush');
+
+
