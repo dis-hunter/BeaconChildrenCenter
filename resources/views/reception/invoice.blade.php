@@ -43,38 +43,84 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.6);
         justify-content: center;
         align-items: center;
+        animation: fadeIn 0.3s ease-in-out;
     }
+
+    /* Modal Box */
     .modal-content {
-        background-color: white;
+        background: #fff;
         padding: 20px;
-        border-radius: 5px;
+        border-radius: 10px;
         text-align: center;
-        width: 300px;
+        width: 350px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.3s ease-in-out;
     }
+
+    /* M-Pesa Logo */
+    .mpesa-logo {
+        width: 150px;
+        display: block;
+        margin: 0 auto 10px;
+    }
+
+    /* Input Field */
     .modal input {
-        width: 90%;
-        padding: 10px;
+        width: 100%;
+        padding: 12px;
         margin: 10px 0;
-        border: 1px solid #ccc;
+        border: 2px solid #ccc;
         border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
     }
+
+    /* Payment & Cancel Buttons */
     .modal button {
-        padding: 10px 15px;
+        width: 100%;
+        padding: 12px;
         border: none;
-        margin: 5px;
+        margin: 5px 0;
         cursor: pointer;
         border-radius: 5px;
+        font-size: 16px;
     }
+
     .modal .pay {
         background-color: #28a745;
         color: white;
+        font-weight: bold;
+        transition: 0.3s;
     }
+
+    .modal .pay:hover {
+        background-color: #218838;
+    }
+
     .modal .cancel {
         background-color: #dc3545;
         color: white;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .modal .cancel:hover {
+        background-color: #c82333;
+    }
+
+    /* Fade In Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Slide In Animation */
+    @keyframes slideIn {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
 </style>
 
@@ -130,9 +176,11 @@
 <!-- Payment Modal -->
 <div id="paymentModal" class="modal">
     <div class="modal-content">
+        <img src=" {{ asset ('images/Mpesa.png')}}" 
+             alt="M-Pesa Logo" class="mpesa-logo">
         <h4>Enter Phone Number</h4>
         <input type="text" id="phone" placeholder="e.g. 2547XXXXXXXX">
-        <button class="pay" onclick="payInvoice()">Pay</button>
+        <button class="pay" onclick="payInvoice()">Pay Now</button>
         <button class="cancel" onclick="closePaymentModal()">Cancel</button>
     </div>
 </div>
