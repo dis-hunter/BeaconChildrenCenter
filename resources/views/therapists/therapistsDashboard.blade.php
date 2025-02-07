@@ -453,6 +453,18 @@ async function startConsultation() {
     generatePatientList();
   });
 </script>
+<script>
+  //to display current time
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('current-date').textContent = timeString;
+    }
+
+    // Update the time immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
 <!-- therapistsDashboard.blade.php -->
