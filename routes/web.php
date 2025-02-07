@@ -752,5 +752,5 @@ Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceConten
 use App\Http\Controllers\MpesaController;
 
 Route::post('mpesa/stkpush', [MpesaController::class, 'stkPush'])->name('mpesa.stkpush');
-Route::post('mpesa/callback', [MpesaController::class, 'callback'])->name('mpesa.callback');
+
 
