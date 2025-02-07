@@ -179,7 +179,7 @@
         <img src=" {{ asset ('images/Mpesa.png')}}" 
              alt="M-Pesa Logo" class="mpesa-logo">
         <h4>Enter Phone Number</h4>
-        <input type="text" id="phone" placeholder="e.g. 2547XXXXXXXX">
+        <input type="text" id="phone" placeholder="e.g. 07XXXXXXXX">
         <button class="pay" onclick="payInvoice()">Pay Now</button>
         <button class="cancel" onclick="closePaymentModal()">Cancel</button>
     </div>
@@ -210,10 +210,11 @@
         const phone = document.getElementById('phone').value;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        if (!phone.match(/^254(1|7)[0-9]{8}$/)) {
-    alert("Please enter a valid phone number starting with 2541 or 2547 (e.g., 254112054231 or 2547XXXXXXXX)");
+        if (!/^(07|01)\d{8}$/.test(phone)) {
+    alert("Please enter a valid phone number starting with 07 or 01 (e.g., 0712345678 or 0112345678)");
     return;
 }
+
 
         try {
             let response = await fetch("{{ route('mpesa.stkpush') }}", {

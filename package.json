@@ -19,6 +19,8 @@
     },
     "dependencies": {
         "alpinejs": "^3.14.8",
-        "bootstrap": "^5.3.3"
+        "bootstrap": "^5.3.3",
+        "laravel-echo": "^1.19.0",
+        "pusher-js": "^8.4.0"
     }
 }

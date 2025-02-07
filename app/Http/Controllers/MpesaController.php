@@ -47,76 +47,72 @@ class MpesaController extends Controller
      * Initiate STK Push
      */
     public function stkPush(Request $request)
-    {
-       
+{
+    $request->validate([
+        'invoice_id' => 'required|exists:invoices,id',
+        'phone' => ['required', 'regex:/^(?:0|\+?254)(1|7)[0-9]{8}$/']
+    ]);
 
-        $request->validate([
-            'invoice_id' => 'required|exists:invoices,id',
-            'phone' => ['required', 'regex:/^254(1|7)[0-9]{8}$/']
-        ]);
+    $invoice = Invoice::find($request->invoice_id);
 
-        $invoice = Invoice::find($request->invoice_id);
-
-        if (!$invoice || $invoice->invoice_status) {
-           
-            return response()->json(['error' => 'Invalid or already paid invoice'], 400);
-        }
-
-        $amount = (int) $invoice->total_amount;
-
-        if ($amount <= 0) {
-           
-            return response()->json(['error' => 'Invalid amount'], 400);
-        }
-
-        $phone = $request->phone;
-        $timestamp = now()->format('YmdHis');
-        $password = base64_encode($this->shortCode . $this->passkey . $timestamp);
-
-      
-
-        $accessToken = $this->generateAccessToken();
-
-        if (!$accessToken) {
-            return response()->json(['error' => 'Failed to get access token'], 500);
-        }
-
-        $stkPushUrl = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
-
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $accessToken,
-            'Content-Type' => 'application/json',
-        ])->post($stkPushUrl, [
-            "BusinessShortCode" => $this->shortCode,
-            "Password" => $password,
-            "Timestamp" => $timestamp,
-            "TransactionType" => "CustomerPayBillOnline",
-            "Amount" => $amount,
-            "PartyA" => $phone,
-            "PartyB" => $this->shortCode,
-            "PhoneNumber" => $phone,
-            "CallBackURL" => "https://c872-197-237-175-62.ngrok-free.app/api/mpesa/callback",
-            "AccountReference" => "BEACON CHILDREN'S CENTRE",
-            "TransactionDesc" => "Payment for Invoice ID: " . $invoice->id
-        ]);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-            $checkoutRequestID = $responseData['CheckoutRequestID'] ?? null;
-
-            if ($checkoutRequestID) {
-                $invoice->checkout_request_id = $checkoutRequestID;
-                $invoice->save();
-                
-            }
-
-            return response()->json($responseData);
-        } else {
-           
-            return response()->json(['error' => 'STK Push request failed'], 500);
-        }
+    if (!$invoice || $invoice->invoice_status) {
+        return response()->json(['error' => 'Invalid or already paid invoice'], 400);
     }
 
+    $amount = (int) $invoice->total_amount;
+
+    if ($amount <= 0) {
+        return response()->json(['error' => 'Invalid amount'], 400);
+    }
+
+    // Convert phone number to 254 format
+    $phone = $request->phone;
+    if (preg_match('/^0(1|7)[0-9]{8}$/', $phone)) {
+        $phone = '254' . substr($phone, 1);  // Remove leading 0 and prepend 254
+    }
+
+    $timestamp = now()->format('YmdHis');
+    $password = base64_encode($this->shortCode . $this->passkey . $timestamp);
+
+    $accessToken = $this->generateAccessToken();
+
+    if (!$accessToken) {
+        return response()->json(['error' => 'Failed to get access token'], 500);
+    }
+
+    $stkPushUrl = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+
+    $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $accessToken,
+        'Content-Type' => 'application/json',
+    ])->post($stkPushUrl, [
+        "BusinessShortCode" => $this->shortCode,
+        "Password" => $password,
+        "Timestamp" => $timestamp,
+        "TransactionType" => "CustomerPayBillOnline",
+        "Amount" => $amount,
+        "PartyA" => $phone,
+        "PartyB" => $this->shortCode,
+        "PhoneNumber" => $phone,
+        "CallBackURL" => $this->callbackUrl,
+        "AccountReference" => "BEACON CHILDREN'S CENTRE",
+        "TransactionDesc" => "Payment for Invoice ID: " . $invoice->id
+    ]);
+
+    if ($response->successful()) {
+        $responseData = $response->json();
+        $checkoutRequestID = $responseData['CheckoutRequestID'] ?? null;
+
+        if ($checkoutRequestID) {
+            $invoice->checkout_request_id = $checkoutRequestID;
+            $invoice->save();
+        }
+
+        return response()->json($responseData);
+    } else {
+        return response()->json(['error' => 'STK Push request failed'], 500);
+    }
+}
     /**
      * Handle STK Callback
      */
