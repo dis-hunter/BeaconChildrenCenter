@@ -240,6 +240,7 @@ async function payInvoice() {
         if (response.ok) {
             alert("Payment initiated. Please check your phone.");
             closePaymentModal();
+            waitForPaymentConfirmation(currentInvoiceId); // Start polling for confirmation
         } else {
             alert(data.error || "Payment initiation failed. Try again.");
         }
@@ -249,58 +250,55 @@ async function payInvoice() {
     }
 }
 
-// Listen for Payment Confirmation via Laravel Echo
-document.addEventListener('DOMContentLoaded', (event) => {
-    if (window.Echo) {
-        console.log("Echo initialized:", window.Echo);
+// Poll server to check payment status
+function waitForPaymentConfirmation(invoiceId) {
+    let attempt = 1; // Track the number of checks
 
-        window.Echo.channel('invoices')
-            .listen('invoice.paid', (event) => {
-                console.log("Payment received:", event);
+    const checkStatus = async () => {
+        console.log(`Check #${attempt}: Checking payment status for invoice ID ${invoiceId}...`);
 
-                // Find the invoice row in the table by invoice_id
-                let invoiceRow = document.querySelector(`tr[data-invoice-id="${event.invoice_id}"]`);
+        try {
+            let response = await fetch(`/check-payment-status/${invoiceId}`);
+            let data = await response.json();
 
-                if (invoiceRow) {
-                    // Update status to "Paid"
-                    invoiceRow.querySelector(".status").innerHTML = '<span style="color: green; font-weight: bold;">Paid</span>';
-                    
-                    // Remove the "Pay Now" button
-                    let payButton = invoiceRow.querySelector(".pay-button");
-                    if (payButton) {
-                        payButton.remove();
-                    }
+            console.log(`Check #${attempt}: Response received -`, data);
 
-                    // Show a popup or alert
-                    showPaymentReceivedPopup(event.invoice_id);
-                }
-            });
-    } else {
-        console.error("Echo is not available.");
-    }
-});
+            if (data.paid) { // If invoice_status is true
+                console.log(`Check #${attempt}: Payment successful!`);
+                showPopup("Payment Successful", "Your payment has been received!");
+                return; // Stop polling
+            }
 
-// Function to show payment received popup
-function showPaymentReceivedPopup(invoiceId) {
-    let popup = document.createElement('div');
-    popup.classList.add('payment-received-popup');
+            console.log(`Check #${attempt}: Payment not received yet, retrying in 5 seconds...`);
+            attempt++; // Increment attempt count
+
+            // Retry after 5 seconds if payment is still pending
+            setTimeout(checkStatus, 5000);
+        } catch (error) {
+            console.error(`Check #${attempt}: Error checking payment status:`, error);
+            console.log(`Check #${attempt}: Retrying in 5 seconds...`);
+            setTimeout(checkStatus, 5000);
+        }
+    };
+
+    checkStatus();
+}
+
+
+// Show popup
+function showPopup(title, message) {
+    let popup = document.createElement("div");
     popup.innerHTML = `
-        <div class="popup-content">
-            <h3>Payment Received</h3>
-            <p>Invoice #${invoiceId} has been paid successfully.</p>
-            <button onclick="closePopup()">Close</button>
-        </div>
-    `;
+        <div style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
+        background:#fff;padding:20px;box-shadow:0px 4px 6px rgba(0,0,0,0.1);
+        border-radius:8px;z-index:1000;">
+            <h3>${title}</h3>
+            <p>${message}</p>
+            <button onclick="this.parentElement.style.display='none'">Close</button>
+        </div>`;
     document.body.appendChild(popup);
 }
 
-// Close popup
-function closePopup() {
-    let popup = document.querySelector('.payment-received-popup');
-    if (popup) {
-        popup.remove();
-    }
-}
 
 </script>
 

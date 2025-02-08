@@ -13,6 +13,8 @@ use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\DoctorsDisplayController;
 use App\Http\Controllers\appointmentsController;
 use App\Http\Controllers\TherapyController;
+use App\Models\Invoice;
+
 
 
 
@@ -752,5 +754,12 @@ Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceConten
 use App\Http\Controllers\MpesaController;
 
 Route::post('mpesa/stkpush', [MpesaController::class, 'stkPush'])->name('mpesa.stkpush');
+
+
+Route::get('/check-payment-status/{invoiceId}', function ($invoiceId) {
+    $invoice = Invoice::find($invoiceId);
+    return response()->json(['paid' => $invoice ? (bool) $invoice->invoice_status : false]);
+});
+
 
 
