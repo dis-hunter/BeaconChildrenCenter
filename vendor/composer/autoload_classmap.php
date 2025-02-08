@@ -26,6 +26,7 @@ return array(
     'App\\Console\\Commands\\MakeService' => $baseDir . '/app/Console/Commands/MakeService.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Enums\\PasswordPart' => $baseDir . '/app/Enums/PasswordPart.php',
+    'App\\Events\\InvoicePaid' => $baseDir . '/app/Events/InvoicePaid.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Filament\\Actions\\CustomViewAction' => $baseDir . '/app/Filament/Actions/CustomViewAction.php',
     'App\\Filament\\Pages\\AddInvoice' => $baseDir . '/app/Filament/Pages/AddInvoice.php',

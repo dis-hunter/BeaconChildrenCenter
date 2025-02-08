@@ -714,6 +714,7 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
         'App\\Console\\Commands\\MakeService' => __DIR__ . '/../..' . '/app/Console/Commands/MakeService.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Enums\\PasswordPart' => __DIR__ . '/../..' . '/app/Enums/PasswordPart.php',
+        'App\\Events\\InvoicePaid' => __DIR__ . '/../..' . '/app/Events/InvoicePaid.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Filament\\Actions\\CustomViewAction' => __DIR__ . '/../..' . '/app/Filament/Actions/CustomViewAction.php',
         'App\\Filament\\Pages\\AddInvoice' => __DIR__ . '/../..' . '/app/Filament/Pages/AddInvoice.php',
