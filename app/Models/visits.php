@@ -34,6 +34,9 @@ class Visits extends Model
         'triage_pass',
         'created_at',
         'updated_at',
+        'has_copay',     
+    'copay_amount',
+        
     ];
 
     /**
@@ -45,6 +48,8 @@ class Visits extends Model
         'triage_pass' => 'boolean',
         'completed' => 'boolean',
         'triage_pass' => 'boolean',
+        'has_copay' => 'boolean',     
+    'copay_amount' => 'decimal:2', 
     ];
 
     public function staff()

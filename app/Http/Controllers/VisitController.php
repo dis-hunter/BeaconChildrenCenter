@@ -44,6 +44,8 @@ class VisitController extends Controller
             'doctor_id' => 'required|integer|exists:staff,id',
             'payment_mode_id' => 'required|integer|exists:payment_modes,id', // Validate payment mode
             'triage_pass' => 'required|boolean',
+            'has_copay' => 'boolean',                          
+        'copay_amount' => 'required_if:has_copay,true|numeric|nullable',
         ]);
 
         $appointment = Appointment::where('child_id',$validatedData['child_id'])
@@ -67,6 +69,8 @@ class VisitController extends Controller
                 'appointment_id' => $appointment->id ?? null,
                 'payment_mode_id' => $validatedData['payment_mode_id'],
                 'triage_pass' => $validatedData['triage_pass'],
+                'has_copay' => $validatedData['has_copay'] ?? false,
+            'copay_amount' => $validatedData['has_copay'] ? $validatedData['copay_amount'] : null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
