@@ -265,7 +265,23 @@ function waitForPaymentConfirmation(invoiceId) {
 
             if (data.paid) { // If invoice_status is true
                 console.log(`Check #${attempt}: Payment successful!`);
+
+                // Show success popup
                 showPopup("Payment Successful", "Your payment has been received!");
+
+                // Update UI: Change "Unpaid" to "Paid"
+                let row = document.querySelector(`tr[data-invoice-id="${invoiceId}"]`);
+                if (row) {
+                    let statusCell = row.querySelector(".status");
+                    statusCell.innerHTML = `<span style="color: green; font-weight: bold;">Paid</span>`;
+
+                    // Remove the "Pay Now" button
+                    let payButton = row.querySelector(".pay-button");
+                    if (payButton) {
+                        payButton.remove();
+                    }
+                }
+
                 return; // Stop polling
             }
 
@@ -285,19 +301,83 @@ function waitForPaymentConfirmation(invoiceId) {
 }
 
 
+
 // Show popup
+
 function showPopup(title, message) {
+    // Create the popup container
     let popup = document.createElement("div");
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.backgroundColor = "#fff";
+    popup.style.padding = "30px";
+    popup.style.borderRadius = "12px";
+    popup.style.boxShadow = "0px 8px 16px rgba(0, 0, 0, 0.2)";
+    popup.style.textAlign = "center";
+    popup.style.zIndex = "1000";
+    popup.style.maxWidth = "400px";
+    popup.style.width = "90%";
+    popup.style.animation = "fadeIn 0.3s ease-in-out";
+
+    // Add the animated tick icon
     popup.innerHTML = `
-        <div style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
-        background:#fff;padding:20px;box-shadow:0px 4px 6px rgba(0,0,0,0.1);
-        border-radius:8px;z-index:1000;">
-            <h3>${title}</h3>
-            <p>${message}</p>
-            <button onclick="this.parentElement.style.display='none'">Close</button>
-        </div>`;
+        <div class="tick-container" style="margin-bottom: 20px;">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="38" stroke="#4CAF50" stroke-width="4" fill="none"
+                    stroke-dasharray="240" stroke-dashoffset="240" class="animated-circle"></circle>
+                <path d="M20 40 L35 55 L60 25" stroke="#4CAF50" stroke-width="4" fill="none"
+                    stroke-dasharray="60" stroke-dashoffset="60" class="animated-tick"></path>
+            </svg>
+        </div>
+        <h3 style="margin: 0; font-size: 24px; color: #333;">${title}</h3>
+        <p style="margin: 10px 0 20px; font-size: 16px; color: #666;">${message}</p>
+        <button onclick="this.parentElement.remove()" style="background-color: #4CAF50; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">Close</button>
+    `;
+
+    // Append the popup to the body
     document.body.appendChild(popup);
+
+    // Start animations after the element is added to the DOM
+    setTimeout(() => {
+        document.querySelector(".animated-circle").style.animation = "drawCircle 0.6s ease-in-out forwards 0.3s";
+        document.querySelector(".animated-tick").style.animation = "drawTick 0.4s ease-in-out forwards 0.9s";
+    }, 50);
 }
+
+// Add CSS animations for the tick icon
+const style = document.createElement("style");
+style.innerHTML = `
+    @keyframes drawCircle {
+        from {
+            stroke-dashoffset: 240;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes drawTick {
+        from {
+            stroke-dashoffset: 60;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -55%);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+`;
+document.head.appendChild(style);
+
 
 
 </script>
