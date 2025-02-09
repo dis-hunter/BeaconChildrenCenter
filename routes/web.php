@@ -73,11 +73,11 @@ Route::get('/create',  [DiagnosisController::class,
 'create']
 );
 
-Route::get('login', [AuthController::class, 'loginGet'])->name('login');
-Route::get('register', [AuthController::class,'registerGet'])->name('register');
-Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
-Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
-Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+// Route::get('login', [AuthController::class, 'loginGet'])->name('login');
+// Route::get('register', [AuthController::class,'registerGet'])->name('register');
+// Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
+// Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
+// Route::post('logout',[AuthController::class, 'logout'])->name('logout');
 
 Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 
@@ -246,14 +246,6 @@ Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
 Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
 
 Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
-
-// Authentication Routes
-Route::get('login', [AuthController::class, 'loginGet'])->name('login');
-Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
-Route::get('register', [AuthController::class, 'registerGet'])->name('register');
-Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
 
 Route::get('/calendar', [CalendarController::class, 'create'])->name('calendar');
 
