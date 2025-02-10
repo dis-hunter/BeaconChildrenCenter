@@ -123,12 +123,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($invoice->invoice_details as $service => $price)
-                <tr>
-                    <td>{{ $service }}</td>
-                    <td>{{ number_format($price, 2) }}</td>
-                </tr>
-            @endforeach
+        @foreach ($invoice->invoice_details as $service => $details)
+    <tr>
+        <td>{{ $service }}</td>
+        <td>{{ number_format($details['price'], 2) }}</td>
+    </tr>
+@endforeach
+
         </tbody>
     </table>
 
