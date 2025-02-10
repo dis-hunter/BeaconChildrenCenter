@@ -6,6 +6,25 @@
 @section('content')
 
 <style>
+    .notification {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .notification .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        display: none; /* Hidden by default */
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;
@@ -35,101 +54,15 @@
     .pay-button:hover {
         background-color: #218838;
     }
-    /* Modal Styling */
-    .modal {
-        display: none;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 0.3s ease-in-out;
-    }
-
-    /* Modal Box */
-    .modal-content {
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        width: 350px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        animation: slideIn 0.3s ease-in-out;
-    }
-
-    /* M-Pesa Logo */
-    .mpesa-logo {
-        width: 150px;
-        display: block;
-        margin: 0 auto 10px;
-    }
-
-    /* Input Field */
-    .modal input {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border: 2px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-        text-align: center;
-    }
-
-    /* Payment & Cancel Buttons */
-    .modal button {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        margin: 5px 0;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-    .modal .pay {
-        background-color: #28a745;
-        color: white;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .modal .pay:hover {
-        background-color: #218838;
-    }
-
-    .modal .cancel {
-        background-color: #dc3545;
-        color: white;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .modal .cancel:hover {
-        background-color: #c82333;
-    }
-
-    /* Fade In Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    /* Slide In Animation */
-    @keyframes slideIn {
-        from { transform: translateY(-30px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
 </style>
 
 <div class="container">
-<head>
-    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    @vite(['resources/js/app.js'])
- <!-- Ensure Echo is loaded -->
-</head>
+
+    <!-- Notification Bell -->
+    <div class="notification" onclick="viewCopayments()">
+        <span class="badge" id="copayment-notification">0</span>
+        <img src="{{ asset('images/Notifications.png') }}" alt="Notification Bell" width="40">
+    </div>
 
     <h2 class="text-center">Invoices for {{ now()->format('d M, Y') }}</h2>
 
@@ -144,38 +77,52 @@
                 <th>Total Amount</th>
                 <th>Invoice Date</th>
                 <th>Payment Status</th>
+                <th>Payment Method</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-    @foreach ($invoices as $index => $invoice)
-        <tr data-invoice-id="{{ $invoice->id }}">
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $invoice->patient_name }}</td>
-            <td>KES {{ number_format($invoice->total_amount, 2) }}</td>
-            <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}</td>
-            <td class="status">
-                @if ($invoice->invoice_status)
-                    <span style="color: green; font-weight: bold;">Paid</span>
-                @else
-                    <span style="color: red; font-weight: bold;">Unpaid</span>
-                @endif
-            </td>
-            <td>
-                <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
-                    View
-                </a>
+        @foreach ($invoices as $index => $invoice)
+            @php
+                $invoiceDetails = json_decode($invoice->invoice_details, true);
+                $hasCopayment = false;
+                foreach ($invoiceDetails as $service) {
+                    if (!empty($service['copay_amount'])) {
+                        $hasCopayment = true;
+                        break;
+                    }
+                }
+            @endphp
+            <tr data-invoice-id="{{ $invoice->id }}" data-has-copayment="{{ $hasCopayment ? 'true' : 'false' }}">
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $invoice->patient_name }}</td>
+                <td>KES {{ number_format($invoice->total_amount, 2) }}</td>
+                <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}</td>
+                <td class="status">
+                    @if ($invoice->invoice_status)
+                        <span style="color: green; font-weight: bold;">Paid</span>
+                    @else
+                        <span style="color: red; font-weight: bold;">Unpaid</span>
+                    @endif
+                </td>
+                <td>
+                    {{ $invoice->payment_method ?? 'N/A' }}
+                </td>
 
-                @if (!$invoice->invoice_status)
-                    <button class="pay-button" onclick="openPaymentModal({{ $invoice->id }}, '{{ $invoice->total_amount }}')">
-                        Pay Now
-                    </button>
-                @endif
-            </td>
-        </tr>
-    @endforeach
-</tbody>
+                <td>
+                    <a href="{{ route('invoice.content', ['invoiceId' => $invoice->id]) }}" class="btn btn-primary">
+                        View
+                    </a>
 
+                    @if (!$invoice->invoice_status)
+                        <button class="pay-button" onclick="openPaymentModal({{ $invoice->id }}, '{{ $invoice->total_amount }}')">
+                            Pay Now
+                        </button>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
     </table>
     @endif
 </div>
@@ -377,6 +324,30 @@ style.innerHTML = `
     }
 `;
 document.head.appendChild(style);
+
+document.addEventListener("DOMContentLoaded", function () {
+    checkCopayments();
+});
+
+// Function to check for copayments in the invoices
+function checkCopayments() {
+    let copayCount = 0;
+
+    document.querySelectorAll("tr[data-has-copayment='true']").forEach(row => {
+        copayCount++;
+    });
+
+    let notificationBadge = document.getElementById("copayment-notification");
+    if (copayCount > 0) {
+        notificationBadge.textContent = copayCount;
+        notificationBadge.style.display = "block";
+    }
+}
+
+// Function to show copayment details when clicking on the notification
+function viewCopayments() {
+    alert("Some invoices require co-payments. Please check the list.");
+}
 
 
 
