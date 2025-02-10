@@ -54,6 +54,60 @@
     .pay-button:hover {
         background-color: #218838;
     }
+    /* Modal Styling */
+    .modal {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 350px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .mpesa-logo {
+        width: 150px;
+        display: block;
+        margin: 0 auto 10px;
+    }
+    .modal input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
+    }
+    .modal button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        margin: 5px 0;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .modal .pay {
+        background-color: #28a745;
+        color: white;
+        font-weight: bold;
+    }
+    .modal .cancel {
+        background-color: #dc3545;
+        color: white;
+        font-weight: bold;
+    }
+
     tr[data-has-copayment="true"] {
     background-color:rgb(202, 238, 255); /* Light yellow background for rows with copayments */
 }
