@@ -387,121 +387,120 @@
 
     // Validation Functions
     const validation = {
-    async prepareAppointmentData() {
-        // Initialize data object first
-        const data = {
-            child_id: null,
-            doctor_id: null,
-            visit_type: null,
-            payment_mode_id: null,
-            triage_pass: null,
-            visit_date: utils.getTodayDate(),
-            source_type: 'Reception',
-            source_contact: '123456789',
-            staff_id: 3,
-            created_at: utils.getTodayDate(),
-            updated_at: utils.getTodayDate(),
-            has_copay: false,
-            copay_amount: null
-        };
+   async prepareAppointmentData() {
+    // Initialize data object first
+    const data = {
+        child_id: null,
+        doctor_id: null,
+        visit_type: null,
+        payment_mode_id: null,
+        triage_pass: null,
+        visit_date: utils.getTodayDate(),
+        source_type: 'Reception',
+        source_contact: '123456789',
+        staff_id: 3,
+        created_at: utils.getTodayDate(),
+        updated_at: utils.getTodayDate(),
+        has_copay: false,
+        copay_amount: null  // Set default to null
+    };
 
-        const originalPrepareAppointmentData = validation.prepareAppointmentData;
-validation.prepareAppointmentData = async function() {
-    loadingUI.updateStatus('Creating visit...', 'Preparing appointment data');
-    loadingUI.setProgress(30);
-    return await originalPrepareAppointmentData.call(this);
-};
-        try {
-            // Get references to DOM elements
-            const activeChild = document.querySelector('.select-child.active');
-            const activeDoctor = document.querySelector('.doctor-select-btn.active');
-            const visitType = document.getElementById('visit_type');
-            const paymentMode = document.getElementById('payment_mode');
-            const triagePass = document.getElementById('triage_pass');
-            const hasCopay = document.getElementById('has_copay');
-            const copayAmount = document.getElementById('copay_amount');
+    try {
+        // Get references to DOM elements
+        const activeChild = document.querySelector('.select-child.active');
+        const activeDoctor = document.querySelector('.doctor-select-btn.active');
+        const visitType = document.getElementById('visit_type');
+        const paymentMode = document.getElementById('payment_mode');
+        const triagePass = document.getElementById('triage_pass');
+        const hasCopay = document.getElementById('has_copay');
+        const copayAmount = document.getElementById('copay_amount');
 
-            // Validate required elements exist
-            if (!activeChild || !activeDoctor || !visitType || !paymentMode || !triagePass) {
-                throw new Error('Required form elements not found');
-            }
-
-            // Validate values are selected/entered
-            if (!activeChild.dataset.childId || 
-                !activeDoctor.dataset.doctorId || 
-                !visitType.value || 
-                !paymentMode.value || 
-                !triagePass.value) {
-                throw new Error('Please fill in all required fields');
-            }
-
-            // Populate data object
-            data.child_id = parseInt(activeChild.dataset.childId);
-            data.doctor_id = parseInt(activeDoctor.dataset.doctorId);
-            data.visit_type = parseInt(visitType.value);
-            data.payment_mode_id = parseInt(paymentMode.value);
-            data.triage_pass = triagePass.value === 'true';
-
-            // Handle copay if present
-            if (hasCopay && hasCopay.checked) {
-                data.has_copay = true;
-                if (!copayAmount.value || isNaN(copayAmount.value) || parseFloat(copayAmount.value) <= 0) {
-                    throw new Error('Please enter a valid copay amount');
-                }
-                data.copay_amount = parseFloat(copayAmount.value);
-            }
-
-            // Validate all values are of correct type
-            for (const [key, value] of Object.entries(data)) {
-                if (value === null || value === undefined || Number.isNaN(value)) {
-                    throw new Error(`Invalid value for field: ${key}`);
-                }
-            }
-
-            console.log('Prepared appointment data:', data);
-            return data;
-
-        } catch (error) {
-            console.error('Error preparing appointment data:', error);
-            throw error;
+        // Validate required elements exist
+        if (!activeChild || !activeDoctor || !visitType || !paymentMode || !triagePass) {
+            throw new Error('Required form elements not found');
         }
-    },
+
+        // Validate values are selected/entered
+        if (!activeChild.dataset.childId || 
+            !activeDoctor.dataset.doctorId || 
+            !visitType.value || 
+            !paymentMode.value || 
+            !triagePass.value) {
+            throw new Error('Please fill in all required fields');
+        }
+
+        // Populate data object
+        data.child_id = parseInt(activeChild.dataset.childId);
+        data.doctor_id = parseInt(activeDoctor.dataset.doctorId);
+        data.visit_type = parseInt(visitType.value);
+        data.payment_mode_id = parseInt(paymentMode.value);
+        data.triage_pass = triagePass.value === 'true';
+
+        // Only handle copay if checkbox is checked
+        if (hasCopay && hasCopay.checked) {
+            data.has_copay = true;
+            if (!copayAmount.value || isNaN(copayAmount.value) || parseFloat(copayAmount.value) <= 0) {
+                throw new Error('Please enter a valid copay amount');
+            }
+            data.copay_amount = parseFloat(copayAmount.value);
+        } else {
+            // If copay is not checked, set these values explicitly
+            data.has_copay = false;
+            data.copay_amount = null;
+        }
+
+        // Validate only non-copay values if copay is not checked
+        const requiredFields = ['child_id', 'doctor_id', 'visit_type', 'payment_mode_id'];
+        for (const field of requiredFields) {
+            if (data[field] === null || data[field] === undefined || Number.isNaN(data[field])) {
+                throw new Error(`Invalid value for field: ${field}`);
+            }
+        }
+
+        console.log('Prepared appointment data:', data);
+        return data;
+
+    } catch (error) {
+        console.error('Error preparing appointment data:', error);
+        throw error;
+    }
+},
 
     validateAppointmentData() {
-        const required = {
-            child: document.querySelector('.select-child.active'),
-            doctor: document.querySelector('.doctor-select-btn.active'),
-            visitType: document.getElementById('visit_type').value,
-            paymentMode: document.getElementById('payment_mode').value,
-            triagePass: document.getElementById('triage_pass').value
-        };
+    const required = {
+        child: document.querySelector('.select-child.active'),
+        doctor: document.querySelector('.doctor-select-btn.active'),
+        visitType: document.getElementById('visit_type').value,
+        paymentMode: document.getElementById('payment_mode').value,
+        triagePass: document.getElementById('triage_pass').value
+    };
 
-        // Check required fields
-        for (const [key, value] of Object.entries(required)) {
-            if (!value) {
-                return {
-                    isValid: false,
-                    message: `Please select a ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}.`
-                };
-            }
+    // Check required fields
+    for (const [key, value] of Object.entries(required)) {
+        if (!value) {
+            return {
+                isValid: false,
+                message: `Please select a ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}.`
+            };
         }
-
-        // Check copay if enabled
-        const hasCopay = document.getElementById('has_copay');
-        if (hasCopay && hasCopay.checked) {
-            const copayAmount = document.getElementById('copay_amount').value;
-            if (!copayAmount || isNaN(copayAmount) || parseFloat(copayAmount) <= 0) {
-                return {
-                    isValid: false,
-                    message: 'Please enter a valid copay amount'
-                };
-            }
-        }
-
-        return {
-            isValid: true
-        };
     }
+
+    // Check copay only if checkbox is checked
+    const hasCopay = document.getElementById('has_copay');
+    if (hasCopay && hasCopay.checked) {
+        const copayAmount = document.getElementById('copay_amount').value;
+        if (!copayAmount || isNaN(copayAmount) || parseFloat(copayAmount) <= 0) {
+            return {
+                isValid: false,
+                message: 'Please enter a valid copay amount'
+            };
+        }
+    }
+
+    return {
+        isValid: true
+    };
+}
 };
 
     // Event Listeners
@@ -517,10 +516,18 @@ validation.prepareAppointmentData = async function() {
         });
         document.getElementById('has_copay').addEventListener('change', function(e) {
     const copayAmountDiv = document.getElementById('copayAmountDiv');
+    const copayAmount = document.getElementById('copay_amount');
+    
     copayAmountDiv.style.display = e.target.checked ? 'block' : 'none';
     if (!e.target.checked) {
-        document.getElementById('copay_amount').value = '';
+        copayAmount.value = ''; // Clear the copay amount when unchecked
+        // Remove any validation error messages if they exist
+        const errorMessage = copayAmountDiv.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.remove();
+        }
     }
+
 });
 
 document.getElementById('submit-appointment').addEventListener('click', async () => {
@@ -560,10 +567,10 @@ document.getElementById('submit-appointment').addEventListener('click', async ()
                 `;
                 document.body.appendChild(successMessage);
 
-                // Remove the success message after 3 seconds
+                // Redirect to dashboard after 2 seconds
                 setTimeout(() => {
                     successMessage.remove();
-                    window.location.reload();
+                    window.location.href = '/dashboard'; // Changed from reload() to redirect
                 }, 2000);
             } else {
                 loadingUI.hide();
