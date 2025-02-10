@@ -1,4 +1,3 @@
-import './bootstrap'; // Ensure this loads correctly
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
