@@ -54,6 +54,9 @@
     .pay-button:hover {
         background-color: #218838;
     }
+    tr[data-has-copayment="true"] {
+    background-color:rgb(202, 238, 255); /* Light yellow background for rows with copayments */
+}
 </style>
 
 <div class="container">
