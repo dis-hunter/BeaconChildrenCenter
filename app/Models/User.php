@@ -127,7 +127,7 @@ class User extends Authenticatable
     
     public function getTherapistRoute($specialization_id){
         return match($specialization_id){
-            default => 'occupational_therapist', // Now redirects therapists to this route
+            default => 'therapistsDashboard', // Now redirects therapists to this route
         };
     }
     

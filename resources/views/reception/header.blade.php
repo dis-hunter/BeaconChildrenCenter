@@ -20,6 +20,7 @@
 
     <div class="collapse navbar-collapse ml-3" id="navbarsExampleDefault">
         <ul class="navbar-nav">
+            
             @auth
             <li class="nav-item">
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>

@@ -152,25 +152,34 @@ class InvoiceController extends Controller
     return view('reception.invoice', ['invoices' => $invoicesWithNames]);
 }
 
-    public function getInvoiceContent($invoiceId)
+public function getInvoiceContent($invoiceId)
 {
     // Fetch the invoice
     $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
+    Log::info("Fetched Invoice:", ['invoice' => $invoice]);
 
     if (!$invoice) {
+        Log::error("Invoice not found with ID: $invoiceId");
         return redirect()->back()->withErrors(['error' => 'Invoice not found.']);
     }
 
     // Get child details
     $child = DB::table('children')->where('id', $invoice->child_id)->first();
+    Log::info("Fetched Child:", ['child' => $child]);
+
     $gender = DB::table('gender')->where('id', $child->gender_id)->first()->gender ?? 'Unknown';
+    Log::info("Fetched Gender:", ['gender' => $gender]);
 
     // Decode child name
     $fullName = json_decode($child->fullname);
+    Log::info("Decoded Full Name:", ['fullName' => $fullName]);
+
     $child->full_name = trim(($fullName->first_name ?? '') . ' ' . ($fullName->middle_name ?? '') . ' ' . ($fullName->last_name ?? ''));
+    Log::info("Constructed Child Full Name:", ['full_name' => $child->full_name]);
 
     // Decode invoice details
     $invoice->invoice_details = json_decode($invoice->invoice_details, true);
+    Log::info("Decoded Invoice Details:", ['invoice_details' => $invoice->invoice_details]);
 
     return view('reception.invoice-details', [
         'invoice' => $invoice,

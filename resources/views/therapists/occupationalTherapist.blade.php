@@ -57,7 +57,7 @@
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Occupational Therapy</h1>
         <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
-        <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
+        <input type="text" id="lastName" name="lastName" value="{{ $fullname }}">
         <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
 
 
