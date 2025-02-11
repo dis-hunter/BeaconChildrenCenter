@@ -131,20 +131,20 @@ class AuthController extends Controller
     {
         switch (Auth::user()->specialization_id) {
             case 2:
-                return redirect()->route('therapist.Dashboard');
+                return redirect()->route('therapistsDashboard');
                 break;
 
             case 3:
-                return redirect()->route('speech_therapist');
-                break;
+                // return redirect()->route('speech_therapist');
+                // break;
 
             case 4:
-                return redirect()->route('physiotherapist');
-                break;
+                // return redirect()->route('physiotherapist');
+                // break;
 
             case 5:
-                return redirect()->route('nutritionist');
-                break;
+                // return redirect()->route('nutritionist');
+                // break;
             case 6:
                 // return redirect()->route('therapist.dashboard');
                 // break;

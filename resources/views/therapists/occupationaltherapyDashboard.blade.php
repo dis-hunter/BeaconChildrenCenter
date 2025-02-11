@@ -141,7 +141,6 @@
 
     <button 
         onclick="goToWorkspace(event)" 
-        data-specialization-id="5"
         class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
     >
         Therapist Workstation
@@ -191,7 +190,8 @@ function handleMissingData() {
 function goToWorkspace(event) {
     // Retrieve the specialization ID from the button's data attribute
     showLoadingIndicator('Opening Workstation...', 0);
-    const specializationId = event.target.getAttribute('data-specialization-id');
+    const specializationId = document.getElementById('specialization_id').value;
+
     const registrationNumber = extractRegistrationCode(); // Function to get registration number
 
     if (!registrationNumber || !specializationId) {
@@ -208,7 +208,7 @@ function goToWorkspace(event) {
                 window.location.href = `/psychotherapist/${registrationNumber}`;
                 break;
             case "2":
-                window.location.href = `/occupational_therapist/${registrationNumber}`;
+                window.location.href = `/Occupational/${registrationNumber}`;
                 break;
             case "5":
                 window.location.href = `/nutritionist/${registrationNumber}`;

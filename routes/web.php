@@ -136,7 +136,7 @@ Route::get('/speechtherapy_dashboard', function () {
 Route::get('/nutritionist_dashboard', function () {
     return view('therapists.nutritionistDashboard');
 });
-Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
+Route::get('/Occupational/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
 Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
 Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
 Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);

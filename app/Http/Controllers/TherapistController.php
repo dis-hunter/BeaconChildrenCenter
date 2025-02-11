@@ -41,34 +41,36 @@ class TherapistController extends Controller
 
     // Add the showDashboard method here
     public function showDashboard()
-{
-    $cacheKey = 'recent_visits';
-
-    // Attempt to retrieve visits from cache
-    $visits = Cache::get($cacheKey);
-
-    if (!$visits) {
-        // Fetch last 20 visits from the database
-        $visits = DB::table('visits')
-            ->join('children', 'visits.child_id', '=', 'children.id')
-            ->join('staff', 'visits.doctor_id', '=', 'staff.id')
-            ->select(
-                'visits.created_at',
-                'children.registration_number',
-                'children.fullname',
-                'visits.completed'
-            )
-            ->whereDate('visits.created_at', '=', now()->toDateString()) // Filter by today's date
-            ->where('visits.triage_pass', true) // Filter by triage_pass = true
-            ->orderBy('visits.created_at', 'desc')
-            ->limit(20)
-            ->get();
-
-        // Store in cache for 60 minutes (Redis or file-based)
-        Cache::put($cacheKey, $visits, now()->addMinutes(60));
+    {
+        $staff_id = auth()->user()->id;
+        $cacheKey = 'recent_visits_' . $staff_id; // Make cache key unique per doctor
+    
+        // Attempt to retrieve visits from cache
+        $visits = Cache::get($cacheKey);
+    
+        if (!$visits) {
+            // Fetch last 20 visits from the database
+            $visits = DB::table('visits')
+                ->join('children', 'visits.child_id', '=', 'children.id')
+                ->join('staff', 'visits.doctor_id', '=', 'staff.id')
+                ->select(
+                    'visits.created_at',
+                    'children.registration_number',
+                    'children.fullname',
+                    'visits.completed'
+                )
+                ->where('visits.doctor_id', $staff_id) // Add this line to filter by logged-in doctor
+                ->whereDate('visits.created_at', '=', now()->toDateString())
+                ->where('visits.triage_pass', true)
+                ->orderBy('visits.created_at', 'desc')
+                ->limit(20)
+                ->get();
+    
+            // Store in cache for 60 minutes
+            Cache::put($cacheKey, $visits, now()->addMinutes(60));
+        }
+    
+        return view('therapists.therapistsDashboard', compact('visits'));
     }
-
-    return view('therapists.therapistsDashboard', compact('visits'));
-}
 
 }    
