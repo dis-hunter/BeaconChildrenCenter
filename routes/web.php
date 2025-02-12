@@ -580,16 +580,6 @@ Route::get('/get-user-specialization-and-doctor', [AuthController::class, 'getUs
 
 
 
-// routes/web.php
-
-
-// Show the calendar page
-//Route::get('/calendar', [AppointmentController::class, 'create'])->name('calendar');
-//Route::get('/calendar', [CalendarController::class, 'index'])->middleware('web');
-
-
-
-
 
 
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');

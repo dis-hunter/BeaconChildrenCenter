@@ -6,6 +6,17 @@
       0 => 'Akaunting\\Money\\Provider',
     ),
   ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+  ),
   'blade-ui-kit/blade-heroicons' => 
   array (
     'providers' => 
