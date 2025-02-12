@@ -117,7 +117,6 @@ Route::group(['middleware'=>'auth'], function(){
 Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
 Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
     });
-    Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
 Route::get('/psychotherapy_dashboard', function () {
     return view('therapists.psychotherapyDashboard');
 });
@@ -137,7 +136,7 @@ Route::get('/speechtherapy_dashboard', function () {
 Route::get('/nutritionist_dashboard', function () {
     return view('therapists.nutritionistDashboard');
 });
-Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
+Route::get('/Occupational/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
 Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
 Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
 Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
@@ -166,7 +165,7 @@ Route::get('/nutritionist', function () {
 Route::get('/receiptionist_dashboard', function () {
     return view('Receiptionist\Receiptionist_dashboard');
 });
-Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard'])->name('occupational_therapist');
+Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard'])->name('therapistsDashboard');
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
@@ -195,6 +194,8 @@ Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesme
 
 
 use App\Http\Controllers\FamilySocialHistoryController;
+use App\Http\Controllers\docSpecController;
+
 use App\Http\Controllers\PerinatalHistoryController;
 use App\Http\Controllers\PastMedicalHistoryController;
 use App\Http\Controllers\GeneralExamController;
@@ -433,7 +434,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
 Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
     });
-    Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
+    
 Route::get('/psychotherapy_dashboard', function () {
     return view('therapists.psychotherapyDashboard');
 });
@@ -453,11 +454,11 @@ Route::get('/speechtherapy_dashboard', function () {
 Route::get('/nutritionist_dashboard', function () {
     return view('therapists.nutritionistDashboard');
 });
-Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
-Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
-Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
-Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
-Route::get('/psychotherapist/{registrationNumber}', [TherapyController::class, 'PsychoTherapy']);
+Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy'])->name('occupational_therapist');
+Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy'])->name('nutritionist');
+Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy'])->name('speech_therapist');
+Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy'])->name('physiotherapist');
+Route::get('/psychotherapist/{registrationNumber}', [TherapyController::class, 'PsychoTherapy'])->name('psychotherapist');
 
 
 
@@ -501,7 +502,7 @@ Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']
 // })->name('visits.page');
 
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);//->name('visits.untriaged');
-Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard'])->name('occupational_therapist');
+
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
@@ -598,6 +599,7 @@ Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits'])
 
 
 Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']) ->where('registrationNumber', '.*');
+use App\Http\Controllers\DoctorDashboardController;
 
 Route::get('/specialists', [DoctorDashboardController::class, 'getSpecialists'])->name('specialists.get');
 
@@ -673,7 +675,6 @@ Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('p
 
 Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
 
-Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
 
 Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
 Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');

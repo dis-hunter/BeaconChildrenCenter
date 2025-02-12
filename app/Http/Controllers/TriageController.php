@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Triage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Parents;
@@ -139,52 +141,59 @@ class TriageController extends Controller
     }
     // 'doctor_id' => auth()->user()->id,
     public function getPostTriageQueue()
-    {
-        try {
-            // Fetch authenticated user's ID
-            $doctorId = auth()->user()->id;
+{
+    try {
+        $doctorId = auth()->user()->id;
+        $date = now()->toDateString();
+        $cacheKey = "post_triage_queue_{$doctorId}_{$date}";
 
-            // Automatically fetch today's date in 'Y-m-d' format
-            $date = now()->toDateString();
-
-            $patients = DB::table('visits')
-                ->join('children', 'visits.child_id', '=', 'children.id')
-                ->select('visits.*', 'children.fullname', 'children.registration_number')
-                ->where('visits.triage_pass', true)
-                ->whereDate('visits.visit_date', $date)
-                ->where('visits.doctor_id', $doctorId) // Compare with authenticated user's ID
-                ->get()
-                ->map(function ($visit) {
-                    try {
-                        // Decode and reformat fullname if it's in JSON format
-                        $fullname = json_decode($visit->fullname);
-
-                        if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
-                            $visit->patient_name = trim(
-                                "{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}"
-                            );
-                        } else {
-                            $visit->patient_name = $visit->fullname ?? 'N/A';
-                        }
-                    } catch (\Exception $e) {
-                        $visit->patient_name = 'N/A';
-                    }
-
-                    return $visit;
-                });
-
+        // Check if data exists in cache
+        if (Cache::has($cacheKey)) {
             return response()->json([
                 'status' => 'success',
-                'data' => $patients
+                'data' => Cache::get($cacheKey)
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to fetch post-triage queue',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        // Retrieve latest 20 records from the database
+        $patients = DB::table('visits')
+            ->join('children', 'visits.child_id', '=', 'children.id')
+            ->select('visits.*', 'children.fullname', 'children.registration_number')
+            ->where('visits.triage_pass', true)
+            ->whereDate('visits.visit_date', $date)
+            ->where('visits.doctor_id', $doctorId)
+            ->latest('visits.created_at') // Get the most recent records
+            ->limit(20)
+            ->get()
+            ->map(function ($visit) {
+                try {
+                    $fullname = json_decode($visit->fullname);
+                    if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
+                        $visit->patient_name = trim("{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}");
+                    } else {
+                        $visit->patient_name = $visit->fullname ?? 'N/A';
+                    }
+                } catch (\Exception $e) {
+                    $visit->patient_name = 'N/A';
+                }
+                return $visit;
+            });
+
+        // Store data in cache for 60 minutes
+        Cache::put($cacheKey, $patients, now()->addMinutes(60));
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $patients
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to fetch post-triage queue',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
     public function getNurseName() {
         $nurse = auth()->user();
 
