@@ -61,6 +61,7 @@ class Visits extends Model
     {
         return $this->belongsTo(VisitType::class, 'visit_type');
     }
+    
     public function paymentMode(): BelongsTo
     {
         return $this->belongsTo(PaymentMode::class);
