@@ -124,12 +124,12 @@ div h2 {
                     <!-- Appointment Time Inputs -->
                     <div class="add-event-input">
                         <label for="event_time_from">Appointment Starting Time</label><br>
-                        <input type="time" id="event_time_from" placeholder="Event starting time" class="event_time_from">
+                        <input type="time" id="event_time_from" placeholder="Event starting time" class="event_time_from" style = "color :black !important">
                     </div>
 
                     <div class="add-event-input">
                         <label for="event_time_end">Appointment Ending Time</label><br>
-                        <input type="time" id="event_time_end" placeholder="Event ending time" class="event_time_end">
+                        <input type="time" id="event_time_end" placeholder="Event ending time" class="event_time_end" style = "color :black !important">
                     </div>
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">

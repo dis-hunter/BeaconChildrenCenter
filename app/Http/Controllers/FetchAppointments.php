@@ -22,7 +22,7 @@ class FetchAppointments extends Controller
     $date = $validated['date'];
 
     try {
-        // Fetch appointments for the given date with related parent details
+        // Fetch appointments for the given date with related parent, child, and staff details
         $appointments = Appointment::leftJoin('child_parent', 'appointments.child_id', '=', 'child_parent.child_id')
             ->leftJoin('parents', 'child_parent.parent_id', '=', 'parents.id')
             ->leftJoin('staff', 'appointments.staff_id', '=', 'staff.id')
@@ -33,6 +33,7 @@ class FetchAppointments extends Controller
                 'appointments.start_time',
                 'appointments.end_time',
                 'appointments.appointment_title',
+                'appointments.status', // Include status in response
                 'parents.fullname as parent_name',
                 'parents.telephone as parent_phone',
                 'parents.email as parent_email',
@@ -40,6 +41,7 @@ class FetchAppointments extends Controller
                 'staff.fullname as staff_name'
             )
             ->where('appointments.appointment_date', $date)
+            ->where('appointments.status', '!=', 'rejected') // Exclude rejected appointments
             ->get();
 
         // Log the fetched appointments for debugging
@@ -56,5 +58,4 @@ class FetchAppointments extends Controller
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
-
 }

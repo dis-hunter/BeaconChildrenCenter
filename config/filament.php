@@ -92,6 +92,9 @@ return [
         'pages' => [
             'login' => \Filament\Http\Livewire\Auth\Login::class,
         ],
+        'user' => [
+        'name' => 'fullname', // Change this to the name of the attribute you want Filament to use
+    ],
     ],
 
     /*

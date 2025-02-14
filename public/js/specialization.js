@@ -113,13 +113,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Show/Hide Add Event Form
     if (addEventBtn && addEventContainer && addEventCloseBtn) {
-        addEventBtn.addEventListener("click", () => {
-            addEventContainer.classList.toggle("active");
+        document.addEventListener("click", function (event) {
+            // Open the "Add Event" modal
+            if (event.target.classList.contains("add-event")) {
+                document.querySelector(".add-event-wrapper")?.classList.add("active");
+            }
+        
+            // Close the modal
+            if (event.target.classList.contains("close")) {
+                document.querySelector(".add-event-wrapper")?.classList.remove("active");
+            }
         });
-
-        addEventCloseBtn.addEventListener("click", () => {
-            addEventContainer.classList.remove("active");
-        });
+        
+        
     }
     
 
@@ -166,21 +172,23 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Get the selected checkbox by querying the checkbox with the class or id (specific to your case)
         const selectedChildCheckbox = document.querySelector('input[type="checkbox"]:checked[id^="child_id_"]');
-        
-        
-            const selectedChildId = selectedChildCheckbox.value; // This will get the child_id from the selected checkbox
+            const selectedChildId = selectedChildCheckbox ? selectedChildCheckbox.value : null;
+
             console.log("Selected Child ID:", selectedChildId);
-    
+
             const request = {
                 appointment_title: document.getElementById("event_name")?.value || "",
-                staff_id: document.getElementById("specialist")?.value || "",
+                staff_id: document.getElementById("specialist")?.value || "", // Get the value from the specialist dropdown
                 start_time: document.getElementById("event_time_from")?.value || "",
                 end_time: document.getElementById("event_time_end")?.value || "",
-                child_id: selectedChildId || "",  // Send the selected child_id here
+                child_id: selectedChildId, // Use the selected child ID here
                 appointment_date: formattedDate,
                 doctor_id: 2, // Example, adjust as needed
                 status: "pending",
             };
+
+            console.log("Request:", request);
+
         
     
         

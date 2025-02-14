@@ -14,10 +14,13 @@
         "laravel/scout": "^10.11",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.12",
+        "predis/predis": "^2.3",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-permission": "^6.10"
     },
 
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
@@ -67,6 +70,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

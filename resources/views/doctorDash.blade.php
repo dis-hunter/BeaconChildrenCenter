@@ -6,6 +6,16 @@
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
+  <link rel=stylesheet href="{{asset ('css/leave_request.css')}}">
+
+  <style>
+    #leave form{
+      width :1000px !important;
+      color: black !important;
+      margin-left :100px !important;
+      
+    }
+  </style>
 
 </head>
 <body>
@@ -48,6 +58,7 @@
           <li> <a id="therapist-link" href="#">Therapy</a></li>
 
           <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
+          <li><a href="#" id= "leave-link"><i class = "fas fa-user-leave"></i> Leave Request</a></li>
           
         </ul>
       </nav>
@@ -107,6 +118,13 @@
     <!-- Section for Calendar (Initially Hidden) -->
     <section class="content" id="calendar-content" style="display: none;">
     @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+
+
+    
+</section>
+
+<section class="content" id="leave-content" style="display: none;">
+@include('staff.leave_request')
 
 
     

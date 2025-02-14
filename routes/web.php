@@ -13,6 +13,10 @@ use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\DoctorsDisplayController;
 use App\Http\Controllers\appointmentsController;
 use App\Http\Controllers\TherapyController;
+use App\Models\Invoice;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\FetchAppointments;
+use App\Http\Controllers\RescheduleController;
 
 
 
@@ -20,6 +24,17 @@ use App\Http\Controllers\TherapyController;
 
 Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
 Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
+
+
+Route::get('/staff/leave-request', [LeaveController::class, 'create'])->name('leave.request');
+
+Route::post('/leave/store', [LeaveController::class, 'store'])->name('leave.store');
+Route::get('/leave-form-data', [LeaveController::class, 'getLeaveFormData']);
+Route::get('/admin/leave-requests', [LeaveController::class, 'adminLeaveRequests'])->name('admin.leaveRequests');
+Route::post('/admin/leave-requests/{id}/update', [LeaveController::class, 'updateLeaveStatus'])->name('admin.updateLeaveStatus');
+Route::get('/leave/requests', [LeaveController::class, 'showUserLeaves'])->name('leave.requests');
+
+Route::get('/reception/requests', [LeaveController::class, 'create2'])->name('leave2.request');
 
 //Therapist Routes
 
@@ -205,27 +220,9 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AppointmentController;
-
-use App\Http\Controllers\BookedController;
-use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\FetchAppointments;
-use App\Http\Controllers\RescheduleController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\MetricsController;
-use App\Http\Controllers\FinanceController;
-
-//Route::get('/admin', function () {
-   // return view('beaconAdmin');
-//});
-use App\Http\Controllers\IcdSearchController;
+use App\Http\Controllers\ExpensesController;
 
 
-Route::get('/admin', function () {
-    return view('beaconAdmin');
-});
-
-// General Routes
 // General Routes
 Route::view('/', 'home')->name('home');
 
@@ -384,107 +381,10 @@ Route::group(['middleware' => 'auth'], function () {
     // Admin Routes
     Route::group(['middleware' => 'role:4'], function () {
         // Add admin-specific routes here
-    });
-
-    Route::group(['middleware' => 'role:5'], function (){
-
-        Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
-        Route::post('/therapist/save', [TherapistController::class, 'saveTherapyNeeds'])->name('therapist.save');
-        Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
-        Route::view('/occupational_therapist', 'therapists.occupationalTherapist')->name('therapists.occupationalTherapist');
-        Route::view('/speech_therapist', 'therapists.speechTherapist');
-        Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');
-        Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist');
-        Route::view('/nutritionist', 'therapists.nutritionist');
 
     });
-    
-    Route::get('/admin', [ChildrenController::class, 'showChildren2']);
-    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-
-    Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);
-
-    Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
-
-    
-    Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
-    Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
-    Route::get('/invoices', [InvoiceController::class, 'getInvoices'])->name('invoices.index');
-
-    Route::get('/payment-methods', function () {
-        // Fetch payment data from database, assuming 'payments' table has payment_mode_id
-        return \App\Models\Payment::select('payment_mode_id')->get();
-    });
-    
-    
-
-    
-
-    Route::get('/payment-methods', [PaymentController::class, 'getPaymentMethods']);
-
-
-});
-    //Doctor
-    Route::group(['middleware'=>'role:2'], function(){
-        
-    });
-
-    //Admin
-    Route::group(['middleware'=>'role:3'], function(){
-        
-    });
-    
-    Route::group(['middleware'=>'role:5'], function(){
-        Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
-Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
-Route::get('/therapist/progress', [TherapistController::class, 'getProgress'])->name('therapist.progress');
-    });
-    Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']);
-Route::get('/psychotherapy_dashboard', function () {
-    return view('therapists.psychotherapyDashboard');
-});
-Route::get('/physiotherapy_dashboard', function () {
-    return view('therapists.physiotherapyDashboard');
-});
-Route::get('/physiotherapy_dashboard', function () {
-    return view('therapists.physiotherapyDashboard');
 });
 
-Route::get('/occupationaltherapy_dashboard/{registrationNumber}', [TherapyController::class, 'getChildDetails']);
-
-
-Route::get('/speechtherapy_dashboard', function () {
-    return view('therapists.speechtherapyDashboard');
-});
-Route::get('/nutritionist_dashboard', function () {
-    return view('therapists.nutritionistDashboard');
-});
-Route::get('/occupational_therapist/{registrationNumber}', [TherapyController::class, 'OccupationTherapy']);
-Route::get('/nutritionist/{registrationNumber}', [TherapyController::class, 'NutritionalTherapy']);
-Route::get('/speech_therapist/{registrationNumber}', [TherapyController::class, 'SpeechTherapy']);
-Route::get('/physiotherapist/{registrationNumber}', [TherapyController::class, 'PhysioTherapy']);
-Route::get('/psychotherapist/{registrationNumber}', [TherapyController::class, 'PsychoTherapy']);
-
-
-
-Route::get('/key-metrics', [MetricsController::class, 'keyMetrics'])->name('key.metrics');
-Route::get('/age-distribution', [MetricsController::class, 'ageDistribution'])->name('age.distribution');
-
-
-
-
-Route::get('/physical_therapist', function () {
-    return view('therapists.physiotherapyTherapist');
-});
-// Route::get('/psychotherapy_therapist', function () {
-//     return view('therapists.psychotherapyTherapist');
-// });
-// Route::get('/physiotherapy_therapist', function () {
-//     return view('therapists.physiotherapyTherapist');
-// });
-
-Route::get('/get-invoice-dates/{childId}', [InvoiceController::class, 'getInvoiceDates']);
-Route::get('/get-invoice-details/{childId}', [InvoiceController::class, 'getInvoiceDetails']);
 
 // Triage Routes (These should likely be within the Nurse's authenticated routes)
 Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');;
@@ -723,6 +623,7 @@ use App\Http\Controllers\PatientDemographicsController;
 // Route to fetch data for the pie charts
 Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
 
+Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
 
 Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
 
@@ -741,5 +642,7 @@ Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
 Route::post('/generate-report', [RevenueReportController::class, 'generate'])->name('generate.report');
 Route::post('/generate-revenue-report', [RevenueReportController::class, 'generateRevenueReport'])->name('generate.revenue.report');
 Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');
-Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
-Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
+
+
+use App\Http\Controllers\ExpenseController;
+Route::post('/expenses', [ExpenseController::class, 'getExpensesByDateRange'])->name('expenses');

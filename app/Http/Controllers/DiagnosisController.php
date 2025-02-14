@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Diagnosis;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class DiagnosisController extends Controller
 {
@@ -68,44 +69,68 @@ class DiagnosisController extends Controller
             return response()->json(['error' => 'Failed to save diagnoses'], 500);
         }
     }
-
     public function getDiseaseStatistics()
-    {
-        $targetDiseases = ['Autism', 'ADHD', 'Learning disorder', 'Intellectual development'];
-        $diseaseCounts = [
-            'Autism' => 0,
-            'ADHD' => 0,
-            'Learning disorder' => 0,
-            'Intellectual development' => 0,
-            'Other' => 0,
-        ];
+{
+    // Cache key for disease statistics
+    $cacheKey = 'disease_statistics'; 
+    $cachedData = Cache::get($cacheKey);
+    
+    if ($cachedData) {
+        // If cached data exists, log it and return
+        Log::info('Cached Disease Statistics Retrieved:', $cachedData);
+        return response()->json($cachedData);
+    }
 
-        // Fetch all records
-        $diagnoses = Diagnosis::all();
+    // Define target diseases (we keep 'ADHD' as a special case)
+    $targetDiseases = [
+        'Autism' => 'Autism', 
+        'Attention deficit' => 'ADHD',  // Changed ADHD to Attention deficit
+        'Learning disorder' => 'Learning disorder', 
+        'Intellectual development' => 'Intellectual development',
+    ];
+    
+    // Initialize disease counts
+    $diseaseCounts = array_fill_keys(array_values($targetDiseases), 0);
+    $diseaseCounts['Other'] = 0;
 
-        foreach ($diagnoses as $diagnosis) {
-            $data = $diagnosis->data['diagnoses'] ?? [];
-            $foundDiseases = [];
+    // Efficiently query diagnoses and filter relevant records
+    $diagnoses = Diagnosis::select('data')->get();
 
-            foreach ($data as $entry) {
-                foreach ($targetDiseases as $disease) {
-                    if (stripos($entry, $disease) !== false && !in_array($disease, $foundDiseases)) {
-                        $diseaseCounts[$disease]++;
-                        $foundDiseases[] = $disease;
-                    }
+    foreach ($diagnoses as $diagnosis) {
+        $data = $diagnosis->data['diagnoses'] ?? [];
+
+        // Use a set to prevent counting a disease multiple times
+        $foundDiseases = [];
+
+        foreach ($data as $entry) {
+            // Optimize the search by only checking each entry once
+            foreach ($targetDiseases as $keyword => $disease) {
+                // Check for substring match (case insensitive)
+                if (stripos($entry, $keyword) !== false && !isset($foundDiseases[$disease])) {
+                    $foundDiseases[$disease] = true;
+
+                    // Increase count for the matched disease
+                    $diseaseCounts[$disease]++;
+                    break;  // No need to check further diseases for this entry
                 }
-            }
-
-            // If no target disease found, classify as "Other"
-            if (empty($foundDiseases)) {
-                $diseaseCounts['Other']++;
             }
         }
 
-        // Log the results for debugging
-        Log::info('Disease Statistics: ', $diseaseCounts);
-
-        return response()->json($diseaseCounts);
+        // If no target disease found, classify as "Other"
+        if (empty($foundDiseases)) {
+            $diseaseCounts['Other']++;
+        }
     }
+
+    // Log the data before caching
+    Log::info('Disease Statistics Before Caching:', $diseaseCounts);
+
+    // Cache the disease statistics data for 60 minutes
+    Cache::put($cacheKey, $diseaseCounts, now()->addMinutes(60));
+
+    // Return the disease statistics
+    return response()->json($diseaseCounts);
 }
 
+    
+}

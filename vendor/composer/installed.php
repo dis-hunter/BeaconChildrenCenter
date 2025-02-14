@@ -1,9 +1,15 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
+<<<<<<< Updated upstream
         'pretty_version' => 'dev-J_branch',
         'version' => 'dev-J_branch',
         'reference' => '1a3436399502bc70646fe45cbf2c9510291eff01',
+=======
+        'pretty_version' => 'dev-OfficialBranch',
+        'version' => 'dev-OfficialBranch',
+        'reference' => '01e0dd41ff1f620fbc345bdb07e24bb2c9c3133f',
+>>>>>>> Stashed changes
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -527,9 +533,15 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
+<<<<<<< Updated upstream
             'pretty_version' => 'dev-J_branch',
             'version' => 'dev-J_branch',
             'reference' => '1a3436399502bc70646fe45cbf2c9510291eff01',
+=======
+            'pretty_version' => 'dev-OfficialBranch',
+            'version' => 'dev-OfficialBranch',
+            'reference' => '01e0dd41ff1f620fbc345bdb07e24bb2c9c3133f',
+>>>>>>> Stashed changes
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -563,9 +575,9 @@
             'dev_requirement' => false,
         ),
         'laravel/scout' => array(
-            'pretty_version' => 'v10.12.2',
-            'version' => '10.12.2.0',
-            'reference' => '88ef8612913c0b5302031bc1668568748e9fd0de',
+            'pretty_version' => 'v10.13.0',
+            'version' => '10.13.0.0',
+            'reference' => '5e7b990ee573e7369097e75e83f822908bdb982e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/scout',
             'aliases' => array(),
@@ -695,18 +707,18 @@
             ),
         ),
         'myclabs/deep-copy' => array(
-            'pretty_version' => '1.12.1',
-            'version' => '1.12.1.0',
-            'reference' => '123267b2c49fbf30d78a7b2d333f6be754b94845',
+            'pretty_version' => '1.13.0',
+            'version' => '1.13.0.0',
+            'reference' => '024473a478be9df5fdaca2c793f2232fe788e414',
             'type' => 'library',
             'install_path' => __DIR__ . '/../myclabs/deep-copy',
             'aliases' => array(),
             'dev_requirement' => true,
         ),
         'nesbot/carbon' => array(
-            'pretty_version' => '2.72.6',
-            'version' => '2.72.6.0',
-            'reference' => '1e9d50601e7035a4c61441a208cb5bed73e108c5',
+            'pretty_version' => '2.73.0',
+            'version' => '2.73.0.0',
+            'reference' => '9228ce90e1035ff2f0db84b40ec2e023ed802075',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nesbot/carbon',
             'aliases' => array(),
@@ -853,6 +865,15 @@
             'reference' => '6f8d87ebd5afbf7790bde1ffc7579c7c705e0fad',
             'type' => 'library',
             'install_path' => __DIR__ . '/../pragmarx/google2fa',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'predis/predis' => array(
+            'pretty_version' => 'v2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => 'bac46bfdb78cd6e9c7926c697012aae740cb9ec9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../predis/predis',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

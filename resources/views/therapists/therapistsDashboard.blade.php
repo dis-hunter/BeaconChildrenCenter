@@ -158,7 +158,8 @@ form {
   margin-left : 100px !important;
 }
   </style>
-  
+  @livewireStyles
+
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
@@ -190,6 +191,12 @@ form {
           <a href="#" onclick="showSection('patients')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
             <i class="fas fa-users"></i>
             <span class="sidebar-text">Patients</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showSection('leave')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+            <i class="fas fa-users"></i>
+            <span class="sidebar-text">Leave request</span>
           </a>
         </li>
       </ul>
@@ -235,20 +242,17 @@ form {
           <div class="bg-white rounded-lg shadow p-6">
           @livewireScripts
             <div class="calendar-container"></div>
-
+            @livewireScripts
             @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
 
-
-
-          <!--
-            <div id="appointments-list" class="mt-6 hidden">
-              <ul id="appointments-for-day" class="space-y-2"></ul>
-            </div>
-
-            !--->
-          </div>
-        </div>
-
+          <section>
+          <div id="leave" class="section hidden">
+          <div class="bg-white rounded-lg shadow p-6">
+          @livewireScripts
+            <div class="leave-container"></div>
+            @livewireScripts
+            @include('staff.leave_request')
+</section>
        <!-- Patients Section -->
       <section id="patients" class="section hidden">
         <div class="bg-white rounded-lg shadow p-6">
@@ -257,7 +261,6 @@ form {
           </header>
           <table class="min-w-full bg-white border-collapse">
             <thead>
-              <tr>
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Date/Time</th>
@@ -298,16 +301,20 @@ form {
     }
 
     function showSection(sectionId) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
         section.classList.add('hidden');
-      });
-      document.getElementById(sectionId).classList.remove('hidden');
+    });
+    document.getElementById(sectionId).classList.remove('hidden');
 
-      if (sectionId === 'calendar') {
-        generateCalendar();
-      } else if (sectionId === 'patients') {
+    if (sectionId === 'calendar') {
+        initCalendar(); // Reinitialize calendar
+        attachEventListeners();
+    }
+ else if (sectionId === 'patients') {
         generatePatientList();
+      }else if (sectionId === 'leave') {
+        
       }
 
       document.getElementById('appointments-list').classList.add('hidden');
@@ -483,6 +490,52 @@ async function startConsultation() {
 
     showSection('dashboard');
 </script>
+
+<script type="module">
+    import { initCalendar, prevMonth, nextMonth, updateEvents } from './calendar.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        initCalendar(); // Reinitialize calendar
+        attachEventListeners();
+        newListeners();
+    });
+
+    function attachEventListeners() {
+        document.querySelector(".prev").addEventListener("click", prevMonth);
+        document.querySelector(".next").addEventListener("click", nextMonth);
+
+        // Ensure event modal close functionality works
+        document.querySelectorAll(".close").forEach((closeBtn) => {
+            closeBtn.addEventListener("click", function () {
+                document.getElementById("reschedule-modal").classList.add("hidden");
+            });
+        });
+    }
+    function newListeners(){
+      document.addEventListener("click", function (event) {
+    // Open the "Add Event" modal
+    if (event.target.classList.contains("add-event")) {
+        document.querySelector(".add-event-wrapper")?.classList.add("active");
+    }
+
+    // Close the modal
+    if (event.target.classList.contains("close")) {
+        document.querySelector(".add-event-wrapper")?.classList.remove("active");
+    }
+});
+
+    }
+
+    import { closeEventModal } from './calendar.js';
+
+document.addEventListener("DOMContentLoaded", () => {
+    closeEventModal();
+});
+
+</script>
+
+
+
 <!-- <script>
     function generatePatientList() {
       const patientTableBody = document.getElementById("patient-table-body");
@@ -520,6 +573,7 @@ async function startConsultation() {
    
   </script> -->
 <script>
+  
   let selectedPatient = null;
 
   function generatePatientList() {

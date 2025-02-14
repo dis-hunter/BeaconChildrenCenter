@@ -34,11 +34,26 @@ class AppointmentController extends Controller
     $appointmentDate = $validatedData['appointment_date'];
     $startTime = $validatedData['start_time'];
     $endTime = $validatedData['end_time'];
-    $staffId = Auth::user()->id;
+    $staffId = $validatedData['staff_id'];
     $doctorId = $validatedData['doctor_id'];
     $appointmentTitle = $validatedData['appointment_title'];
     $childId = $validatedData['child_id'];
     $status = $validatedData['status'];
+    
+
+    if (Carbon::parse($appointmentDate)->lt(Carbon::today())) {
+        return response()->json([
+            'success' => false,
+            'message' => 'You cannot book an appointment for a past date.',
+        ]);
+    }
+
+    if (Carbon::parse($appointmentDate)->eq(Carbon::today()) && Carbon::parse($startTime)->lt(Carbon::now()->format('H:i'))) {
+        return response()->json([
+            'success' => false,
+            'message' => 'You cannot book an appointment for a past time today.',
+        ]);
+    }
 
     // Check if the daily limit for the doctor is reached
     $doctorAppointmentCount = Appointment::where('staff_id', $staffId)
@@ -53,18 +68,28 @@ class AppointmentController extends Controller
         ]);
     }
 
-    // Check if the doctor is booked during the requested time
     $doctorBookingConflict = Appointment::where('staff_id', $staffId)
-        ->where('appointment_date', $appointmentDate)
-        ->where(function ($query) use ($startTime, $endTime) {
-            $query->whereBetween('start_time', [$startTime, $endTime])
-                ->orWhereBetween('end_time', [$startTime, $endTime])
-                ->orWhere(function ($query) use ($startTime, $endTime) {
-                    $query->where('start_time', '<=', $startTime)
-                        ->where('end_time', '>=', $endTime);
-                });
+    ->where('appointment_date', $appointmentDate)
+    ->whereIn('status', ['pending', 'approved'])
+    ->where(function ($query) use ($startTime, $endTime) {
+        $query->where(function ($query) use ($startTime, $endTime) {
+            // Condition 1: New start time is within an existing appointment
+            $query->where('start_time', '<=', $startTime)
+                  ->where('end_time', '>', $startTime);
         })
-        ->exists();
+        ->orWhere(function ($query) use ($startTime, $endTime) {
+            // Condition 2: New end time is within an existing appointment
+            $query->where('start_time', '<', $endTime)
+                  ->where('end_time', '>=', $endTime);
+        })
+        ->orWhere(function ($query) use ($startTime, $endTime) {
+            // Condition 3: Existing appointment fully contained within new appointment
+            $query->where('start_time', '>=', $startTime)
+                  ->where('end_time', '<=', $endTime);
+        });
+    })
+    ->exists();
+
 
     if ($doctorBookingConflict) {
         return response()->json([
@@ -76,15 +101,26 @@ class AppointmentController extends Controller
     // Check if the child has overlapping appointments
     $childBookingConflict = Appointment::where('child_id', $childId)
         ->where('appointment_date', $appointmentDate)
-        ->where(function ($query) use ($startTime, $endTime) {
-            $query->whereBetween('start_time', [$startTime, $endTime])
-                ->orWhereBetween('end_time', [$startTime, $endTime])
-                ->orWhere(function ($query) use ($startTime, $endTime) {
-                    $query->where('start_time', '<=', $startTime)
-                        ->where('end_time', '>=', $endTime);
-                });
+        ->whereIn('status', ['pending', 'approved'])
+    ->where(function ($query) use ($startTime, $endTime) {
+        $query->where(function ($query) use ($startTime, $endTime) {
+            // Condition 1: New start time is within an existing appointment
+            $query->where('start_time', '<=', $startTime)
+                  ->where('end_time', '>', $startTime);
         })
-        ->exists();
+        ->orWhere(function ($query) use ($startTime, $endTime) {
+            // Condition 2: New end time is within an existing appointment
+            $query->where('start_time', '<', $endTime)
+                  ->where('end_time', '>=', $endTime);
+        })
+        ->orWhere(function ($query) use ($startTime, $endTime) {
+            // Condition 3: Existing appointment fully contained within new appointment
+            $query->where('start_time', '>=', $startTime)
+                  ->where('end_time', '<=', $endTime);
+        });
+    })
+    ->exists();
+
 
     if ($childBookingConflict) {
         return response()->json([
@@ -111,7 +147,6 @@ class AppointmentController extends Controller
         'message' => 'Appointment created successfully',
     ]);
 }
-
     
 
     // Show the form to create a new appointment
@@ -187,31 +222,39 @@ class AppointmentController extends Controller
     }
 
     public function therapistAppointments()
-{
-    $today = Carbon::today()->toDateString();
-    $therapistSpecializations = DoctorSpecialization::whereIn('specialization', [
-        'Speech Therapy', 'Occupational Therapy', 'Physiotherapy', 'ABA', 'Nutrition'
-    ])->pluck('id');
-
-    $appointments = Appointment::join('staff', 'appointments.staff_id', '=', 'staff.id')
-    ->whereIn('staff.specialization_id', $therapistSpecializations)
-    ->where('appointments.appointment_date', $today)
-    ->join('doctor_specialization', 'staff.specialization_id', '=', 'doctor_specialization.id')
-    ->join('children', 'appointments.child_id', '=', 'children.id') 
-    ->select(
-        'appointments.id',
-        DB::raw("CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'middle_name', ' ', children.fullname->>'last_name') as child_name"), 
-        'appointments.doctor_id',
-        'staff.fullname as staff_name',
-        'doctor_specialization.specialization',
-        'appointments.appointment_date',
-        'appointments.start_time',
-        'appointments.end_time'
-    )
-    ->get();
-
-return response()->json($appointments);
-}
+    {
+        $today = Carbon::today()->toDateString();
+        $therapistSpecializations = DoctorSpecialization::whereIn('specialization', [
+            'Speech Therapy', 'Occupational Therapy', 'Physiotherapy', 'ABA', 'Nutrition'
+        ])->pluck('id');
+    
+        $appointments = Appointment::join('staff', 'appointments.staff_id', '=', 'staff.id')
+        ->join('doctor_specialization', 'staff.specialization_id', '=', 'doctor_specialization.id')
+        ->join('children', 'appointments.child_id', '=', 'children.id')
+        ->whereIn('staff.specialization_id', $therapistSpecializations)
+        ->where('appointments.appointment_date', $today)
+        ->select(
+            'appointments.id',
+            DB::raw("TRIM(CONCAT(
+                COALESCE(children.fullname->>'first_name', ''), 
+                ' ', 
+                COALESCE(children.fullname->>'middle_name', ''), 
+                ' ', 
+                COALESCE(children.fullname->>'last_name', '')
+            )) AS child_name"),
+            'appointments.doctor_id',
+            'staff.fullname AS staff_name',
+            'doctor_specialization.specialization',
+            'appointments.appointment_date',
+            'appointments.start_time',
+            'appointments.end_time'
+        )
+        
+    
+        ->get();
+    
+    return response()->json($appointments);
+    }
 
 
 public function index()

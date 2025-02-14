@@ -191,26 +191,30 @@ class AuthController extends Controller
         
         // SQL query to join the 'appointments' and 'children' tables and retrieve the required data
         $appointments = DB::select(
-            DB::raw(
-                'SELECT 
-                    CONCAT(children.fullname->>\'first_name\', \' \', children.fullname->>\'middle_name\', \' \', children.fullname->>\'last_name\') AS child_name,
-                    appointments.start_time,
-                    appointments.end_time,
-                    parents.email AS parent_email,
-                    parents.telephone AS parent_telephone
-                FROM appointments
-                JOIN children ON appointments.child_id = children.id
-                LEFT JOIN child_parent ON children.id = child_parent.child_id
-                LEFT JOIN parents ON child_parent.parent_id = parents.id
-                WHERE appointments.staff_id = ? AND appointments.appointment_date = ?'
-            ),
+            'SELECT 
+                children.fullname->>\'first_name\' AS first_name,
+                children.fullname->>\'middle_name\' AS middle_name,
+                children.fullname->>\'last_name\' AS last_name,
+                appointments.start_time,
+                appointments.end_time,
+                parents.email AS parent_email,
+                parents.telephone AS parent_telephone
+            FROM appointments
+            JOIN children ON appointments.child_id = children.id
+            LEFT JOIN child_parent ON children.id = child_parent.child_id
+            LEFT JOIN parents ON child_parent.parent_id = parents.id
+            WHERE appointments.staff_id = ? AND appointments.appointment_date = ?',
             [$userId, $today]
         );
         
+        // Optionally, combine the names in PHP
+        foreach ($appointments as &$appointment) {
+            $appointment->child_name = "{$appointment->first_name} {$appointment->middle_name} {$appointment->last_name}";
+        }
         
-        // Return the results as JSON
+        // Return as JSON
         return response()->json($appointments);
-    }
+    }       
 
     public function getUserSpecializationAndDoctor(Request $request)
 {
