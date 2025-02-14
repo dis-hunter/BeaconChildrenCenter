@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>@yield('title','Reception')</title>
+
     <link rel="icon" type="image/png" href="{{asset('images/favicon.png')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -382,7 +383,6 @@
 
 
     </style>
-    @livewireStyles
 
 </head>
 <body>
@@ -397,8 +397,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-@livewireScripts
-
 
 <script>
     Livewire.on('parentUpdated', message => {

@@ -15,10 +15,14 @@ return [
             ],
 
             'save' => [
-                'label' => 'Guardar',
+                'label' => 'Desar canvis',
             ],
 
         ],
+
+    ],
+
+    'content' => [
 
         'tab' => [
             'label' => 'Editar',
@@ -26,8 +30,12 @@ return [
 
     ],
 
-    'messages' => [
-        'saved' => 'Guardat',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Canvis desats',
+        ],
+
     ],
 
 ];

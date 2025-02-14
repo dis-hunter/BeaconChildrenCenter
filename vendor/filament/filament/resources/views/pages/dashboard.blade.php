@@ -1,6 +1,16 @@
-<x-filament::page class="filament-dashboard-page">
-    <x-filament::widgets
-        :widgets="$this->getWidgets()"
+<x-filament-panels::page class="fi-dashboard-page">
+    @if (method_exists($this, 'filtersForm'))
+        {{ $this->filtersForm }}
+    @endif
+
+    <x-filament-widgets::widgets
         :columns="$this->getColumns()"
+        :data="
+            [
+                ...(property_exists($this, 'filters') ? ['filters' => $this->filters] : []),
+                ...$this->getWidgetData(),
+            ]
+        "
+        :widgets="$this->getVisibleWidgets()"
     />
-</x-filament::page>
+</x-filament-panels::page>

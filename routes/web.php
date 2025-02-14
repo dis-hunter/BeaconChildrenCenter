@@ -224,11 +224,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\IcdSearchController;
 
 
-Route::get('/admin', function () {
-    return view('beaconAdmin');
-});
 
-// General Routes
 // General Routes
 Route::view('/', 'home')->name('home');
 
@@ -394,7 +390,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
     
-    Route::get('/admin', [ChildrenController::class, 'showChildren2']);
+    //Route::get('/admin', [ChildrenController::class, 'showChildren2']);
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
     Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);

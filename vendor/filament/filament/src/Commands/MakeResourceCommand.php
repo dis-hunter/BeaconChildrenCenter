@@ -2,15 +2,22 @@
 
 namespace Filament\Commands;
 
+use Filament\Clusters\Cluster;
+use Filament\Facades\Filament;
 use Filament\Forms\Commands\Concerns\CanGenerateForms;
+use Filament\Panel;
 use Filament\Support\Commands\Concerns\CanIndentStrings;
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
 use Filament\Support\Commands\Concerns\CanReadModelSchemas;
-use Filament\Support\Commands\Concerns\CanValidateInput;
 use Filament\Tables\Commands\Concerns\CanGenerateTables;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
+
+#[AsCommand(name: 'make:filament-resource')]
 class MakeResourceCommand extends Command
 {
     use CanGenerateForms;
@@ -18,18 +25,18 @@ class MakeResourceCommand extends Command
     use CanIndentStrings;
     use CanManipulateFiles;
     use CanReadModelSchemas;
-    use CanValidateInput;
 
     protected $description = 'Create a new Filament resource class and default page classes';
 
-    protected $signature = 'make:filament-resource {name?} {--soft-deletes} {--view} {--G|generate} {--S|simple} {--F|force}';
+    protected $signature = 'make:filament-resource {name?} {--model-namespace=} {--soft-deletes} {--view} {--G|generate} {--S|simple} {--panel=} {--model} {--migration} {--factory} {--F|force}';
 
     public function handle(): int
     {
-        $path = config('filament.resources.path', app_path('Filament/Resources/'));
-        $namespace = config('filament.resources.namespace', 'App\\Filament\\Resources');
-
-        $model = (string) Str::of($this->argument('name') ?? $this->askRequired('Model (e.g. `BlogPost`)', 'name'))
+        $model = (string) str($this->argument('name') ?? text(
+            label: 'What is the model name?',
+            placeholder: 'BlogPost',
+            required: true,
+        ))
             ->studly()
             ->beforeLast('Resource')
             ->trim('/')
@@ -42,15 +49,82 @@ class MakeResourceCommand extends Command
             $model = 'Resource';
         }
 
-        $modelClass = (string) Str::of($model)->afterLast('\\');
-        $modelNamespace = Str::of($model)->contains('\\') ?
-            (string) Str::of($model)->beforeLast('\\') :
+        $modelNamespace = $this->option('model-namespace') ?? 'App\\Models';
+
+        if ($this->option('model')) {
+            $this->callSilently('make:model', [
+                'name' => "{$modelNamespace}\\{$model}",
+            ]);
+        }
+
+        if ($this->option('migration')) {
+            $table = (string) str($model)
+                ->classBasename()
+                ->pluralStudly()
+                ->snake();
+
+            $this->call('make:migration', [
+                'name' => "create_{$table}_table",
+                '--create' => $table,
+            ]);
+        }
+
+        if ($this->option('factory')) {
+            $this->callSilently('make:factory', [
+                'name' => $model,
+            ]);
+        }
+
+        $modelClass = (string) str($model)->afterLast('\\');
+        $modelSubNamespace = str($model)->contains('\\') ?
+            (string) str($model)->beforeLast('\\') :
             '';
-        $pluralModelClass = (string) Str::of($modelClass)->pluralStudly();
+        $pluralModelClass = (string) str($modelClass)->pluralStudly();
+        $needsAlias = $modelClass === 'Record';
+
+        $panel = $this->option('panel');
+
+        if ($panel) {
+            $panel = Filament::getPanel($panel, isStrict: false);
+        }
+
+        if (! $panel) {
+            $panels = Filament::getPanels();
+
+            /** @var Panel $panel */
+            $panel = (count($panels) > 1) ? $panels[select(
+                label: 'Which panel would you like to create this in?',
+                options: array_map(
+                    fn (Panel $panel): string => $panel->getId(),
+                    $panels,
+                ),
+                default: Filament::getDefaultPanel()->getId()
+            )] : Arr::first($panels);
+        }
+
+        $resourceDirectories = $panel->getResourceDirectories();
+        $resourceNamespaces = $panel->getResourceNamespaces();
+
+        foreach ($resourceDirectories as $resourceIndex => $resourceDirectory) {
+            if (str($resourceDirectory)->startsWith(base_path('vendor'))) {
+                unset($resourceDirectories[$resourceIndex]);
+                unset($resourceNamespaces[$resourceIndex]);
+            }
+        }
+
+        $namespace = (count($resourceNamespaces) > 1) ?
+            select(
+                label: 'Which namespace would you like to create this in?',
+                options: $resourceNamespaces
+            ) :
+            (Arr::first($resourceNamespaces) ?? 'App\\Filament\\Resources');
+        $path = (count($resourceDirectories) > 1) ?
+            $resourceDirectories[array_search($namespace, $resourceNamespaces)] :
+            (Arr::first($resourceDirectories) ?? app_path('Filament/Resources/'));
 
         $resource = "{$model}Resource";
         $resourceClass = "{$modelClass}Resource";
-        $resourceNamespace = $modelNamespace;
+        $resourceNamespace = $modelSubNamespace;
         $namespace .= $resourceNamespace !== '' ? "\\{$resourceNamespace}" : '';
         $listResourcePageClass = "List{$pluralModelClass}";
         $manageResourcePageClass = "Manage{$pluralModelClass}";
@@ -59,7 +133,7 @@ class MakeResourceCommand extends Command
         $viewResourcePageClass = "View{$modelClass}";
 
         $baseResourcePath =
-            (string) Str::of($resource)
+            (string) str($resource)
                 ->prepend('/')
                 ->prepend($path)
                 ->replace('\\', '/')
@@ -146,22 +220,35 @@ class MakeResourceCommand extends Command
 
         $tableBulkActions = implode(PHP_EOL, $tableBulkActions);
 
+        $potentialCluster = (string) str($namespace)->beforeLast('\Resources');
+        $clusterAssignment = null;
+        $clusterImport = null;
+
+        if (
+            class_exists($potentialCluster) &&
+            is_subclass_of($potentialCluster, Cluster::class)
+        ) {
+            $clusterAssignment = $this->indentString(PHP_EOL . PHP_EOL . 'protected static ?string $cluster = ' . class_basename($potentialCluster) . '::class;');
+            $clusterImport = "use {$potentialCluster};" . PHP_EOL;
+        }
+
         $this->copyStubToApp('Resource', $resourcePath, [
+            'clusterAssignment' => $clusterAssignment,
+            'clusterImport' => $clusterImport,
             'eloquentQuery' => $this->indentString($eloquentQuery, 1),
             'formSchema' => $this->indentString($this->option('generate') ? $this->getResourceFormSchema(
-                'App\\Models' . ($modelNamespace !== '' ? "\\{$modelNamespace}" : '') . '\\' . $modelClass,
+                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass,
             ) : '//', 4),
-            'model' => $model === 'Resource' ? 'Resource as ResourceModel' : $model,
-            'modelClass' => $model === 'Resource' ? 'ResourceModel' : $modelClass,
+            ...$this->generateModel($model, $modelNamespace, $modelClass),
             'namespace' => $namespace,
             'pages' => $this->indentString($pages, 3),
             'relations' => $this->indentString($relations, 1),
             'resource' => "{$namespace}\\{$resourceClass}",
             'resourceClass' => $resourceClass,
             'tableActions' => $this->indentString($tableActions, 4),
-            'tableBulkActions' => $this->indentString($tableBulkActions, 4),
+            'tableBulkActions' => $this->indentString($tableBulkActions, 5),
             'tableColumns' => $this->indentString($this->option('generate') ? $this->getResourceTableColumns(
-                'App\Models' . ($modelNamespace !== '' ? "\\{$modelNamespace}" : '') . '\\' . $modelClass,
+                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass,
             ) : '//', 4),
             'tableFilters' => $this->indentString(
                 $this->option('soft-deletes') ? 'Tables\Filters\TrashedFilter::make(),' : '//',
@@ -171,6 +258,8 @@ class MakeResourceCommand extends Command
 
         if ($this->option('simple')) {
             $this->copyStubToApp('ResourceManagePage', $manageResourcePagePath, [
+                'baseResourcePage' => 'Filament\\Resources\\Pages\\ManageRecords' . ($needsAlias ? ' as BaseManageRecords' : ''),
+                'baseResourcePageClass' => $needsAlias ? 'BaseManageRecords' : 'ManageRecords',
                 'namespace' => "{$namespace}\\{$resourceClass}\\Pages",
                 'resource' => "{$namespace}\\{$resourceClass}",
                 'resourceClass' => $resourceClass,
@@ -178,6 +267,8 @@ class MakeResourceCommand extends Command
             ]);
         } else {
             $this->copyStubToApp('ResourceListPage', $listResourcePagePath, [
+                'baseResourcePage' => 'Filament\\Resources\\Pages\\ListRecords' . ($needsAlias ? ' as BaseListRecords' : ''),
+                'baseResourcePageClass' => $needsAlias ? 'BaseListRecords' : 'ListRecords',
                 'namespace' => "{$namespace}\\{$resourceClass}\\Pages",
                 'resource' => "{$namespace}\\{$resourceClass}",
                 'resourceClass' => $resourceClass,
@@ -185,8 +276,8 @@ class MakeResourceCommand extends Command
             ]);
 
             $this->copyStubToApp('ResourcePage', $createResourcePagePath, [
-                'baseResourcePage' => 'Filament\\Resources\\Pages\\CreateRecord',
-                'baseResourcePageClass' => 'CreateRecord',
+                'baseResourcePage' => 'Filament\\Resources\\Pages\\CreateRecord' . ($needsAlias ? ' as BaseCreateRecord' : ''),
+                'baseResourcePageClass' => $needsAlias ? 'BaseCreateRecord' : 'CreateRecord',
                 'namespace' => "{$namespace}\\{$resourceClass}\\Pages",
                 'resource' => "{$namespace}\\{$resourceClass}",
                 'resourceClass' => $resourceClass,
@@ -197,6 +288,8 @@ class MakeResourceCommand extends Command
 
             if ($this->option('view')) {
                 $this->copyStubToApp('ResourceViewPage', $viewResourcePagePath, [
+                    'baseResourcePage' => 'Filament\\Resources\\Pages\\ViewRecord' . ($needsAlias ? ' as BaseViewRecord' : ''),
+                    'baseResourcePageClass' => $needsAlias ? 'BaseViewRecord' : 'ViewRecord',
                     'namespace' => "{$namespace}\\{$resourceClass}\\Pages",
                     'resource' => "{$namespace}\\{$resourceClass}",
                     'resourceClass' => $resourceClass,
@@ -216,6 +309,8 @@ class MakeResourceCommand extends Command
             $editPageActions = implode(PHP_EOL, $editPageActions);
 
             $this->copyStubToApp('ResourceEditPage', $editResourcePagePath, [
+                'baseResourcePage' => 'Filament\\Resources\\Pages\\EditRecord' . ($needsAlias ? ' as BaseEditRecord' : ''),
+                'baseResourcePageClass' => $needsAlias ? 'BaseEditRecord' : 'EditRecord',
                 'actions' => $this->indentString($editPageActions, 3),
                 'namespace' => "{$namespace}\\{$resourceClass}\\Pages",
                 'resource' => "{$namespace}\\{$resourceClass}",
@@ -224,8 +319,27 @@ class MakeResourceCommand extends Command
             ]);
         }
 
-        $this->info("Successfully created {$resource}!");
+        $this->components->info("Filament resource [{$resourcePath}] created successfully.");
 
         return static::SUCCESS;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function generateModel(string $model, string $modelNamespace, string $modelClass): array
+    {
+        $possibilities = ['Form', 'Table', 'Resource'];
+        $params = [];
+
+        if (in_array($model, $possibilities)) {
+            $params['model'] = "{$modelNamespace}\\{$model} as {$model}Model";
+            $params['modelClass'] = $model . 'Model';
+        } else {
+            $params['model'] = "{$modelNamespace}\\{$model}";
+            $params['modelClass'] = $modelClass;
+        }
+
+        return $params;
     }
 }

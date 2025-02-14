@@ -1,9 +1,9 @@
 <?php return array (
-  'akaunting/laravel-money' => 
+  'anourvalar/eloquent-serialize' => 
   array (
-    'providers' => 
+    'aliases' => 
     array (
-      0 => 'Akaunting\\Money\\Provider',
+      'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
     ),
   ),
   'barryvdh/laravel-debugbar' => 
@@ -31,6 +31,13 @@
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
     ),
   ),
+  'filament/actions' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Actions\\ActionsServiceProvider',
+    ),
+  ),
   'filament/filament' => 
   array (
     'providers' => 
@@ -43,6 +50,13 @@
     'providers' => 
     array (
       0 => 'Filament\\Forms\\FormsServiceProvider',
+    ),
+  ),
+  'filament/infolists' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\Infolists\\InfolistsServiceProvider',
     ),
   ),
   'filament/notifications' => 
@@ -66,15 +80,18 @@
       0 => 'Filament\\Tables\\TablesServiceProvider',
     ),
   ),
-  'jenssegers/agent' => 
+  'filament/widgets' => 
   array (
-    'aliases' => 
-    array (
-      'Agent' => 'Jenssegers\\Agent\\Facades\\Agent',
-    ),
     'providers' => 
     array (
-      0 => 'Jenssegers\\Agent\\AgentServiceProvider',
+      0 => 'Filament\\Widgets\\WidgetsServiceProvider',
+    ),
+  ),
+  'kirschbaum-development/eloquent-power-joins' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Kirschbaum\\PowerJoins\\PowerJoinsServiceProvider',
     ),
   ),
   'laravel/fortify' => 

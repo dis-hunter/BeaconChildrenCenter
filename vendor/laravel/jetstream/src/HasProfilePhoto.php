@@ -5,8 +5,6 @@ namespace Laravel\Jetstream;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Laravel\Jetstream\Features;
 
 trait HasProfilePhoto
 {
@@ -61,7 +59,7 @@ trait HasProfilePhoto
      */
     public function profilePhotoUrl(): Attribute
     {
-        return Attribute::get(function () {
+        return Attribute::get(function (): string {
             return $this->profile_photo_path
                     ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
                     : $this->defaultProfilePhotoUrl();

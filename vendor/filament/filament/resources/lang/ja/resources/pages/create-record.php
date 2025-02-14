@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => ':label作成',
+    'title' => ':label 作成',
 
     'breadcrumb' => '作成',
 
@@ -26,8 +26,12 @@ return [
 
     ],
 
-    'messages' => [
-        'created' => '作成しました',
+    'notifications' => [
+
+        'created' => [
+            'title' => '作成しました',
+        ],
+
     ],
 
 ];

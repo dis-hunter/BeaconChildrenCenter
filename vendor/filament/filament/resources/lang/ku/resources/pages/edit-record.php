@@ -2,32 +2,40 @@
 
 return [
 
-    'title' => 'دەستکاری :label',
+    'title' => 'دەستکاریکردنی :label',
 
-    'breadcrumb' => 'دەستکاری',
+    'breadcrumb' => 'دەستکاریکردن',
 
     'form' => [
 
         'actions' => [
 
             'cancel' => [
-                'label' => 'ڕەتکردنەوە',
+                'label' => 'پاشگەزبوونەوە',
             ],
 
             'save' => [
-                'label' => 'هەڵگرتن',
+                'label' => 'نوێکردنەوە',
             ],
 
-        ],
-
-        'tab' => [
-            'label' => 'دەستکاری',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'هەڵگیرا',
+    'content' => [
+
+        'tab' => [
+            'label' => 'دەستکاریکردن',
+        ],
+
+    ],
+
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'نوێکرایەوە',
+        ],
+
     ],
 
 ];

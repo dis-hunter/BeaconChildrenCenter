@@ -3,20 +3,23 @@
 namespace Filament\Tables\Columns\Concerns;
 
 use Closure;
+use Filament\Support\Enums\FontFamily;
 
 trait HasFontFamily
 {
-    protected string | Closure | null $fontFamily = null;
+    protected FontFamily | string | Closure | null $fontFamily = null;
 
-    public function fontFamily(string | Closure | null $fontFamily): static
+    public function fontFamily(FontFamily | string | Closure | null $family): static
     {
-        $this->fontFamily = $fontFamily;
+        $this->fontFamily = $family;
 
         return $this;
     }
 
-    public function getFontFamily(): ?string
+    public function getFontFamily(mixed $state): FontFamily | string | null
     {
-        return $this->evaluate($this->fontFamily);
+        return $this->evaluate($this->fontFamily, [
+            'state' => $state,
+        ]);
     }
 }

@@ -2,14 +2,14 @@
 
 return [
 
-    'title' => 'Харах :label',
+    'title' => 'Үзэх :label',
 
-    'breadcrumb' => 'Харах',
+    'breadcrumb' => 'Үзэх',
 
-    'form' => [
+    'content' => [
 
         'tab' => [
-            'label' => 'Харах',
+            'label' => 'Үзэх',
         ],
 
     ],

@@ -3,33 +3,42 @@
 namespace Filament\Tables\Actions;
 
 use Closure;
-use Exception;
-use Filament\Forms\ComponentContainer;
+use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\Components\Select;
-use Filament\Support\Actions\Concerns\CanCustomizeProcess;
+use Filament\Forms\Form;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Table;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
+
+use function Filament\Support\generate_search_column_expression;
+use function Filament\Support\generate_search_term_expression;
 
 class AssociateAction extends Action
 {
     use CanCustomizeProcess;
-    use Concerns\InteractsWithRelationship;
 
     protected ?Closure $modifyRecordSelectUsing = null;
 
     protected ?Closure $modifyRecordSelectOptionsQueryUsing = null;
 
-    protected bool | Closure $isAssociateAnotherDisabled = false;
+    protected bool | Closure $canAssociateAnother = true;
 
     protected bool | Closure $isRecordSelectPreloaded = false;
 
-    protected string | Closure | null $recordTitleAttribute = null;
-
+    /**
+     * @var array<string> | Closure | null
+     */
     protected array | Closure | null $recordSelectSearchColumns = null;
+
+    protected bool | Closure | null $isSearchForcedCaseInsensitive = null;
+
+    protected bool | Closure $isMultiple = false;
 
     public static function getDefaultName(): ?string
     {
@@ -40,46 +49,55 @@ class AssociateAction extends Action
     {
         parent::setUp();
 
-        $this->label(__('filament-support::actions/associate.single.label'));
+        $this->label(__('filament-actions::associate.single.label'));
 
-        $this->modalHeading(fn (): string => __('filament-support::actions/associate.single.modal.heading', ['label' => $this->getModelLabel()]));
+        $this->modalHeading(fn (): string => __('filament-actions::associate.single.modal.heading', ['label' => $this->getModelLabel()]));
 
-        $this->modalButton(__('filament-support::actions/associate.single.modal.actions.associate.label'));
+        $this->modalSubmitActionLabel(__('filament-actions::associate.single.modal.actions.associate.label'));
 
-        $this->modalWidth('lg');
+        $this->modalWidth(MaxWidth::Large);
 
-        $this->extraModalActions(function (): array {
-            return $this->isAssociateAnotherDisabled ? [] : [
-                $this->makeExtraModalAction('associateAnother', ['another' => true])
-                    ->label(__('filament-support::actions/associate.single.modal.actions.associate_another.label')),
-            ];
+        $this->extraModalFooterActions(function (): array {
+            return $this->canAssociateAnother ? [
+                $this->makeModalSubmitAction('associateAnother', arguments: ['another' => true])
+                    ->label(__('filament-actions::associate.single.modal.actions.associate_another.label')),
+            ] : [];
         });
 
-        $this->successNotificationTitle(__('filament-support::actions/associate.single.messages.associated'));
+        $this->successNotificationTitle(__('filament-actions::associate.single.notifications.associated.title'));
 
-        $this->color('secondary');
-
-        $this->button();
+        $this->color('gray');
 
         $this->form(fn (): array => [$this->getRecordSelect()]);
 
-        $this->action(function (array $arguments, ComponentContainer $form): void {
-            $this->process(function (array $data) {
-                /** @var HasMany | MorphMany $relationship */
-                $relationship = $this->getRelationship();
+        $this->action(function (array $arguments, array $data, Form $form, Table $table): void {
+            /** @var HasMany | MorphMany $relationship */
+            $relationship = Relation::noConstraints(fn () => $table->getRelationship());
 
-                $record = $relationship->getRelated()->query()->find($data['recordId']);
+            $record = $relationship->getQuery()->find($data['recordId']);
+
+            foreach (($this->isMultiple ? $record : [$record]) as $record) {
+                if ($record instanceof Model) {
+                    $this->record($record);
+                }
 
                 /** @var BelongsTo $inverseRelationship */
-                $inverseRelationship = $this->getInverseRelationshipFor($record);
+                $inverseRelationship = $table->getInverseRelationshipFor($record);
 
-                $inverseRelationship->associate($relationship->getParent());
-                $record->save();
-            });
+                $this->process(function () use ($inverseRelationship, $record, $relationship) {
+                    $inverseRelationship->associate($relationship->getParent());
+                    $record->save();
+                }, [
+                    'inverseRelationship' => $inverseRelationship,
+                    'relationship' => $relationship,
+                ]);
+            }
 
             if ($arguments['another'] ?? false) {
                 $this->callAfter();
                 $this->sendSuccessNotification();
+
+                $this->record(null);
 
                 $form->fill();
 
@@ -106,16 +124,19 @@ class AssociateAction extends Action
         return $this;
     }
 
-    public function recordTitleAttribute(string | Closure | null $attribute): static
+    public function associateAnother(bool | Closure $condition = true): static
     {
-        $this->recordTitleAttribute = $attribute;
+        $this->canAssociateAnother = $condition;
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `associateAnother()` instead.
+     */
     public function disableAssociateAnother(bool | Closure $condition = true): static
     {
-        $this->isAssociateAnotherDisabled = $condition;
+        $this->associateAnother(fn (AssociateAction $action): bool => ! $action->evaluate($condition));
 
         return $this;
     }
@@ -127,27 +148,19 @@ class AssociateAction extends Action
         return $this;
     }
 
-    public function isAssociateAnotherDisabled(): bool
+    public function canAssociateAnother(): bool
     {
-        return $this->evaluate($this->isAssociateAnotherDisabled);
+        return (bool) $this->evaluate($this->canAssociateAnother);
     }
 
     public function isRecordSelectPreloaded(): bool
     {
-        return $this->evaluate($this->isRecordSelectPreloaded);
+        return (bool) $this->evaluate($this->isRecordSelectPreloaded);
     }
 
-    public function getRecordTitleAttribute(): string
-    {
-        $attribute = $this->evaluate($this->recordTitleAttribute);
-
-        if (blank($attribute)) {
-            throw new Exception('Associate table action must have a `recordTitleAttribute()` defined, which is used to identify records to associate.');
-        }
-
-        return $attribute;
-    }
-
+    /**
+     * @param  array<string> | Closure | null  $columns
+     */
     public function recordSelectSearchColumns(array | Closure | null $columns): static
     {
         $this->recordSelectSearchColumns = $columns;
@@ -155,20 +168,35 @@ class AssociateAction extends Action
         return $this;
     }
 
+    /**
+     * @return array<string> | null
+     */
     public function getRecordSelectSearchColumns(): ?array
     {
         return $this->evaluate($this->recordSelectSearchColumns);
     }
 
+    public function multiple(bool | Closure $condition = true): static
+    {
+        $this->isMultiple = $condition;
+
+        return $this;
+    }
+
+    public function isMultiple(): bool
+    {
+        return (bool) $this->evaluate($this->isMultiple);
+    }
+
     public function getRecordSelect(): Select
     {
-        $getOptions = function (?string $search = null, ?array $searchColumns = []): array {
+        $table = $this->getTable();
+
+        $getOptions = function (int $optionsLimit, ?string $search = null, ?array $searchColumns = []) use ($table): array {
             /** @var HasMany | MorphMany $relationship */
-            $relationship = $this->getRelationship();
+            $relationship = Relation::noConstraints(fn () => $table->getRelationship());
 
-            $titleColumnName = $this->getRecordTitleAttribute();
-
-            $relationshipQuery = $relationship->getRelated()->query()->orderBy($titleColumnName);
+            $relationshipQuery = $relationship->getQuery();
 
             if ($this->modifyRecordSelectOptionsQueryUsing) {
                 $relationshipQuery = $this->evaluate($this->modifyRecordSelectOptionsQueryUsing, [
@@ -176,26 +204,31 @@ class AssociateAction extends Action
                 ]) ?? $relationshipQuery;
             }
 
-            if (filled($search)) {
-                $search = strtolower($search);
+            if (! isset($relationshipQuery->getQuery()->limit)) {
+                $relationshipQuery->limit($optionsLimit);
+            }
 
+            $titleAttribute = $this->getRecordTitleAttribute();
+            $titleAttribute = filled($titleAttribute) ? $relationshipQuery->qualifyColumn($titleAttribute) : null;
+
+            if (filled($search) && ($searchColumns || filled($titleAttribute))) {
                 /** @var Connection $databaseConnection */
                 $databaseConnection = $relationshipQuery->getConnection();
 
-                $searchOperator = match ($databaseConnection->getDriverName()) {
-                    'pgsql' => 'ilike',
-                    default => 'like',
-                };
+                $isForcedCaseInsensitive = $this->isSearchForcedCaseInsensitive();
 
-                $searchColumns ??= [$titleColumnName];
+                $search = generate_search_term_expression($search, $isForcedCaseInsensitive, $databaseConnection);
+                $searchColumns ??= [$titleAttribute];
+
                 $isFirst = true;
 
-                $relationshipQuery->where(function (Builder $query) use ($isFirst, $searchColumns, $searchOperator, $search): Builder {
-                    foreach ($searchColumns as $searchColumnName) {
+                $relationshipQuery->where(function (Builder $query) use ($databaseConnection, $isFirst, $isForcedCaseInsensitive, $searchColumns, $search): Builder {
+                    foreach ($searchColumns as $searchColumn) {
                         $whereClause = $isFirst ? 'where' : 'orWhere';
 
-                        $query->{"{$whereClause}Raw"}(
-                            "lower({$searchColumnName}) {$searchOperator} ?",
+                        $query->{$whereClause}(
+                            generate_search_column_expression($query->qualifyColumn($searchColumn), $isForcedCaseInsensitive, $databaseConnection),
+                            'like',
                             "%{$search}%",
                         );
 
@@ -206,28 +239,61 @@ class AssociateAction extends Action
                 });
             }
 
-            return $relationshipQuery
-                ->whereDoesntHave($this->getInverseRelationshipName(), function (Builder $query) use ($relationship): Builder {
-                    if ($relationship instanceof MorphMany) {
-                        return $query->where($relationship->getMorphType(), $relationship->getMorphClass())
-                            ->where($relationship->getQualifiedForeignKeyName(), $relationship->getParent()->getKey());
-                    }
+            $relationCountHash = $relationship->getRelationCountHash(incrementJoinCount: false);
 
-                    return $query->where($query->qualifyColumn($relationship->getParent()->getKeyName()), $relationship->getParent()->getKey());
-                })
+            if ($relationship instanceof MorphMany) {
+                $relationshipQuery->whereNotMorphedTo($table->getInverseRelationship(), $relationship->getParent());
+            } else {
+                $relationshipQuery
+                    ->whereDoesntHave($table->getInverseRelationship(), fn (Builder $query): Builder => $query->where(
+                        // https://github.com/filamentphp/filament/issues/8067
+                        $relationship->getParent()->getTable() === $relationship->getRelated()->getTable() ?
+                            "{$relationCountHash}.{$relationship->getParent()->getKeyName()}" :
+                            $relationship->getParent()->getQualifiedKeyName(),
+                        $relationship->getParent()->getKey(),
+                    ));
+            }
+
+            if (
+                filled($titleAttribute) &&
+                (! $this->hasCustomRecordTitle()) &&
+                ($this->hasCustomRecordTitleAttribute() || (! $this->getTable()->hasCustomRecordTitle()))
+            ) {
+                if (empty($relationshipQuery->getQuery()->orders)) {
+                    $relationshipQuery->orderBy($titleAttribute);
+                }
+
+                return $relationshipQuery
+                    ->pluck($titleAttribute, $relationship->getModel()->getQualifiedKeyName())
+                    ->all();
+            }
+
+            return $relationshipQuery
                 ->get()
                 ->mapWithKeys(fn (Model $record): array => [$record->getKey() => $this->getRecordTitle($record)])
-                ->toArray();
+                ->all();
         };
 
         $select = Select::make('recordId')
-            ->label(__('filament-support::actions/associate.single.modal.fields.record_id.label'))
+            ->label(__('filament-actions::associate.single.modal.fields.record_id.label'))
             ->required()
+            ->multiple($this->isMultiple())
             ->searchable($this->getRecordSelectSearchColumns() ?? true)
-            ->getSearchResultsUsing(static fn (Select $component, string $search): array => $getOptions(search: $search, searchColumns: $component->getSearchColumns()))
-            ->getOptionLabelUsing(fn ($value): string => $this->getRecordTitle($this->getRelationship()->getRelated()->query()->find($value)))
-            ->options(fn (): array => $this->isRecordSelectPreloaded() ? $getOptions() : [])
-            ->disableLabel();
+            ->getSearchResultsUsing(static fn (Select $component, string $search): array => $getOptions(optionsLimit: $component->getOptionsLimit(), search: $search, searchColumns: $component->getSearchColumns()))
+            ->getOptionLabelUsing(function ($value) use ($table): string {
+                $relationship = Relation::noConstraints(fn () => $table->getRelationship());
+
+                return $this->getRecordTitle($relationship->getQuery()->find($value));
+            })
+            ->getOptionLabelsUsing(function (array $values) use ($table): array {
+                $relationship = Relation::noConstraints(fn () => $table->getRelationship());
+
+                return $relationship->getQuery()->find($values)
+                    ->mapWithKeys(fn (Model $record): array => [$record->getKey() => $this->getRecordTitle($record)])
+                    ->all();
+            })
+            ->options(fn (Select $component): array => $this->isRecordSelectPreloaded() ? $getOptions(optionsLimit: $component->getOptionsLimit()) : [])
+            ->hiddenLabel();
 
         if ($this->modifyRecordSelectUsing) {
             $select = $this->evaluate($this->modifyRecordSelectUsing, [
@@ -236,5 +302,17 @@ class AssociateAction extends Action
         }
 
         return $select;
+    }
+
+    public function forceSearchCaseInsensitive(bool | Closure | null $condition = true): static
+    {
+        $this->isSearchForcedCaseInsensitive = $condition;
+
+        return $this;
+    }
+
+    public function isSearchForcedCaseInsensitive(): ?bool
+    {
+        return $this->evaluate($this->isSearchForcedCaseInsensitive);
     }
 }

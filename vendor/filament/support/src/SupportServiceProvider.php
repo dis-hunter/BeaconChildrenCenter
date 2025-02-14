@@ -3,27 +3,53 @@
 namespace Filament\Support;
 
 use Composer\InstalledVersions;
+use Filament\Commands\CacheComponentsCommand;
+use Filament\Support\Assets\AssetManager;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Colors\ColorManager;
+use Filament\Support\Commands\AboutCommand as FilamentAboutCommand;
+use Filament\Support\Commands\Aliases\MakeIssueCommand as MakeIssueCommandAlias;
+use Filament\Support\Commands\AssetsCommand;
 use Filament\Support\Commands\CheckTranslationsCommand;
+use Filament\Support\Commands\InstallCommand;
+use Filament\Support\Commands\MakeIssueCommand;
+use Filament\Support\Commands\OptimizeClearCommand;
+use Filament\Support\Commands\OptimizeCommand;
 use Filament\Support\Commands\UpgradeCommand;
-use Filament\Support\Testing\TestsActions;
-use HtmlSanitizer\Sanitizer;
-use HtmlSanitizer\SanitizerInterface;
+use Filament\Support\Components\ComponentManager;
+use Filament\Support\Components\Contracts\ScopedComponentManager;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Icons\IconManager;
+use Filament\Support\View\ViewManager;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
-use Livewire\Testing\TestableLivewire;
+use Laravel\Octane\Events\RequestReceived;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
 
 class SupportServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('filament-support')
+            ->name('filament')
             ->hasCommands([
+                AssetsCommand::class,
                 CheckTranslationsCommand::class,
+                FilamentAboutCommand::class,
+                InstallCommand::class,
+                MakeIssueCommand::class,
+                MakeIssueCommandAlias::class,
+                OptimizeClearCommand::class,
+                OptimizeCommand::class,
                 UpgradeCommand::class,
             ])
             ->hasConfigFile()
@@ -31,35 +57,31 @@ class SupportServiceProvider extends PackageServiceProvider
             ->hasViews();
     }
 
-    public function packageRegistered()
+    public function packageBooted(): void
     {
-        $this->app->scoped(
-            SanitizerInterface::class,
-            function () {
-                return Sanitizer::create(require __DIR__ . '/../config/html-sanitizer.php');
-            },
-        );
+        FilamentAsset::register([
+            Css::make('support', __DIR__ . '/../dist/index.css'),
+            Js::make('support', __DIR__ . '/../dist/index.js'),
+        ], 'filament/support');
 
-        TestableLivewire::mixin(new TestsActions());
-    }
-
-    public function packageBooted()
-    {
         Blade::directive('captureSlots', function (string $expression): string {
             return "<?php \$slotContents = get_defined_vars(); \$slots = collect({$expression})->mapWithKeys(fn (string \$slot): array => [\$slot => \$slotContents[\$slot] ?? null])->all(); unset(\$slotContents) ?>";
         });
 
-        Str::macro('lcfirst', function (string $string): string {
-            return Str::lower(Str::substr($string, 0, 1)) . Str::substr($string, 1);
+        Blade::directive('filamentScripts', function (string $expression): string {
+            return "<?php echo \Filament\Support\Facades\FilamentAsset::renderScripts({$expression}) ?>";
         });
 
-        Stringable::macro('lcfirst', function (): Stringable {
-            /** @phpstan-ignore-next-line */
-            return new Stringable(Str::lcfirst($this->value));
+        Blade::directive('filamentStyles', function (string $expression): string {
+            return "<?php echo \Filament\Support\Facades\FilamentAsset::renderStyles({$expression}) ?>";
+        });
+
+        Blade::extend(function ($view) {
+            return preg_replace('/\s*@trim\s*/m', '', $view);
         });
 
         Str::macro('sanitizeHtml', function (string $html): string {
-            return app(SanitizerInterface::class)->sanitize($html);
+            return app(HtmlSanitizerInterface::class)->sanitize($html);
         });
 
         Stringable::macro('sanitizeHtml', function (): Stringable {
@@ -67,7 +89,19 @@ class SupportServiceProvider extends PackageServiceProvider
             return new Stringable(Str::sanitizeHtml($this->value));
         });
 
-        if (class_exists(AboutCommand::class) && class_exists(InstalledVersions::class)) {
+        Str::macro('ucwords', function (string $value): string {
+            return implode(' ', array_map(
+                [Str::class, 'ucfirst'],
+                explode(' ', $value),
+            ));
+        });
+
+        Stringable::macro('ucwords', function (): Stringable {
+            /** @phpstan-ignore-next-line */
+            return new Stringable(Str::ucwords($this->value));
+        });
+
+        if (class_exists(InstalledVersions::class)) {
             $packages = [
                 'filament',
                 'forms',
@@ -76,7 +110,7 @@ class SupportServiceProvider extends PackageServiceProvider
                 'tables',
             ];
 
-            AboutCommand::add('Filament', [
+            AboutCommand::add('Filament', static fn () => [
                 'Version' => InstalledVersions::getPrettyVersion('filament/support'),
                 'Packages' => collect($packages)
                     ->filter(fn (string $package): bool => InstalledVersions::isInstalled("filament/{$package}"))
@@ -91,7 +125,80 @@ class SupportServiceProvider extends PackageServiceProvider
 
                     return "<fg=red;options=bold>PUBLISHED:</> {$publishedViewPaths->join(', ')}";
                 },
+                'Blade Icons' => function (): string {
+                    return File::exists(app()->bootstrapPath('cache/blade-icons.php'))
+                        ? '<fg=green;options=bold>CACHED</>'
+                        : '<fg=yellow;options=bold>NOT CACHED</>';
+                },
+                'Panel Components' => function (): string {
+                    if (! class_exists(CacheComponentsCommand::class)) {
+                        return '<options=bold>NOT AVAILABLE</>';
+                    }
+
+                    $path = app()->bootstrapPath('cache/filament/panels');
+
+                    return File::isDirectory($path) && ! File::isEmptyDirectory($path)
+                        ? '<fg=green;options=bold>CACHED</>'
+                        : '<fg=yellow;options=bold>NOT CACHED</>';
+                },
             ]);
         }
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                $this->package->basePath('/../config/filament.php') => config_path('filament.php'),
+            ], 'filament-config');
+
+            if (method_exists($this, 'optimizes')) {
+                $this->optimizes(
+                    optimize: 'filament:optimize', /** @phpstan-ignore-line */
+                    clear: 'filament:optimize-clear', /** @phpstan-ignore-line */
+                    key: 'filament', /** @phpstan-ignore-line */
+                );
+            }
+        }
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->app->scoped(
+            AssetManager::class,
+            fn () => new AssetManager,
+        );
+
+        $this->app->scoped(
+            ScopedComponentManager::class,
+            fn () => $this->app->make(ComponentManager::class)->clone(),
+        );
+        $this->app->booted(fn () => ComponentManager::resolveScoped());
+        class_exists(RequestReceived::class) && Event::listen(RequestReceived::class, fn () => ComponentManager::resolveScoped());
+
+        $this->app->scoped(
+            ColorManager::class,
+            fn () => new ColorManager,
+        );
+
+        $this->app->scoped(
+            IconManager::class,
+            fn () => new IconManager,
+        );
+
+        $this->app->scoped(
+            ViewManager::class,
+            fn () => new ViewManager,
+        );
+
+        $this->app->scoped(
+            HtmlSanitizerInterface::class,
+            fn (): HtmlSanitizer => new HtmlSanitizer(
+                (new HtmlSanitizerConfig)
+                    ->allowSafeElements()
+                    ->allowRelativeLinks()
+                    ->allowRelativeMedias()
+                    ->allowAttribute('class', allowedElements: '*')
+                    ->allowAttribute('style', allowedElements: '*')
+                    ->withMaxInputLength(500000),
+            ),
+        );
     }
 }

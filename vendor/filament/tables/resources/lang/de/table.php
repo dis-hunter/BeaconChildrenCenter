@@ -2,14 +2,26 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Spalten',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'und :count weitere',
+        'actions' => [
+            'label' => 'Aktion|Aktionen',
         ],
 
-        'messages' => [
-            'copied' => 'Kopiert',
+        'text' => [
+
+            'actions' => [
+                'collapse_list' => ':count weniger anzeigen',
+                'expand_list' => ':count weitere anzeigen',
+            ],
+
+            'more_list_items' => 'und :count weitere',
         ],
 
     ],
@@ -17,59 +29,54 @@ return [
     'fields' => [
 
         'bulk_select_page' => [
-            'label' => 'Alle Einträge für Massenaktion auswählen/abwählen.',
+            'label' => 'Alle Einträge für Stapelverarbeitung auswählen/abwählen.',
         ],
 
         'bulk_select_record' => [
-            'label' => 'Eintrag :key für Massenaktion auswählen/abwählen.',
+            'label' => 'Eintrag :key für Stapelverarbeitung auswählen/abwählen.',
         ],
 
-        'search_query' => [
+        'bulk_select_group' => [
+            'label' => 'Gruppe auswählen/abwählen :title für Stapelverarbeitung.',
+        ],
+
+        'search' => [
             'label' => 'Suche',
             'placeholder' => 'Suche',
+            'indicator' => 'Suche',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Seitennavigation',
+        'heading' => 'Zusammenfassung',
 
-        'overview' => '{1} Zeige 1 Ergebnis|[2,*] Zeige :first bis :last von :total Ergebnissen',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'pro Seite',
-
-                'options' => [
-                    'all' => 'Alle',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'Alle :label',
+            'group' => ':group Zusammenfassung',
+            'page' => 'Diese Seite',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Weiter zur Seite :page',
+            'average' => [
+                'label' => 'Durchschnitt',
             ],
 
-            'next' => [
-                'label' => 'Nächste',
+            'count' => [
+                'label' => 'Anzahl',
             ],
 
-            'previous' => [
-                'label' => 'Vorherige',
+            'sum' => [
+                'label' => 'Summe',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Sortieren beenden',
@@ -83,7 +90,11 @@ return [
             'label' => 'Filtern',
         ],
 
-        'open_actions' => [
+        'group' => [
+            'label' => 'Gruppe',
+        ],
+
+        'open_bulk_actions' => [
             'label' => 'Aktionen öffnen',
         ],
 
@@ -95,21 +106,19 @@ return [
 
     'empty' => [
 
-        'heading' => 'Keine Datensätze gefunden',
+        'heading' => 'Keine :model',
 
-        'buttons' => [
-
-            'reset_column_searches' => [
-                'label' => 'Suche zurücksetzen',
-            ],
-
-        ],
+        'description' => 'Erstelle ein(e) :model um zu beginnen.',
 
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => ' Filter anwenden',
+            ],
 
             'remove' => [
                 'label' => 'Filter löschen',
@@ -125,6 +134,8 @@ return [
             ],
 
         ],
+
+        'heading' => 'Filter',
 
         'indicator' => 'Aktive Filter',
 
@@ -150,13 +161,37 @@ return [
 
     ],
 
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Gruppieren nach',
+                'placeholder' => 'Gruppieren nach',
+            ],
+
+            'direction' => [
+
+                'label' => 'Gruppierungsrichtung',
+
+                'options' => [
+                    'asc' => 'Aufsteigend',
+                    'desc' => 'Absteigend',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'reorder_indicator' => 'Zum Sortieren die Einträge per Drag & Drop in die richtige Reihenfolge ziehen.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 Datensatz ausgewählt.|:count Datensätze ausgewählt.',
+        'selected_count' => '1 Datensatz ausgewählt|:count Datensätze ausgewählt',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Alle :count Datensätze auswählen',

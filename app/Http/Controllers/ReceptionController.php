@@ -21,11 +21,20 @@ class ReceptionController extends Controller
         // Fetch only today's appointments
         $dashboard->appointments = appointments::whereDate('appointment_date', Carbon::today())->get();
 
-        // Default values for counts (ensuring zero if no records exist)
-        $dashboard->totalAppointments = $dashboard->appointments->count() ;
-        $dashboard->pendingAppointments = $dashboard->appointments->where('status', 'pending')->count();
-        $dashboard->ongoingAppointments = $dashboard->appointments->where('status', 'on-going')->count() ?? 0;
-        $dashboard->rejectedAppointments = $dashboard->appointments->where('status', 'rejected')->count() ?? 0;
+        $appointmentStats = Appointments::whereDate('appointment_date', Carbon::today())->selectRaw("
+            COUNT (*) as total,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+            SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
+            SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+        ")->first();
+
+       
+        $dashboard->totalAppointments = $appointmentStats->total ?? '-';
+        $dashboard->ongoingAppointments = $appointmentStats->ongoing ?? '-';
+        $dashboard->pendingAppointments = $appointmentStats->pending ?? '-';
+        $dashboard->rejectedAppointments = $appointmentStats->rejected ?? '-';
+        $dashboard->successfulAppointments = $appointmentStats->success ?? '-';
 
         // Fetch active users
         $dashboard->activeUsers = User::getActiveUsers();

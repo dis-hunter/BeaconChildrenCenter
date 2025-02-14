@@ -3,28 +3,33 @@
 namespace Filament\Tables\Filters\Concerns;
 
 use Closure;
+use Filament\Tables\Filters\Indicator;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
 
 trait HasIndicators
 {
-    public string | Closure | null $indicateUsing = null;
+    protected string | Closure | null $indicateUsing = null;
 
-    public string | Closure | null $indicator = null;
+    protected Indicator | string | Htmlable | Closure | null $indicator = null;
 
-    public function indicator(string | Closure | null $indicator): static
+    public function indicator(Indicator | string | Htmlable | Closure | null $indicator): static
     {
         $this->indicator = $indicator;
 
         return $this;
     }
 
-    public function indicateUsing(Closure | null $callback): static
+    public function indicateUsing(?Closure $callback): static
     {
         $this->indicateUsing = $callback;
 
         return $this;
     }
 
+    /**
+     * @return array<Indicator>
+     */
     public function getIndicators(): array
     {
         $state = $this->getState();
@@ -38,10 +43,24 @@ trait HasIndicators
             return [];
         }
 
-        return Arr::wrap($indicators);
+        $indicators = Arr::wrap($indicators);
+
+        foreach ($indicators as $field => $indicator) {
+            if (! $indicator instanceof Indicator) {
+                $indicator = Indicator::make($indicator);
+            }
+
+            if (is_string($field)) {
+                $indicator = $indicator->removeField($field);
+            }
+
+            $indicators[$field] = $indicator;
+        }
+
+        return $indicators;
     }
 
-    public function getIndicator(): string
+    public function getIndicator(): Indicator | string | Htmlable
     {
         $state = $this->getState();
 

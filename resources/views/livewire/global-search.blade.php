@@ -8,7 +8,7 @@
                 type="text"
                 class="form-control"
                 placeholder="Search..."
-                wire:model.debounce.300ms="query"
+                wire:model.live.debounce.300ms="query"
                 wire:focus="$set('isFocused',true)"
                 wire:blur="$set('isFocused',false)"
                 style="width: 300px;"

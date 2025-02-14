@@ -12,11 +12,16 @@ use Throwable;
 
 class ImageColumn extends Column
 {
-    protected string $view = 'tables::columns.image-column';
+    use Concerns\CanWrap;
+
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-tables::columns.image-column';
 
     protected string | Closure | null $disk = null;
 
-    protected int | string | Closure | null $height = 40;
+    protected int | string | Closure | null $height = null;
 
     protected bool | Closure $isCircular = false;
 
@@ -26,16 +31,28 @@ class ImageColumn extends Column
 
     protected int | string | Closure | null $width = null;
 
+    /**
+     * @var array<array<mixed> | Closure>
+     */
     protected array $extraImgAttributes = [];
 
     protected string | Closure | null $defaultImageUrl = null;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    protected bool | Closure $isStacked = false;
 
-        $this->disk(config('tables.default_filesystem_disk'));
-    }
+    protected int | Closure | null $overlap = null;
+
+    protected int | Closure | null $ring = null;
+
+    protected int | Closure | null $limit = null;
+
+    protected bool | Closure $hasLimitedRemainingText = false;
+
+    protected bool | Closure $isLimitedRemainingTextSeparate = false;
+
+    protected string | Closure | null $limitedRemainingTextSize = null;
+
+    protected bool | Closure $shouldCheckFileExistence = true;
 
     public function disk(string | Closure | null $disk): static
     {
@@ -102,7 +119,7 @@ class ImageColumn extends Column
 
     public function getDiskName(): string
     {
-        return $this->evaluate($this->disk) ?? config('tables.default_filesystem_disk');
+        return $this->evaluate($this->disk) ?? config('filament.default_filesystem_disk');
     }
 
     public function getHeight(): ?string
@@ -127,27 +144,23 @@ class ImageColumn extends Column
         return $this;
     }
 
-    public function getImagePath(): ?string
+    public function getImageUrl(?string $state = null): ?string
     {
-        $state = $this->getState();
-
-        if (! $state) {
-            return $this->getDefaultImageUrl();
-        }
-
-        if (filter_var($state, FILTER_VALIDATE_URL) !== false) {
+        if ((filter_var($state, FILTER_VALIDATE_URL) !== false) || str($state)->startsWith('data:')) {
             return $state;
         }
 
         /** @var FilesystemAdapter $storage */
         $storage = $this->getDisk();
 
-        try {
-            if (! $storage->exists($state)) {
+        if ($this->shouldCheckFileExistence()) {
+            try {
+                if (! $storage->exists($state)) {
+                    return null;
+                }
+            } catch (UnableToCheckFileExistence $exception) {
                 return null;
             }
-        } catch (UnableToCheckFileExistence $exception) {
-            return null;
         }
 
         if ($this->getVisibility() === 'private') {
@@ -191,7 +204,7 @@ class ImageColumn extends Column
 
     public function isCircular(): bool
     {
-        return $this->evaluate($this->isCircular);
+        return (bool) $this->evaluate($this->isCircular);
     }
 
     /**
@@ -204,9 +217,12 @@ class ImageColumn extends Column
 
     public function isSquare(): bool
     {
-        return $this->evaluate($this->isSquare);
+        return (bool) $this->evaluate($this->isSquare);
     }
 
+    /**
+     * @param  array<mixed> | Closure  $attributes
+     */
     public function extraImgAttributes(array | Closure $attributes, bool $merge = false): static
     {
         if ($merge) {
@@ -218,9 +234,12 @@ class ImageColumn extends Column
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getExtraImgAttributes(): array
     {
-        $temporaryAttributeBag = new ComponentAttributeBag();
+        $temporaryAttributeBag = new ComponentAttributeBag;
 
         foreach ($this->extraImgAttributes as $extraImgAttributes) {
             $temporaryAttributeBag = $temporaryAttributeBag->merge($this->evaluate($extraImgAttributes));
@@ -232,5 +251,103 @@ class ImageColumn extends Column
     public function getExtraImgAttributeBag(): ComponentAttributeBag
     {
         return new ComponentAttributeBag($this->getExtraImgAttributes());
+    }
+
+    public function stacked(bool | Closure $condition = true): static
+    {
+        $this->isStacked = $condition;
+
+        return $this;
+    }
+
+    public function isStacked(): bool
+    {
+        return (bool) $this->evaluate($this->isStacked);
+    }
+
+    public function overlap(int | Closure | null $overlap): static
+    {
+        $this->overlap = $overlap;
+
+        return $this;
+    }
+
+    public function getOverlap(): ?int
+    {
+        return $this->evaluate($this->overlap);
+    }
+
+    public function ring(int | Closure | null $ring): static
+    {
+        $this->ring = $ring;
+
+        return $this;
+    }
+
+    public function getRing(): ?int
+    {
+        return $this->evaluate($this->ring);
+    }
+
+    public function limit(int | Closure | null $limit = 3): static
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    public function getLimit(): ?int
+    {
+        return $this->evaluate($this->limit);
+    }
+
+    public function limitedRemainingText(bool | Closure $condition = true, bool | Closure $isSeparate = false, string | Closure | null $size = null): static
+    {
+        $this->hasLimitedRemainingText = $condition;
+        $this->limitedRemainingTextSeparate($isSeparate);
+        $this->limitedRemainingTextSize($size);
+
+        return $this;
+    }
+
+    public function limitedRemainingTextSeparate(bool | Closure $condition = true): static
+    {
+        $this->isLimitedRemainingTextSeparate = $condition;
+
+        return $this;
+    }
+
+    public function hasLimitedRemainingText(): bool
+    {
+        return (bool) $this->evaluate($this->hasLimitedRemainingText);
+    }
+
+    public function isLimitedRemainingTextSeparate(): bool
+    {
+        return (bool) $this->evaluate($this->isLimitedRemainingTextSeparate);
+    }
+
+    public function limitedRemainingTextSize(string | Closure | null $size): static
+    {
+        $this->limitedRemainingTextSize = $size;
+
+        return $this;
+    }
+
+    public function getLimitedRemainingTextSize(): ?string
+    {
+        return $this->evaluate($this->limitedRemainingTextSize);
+    }
+
+    public function checkFileExistence(bool | Closure $condition = true): static
+    {
+        $this->shouldCheckFileExistence = $condition;
+
+        return $this;
+    }
+
+    public function shouldCheckFileExistence(): bool
+    {
+        return (bool) $this->evaluate($this->shouldCheckFileExistence);
     }
 }

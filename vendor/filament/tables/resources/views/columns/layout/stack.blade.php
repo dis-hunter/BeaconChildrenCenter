@@ -1,27 +1,36 @@
+@php
+    use Filament\Support\Enums\Alignment;
+
+    $alignment = $getAlignment() ?? Alignment::Start;
+
+    if (! $alignment instanceof Alignment) {
+        $alignment = filled($alignment) ? (Alignment::tryFrom($alignment) ?? $alignment) : null;
+    }
+@endphp
+
 <div
     {{
         $attributes
-            ->merge($getExtraAttributes())
+            ->merge($getExtraAttributes(), escape: false)
             ->class([
                 'flex flex-col',
-                match ($getAlignment()) {
-                    'start' => 'items-start',
-                    'center' => 'items-center',
-                    'end' => 'items-end',
-                    'left' => 'items-start',
-                    'right' => 'items-end',
-                    default => 'items-start',
+                match ($alignment) {
+                    Alignment::Start, Alignment::Left => 'items-start',
+                    Alignment::Center => 'items-center',
+                    Alignment::End, Alignment::Right => 'items-end',
+                    Alignment::Justify, Alignment::Between => null,
+                    default => $alignment,
                 },
-                match ($getSpace()) {
+                match ($space = $getSpace()) {
                     1 => 'space-y-1',
                     2 => 'space-y-2',
                     3 => 'space-y-3',
-                    default => null,
+                    default => $space,
                 },
             ])
     }}
 >
-    <x-tables::columns.layout
+    <x-filament-tables::columns.layout
         :components="$getComponents()"
         :record="$getRecord()"
         :record-key="$recordKey"

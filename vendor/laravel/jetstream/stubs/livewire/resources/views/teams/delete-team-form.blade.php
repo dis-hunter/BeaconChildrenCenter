@@ -19,7 +19,7 @@
         </div>
 
         <!-- Delete Team Confirmation Modal -->
-        <x-confirmation-modal wire:model="confirmingTeamDeletion">
+        <x-confirmation-modal wire:model.live="confirmingTeamDeletion">
             <x-slot name="title">
                 {{ __('Delete Team') }}
             </x-slot>
@@ -33,7 +33,7 @@
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ml-3" wire:click="deleteTeam" wire:loading.attr="disabled">
+                <x-danger-button class="ms-3" wire:click="deleteTeam" wire:loading.attr="disabled">
                     {{ __('Delete Team') }}
                 </x-danger-button>
             </x-slot>

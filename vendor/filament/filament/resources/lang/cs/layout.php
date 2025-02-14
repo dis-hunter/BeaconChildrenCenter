@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Zapnout tmavý režim',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Zobrazit notifikace',
-        ],
-
-        'light_mode' => [
-            'label' => 'Zapnout světlý režim',
+        'billing' => [
+            'label' => 'Správa předplatného',
         ],
 
         'logout' => [
             'label' => 'Odhlásit se',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Zobrazit notifikace',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Nabídka uživatele',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Nabídka uživatele',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Zapnout tmavý režim',
+            ],
+
+            'light' => [
+                'label' => 'Zapnout světlý režim',
+            ],
+
+            'system' => [
+                'label' => 'Použít nastavení systému',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Profilový obrázek pro :name',
+    ],
+
+    'logo' => [
+        'alt' => ':name logo',
     ],
 
 ];

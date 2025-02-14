@@ -2,20 +2,20 @@
 
 namespace Filament\Tables\Concerns;
 
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\WithPagination;
+use Illuminate\Support\Facades\App;
 
 trait CanPaginateRecords
 {
-    use WithPagination {
-        WithPagination::resetPage as livewireResetPage;
-    }
+    /**
+     * @var int | string | null
+     */
+    public $tableRecordsPerPage = null;
 
-    public $tableRecordsPerPage;
-
-    protected int $defaultTableRecordsPerPageSelectOption = 0;
+    protected int | string | null $defaultTableRecordsPerPageSelectOption = null;
 
     public function updatedTableRecordsPerPage(): void
     {
@@ -26,50 +26,61 @@ trait CanPaginateRecords
         $this->resetPage();
     }
 
-    protected function paginateTableQuery(Builder $query): Paginator
+    protected function paginateTableQuery(Builder $query): Paginator | CursorPaginator
     {
-        /** @var LengthAwarePaginator $records */
-        $records = $query->paginate(
-            $this->getTableRecordsPerPage() === -1 ? $query->count() : $this->getTableRecordsPerPage(),
-            ['*'],
-            $this->getTablePaginationPageName(),
-        );
+        $perPage = $this->getTableRecordsPerPage();
 
-        return $records->onEachSide(1);
+        if (version_compare(App::version(), '11.0', '>=')) {
+            $total = $query->toBase()->getCountForPagination();
+
+            /** @var LengthAwarePaginator $records */
+            $records = $query->paginate(
+                perPage: ($perPage === 'all') ? $total : $perPage,
+                columns: ['*'],
+                pageName: $this->getTablePaginationPageName(),
+                total: $total,
+            );
+        } else {
+            /** @var LengthAwarePaginator $records */
+            $records = $query->paginate(
+                perPage: ($perPage === 'all') ? $query->toBase()->getCountForPagination() : $perPage,
+                columns: ['*'],
+                pageName: $this->getTablePaginationPageName(),
+            );
+        }
+
+        return $records->onEachSide(0);
     }
 
-    protected function getTableRecordsPerPage(): int
+    public function getTableRecordsPerPage(): int | string | null
     {
-        return (int) $this->tableRecordsPerPage;
+        return $this->tableRecordsPerPage;
     }
 
-    protected function getTableRecordsPerPageSelectOptions(): array
+    public function getTablePage(): int
     {
-        return config('tables.pagination.records_per_page_select_options') ?? [5, 10, 25, 50, -1];
+        return $this->getPage($this->getTablePaginationPageName());
     }
 
-    protected function getDefaultTableRecordsPerPageSelectOption(): int
+    public function getDefaultTableRecordsPerPageSelectOption(): int | string
     {
-        $perPage = session()->get(
+        $option = session()->get(
             $this->getTablePerPageSessionKey(),
-            $this->defaultTableRecordsPerPageSelectOption ?: config('tables.pagination.default_records_per_page'),
+            $this->defaultTableRecordsPerPageSelectOption ?? $this->getTable()->getDefaultPaginationPageOption(),
         );
 
-        if (in_array($perPage, $this->getTableRecordsPerPageSelectOptions())) {
-            return $perPage;
+        $pageOptions = $this->getTable()->getPaginationPageOptions();
+
+        if (in_array($option, $pageOptions)) {
+            return $option;
         }
 
         session()->remove($this->getTablePerPageSessionKey());
 
-        return $this->getTableRecordsPerPageSelectOptions()[0];
+        return $pageOptions[0];
     }
 
-    protected function isTablePaginationEnabled(): bool
-    {
-        return true;
-    }
-
-    protected function getTablePaginationPageName(): string
+    public function getTablePaginationPageName(): string
     {
         return $this->getIdentifiedTableQueryStringPropertyNameFor('page');
     }
@@ -81,8 +92,21 @@ trait CanPaginateRecords
         return "tables.{$table}_per_page";
     }
 
-    public function resetPage(?string $pageName = null): void
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     *
+     * @return array<int | string> | null
+     */
+    protected function getTableRecordsPerPageSelectOptions(): ?array
     {
-        $this->livewireResetPage($pageName ?? $this->getTablePaginationPageName());
+        return null;
+    }
+
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected function isTablePaginationEnabled(): bool
+    {
+        return true;
     }
 }

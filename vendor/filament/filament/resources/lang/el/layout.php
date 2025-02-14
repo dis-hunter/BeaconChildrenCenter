@@ -4,26 +4,30 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
-
-        'dark_mode' => [
-            'label' => 'Σκοτεινή λειτουργία',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Προβολή ειδοποιήσεων',
-        ],
-
-        'light_mode' => [
-            'label' => 'Φωτεινή λειτουργία',
-        ],
+    'actions' => [
 
         'logout' => [
             'label' => 'Αποσύνδεση',
         ],
 
-        'user_menu' => [
+        'open_database_notifications' => [
+            'label' => 'Προβολή ειδοποιήσεων',
+        ],
+
+        'open_user_menu' => [
             'label' => 'Μενού χρήστη',
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Σκοτεινή λειτουργία',
+            ],
+
+            'light' => [
+                'label' => 'Φωτεινή λειτουργία',
+            ],
+
         ],
 
     ],

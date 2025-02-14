@@ -7,9 +7,8 @@ use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Log\LogManager;
-use Monolog\Formatter\JsonFormatter;
+use Illuminate\Support\Env;
 use Monolog\Handler\NullHandler;
-use Monolog\Handler\SocketHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Throwable;
@@ -62,33 +61,17 @@ class HandleExceptions
      * @param  string  $message
      * @param  string  $file
      * @param  int  $line
-     * @param  array  $context
      * @return void
      *
      * @throws \ErrorException
      */
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    public function handleError($level, $message, $file = '', $line = 0)
     {
         if ($this->isDeprecation($level)) {
             $this->handleDeprecationError($message, $file, $line, $level);
         } elseif (error_reporting() & $level) {
             throw new ErrorException($message, 0, $level, $file, $line);
         }
-    }
-
-    /**
-     * Reports a deprecation to the "deprecations" logger.
-     *
-     * @param  string  $message
-     * @param  string  $file
-     * @param  int  $line
-     * @return void
-     *
-     * @deprecated Use handleDeprecationError instead.
-     */
-    public function handleDeprecation($message, $file, $line)
-    {
-        $this->handleDeprecationError($message, $file, $line);
     }
 
     /**
@@ -108,7 +91,7 @@ class HandleExceptions
 
         try {
             $logger = static::$app->make(LogManager::class);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
 
@@ -136,7 +119,7 @@ class HandleExceptions
     {
         return ! class_exists(LogManager::class)
             || ! static::$app->hasBeenBootstrapped()
-            || static::$app->runningUnitTests();
+            || (static::$app->runningUnitTests() && ! Env::get('LOG_DEPRECATIONS_WHILE_TESTING'));
     }
 
     /**
@@ -198,7 +181,7 @@ class HandleExceptions
 
         try {
             $this->getExceptionHandler()->report($e);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $exceptionHandlerFailed = true;
         }
 

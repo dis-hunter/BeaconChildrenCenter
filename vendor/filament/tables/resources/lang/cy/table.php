@@ -8,10 +8,6 @@ return [
             'more' => 'Ychwanegu :count arall',
         ],
 
-        'messages' => [
-            'copied' => 'Wedi Copïo',
-        ],
-
     ],
 
     'fields' => [
@@ -31,45 +27,7 @@ return [
 
     ],
 
-    'pagination' => [
-
-        'label' => 'Gwe-lywio tudalennau',
-
-        'overview' => '{1} Dangos 1 canlyniad|[2,*] Yn dangos :first i :last o :total canlyniadau',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'fesul tudalen',
-
-                'options' => [
-                    'all' => 'Pawb',
-                ],
-
-            ],
-
-        ],
-
-        'buttons' => [
-
-            'go_to_page' => [
-                'label' => 'Ewch i dudalen :page',
-            ],
-
-            'next' => [
-                'label' => 'Nesaf',
-            ],
-
-            'previous' => [
-                'label' => 'Blaenorol',
-            ],
-
-        ],
-
-    ],
-
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Gorffen ail archebu cofnodion',
@@ -97,19 +55,11 @@ return [
 
         'heading' => 'Ni ddarganfuwyd unrhyw gofnodion',
 
-        'buttons' => [
-
-            'reset_column_searches' => [
-                'label' => 'Clirio colofn chwilio',
-            ],
-
-        ],
-
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
 
             'remove' => [
                 'label' => 'Tynnu hidlydd',
@@ -154,9 +104,9 @@ return [
 
     'selection_indicator' => [
 
-        'selected_count' => 'Dewiswyd 1 cofnod.|:count rcyfrif wedi`u dewis.',
+        'selected_count' => 'Dewiswyd 1 cofnod|:count rcyfrif wedi`u dewis',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Dewiswch bob :count',

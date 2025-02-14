@@ -4,7 +4,7 @@ return [
 
     'title' => ':label szerkesztése',
 
-    'breadcrumb' => 'Szerkeszt',
+    'breadcrumb' => 'Szerkesztés',
 
     'form' => [
 
@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Szerkesztés',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Mentve',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Mentve',
+        ],
+
     ],
 
 ];

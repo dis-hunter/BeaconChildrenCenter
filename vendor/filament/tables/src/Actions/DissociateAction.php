@@ -2,14 +2,15 @@
 
 namespace Filament\Tables\Actions;
 
-use Filament\Support\Actions\Concerns\CanCustomizeProcess;
+use Filament\Actions\Concerns\CanCustomizeProcess;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DissociateAction extends Action
 {
     use CanCustomizeProcess;
-    use Concerns\InteractsWithRelationship;
 
     public static function getDefaultName(): ?string
     {
@@ -20,24 +21,26 @@ class DissociateAction extends Action
     {
         parent::setUp();
 
-        $this->label(__('filament-support::actions/dissociate.single.label'));
+        $this->label(__('filament-actions::dissociate.single.label'));
 
-        $this->modalHeading(fn (): string => __('filament-support::actions/dissociate.single.modal.heading', ['label' => $this->getRecordTitle()]));
+        $this->modalHeading(fn (): string => __('filament-actions::dissociate.single.modal.heading', ['label' => $this->getRecordTitle()]));
 
-        $this->modalButton(__('filament-support::actions/dissociate.single.modal.actions.dissociate.label'));
+        $this->modalSubmitActionLabel(__('filament-actions::dissociate.single.modal.actions.dissociate.label'));
 
-        $this->successNotificationTitle(__('filament-support::actions/dissociate.single.messages.dissociated'));
+        $this->successNotificationTitle(__('filament-actions::dissociate.single.notifications.dissociated.title'));
 
         $this->color('danger');
 
-        $this->icon('heroicon-s-x');
+        $this->icon(FilamentIcon::resolve('actions::dissociate-action') ?? 'heroicon-m-x-mark');
 
         $this->requiresConfirmation();
 
+        $this->modalIcon(FilamentIcon::resolve('actions::dissociate-action.modal') ?? 'heroicon-o-x-mark');
+
         $this->action(function (): void {
-            $this->process(function (Model $record): void {
+            $this->process(function (Model $record, Table $table): void {
                 /** @var BelongsTo $inverseRelationship */
-                $inverseRelationship = $this->getInverseRelationshipFor($record);
+                $inverseRelationship = $table->getInverseRelationshipFor($record);
 
                 $inverseRelationship->dissociate();
                 $record->save();

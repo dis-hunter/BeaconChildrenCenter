@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Muokkaa',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Tallennettu',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Tallennettu',
+        ],
+
     ],
 
 ];

@@ -1,5 +1,5 @@
-export default (Alpine) => {
-    Alpine.data('keyValueFormComponent', ({ state }) => ({
+export default function keyValueFormComponent({ state }) {
+    return {
         state,
 
         rows: [],
@@ -10,15 +10,29 @@ export default (Alpine) => {
             this.updateRows()
 
             if (this.rows.length <= 0) {
-                this.addRow()
+                this.rows.push({ key: '', value: '' })
+            } else {
+                this.updateState()
             }
 
-            this.shouldUpdateRows = true
+            this.$watch('state', (state, oldState) => {
+                const getLength = (value) => {
+                    if (value === null) {
+                        return 0
+                    }
 
-            this.$watch('state', () => {
-                if (!this.shouldUpdateRows) {
-                    this.shouldUpdateRows = true
+                    if (Array.isArray(value)) {
+                        return value.length
+                    }
 
+                    if (typeof value !== 'object') {
+                        return 0
+                    }
+
+                    return Object.keys(value).length
+                }
+
+                if (getLength(state) === 0 && getLength(oldState) === 0) {
                     return
                 }
 
@@ -40,22 +54,30 @@ export default (Alpine) => {
             }
 
             this.updateState()
-
-            this.shouldUpdateRows = true
         },
 
         reorderRows: function (event) {
             const rows = Alpine.raw(this.rows)
 
+            this.rows = []
+
             const reorderedRow = rows.splice(event.oldIndex, 1)[0]
             rows.splice(event.newIndex, 0, reorderedRow)
 
-            this.rows = rows
+            this.$nextTick(() => {
+                this.rows = rows
 
-            this.updateState()
+                this.updateState()
+            })
         },
 
         updateRows: function () {
+            if (!this.shouldUpdateRows) {
+                this.shouldUpdateRows = true
+
+                return
+            }
+
             let rows = []
 
             for (let [key, value] of Object.entries(this.state ?? {})) {
@@ -88,5 +110,5 @@ export default (Alpine) => {
 
             this.state = state
         },
-    }))
+    }
 }

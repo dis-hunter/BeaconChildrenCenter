@@ -5,6 +5,10 @@ namespace Filament\Tables\Columns;
 class ColorColumn extends Column
 {
     use Concerns\CanBeCopied;
+    use Concerns\CanWrap;
 
-    protected string $view = 'tables::columns.color-column';
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-tables::columns.color-column';
 }

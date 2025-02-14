@@ -4,39 +4,41 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Turinys suskleistas',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klonuoti',
             ],
 
-            'create_item' => [
+            'add' => [
                 'label' => 'Pridėti prie :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Pridėti tarp blokų',
+            ],
+
+            'delete' => [
                 'label' => 'Ištrinti',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Pastumti',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Žemyn',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Aukštyn',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Suskleisti',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Išskleisti',
             ],
 
@@ -52,9 +54,153 @@ return [
 
     ],
 
+    'checkbox_list' => [
+
+        'actions' => [
+
+            'deselect_all' => [
+                'label' => 'Atžymėti viską',
+            ],
+
+            'select_all' => [
+                'label' => 'Pasirinkti viską',
+            ],
+
+        ],
+
+    ],
+
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Atšaukti',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Apkirpti velkant',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Perkelti velkant',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Apversti nuotrauką horizontaliai',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Apversti nuotrauką vertikaliai',
+                ],
+
+                'move_down' => [
+                    'label' => 'Perkelti vaizdą žemyn',
+                ],
+
+                'move_left' => [
+                    'label' => 'Perkelti vaizdą į kairę',
+                ],
+
+                'move_right' => [
+                    'label' => 'Perkelti vaizdą į dešinę',
+                ],
+
+                'move_up' => [
+                    'label' => 'Perkelti vaizdą aukštyn',
+                ],
+
+                'reset' => [
+                    'label' => 'Atstatyti',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Pasukti nuotrauką į kairę',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Pasukti nuotrauka į dešinę',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Nustatyti kraštinių santikį į :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Išsaugoti',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Priartinti nuotrauką iki 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Priartinti',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Atitraukti',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Aukštis',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Rotacija',
+                    'unit' => 'deg',
+                ],
+
+                'width' => [
+                    'label' => 'Plotis',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Kraštinių santykiai',
+
+                'no_fixed' => [
+                    'label' => 'Laisvas',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Redaguoti SVG failų nerekomenduojama, kadangi tai gali įtakoti kokybės praradimą keičiant mastelį.\n Ar tikrai norite tęsti?',
+                    'disabled' => 'SVG failų redagavimas išjungtas, kadangi tai gali įtakoti kokybės praradimą keičiant mastelį.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Pridėti eilutę',
@@ -62,6 +208,10 @@ return [
 
             'delete' => [
                 'label' => 'Ištrinti eilutę',
+            ],
+
+            'reorder' => [
+                'label' => 'Pastumti',
             ],
 
         ],
@@ -80,58 +230,72 @@ return [
 
     ],
 
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Taip',
+            'false' => 'Ne',
+        ],
+
+    ],
+
     'markdown_editor' => [
 
         'toolbar_buttons' => [
             'attach_files' => 'Pridėti failus',
+            'blockquote' => 'Citatos blokas',
             'bold' => 'Paryškinta',
             'bullet_list' => 'Ženklų sąrašas',
             'code_block' => 'Kodo blokas',
-            'edit' => 'Redaguoti',
+            'heading' => 'Antraštė',
             'italic' => 'Kursyvu',
             'link' => 'Nuoroda',
             'ordered_list' => 'Sunumeruotas sąrašas',
-            'preview' => 'Peržiūrėti',
+            'redo' => 'Perdaryti',
             'strike' => 'Perbraukti',
+            'table' => 'Lentelė',
+            'undo' => 'Anuliuoti',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Turinys suskleistas',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Pridėti prie :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Pridėti tarp',
+            ],
+
+            'delete' => [
                 'label' => 'Ištrinti',
             ],
 
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klonuoti',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Pastumti',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Žemyn',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Aukštyn',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Suskleisti',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Išskleisti',
             ],
 
@@ -153,9 +317,9 @@ return [
 
             'link' => [
 
-                'buttons' => [
-                    'link' => 'Link',
-                    'unlink' => 'Unlink',
+                'actions' => [
+                    'link' => 'Pridėti saitą',
+                    'unlink' => 'Pašalinti saitą',
                 ],
 
                 'label' => 'Svetainės adresas',
@@ -180,6 +344,7 @@ return [
             'ordered_list' => 'Sunumeruotas sąrašas',
             'redo' => 'Perdaryti',
             'strike' => 'Perbraukta',
+            'underline' => 'Pabraukta',
             'undo' => 'Anuliuoti',
         ],
 
@@ -199,6 +364,28 @@ return [
 
                         'create' => [
                             'label' => 'Sukurti',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'Sukurti ir sukurti kitą',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'Redaguoti',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Išsaugoti',
                         ],
 
                     ],
@@ -232,9 +419,34 @@ return [
         'placeholder' => 'Nauja žyma',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Slėpti slaptažodį',
+            ],
+
+            'show_password' => [
+                'label' => 'Rodyti slaptažodį',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Taip',
+            'false' => 'Ne',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Atgal',

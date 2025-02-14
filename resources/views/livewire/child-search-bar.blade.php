@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center flex-column" id="child-search-bar">
     <label for="search-bar" style="color: black !important;"> Search </label> 
     <!-- Search Input -->
-    <input wire:model="search" type="search" name="search-bar"id="search-bar" class="form-control mb-2" placeholder="Search for a child" aria-label="Search">
+    <input wire:model.live="search" type="search" name="search-bar"id="search-bar" class="form-control mb-2" placeholder="Search for a child" aria-label="Search">
 
     <!-- Results Display -->
     @if (!empty($results))
@@ -29,7 +29,7 @@
                         <div >
                             <!-- Checkboxes for selection -->
                             <label class="checkbox-container">
-                                <input type="checkbox" wire:model="selectedItems" value="{{ $result->id }}" id="child_id_{{ $result->id }}" />
+                                <input type="checkbox" wire:model.live="selectedItems" value="{{ $result->id }}" id="child_id_{{ $result->id }}" />
                                 <span class="checkmark"></span> Select
                             </label>
                         </div>

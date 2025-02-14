@@ -1,11 +1,10 @@
-@props([
-    'record',
-])
-
-<td
-    wire:loading.remove.delay
-    wire:target="{{ implode(',', \Filament\Tables\Table::LOADING_TARGETS) }}"
-    {{ $attributes->class(['filament-tables-actions-cell whitespace-nowrap px-4 py-3']) }}
+<x-filament-tables::cell
+    :attributes="
+        \Filament\Support\prepare_inherited_attributes($attributes)
+            ->class(['fi-ta-actions-cell'])
+    "
 >
-    {{ $slot }}
-</td>
+    <div class="whitespace-nowrap px-3 py-4">
+        {{ $slot }}
+    </div>
+</x-filament-tables::cell>

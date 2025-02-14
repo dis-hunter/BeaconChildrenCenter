@@ -1,101 +1,101 @@
 @php
-    $affixLabelClasses = [
-        'whitespace-nowrap group-focus-within:text-primary-500',
-        'text-gray-400' => ! $errors->has($getStatePath()),
-        'text-danger-400' => $errors->has($getStatePath()),
-        'dark:text-danger-400' => $errors->has($getStatePath()) && config('forms.dark_mode'),
-    ];
+    use Filament\Support\Facades\FilamentView;
+
+    $isDisabled = $isDisabled();
+    $isLive = $isLive();
+    $isLiveOnBlur = $isLiveOnBlur();
+    $isLiveDebounced = $isLiveDebounced();
+    $isPrefixInline = $isPrefixInline();
+    $isSuffixInline = $isSuffixInline();
+    $liveDebounce = $getLiveDebounce();
+    $prefixActions = $getPrefixActions();
+    $prefixIcon = $getPrefixIcon();
+    $prefixLabel = $getPrefixLabel();
+    $suffixActions = $getSuffixActions();
+    $suffixIcon = $getSuffixIcon();
+    $suffixLabel = $getSuffixLabel();
+    $statePath = $getStatePath();
 @endphp
 
 <x-dynamic-component
     :component="$getFieldWrapperView()"
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-action="$getHintAction()"
-    :hint-color="$getHintColor()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
+    :field="$field"
+    :inline-label-vertical-alignment="\Filament\Support\Enums\VerticalAlignment::Center"
 >
-    <div
-        {{
-            $attributes
-                ->merge($getExtraAttributes())
-                ->class(['filament-forms-color-picker-component group flex items-center space-x-1 rtl:space-x-reverse'])
-        }}
+    <x-filament::input.wrapper
+        :disabled="$isDisabled"
+        :inline-prefix="$isPrefixInline"
+        :inline-suffix="$isSuffixInline"
+        :prefix="$prefixLabel"
+        :prefix-actions="$prefixActions"
+        :prefix-icon="$prefixIcon"
+        :prefix-icon-color="$getPrefixIconColor()"
+        :suffix="$suffixLabel"
+        :suffix-actions="$suffixActions"
+        :suffix-icon="$suffixIcon"
+        :suffix-icon-color="$getSuffixIconColor()"
+        :valid="! $errors->has($statePath)"
+        :attributes="
+            \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
+                ->class('fi-fo-color-picker')
+        "
     >
-        @if (($prefixAction = $getPrefixAction()) && (! $prefixAction->isHidden()))
-            {{ $prefixAction }}
-        @endif
-
-        @if ($icon = $getPrefixIcon())
-            <x-dynamic-component :component="$icon" class="h-5 w-5" />
-        @endif
-
-        @if (filled($label = $getPrefixLabel()))
-            <span @class($affixLabelClasses)>
-                {{ $label }}
-            </span>
-        @endif
-
         <div
+            @if (FilamentView::hasSpaMode())
+                {{-- format-ignore-start --}}x-load="visible || event (ax-modal-opened)"{{-- format-ignore-end --}}
+            @else
+                x-load
+            @endif
+            x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('color-picker', 'filament/forms') }}"
             x-data="colorPickerFormComponent({
                         isAutofocused: @js($isAutofocused()),
-                        isDisabled: @js($isDisabled()),
-                        state: $wire.{{ $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
+                        isDisabled: @js($isDisabled),
+                        isLive: @js($isLive),
+                        isLiveDebounced: @js($isLiveDebounced),
+                        isLiveOnBlur: @js($isLiveOnBlur),
+                        liveDebounce: @js($liveDebounce),
+                        state: $wire.$entangle('{{ $statePath }}'),
                     })"
             x-on:keydown.esc="isOpen() && $event.stopPropagation()"
-            {{ $getExtraAlpineAttributeBag()->class(['relative flex-1']) }}
+            {{ $getExtraAlpineAttributeBag()->class(['flex']) }}
         >
-            <input
-                x-ref="input"
-                type="text"
-                dusk="filament.forms.{{ $getStatePath() }}"
-                id="{{ $getId() }}"
-                x-model="state"
-                x-on:click="togglePanelVisibility()"
+            <x-filament::input
+                x-on:focus="$refs.panel.open($refs.input)"
                 x-on:keydown.enter.stop.prevent="togglePanelVisibility()"
-                autocomplete="off"
-                {!! $isDisabled() ? 'disabled' : null !!}
-                {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
-                @if (! $isConcealed())
-                    {!! $isRequired() ? 'required' : null !!}
-                @endif
-                {{
-                    $getExtraInputAttributeBag()->class([
-                        'filament-forms-input block w-full rounded-lg text-gray-900 shadow-sm outline-none transition duration-75 focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70',
-                        'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500' => config('forms.dark_mode'),
-                        'border-gray-300' => ! $errors->has($getStatePath()),
-                        'dark:border-gray-600' => (! $errors->has($getStatePath())) && config('forms.dark_mode'),
-                        'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
-                        'dark:border-danger-400 dark:ring-danger-400' => $errors->has($getStatePath()) && config('forms.dark_mode'),
-                    ])
-                }}
+                x-ref="input"
+                :attributes="
+                    \Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
+                        ->merge([
+                            'autocomplete' => 'off',
+                            'disabled' => $isDisabled,
+                            'id' => $getId(),
+                            'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
+                            'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
+                            'placeholder' => $getPlaceholder(),
+                            'required' => $isRequired() && (! $isConcealed()),
+                            'type' => 'text',
+                            'x-model' . ($isLiveDebounced ? '.debounce.' . $liveDebounce : null) => 'state',
+                            'x-on:blur' => $isLiveOnBlur ? 'isOpen() ? null : commitState()' : null,
+                        ], escape: false)
+                "
             />
 
-            <span
-                x-cloak
-                class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 rtl:left-0 rtl:right-auto rtl:pl-2"
-            >
-                <span
-                    x-bind:style="{ 'background-color': state }"
-                    class="filament-forms-color-picker-component-preview relative h-7 w-7 overflow-hidden rounded-md"
-                ></span>
-            </span>
+            <div
+                class="fi-fo-color-picker-preview my-auto me-3 h-5 w-5 shrink-0 select-none rounded-full"
+                x-on:click="togglePanelVisibility()"
+                x-bind:class="{
+                    'ring-1 ring-inset ring-gray-200 dark:ring-white/10': ! state,
+                }"
+                x-bind:style="{ 'background-color': state }"
+            ></div>
 
             <div
-                x-cloak
-                x-ref="panel"
-                x-float.placement.bottom-start.offset.flip.shift="{ offset: 8 }"
                 wire:ignore.self
-                wire:key="{{ $this->id }}.{{ $getStatePath() }}.{{ $field::class }}.panel"
-                @class([
-                    'absolute z-10 hidden shadow-lg',
-                    'pointer-events-none opacity-70' => $isDisabled(),
-                ])
+                wire:key="{{ $this->getId() }}.{{ $statePath }}.{{ $field::class }}.panel"
+                x-cloak
+                x-float.placement.bottom-start.offset.flip.shift="{ offset: 8 }"
+                x-ref="panel"
+                class="fi-fo-color-picker-panel absolute z-10 hidden rounded-lg shadow-lg"
             >
                 @php
                     $tag = match ($getFormat()) {
@@ -109,19 +109,5 @@
                 <{{ $tag }} color="{{ $getState() }}" />
             </div>
         </div>
-
-        @if (filled($label = $getSuffixLabel()))
-            <span @class($affixLabelClasses)>
-                {{ $label }}
-            </span>
-        @endif
-
-        @if ($icon = $getSuffixIcon())
-            <x-dynamic-component :component="$icon" class="h-5 w-5" />
-        @endif
-
-        @if (($suffixAction = $getSuffixAction()) && (! $suffixAction->isHidden()))
-            {{ $suffixAction }}
-        @endif
-    </div>
+    </x-filament::input.wrapper>
 </x-dynamic-component>

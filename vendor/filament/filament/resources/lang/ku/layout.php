@@ -4,27 +4,28 @@ return [
 
     'direction' => 'rtl',
 
-    'buttons' => [
-        'dark_mode' => [
-            'label' => 'گۆڕینی ڕوانگە بۆ تاریک',
-        ],
+    'actions' => [
 
-        'database_notifications' => [
-            'label' => 'کردنەوەی ئاگانامەکان',
-        ],
-
-        'light_mode' => [
-            'label' => 'گۆڕینی ڕوانگە بۆ سپی',
+        'billing' => [
+            'label' => 'بەشدارییەکان',
         ],
 
         'logout' => [
             'label' => 'چوونەدەرەوە',
         ],
 
+        'open_database_notifications' => [
+            'label' => 'کردنەوەی ئاگانامەکان',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'مێنیوی بەکارهێنەر',
+        ],
+
         'sidebar' => [
 
             'collapse' => [
-                'label' => 'بچووک کردنەوەی شریتی گەڕان',
+                'label' => 'بچووکردنەوەی شریتی گەڕان',
             ],
 
             'expand' => [
@@ -33,9 +34,22 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'مێنیوی بەکارهێنەر',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'گۆڕینی ڕوانگە بۆ تاریک',
+            ],
+
+            'light' => [
+                'label' => 'گۆڕینی ڕوانگە بۆ ڕووناک',
+            ],
+
+            'system' => [
+                'label' => 'داگرساندنی باری سیستەم',
+            ],
+
         ],
+
     ],
 
 ];

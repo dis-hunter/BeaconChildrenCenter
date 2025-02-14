@@ -2,14 +2,23 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Kolumner',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'och :count till',
-        ],
+        'text' => [
 
-        'messages' => [
-            'copied' => 'Kopierad',
+            'actions' => [
+                'collapse_list' => 'Visa :count färre',
+                'expand_list' => 'Visa :count till',
+            ],
+
+            'more_list_items' => 'och :count till',
+
         ],
 
     ],
@@ -17,73 +26,72 @@ return [
     'fields' => [
 
         'bulk_select_page' => [
-            'label' => 'Markera/avmarkera alla rader för massåtgärder.',
+            'label' => 'Markera/avmarkera alla objekt för massåtgärder.',
         ],
 
         'bulk_select_record' => [
-            'label' => 'Markera/avmarkera rad :key för massåtgärder.',
+            'label' => 'Markera/avmarkera objekt :key för massåtgärder.',
         ],
 
-        'search_query' => [
+        'bulk_select_group' => [
+            'label' => 'Markera/avmarkera gruppen :title för massåtgärder.',
+        ],
+
+        'search' => [
             'label' => 'Sök',
             'placeholder' => 'Sök',
+            'indicator' => 'Sök',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Meny för sidnumerering',
+        'heading' => 'Sammanfattning',
 
-        'overview' => '{1} Visar 1 resultat|[2,*] Visar :first till :last av :total resultat',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'per sida',
-
-                'options' => [
-                    'all' => 'Alla',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'Alla :label',
+            'group' => ':group sammanfattning',
+            'page' => 'Denna sida',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Gå till sida :page',
+            'average' => [
+                'label' => 'Medelvärde',
             ],
 
-            'next' => [
-                'label' => 'Nästa',
+            'count' => [
+                'label' => 'Antal',
             ],
 
-            'previous' => [
-                'label' => 'Föregående',
+            'sum' => [
+                'label' => 'Summa',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
-            'label' => 'Sluta ändra ordning på rader',
+            'label' => 'Sluta ändra ordning på objekt',
         ],
 
         'enable_reordering' => [
-            'label' => 'Ändra ordning på rader',
+            'label' => 'Ändra ordning på objekt',
         ],
 
         'filter' => [
             'label' => 'Filter',
         ],
 
-        'open_actions' => [
+        'group' => [
+            'label' => 'Gruppera',
+        ],
+
+        'open_bulk_actions' => [
             'label' => 'Öppna åtgärder',
         ],
 
@@ -94,12 +102,20 @@ return [
     ],
 
     'empty' => [
-        'heading' => 'Inga rader hittades',
+
+        'heading' => 'Inga :model',
+
+        'description' => 'Skapa :model för att komma igång.',
+
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Använd filter',
+            ],
 
             'remove' => [
                 'label' => 'Ta bort filter',
@@ -111,10 +127,12 @@ return [
             ],
 
             'reset' => [
-                'label' => 'Återställ filter',
+                'label' => 'Återställ',
             ],
 
         ],
+
+        'heading' => 'Filter',
 
         'indicator' => 'Aktiva filter',
 
@@ -128,25 +146,49 @@ return [
 
         'trashed' => [
 
-            'label' => 'Raderade rader',
+            'label' => 'Raderade objekt',
 
-            'only_trashed' => 'Endast raderade rader',
+            'only_trashed' => 'Endast raderade objekt',
 
-            'with_trashed' => 'Med raderade rader',
+            'with_trashed' => 'Med raderade objekt',
 
-            'without_trashed' => 'Utan raderade rader',
+            'without_trashed' => 'Utan raderade objekt',
 
         ],
 
     ],
 
-    'reorder_indicator' => 'Dra och släpp raderna i önskad ordning.',
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Gruppera',
+                'placeholder' => 'Gruppera efter',
+            ],
+
+            'direction' => [
+
+                'label' => 'Riktning',
+
+                'options' => [
+                    'asc' => 'Stigande',
+                    'desc' => 'Fallande',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
+    'reorder_indicator' => 'Dra och släpp objekten i önskad ordning.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 rad vald.|:count rader valda.',
+        'selected_count' => '1 objekt valt|:count objekt valda',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Markera alla :count',
