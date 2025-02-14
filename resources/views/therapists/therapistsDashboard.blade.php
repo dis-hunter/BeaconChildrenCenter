@@ -193,13 +193,17 @@ form {
             <span class="sidebar-text">Patients</span>
           </a>
         </li>
+      </ul>
+
+      <ul>
         <li>
-          <a href="#" onclick="showSection('leave')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+          <a href="/staff/leave-request"  class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
             <i class="fas fa-users"></i>
             <span class="sidebar-text">Leave request</span>
           </a>
         </li>
       </ul>
+
     </div>
 
     <!-- Main Content -->
@@ -244,15 +248,9 @@ form {
             <div class="calendar-container"></div>
             @livewireScripts
             @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+          </div>
+        </div>
 
-          <section>
-          <div id="leave" class="section hidden">
-          <div class="bg-white rounded-lg shadow p-6">
-          @livewireScripts
-            <div class="leave-container"></div>
-            @livewireScripts
-            @include('staff.leave_request')
-</section>
        <!-- Patients Section -->
       <section id="patients" class="section hidden">
         <div class="bg-white rounded-lg shadow p-6">
@@ -261,6 +259,7 @@ form {
           </header>
           <table class="min-w-full bg-white border-collapse">
             <thead>
+              <tr>
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Date/Time</th>
@@ -313,8 +312,6 @@ form {
     }
  else if (sectionId === 'patients') {
         generatePatientList();
-      }else if (sectionId === 'leave') {
-        
       }
 
       document.getElementById('appointments-list').classList.add('hidden');
@@ -324,45 +321,46 @@ form {
       const now = new Date();
       currentDate.textContent = now.toLocaleString();
     }
-    /*
-    function generateCalendar() {
-      const calendarContainer = document.querySelector('.calendar-container');
-      const today = new Date();
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
 
-      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+    // function generateCalendar() {
+    //   const calendarContainer = document.querySelector('.calendar-container');
+    //   const today = new Date();
+    //   const currentMonth = today.getMonth();
+    //   const currentYear = today.getFullYear();
 
-      let tableHtml = '<table class="w-full border-collapse">';
-      tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
+    //   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    //   const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
 
-      let date = 1;
-      for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 7; j++) {
-          if (i === 0 && j < firstDay) {
-            tableHtml += '<td class="p-2 border"></td>';
-          } else if (date > daysInMonth) {
-            tableHtml += '<td class="p-2 border"></td>';
-          } else {
-            const currentDate = new Date(currentYear, currentMonth, date);
-            const formattedDate = currentDate.toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric'
-            });
-            tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
-            date++;
-          }
-        }
-        if (date > daysInMonth) {
-          break;
-        } else {
-          tableHtml += '</tr><tr>';
-        }
-      }
-      tableHtml += '</tr></table>';
-      calendarContainer.innerHTML = tableHtml;
-    }*/
+    //   let tableHtml = '<table class="w-full border-collapse">';
+    //   tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
+
+
+    //   let date = 1;
+    //   for (let i = 0; i < 6; i++) {
+    //     for (let j = 0; j < 7; j++) {
+    //       if (i === 0 && j < firstDay) {
+    //         tableHtml += '<td class="p-2 border"></td>';
+    //       } else if (date > daysInMonth) {
+    //         tableHtml += '<td class="p-2 border"></td>';
+    //       } else {
+    //         const currentDate = new Date(currentYear, currentMonth, date);
+    //         const formattedDate = currentDate.toLocaleDateString('en-US', {
+    //           month: 'short',
+    //           day: 'numeric'
+    //         });
+    //         tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
+    //         date++;
+    //       }
+    //     }
+    //     if (date > daysInMonth) {
+    //       break;
+    //     } else {
+    //       tableHtml += '</tr><tr>';
+    //     }
+    //   }
+    //   tableHtml += '</tr></table>';
+    //   calendarContainer.innerHTML = tableHtml;
+    // }
 
     function showAppointments(date) {
       const appointmentsList = document.getElementById('appointments-for-day');
@@ -497,7 +495,6 @@ async function startConsultation() {
     document.addEventListener("DOMContentLoaded", () => {
         initCalendar(); // Reinitialize calendar
         attachEventListeners();
-        newListeners();
     });
 
     function attachEventListeners() {
@@ -513,17 +510,10 @@ async function startConsultation() {
     }
     function newListeners(){
       document.addEventListener("click", function (event) {
-    // Open the "Add Event" modal
-    if (event.target.classList.contains("add-event")) {
-        document.querySelector(".add-event-wrapper")?.classList.add("active");
-    }
-
-    // Close the modal
-    if (event.target.classList.contains("close")) {
-        document.querySelector(".add-event-wrapper")?.classList.remove("active");
-    }
-});
-
+            if (event.target.classList.contains("close")) {
+                document.querySelector(".add-event-wrapper")?.classList.remove("active");
+            }
+        });
     }
 
     import { closeEventModal } from './calendar.js';
@@ -621,20 +611,18 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();
   });
+</script>
+<script>
+  //to display current time
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('current-date').textContent = timeString;
+    }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const closeModalButton = document.getElementById('close-modal');
-    const modal = document.getElementById('add-event-wrapper');
-    const modalOverlay = document.querySelector('.modal-overlay');
-
-    const hideModal = () => {
-        modal.classList.add('hidden');
-        if (modalOverlay) modalOverlay.style.display = 'none';
-    };
-
-    closeModalButton.addEventListener('click', hideModal);
-});
-
+    // Update the time immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
 </script>
 </body>
 </html>
