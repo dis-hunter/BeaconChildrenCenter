@@ -6,6 +6,7 @@ use App\Http\Responses\LoginResponse;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use function PHPUnit\Framework\returnSelf;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasName
 {
     use HasApiTokens;
     use HasFactory;
@@ -77,6 +78,10 @@ class User extends Authenticatable
 
     public function getFullnameAttribute($value){
         return json_decode($value);
+    }
+
+    public function getFilamentName(): string{
+        return $this->fullname?->first_name.' '.$this->fullname?->last_name;
     }
 
     public function role(){

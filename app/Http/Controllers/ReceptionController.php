@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Appointments;
 use App\Models\children;
+use App\Models\Parents;
 use App\Models\Specialization;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ class ReceptionController extends Controller
     public function dashboard()
     {
         $dashboard = new \stdClass();
-        
+
         // Fetch only today's appointments
         $dashboard->appointments = appointments::whereDate('appointment_date', Carbon::today())->get();
 
@@ -29,7 +30,7 @@ class ReceptionController extends Controller
             SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
         ")->first();
 
-       
+
         $dashboard->totalAppointments = $appointmentStats->total ?? '-';
         $dashboard->ongoingAppointments = $appointmentStats->ongoing ?? '-';
         $dashboard->pendingAppointments = $appointmentStats->pending ?? '-';
@@ -38,7 +39,7 @@ class ReceptionController extends Controller
 
         // Fetch active users
         $dashboard->activeUsers = User::getActiveUsers();
-        
+
         return view('reception.dashboard', compact('dashboard'));
     }
 
@@ -70,5 +71,24 @@ class ReceptionController extends Controller
         $appointment->update(['status' => 'success']);
 
         return redirect()->route('patients.search', ['id' => $id]);
+    }
+
+    public function search_engine(Request $request)
+    {
+        try {
+            $guardians = Parents::search($request->keyword)->get();
+            $children = children::search($request->keyword)->get();
+
+            return response()->json([
+                'guardians' => $guardians,
+                'patients' => $children
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Search failed',
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 }
