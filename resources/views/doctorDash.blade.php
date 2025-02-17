@@ -10,7 +10,8 @@
 </head>
 <body>
 
-  <header>
+@section('header_sidebar')  
+<header>
     <div class="profile">
       <i class="fas fa-user-md fa-4x"></i>
       <div>
@@ -39,6 +40,7 @@
   </header>
 
   <main>
+  @yield('content')
     <aside class="sidebar">
       <nav>
         <ul>
@@ -52,6 +54,7 @@
         </ul>
       </nav>
     </aside>
+    @show 
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">

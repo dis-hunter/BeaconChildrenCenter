@@ -19,6 +19,16 @@
 
 <style>
 
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-event-body > div {
+    margin-bottom: 10px; /* Add space between each input */
+}
+
+
     /* Styling for the heading */
 div h2 {
     margin: 0;

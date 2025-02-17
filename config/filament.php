@@ -89,12 +89,12 @@ return [
 
     'auth' => [
         'guard' => env('FILAMENT_AUTH_GUARD', 'web'),
+        'user' => \App\Models\User::class,
         'pages' => [
             'login' => \Filament\Http\Livewire\Auth\Login::class,
         ],
-        'user' => [
-        'name' => 'fullname', // Change this to the name of the attribute you want Filament to use
-    ],
+        // Change this to the name of the attribute you want Filament to use
+    
     ],
 
     /*

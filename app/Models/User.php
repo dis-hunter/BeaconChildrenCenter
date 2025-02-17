@@ -15,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use function PHPUnit\Framework\returnSelf;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
     use HasApiTokens;
     use HasFactory;
@@ -77,6 +77,12 @@ class User extends Authenticatable
 
     public function getFullnameAttribute($value){
         return json_decode($value);
+    }
+
+    // Check if this attribute is defined in your User model
+    public function getFilamentName(): string
+    {
+    return 'Default Name'; // Provide a default fallback if name is null
     }
 
     public function role(){

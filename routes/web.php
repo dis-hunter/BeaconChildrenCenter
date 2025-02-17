@@ -27,6 +27,7 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
 
 
 Route::get('/staff/leave-request', [LeaveController::class, 'create'])->name('leave.request');
+Route::get('/doc/requests', [LeaveController::class, 'docleave'])->name('doctor.leave');
 
 Route::post('/leave/store', [LeaveController::class, 'store'])->name('leave.store');
 Route::get('/leave-form-data', [LeaveController::class, 'getLeaveFormData']);

@@ -89,6 +89,18 @@ public function showUserLeaves()
     return view('staff.leave_requests', compact('leaveRequests'));
 }
 
+public function docleave()
+    {
+        // Get the authenticated doctor (assuming doctors are stored in users table)
+        $doctor = Auth::user();
+
+        // Pass the doctor's first and last name to the view
+        return view('doctor_leave', [
+            'firstName' => $doctor->first_name ?? 'Doctor',
+            'lastName'  => $doctor->last_name ?? 'User'
+        ]);
+    }
+
 public function showUserLeaves2()
 {
     $user = auth()->user();
