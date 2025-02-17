@@ -1,5 +1,7 @@
 <?php
+// RevenueReportController.php
 namespace App\Http\Controllers;
+
 use App\Services\RevenueReportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -23,15 +25,35 @@ class RevenueReportController extends Controller
         // Base query for visits
         $query = DB::table('visits')
             ->join('visit_type', 'visits.visit_type', '=', 'visit_type.id')
-            // ->where('visits.completed', true)
             ->whereBetween('visits.visit_date', [$startDate, $endDate]);
 
         if ($specialization) {
             $query->where('visit_type.id', $specialization);
         }
 
-        // Calculate daily revenue with proper date handling
-        $dailyRevenue = $query->clone()
+        // Calculate daily revenue
+        $dailyRevenue = $this->calculateDailyRevenue($query);
+
+        // Calculate service breakdown
+        $services = $this->calculateServiceBreakdown($query);
+
+        // Calculate paid invoices
+        $paidInvoices = $this->calculatePaidInvoices($startDate, $endDate);
+
+        // Calculate summary
+        $summary = $this->calculateSummary($query);
+
+        return response()->json([
+            'daily' => $dailyRevenue->values(),
+            'services' => $services->values(),
+            'summary' => $summary,
+            'paidInvoices' => $paidInvoices
+        ]);
+    }
+
+    private function calculateDailyRevenue($query)
+    {
+        return $query->clone()
             ->select(
                 DB::raw('DATE(visits.visit_date) as date'),
                 DB::raw('SUM(CASE 
@@ -48,9 +70,11 @@ class RevenueReportController extends Controller
                     'revenue' => (float)$item->revenue
                 ];
             });
+    }
 
-        // Calculate service breakdown
-        $services = $query->clone()
+    private function calculateServiceBreakdown($query)
+    {
+        return $query->clone()
             ->select(
                 'visit_type.visit_type as service',
                 DB::raw('SUM(CASE 
@@ -67,50 +91,42 @@ class RevenueReportController extends Controller
                     'revenue' => (float)$item->revenue
                 ];
             });
+    }
 
-        // Calculate summary with separate normal and sponsored payments
-        // $summary = [
-        //     'total_revenue' => $query->clone()
-        //         ->selectRaw('SUM(CASE 
-        //             WHEN visits.payment_mode_id = 3 THEN visit_type.sponsored_price 
-        //             ELSE visit_type.normal_price 
-        //         END) as total')
-        //         ->value('total'),
-        //     'normal_payment' => $query->clone()
-        //         ->where('visits.payment_mode_id', '!=', 3)
-        //         ->sum('visit_type.normal_price'),
-        //     'sponsored_payment' => $query->clone()
-        //         ->where('visits.payment_mode_id', 3)
-        //         ->sum('visit_type.sponsored_price')
-        // ];
-        // Calculate summary with separate normal and sponsored payments
-$normalPayment = $query->clone()
-->where('visits.payment_mode_id', '!=', 3)
-->sum('visit_type.normal_price');
+    private function calculatePaidInvoices($startDate, $endDate)
+    {
+        return DB::table('invoices')
+            ->select(
+                DB::raw('DATE(invoice_date) as date'),
+                DB::raw('SUM(total_amount) as amount')
+            )
+            ->where('invoice_status', true)
+            ->whereBetween('invoice_date', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(invoice_date)'))
+            ->orderBy('date')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'date' => Carbon::parse($item->date)->format('Y-m-d'),
+                    'amount' => (float)$item->amount
+                ];
+            });
+    }
 
-$sponsoredPayment = $query->clone()
-->where('visits.payment_mode_id', 3)
-->sum('visit_type.sponsored_price');
+    private function calculateSummary($query)
+    {
+        $normalPayment = $query->clone()
+            ->where('visits.payment_mode_id', '!=', 3)
+            ->sum('visit_type.normal_price');
 
-$summary = [
-'normal_payment' => $normalPayment,
-'sponsored_payment' => $sponsoredPayment,
-'total_revenue' => $normalPayment + $sponsoredPayment // Calculate total as sum of both
-];
+        $sponsoredPayment = $query->clone()
+            ->where('visits.payment_mode_id', 3)
+            ->sum('visit_type.sponsored_price');
 
-        // Log the queries for debugging
-        Log::info('Revenue Queries', [
-            'total' => $summary['total_revenue'],
-            'normal' => $summary['normal_payment'],
-            'sponsored' => $summary['sponsored_payment'],
-            'daily_count' => $dailyRevenue->count(),
-            'services_count' => $services->count()
-        ]);
-
-        return response()->json([
-            'daily' => $dailyRevenue->values(),
-            'services' => $services->values(),
-            'summary' => $summary
-        ]);
+        return [
+            'normal_payment' => $normalPayment,
+            'sponsored_payment' => $sponsoredPayment,
+            'total_revenue' => $normalPayment + $sponsoredPayment
+        ];
     }
 }

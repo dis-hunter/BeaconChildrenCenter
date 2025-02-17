@@ -58,6 +58,44 @@
                         }]
                     }
                 });
+
+                // Render the Paid Invoices chart
+                const paidInvoicesChart = document.getElementById('paidInvoicesChart');
+                new Chart(paidInvoicesChart, {
+                    type: 'line',
+                    data: {
+                        labels: this.reportData.paidInvoices.map(item => item.date),
+                        datasets: [{
+                            label: 'Paid Invoices',
+                            data: this.reportData.paidInvoices.map(item => item.amount),
+                            borderColor: '#10B981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'KES ' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'KES ' + context.raw.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
             }
         }">
         <h1 class="text-xl font-bold mb-2">Revenue Report</h1>
@@ -145,6 +183,11 @@
             <div>
                 <h2 class="text-lg font-medium">Revenue by Service</h2>
                 <canvas id="servicesChart" class="mt-4"></canvas>
+            </div>
+             <!-- New Paid Invoices chart -->
+             <div>
+                <h2 class="text-lg font-medium">Paid Invoices</h2>
+                <canvas id="paidInvoicesChart" class="mt-4"></canvas>
             </div>
         </div>
     </section>
