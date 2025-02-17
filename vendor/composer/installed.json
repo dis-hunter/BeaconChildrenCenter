@@ -173,7 +173,7 @@
                     "dev-master": "3.14-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "src/helpers.php"
@@ -3738,7 +3738,7 @@
                     "dev-master": "1.23-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "DebugBar\\": "src/DebugBar/"
