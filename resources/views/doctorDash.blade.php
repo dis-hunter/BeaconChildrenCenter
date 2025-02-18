@@ -178,6 +178,13 @@
             console.error('Error fetching user specialization and doctor:', error);
         });
     }
+    
+    import { prevMonth, nextMonth } from '/public/js/calendar.js'; // Adjust the path if necessary
+
+// Ensure these buttons have the correct IDs or class names
+document.getElementById('prev-month-button').addEventListener('click', prevMonth);
+document.getElementById('next-month-button').addEventListener('click', nextMonth);
+
 </script>
 </body>
 </html>
