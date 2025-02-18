@@ -4,6 +4,18 @@
 @section('content')
 
 <div class="container mt-5">
+        @if (session('success'))
+        <div class="bg-green-500 text-white p-4 rounded mb-4 mt-5">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if (session('error'))
+        <div class="bg-red-600 text-white p-4 rounded mb-4 mt-5">
+            {{ session('error') }}
+        </div>
+        @endif
+        
     <div x-data="{showForm:false}">
     
         <button @click="showForm = !showForm" class="btn btn-primary mb-3">
