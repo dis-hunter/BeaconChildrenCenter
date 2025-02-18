@@ -931,6 +931,7 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Kernel' => __DIR__ . '/..' . '/laravel/pint/app/Kernel.php',
         'App\\Livewire\\AddChildModal' => __DIR__ . '/../..' . '/app/Livewire/AddChildModal.php',
         'App\\Livewire\\ChildParentManager' => __DIR__ . '/../..' . '/app/Livewire/ChildParentManager.php',
+        'App\\Livewire\\ChildSearchBar' => __DIR__ . '/../..' . '/app/Livewire/ChildSearchBar.php',
         'App\\Livewire\\ContentSwitcher' => __DIR__ . '/../..' . '/app/Livewire/ContentSwitcher.php',
         'App\\Livewire\\EditChildModal' => __DIR__ . '/../..' . '/app/Livewire/EditChildModal.php',
         'App\\Livewire\\EditParentModal' => __DIR__ . '/../..' . '/app/Livewire/EditParentModal.php',

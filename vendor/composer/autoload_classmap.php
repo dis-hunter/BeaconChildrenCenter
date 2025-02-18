@@ -149,6 +149,7 @@ return array(
     'App\\Kernel' => $vendorDir . '/laravel/pint/app/Kernel.php',
     'App\\Livewire\\AddChildModal' => $baseDir . '/app/Livewire/AddChildModal.php',
     'App\\Livewire\\ChildParentManager' => $baseDir . '/app/Livewire/ChildParentManager.php',
+    'App\\Livewire\\ChildSearchBar' => $baseDir . '/app/Livewire/ChildSearchBar.php',
     'App\\Livewire\\ContentSwitcher' => $baseDir . '/app/Livewire/ContentSwitcher.php',
     'App\\Livewire\\EditChildModal' => $baseDir . '/app/Livewire/EditChildModal.php',
     'App\\Livewire\\EditParentModal' => $baseDir . '/app/Livewire/EditParentModal.php',
