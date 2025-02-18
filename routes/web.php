@@ -104,7 +104,7 @@ Route::post('/save-development-milestones/{registrationNumber}', [DoctorsControl
 
 //routes accessible when logged in only
 Route::group(['middleware'=>'auth'], function(){
-    
+
     Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
     Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
 
@@ -112,20 +112,20 @@ Route::group(['middleware'=>'auth'], function(){
     //Nurse
     Route::group(['middleware'=>'role:1'], function(){
         // e.g. Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
-        
+
 
     });
 
     //Doctor
     Route::group(['middleware'=>'role:2'], function(){
-        
+
     });
 
     //Admin
     Route::group(['middleware'=>'role:3'], function(){
-        
+
     });
-    
+
     Route::group(['middleware'=>'role:5'], function(){
         Route::get('/therapist', [TherapistController::class, 'index'])->name('therapist.index');
 Route::post('/therapist/save', [TherapistController::class, 'saveAssessment']);
@@ -206,24 +206,6 @@ Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesme
 
 
 
-
-
-use App\Http\Controllers\FamilySocialHistoryController;
-use App\Http\Controllers\PerinatalHistoryController;
-use App\Http\Controllers\PastMedicalHistoryController;
-use App\Http\Controllers\GeneralExamController;
-use App\Http\Controllers\DevelopmentAssessmentController;
-use App\Http\Controllers\InvestigationController;
-use App\Http\Controllers\CarePlanController;
-use App\Http\Controllers\ReferralController;
-use App\Http\Controllers\PrescriptionController;
-use App\Http\Controllers\ReceptionController;
-use App\Http\Controllers\VisitController;
-use App\Http\Controllers\StaffController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\ExpensesController;
-
-
 // General Routes
 Route::view('/', 'home')->name('home');
 
@@ -293,7 +275,7 @@ Route::get('/staff-dropdown', [StaffController::class, 'index']);
 Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
 Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
 
-// Appointment Routes 
+// Appointment Routes
 Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
 // Visit Routes
@@ -374,6 +356,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
         Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
         Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday'])->where('registrationNumber', '.*');
+        Route::get('/reception/requests', [LeaveController::class, 'create2'])->name('leave2.request');
     });
 
     // Admin Routes
@@ -415,7 +398,6 @@ Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']
         Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
         Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
         Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
-    });
 
 
 
@@ -510,7 +492,7 @@ Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard']
     Route::get('/staff-dropdown', [StaffController::class, 'index']);
     Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
     Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
-    // Appointment Routes 
+    // Appointment Routes
     Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
     Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
@@ -566,11 +548,9 @@ Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
     Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
     Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
 
-
     Route::post('mpesa/stkpush', [MpesaController::class, 'stkPush'])->name('mpesa.stkpush');
 
     Route::get('/check-payment-status/{invoiceId}', function ($invoiceId) {
         $invoice = Invoice::find($invoiceId);
         return response()->json(['paid' => $invoice ? (bool) $invoice->invoice_status : false]);
     });
-});
