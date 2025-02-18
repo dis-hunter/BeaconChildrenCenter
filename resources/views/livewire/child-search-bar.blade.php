@@ -2,7 +2,7 @@
     <label for="search-bar" style="color: black !important;"> Search </label>
     <!-- Search Input -->
     <input wire:model="search" type="search" name="search-bar" id="search-bar" class="form-control mb-2" placeholder="Search for a child" aria-label="Search">
-
+</br> <Br></Br>
     <!-- Loading Indicator -->
     <div wire:loading>
     <div class="spinner-border text-primary" role="status">
@@ -43,9 +43,10 @@
                         </div>
                     </li>
                 @endforeach
-            </ul>
+            </ul> 
         </div>
-        <br>
+       
+
     @else
         <p style="color: white; margin-top: 10px;">No results found.</p>
     @endif

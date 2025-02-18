@@ -135,7 +135,7 @@ div h2 {
                     <div class="add-event-input">
                         <label for="event_time_from">Appointment Starting Time</label><br>
                         <input type="time" id="event_time_from" placeholder="Event starting time" class="event_time_from" style = "color :black !important">
-                    </div>
+                    </div> <br>
 
                     <div class="add-event-input">
                         <label for="event_time_end">Appointment Ending Time</label><br>

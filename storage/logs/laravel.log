@@ -14878,3 +14878,119 @@ LINE 1: ...ast_name') AS doctor_name from \"staff\" inner join \"doctor_sp...
 [2025-02-18 13:17:27] local.INFO: select * from "doctor_specialization"  
 [2025-02-18 13:17:28] local.INFO: select * from "leave_types"  
 [2025-02-18 13:17:29] local.INFO: select "visits"."created_at", "children"."registration_number", "children"."fullname", "visits"."completed" from "visits" inner join "children" on "visits"."child_id" = "children"."id" inner join "staff" on "visits"."doctor_id" = "staff"."id" where "visits"."created_at"::date = ? and "visits"."triage_pass" = ? order by "visits"."created_at" asc  
+[2025-02-18 14:25:29] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:25:30] local.INFO: select * from "leave_types"  
+[2025-02-18 14:25:42] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:25:43] local.INFO: select * from "leave_types"  
+[2025-02-18 14:25:46] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:25:54] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:25:55] local.INFO: select * from "leave_types"  
+[2025-02-18 14:25:56] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:25:57] local.INFO: select * from "appointments" where "appointment_date"::date = ?  
+[2025-02-18 14:25:58] local.INFO: select * from "staff" where exists (select * from "active_users" where "staff"."id" = "active_users"."staff_id" and "last_activity" >= ?)  
+[2025-02-18 14:26:06] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:07] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:08] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:26:09] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:15] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:16] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:26:16] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:26:22] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:23] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:28] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:28] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:29] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:26:30] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:39] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:40] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:41] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:26:42] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:46] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:47] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:48] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:26:48] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:26:53] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:54] local.INFO: select * from "leave_types"  
+[2025-02-18 14:26:58] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:26:59] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:00] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:27:01] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:11] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:12] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:13] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:27:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:18] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:19] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:20] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:27:20] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:27:24] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:25] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:30] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:31] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:32] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:27:33] local.INFO: select "children"."fullname", "children"."id", "children"."dob", "parents"."id" as "parent_id", "parents"."fullname" as "parent_fullname", "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text like ?  
+[2025-02-18 14:27:37] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:38] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:39] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:27:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:44] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:27:45] local.INFO: select * from "leave_types"  
+[2025-02-18 14:27:46] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:27:47] local.INFO: select "children"."fullname", "children"."id", "children"."dob", "parents"."id" as "parent_id", "parents"."fullname" as "parent_fullname", "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text like ?  
+[2025-02-18 14:28:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:24] local.INFO: select * from "leave_types"  
+[2025-02-18 14:28:25] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:28:26] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:30] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:31] local.INFO: select * from "leave_types"  
+[2025-02-18 14:28:32] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:28:32] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:28:36] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:37] local.INFO: select * from "leave_types"  
+[2025-02-18 14:28:42] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:43] local.INFO: select * from "leave_types"  
+[2025-02-18 14:28:44] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:28:44] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:49] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:50] local.INFO: select * from "leave_types"  
+[2025-02-18 14:28:50] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:28:51] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:56] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:28:57] local.INFO: select * from "leave_types"  
+[2025-02-18 14:28:57] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:28:57] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:29:02] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:03] local.INFO: select * from "leave_types"  
+[2025-02-18 14:29:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:08] local.INFO: select * from "leave_types"  
+[2025-02-18 14:29:09] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:29:10] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:15] local.INFO: select * from "leave_types"  
+[2025-02-18 14:29:16] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:29:17] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:21] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:22] local.INFO: select * from "leave_types"  
+[2025-02-18 14:29:23] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:29:23] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:29:27] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:28] local.INFO: select * from "leave_types"  
+[2025-02-18 14:29:33] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:29:34] local.INFO: select * from "leave_types"  
+[2025-02-18 14:29:35] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:29:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:30:26] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:30:28] local.INFO: select * from "leave_types"  
+[2025-02-18 14:30:28] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:30:29] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:30:34] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:30:35] local.INFO: select * from "leave_types"  
+[2025-02-18 14:30:35] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-18 14:30:35] local.INFO: Fetched appointments for date: 2025-02-18 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":65,"appointment_date":"2025-02-18","start_time":"12:48:00","end_time":"13:49:00","appointment_title":"Chebet Rono's appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"first_name\":\"Chebet\",\"middle_name\":\"Rono\",\"last_name\":\"Comedian\"}","staff_name":"{\"first_name\":\"Occupational\",\"middle_name\":\"Occupational\",\"last_name\":\"Therapist\"}"}]}} 
+[2025-02-18 14:30:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:30:41] local.INFO: select * from "leave_types"  
+[2025-02-18 14:30:45] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 14:30:46] local.INFO: select * from "leave_types"  
+[2025-02-18 14:30:47] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 14:30:48] local.INFO: select * from "doctor_specialization"  
