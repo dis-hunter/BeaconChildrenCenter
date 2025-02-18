@@ -94,6 +94,8 @@ const profileContent = document.getElementById('profile-content');
 const bookedContent = document.getElementById('booked-content');
 const therapistContent = document.getElementById('therapist-content');
 const dropdownProfileLink = document.getElementById('dropdown-profile-link');
+const calendarLink = document.getElementById('calendar-link');
+const calendarContent = document.getElementById('calendar-content');
 
 function updatePatientList() {
   // 1. Get the currently active patient ID (if any)
@@ -162,6 +164,7 @@ sidebarLinks.forEach(link => {
     profileContent.style.display = 'none';
     bookedContent.style.display = 'none';
     therapistContent.style.display = 'none';
+    calendarContent.style.display = 'none';
 
     // Show the corresponding content section based on the clicked link
     if (link === dashboardLink) {
@@ -172,8 +175,8 @@ sidebarLinks.forEach(link => {
       bookedContent.style.display = 'block';
     } else if (link === therapistLink) {
       therapistContent.style.display = 'block';
-
-      
+    }else if (link === calendarLink) {
+      calendarContent.style.display = 'block';
     }
 
 

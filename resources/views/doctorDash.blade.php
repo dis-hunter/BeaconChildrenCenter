@@ -15,7 +15,7 @@
       <i class="fas fa-user-md fa-4x"></i>
       <div>
         <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
-        <p style="margin-top:0">Pediatrician</p>
+       
       </div>
     </div>
     <div class="notifications">
@@ -43,15 +43,15 @@
       <nav>
         <ul>
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-          <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
-          <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
-          <li> <a id="therapist-link" href="#">Therapy</a></li>
-
-          <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
-          <li class="active"><a href="{{ route('doctor.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> My Profile</a></li>
-          <li><a href="#"><i class="fas fa-book"></i> Booked Patients</a></li>
-          <li><a href="#"><i class="fas fa-user-md"></i> Therapy</a></li>
+          <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
+          <li> <a id="therapist-link" href="#"><i class="fas fa-user-md"></i>Therapy Patient List</a></li>
+
+          <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Schedule</a></li> 
+         
+        
+          
+        
         </ul>
       </nav>
     </aside>
