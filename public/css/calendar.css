@@ -16,6 +16,13 @@ body{
   background-color: #e2e1dc;
 
 } */
+
+.spinner-border {
+    width: 2rem;
+    height: 2rem;
+    border-width: 0.2em;
+}
+
 .container{
   position: relative;
   min-height: 600px;
@@ -206,7 +213,7 @@ body{
 }
 .calendar .days .active{
   position: relative;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: #fff;
   background-color: var(--primary-clr);
 }
@@ -220,7 +227,7 @@ body{
   box-shadow: 0 0 10px 2-x var(--primary-clr);
 }
 .calendar .days .today{
-  font-size:2ren;
+  font-size:1.6rem;
 }
 .calendar .days .event{
   position :relative;
@@ -292,22 +299,25 @@ body{
   border-radius: 0;
 }
 .calendar .days .today {
-  font-size: 3rem; /* Slightly larger font for emphasis */
+  font-size: 2.5rem; /* Slightly larger font for emphasis */
   font-weight: bold; /* Make the text bold */
   color: #fff; /* White text */
   background-color: var(--primary-clr); /* Highlight background */
   border-radius: 8px; /* Soft rounded corners */
-  padding: 8px 12px; /* Add space around the text */
+  padding: 4px 5px; /* Reduced padding for better alignment */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  display: inline-block; /* Make the highlighted date compact */
-  text-align: center; /* Center the text inside the box */
+  display: inline-flex; /* Use inline-flex for easy centering */
+  justify-content: center; /* Horizontally center the text */
+  align-items: center; /* Vertically center the text */
+  text-align: center; /* Center text inside */
   transition: transform 0.2s ease, background-color 0.3s ease; /* Smooth hover effects */
 }
 
 .calendar .days .today:hover {
   background-color: #004080; /* Darker shade on hover */
-  transform: scale(1.05); /* Slight enlargement on hover */
+  transform: scale(1.3) translate(-5%, -5%); /* Slight enlargement with offset */
 }
+
 
 .container .right{
   position: relative;

@@ -4,7 +4,11 @@
 
 namespace Composer\Autoload;
 
+<<<<<<< HEAD
 class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
+=======
+class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
+>>>>>>> j_branch
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -132,7 +136,10 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
+<<<<<<< HEAD
             'Psr\\Cache\\' => 10,
+=======
+>>>>>>> j_branch
             'Predis\\' => 7,
             'PragmaRX\\Google2FA\\' => 19,
             'PhpParser\\' => 10,
@@ -483,10 +490,13 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
+<<<<<<< HEAD
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+=======
+>>>>>>> j_branch
         'Predis\\' => 
         array (
             0 => __DIR__ . '/..' . '/predis/predis/src',
@@ -894,6 +904,7 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Http\\Controllers\\IcdSearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/IcdSearchController.php',
         'App\\Http\\Controllers\\InvestigationController' => __DIR__ . '/../..' . '/app/Http/Controllers/InvestigationController.php',
         'App\\Http\\Controllers\\InvoiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/InvoiceController.php',
+        'App\\Http\\Controllers\\LeaveController' => __DIR__ . '/../..' . '/app/Http/Controllers/LeaveController.php',
         'App\\Http\\Controllers\\MetricsController' => __DIR__ . '/../..' . '/app/Http/Controllers/MetricsController.php',
         'App\\Http\\Controllers\\MpesaController' => __DIR__ . '/../..' . '/app/Http/Controllers/MpesaController.php',
         'App\\Http\\Controllers\\ParentsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ParentsController.php',
@@ -952,6 +963,7 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Models\\Follow_Up' => __DIR__ . '/../..' . '/app/Models/Follow_Up.php',
         'App\\Models\\Gender' => __DIR__ . '/../..' . '/app/Models/Gender.php',
         'App\\Models\\Invoice' => __DIR__ . '/../..' . '/app/Models/Invoice.php',
+        'App\\Models\\LeaveType' => __DIR__ . '/../..' . '/app/Models/LeaveType.php',
         'App\\Models\\ParentModel' => __DIR__ . '/../..' . '/app/Models/ParentModel.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\Prescription' => __DIR__ . '/../..' . '/app/Models/Prescription.php',
@@ -960,6 +972,7 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\Specialization' => __DIR__ . '/../..' . '/app/Models/Specialization.php',
         'App\\Models\\Staff' => __DIR__ . '/../..' . '/app/Models/Staff.php',
+        'App\\Models\\StaffLeave' => __DIR__ . '/../..' . '/app/Models/StaffLeave.php',
         'App\\Models\\Triage' => __DIR__ . '/../..' . '/app/Models/Triage.php',
         'App\\Models\\TriageAssessment' => __DIR__ . '/../..' . '/app/Models/TriageAssessment.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
@@ -8494,10 +8507,13 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'Predis\\Transaction\\AbortedMultiExecException' => __DIR__ . '/..' . '/predis/predis/src/Transaction/AbortedMultiExecException.php',
         'Predis\\Transaction\\MultiExec' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExec.php',
         'Predis\\Transaction\\MultiExecState' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExecState.php',
+<<<<<<< HEAD
         'Psr\\Cache\\CacheException' => __DIR__ . '/..' . '/psr/cache/src/CacheException.php',
         'Psr\\Cache\\CacheItemInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemInterface.php',
         'Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemPoolInterface.php',
         'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
+=======
+>>>>>>> j_branch
         'Psr\\Clock\\ClockInterface' => __DIR__ . '/..' . '/psr/clock/src/ClockInterface.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
@@ -10497,9 +10513,16 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
             $loader->prefixLengthsPsr4 = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$classMap;
+=======
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$classMap;
+>>>>>>> j_branch
 
         }, null, ClassLoader::class);
     }

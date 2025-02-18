@@ -113,10 +113,11 @@ public function getFinanceData(Request $request)
     }
 
     return response()->json([
-        'labels' => $labels,
-        'revenue' => $revenue,
-        'expenses' => $expenses,
+        'labels' => array_values($labels),  // Convert to array
+        'revenue' => array_values($revenue), // Convert to array
+        'expenses' => array_values($expenses), // Convert to array
     ]);
+    
 }
 
 

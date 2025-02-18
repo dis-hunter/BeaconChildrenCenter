@@ -116,11 +116,11 @@ class DiagnosisController extends Controller
                 }
             }
 
-            // If no target disease found, classify as "Other"
-            if (empty($foundDiseases)) {
-                $diseaseCounts['Other']++;
-            }
+        // If no target disease found, classify as "Other"
+        if (empty($foundDiseases)) {
+            $diseaseCounts['Other']++;
         }
+    }
 
         // Log the data before caching
         Log::info('Disease Statistics Before Caching:', $diseaseCounts);
