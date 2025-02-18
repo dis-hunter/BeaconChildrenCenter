@@ -172,49 +172,95 @@ class ChildrenController extends Controller
 
 
     public function patientGet($id = null)
-    {
-        if ($id) {
-            $child = Children::findOrFail($id);
-            $gender = Gender::find($child->gender_id) ?? (object)['gender'=>'Unknown'];
-            if($child->dob){
-                $child->age= $child->dob ? Carbon::parse($child->dob)->age: 'Unknown';
-            }else{
-                $child->age='Unknown';
-            }
-            $last_visit=Visits::where('child_id',$child->id)
-            ->orderBy('created_at','desc')
-            ->first();
-            if($last_visit){
-                $last_visit->visitType=$last_visit->visit_type ? DB::table('visit_type')->where('id',$last_visit->visit_type)->get() : 'Unknown';
-        
-            }
-            $triage=Triage::where('child_id',$child->id)
-                ->latest()
-                ->first() ?? null;
-
-            $careplan = Careplan::where('child_id',$child->id)
-            ->latest()
-            ->first();
-            if($careplan){
-                $careplan->notes=Careplan::notes($careplan) ?? null;
-            }
-            $prescription=Prescription::where('child_id',$child->id)
-                ->latest()
-                ->first() ?? null;
-
-            $referral=Referral::where('child_id',$child->id)
-                ->latest()
-                ->first() ?? null;
-            
-            $therapist_careplan = Follow_Up::where('child_id',$child->id)
-            ->latest()
-            ->first() ?? null;         
-                
-            return view('reception.patients', compact('child','gender','last_visit','triage','careplan','prescription','referral','therapist_careplan'));
-        } else {
-            return view('reception.patients',['child' => null]);
-        }
+{
+    if (!$id) {
+        return view('reception.patients', ['child' => null]);
     }
+
+    // Get the latest record IDs using subqueries
+    $latestVisitId = Visits::select('id')
+        ->where('child_id', $id)
+        ->latest()
+        ->limit(1);
+
+    $latestTriageId = Triage::select('id')
+        ->where('child_id', $id)
+        ->latest()
+        ->limit(1);
+
+    $latestCareplanId = Careplan::select('id')
+        ->where('child_id', $id)
+        ->latest()
+        ->limit(1);
+
+    $latestPrescriptionId = Prescription::select('id')
+        ->where('child_id', $id)
+        ->latest()
+        ->limit(1);
+
+    $latestReferralId = Referral::select('id')
+        ->where('child_id', $id)
+        ->latest()
+        ->limit(1);
+
+    $latestFollowUpId = Follow_Up::select('id')
+        ->where('child_id', $id)
+        ->latest()
+        ->limit(1);
+
+    // Single query with all relationships
+    $child = Children::with([
+        'gender',
+        'visits' => function ($query) use ($latestVisitId) {
+            $query->whereIn('id', $latestVisitId)
+                  ->with('visitType');
+        },
+        'triage' => function ($query) use ($latestTriageId) {
+            $query->whereIn('id', $latestTriageId);
+        },
+        'careplan' => function ($query) use ($latestCareplanId) {
+            $query->whereIn('id', $latestCareplanId);
+        },
+        'prescription' => function ($query) use ($latestPrescriptionId) {
+            $query->whereIn('id', $latestPrescriptionId);
+        },
+        'referral' => function ($query) use ($latestReferralId) {
+            $query->whereIn('id', $latestReferralId);
+        },
+        'followUp' => function ($query) use ($latestFollowUpId) {
+            $query->whereIn('id', $latestFollowUpId);
+        }
+    ])
+    ->findOrFail($id);
+
+    // Calculate age
+    $child->age = $child->dob ? Carbon::parse($child->dob)->age : 'Unknown';
+
+    // Get the actual related records from the loaded relationships
+    $lastVisit = $child->visits->first();
+    $triage = $child->triage->first();
+    $careplan = $child->careplan->first();
+    $prescription = $child->prescription->first();
+    $referral = $child->referral->first();
+    $therapist_careplan = $child->followUp->first();
+
+    // Add careplan notes if exists
+    if ($careplan) {
+        $careplan->notes = Careplan::notes($careplan);
+    }
+
+    return view('reception.patients', [
+        'child' => $child,
+        'gender' => $child->gender ?? (object)['gender' => 'Unknown'],
+        'last_visit' => $lastVisit,
+        'triage' => $triage,
+        'careplan' => $careplan,
+        'prescription' => $prescription,
+        'referral' => $referral,
+        'therapist_careplan' => $therapist_careplan
+    ]);
+}
+
 
    
     public function showChildren()
