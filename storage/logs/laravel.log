@@ -1,0 +1,3 @@
+[2025-02-18 22:00:06] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 22:00:08] local.INFO: select * from "leave_types"  
+[2025-02-18 22:00:08] local.INFO: select "children"."id", CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name, "children"."dob", CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name, "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text ILIKE ? or "parents"."fullname"::text ILIKE ?  
