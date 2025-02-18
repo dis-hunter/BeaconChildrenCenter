@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Careplan;
 use App\Models\ChildParent;
-use App\Models\Children; // Ensure the model name matches your file structure
+use App\Models\children; // Ensure the model name matches your file structure
 use App\Models\Follow_Up;
 use App\Models\Gender;
 use App\Models\Parents; // Ensure the model name matches your file structure
@@ -19,7 +19,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
 
 class ChildrenController extends Controller
 {
@@ -110,7 +110,8 @@ class ChildrenController extends Controller
                 ]);
             });
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput($validatedData);
+            Log::error('Create Parent & child (Reception)',[$e->getMessage()]);
+            return redirect()->back()->with('error', 'Failed to save new record...')->withInput($validatedData);
         }
 
         return redirect()->back()->with('success', 'Record Saved Successfully!');
