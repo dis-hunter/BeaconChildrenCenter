@@ -44,7 +44,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
+                <a href="/get-invoices" class="nav-link"><span class="icon">📑</span><span class="text">Invoices</span></a>
             </li>
            
             
