@@ -4,6 +4,7 @@ npm-debug.log*
 yarn-error.log*
 
 # Laravel Directories
+vendor/
 /vendor/
 .env
 .env.*.backup

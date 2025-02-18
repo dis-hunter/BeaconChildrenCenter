@@ -61,6 +61,14 @@ class JetstreamServiceProvider extends ServiceProvider
             ]);
         });
 
+        RedirectResponse::macro('warningBanner', function ($message) {
+            /** @var \Illuminate\Http\RedirectResponse $this */
+            return $this->with('flash', [
+                'bannerStyle' => 'warning',
+                'banner' => $message,
+            ]);
+        });
+
         RedirectResponse::macro('dangerBanner', function ($message) {
             /** @var \Illuminate\Http\RedirectResponse $this */
             return $this->with('flash', [
@@ -110,10 +118,10 @@ class JetstreamServiceProvider extends ServiceProvider
         ], 'jetstream-config');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/2014_10_12_000000_create_users_table.php' => database_path('migrations/2014_10_12_000000_create_users_table.php'),
+            __DIR__.'/../database/migrations/0001_01_01_000000_create_users_table.php' => database_path('migrations/0001_01_01_000000_create_users_table.php'),
         ], 'jetstream-migrations');
 
-        $this->publishes([
+        $this->publishesMigrations([
             __DIR__.'/../database/migrations/2020_05_21_100000_create_teams_table.php' => database_path('migrations/2020_05_21_100000_create_teams_table.php'),
             __DIR__.'/../database/migrations/2020_05_21_200000_create_team_user_table.php' => database_path('migrations/2020_05_21_200000_create_team_user_table.php'),
             __DIR__.'/../database/migrations/2020_05_21_300000_create_team_invitations_table.php' => database_path('migrations/2020_05_21_300000_create_team_invitations_table.php'),
