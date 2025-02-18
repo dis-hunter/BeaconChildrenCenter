@@ -7,17 +7,14 @@ use App\Models\Visits;
 use App\Models\Children;
 use App\Models\Staff;
 use App\Models\Invoice;
-use Illuminate\Support\Facades\Log;
+
 
 class ReportController extends Controller
 {
     public function generateEncounterSummary(Request $request)
     {
-        // Log the incoming request data
-        Log::info('Received request for generating encounter summary', [
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
-        ]);
+       
+      
     
         // Validate incoming request
         $validated = $request->validate([
@@ -26,77 +23,42 @@ class ReportController extends Controller
             'report_type' => 'required|in:encounter_summary,financial_summary,expenses_breakdown,revenue_breakdown,staff_performance',
         ]);
     
-        // Extract validated data
         $startDate = $validated['start_date'];
         $endDate = $validated['end_date'];
     
-        // Log the validated data
-        Log::info('Validated request data for encounter summary report', [
-            'start_date' => $startDate,
-            'end_date' => $endDate
-        ]);
+      
+       
     
-        // Query the encounters and process them into an array
-        $encounters = Visits::whereBetween('visit_date', [$startDate, $endDate])
-            ->get()
-            ->map(function ($visit) use ($startDate, $endDate) {
-                // Retrieve related child, staff, and invoice information
-                $child = Children::find($visit->child_id);
-                $staff = Staff::find($visit->doctor_id);
-                $invoice = Invoice::where('child_id', $visit->child_id)
-                    ->where('invoice_date', $visit->visit_date)
-                    ->first();
+        // Eager load child, staff, and invoice relationships, reducing query complexity
+        $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
+            ->with(['child:id,fullname', 'staff:id,fullname'])  // No need to eager load invoice here, we handle it separately
+            ->get();
     
-                // Log each encounter processing step with staff object logging
-                Log::info('Processing encounter', [
-                    'visit_date' => $visit->visit_date,
-                    'child_id' => $visit->child_id,
-                    'doctor_id' => $visit->doctor_id,
-                    'child_fullname' => $child ? $this->formatChildFullname($child->fullname) : 'N/A',
-                    'staff_object' => $staff ? $staff->toArray() : 'N/A', // Log staff as an array if available
-                    'specialist_fullname' => $staff ? $this->formatStaffFullname($staff) : 'N/A',
-                ]);
+        // Process visits and format encounters data
+        $encounters = $visits->map(function ($visit) {
+            // Get the corresponding invoice based on child_id and visit_date
+            $invoice = Invoice::where('child_id', $visit->child_id)
+                ->where('invoice_date', $visit->visit_date)
+                ->first();
     
-                // Process and format child name
-                $formattedChildName = $this->formatChildFullname($child ? $child->fullname : null);
-                
-                // Process and format specialist (doctor) name
-                $formattedStaffName = $this->formatStaffFullname($staff);
+            // Format the encounter data
+            return [
+                'date' => $visit->visit_date,
+                'child_name' => $this->formatChildFullname($visit->child->fullname ?? null),
+                'specialist_name' => $this->formatStaffFullname($visit->staff),
+                'invoice_id' => $invoice ? $invoice->id : 'N/A',  // If invoice exists, fetch its id; otherwise, return 'N/A'
+            ];
+        })->toArray();  // Convert collection to array
     
-                // Handle invoice ID
-                $invoiceId = $invoice ? $invoice->id : 'N/A';
-    
-                // Return the encounter as an array
-                return [
-                    'date' => $visit->visit_date,
-                    'child_name' => $formattedChildName,
-                    'specialist_name' => $formattedStaffName,
-                    'invoice_id' => $invoiceId,
-                ];
-            })
-            ->toArray();  // Convert the collection to an array here
-    
-        // Log the number of encounters processed
-        Log::info('Encounter summary generated', [
-            'encounter_count' => count($encounters)  // Using count function to get the number of encounters
-        ]);
-    
-        // Log the response data being sent back to the view
-        Log::info('Sending response for encounter summary', [
+        // Return the response with the encounters data
+        return response()->json([
             'success' => true,
             'encounters' => $encounters,
             'start_date' => $startDate,
             'end_date' => $endDate,
         ]);
-    
-        // Return the response with the encounters data in the desired format
-        return response()->json([
-            'success' => true,
-            'encounters' => $encounters,  // Encounters will be an array of associative arrays
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-        ]);
     }
+    
     
     // Helper method to format names, added check to ensure only strings are processed
     private function formatFullname($fullname)
@@ -124,14 +86,12 @@ class ReportController extends Controller
     private function formatStaffFullname($staff)
     {
         if ($staff && $staff->fullname) {
-            // Log the raw fullname before decoding
-            Log::info('Raw staff fullname:', ['fullname' => $staff->fullname]);
+          
 
             // Decode the specialist_fullname string to access first_name, middle_name, last_name
             $specialistName = json_decode($staff->fullname);
             if ($specialistName) {
-                // Log the decoded specialist name object
-                Log::info('Decoded staff fullname:', ['specialistName' => $specialistName]);
+              
 
                 return ucfirst(strtolower($specialistName->first_name . ' ' . $specialistName->middle_name . ' ' . $specialistName->last_name));
             }
@@ -143,44 +103,50 @@ class ReportController extends Controller
 
     //Staff Perfomance
     public function generateStaffPerformance(Request $request)
-{
-    try {
-        Log::info('Generating Staff Performance Report', $request->all());
-
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-
-        $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
-            ->selectRaw('visit_date, staff_id, visit_type, COUNT(*) as sessions')
-            ->groupBy('visit_date', 'staff_id', 'visit_type')
-            ->with(['staff:id,fullname', 'visitType:id,visit_type'])
-            ->get();
-
-        Log::info('Fetched Visits Data:', ['visits' => $visits]);
-
-        $performance = $visits->map(function ($visit) {
-            $staffName = $this->formatSpecialistFullname($visit->staff->fullname);
-
-            return [
-                'date' => $visit->visit_date,
-                'staff_name' => $staffName,
-                'service' => $visit->visitType->visit_type,
-                'number_of_sessions' => $visit->sessions,
-            ];
-        });
-
-        Log::info('Generated Performance Data:', ['performance' => $performance]);
-
-        return response()->json([
-            'success' => true,
-            'performance' => $performance,
-        ]);
-    } catch (\Exception $e) {
-        Log::error('Error generating staff performance report: ' . $e->getMessage());
-        return response()->json(['success' => false]);
+    {
+        try {
+           
+    
+            // Validate input
+            $validated = $request->validate([
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+    
+            $startDate = $validated['start_date'];
+            $endDate = $validated['end_date'];
+    
+            // Optimize the query by selecting only required fields and reducing the data loaded
+            $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
+                ->selectRaw('visit_date, staff_id, visit_type, COUNT(*) as sessions')
+                ->groupBy('visit_date', 'staff_id', 'visit_type')
+                ->get();  // No eager loading here
+    
+           
+    
+            // Perform the mapping and formatting
+            $performance = $visits->map(function ($visit) {
+                // Format the data directly here, instead of doing extra work later
+                return [
+                    'date' => $visit->visit_date,
+                    'staff_name' => $this->formatSpecialistFullname($visit->staff->fullname ?? 'N/A'),
+                    'service' => $visit->visitType->visit_type ?? 'Unknown',
+                    'number_of_sessions' => $visit->sessions,
+                ];
+            });
+    
+           
+    
+            // Return the performance data
+            return response()->json([
+                'success' => true,
+                'performance' => $performance,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
-}
-
+    
 /**
  * Format the staff fullname correctly.
  *

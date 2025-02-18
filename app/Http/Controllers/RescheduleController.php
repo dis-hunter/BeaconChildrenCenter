@@ -21,12 +21,14 @@ class RescheduleController extends Controller
      public function cancelAppointment($id) {
         $appointment = Appointment::find($id);
         if ($appointment) {
-            $appointment->delete(); // Delete the appointment
-            return response()->json(['message' => 'Appointment canceled successfully.'], 200);
+            $appointment->status = 'rejected'; // Update status instead of deleting
+            $appointment->save(); // Save the change
+            return response()->json(['message' => 'Appointment rejected successfully.'], 200);
         } else {
             return response()->json(['message' => 'Appointment not found.'], 404);
         }
     }
+    
     public function rescheduleAppointment(Request $request)
     { 
         // Validate the incoming data

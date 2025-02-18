@@ -10,7 +10,8 @@
 </head>
 <body>
 
-  <header>
+@section('header_sidebar')  
+<header>
     <div class="profile">
       <i class="fas fa-user-md fa-4x"></i>
       <div>
@@ -39,6 +40,7 @@
   </header>
 
   <main>
+  @yield('content')
     <aside class="sidebar">
       <nav>
         <ul>
@@ -48,10 +50,11 @@
           <li> <a id="therapist-link" href="#">Therapy</a></li>
 
           <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Calendar</a></li> 
-          
+          <li><a href="/staff/leave-request" id= "leave-link"><i class = "fas fa-user-leave"></i> Leave Request</a></li>
         </ul>
       </nav>
     </aside>
+    @show 
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">

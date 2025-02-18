@@ -243,7 +243,11 @@ class TypesenseEngine extends Engine
      */
     protected function performSearch(Builder $builder, array $options = []): mixed
     {
-        $documents = $this->getOrCreateCollectionFromModel($builder->model, false)->getDocuments();
+        $documents = $this->getOrCreateCollectionFromModel(
+            $builder->model,
+            $builder->index,
+            false,
+        )->getDocuments();
 
         if ($builder->callback) {
             return call_user_func($builder->callback, $documents, $builder->query, $options);
@@ -591,16 +595,19 @@ class TypesenseEngine extends Engine
      * Get collection from model or create new one.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return TypesenseCollection
+     * @return \Typesense\Collection
      *
      * @throws \Typesense\Exceptions\TypesenseClientError
      * @throws \Http\Client\Exception
      */
-    protected function getOrCreateCollectionFromModel($model, bool $indexOperation = true): TypesenseCollection
+    protected function getOrCreateCollectionFromModel($model, ?string $collectionName = null, bool $indexOperation = true): TypesenseCollection
     {
-        $method = $indexOperation ? 'indexableAs' : 'searchableAs';
+        if (! $indexOperation) {
+            $collectionName = $collectionName ?? $model->searchableAs();
+        } else {
+            $collectionName = $model->indexableAs();
+        }
 
-        $collectionName = $model->{$method}();
         $collection = $this->typesense->getCollections()->{$collectionName};
 
         if (! $indexOperation) {

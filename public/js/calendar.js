@@ -397,56 +397,72 @@ function updateEvents(date) {
     });
 
     // Handle Reschedule Form Submission
-    document
-    .getElementById("reschedule-form")
-    .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const newDate = document.getElementById("newDate").value;
-        const startTime = document.getElementById("appointment-start-time").value;
-        const endTime = document.getElementById("appointment-end-time").value;
-        const appointmentId = this.dataset.appointmentId;
-
-        const requestData = {
-            new_date: newDate,
-            new_start_time: startTime,
-            new_end_time: endTime,
-            appointment_id: appointmentId,
-        };
-
-        const csrfToken = document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute('content');
-
-            fetch(`/reschedule-appointment/${appointmentId}`, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify(requestData),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                submitButton.disabled = false; // Re-enable the button
-            
-                if (data.success) {
-                    alert(data.message);
-                    document.getElementById("reschedule-modal").classList.add("hidden");
-                    location.reload(); // Refresh the page
-                } else {
-                    alert(data.message || "Error occurred.");
+    document.addEventListener("DOMContentLoaded", function () {
+        const rescheduleForm = document.getElementById("reschedule-form");
+    
+        if (rescheduleForm) {
+            rescheduleForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+    
+                // Check if a loader already exists to prevent duplicate loaders and submissions
+                if (document.querySelector(".loading")) {
+                    return;
                 }
-            })
-            .catch((error) => {
-                console.error("Error rescheduling appointment:", error);
-                submitButton.disabled = false; // Re-enable the button on error
+    
+                // Create and show the rescheduling loader inside the form
+                const rescheduleLoader = document.createElement("div");
+                rescheduleLoader.classList.add("loading");
+                rescheduleLoader.innerHTML = `
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text" style="color:black;">Rescheduling appointment... Please wait!</p>
+                `;
+                rescheduleForm.appendChild(rescheduleLoader); // Append the loader to the form
+    
+                const newDate = document.getElementById("newDate").value;
+                const startTime = document.getElementById("appointment-start-time").value;
+                const endTime = document.getElementById("appointment-end-time").value;
+                const appointmentId = this.dataset.appointmentId;
+    
+                const requestData = {
+                    new_date: newDate,
+                    new_start_time: startTime,
+                    new_end_time: endTime,
+                    appointment_id: appointmentId,
+                };
+    
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+                fetch(`/reschedule-appointment/${appointmentId}`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify(requestData),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Remove the loader
+                        rescheduleLoader.remove();
+    
+                        if (data.success) {
+                            alert(data.message);
+                            document.getElementById("reschedule-modal").classList.add("hidden");
+                            location.reload(); // Refresh the page
+                        } else {
+                            alert(data.message || "Error occurred.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error rescheduling appointment:", error);
+                        alert("An error occurred while rescheduling the appointment.");
+                        rescheduleLoader.remove(); // Remove loader on error
+                    });
             });
-                
-               
-           
+        }
     });
+    
 
 }
 

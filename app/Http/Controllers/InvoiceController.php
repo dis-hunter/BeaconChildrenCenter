@@ -22,6 +22,77 @@ class InvoiceController extends Controller
      * @param string $registrationNumber
      * @return \Illuminate\Http\JsonResponse
      */
+    public function updateInsurance($invoiceId, array $insuranceAmounts)
+{
+    try {
+        // 1. Get current invoice
+        $invoice = DB::table('invoices')->find($invoiceId);
+        
+        if (!$invoice) {
+            Log::error('Invoice not found', ['invoice_id' => $invoiceId]);
+            return ['success' => false];
+        }
+
+        // 2. Get current details
+        $currentDetails = json_decode($invoice->invoice_details, true);
+        Log::info('Current invoice details', ['before' => $currentDetails]);
+
+        // 3. Calculate new details with insurance
+        $updatedDetails = [];
+        $totalRemaining = 0;
+
+        foreach ($currentDetails as $service => $details) {
+            if ($service === 'total_remaining') continue;
+
+            $originalAmount = is_array($details) ? 
+                floatval(str_replace(',', '', $details['original'])) : 
+                floatval($details);
+            
+            $insuranceAmount = floatval($insuranceAmounts[$service] ?? 0);
+            $remainingAmount = $originalAmount - $insuranceAmount;
+            
+            $updatedDetails[$service] = [
+                'original' => number_format($originalAmount, 2),
+                'insurance' => number_format($insuranceAmount, 2),
+                'remaining' => number_format($remainingAmount, 2)
+            ];
+            
+            $totalRemaining += $remainingAmount;
+        }
+
+        $updatedDetails['total_remaining'] = number_format($totalRemaining, 2);
+        
+        Log::info('Updated invoice details', ['after' => $updatedDetails]);
+
+        // 4. Update database
+        $updated = DB::table('invoices')
+            ->where('id', $invoiceId)
+            ->update([
+                'invoice_details' => json_encode($updatedDetails)
+            ]);
+
+        // 5. Verify update
+        $verifyUpdate = DB::table('invoices')->find($invoiceId);
+        $verifiedDetails = json_decode($verifyUpdate->invoice_details, true);
+        
+        Log::info('Update verification', [
+            'success' => $updated === 1,
+            'verified_details' => $verifiedDetails
+        ]);
+
+        return [
+            'success' => true,
+            'total_remaining' => $updatedDetails['total_remaining']
+        ];
+
+    } catch (\Exception $e) {
+        Log::error('Error updating insurance', [
+            'error' => $e->getMessage(),
+            'invoice_id' => $invoiceId
+        ]);
+        return ['success' => false];
+    }
+}
     public function countVisitsForToday($registrationNumber)
     {
         Log::info('Received Registration Number: ' . $registrationNumber);
@@ -29,7 +100,7 @@ class InvoiceController extends Controller
         // Fetch the child ID using the registration number
         $child = DB::table('children')
             ->where('registration_number', $registrationNumber)
-            ->select('id')
+            ->select('id', 'fullname')
             ->first();
 
         if (!$child) {
@@ -96,6 +167,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $existingInvoice->id,
                 'total_amount' => $totalAmount,
                 'invoice_details' => $invoiceDetails,
+                'child_fullname' => $child->fullname,
             ]);
         } else {
             // Insert a new invoice with `invoice_status = false`
@@ -112,6 +184,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $invoiceId,
                 'total_amount' => $totalAmount,
                 'invoice_details' => $invoiceDetails,
+                'child_fullname' => $child->fullname,
             ]);
         }
     }

@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\View;
 use App\Models\DoctorSpecialization;
+use App\Models\LeaveType;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,13 @@ class AppServiceProvider extends ServiceProvider
             Log::info($query->sql);
         });
         View::share('doctorSpecializations', DoctorSpecialization::all());
+
+
+        // Share leave types with all views
+        $leaveTypes = LeaveType::all(); // Retrieve all leave types
+        
+        // Share the leaveTypes variable globally
+        View::share('leaveTypes', $leaveTypes);
 
     }
 }

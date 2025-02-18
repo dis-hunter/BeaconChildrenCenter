@@ -6,6 +6,7 @@ use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 
+
 class Dashboard extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';

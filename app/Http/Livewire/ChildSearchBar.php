@@ -16,22 +16,19 @@ class ChildSearchBar extends Component
 {
     if (strlen($this->search) >= 1) {
         $this->results = DB::table('children')
-            ->select(
-                'children.fullname',
-                'children.id',
-                'children.dob',
-                'parents.id as parent_id',
-                // Concatenate parent's full name
-                'parents.fullname as parent_fullname',
-                'parents.email',
-                'parents.telephone'
-            )
-            ->join('child_parent', 'children.id', '=', 'child_parent.child_id')
-            ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
-            ->where(function ($query){
-                $query->where('children.fullname', 'like', "%{$this->search}%")
-                    ->orWhere('parents.fullname', 'like', "%{$this->search}%");
-            })
+    ->select(
+        'children.fullname',
+        'children.id',
+        'children.dob',
+        'parents.id as parent_id',
+        'parents.fullname as parent_fullname',
+        'parents.email',
+        'parents.telephone'
+    )
+    ->join('child_parent', 'children.id', '=', 'child_parent.child_id')
+    ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+    ->where('children.fullname', 'like', "%{$this->search}%")
+    
             ->get();
     }
 
