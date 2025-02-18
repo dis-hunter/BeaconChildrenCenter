@@ -3,79 +3,180 @@
 namespace Filament\Resources\RelationManagers;
 
 use Closure;
+use Filament\Actions;
 use Filament\Facades\Filament;
-use Filament\Http\Livewire\Concerns\CanNotify;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use function Filament\Support\locale_has_pluralization;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
+use Filament\Pages\Page;
+use Filament\Resources\Concerns\InteractsWithRelationshipTable;
+use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Concerns\CanBeLazy;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
-use Illuminate\Contracts\Support\Htmlable;
+use Filament\Tables\Table;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class RelationManager extends Component implements Tables\Contracts\HasRelationshipTable, Tables\Contracts\HasTable
+use function Filament\authorize;
+
+class RelationManager extends Component implements Actions\Contracts\HasActions, Forms\Contracts\HasForms, Infolists\Contracts\HasInfolists, Tables\Contracts\HasTable
 {
-    use CanNotify;
-    use Tables\Concerns\InteractsWithTable;
-
-    public Model $ownerRecord;
-
-    public ?string $pageClass = null;
-
-    protected static ?string $recordTitleAttribute = null;
-
-    protected static string $relationship;
-
-    protected static ?string $inverseRelationship = null;
-
-    protected static string $view = 'filament::resources.relation-manager';
+    use Actions\Concerns\InteractsWithActions;
+    use CanBeLazy;
+    use Forms\Concerns\InteractsWithForms;
+    use Infolists\Concerns\InteractsWithInfolists;
+    use InteractsWithRelationshipTable {
+        InteractsWithRelationshipTable::makeTable as makeBaseRelationshipTable;
+    }
 
     /**
-     * @deprecated Use `$modelLabel` instead.
+     * @var view-string
+     */
+    protected static string $view = 'filament-panels::resources.relation-manager';
+
+    #[Locked]
+    public Model $ownerRecord;
+
+    #[Locked]
+    public ?string $pageClass = null;
+
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected static ?string $recordTitleAttribute = null;
+
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected static ?string $inverseRelationship = null;
+
+    /**
+     * @deprecated Override the `table()` method to configure the table.
      */
     protected static ?string $label = null;
 
     /**
-     * @deprecated Use `$pluralModelLabel` instead.
+     * @deprecated Override the `table()` method to configure the table.
      */
     protected static ?string $pluralLabel = null;
 
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
     protected static ?string $modelLabel = null;
 
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
     protected static ?string $pluralModelLabel = null;
 
     protected static ?string $title = null;
 
-    protected static bool $shouldAuthorizeWithGate = false;
+    protected static ?string $icon = null;
 
-    protected static bool $shouldIgnorePolicies = false;
+    protected static IconPosition $iconPosition = IconPosition::Before;
 
-    protected function getTableQueryStringIdentifier(): ?string
+    protected static ?string $badge = null;
+
+    protected static ?string $badgeColor = null;
+
+    protected static ?string $badgeTooltip = null;
+
+    public function mount(): void
     {
-        return lcfirst(class_basename(static::class));
+        $this->loadDefaultActiveTab();
     }
 
-    protected function getResourceForm(?int $columns = null, bool $isDisabled = false): Form
+    /**
+     * @return array<int | string, string | Form>
+     */
+    protected function getForms(): array
     {
-        return static::form(
-            $this->getBaseResourceForm(
-                columns: $columns,
-                isDisabled: $isDisabled,
-            ),
-        );
+        return [];
     }
 
-    protected function getBaseResourceForm(?int $columns = null, bool $isDisabled = false): Form
+    /**
+     * @param  array<string, mixed>  $properties
+     */
+    public static function make(array $properties = []): RelationManagerConfiguration
     {
-        return Form::make()
-            ->columns($columns)
-            ->disabled($isDisabled);
+        return app(RelationManagerConfiguration::class, ['relationManager' => static::class, 'properties' => $properties]);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getRenderHookScopes(): array
+    {
+        return [
+            static::class,
+            $this->getPageClass(),
+        ];
+    }
+
+    public function render(): View
+    {
+        return view(static::$view, $this->getViewData());
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getViewData(): array
+    {
+        return [];
+    }
+
+    public static function getIcon(Model $ownerRecord, string $pageClass): ?string
+    {
+        return static::$icon;
+    }
+
+    public static function getIconPosition(Model $ownerRecord, string $pageClass): IconPosition
+    {
+        return static::$iconPosition;
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return static::$badge;
+    }
+
+    public static function getBadgeColor(Model $ownerRecord, string $pageClass): ?string
+    {
+        return static::$badgeColor;
+    }
+
+    public static function getBadgeTooltip(Model $ownerRecord, string $pageClass): ?string
+    {
+        return static::$badgeTooltip;
+    }
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return static::$title ?? (string) str(static::getRelationshipName())
+            ->kebab()
+            ->replace('-', ' ')
+            ->headline();
+    }
+
+    /**
+     * @return class-string<Page>
+     */
+    public function getPageClass(): string
+    {
+        return $this->pageClass;
+    }
+
+    public function getOwnerRecord(): Model
+    {
+        return $this->ownerRecord;
     }
 
     protected function configureTableAction(Tables\Actions\Action $action): void
@@ -99,87 +200,71 @@ class RelationManager extends Component implements Tables\Contracts\HasRelations
     protected function configureAssociateAction(Tables\Actions\AssociateAction $action): void
     {
         $action
-            ->authorize($this->canAssociate())
-            ->recordTitleAttribute(static::getRecordTitleAttribute());
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canAssociate());
     }
 
     protected function configureAttachAction(Tables\Actions\AttachAction $action): void
     {
         $action
-            ->authorize($this->canAttach())
-            ->recordTitleAttribute(static::getRecordTitleAttribute());
-    }
-
-    protected function getCreateFormSchema(): array
-    {
-        return $this->getResourceForm(columns: 2)->getSchema();
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canAttach());
     }
 
     protected function configureCreateAction(Tables\Actions\CreateAction $action): void
     {
         $action
-            ->authorize($this->canCreate())
-            ->form($this->getCreateFormSchema());
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canCreate())
+            ->form(fn (Form $form): Form => $this->form($form->columns(2)));
     }
 
     protected function configureDeleteAction(Tables\Actions\DeleteAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canDelete($record));
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canDelete($record));
     }
 
     protected function configureDetachAction(Tables\Actions\DetachAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canDetach($record));
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canDetach($record));
     }
 
     protected function configureDissociateAction(Tables\Actions\DissociateAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canDissociate($record));
-    }
-
-    protected function getEditFormSchema(): array
-    {
-        return $this->getResourceForm(columns: 2)->getSchema();
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canDissociate($record));
     }
 
     protected function configureEditAction(Tables\Actions\EditAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canEdit($record))
-            ->form($this->getEditFormSchema());
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record))
+            ->form(fn (Form $form): Form => $this->form($form->columns(2)));
     }
 
     protected function configureForceDeleteAction(Tables\Actions\ForceDeleteAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canForceDelete($record));
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canForceDelete($record));
     }
 
     protected function configureReplicateAction(Tables\Actions\ReplicateAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canReplicate($record));
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canReplicate($record));
     }
 
     protected function configureRestoreAction(Tables\Actions\RestoreAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canRestore($record));
-    }
-
-    protected function getViewFormSchema(): array
-    {
-        return $this->getResourceForm(columns: 2, isDisabled: true)->getSchema();
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canRestore($record));
     }
 
     protected function configureViewAction(Tables\Actions\ViewAction $action): void
     {
         $action
-            ->authorize(fn (Model $record): bool => $this->canView($record))
-            ->form($this->getViewFormSchema());
+            ->authorize(static fn (RelationManager $livewire, Model $record): bool => $livewire->canView($record))
+            ->infolist(fn (Infolist $infolist): Infolist => $this->infolist($infolist->columns(2)))
+            ->form(fn (Form $form): Form => $this->form($form->columns(2)));
     }
 
     protected function configureTableBulkAction(BulkAction $action): void
@@ -197,310 +282,75 @@ class RelationManager extends Component implements Tables\Contracts\HasRelations
     protected function configureDeleteBulkAction(Tables\Actions\DeleteBulkAction $action): void
     {
         $action
-            ->authorize($this->canDeleteAny());
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canDeleteAny());
     }
 
     protected function configureDetachBulkAction(Tables\Actions\DetachBulkAction $action): void
     {
         $action
-            ->authorize($this->canDetachAny());
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canDetachAny());
     }
 
     protected function configureDissociateBulkAction(Tables\Actions\DissociateBulkAction $action): void
     {
         $action
-            ->authorize($this->canDissociateAny());
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canDissociateAny());
     }
 
     protected function configureForceDeleteBulkAction(Tables\Actions\ForceDeleteBulkAction $action): void
     {
         $action
-            ->authorize($this->canForceDeleteAny());
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canForceDeleteAny());
     }
 
     protected function configureRestoreBulkAction(Tables\Actions\RestoreBulkAction $action): void
     {
         $action
-            ->authorize($this->canRestoreAny());
-    }
-
-    protected function callHook(string $hook): void
-    {
-        if (! method_exists($this, $hook)) {
-            return;
-        }
-
-        $this->{$hook}();
+            ->authorize(static fn (RelationManager $livewire): bool => (! $livewire->isReadOnly()) && $livewire->canRestoreAny());
     }
 
     protected function can(string $action, ?Model $record = null): bool
     {
-        $user = Filament::auth()->user();
-        $model = $this->getRelatedModel();
-
-        if (static::shouldAuthorizeWithGate()) {
-            return Gate::forUser($user)->check($action, $record ?? $model);
-        }
-
-        if (static::shouldIgnorePolicies()) {
+        if (static::shouldSkipAuthorization()) {
             return true;
         }
 
-        $policy = Gate::getPolicyFor($model);
+        $model = $this->getTable()->getModel();
 
-        if ($policy === null) {
-            return true;
+        try {
+            return authorize($action, $record ?? $model, static::shouldCheckPolicyExistence())->allowed();
+        } catch (AuthorizationException $exception) {
+            return $exception->toResponse()->allowed();
         }
-
-        if (! method_exists($policy, $action)) {
-            return true;
-        }
-
-        return Gate::forUser($user)->check($action, $record ?? $model);
     }
 
-    public static function authorizeWithGate(bool $condition = true): void
-    {
-        static::$shouldAuthorizeWithGate = $condition;
-    }
-
-    public static function ignorePolicies(bool $condition = true): void
-    {
-        static::$shouldIgnorePolicies = $condition;
-    }
-
-    public static function shouldAuthorizeWithGate(): bool
-    {
-        return static::$shouldAuthorizeWithGate;
-    }
-
-    public static function shouldIgnorePolicies(): bool
-    {
-        return static::$shouldIgnorePolicies;
-    }
-
-    public static function canViewForRecord(Model $ownerRecord): bool
-    {
-        if (static::shouldIgnorePolicies()) {
-            return true;
-        }
-
-        $model = $ownerRecord->{static::getRelationshipName()}()->getQuery()->getModel()::class;
-
-        $policy = Gate::getPolicyFor($model);
-        $user = Filament::auth()->user();
-        $action = 'viewAny';
-
-        if ($policy === null) {
-            return true;
-        }
-
-        if (! method_exists($policy, $action)) {
-            return true;
-        }
-
-        return Gate::forUser($user)->check($action, $model);
-    }
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form;
     }
 
-    public function getInverseRelationshipName(): string
+    public function infolist(Infolist $infolist): Infolist
     {
-        return static::$inverseRelationship ?? (string) Str::of(class_basename($this->getOwnerRecord()))
-            ->plural()
-            ->camel();
+        return $infolist;
     }
 
-    public function getOwnerRecord(): Model
+    public function isReadOnly(): bool
     {
-        return $this->ownerRecord;
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table;
-    }
-
-    public static function getRelationshipName(): string
-    {
-        return static::$relationship;
-    }
-
-    public static function getTitle(): string
-    {
-        return static::$title ?? Str::headline(static::getPluralModelLabel());
-    }
-
-    public static function getTitleForRecord(Model $ownerRecord): string
-    {
-        return static::getTitle();
-    }
-
-    public static function getRecordTitleAttribute(): ?string
-    {
-        return static::$recordTitleAttribute;
-    }
-
-    public static function getRecordTitle(?Model $record): ?string
-    {
-        return $record?->getAttributeValue(static::getRecordTitleAttribute()) ?? static::getModelLabel();
-    }
-
-    /**
-     * @deprecated Use `getModelLabel()` instead.
-     */
-    protected static function getRecordLabel(): ?string
-    {
-        return static::$label;
-    }
-
-    protected static function getModelLabel(): string
-    {
-        return static::$modelLabel ?? static::getRecordLabel() ?? (string) Str::of(static::getRelationshipName())
-            ->kebab()
-            ->replace('-', ' ')
-            ->singular();
-    }
-
-    /**
-     * @deprecated Use `getPluralModelLabel()` instead.
-     */
-    protected static function getPluralRecordLabel(): ?string
-    {
-        return static::$pluralLabel;
-    }
-
-    protected static function getPluralModelLabel(): string
-    {
-        if (filled($label = static::$pluralModelLabel ?? static::getPluralRecordLabel())) {
-            return $label;
+        if (blank($this->getPageClass())) {
+            return false;
         }
 
-        if (locale_has_pluralization()) {
-            return (string) Str::of(static::getRelationshipName())
-                ->kebab()
-                ->replace('-', ' ');
+        $panel = Filament::getCurrentPanel();
+
+        if (! $panel) {
+            return false;
         }
 
-        return static::getModelLabel();
-    }
+        if (! $panel->hasReadOnlyRelationManagersOnResourceViewPagesByDefault()) {
+            return false;
+        }
 
-    protected function getRelatedModel(): string
-    {
-        return $this->getRelationship()->getQuery()->getModel()::class;
-    }
-
-    public function getRelationship(): Relation | Builder
-    {
-        return $this->getOwnerRecord()->{static::getRelationshipName()}();
-    }
-
-    protected function getInverseRelationshipFor(Model $record): Relation | Builder
-    {
-        return $record->{$this->getInverseRelationshipName()}();
-    }
-
-    protected function getResourceTable(): Table
-    {
-        return $this->table(Table::make());
-    }
-
-    protected function getDefaultTableSortColumn(): ?string
-    {
-        return $this->getResourceTable()->getDefaultSortColumn();
-    }
-
-    protected function getDefaultTableSortDirection(): ?string
-    {
-        return $this->getResourceTable()->getDefaultSortDirection();
-    }
-
-    public function getTableRecordTitle(Model $record): string
-    {
-        return static::getRecordTitle($record);
-    }
-
-    public function getTableModelLabel(): string
-    {
-        return static::getModelLabel();
-    }
-
-    public function getTablePluralModelLabel(): string
-    {
-        return static::getPluralModelLabel();
-    }
-
-    protected function getTableActions(): array
-    {
-        return $this->getResourceTable()->getActions();
-    }
-
-    public function getTableRecordCheckboxPosition(): string
-    {
-        return $this->getResourceTable()->getRecordCheckboxPosition() ?? Tables\Actions\RecordCheckboxPosition::BeforeCells;
-    }
-
-    protected function getTableActionsPosition(): ?string
-    {
-        return $this->getResourceTable()->getActionsPosition();
-    }
-
-    protected function getTableBulkActions(): array
-    {
-        return $this->getResourceTable()->getBulkActions();
-    }
-
-    protected function getTableColumns(): array
-    {
-        return $this->getResourceTable()->getColumns();
-    }
-
-    protected function getTableContentGrid(): ?array
-    {
-        return $this->getResourceTable()->getContentGrid();
-    }
-
-    protected function getTableFilters(): array
-    {
-        return $this->getResourceTable()->getFilters();
-    }
-
-    protected function getTableFiltersLayout(): ?string
-    {
-        return $this->getResourceTable()->getFiltersLayout();
-    }
-
-    protected function getTableHeaderActions(): array
-    {
-        return $this->getResourceTable()->getHeaderActions();
-    }
-
-    protected function getTableReorderColumn(): ?string
-    {
-        return $this->getResourceTable()->getReorderColumn();
-    }
-
-    protected function isTableReorderable(): bool
-    {
-        return filled($this->getTableReorderColumn()) && $this->canReorder();
-    }
-
-    protected function getTablePollingInterval(): ?string
-    {
-        return $this->getResourceTable()->getPollingInterval();
-    }
-
-    protected function getTableHeading(): string | Htmlable | Closure | null
-    {
-        return static::getTitle();
-    }
-
-    public function render(): View
-    {
-        return view(static::$view, $this->getViewData());
+        return is_subclass_of($this->getPageClass(), ViewRecord::class);
     }
 
     protected function canAssociate(): bool
@@ -588,64 +438,95 @@ class RelationManager extends Component implements Tables\Contracts\HasRelations
         return $this->can('view', $record);
     }
 
-    protected function getViewData(): array
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    public static function getRecordTitleAttribute(): ?string
     {
-        return [];
+        return static::$recordTitleAttribute;
     }
 
-    protected function getTableRecordUrlUsing(): ?Closure
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected static function getRecordLabel(): ?string
     {
-        return function (Model $record): ?string {
-            foreach (['view', 'edit'] as $action) {
-                $action = $this->getCachedTableAction($action);
-
-                if (! $action) {
-                    continue;
-                }
-
-                $action->record($record);
-
-                if ($action->isHidden()) {
-                    continue;
-                }
-
-                $url = $action->getUrl();
-
-                if (! $url) {
-                    continue;
-                }
-
-                return $url;
-            }
-
-            return null;
-        };
+        return static::$label;
     }
 
-    protected function getTableRecordActionUsing(): ?Closure
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected static function getModelLabel(): ?string
     {
-        return function (Model $record): ?string {
-            foreach (['view', 'edit'] as $action) {
-                $action = $this->getCachedTableAction($action);
+        return static::$modelLabel ?? static::getRecordLabel();
+    }
 
-                if (! $action) {
-                    continue;
-                }
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected static function getPluralRecordLabel(): ?string
+    {
+        return static::$pluralLabel;
+    }
 
-                $action->record($record);
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected static function getPluralModelLabel(): ?string
+    {
+        return static::$pluralModelLabel ?? static::getPluralRecordLabel();
+    }
 
-                if ($action->isHidden()) {
-                    continue;
-                }
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    public function getInverseRelationshipName(): ?string
+    {
+        return static::$inverseRelationship;
+    }
 
-                if ($action->getUrl()) {
-                    continue;
-                }
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        if (static::shouldSkipAuthorization()) {
+            return true;
+        }
 
-                return $action->getName();
-            }
+        $model = $ownerRecord->{static::getRelationshipName()}()->getQuery()->getModel()::class;
 
-            return null;
-        };
+        try {
+            return authorize('viewAny', $model, static::shouldCheckPolicyExistence())->allowed();
+        } catch (AuthorizationException $exception) {
+            return $exception->toResponse()->allowed();
+        }
+    }
+
+    protected function makeTable(): Table
+    {
+        return $this->makeBaseRelationshipTable()
+            ->query($this->getTableQuery())
+            ->inverseRelationship(static::getInverseRelationshipName())
+            ->modelLabel(static::getModelLabel())
+            ->pluralModelLabel(static::getPluralModelLabel())
+            ->recordTitleAttribute(static::getRecordTitleAttribute())
+            ->heading($this->getTableHeading() ?? static::getTitle($this->getOwnerRecord(), $this->getPageClass()))
+            ->when(
+                $this->getTableRecordUrlUsing(),
+                fn (Table $table, ?Closure $using) => $table->recordUrl($using),
+            );
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getDefaultProperties(): array
+    {
+        $properties = [];
+
+        if (static::isLazy()) {
+            $properties['lazy'] = true;
+        }
+
+        return $properties;
     }
 }

@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Hariri',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Imehifadhiwa',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Imehifadhiwa',
+        ],
+
     ],
 
 ];

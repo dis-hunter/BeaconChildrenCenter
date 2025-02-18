@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Appointments;
 use Carbon\Carbon;
 
-class AppointmentController extends Controller
+class AppointmentsController extends Controller
 {
     public function store(Request $request)
     {
@@ -36,4 +36,9 @@ class AppointmentController extends Controller
         // Redirect with success message
         return redirect()->back()->with('success', 'Appointment successfully created!');
     }
+
+    public function index()
+{
+    return view('calendar'); // Make sure the path matches your actual view folder structure
+}
 }

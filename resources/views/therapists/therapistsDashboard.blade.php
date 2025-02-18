@@ -129,11 +129,8 @@
         <div id="calendar" class="section hidden">
           <div class="bg-white rounded-lg shadow p-6">
             <div class="calendar-container"></div>
-            <div id="appointments-list" class="mt-6 hidden">
-              <ul id="appointments-for-day" class="space-y-2"></ul>
-            </div>
-          </div>
-        </div>
+
+            @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
 
        <!-- Patients Section -->
       <section id="patients" class="section hidden">
@@ -147,6 +144,8 @@
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Date/Time</th>
+                <th class="py-2 border">Completed</th>
+
               </tr>
             </thead>
             <tbody id="patient-table-body">
@@ -204,44 +203,45 @@
       currentDate.textContent = now.toLocaleString();
     }
 
-    function generateCalendar() {
-      const calendarContainer = document.querySelector('.calendar-container');
-      const today = new Date();
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
+    // function generateCalendar() {
+    //   const calendarContainer = document.querySelector('.calendar-container');
+    //   const today = new Date();
+    //   const currentMonth = today.getMonth();
+    //   const currentYear = today.getFullYear();
 
-      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+    //   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    //   const daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
 
-      let tableHtml = '<table class="w-full border-collapse">';
-      tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
+    //   let tableHtml = '<table class="w-full border-collapse">';
+    //   tableHtml += '<tr class="bg-gray-50"><th class="p-2 border">Sun</th><th class="p-2 border">Mon</th><th class="p-2 border">Tue</th><th class="p-2 border">Wed</th><th class="p-2 border">Thu</th><th class="p-2 border">Fri</th><th class="p-2 border">Sat</th></tr><tr>';
 
-      let date = 1;
-      for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 7; j++) {
-          if (i === 0 && j < firstDay) {
-            tableHtml += '<td class="p-2 border"></td>';
-          } else if (date > daysInMonth) {
-            tableHtml += '<td class="p-2 border"></td>';
-          } else {
-            const currentDate = new Date(currentYear, currentMonth, date);
-            const formattedDate = currentDate.toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric'
-            });
-            tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
-            date++;
-          }
-        }
-        if (date > daysInMonth) {
-          break;
-        } else {
-          tableHtml += '</tr><tr>';
-        }
-      }
-      tableHtml += '</tr></table>';
-      calendarContainer.innerHTML = tableHtml;
-    }
+
+    //   let date = 1;
+    //   for (let i = 0; i < 6; i++) {
+    //     for (let j = 0; j < 7; j++) {
+    //       if (i === 0 && j < firstDay) {
+    //         tableHtml += '<td class="p-2 border"></td>';
+    //       } else if (date > daysInMonth) {
+    //         tableHtml += '<td class="p-2 border"></td>';
+    //       } else {
+    //         const currentDate = new Date(currentYear, currentMonth, date);
+    //         const formattedDate = currentDate.toLocaleDateString('en-US', {
+    //           month: 'short',
+    //           day: 'numeric'
+    //         });
+    //         tableHtml += `<td class="p-2 border cursor-pointer hover:bg-gray-100" onclick="showAppointments('${formattedDate}')">${formattedDate}</td>`;
+    //         date++;
+    //       }
+    //     }
+    //     if (date > daysInMonth) {
+    //       break;
+    //     } else {
+    //       tableHtml += '</tr><tr>';
+    //     }
+    //   }
+    //   tableHtml += '</tr></table>';
+    //   calendarContainer.innerHTML = tableHtml;
+    // }
 
     function showAppointments(date) {
       const appointmentsList = document.getElementById('appointments-for-day');
@@ -272,7 +272,7 @@
     });
 }
 
-    function selectPatient(index) {
+function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
       patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
       patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
@@ -281,7 +281,7 @@
 
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
-  alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
+  alert(`Selected Registration Number: ${registrationNumber}`);
   
   
   
@@ -289,8 +289,6 @@ function selectRegistrationNumber(registrationNumber, childId) {
 }
 
 async function startConsultation() {
-
-
   
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
@@ -426,6 +424,7 @@ async function startConsultation() {
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
+      <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
       <td class="py-2 border">
        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
@@ -454,5 +453,18 @@ async function startConsultation() {
     generatePatientList();
   });
 </script>
+<script>
+  //to display current time
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('current-date').textContent = timeString;
+    }
+
+    // Update the time immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
+<!-- therapistsDashboard.blade.php -->

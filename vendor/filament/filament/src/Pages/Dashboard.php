@@ -2,43 +2,69 @@
 
 namespace Filament\Pages;
 
-use Closure;
 use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Route;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Widgets\Widget;
+use Filament\Widgets\WidgetConfiguration;
+use Illuminate\Contracts\Support\Htmlable;
 
 
 class Dashboard extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-home';
+    protected static string $routePath = '/';
 
     protected static ?int $navigationSort = -2;
 
-    protected static string $view = 'filament::pages.dashboard';
+    /**
+     * @var view-string
+     */
+    protected static string $view = 'filament-panels::pages.dashboard';
 
-    protected static function getNavigationLabel(): string
+    public static function getNavigationLabel(): string
     {
-        return static::$navigationLabel ?? static::$title ?? __('filament::pages/dashboard.title');
+        return static::$navigationLabel ??
+            static::$title ??
+            __('filament-panels::pages/dashboard.title');
     }
 
-    public static function getRoutes(): Closure
+    public static function getNavigationIcon(): string | Htmlable | null
     {
-        return function () {
-            Route::get('/', static::class)->name(static::getSlug());
-        };
+        return static::$navigationIcon
+            ?? FilamentIcon::resolve('panels::pages.dashboard.navigation-item')
+            ?? (Filament::hasTopNavigation() ? 'heroicon-m-home' : 'heroicon-o-home');
     }
 
-    protected function getWidgets(): array
+    public static function getRoutePath(): string
+    {
+        return static::$routePath;
+    }
+
+    /**
+     * @return array<class-string<Widget> | WidgetConfiguration>
+     */
+    public function getWidgets(): array
     {
         return Filament::getWidgets();
     }
 
-    protected function getColumns(): int | string | array
+    /**
+     * @return array<class-string<Widget> | WidgetConfiguration>
+     */
+    public function getVisibleWidgets(): array
+    {
+        return $this->filterVisibleWidgets($this->getWidgets());
+    }
+
+    /**
+     * @return int | string | array<string, int | string | null>
+     */
+    public function getColumns(): int | string | array
     {
         return 2;
     }
 
-    protected function getTitle(): string
+    public function getTitle(): string | Htmlable
     {
-        return static::$title ?? __('filament::pages/dashboard.title');
+        return static::$title ?? __('filament-panels::pages/dashboard.title');
     }
 }

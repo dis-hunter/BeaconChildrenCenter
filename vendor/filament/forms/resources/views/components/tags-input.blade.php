@@ -1,114 +1,140 @@
+@php
+    use Filament\Support\Facades\FilamentView;
+
+    $color = $getColor() ?? 'primary';
+    $hasInlineLabel = $hasInlineLabel();
+    $id = $getId();
+    $isDisabled = $isDisabled();
+    $isPrefixInline = $isPrefixInline();
+    $isReorderable = (! $isDisabled) && $isReorderable();
+    $isSuffixInline = $isSuffixInline();
+    $prefixActions = $getPrefixActions();
+    $prefixIcon = $getPrefixIcon();
+    $prefixLabel = $getPrefixLabel();
+    $statePath = $getStatePath();
+    $suffixActions = $getSuffixActions();
+    $suffixIcon = $getSuffixIcon();
+    $suffixLabel = $getSuffixLabel();
+@endphp
+
 <x-dynamic-component
     :component="$getFieldWrapperView()"
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    has-nested-recursive-validation-rules
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-action="$getHintAction()"
-    :hint-color="$getHintColor()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
+    :field="$field"
+    :has-inline-label="$hasInlineLabel"
 >
-    <div
-        x-data="tagsInputFormComponent({
-                    state: $wire.{{ $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
-                })"
-        id="{{ $getId() }}"
-        {{ $attributes->merge($getExtraAttributes())->class(['filament-forms-tags-input-component']) }}
-        {{ $getExtraAlpineAttributeBag() }}
+    <x-slot
+        name="label"
+        @class([
+            'sm:pt-1.5' => $hasInlineLabel,
+        ])
+    >
+        {{ $getLabel() }}
+    </x-slot>
+
+    <x-filament::input.wrapper
+        :disabled="$isDisabled"
+        :inline-prefix="$isPrefixInline"
+        :inline-suffix="$isSuffixInline"
+        :prefix="$prefixLabel"
+        :prefix-actions="$prefixActions"
+        :prefix-icon="$prefixIcon"
+        :prefix-icon-color="$getPrefixIconColor()"
+        :suffix="$suffixLabel"
+        :suffix-actions="$suffixActions"
+        :suffix-icon="$suffixIcon"
+        :suffix-icon-color="$getSuffixIconColor()"
+        :valid="! $errors->has($statePath)"
+        :attributes="
+            \Filament\Support\prepare_inherited_attributes($attributes)
+                ->merge($getExtraAttributes(), escape: false)
+                ->class(['fi-fo-tags-input'])
+        "
     >
         <div
-            x-show="state.length || {{ $isDisabled() ? 'false' : 'true' }}"
-            @class([
-                'block w-full divide-y overflow-hidden rounded-lg border shadow-sm transition duration-75 focus-within:border-primary-500 focus-within:ring-1 focus-within:ring-primary-500',
-                'dark:divide-gray-600' => config('forms.dark_mode'),
-                'border-gray-300' => ! $errors->has($getStatePath()),
-                'dark:border-gray-600' => (! $errors->has($getStatePath())) && config('forms.dark_mode'),
-                'border-danger-600 ring-1 ring-inset ring-danger-600' => $errors->has($getStatePath()),
-                'dark:border-danger-400 dark:ring-danger-400' => $errors->has($getStatePath()) && config('forms.dark_mode'),
-            ])
+            @if (FilamentView::hasSpaMode())
+                {{-- format-ignore-start --}}x-load="visible || event (ax-modal-opened)"{{-- format-ignore-end --}}
+            @else
+                x-load
+            @endif
+            x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('tags-input', 'filament/forms') }}"
+            x-data="tagsInputFormComponent({
+                        state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+                        splitKeys: @js($getSplitKeys()),
+                    })"
+            {{ $getExtraAlpineAttributeBag() }}
         >
-            @unless ($isDisabled())
-                <div>
-                    <input
-                        autocomplete="off"
-                        {!! $isAutofocused() ? 'autofocus' : null !!}
-                        id="{{ $getId() }}"
-                        list="{{ $getId() }}-suggestions"
-                        {!! $getPlaceholder() ? 'placeholder="' . $getPlaceholder() . '"' : null !!}
-                        type="text"
-                        dusk="filament.forms.{{ $getStatePath() }}"
-                        x-on:keydown.enter.stop.prevent="createTag()"
-                        x-on:keydown.,.stop.prevent="createTag()"
-                        x-on:blur="createTag()"
-                        x-on:paste="
-                            $nextTick(() => {
-                                if (newTag.includes(',')) {
-                                    newTag.split(',').forEach((tag) => {
-                                        newTag = tag
+            <x-filament::input
+                autocomplete="off"
+                :autofocus="$isAutofocused()"
+                :disabled="$isDisabled"
+                :id="$id"
+                :inline-prefix="$isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel))"
+                :inline-suffix="$isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel))"
+                :list="$id . '-suggestions'"
+                :placeholder="$getPlaceholder()"
+                type="text"
+                x-bind="input"
+                :attributes="\Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())"
+            />
 
-                                        createTag()
-                                    })
-                                }
-                            })
-                        "
-                        x-model="newTag"
-                        {{
-                            $getExtraInputAttributeBag()->class([
-                                'webkit-calendar-picker-indicator:opacity-0 block w-full border-0',
-                                'dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400' => config('forms.dark_mode'),
-                            ])
-                        }}
-                    />
-
-                    <datalist id="{{ $getId() }}-suggestions">
-                        @foreach ($getSuggestions() as $suggestion)
-                            <template
-                                x-if="! state.includes(@js($suggestion))"
-                                x-bind:key="@js($suggestion)"
-                            >
-                                <option value="{{ $suggestion }}" />
-                            </template>
-                        @endforeach
-                    </datalist>
-                </div>
-            @endunless
+            <datalist id="{{ $id }}-suggestions">
+                @foreach ($getSuggestions() as $suggestion)
+                    <template
+                        x-bind:key="@js($suggestion)"
+                        x-if="! (state?.includes(@js($suggestion)) ?? true)"
+                    >
+                        <option value="{{ $suggestion }}" />
+                    </template>
+                @endforeach
+            </datalist>
 
             <div
-                x-show="state.length"
-                x-cloak
-                class="relative w-full overflow-hidden p-2"
+                @class([
+                    '[&_.fi-badge-delete-button]:hidden' => $isDisabled,
+                ])
             >
-                <div class="flex flex-wrap gap-1">
-                    <template
-                        class="hidden"
-                        x-for="tag in state"
-                        x-bind:key="tag"
-                    >
-                        <button
-                            @unless ($isDisabled())
-                                x-on:click="deleteTag(tag)"
-                            @endunless
-                            type="button"
-                            x-bind:dusk="'filament.forms.{{ $getStatePath() }}' + '.tag.' + tag + '.delete'"
-                            @class([
-                                'min-h-6 inline-flex items-center justify-center space-x-1 rounded-xl bg-primary-500/10 px-2 py-0.5 text-sm font-medium tracking-tight text-primary-700 rtl:space-x-reverse',
-                                'dark:text-primary-500' => config('forms.dark_mode'),
-                                'cursor-default' => $isDisabled(),
-                            ])
+                <div wire:ignore>
+                    <template x-cloak x-if="state?.length">
+                        <div
+                            @if ($isReorderable)
+                                x-on:end.stop="reorderTags($event)"
+                                x-sortable
+                                data-sortable-animation-duration="{{ $getReorderAnimationDuration() }}"
+                            @endif
+                            class="fi-fo-tags-input-tags-ctn flex w-full flex-wrap gap-1.5 border-t border-t-gray-200 p-2 dark:border-t-white/10"
                         >
-                            <span class="text-start" x-text="tag"></span>
+                            <template
+                                x-for="(tag, index) in state"
+                                x-bind:key="`${tag}-${index}`"
+                                class="hidden"
+                            >
+                                <x-filament::badge
+                                    :color="$color"
+                                    :x-bind:x-sortable-item="$isReorderable ? 'index' : null"
+                                    :x-sortable-handle="$isReorderable ? '' : null"
+                                    @class([
+                                        'cursor-move' => $isReorderable,
+                                    ])
+                                >
+                                    {{ $getTagPrefix() }}
 
-                            @unless ($isDisabled())
-                                <x-heroicon-s-x class="h-3 w-3 shrink-0" />
-                            @endunless
-                        </button>
+                                    <span
+                                        x-text="tag"
+                                        class="select-none text-start"
+                                    ></span>
+
+                                    {{ $getTagSuffix() }}
+
+                                    <x-slot
+                                        name="deleteButton"
+                                        x-on:click.stop="deleteTag(tag)"
+                                    ></x-slot>
+                                </x-filament::badge>
+                            </template>
+                        </div>
                     </template>
                 </div>
             </div>
         </div>
-    </div>
+    </x-filament::input.wrapper>
 </x-dynamic-component>

@@ -15,10 +15,14 @@ return [
             ],
 
             'save' => [
-                'label' => 'Salvar',
+                'label' => 'Salvar alterações',
             ],
 
         ],
+
+    ],
+
+    'content' => [
 
         'tab' => [
             'label' => 'Editar',
@@ -26,8 +30,12 @@ return [
 
     ],
 
-    'messages' => [
-        'saved' => 'Salvo!',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Salvo',
+        ],
+
     ],
 
 ];

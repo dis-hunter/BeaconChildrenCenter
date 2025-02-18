@@ -4,12 +4,12 @@ namespace Filament\Resources\Pages;
 
 class ManageRecords extends ListRecords
 {
-    use ListRecords\Concerns\CanCreateRecords;
-    use ListRecords\Concerns\CanDeleteRecords;
-    use ListRecords\Concerns\CanEditRecords;
-
-    public function getBreadcrumb(): ?string
+    public function getBreadcrumbs(): array
     {
-        return static::$breadcrumb;
+        if (filled($cluster = static::getCluster())) {
+            return $cluster::unshiftClusterBreadcrumbs([]);
+        }
+
+        return [];
     }
 }

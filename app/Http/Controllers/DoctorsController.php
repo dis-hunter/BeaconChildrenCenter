@@ -6,9 +6,35 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Import the Log facade
+use App\Models\Doctor;
+use App\Models\Staff;
+use App\Models\DoctorSpecialization;
 
 class DoctorsController extends Controller
 { 
+
+    // Profile method
+    public function profile()
+    {
+        // Example profile data
+        $profile = [
+            'fullname' => ['first_name' => 'Florence', 'last_name' => 'Oringe'],
+            'telephone' => '123-456-7890',
+            'email' => 'florence.oringe@example.com',
+        ];
+
+        return view('doctorDash', compact('profile'));
+    }
+
+    // Update Profile method
+    public function updateProfile(Request $request)
+    {
+        // Logic to update the profile (you can replace this with database logic)
+        $updatedProfile = $request->all();
+
+        // Redirect back with success message
+        return redirect()->route('doctor.profile')->with('success', 'Profile updated successfully!');
+    }
     public function show($registrationNumber)
      {
         $child = DB::table('children')
@@ -77,7 +103,7 @@ class DoctorsController extends Controller
                 'triage' => null, 
             ]);
         }
-    }
+    } 
 
 
     public function getTriageData($registrationNumber)
@@ -157,19 +183,30 @@ class DoctorsController extends Controller
 
     public function getMilestones($registrationNumber)
     {
+        // Log the registration number being used for the query
+        Log::info('Querying child for registration number:', ['registration_number' => $registrationNumber]);
+    
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
+    
         if (!$child) {
             return response()->json(['error' => 'Child not found'], 404);
         }
-
+    
+        // Log the child_id retrieved from the database
+        Log::info('Child found:', ['child_id' => $child->id]);
+    
         $milestone = DB::table('development_milestones')
             ->where('child_id', $child->id)
             ->latest()
             ->first();
-
+    
+        // Log the milestone data
+        Log::info('Milestone data: ', ['milestone' => $milestone]);
+    
+        // Return null if no milestone is found
         return response()->json(['data' => $milestone ? $milestone->data : null], 200);
     }
+
 
     public function saveMilestones(Request $request, $registrationNumber)
     {
@@ -311,6 +348,7 @@ $doctorsNotes .= $FamilySocialHistory ? "FamilySocialHistory Data:\n" . json_enc
 // Pass the notes to the view
 return view('doctor', [
     'child' => $child,
+    'child_id'=>$child->id,
     'firstName' => $firstName,
     'middleName' => $middleName,
     'lastName' => $lastName,
@@ -340,8 +378,8 @@ public function dashboard()
 
     return view('doctorDash', [
         'doctor' => $doctor,
-        'firstName' => $fullName->firstname, // Access as object properties
-        'lastName' => $fullName->lastname,   // Access as object properties
+        'firstName' => $fullName->first_name ?? null, // Access as object properties
+        'lastName' => $fullName->last_name ?? null,   // Access as object properties
     ]);
 }
 

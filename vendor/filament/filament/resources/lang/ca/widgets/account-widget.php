@@ -2,14 +2,14 @@
 
 return [
 
-    'buttons' => [
+    'actions' => [
 
         'logout' => [
-            'label' => 'Sortir',
+            'label' => 'Tancar la sessió',
         ],
 
     ],
 
-    'welcome' => 'Benvinguda/ut, :user',
+    'welcome' => 'Benvingut/da',
 
 ];

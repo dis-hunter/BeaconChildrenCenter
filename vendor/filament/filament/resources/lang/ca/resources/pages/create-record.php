@@ -1,7 +1,9 @@
 <?php
 
 return [
+
     'title' => 'Crear :label',
+
     'breadcrumb' => 'Crear',
 
     'form' => [
@@ -17,15 +19,19 @@ return [
             ],
 
             'create_another' => [
-                'label' => 'Crear & crear un altre',
+                'label' => 'Crear i crear un altre',
             ],
 
         ],
 
     ],
 
-    'messages' => [
-        'created' => 'Creat',
+    'notifications' => [
+
+        'created' => [
+            'title' => 'Creat',
+        ],
+
     ],
 
 ];

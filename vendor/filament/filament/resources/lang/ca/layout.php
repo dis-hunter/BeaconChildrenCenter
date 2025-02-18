@@ -4,28 +4,28 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Mode fosc',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Obre notificacions',
-        ],
-
-        'light_mode' => [
-            'label' => 'Mode clar',
+        'billing' => [
+            'label' => 'Gestionar subscripció',
         ],
 
         'logout' => [
-            'label' => 'Sortir',
+            'label' => 'Tancar la sessió',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Obrir notificacions',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Menú de l\'usuari',
         ],
 
         'sidebar' => [
 
             'collapse' => [
-                'label' => 'Reduir barra lateral',
+                'label' => 'Replegar barra lateral',
             ],
 
             'expand' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Menú de l\'usuari',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Habilitar tema fosc',
+            ],
+
+            'light' => [
+                'label' => 'Habilitar tema clar',
+            ],
+
+            'system' => [
+                'label' => 'Habilitar tema del sistema',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar de :name',
+    ],
+
+    'logo' => [
+        'alt' => 'Logotip de :name',
     ],
 
 ];

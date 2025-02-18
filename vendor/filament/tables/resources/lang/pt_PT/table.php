@@ -2,62 +2,82 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Colunas',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'e :count mais',
+        'actions' => [
+            'label' => 'Acção|Acções',
+        ],
+
+        'text' => [
+
+            'actions' => [
+                'collapse_list' => 'Mostrar menos :count',
+                'expand_list' => 'Mostrar mais :count',
+            ],
+
+            'more_list_items' => 'e mais :count',
+
         ],
 
     ],
 
     'fields' => [
 
-        'search_query' => [
-            'label' => 'Procurar',
-            'placeholder' => 'Procurar',
+        'bulk_select_page' => [
+            'label' => 'Marcar/desmarcar todos os itens para acções em massa.',
+        ],
+
+        'bulk_select_record' => [
+            'label' => 'Marcar/desmarcar o item :key para acções em massa.',
+        ],
+
+        'bulk_select_group' => [
+            'label' => 'Marcar/desmarcar o grupo :title para acções em massa.',
+        ],
+
+        'search' => [
+            'label' => 'Pesquisar',
+            'placeholder' => 'Pesquisar',
+            'indicator' => 'Pesquisar',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Paginação',
+        'heading' => 'Resumo',
 
-        'overview' => 'A mostrar :first a :last de :total resultados',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'por página',
-
-                'options' => [
-                    'all' => 'Todas',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'Todos :label',
+            'group' => 'Resumo de :group',
+            'page' => 'Esta página',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Ir para página :page',
+            'average' => [
+                'label' => 'Média',
             ],
 
-            'next' => [
-                'label' => 'Próximo',
+            'count' => [
+                'label' => 'Contagem',
             ],
 
-            'previous' => [
-                'label' => 'Anterior',
+            'sum' => [
+                'label' => 'Soma',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Concluir a reordenação de registos',
@@ -71,23 +91,35 @@ return [
             'label' => 'Filtrar',
         ],
 
-        'open_actions' => [
-            'label' => 'Ações abertas',
+        'group' => [
+            'label' => 'Agrupar',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'Acções em massa',
         ],
 
         'toggle_columns' => [
-            'label' => 'Alternar colunas',
+            'label' => 'Activar colunas',
         ],
 
     ],
 
     'empty' => [
-        'heading' => 'Sem registos',
+
+        'heading' => 'Sem :model',
+
+        'description' => 'Crie um(a) :model para começar.',
+
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Aplicar filtros',
+            ],
 
             'remove' => [
                 'label' => 'Remover filtro',
@@ -99,16 +131,14 @@ return [
             ],
 
             'reset' => [
-                'label' => 'Limpar filtros',
-            ],
-
-            'close' => [
-                'label' => 'Fechar',
+                'label' => 'Repôr',
             ],
 
         ],
 
-        'indicator' => 'Filtros ativos',
+        'heading' => 'Filtros',
+
+        'indicator' => 'Filtros activos',
 
         'multi_select' => [
             'placeholder' => 'Todos',
@@ -120,32 +150,79 @@ return [
 
         'trashed' => [
 
-            'label' => 'Registos excluídos',
+            'label' => 'Registos eliminados',
 
-            'only_trashed' => 'Somente registos excluídos',
+            'only_trashed' => 'Apenas registos eliminados',
 
-            'with_trashed' => 'Mostrar registos excluídos',
+            'with_trashed' => 'Mostrar registos eliminados',
 
-            'without_trashed' => 'Não mostrar registos excluídos',
+            'without_trashed' => 'Não mostrar registos eliminados',
 
         ],
 
     ],
 
-    'reorder_indicator' => 'Arraste e solte os registos na ordem.',
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Agrupar por',
+                'placeholder' => 'Agrupar por',
+            ],
+
+            'direction' => [
+
+                'label' => 'Direcção de agrupamento',
+
+                'options' => [
+                    'asc' => 'Ascendente',
+                    'desc' => 'Descendente',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
+    'reorder_indicator' => 'Arraste e solte os registos por ordem.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 registo selecionado.|:count registos selecionados.',
+        'selected_count' => '1 registo seleccionado|:count registos seleccionados',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
-                'label' => 'Selecionar todos :count',
+                'label' => 'Seleccionar todos os :count',
             ],
 
             'deselect_all' => [
                 'label' => 'Desmarcar todos',
+            ],
+
+        ],
+
+    ],
+
+    'sorting' => [
+
+        'fields' => [
+
+            'column' => [
+                'label' => 'Ordenar por',
+            ],
+
+            'direction' => [
+
+                'label' => 'Direcção de ordenação',
+
+                'options' => [
+                    'asc' => 'Ascendente',
+                    'desc' => 'Descendente',
+                ],
+
             ],
 
         ],

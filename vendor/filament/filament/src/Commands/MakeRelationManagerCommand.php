@@ -2,48 +2,104 @@
 
 namespace Filament\Commands;
 
+use Filament\Facades\Filament;
+use Filament\Panel;
 use Filament\Support\Commands\Concerns\CanIndentStrings;
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
-use Filament\Support\Commands\Concerns\CanValidateInput;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
+
+#[AsCommand(name: 'make:filament-relation-manager')]
 class MakeRelationManagerCommand extends Command
 {
     use CanIndentStrings;
     use CanManipulateFiles;
-    use CanValidateInput;
 
     protected $description = 'Create a new Filament relation manager class for a resource';
 
-    protected $signature = 'make:filament-relation-manager {resource?} {relationship?} {recordTitleAttribute?} {--attach} {--associate} {--soft-deletes} {--view} {--F|force}';
+    protected $signature = 'make:filament-relation-manager {resource?} {relationship?} {recordTitleAttribute?} {--attach} {--associate} {--soft-deletes} {--view} {--panel=} {--F|force}';
 
     public function handle(): int
     {
-        $resourcePath = config('filament.resources.path', app_path('Filament/Resources/'));
-        $resourceNamespace = config('filament.resources.namespace', 'App\\Filament\\Resources');
-
-        $resource = (string) Str::of($this->argument('resource') ?? $this->askRequired('Resource (e.g. `DepartmentResource`)', 'resource'))
+        $resource = (string) str(
+            $this->argument('resource') ?? text(
+                label: 'What is the resource you would like to create this in?',
+                placeholder: 'DepartmentResource',
+                required: true,
+            ),
+        )
             ->studly()
             ->trim('/')
             ->trim('\\')
             ->trim(' ')
             ->replace('/', '\\');
 
-        if (! Str::of($resource)->endsWith('Resource')) {
+        if (! str($resource)->endsWith('Resource')) {
             $resource .= 'Resource';
         }
 
-        $relationship = (string) Str::of($this->argument('relationship') ?? $this->askRequired('Relationship (e.g. `members`)', 'relationship'))
+        $relationship = (string) str($this->argument('relationship') ?? text(
+            label: 'What is the relationship?',
+            placeholder: 'members',
+            required: true,
+        ))
             ->trim(' ');
-        $managerClass = (string) Str::of($relationship)
+        $managerClass = (string) str($relationship)
             ->studly()
             ->append('RelationManager');
 
-        $recordTitleAttribute = (string) Str::of($this->argument('recordTitleAttribute') ?? $this->askRequired('Title attribute (e.g. `name`)', 'title attribute'))
+        $recordTitleAttribute = (string) str($this->argument('recordTitleAttribute') ?? text(
+            label: 'What is the title attribute?',
+            placeholder: 'name',
+            required: true,
+        ))
             ->trim(' ');
 
-        $path = (string) Str::of($managerClass)
+        $panel = $this->option('panel');
+
+        if ($panel) {
+            $panel = Filament::getPanel($panel, isStrict: false);
+        }
+
+        if (! $panel) {
+            $panels = Filament::getPanels();
+
+            /** @var Panel $panel */
+            $panel = (count($panels) > 1) ? $panels[select(
+                label: 'Which panel would you like to create this in?',
+                options: array_map(
+                    fn (Panel $panel): string => $panel->getId(),
+                    $panels,
+                ),
+                default: Filament::getDefaultPanel()->getId()
+            )] : Arr::first($panels);
+        }
+
+        $resourceDirectories = $panel->getResourceDirectories();
+        $resourceNamespaces = $panel->getResourceNamespaces();
+
+        foreach ($resourceDirectories as $resourceIndex => $resourceDirectory) {
+            if (str($resourceDirectory)->startsWith(base_path('vendor'))) {
+                unset($resourceDirectories[$resourceIndex]);
+                unset($resourceNamespaces[$resourceIndex]);
+            }
+        }
+
+        $resourceNamespace = (count($resourceNamespaces) > 1) ?
+            select(
+                label: 'Which namespace would you like to create this in?',
+                options: $resourceNamespaces
+            ) :
+            (Arr::first($resourceNamespaces) ?? 'App\\Filament\\Resources');
+        $resourcePath = (count($resourceDirectories) > 1) ?
+            $resourceDirectories[array_search($resourceNamespace, $resourceNamespaces)] :
+            (Arr::first($resourceDirectories) ?? app_path('Filament/Resources/'));
+
+        $path = (string) str($managerClass)
             ->prepend("{$resourcePath}/{$resource}/RelationManagers/")
             ->replace('\\', '/')
             ->append('.php');
@@ -105,31 +161,27 @@ class MakeRelationManagerCommand extends Command
 
         $tableBulkActions[] = 'Tables\Actions\DeleteBulkAction::make(),';
 
-        $eloquentQuery = '';
+        $modifyQueryUsing = '';
 
         if ($this->option('soft-deletes')) {
-            $tableBulkActions[] = 'Tables\Actions\RestoreBulkAction::make(),';
-            $tableBulkActions[] = 'Tables\Actions\ForceDeleteBulkAction::make(),';
+            $modifyQueryUsing .= '->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([';
+            $modifyQueryUsing .= PHP_EOL . '    SoftDeletingScope::class,';
+            $modifyQueryUsing .= PHP_EOL . ']))';
 
-            $eloquentQuery .= PHP_EOL . PHP_EOL . 'protected function getTableQuery(): Builder';
-            $eloquentQuery .= PHP_EOL . '{';
-            $eloquentQuery .= PHP_EOL . '    return parent::getTableQuery()';
-            $eloquentQuery .= PHP_EOL . '        ->withoutGlobalScopes([';
-            $eloquentQuery .= PHP_EOL . '            SoftDeletingScope::class,';
-            $eloquentQuery .= PHP_EOL . '        ]);';
-            $eloquentQuery .= PHP_EOL . '}';
+            $tableBulkActions[] = 'Tables\Actions\ForceDeleteBulkAction::make(),';
+            $tableBulkActions[] = 'Tables\Actions\RestoreBulkAction::make(),';
         }
 
         $tableBulkActions = implode(PHP_EOL, $tableBulkActions);
 
         $this->copyStubToApp('RelationManager', $path, [
-            'eloquentQuery' => $this->indentString($eloquentQuery, 1),
+            'modifyQueryUsing' => filled($modifyQueryUsing) ? PHP_EOL . $this->indentString($modifyQueryUsing, 3) : $modifyQueryUsing,
             'namespace' => "{$resourceNamespace}\\{$resource}\\RelationManagers",
             'managerClass' => $managerClass,
             'recordTitleAttribute' => $recordTitleAttribute,
             'relationship' => $relationship,
             'tableActions' => $this->indentString($tableActions, 4),
-            'tableBulkActions' => $this->indentString($tableBulkActions, 4),
+            'tableBulkActions' => $this->indentString($tableBulkActions, 5),
             'tableFilters' => $this->indentString(
                 $this->option('soft-deletes') ? 'Tables\Filters\TrashedFilter::make()' : '//',
                 4,
@@ -137,9 +189,9 @@ class MakeRelationManagerCommand extends Command
             'tableHeaderActions' => $this->indentString($tableHeaderActions, 4),
         ]);
 
-        $this->info("Successfully created {$managerClass}!");
+        $this->components->info("Filament relation manager [{$path}] created successfully.");
 
-        $this->info("Make sure to register the relation in `{$resource}::getRelations()`.");
+        $this->components->info("Make sure to register the relation in `{$resource}::getRelations()`.");
 
         return static::SUCCESS;
     }

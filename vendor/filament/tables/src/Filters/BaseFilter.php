@@ -10,6 +10,7 @@ class BaseFilter extends Component
 {
     use Concerns\BelongsToTable;
     use Concerns\CanBeHidden;
+    use Concerns\CanResetState;
     use Concerns\CanSpanColumns;
     use Concerns\HasColumns;
     use Concerns\HasDefaultState;
@@ -48,10 +49,20 @@ class BaseFilter extends Component
         return null;
     }
 
-    protected function getDefaultEvaluationParameters(): array
+    public function getActiveCount(): int
     {
-        return array_merge(parent::getDefaultEvaluationParameters(), [
-            'livewire' => $this->getLivewire(),
-        ]);
+        return count($this->getIndicators());
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    protected function resolveDefaultClosureDependencyForEvaluationByName(string $parameterName): array
+    {
+        return match ($parameterName) {
+            'livewire' => [$this->getLivewire()],
+            'table' => [$this->getTable()],
+            default => parent::resolveDefaultClosureDependencyForEvaluationByName($parameterName),
+        };
     }
 }

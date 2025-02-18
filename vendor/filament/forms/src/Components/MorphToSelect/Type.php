@@ -5,11 +5,14 @@ namespace Filament\Forms\Components\MorphToSelect;
 use Closure;
 use Exception;
 use Filament\Forms\Components\Select;
-use function Filament\Support\get_model_label;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+
+use function Filament\Support\generate_search_column_expression;
+use function Filament\Support\generate_search_term_expression;
+use function Filament\Support\get_model_label;
 
 class Type
 {
@@ -23,15 +26,20 @@ class Type
 
     protected ?Closure $modifyOptionsQueryUsing = null;
 
+    /**
+     * @var array<string> | null
+     */
     protected ?array $searchColumns = null;
 
-    protected ?string $titleColumnName = null;
+    protected ?string $titleAttribute = null;
 
     protected ?Closure $getOptionLabelFromRecordUsing = null;
 
     protected int $optionsLimit = 50;
 
     protected string $model;
+
+    protected ?bool $isSearchForcedCaseInsensitive = null;
 
     final public function __construct(string $model)
     {
@@ -56,29 +64,22 @@ class Type
                 ]) ?? $query;
             }
 
-            if (empty($query->getQuery()->orders)) {
-                $query->orderBy($this->getTitleColumnName());
-            }
-
-            $search = strtolower($search);
-
             /** @var Connection $databaseConnection */
             $databaseConnection = $query->getConnection();
 
-            $searchOperator = match ($databaseConnection->getDriverName()) {
-                'pgsql' => 'ilike',
-                default => 'like',
-            };
+            $isForcedCaseInsensitive = $this->isSearchForcedCaseInsensitive();
 
             $isFirst = true;
 
-            $query->where(function (Builder $query) use ($isFirst, $searchOperator, $search): Builder {
-                foreach ($this->getSearchColumns() as $searchColumnName) {
+            $search = generate_search_term_expression($search, $isForcedCaseInsensitive, $databaseConnection);
+
+            $query->where(function (Builder $query) use ($isFirst, $isForcedCaseInsensitive, $databaseConnection, $search): Builder {
+                foreach ($this->getSearchColumns() as $searchColumn) {
                     $whereClause = $isFirst ? 'where' : 'orWhere';
 
                     $query->{$whereClause}(
-                        $searchColumnName,
-                        $searchOperator,
+                        generate_search_column_expression($searchColumn, $isForcedCaseInsensitive, $databaseConnection),
+                        'like',
                         "%{$search}%",
                     );
 
@@ -107,8 +108,14 @@ class Type
                     ->toArray();
             }
 
+            $titleAttribute = $this->getTitleAttribute();
+
+            if (empty($query->getQuery()->orders)) {
+                $query->orderBy($titleAttribute);
+            }
+
             return $query
-                ->pluck($this->getTitleColumnName(), $keyName)
+                ->pluck($titleAttribute, $keyName)
                 ->toArray();
         });
 
@@ -125,10 +132,6 @@ class Type
                 ]) ?? $query;
             }
 
-            if (empty($query->getQuery()->orders)) {
-                $query->orderBy($this->getTitleColumnName());
-            }
-
             $keyName = $query->getModel()->getKeyName();
 
             if ($this->hasOptionLabelFromRecordUsingCallback()) {
@@ -140,8 +143,14 @@ class Type
                     ->toArray();
             }
 
+            $titleAttribute = $this->getTitleAttribute();
+
+            if (empty($query->getQuery()->orders)) {
+                $query->orderBy($titleAttribute);
+            }
+
             return $query
-                ->pluck($this->getTitleColumnName(), $keyName)
+                ->pluck($titleAttribute, $keyName)
                 ->toArray();
         });
 
@@ -166,7 +175,7 @@ class Type
                 return $this->getOptionLabelFromRecord($record);
             }
 
-            return $record->getAttributeValue($this->getTitleColumnName());
+            return $record->getAttributeValue($this->getTitleAttribute());
         });
     }
 
@@ -184,13 +193,26 @@ class Type
         return $this;
     }
 
-    public function titleColumnName(?string $name): static
+    public function titleAttribute(?string $name): static
     {
-        $this->titleColumnName = $name;
+        $this->titleAttribute = $name;
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `titleAttribute()` instead.
+     */
+    public function titleColumnName(?string $name): static
+    {
+        $this->titleAttribute($name);
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string> | null  $columns
+     */
     public function searchColumns(?array $columns): static
     {
         $this->searchColumns = $columns;
@@ -258,22 +280,37 @@ class Type
         return app($this->getModel())->getMorphClass();
     }
 
+    /**
+     * @return array<string>
+     */
     public function getSearchColumns(): ?array
     {
-        return $this->searchColumns ?? [$this->getTitleColumnName()];
+        return $this->searchColumns ?? [$this->getTitleAttribute()];
     }
 
-    public function getTitleColumnName(): string
+    public function getTitleAttribute(): string
     {
-        if (blank($this->titleColumnName)) {
-            throw new Exception("MorphToSelect type [{$this->getModel()}] must have a [titleColumnName()] set.");
+        if (blank($this->titleAttribute)) {
+            throw new Exception("MorphToSelect type [{$this->getModel()}] must have a [titleAttribute()] set.");
         }
 
-        return $this->titleColumnName;
+        return $this->titleAttribute;
     }
 
     public function getOptionsLimit(): int
     {
         return $this->optionsLimit;
+    }
+
+    public function forceSearchCaseInsensitive(?bool $condition = true): static
+    {
+        $this->isSearchForcedCaseInsensitive = $condition;
+
+        return $this;
+    }
+
+    public function isSearchForcedCaseInsensitive(): ?bool
+    {
+        return $this->isSearchForcedCaseInsensitive;
     }
 }

@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Επεξεργασία',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Αποθηκεύτηκε',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Αποθηκεύτηκε',
+        ],
+
     ],
 
 ];

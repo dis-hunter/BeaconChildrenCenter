@@ -9,6 +9,26 @@ class Staff extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['fullname', 'telephone', 'email', 'email_verified', 'password', 'staff_no', 'remember_token', 'role_id', 'specialization_id', 'gender_id'];
+    protected $table = 'staff';
 
+    protected $fillable = [
+        'fullname', 
+        'telephone', 
+        'email', 
+        'email_verified', 
+        'password', 
+        'staff_no', 
+        'remember_token', 
+        'role_id', 
+        'specialization_id', 
+        'gender_id'
+    ];
+
+    /**
+     * Define the relationship with DoctorSpecialization.
+     */
+    public function doctors()
+    {
+        return $this->belongsTo(DoctorSpecialization::class, 'specialization_id');
+    }
 }

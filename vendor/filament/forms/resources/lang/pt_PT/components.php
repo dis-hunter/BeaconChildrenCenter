@@ -4,31 +4,93 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Conteúdo recolhido',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
-                'label' => 'Adicionar em :label',
+            'clone' => [
+                'label' => 'Clonar',
             ],
 
-            'delete_item' => [
-                'label' => 'Remover',
+            'add' => [
+
+                'label' => 'Adicionar a :label',
+
+                'modal' => [
+
+                    'heading' => 'Adicionar a :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Adicionar',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'move_item_down' => [
+            'add_between' => [
+
+                'label' => 'Inserir entre blocos',
+
+                'modal' => [
+
+                    'heading' => 'Adicionar a :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Adicionar',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'delete' => [
+                'label' => 'Eliminar',
+            ],
+
+            'edit' => [
+
+                'label' => 'Editar',
+
+                'modal' => [
+
+                    'heading' => 'Editar bloco',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Guardar alterações',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'reorder' => [
+                'label' => 'Mover',
+            ],
+
+            'move_down' => [
                 'label' => 'Mover para baixo',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Mover para cima',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Recolher',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expandir',
             ],
 
@@ -40,8 +102,148 @@ return [
                 'label' => 'Expandir todos',
             ],
 
-            'create_item_between' => [
-                'label' => 'Adicionar entre',
+        ],
+
+    ],
+
+    'checkbox_list' => [
+
+        'actions' => [
+
+            'deselect_all' => [
+                'label' => 'Desmarcar todos',
+            ],
+
+            'select_all' => [
+                'label' => 'Marcar todos',
+            ],
+
+        ],
+
+    ],
+
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Cancelar',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Modo de arrastar "cortar"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Modo de arrastar "mover"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Inverter imagem horizontalmente',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Inverter imagem verticalmente',
+                ],
+
+                'move_down' => [
+                    'label' => 'Mover imagem para baixo',
+                ],
+
+                'move_left' => [
+                    'label' => 'Mover imagem para a esquerda',
+                ],
+
+                'move_right' => [
+                    'label' => 'Mover imagem para a direita',
+                ],
+
+                'move_up' => [
+                    'label' => 'Mover imagem para cima',
+                ],
+
+                'reset' => [
+                    'label' => 'Repôr',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Rodar imagem para a esquerda',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Rodar imagem para a direita',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Definir proporção para :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Guardar',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Ampliar imagem para 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Mais zoom',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Menos zoom',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Altura',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Rotação',
+                    'unit' => 'graus',
+                ],
+
+                'width' => [
+                    'label' => 'Largura',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Proporções',
+
+                'no_fixed' => [
+                    'label' => 'Livre',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Não é recomendado editar ficheiros SVG, pois pode resultar em perda de qualidade ao redimensionar.\n Tem a certeza de que deseja prosseguir?',
+                    'disabled' => 'A edição de ficheiros SVG está desactivada, pois pode resultar em perda de qualidade ao redimensionar.',
+                ],
+
             ],
 
         ],
@@ -50,14 +252,18 @@ return [
 
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Adicionar linha',
             ],
 
             'delete' => [
-                'label' => 'Remover linha',
+                'label' => 'Eliminar linha',
+            ],
+
+            'reorder' => [
+                'label' => 'Reordenar linha',
             ],
 
         ],
@@ -79,51 +285,69 @@ return [
     'markdown_editor' => [
 
         'toolbar_buttons' => [
-            'attach_files' => 'Anexar ficheiro',
+            'attach_files' => 'Anexar ficheiros',
+            'blockquote' => 'Bloco de citação',
             'bold' => 'Negrito',
             'bullet_list' => 'Lista',
             'code_block' => 'Bloco de código',
-            'edit' => 'Editar',
+            'heading' => 'Cabeçalho',
             'italic' => 'Itálico',
-            'link' => 'Link',
-            'ordered_list' => 'Lista ordenada',
-            'preview' => 'Visualizar',
+            'link' => 'Hiperligação',
+            'ordered_list' => 'Lista numerada',
+            'redo' => 'Refazer',
             'strike' => 'Rasurado',
+            'table' => 'Tabela',
+            'undo' => 'Desfazer',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Sim',
+            'false' => 'Não',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Conteúdo recolhido',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
-                'label' => 'Adicionar em :label',
+            'add' => [
+                'label' => 'Adicionar a :label',
             ],
 
-            'delete_item' => [
-                'label' => 'Remover',
+            'add_between' => [
+                'label' => 'Adicionar entre',
             ],
 
-            'clone_item' => [
+            'delete' => [
+                'label' => 'Eliminar',
+            ],
+
+            'clone' => [
                 'label' => 'Clonar',
             ],
 
-            'move_item_down' => [
+            'reorder' => [
+                'label' => 'Mover',
+            ],
+
+            'move_down' => [
                 'label' => 'Mover para baixo',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Mover para cima',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Recolher',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expandir',
             ],
 
@@ -145,14 +369,14 @@ return [
 
             'link' => [
 
-                'buttons' => [
-                    'link' => 'Link',
-                    'unlink' => 'Unlink',
+                'actions' => [
+                    'link' => 'Ligação',
+                    'unlink' => 'Remover ligação',
                 ],
 
                 'label' => 'URL',
 
-                'placeholder' => 'Escreva uma URL',
+                'placeholder' => 'Indique uma URL',
 
             ],
 
@@ -160,18 +384,19 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Anexar ficheiros',
-            'blockquote' => 'Citar',
+            'blockquote' => 'Bloco de citação',
             'bold' => 'Negrito',
-            'bullet_list' => 'Marcadores',
-            'code_block' => 'codeBlock',
+            'bullet_list' => 'Lista',
+            'code_block' => 'Bloco de código',
             'h1' => 'Título',
             'h2' => 'Cabeçalho',
             'h3' => 'Subtítulo',
             'italic' => 'Itálico',
-            'link' => 'Link',
-            'ordered_list' => 'Números',
+            'link' => 'Hiperligação',
+            'ordered_list' => 'Lista numerada',
             'redo' => 'Refazer',
             'strike' => 'Rasurado',
+            'underline' => 'Sublinhado',
             'undo' => 'Desfazer',
         ],
 
@@ -193,6 +418,28 @@ return [
                             'label' => 'Criar',
                         ],
 
+                        'create_another' => [
+                            'label' => 'Criar e criar outro',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'Editar',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Guardar',
+                        ],
+
                     ],
 
                 ],
@@ -208,22 +455,50 @@ return [
 
         'loading_message' => 'A carregar...',
 
+        'max_items_message' => 'Apenas :count item pode ser seleccionado.|Apenas :count itens podem ser seleccionados.',
+
         'no_search_results_message' => 'Nenhuma opção corresponde à sua pesquisa.',
 
-        'placeholder' => 'Selecione uma opção',
+        'placeholder' => 'Seleccione uma opção',
 
-        'searching_message' => 'A buscar...',
+        'searching_message' => 'A pesquisar...',
 
         'search_prompt' => 'Comece a escrever para pesquisar...',
+
     ],
 
     'tags_input' => [
-        'placeholder' => 'Nova Tag',
+        'placeholder' => 'Nova etiqueta',
+    ],
+
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Esconder palavra-passe',
+            ],
+
+            'show_password' => [
+                'label' => 'Mostrar palavra-passe',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Sim',
+            'false' => 'Não',
+        ],
+
     ],
 
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Voltar',

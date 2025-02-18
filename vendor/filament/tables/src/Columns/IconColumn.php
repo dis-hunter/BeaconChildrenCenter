@@ -3,35 +3,44 @@
 namespace Filament\Tables\Columns;
 
 use Closure;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Tables\Columns\IconColumn\IconColumnSize;
 use Illuminate\Contracts\Support\Arrayable;
 
 class IconColumn extends Column
 {
-    use Concerns\HasColors {
-        getStateColor as getBaseStateColor;
+    use Concerns\CanWrap;
+    use Concerns\HasColor {
+        getColor as getBaseColor;
     }
-    use Concerns\HasSize;
+    use Concerns\HasIcon {
+        getIcon as getBaseIcon;
+    }
 
-    protected string $view = 'tables::columns.icon-column';
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-tables::columns.icon-column';
 
-    protected array | Arrayable | Closure $options = [];
+    protected bool | Closure | null $isBoolean = null;
 
-    protected bool | Closure $isBoolean = false;
-
-    protected string | Closure | null $falseColor = null;
+    /**
+     * @var string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null
+     */
+    protected string | array | Closure | null $falseColor = null;
 
     protected string | Closure | null $falseIcon = null;
 
-    protected string | Closure | null $trueColor = null;
+    /**
+     * @var string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null
+     */
+    protected string | array | Closure | null $trueColor = null;
 
     protected string | Closure | null $trueIcon = null;
 
-    public function options(array | Arrayable | Closure $options): static
-    {
-        $this->options = $options;
+    protected bool | Closure $isListWithLineBreaks = false;
 
-        return $this;
-    }
+    protected IconColumnSize | string | Closure | null $size = null;
 
     public function boolean(bool | Closure $condition = true): static
     {
@@ -40,7 +49,17 @@ class IconColumn extends Column
         return $this;
     }
 
-    public function false(string | Closure | null $icon = null, string | Closure | null $color = null): static
+    public function listWithLineBreaks(bool | Closure $condition = true): static
+    {
+        $this->isListWithLineBreaks = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @param  string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null  $color
+     */
+    public function false(string | Closure | null $icon = null, string | array | Closure | null $color = null): static
     {
         $this->falseIcon($icon);
         $this->falseColor($color);
@@ -48,7 +67,10 @@ class IconColumn extends Column
         return $this;
     }
 
-    public function falseColor(string | Closure | null $color): static
+    /**
+     * @param  string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null  $color
+     */
+    public function falseColor(string | array | Closure | null $color): static
     {
         $this->boolean();
         $this->falseColor = $color;
@@ -64,7 +86,10 @@ class IconColumn extends Column
         return $this;
     }
 
-    public function true(string | Closure | null $icon = null, string | Closure | null $color = null): static
+    /**
+     * @param  string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null  $color
+     */
+    public function true(string | Closure | null $icon = null, string | array | Closure | null $color = null): static
     {
         $this->trueIcon($icon);
         $this->trueColor($color);
@@ -72,7 +97,10 @@ class IconColumn extends Column
         return $this;
     }
 
-    public function trueColor(string | Closure | null $color): static
+    /**
+     * @param  string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null  $color
+     */
+    public function trueColor(string | array | Closure | null $color): static
     {
         $this->boolean();
         $this->trueColor = $color;
@@ -88,82 +116,110 @@ class IconColumn extends Column
         return $this;
     }
 
-    public function getStateIcon(): ?string
+    /**
+     * @deprecated Use `icons()` instead.
+     *
+     * @param  array<mixed> | Arrayable | Closure  $options
+     */
+    public function options(array | Arrayable | Closure $options): static
     {
-        $state = $this->getState();
-        $record = $this->getRecord();
+        $this->icons($options);
 
-        if ($this->isBoolean()) {
-            if ($state === null) {
-                return null;
-            }
-
-            return $state ? $this->getTrueIcon() : $this->getFalseIcon();
-        }
-
-        $stateIcon = null;
-
-        foreach ($this->getOptions() as $icon => $condition) {
-            if (is_numeric($icon)) {
-                $stateIcon = $condition;
-            } elseif ($condition instanceof Closure && $condition($state, $record)) {
-                $stateIcon = $icon;
-            } elseif ($condition === $state) {
-                $stateIcon = $icon;
-            }
-        }
-
-        return $stateIcon;
+        return $this;
     }
 
-    public function getStateColor(): ?string
+    public function size(IconColumnSize | string | Closure | null $size): static
     {
-        if ($this->isBoolean()) {
-            $state = $this->getState();
+        $this->size = $size;
 
-            if ($state === null) {
-                return null;
-            }
-
-            return $state ? $this->getTrueColor() : $this->getFalseColor();
-        }
-
-        return $this->getBaseStateColor();
+        return $this;
     }
 
-    public function getOptions(): array
+    public function getSize(mixed $state): IconColumnSize | string | null
     {
-        $options = $this->evaluate($this->options);
-
-        if ($options instanceof Arrayable) {
-            $options = $options->toArray();
-        }
-
-        return $options;
+        return $this->evaluate($this->size, [
+            'state' => $state,
+        ]);
     }
 
-    public function getFalseColor(): string
+    public function getIcon(mixed $state): ?string
+    {
+        if (filled($icon = $this->getBaseIcon($state))) {
+            return $icon;
+        }
+
+        if (! $this->isBoolean()) {
+            return null;
+        }
+
+        if ($state === null) {
+            return null;
+        }
+
+        return $state ? $this->getTrueIcon() : $this->getFalseIcon();
+    }
+
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
+     */
+    public function getColor(mixed $state): string | array | null
+    {
+        if (filled($color = $this->getBaseColor($state))) {
+            return $color;
+        }
+
+        if (! $this->isBoolean()) {
+            return null;
+        }
+
+        if ($state === null) {
+            return null;
+        }
+
+        return $state ? $this->getTrueColor() : $this->getFalseColor();
+    }
+
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string}
+     */
+    public function getFalseColor(): string | array
     {
         return $this->evaluate($this->falseColor) ?? 'danger';
     }
 
     public function getFalseIcon(): string
     {
-        return $this->evaluate($this->falseIcon) ?? 'heroicon-o-x-circle';
+        return $this->evaluate($this->falseIcon)
+            ?? FilamentIcon::resolve('tables::columns.icon-column.false')
+            ?? 'heroicon-o-x-circle';
     }
 
-    public function getTrueColor(): string
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string}
+     */
+    public function getTrueColor(): string | array
     {
         return $this->evaluate($this->trueColor) ?? 'success';
     }
 
     public function getTrueIcon(): string
     {
-        return $this->evaluate($this->trueIcon) ?? 'heroicon-o-check-circle';
+        return $this->evaluate($this->trueIcon)
+            ?? FilamentIcon::resolve('tables::columns.icon-column.true')
+            ?? 'heroicon-o-check-circle';
     }
 
     public function isBoolean(): bool
     {
+        if (blank($this->isBoolean)) {
+            $this->isBoolean = $this->getRecord()?->hasCast($this->getName(), ['bool', 'boolean']);
+        }
+
         return (bool) $this->evaluate($this->isBoolean);
+    }
+
+    public function isListWithLineBreaks(): bool
+    {
+        return (bool) $this->evaluate($this->isListWithLineBreaks);
     }
 }

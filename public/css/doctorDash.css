@@ -1,87 +1,580 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Arial', sans-serif;
   margin: 0;
+  padding: 0;
+  background-color: #f4f7f6;
+  color: #333;
+  opacity: 0; /* Start with the page invisible */
+  animation: fadeIn 1s ease-in forwards; /* Apply the fade-in animation */
 }
 
+/* Fade-in Animation for the entire page */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header Animation */
 header {
-  background-color: #f2f2f2;
-  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Start with the header invisible */
+  animation: slideDown 0.5s ease-in forwards; /* Slide down animation */
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Sidebar Animation */
+.sidebar {
+  width: 250px;
+  background-color: #007bff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Start with the sidebar invisible */
+  animation: slideInLeft 0.5s ease-in 0.5s forwards; /* Slide in from left with delay */
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .profile {
   display: flex;
   align-items: center;
+  gap: 15px;
+}
+
+.notifications {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+#date {
+  font-size: 14px;
+  color: #bdc3c7;
+}
+
+.clock {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .profile i {
-  font-size: 4em; /* Adjust size as needed */
-  margin-right: 15px; /* Add space between icon and text */
-  color: Black; /* Example color - adjust as needed */
+  color: white;
+  animation: pulse 2s infinite;
 }
 
-.profile div {
-  /* Target the div that contains the name and specialization */
+.profile h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile p {
+  margin: 0;
+  font-size: 14px;
+  color: #bdc3c7;
+}
+
+.notifications {
   display: flex;
-  flex-direction: column;
-  /* Stack the name and specialization vertically */
-  align-items: flex-start;
-  /* Align the text to the left */
+  align-items: center;
+  gap: 20px;
 }
 
-.notifications .fa-bell {
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
+.clock {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .dropbtn {
-  background-color: transparent;
+  background: none;
   border: none;
+  color: #fff;
+  font-size: 20px;
   cursor: pointer;
-  margin-right: 50px;
-  font-size: 1.5em;
+  transition: transform 0.3s ease;
+}
+
+.dropbtn:hover {
+  transform: scale(1.2);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
   z-index: 1;
-  right: 10px;
+  right: 20px;
+  min-width: 150px;
 }
 
 .dropdown-content a {
-  color: black;
+  color: #333;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #3498db;
+  color: #fff;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
+/* Main Content Styles */
 main {
   display: flex;
+  margin: 20px;
 }
 
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #bdc3c7;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a:hover {
+  background-color: white;
+  color: black;
+  transform: translateX(10px);
+}
+
+.sidebar nav ul li.active a {
+  background-color: white;
+  color: black;
+}
+
+/* Dashboard Section Styles */
+.dashboard {
+  flex: 1;
+  margin-left: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcome {
+  margin-bottom: 20px;
+}
+
+.welcome h3 {
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+.patient-queue {
+  margin-top: 20px;
+}
+
+.patient-queue h2 {
+  font-size: 20px;
+  color: #2c3e50;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table thead th {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+}
+
+table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+<<<<<<< HEAD
+
+.actions button:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}
+
+/* Profile Section Styles */
+.profile-content {
+  flex: 1;
+  margin-left: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-content h2 {
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+#profile-details p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+#edit-profile-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#edit-profile-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}
+
+#edit-profile-form {
+  margin-top: 20px;
+}
+
+#edit-profile-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#edit-profile-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+#edit-profile-form button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#edit-profile-form button:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+=======
+  /* General table styling */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Styling for table headers */
+.table th {
+    background-color: #3498db; /* Blue */
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #ddd; /* Add a light border around the header */
+}
+
+/* Styling for table rows */
+.table td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Stripe rows - alternating row colors */
+.table tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray */
+}
+
+.table tr:nth-child(even) {
+    background-color: #ffffff; /* White */
+}
+
+/* Hover effect for rows */
+.table tr:hover {
+    background-color: #f2f2f2; /* Light gray on hover */
+}
+
+/* Center text in some specific columns */
+.table td:nth-child(2), .table td:nth-child(3), .table td:nth-child(4) {
+    text-align: center;
+}
+
+/* Styling the first column (ID column) */
+.table td:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Add a small shadow for a soft effect around the table */
+.table {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Adding responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .table {
+        width: 100%;
+        border: none;
+        font-size: 14px;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .table td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+    }
+
+    .table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 10px;
+    }
+}
+
+/* Add a responsive container around the table */
+.table-container {
+    overflow-x: auto;
+    margin: 20px;
+}
+
+/* Responsive design for tables */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive th, .table-responsive td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-responsive tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-responsive tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.table-responsive tr:hover {
+    background-color: #f2f2f2;
+}
+
+
+
+/* Sidebar Links Consistency */
+.sidebar a,
+.sidebar a.dashboard {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar a.dashboard:hover,
+.sidebar li:hover a {
+  background-color: lightskyblue;
+  color: #333;
+  padding-left: 20px;
+  transform: translateX(5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a.active,
+.sidebar a.dashboard.active {
+  background-color: lightskyblue;
+  font-weight: bold;
+}
+
+/* Dashboard Content Styling */
+.dashboard {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+
+
+/* Reset for better control */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  background-color: #f2f2f2;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+}
+
+/* Sidebar */
 .sidebar {
-  width: 250px;
   background-color: lightblue;
   color: white;
+  width: 250px;
+  height: calc(100vh - 70px); /* Full height minus header height */
+  position: fixed;
+  top: 70px; /* Align below the header */
+  left: 0;
   padding: 20px;
-  height: 465px;
+  overflow-y: auto; /* Allow scrolling for longer content */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
 }
 
+/* Main Content Area */
+main {
+  margin-left: 250px; /* Match the width of the sidebar */
+  margin-top: 70px; /* Match the height of the header */
+  padding: 20px;
+  flex-grow: 1;
+  background-color: #f4f4f4; /* Light background for better readability */
+  overflow-y: auto; /* Allow scrolling for longer content */
+  height: calc(100vh - 70px); /* Adjust to fill remaining height */
+}
+
+/* Welcome Message */
+.welcome {
+  margin-bottom: 20px;
+}
+
+/* Dashboard Section */
+.dashboard {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Sidebar Links */
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -96,7 +589,7 @@ main {
   text-decoration: none;
   display: block;
   padding: 10px;
-  transition: all 0.3s ease; /* Smooth transition for all properties */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .sidebar li:hover a {
@@ -111,53 +604,65 @@ main {
   background-color: lightskyblue;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  main {
+    margin-left: 200px; /* Adjust for smaller sidebar */
+  }
+}
+
+/* Calendar Container Styling */
+.calendar-container {
+  height: calc(100vh - 70px); /* Full height minus header height */
+  padding: 20px;
+  overflow: auto; /* Allow scrolling if necessary */
+  background-color: white; /* Optional, adjust according to your design */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+
+  width: 980px !important;;
+}
+
+/* Ensure the main content area has the correct space */
+main {
+  margin-left: 250px; /* Match the width of the sidebar */
+  margin-top: 70px; /* Match the height of the header */
+  padding: 20px;
+  flex-grow: 1;
+  background-color: #f4f4f4; /* Light background for better readability */
+  height: calc(100vh - 70px); /* Adjust to fill remaining height */
+  overflow-y: auto; /* Allow scrolling for longer content */
+}
+
+/* Sidebar adjustments to maintain fixed layout */
+.sidebar {
+  background-color: lightblue;
+  color: white;
+  width: 250px;
+  height: calc(100vh - 70px); /* Full height minus header height */
+  position: fixed;
+  top: 70px; /* Align below the header */
+  left: 0;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for better separation */
+}
+
+/* Make sure the dashboard section within main has enough space */
 .dashboard {
   flex-grow: 1;
   padding: 20px;
 }
 
-.welcome {
-  margin-bottom: 20px;
+
+.cancel-btn,
+.reschedule-btn {
+    display: none;
 }
 
-.patient-queue ul {
-  list-style: none;
-  padding: 0;
-}
-
-.patient-queue li {
-  display: flex;
-  align-items: center;
-  padding: 1px; /* Increased padding for hover effect */
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-  transition: all 0.3s ease; /* Smooth transition for all properties */
-}
-
-.patient-queue li:hover {
-  background-color: #e0f2f7; /* Light blue background on hover */
-  transform: translateY(-3px); /* Slightly move the item up */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-.patient-queue .active {
-  background-color: #e0f2f7;
-  font-weight: bold;
-}
-
-.actions {
-  margin-top: 20px;
-}
-
-.actions button {
-  background-color: #008CBA;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-}
 .notifications {
   display: flex; /* Use flexbox for easy alignment */
   align-items: center; /* Vertically center the items */
@@ -167,4 +672,9 @@ main {
   font-size: 1.2em;
   margin-right: 20px; /* Space between clock and user icon */
   order: -1; /* Place the clock before the user icon */
+}
+.content{
+  padding :10px;
+  margin-left:18px !important;
+>>>>>>> 9f59704b61ecc3c1d2b0d4bfb22dc084059bdbef
 }

@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Upravit',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Uloženo',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Uloženo',
+        ],
+
     ],
 
 ];

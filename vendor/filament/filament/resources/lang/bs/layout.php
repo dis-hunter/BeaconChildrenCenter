@@ -4,26 +4,30 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
-
-        'dark_mode' => [
-            'label' => 'Uključite tamni način rada',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Otvorite notifikacije',
-        ],
-
-        'light_mode' => [
-            'label' => 'Uključite svjijetli način rada',
-        ],
+    'actions' => [
 
         'logout' => [
             'label' => 'Odjava',
         ],
 
-        'user_menu' => [
+        'open_database_notifications' => [
+            'label' => 'Otvorite notifikacije',
+        ],
+
+        'open_user_menu' => [
             'label' => 'Korisnički meni',
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Uključite tamni način rada',
+            ],
+
+            'light' => [
+                'label' => 'Uključite svjijetli način rada',
+            ],
+
         ],
 
     ],

@@ -4,19 +4,60 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
-        'dark_mode' => [
-            'label' => 'Alternar para o modo escuro',
+    'actions' => [
+
+        'billing' => [
+            'label' => 'Gerir assinatura',
         ],
-        'light_mode' => [
-            'label' => 'Alternar para o modo claro',
-        ],
+
         'logout' => [
             'label' => 'Terminar Sessão',
         ],
-        'user_menu' => [
-            'label' => 'menu do usuário',
+
+        'open_database_notifications' => [
+            'label' => 'Abrir notificações',
         ],
+
+        'open_user_menu' => [
+            'label' => 'Menu de utilizador',
+        ],
+
+        'sidebar' => [
+
+            'collapse' => [
+                'label' => 'Recolher barra lateral',
+            ],
+
+            'expand' => [
+                'label' => 'Expandir barra lateral',
+            ],
+
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Activar o modo escuro',
+            ],
+
+            'light' => [
+                'label' => 'Activar o modo claro',
+            ],
+
+            'system' => [
+                'label' => 'Activar o modo de sistema',
+            ],
+
+        ],
+
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar de :name',
+    ],
+
+    'logo' => [
+        'alt' => 'Logótipo de :name',
     ],
 
 ];

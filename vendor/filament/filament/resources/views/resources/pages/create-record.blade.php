@@ -1,17 +1,21 @@
-<x-filament::page
-    :class="
-        \Illuminate\Support\Arr::toCssClasses([
-            'filament-resources-create-record-page',
-            'filament-resources-' . str_replace('/', '-', $this->getResource()::getSlug()),
-        ])
-    "
+<x-filament-panels::page
+    @class([
+        'fi-resource-create-record-page',
+        'fi-resource-' . str_replace('/', '-', $this->getResource()::getSlug()),
+    ])
 >
-    <x-filament::form wire:submit.prevent="create">
+    <x-filament-panels::form
+        id="form"
+        :wire:key="$this->getId() . '.forms.' . $this->getFormStatePath()"
+        wire:submit="create"
+    >
         {{ $this->form }}
 
-        <x-filament::form.actions
+        <x-filament-panels::form.actions
             :actions="$this->getCachedFormActions()"
             :full-width="$this->hasFullWidthFormActions()"
         />
-    </x-filament::form>
-</x-filament::page>
+    </x-filament-panels::form>
+
+    <x-filament-panels::page.unsaved-data-changes-alert />
+</x-filament-panels::page>

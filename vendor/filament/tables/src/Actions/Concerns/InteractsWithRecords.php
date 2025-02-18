@@ -3,7 +3,8 @@
 namespace Filament\Tables\Actions\Concerns;
 
 use Closure;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
 
 trait InteractsWithRecords
 {
@@ -11,9 +12,9 @@ trait InteractsWithRecords
 
     protected string | Closure | null $pluralModelLabel = null;
 
-    protected Collection | Closure | null $records = null;
+    protected EloquentCollection | Collection | Closure | null $records = null;
 
-    public function records(Collection | Closure | null $records): static
+    public function records(EloquentCollection | Collection | Closure | null $records): static
     {
         $this->records = $records;
 
@@ -36,7 +37,7 @@ trait InteractsWithRecords
 
     public function getModel(): string
     {
-        return $this->getLivewire()->getTableModel();
+        return $this->getTable()->getModel();
     }
 
     public function getModelLabel(): string
@@ -47,7 +48,7 @@ trait InteractsWithRecords
             return $label;
         }
 
-        return $this->getLivewire()->getTableModelLabel();
+        return $this->getTable()->getModelLabel();
     }
 
     public function getPluralModelLabel(): string
@@ -58,14 +59,11 @@ trait InteractsWithRecords
             return $label;
         }
 
-        return $this->getLivewire()->getTablePluralModelLabel();
+        return $this->getTable()->getPluralModelLabel();
     }
 
-    public function getRecords(): ?Collection
+    public function getRecords(): EloquentCollection | Collection | null
     {
-        return $this->evaluate(
-            $this->records,
-            exceptParameters: ['records'],
-        );
+        return $this->records = $this->evaluate($this->records);
     }
 }

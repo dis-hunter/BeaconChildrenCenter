@@ -1,51 +1,66 @@
 @props([
-    'action' => null,
-    'color' => null,
+    'actions' => [],
+    'color' => 'gray',
     'icon' => null,
+    'tooltip' => null,
 ])
 
 <div
     {{
-        $attributes->class(array_merge(
-            ['filament-forms-field-wrapper-hint flex items-center space-x-2 rtl:space-x-reverse'],
-            match ($color) {
-                'danger' => [
-                    'text-danger-500',
-                    'dark:text-danger-300' => config('tables.dark_mode'),
-                ],
-                'success' => [
-                    'text-success-500',
-                    'dark:text-success-300' => config('tables.dark_mode'),
-                ],
-                'warning' => [
-                    'text-warning-500',
-                    'dark:text-warning-300' => config('filament.dark_mode'),
-                ],
-                'primary' => [
-                    'text-primary-500',
-                    'dark:text-primary-300' => config('tables.dark_mode'),
-                ],
-                default => [
-                    'text-gray-500',
-                    'dark:text-gray-300' => config('tables.dark_mode'),
-                ],
-            },
-        ))
+        $attributes->class([
+            'fi-fo-field-wrp-hint flex items-center gap-x-3 text-sm',
+        ])
     }}
 >
-    @if ($slot->isNotEmpty())
-        <span class="text-xs leading-tight">
+    @if (! \Filament\Support\is_slot_empty($slot))
+        <span
+            @class([
+                'fi-fo-field-wrp-hint-label',
+                match ($color) {
+                    'gray' => 'text-gray-500',
+                    default => 'fi-color-custom text-custom-600 dark:text-custom-400',
+                },
+                is_string($color) ? "fi-color-{$color}" : null,
+            ])
+            @style([
+                \Filament\Support\get_color_css_variables(
+                    $color,
+                    shades: [400, 600],
+                    alias: 'forms::components.field-wrapper.hint.label',
+                ),
+            ])
+        >
             {{ $slot }}
         </span>
     @endif
 
     @if ($icon)
-        <x-dynamic-component :component="$icon" class="h-4 w-4" />
+        <x-filament::icon
+            x-data="{}"
+            :icon="$icon"
+            :x-tooltip="filled($tooltip) ? '{ content: ' . \Illuminate\Support\Js::from($tooltip) . ', theme: $store.theme }' : null"
+            @class([
+                'fi-fo-field-wrp-hint-icon h-5 w-5',
+                match ($color) {
+                    'gray' => 'text-gray-400 dark:text-gray-500',
+                    default => 'text-custom-500 dark:text-custom-400',
+                },
+            ])
+            @style([
+                \Filament\Support\get_color_css_variables(
+                    $color,
+                    shades: [400, 500],
+                    alias: 'forms::components.field-wrapper.hint.icon',
+                ),
+            ])
+        />
     @endif
 
-    @if ($action && (! $action->isHidden()))
-        <div class="filament-forms-field-wrapper-hint-action">
-            {{ $action }}
+    @if (count($actions))
+        <div class="fi-fo-field-wrp-hint-action flex items-center gap-3">
+            @foreach ($actions as $action)
+                {{ $action }}
+            @endforeach
         </div>
     @endif
 </div>

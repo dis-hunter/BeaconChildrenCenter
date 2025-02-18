@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\View;
+use App\Models\DoctorSpecialization;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,8 +38,12 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised();
         });
         
+        View::share('doctorSpecializations', DoctorSpecialization::all());
+
         DB::listen(function ($query){
             Log::info($query->sql);
         });
+        View::share('doctorSpecializations', DoctorSpecialization::all());
+
     }
 }

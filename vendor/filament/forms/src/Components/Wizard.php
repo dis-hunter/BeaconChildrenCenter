@@ -3,32 +3,51 @@
 namespace Filament\Forms\Components;
 
 use Closure;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use Filament\Support\Concerns;
+use Filament\Support\Enums\IconPosition;
+use Filament\Support\Exceptions\Halt;
 use Illuminate\Contracts\Support\Htmlable;
 use Livewire\Component as LivewireComponent;
 
 class Wizard extends Component
 {
-    use HasExtraAlpineAttributes;
+    use Concerns\CanBeContained;
+    use Concerns\HasExtraAlpineAttributes;
 
     protected string | Htmlable | null $cancelAction = null;
 
-    protected bool | Closure $skippable = false;
+    protected bool | Closure $isSkippable = false;
 
     protected string | Closure | null $stepQueryStringKey = null;
 
     protected string | Htmlable | null $submitAction = null;
 
-    public int | Closure $startStep = 1;
+    protected ?Closure $modifyNextActionUsing = null;
 
-    protected string $view = 'forms::components.wizard';
+    protected ?Closure $modifyPreviousActionUsing = null;
 
+    protected int | Closure $startStep = 1;
+
+    protected int $currentStepIndex = 0;
+
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-forms::components.wizard';
+
+    /**
+     * @param  array<Step> | Closure  $steps
+     */
     final public function __construct(array | Closure $steps = [])
     {
         $this->steps($steps);
     }
 
+    /**
+     * @param  array<Step> | Closure  $steps
+     */
     public static function make(array | Closure $steps = []): static
     {
         $static = app(static::class, ['steps' => $steps]);
@@ -41,32 +60,128 @@ class Wizard extends Component
     {
         parent::setUp();
 
+        $this->setCurrentStepIndex($this->getStartStep() - 1);
+
+        $this->registerActions([
+            fn (Wizard $component): Action => $component->getNextAction(),
+            fn (Wizard $component): Action => $component->getPreviousAction(),
+        ]);
+
         $this->registerListeners([
+            'wizard::previousStep' => [
+                function (Wizard $component, string $statePath, int $currentStepIndex): void {
+                    if ($statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    if ($currentStepIndex < 1) {
+                        $currentStepIndex = 1;
+                    }
+
+                    $this->setCurrentStepIndex($currentStepIndex - 1);
+                },
+            ],
             'wizard::nextStep' => [
-                function (Wizard $component, string $statePath, string $currentStep): void {
+                function (Wizard $component, string $statePath, int $currentStepIndex): void {
                     if ($statePath !== $component->getStatePath()) {
                         return;
                     }
 
                     if (! $component->isSkippable()) {
-                        /** @var Step $currentStep */
-                        $currentStep = $component->getChildComponentContainer()->getComponents(withHidden: true)[$currentStep];
+                        $steps = array_values(
+                            $component
+                                ->getChildComponentContainer()
+                                ->getComponents()
+                        );
 
-                        $currentStep->callBeforeValidation();
-                        $currentStep->getChildComponentContainer()->validate();
-                        $currentStep->callAfterValidation();
+                        /** @var Step $currentStep */
+                        $currentStep = $steps[$currentStepIndex];
+                        $this->setCurrentStepIndex($currentStepIndex);
+
+                        /** @var ?Step $nextStep */
+                        $nextStep = $steps[$currentStepIndex + 1] ?? null;
+
+                        try {
+                            $currentStep->callBeforeValidation();
+                            $currentStep->getChildComponentContainer()->validate();
+                            $currentStep->callAfterValidation();
+                            $nextStep?->fillStateWithNull();
+                        } catch (Halt $exception) {
+                            return;
+                        }
                     }
 
                     /** @var LivewireComponent $livewire */
                     $livewire = $component->getLivewire();
-                    $livewire->dispatchBrowserEvent('next-wizard-step', [
-                        'statePath' => $statePath,
-                    ]);
+                    $livewire->dispatch('next-wizard-step', statePath: $statePath);
+                    $this->setCurrentStepIndex($currentStepIndex + 1);
                 },
             ],
         ]);
     }
 
+    public function getNextAction(): Action
+    {
+        $action = Action::make($this->getNextActionName())
+            ->label(__('filament-forms::components.wizard.actions.next_step.label'))
+            ->iconPosition(IconPosition::After)
+            ->livewireClickHandlerEnabled(false)
+            ->livewireTarget('dispatchFormEvent')
+            ->button();
+
+        if ($this->modifyNextActionUsing) {
+            $action = $this->evaluate($this->modifyNextActionUsing, [
+                'action' => $action,
+            ]) ?? $action;
+        }
+
+        return $action;
+    }
+
+    public function nextAction(?Closure $callback): static
+    {
+        $this->modifyNextActionUsing = $callback;
+
+        return $this;
+    }
+
+    public function getNextActionName(): string
+    {
+        return 'next';
+    }
+
+    public function getPreviousAction(): Action
+    {
+        $action = Action::make($this->getPreviousActionName())
+            ->label(__('filament-forms::components.wizard.actions.previous_step.label'))
+            ->color('gray')
+            ->livewireClickHandlerEnabled(false)
+            ->button();
+
+        if ($this->modifyPreviousActionUsing) {
+            $action = $this->evaluate($this->modifyPreviousActionUsing, [
+                'action' => $action,
+            ]) ?? $action;
+        }
+
+        return $action;
+    }
+
+    public function previousAction(?Closure $callback): static
+    {
+        $this->modifyPreviousActionUsing = $callback;
+
+        return $this;
+    }
+
+    public function getPreviousActionName(): string
+    {
+        return 'previous';
+    }
+
+    /**
+     * @param  array<Step> | Closure  $steps
+     */
     public function steps(array | Closure $steps): static
     {
         $this->childComponents($steps);
@@ -97,7 +212,7 @@ class Wizard extends Component
 
     public function skippable(bool | Closure $condition = true): static
     {
-        $this->skippable = $condition;
+        $this->isSkippable = $condition;
 
         return $this;
     }
@@ -124,7 +239,7 @@ class Wizard extends Component
         if ($this->isStepPersistedInQueryString()) {
             $queryStringStep = request()->query($this->getStepQueryStringKey());
 
-            foreach ($this->getChildComponents() as $index => $step) {
+            foreach ($this->getChildComponentContainer()->getComponents() as $index => $step) {
                 if ($step->getId() !== $queryStringStep) {
                     continue;
                 }
@@ -143,11 +258,23 @@ class Wizard extends Component
 
     public function isSkippable(): bool
     {
-        return $this->evaluate($this->skippable);
+        return (bool) $this->evaluate($this->isSkippable);
     }
 
     public function isStepPersistedInQueryString(): bool
     {
         return filled($this->getStepQueryStringKey());
+    }
+
+    public function getCurrentStepIndex(): int
+    {
+        return $this->currentStepIndex;
+    }
+
+    protected function setCurrentStepIndex(int $index): static
+    {
+        $this->currentStepIndex = $index;
+
+        return $this;
     }
 }

@@ -2,97 +2,130 @@
 
 namespace Filament\Resources\Pages;
 
-use Filament\Forms\ComponentContainer;
-use Filament\Pages\Actions\Action;
-use Filament\Pages\Actions\DeleteAction;
-use Filament\Pages\Actions\EditAction;
-use Filament\Pages\Actions\ForceDeleteAction;
-use Filament\Pages\Actions\ReplicateAction;
-use Filament\Pages\Actions\RestoreAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ReplicateAction;
+use Filament\Actions\RestoreAction;
+use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
+use Filament\Pages\Concerns\InteractsWithFormActions;
+use Filament\Support\Facades\FilamentIcon;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
- * @property ComponentContainer $form
+ * @property Form $form
  */
 class ViewRecord extends Page
 {
-    use Concerns\HasRecordBreadcrumb;
     use Concerns\HasRelationManagers;
-    use Concerns\InteractsWithRecord;
-    use Concerns\UsesResourceForm;
+    use Concerns\InteractsWithRecord {
+        configureAction as configureActionRecord;
+    }
+    use InteractsWithFormActions;
 
-    protected static string $view = 'filament::resources.pages.view-record';
+    /**
+     * @var view-string
+     */
+    protected static string $view = 'filament-panels::resources.pages.view-record';
 
-    public $data;
+    /**
+     * @var array<string, mixed> | null
+     */
+    public ?array $data = [];
 
-    protected $queryString = [
-        'activeRelationManager',
-    ];
+    public static function getNavigationIcon(): string | Htmlable | null
+    {
+        return static::$navigationIcon
+            ?? FilamentIcon::resolve('panels::resources.pages.view-record.navigation-item')
+            ?? 'heroicon-o-eye';
+    }
 
     public function getBreadcrumb(): string
     {
-        return static::$breadcrumb ?? __('filament::resources/pages/view-record.breadcrumb');
+        return static::$breadcrumb ?? __('filament-panels::resources/pages/view-record.breadcrumb');
     }
 
-    public function getFormTabLabel(): ?string
+    public function getContentTabLabel(): ?string
     {
-        return __('filament::resources/pages/view-record.form.tab.label');
+        return __('filament-panels::resources/pages/view-record.content.tab.label');
     }
 
-    public function mount($record): void
+    public function mount(int | string $record): void
     {
-        static::authorizeResourceAccess();
-
         $this->record = $this->resolveRecord($record);
 
-        abort_unless(static::getResource()::canView($this->getRecord()), 403);
+        $this->authorizeAccess();
 
-        $this->fillForm();
+        if (! $this->hasInfolist()) {
+            $this->fillForm();
+        }
+    }
+
+    protected function authorizeAccess(): void
+    {
+        abort_unless(static::getResource()::canView($this->getRecord()), 403);
+    }
+
+    protected function hasInfolist(): bool
+    {
+        return (bool) count($this->getInfolist('infolist')->getComponents());
     }
 
     protected function fillForm(): void
     {
+        /** @internal Read the DocBlock above the following method. */
+        $this->fillFormWithDataAndCallHooks($this->getRecord());
+    }
+
+    /**
+     * @internal Never override or call this method. If you completely override `fillForm()`, copy the contents of this method into your override.
+     *
+     * @param  array<string, mixed>  $extraData
+     */
+    protected function fillFormWithDataAndCallHooks(Model $record, array $extraData = []): void
+    {
         $this->callHook('beforeFill');
 
-        $data = $this->getRecord()->attributesToArray();
-
-        $data = $this->mutateFormDataBeforeFill($data);
+        $data = $this->mutateFormDataBeforeFill([
+            ...$record->attributesToArray(),
+            ...$extraData,
+        ]);
 
         $this->form->fill($data);
 
         $this->callHook('afterFill');
     }
 
-    protected function refreshFormData(array $attributes): void
+    /**
+     * @param  array<string>  $attributes
+     */
+    public function refreshFormData(array $attributes): void
     {
-        $this->data = array_merge(
-            $this->data,
-            $this->getRecord()->only($attributes),
-        );
+        $data = [
+            ...$this->data,
+            ...Arr::only($this->getRecord()->attributesToArray(), $attributes),
+        ];
+
+        $this->form->fill($data);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
     protected function mutateFormDataBeforeFill(array $data): array
     {
         return $data;
     }
 
-    protected function getActions(): array
-    {
-        $resource = static::getResource();
-
-        if (! $resource::hasPage('edit')) {
-            return [];
-        }
-
-        if (! $resource::canEdit($this->getRecord())) {
-            return [];
-        }
-
-        return [$this->getEditAction()];
-    }
-
     protected function configureAction(Action $action): void
     {
+        $this->configureActionRecord($action);
+
         match (true) {
             $action instanceof DeleteAction => $this->configureDeleteAction($action),
             $action instanceof EditAction => $this->configureEditAction($action),
@@ -109,24 +142,11 @@ class ViewRecord extends Page
 
         $action
             ->authorize($resource::canEdit($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle());
+            ->form(fn (Form $form): Form => static::getResource()::form($form));
 
         if ($resource::hasPage('edit')) {
             $action->url(fn (): string => static::getResource()::getUrl('edit', ['record' => $this->getRecord()]));
-
-            return;
         }
-
-        $action->form($this->getFormSchema());
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getEditAction(): Action
-    {
-        return EditAction::make();
     }
 
     protected function configureForceDeleteAction(ForceDeleteAction $action): void
@@ -135,25 +155,19 @@ class ViewRecord extends Page
 
         $action
             ->authorize($resource::canForceDelete($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle())
             ->successRedirectUrl($resource::getUrl('index'));
     }
 
     protected function configureReplicateAction(ReplicateAction $action): void
     {
         $action
-            ->authorize(static::getResource()::canReplicate($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle());
+            ->authorize(static::getResource()::canReplicate($this->getRecord()));
     }
 
     protected function configureRestoreAction(RestoreAction $action): void
     {
         $action
-            ->authorize(static::getResource()::canRestore($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle());
+            ->authorize(static::getResource()::canRestore($this->getRecord()));
     }
 
     protected function configureDeleteAction(DeleteAction $action): void
@@ -162,42 +176,63 @@ class ViewRecord extends Page
 
         $action
             ->authorize($resource::canDelete($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle())
             ->successRedirectUrl($resource::getUrl('index'));
     }
 
-    protected function getTitle(): string
+    public function getTitle(): string | Htmlable
     {
         if (filled(static::$title)) {
             return static::$title;
         }
 
-        return __('filament::resources/pages/view-record.title', [
+        return __('filament-panels::resources/pages/view-record.title', [
             'label' => $this->getRecordTitle(),
         ]);
     }
 
+    public function form(Form $form): Form
+    {
+        return $form;
+    }
+
+    /**
+     * @return array<int | string, string | Form>
+     */
     protected function getForms(): array
     {
         return [
-            'form' => $this->makeForm()
-                ->context('view')
-                ->disabled()
-                ->model($this->getRecord())
-                ->schema($this->getFormSchema())
-                ->statePath('data')
-                ->inlineLabel(config('filament.layout.forms.have_inline_labels')),
+            'form' => $this->form(static::getResource()::form(
+                $this->makeForm()
+                    ->operation('view')
+                    ->disabled()
+                    ->model($this->getRecord())
+                    ->statePath($this->getFormStatePath())
+                    ->columns($this->hasInlineLabels() ? 1 : 2)
+                    ->inlineLabel($this->hasInlineLabels()),
+            )),
         ];
     }
 
-    protected function getFormSchema(): array
+    public function getFormStatePath(): ?string
     {
-        return $this->getResourceForm(columns: config('filament.layout.forms.have_inline_labels') ? 1 : 2)->getSchema();
+        return 'data';
     }
 
-    protected function getMountedActionFormModel(): Model
+    public function infolist(Infolist $infolist): Infolist
     {
-        return $this->getRecord();
+        return static::getResource()::infolist($infolist);
+    }
+
+    protected function makeInfolist(): Infolist
+    {
+        return parent::makeInfolist()
+            ->record($this->getRecord())
+            ->columns($this->hasInlineLabels() ? 1 : 2)
+            ->inlineLabel($this->hasInlineLabels());
+    }
+
+    public static function shouldRegisterNavigation(array $parameters = []): bool
+    {
+        return parent::shouldRegisterNavigation($parameters) && static::getResource()::canView($parameters['record']);
     }
 }

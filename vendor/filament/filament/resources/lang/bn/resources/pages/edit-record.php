@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'সম্পাদন',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'সম্পাদন করা হয়েছে',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'সম্পাদন করা হয়েছে',
+        ],
+
     ],
 
 ];

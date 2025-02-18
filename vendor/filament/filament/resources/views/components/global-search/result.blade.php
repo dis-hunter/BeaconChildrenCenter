@@ -5,47 +5,38 @@
     'url',
 ])
 
-<li {{ $attributes->class(['filament-global-search-result']) }}>
-    <div
-        class="relative block px-6 py-4 hover:bg-gray-500/5 focus:bg-gray-500/5 focus:ring-1 focus:ring-gray-300"
+<li
+    {{ $attributes->class(['fi-global-search-result scroll-mt-9 transition duration-75 focus-within:bg-gray-50 hover:bg-gray-50 dark:focus-within:bg-white/5 dark:hover:bg-white/5']) }}
+>
+    <a
+        {{ \Filament\Support\generate_href_html($url) }}
+        x-on:click="close()"
+        @class([
+            'fi-global-search-result-link block outline-none',
+            'pe-4 ps-4 pt-4' => $actions,
+            'p-4' => ! $actions,
+        ])
     >
-        <a href="{{ $url }}" class="">
-            <p
-                @class([
-                    'font-medium',
-                    'dark:text-gray-200' => config('filament.dark_mode'),
-                ])
-            >
-                {{ $title }}
-            </p>
+        <h4 class="text-sm font-medium text-gray-950 dark:text-white">
+            {{ $title }}
+        </h4>
 
-            <p
-                @class([
-                    'space-x-2 text-sm font-medium text-gray-500 rtl:space-x-reverse',
-                    'dark:text-gray-400' => config('filament.dark_mode'),
-                ])
-            >
+        @if ($details)
+            <dl class="mt-1">
                 @foreach ($details as $label => $value)
-                    <span>
-                        <span
-                            @class([
-                                'font-medium text-gray-700',
-                                'dark:text-gray-200' => config('filament.dark_mode'),
-                            ])
-                        >
-                            {{ $label }}:
-                        </span>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        @if ($isAssoc ??= \Illuminate\Support\Arr::isAssoc($details))
+                            <dt class="inline font-medium">{{ $label }}:</dt>
+                        @endif
 
-                        <span>
-                            {{ $value }}
-                        </span>
-                    </span>
+                        <dd class="inline">{{ $value }}</dd>
+                    </div>
                 @endforeach
-            </p>
-        </a>
-
-        @if ($actions)
-            <x-filament::global-search.actions :actions="$actions" />
+            </dl>
         @endif
-    </div>
+    </a>
+
+    @if ($actions)
+        <x-filament-panels::global-search.actions :actions="$actions" />
+    @endif
 </li>

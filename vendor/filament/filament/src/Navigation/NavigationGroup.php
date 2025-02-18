@@ -2,53 +2,69 @@
 
 namespace Filament\Navigation;
 
+use Closure;
+use Filament\Support\Components\Component;
+use Filament\Support\Concerns\HasExtraSidebarAttributes;
+use Filament\Support\Concerns\HasExtraTopbarAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 
-class NavigationGroup
+class NavigationGroup extends Component
 {
-    protected bool $isCollapsed = false;
+    use HasExtraSidebarAttributes;
+    use HasExtraTopbarAttributes;
 
-    protected ?bool $isCollapsible = null;
+    protected bool | Closure $isCollapsed = false;
 
-    protected ?string $icon = null;
+    protected bool | Closure | null $isCollapsible = null;
 
+    protected string | Closure | null $icon = null;
+
+    /**
+     * @var array<NavigationItem> | Arrayable
+     */
     protected array | Arrayable $items = [];
 
-    protected ?string $label = null;
+    protected string | Closure | null $label = null;
 
-    final public function __construct(?string $label = null)
+    final public function __construct(string | Closure | null $label = null)
     {
         $this->label($label);
     }
 
-    public static function make(?string $label = null): static
+    public static function make(string | Closure | null $label = null): static
     {
-        return app(static::class, ['label' => $label]);
+        $static = app(static::class, ['label' => $label]);
+        $static->configure();
+
+        return $static;
     }
 
-    public function collapsed(bool $condition = true): static
+    public function collapsed(bool | Closure $condition = true): static
     {
         $this->isCollapsed = $condition;
 
-        $this->collapsible();
+        $this->collapsible($condition);
 
         return $this;
     }
 
-    public function collapsible(?bool $condition = true): static
+    public function collapsible(bool | Closure | null $condition = true): static
     {
         $this->isCollapsible = $condition;
 
         return $this;
     }
 
-    public function icon(?string $icon): static
+    public function icon(string | Closure | null $icon): static
     {
         $this->icon = $icon;
 
         return $this;
     }
 
+    /**
+     * @param  array<NavigationItem> | Arrayable  $items
+     */
     public function items(array | Arrayable $items): static
     {
         $this->items = $items;
@@ -56,7 +72,7 @@ class NavigationGroup
         return $this;
     }
 
-    public function label(?string $label): static
+    public function label(string | Closure | null $label): static
     {
         $this->label = $label;
 
@@ -65,9 +81,12 @@ class NavigationGroup
 
     public function getIcon(): ?string
     {
-        return $this->icon;
+        return $this->evaluate($this->icon);
     }
 
+    /**
+     * @return array<NavigationItem> | Arrayable
+     */
     public function getItems(): array | Arrayable
     {
         return $this->items;
@@ -75,16 +94,29 @@ class NavigationGroup
 
     public function getLabel(): ?string
     {
-        return $this->label;
+        return $this->evaluate($this->label);
     }
 
     public function isCollapsed(): bool
     {
-        return $this->isCollapsed;
+        return (bool) $this->evaluate($this->isCollapsed);
     }
 
     public function isCollapsible(): bool
     {
-        return $this->isCollapsible ?? config('filament.layout.sidebar.groups.are_collapsible') ?? true;
+        return (bool) ($this->evaluate($this->isCollapsible) ?? filament()->hasCollapsibleNavigationGroups());
+    }
+
+    public function isActive(): bool
+    {
+        foreach ($this->getItems() as $item) {
+            if (! $item->isActive()) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

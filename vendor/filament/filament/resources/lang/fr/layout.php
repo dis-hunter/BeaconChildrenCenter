@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Activer le mode sombre',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Ouvrir les notifications',
-        ],
-
-        'light_mode' => [
-            'label' => 'Désactiver le mode sombre',
+        'billing' => [
+            'label' => "Gérer l'abonnement",
         ],
 
         'logout' => [
             'label' => 'Déconnexion',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Ouvrir les notifications',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Menu utilisateur',
         ],
 
         'sidebar' => [
@@ -34,9 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Menu utilisateur',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Activer le mode sombre',
+            ],
+
+            'light' => [
+                'label' => 'Désactiver le mode sombre',
+            ],
+
+            'system' => [
+                'label' => 'Activer le thème système',
+            ],
+
         ],
+
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar de :name',
+    ],
+
+    'logo' => [
+        'alt' => 'Logo de :name',
     ],
 
 ];

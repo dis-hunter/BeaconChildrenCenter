@@ -5,13 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InvoicesResource\Pages;
 use App\Models\Invoice;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -24,7 +20,7 @@ class InvoicesResource extends Resource
 {
     protected static ?string $model = Invoice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-receipt-tax';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
     protected static ?string $navigationGroup = 'Finance';
 

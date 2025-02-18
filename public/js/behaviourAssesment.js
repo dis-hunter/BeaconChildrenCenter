@@ -115,7 +115,7 @@ async function loadBehaviourAssessmentForm(mainContent) {
     `;
 
     console.log("Fetching Behaviour Assessment data...");
-    const registrationNumber = "REG-001"; // You can replace with dynamic registration number
+    const registrationNumber = window.location.pathname.split('/').pop();
     await loadBehaviourAssessment(registrationNumber);
 
     // Add event listener to the save button

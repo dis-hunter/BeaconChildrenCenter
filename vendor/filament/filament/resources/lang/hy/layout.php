@@ -4,24 +4,60 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Միացնել մութ ռեժիմը',
-        ],
-
-        'light_mode' => [
-            'label' => 'Միացնել լուսային ռեժիմը',
+        'billing' => [
+            'label' => 'Բաժանորդագրության կառավարում',
         ],
 
         'logout' => [
             'label' => 'Դուրս գալ',
         ],
 
-        'user_menu' => [
+        'open_database_notifications' => [
+            'label' => 'Բացել ծանուցումները',
+        ],
+
+        'open_user_menu' => [
             'label' => 'Օգտագործողի ընտրացանկ',
         ],
 
+        'sidebar' => [
+
+            'collapse' => [
+                'label' => 'Նվազագույնի հասցնել կողային տողը',
+            ],
+
+            'expand' => [
+                'label' => 'Ընդլայնել կողային տողը',
+            ],
+
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Միացնել մութ թեման',
+            ],
+
+            'light' => [
+                'label' => 'Միացնել բաց թեման',
+            ],
+
+            'system' => [
+                'label' => 'Միացնել համակարգի թեման',
+            ],
+
+        ],
+
+    ],
+
+    'avatar' => [
+        'alt' => 'Անձնանշան :name',
+    ],
+
+    'logo' => [
+        'alt' => ':name լոգո',
     ],
 
 ];

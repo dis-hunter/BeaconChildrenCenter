@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Triage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Parents;
 
 class TriageController extends Controller
 {
@@ -35,65 +38,63 @@ class TriageController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'visit_id' => 'required|integer|exists:visits,id',
-            'child_id' => 'required|integer|exists:children,id',
-            // 'temperature' => 'required|numeric|between:35,42',
-            // 'respiratory_rate' => 'required|integer|between:0,100',
-            // 'pulse_rate' => 'required|integer|between:0,200',
-            // 'blood_pressure' => 'required|string',
-            // 'weight' => 'required|numeric|between:0,200',
-            // 'height' => 'required|numeric|between:0,250',
-            // 'muac' => 'required|numeric|between:0,50',
-            // 'head_circumference' => 'required|numeric|between:0,60',
-            // 'oxygen_saturation' => 'required|numeric|between:0,100',
-            // 'triage_priority' => 'required|string',
-            // 'triage_sorting' => 'required|array|min:1',
-            // 'triage_sorting.*' => 'required|string',
-            // // Validate each array item
+{
+    $validator = Validator::make($request->all(), [
+        'visit_id' => 'required|integer|exists:visits,id',
+        'child_id' => 'required|integer|exists:children,id',
+        'temperature' => 'required|numeric|between:32,42',
+        'respiratory_rate' => 'required|integer|between:0,100',
+        'pulse_rate' => 'required|integer|between:0,200',
+        'blood_pressure' => 'required|string',
+        'weight' => 'required|numeric|between:0,200',
+        'height' => 'required|numeric|between:0,250',
+        'muac' => 'required|numeric|between:0,50',
+        'head_circumference' => 'required|numeric|between:0,60',
+        'oxygen_saturation' => 'required|numeric|between:0,100',
+        'triage_priority' => 'required|string'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Validation failed',
+            'errors' => $validator->errors(),
+        ], 422);
+    }
+
+    $staffId = auth()->user()->id;
+
+    if (!$staffId) {
+        Log::error('Authentication Error: Staff ID is missing');
+        return response()->json([
+            'status' => 'error',
+            'message' => 'User not authenticated'
+        ], 401);
+    }
+
+    try {
+        // Create the triage record without assessment_id
+        Triage::create([
+            'visit_id' => $request->visit_id,
+            'child_id' => $request->child_id,
+            'staff_id' => $staffId,
+            'data' => json_encode($request->except(['visit_id', 'child_id'])),
         ]);
 
+        DB::table('visits')->where('id', $request->visit_id)->update(['triage_pass' => true]);
 
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'Validation failed',
-        //         'errors' => $validator->errors(),
-        //     ], 422);
-        // }
-        $staffId = auth()->user()->id;
-
-
-        if (!$staffId) {
-            Log::error('Authentication Error: Staff ID is missing');
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not authenticated'
-            ], 401);
-        }else{
-            return $staffId;
-        }
-        
-        try {
-            Triage::create([
-                'visit_id' => $request->visit_id,
-                'child_id' => $request->child_id,
-                'staff_id' => $staffId,
-                'data' => json_encode($request->except(['visit_id', 'child_id'])),
-            ]);
-
-            DB::table('visits')->where('id', $request->visit_id)->update(['triage_pass' => true]);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Triage data saved successfully',
-            ], 201);
-        } catch (\Exception $e) {
-            Log::error('Failed to save triage data: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'message' => 'Failed to save data'], 500);
-        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Triage data saved successfully',
+        ], 201);
+    } catch (\Exception $e) {
+        Log::error('Failed to save triage data: ' . $e->getMessage());
+        return response()->json([
+            'status' => 'error', 
+            'message' => 'Failed to save data: ' . $e->getMessage()
+        ], 500);
     }
+}
 
 
     public function getUntriagedVisits()
@@ -140,52 +141,59 @@ class TriageController extends Controller
     }
     // 'doctor_id' => auth()->user()->id,
     public function getPostTriageQueue()
-    {
-        try {
-            // Fetch authenticated user's ID
-            $doctorId = auth()->user()->id;
+{
+    try {
+        $doctorId = auth()->user()->id;
+        $date = now()->toDateString();
+        $cacheKey = "post_triage_queue_{$doctorId}_{$date}";
 
-            // Automatically fetch today's date in 'Y-m-d' format
-            $date = now()->toDateString();
-
-            $patients = DB::table('visits')
-                ->join('children', 'visits.child_id', '=', 'children.id')
-                ->select('visits.*', 'children.fullname', 'children.registration_number')
-                ->where('visits.triage_pass', true)
-                ->whereDate('visits.visit_date', $date)
-                ->where('visits.staff_id', $doctorId) // Compare with authenticated user's ID
-                ->get()
-                ->map(function ($visit) {
-                    try {
-                        // Decode and reformat fullname if it's in JSON format
-                        $fullname = json_decode($visit->fullname);
-
-                        if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
-                            $visit->patient_name = trim(
-                                "{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}"
-                            );
-                        } else {
-                            $visit->patient_name = $visit->fullname ?? 'N/A';
-                        }
-                    } catch (\Exception $e) {
-                        $visit->patient_name = 'N/A';
-                    }
-
-                    return $visit;
-                });
-
+        // Check if data exists in cache
+        if (Cache::has($cacheKey)) {
             return response()->json([
                 'status' => 'success',
-                'data' => $patients
+                'data' => Cache::get($cacheKey)
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to fetch post-triage queue',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        // Retrieve latest 20 records from the database
+        $patients = DB::table('visits')
+            ->join('children', 'visits.child_id', '=', 'children.id')
+            ->select('visits.*', 'children.fullname', 'children.registration_number')
+            ->where('visits.triage_pass', true)
+            ->whereDate('visits.visit_date', $date)
+            ->where('visits.doctor_id', $doctorId)
+            ->latest('visits.created_at') // Get the most recent records
+            ->limit(20)
+            ->get()
+            ->map(function ($visit) {
+                try {
+                    $fullname = json_decode($visit->fullname);
+                    if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
+                        $visit->patient_name = trim("{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}");
+                    } else {
+                        $visit->patient_name = $visit->fullname ?? 'N/A';
+                    }
+                } catch (\Exception $e) {
+                    $visit->patient_name = 'N/A';
+                }
+                return $visit;
+            });
+
+        // Store data in cache for 60 minutes
+        Cache::put($cacheKey, $patients, now()->addMinutes(60));
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $patients
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to fetch post-triage queue',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
     public function getNurseName() {
         $nurse = auth()->user();
 

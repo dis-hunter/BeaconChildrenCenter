@@ -3,14 +3,17 @@
 namespace Filament\Tables\Columns\Concerns;
 
 use Closure;
-use Filament\Tables\Contracts\HasRelationshipTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 trait CanUpdateState
 {
     protected ?Closure $updateStateUsing = null;
+
+    protected ?Closure $beforeStateUpdated = null;
+
+    protected ?Closure $afterStateUpdated = null;
 
     public function updateStateUsing(?Closure $callback): static
     {
@@ -19,30 +22,57 @@ trait CanUpdateState
         return $this;
     }
 
+    public function beforeStateUpdated(?Closure $callback): static
+    {
+        $this->beforeStateUpdated = $callback;
+
+        return $this;
+    }
+
+    public function afterStateUpdated(?Closure $callback): static
+    {
+        $this->afterStateUpdated = $callback;
+
+        return $this;
+    }
+
     public function updateState(mixed $state): mixed
     {
-        if ($this->updateStateUsing !== null) {
-            return $this->evaluate($this->updateStateUsing, [
-                'state' => $state,
-            ]);
+        if (blank($state)) {
+            $state = null;
         }
 
-        $livewire = $this->getLivewire();
+        $this->callBeforeStateUpdated($state);
+
+        if ($this->updateStateUsing !== null) {
+            try {
+                return $this->evaluate($this->updateStateUsing, [
+                    'state' => $state,
+                ]);
+            } finally {
+                $this->callAfterStateUpdated($state);
+            }
+        }
+
         $record = $this->getRecord();
 
         $columnName = $this->getName();
 
-        if ($columnRelationship = $this->getRelationship($record)) {
-            $record = $columnRelationship->getResults();
-            $columnName = $this->getRelationshipTitleColumnName();
+        if ($this->getRelationship($record)) {
+            $columnName = $this->getRelationshipAttribute();
+            $columnRelationshipName = $this->getRelationshipName();
+
+            $record = Arr::get(
+                $record->load($columnRelationshipName),
+                $columnRelationshipName,
+            );
         } elseif (
-            $livewire instanceof HasRelationshipTable &&
-            (($tableRelationship = $livewire->getRelationship()) instanceof BelongsToMany) &&
+            (($tableRelationship = $this->getTable()->getRelationship()) instanceof BelongsToMany) &&
             in_array($columnName, $tableRelationship->getPivotColumns())
         ) {
             $record = $record->{$tableRelationship->getPivotAccessor()};
         } else {
-            $columnName = (string) Str::of($columnName)->replace('.', '->');
+            $columnName = (string) str($columnName)->replace('.', '->');
         }
 
         if (! ($record instanceof Model)) {
@@ -52,6 +82,18 @@ trait CanUpdateState
         $record->setAttribute($columnName, $state);
         $record->save();
 
+        $this->callAfterStateUpdated($state);
+
         return $state;
+    }
+
+    public function callBeforeStateUpdated(mixed $state): mixed
+    {
+        return $this->evaluate($this->beforeStateUpdated, ['state' => $state]);
+    }
+
+    public function callAfterStateUpdated(mixed $state): mixed
+    {
+        return $this->evaluate($this->afterStateUpdated, ['state' => $state]);
     }
 }

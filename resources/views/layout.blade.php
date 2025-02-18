@@ -7,11 +7,9 @@
   <title>@yield('title','Beacon Children Center')</title>
   <link rel="icon" type="image/png" href="{{asset('images/favicon.png')}}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  @livewireStyles
 </head>
 
 <body>
@@ -53,16 +51,22 @@
       right: 20px;
       position: relative;
       z-index: 2;
-
     }
 
+    #toggleLoginPassword{
+      float: right;
+      margin-left: -25px;
+      margin-top: -40px;
+      right: 20px;
+      position: relative;
+      z-index: 2;
+    }
     @media (min-width: 768px) {
       .gradient-form {
         height: 100vh !important;
       }
       .responsive-navbar{
         position: static;
-        margin-top:10px;
       }
       #mainNav.show ~ #Account{
         margin-top: 200px;
@@ -99,8 +103,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-  <script src="{{'js/script.js'}}"></script>
-  @livewireScripts
+  <script src="{{asset('js/script.js')}}"></script>
   <script>
     Livewire.on('modalSaved', (data) => {
         $('#hidden_specialization').val(data.specialization);

@@ -2,50 +2,80 @@
 
 namespace Filament\Tables\Columns\Concerns;
 
-use Akaunting\Money;
 use Closure;
-use Filament\Tables\Columns\Column;
+use Filament\Support\Contracts\HasLabel as LabelInterface;
+use Filament\Support\Enums\ArgumentValue;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Contracts\Support\Arrayable;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 trait CanFormatState
 {
     protected ?Closure $formatStateUsing = null;
 
-    protected ?int $limit = null;
+    protected int | Closure | null $characterLimit = null;
 
-    protected string | Closure | null $prefix = null;
+    protected string | Closure | null $characterLimitEnd = null;
 
-    protected string | Closure | null $suffix = null;
+    protected int | Closure | null $wordLimit = null;
 
-    protected string | Closure | null $placeholder = null;
+    protected string | Closure | null $wordLimitEnd = null;
+
+    protected string | Htmlable | Closure | null $prefix = null;
+
+    protected string | Htmlable | Closure | null $suffix = null;
 
     protected string | Closure | null $timezone = null;
 
-    public function date(?string $format = null, ?string $timezone = null): static
-    {
-        $format ??= config('tables.date_format');
+    protected bool | Closure $isHtml = false;
 
-        $this->formatStateUsing(static function (Column $column, $state) use ($format, $timezone): ?string {
-            /** @var TextColumn $column */
+    protected bool | Closure $isMarkdown = false;
+
+    protected bool $isDate = false;
+
+    protected bool $isDateTime = false;
+
+    protected bool $isMoney = false;
+
+    protected bool $isNumeric = false;
+
+    protected bool $isTime = false;
+
+    public function markdown(bool | Closure $condition = true): static
+    {
+        $this->isMarkdown = $condition;
+
+        return $this;
+    }
+
+    public function date(string | Closure | null $format = null, ?string $timezone = null): static
+    {
+        $this->isDate = true;
+
+        $format ??= Table::$defaultDateDisplayFormat;
+
+        $this->formatStateUsing(static function (TextColumn $column, $state) use ($format, $timezone): ?string {
             if (blank($state)) {
                 return null;
             }
 
             return Carbon::parse($state)
                 ->setTimezone($timezone ?? $column->getTimezone())
-                ->translatedFormat($format);
+                ->translatedFormat($column->evaluate($format));
         });
 
         return $this;
     }
 
-    public function dateTime(?string $format = null, ?string $timezone = null): static
+    public function dateTime(string | Closure | null $format = null, ?string $timezone = null): static
     {
-        $format ??= config('tables.date_time_format');
+        $this->isDateTime = true;
+
+        $format ??= Table::$defaultDateTimeDisplayFormat;
 
         $this->date($format, $timezone);
 
@@ -54,8 +84,9 @@ trait CanFormatState
 
     public function since(?string $timezone = null): static
     {
-        $this->formatStateUsing(static function (Column $column, $state) use ($timezone): ?string {
-            /** @var TextColumn $column */
+        $this->isDateTime = true;
+
+        $this->formatStateUsing(static function (TextColumn $column, mixed $state) use ($timezone): ?string {
             if (blank($state)) {
                 return null;
             }
@@ -68,128 +99,124 @@ trait CanFormatState
         return $this;
     }
 
-    public function enum(array | Arrayable $options, $default = null): static
+    public function dateTooltip(string | Closure | null $format = null, ?string $timezone = null): static
     {
-        $this->formatStateUsing(static fn ($state): ?string => $options[$state] ?? ($default ?? $state));
+        $format ??= Table::$defaultDateDisplayFormat;
 
-        return $this;
-    }
-
-    public function limit(int $length = 100, string $end = '...'): static
-    {
-        $this->limit = $length;
-
-        $this->formatStateUsing(static function ($state) use ($length, $end): ?string {
+        $this->tooltip(static function (TextColumn $column, mixed $state) use ($format, $timezone): ?string {
             if (blank($state)) {
                 return null;
             }
 
-            return Str::limit($state, $length, $end);
+            return Carbon::parse($state)
+                ->setTimezone($timezone ?? $column->getTimezone())
+                ->translatedFormat($column->evaluate($format));
         });
 
         return $this;
     }
 
-    public function words(int $words = 100, string $end = '...'): static
+    public function dateTimeTooltip(string | Closure | null $format = null, ?string $timezone = null): static
     {
-        $this->formatStateUsing(static function ($state) use ($words, $end): ?string {
+        $format ??= Table::$defaultDateTimeDisplayFormat;
+
+        $this->dateTooltip($format, $timezone);
+
+        return $this;
+    }
+
+    public function timeTooltip(string | Closure | null $format = null, ?string $timezone = null): static
+    {
+        $format ??= Table::$defaultTimeDisplayFormat;
+
+        $this->dateTooltip($format, $timezone);
+
+        return $this;
+    }
+
+    public function sinceTooltip(?string $timezone = null): static
+    {
+        $this->tooltip(static function (TextColumn $column, mixed $state) use ($timezone): ?string {
             if (blank($state)) {
                 return null;
             }
 
-            return Str::words($state, $words, $end);
+            return Carbon::parse($state)
+                ->setTimezone($timezone ?? $column->getTimezone())
+                ->diffForHumans();
         });
 
         return $this;
     }
 
-    public function prefix(string | Closure $prefix): static
+    public function money(string | Closure | null $currency = null, int $divideBy = 0, string | Closure | null $locale = null): static
     {
-        $this->prefix = $prefix;
+        $this->isMoney = true;
 
-        return $this;
-    }
-
-    public function suffix(string | Closure $suffix): static
-    {
-        $this->suffix = $suffix;
-
-        return $this;
-    }
-
-    public function placeholder(string | Closure | null $placeholder): static
-    {
-        $this->placeholder = $placeholder;
-
-        return $this;
-    }
-
-    public function html(): static
-    {
-        return $this->formatStateUsing(static fn ($state): HtmlString => $state instanceof HtmlString ? $state : Str::of($state)->sanitizeHtml()->toHtmlString());
-    }
-
-    public function formatStateUsing(?Closure $callback): static
-    {
-        $this->formatStateUsing = $callback;
-
-        return $this;
-    }
-
-    public function money(string | Closure | null $currency = null, bool $shouldConvert = false): static
-    {
-        $this->formatStateUsing(static function (Column $column, $state) use ($currency, $shouldConvert): ?string {
+        $this->formatStateUsing(static function (TextColumn $column, $state) use ($currency, $divideBy, $locale): ?string {
             if (blank($state)) {
                 return null;
             }
 
-            if (blank($currency)) {
-                $currency = config('tables.default_currency');
+            if (! is_numeric($state)) {
+                return $state;
             }
 
-            return (new Money\Money(
-                $state,
-                (new Money\Currency(strtoupper($column->evaluate($currency)))),
-                $shouldConvert,
-            ))->format();
+            $currency = $column->evaluate($currency) ?? Table::$defaultCurrency;
+            $locale = $column->evaluate($locale) ?? Table::$defaultNumberLocale ?? config('app.locale');
+
+            if ($divideBy) {
+                $state /= $divideBy;
+            }
+
+            return Number::currency($state, $currency, $locale);
         });
 
         return $this;
     }
 
-    public function getFormattedState()
+    public function numeric(int | Closure | null $decimalPlaces = null, string | Closure | null | ArgumentValue $decimalSeparator = ArgumentValue::Default, string | Closure | null | ArgumentValue $thousandsSeparator = ArgumentValue::Default, int | Closure | null $maxDecimalPlaces = null, string | Closure | null $locale = null): static
     {
-        $state = $this->getState();
+        $this->isNumeric = true;
 
-        if ($this->formatStateUsing) {
-            $state = $this->evaluate($this->formatStateUsing, [
-                'state' => $state,
-            ]);
-        }
+        $this->formatStateUsing(static function (TextColumn $column, $state) use ($decimalPlaces, $decimalSeparator, $locale, $maxDecimalPlaces, $thousandsSeparator): ?string {
+            if (blank($state)) {
+                return null;
+            }
 
-        if ($this->prefix) {
-            $state = $this->evaluate($this->prefix) . $state;
-        }
+            if (! is_numeric($state)) {
+                return $state;
+            }
 
-        if ($this->suffix) {
-            $state = $state . $this->evaluate($this->suffix);
-        }
+            $decimalPlaces = $column->evaluate($decimalPlaces);
+            $decimalSeparator = $column->evaluate($decimalSeparator);
+            $thousandsSeparator = $column->evaluate($thousandsSeparator);
 
-        if (blank($state)) {
-            $state = $this->evaluate($this->placeholder);
-        }
+            if (
+                ($decimalSeparator !== ArgumentValue::Default) ||
+                ($thousandsSeparator !== ArgumentValue::Default)
+            ) {
+                return number_format(
+                    $state,
+                    $decimalPlaces,
+                    $decimalSeparator === ArgumentValue::Default ? '.' : $decimalSeparator,
+                    $thousandsSeparator === ArgumentValue::Default ? ',' : $thousandsSeparator,
+                );
+            }
 
-        return $state;
+            $locale = $column->evaluate($locale) ?? Table::$defaultNumberLocale ?? config('app.locale');
+
+            return Number::format($state, $decimalPlaces, $column->evaluate($maxDecimalPlaces), locale: $locale);
+        });
+
+        return $this;
     }
 
-    public function getLimit(): ?int
+    public function time(string | Closure | null $format = null, ?string $timezone = null): static
     {
-        return $this->limit;
-    }
+        $this->isTime = true;
 
-    public function time(?string $format = null, ?string $timezone = null): static
-    {
-        $format ??= config('tables.time_format');
+        $format ??= Table::$defaultTimeDisplayFormat;
 
         $this->date($format, $timezone);
 
@@ -203,8 +230,184 @@ trait CanFormatState
         return $this;
     }
 
+    public function limit(int | Closure | null $length = 100, string | Closure | null $end = '...'): static
+    {
+        $this->characterLimit = $length;
+        $this->characterLimitEnd = $end;
+
+        return $this;
+    }
+
+    public function words(int | Closure | null $words = 100, string | Closure | null $end = '...'): static
+    {
+        $this->wordLimit = $words;
+        $this->wordLimitEnd = $end;
+
+        return $this;
+    }
+
+    public function prefix(string | Htmlable | Closure | null $prefix): static
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    public function suffix(string | Htmlable | Closure | null $suffix): static
+    {
+        $this->suffix = $suffix;
+
+        return $this;
+    }
+
+    public function html(bool | Closure $condition = true): static
+    {
+        $this->isHtml = $condition;
+
+        return $this;
+    }
+
+    public function formatStateUsing(?Closure $callback): static
+    {
+        $this->formatStateUsing = $callback;
+
+        return $this;
+    }
+
+    public function formatState(mixed $state): mixed
+    {
+        $isHtml = $this->isHtml();
+
+        $state = $this->evaluate($this->formatStateUsing ?? $state, [
+            'state' => $state,
+        ]);
+
+        if ($isHtml) {
+            $state = Str::sanitizeHtml($state);
+        }
+
+        if ($state instanceof Htmlable) {
+            $isHtml = true;
+            $state = $state->toHtml();
+        }
+
+        if ($state instanceof LabelInterface) {
+            $state = $state->getLabel();
+        }
+
+        if ($characterLimit = $this->getCharacterLimit()) {
+            $state = Str::limit($state, $characterLimit, $this->getCharacterLimitEnd());
+        }
+
+        if ($wordLimit = $this->getWordLimit()) {
+            $state = Str::words($state, $wordLimit, $this->getWordLimitEnd());
+        }
+
+        if ($isHtml && $this->isMarkdown()) {
+            $state = Str::markdown($state);
+        }
+
+        $prefix = $this->getPrefix();
+        $suffix = $this->getSuffix();
+
+        if (
+            (($prefix instanceof Htmlable) || ($suffix instanceof Htmlable)) &&
+            (! $isHtml)
+        ) {
+            $isHtml = true;
+            $state = e($state);
+        }
+
+        if (filled($prefix)) {
+            if ($prefix instanceof Htmlable) {
+                $prefix = $prefix->toHtml();
+            } elseif ($isHtml) {
+                $prefix = e($prefix);
+            }
+
+            $state = $prefix . $state;
+        }
+
+        if (filled($suffix)) {
+            if ($suffix instanceof Htmlable) {
+                $suffix = $suffix->toHtml();
+            } elseif ($isHtml) {
+                $suffix = e($suffix);
+            }
+
+            $state = $state . $suffix;
+        }
+
+        return $isHtml ? new HtmlString($state) : $state;
+    }
+
+    public function getCharacterLimit(): ?int
+    {
+        return $this->evaluate($this->characterLimit);
+    }
+
+    public function getCharacterLimitEnd(): ?string
+    {
+        return $this->evaluate($this->characterLimitEnd);
+    }
+
+    public function getWordLimit(): ?int
+    {
+        return $this->evaluate($this->wordLimit);
+    }
+
+    public function getWordLimitEnd(): ?string
+    {
+        return $this->evaluate($this->wordLimitEnd);
+    }
+
     public function getTimezone(): string
     {
         return $this->evaluate($this->timezone) ?? config('app.timezone');
+    }
+
+    public function isHtml(): bool
+    {
+        return $this->evaluate($this->isHtml) || $this->isMarkdown();
+    }
+
+    public function getPrefix(): string | Htmlable | null
+    {
+        return $this->evaluate($this->prefix);
+    }
+
+    public function getSuffix(): string | Htmlable | null
+    {
+        return $this->evaluate($this->suffix);
+    }
+
+    public function isMarkdown(): bool
+    {
+        return (bool) $this->evaluate($this->isMarkdown);
+    }
+
+    public function isDate(): bool
+    {
+        return $this->isDate;
+    }
+
+    public function isDateTime(): bool
+    {
+        return $this->isDateTime;
+    }
+
+    public function isMoney(): bool
+    {
+        return $this->isMoney;
+    }
+
+    public function isNumeric(): bool
+    {
+        return $this->isNumeric;
+    }
+
+    public function isTime(): bool
+    {
+        return $this->isTime;
     }
 }

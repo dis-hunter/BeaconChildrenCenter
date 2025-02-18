@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Ubah',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Data berhasil disimpan',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Data berhasil disimpan',
+        ],
+
     ],
 
 ];

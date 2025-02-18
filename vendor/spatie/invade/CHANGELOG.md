@@ -2,6 +2,31 @@
 
 All notable changes to `invade` will be documented in this file.
 
+## 2.0.0 - 2023-07-19
+
+### What's Changed
+
+- invade without reflection by @enricodelazzari in https://github.com/spatie/invade/pull/24
+
+### New Contributors
+
+- @enricodelazzari made their first contribution in https://github.com/spatie/invade/pull/24
+
+**Full Changelog**: https://github.com/spatie/invade/compare/1.1.1...2.0.0
+
+## 1.1.1 - 2022-07-05
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.1 to 1.3.3 by @dependabot in https://github.com/spatie/invade/pull/13
+- Improve the PHPStan extension by @jrmajor in https://github.com/spatie/invade/pull/14
+
+### New Contributors
+
+- @jrmajor made their first contribution in https://github.com/spatie/invade/pull/14
+
+**Full Changelog**: https://github.com/spatie/invade/compare/1.1.0...1.1.1
+
 ## 1.1.0 - 2022-07-02
 
 ### What's Changed

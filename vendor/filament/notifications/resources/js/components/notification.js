@@ -1,4 +1,3 @@
-import { mutateDom } from 'alpinejs/src/mutation'
 import { once } from 'alpinejs/src/utils/once'
 
 export default (Alpine) => {
@@ -7,8 +6,17 @@ export default (Alpine) => {
 
         computedStyle: null,
 
+        transitionDuration: null,
+
+        transitionEasing: null,
+
         init: function () {
             this.computedStyle = window.getComputedStyle(this.$el)
+
+            this.transitionDuration =
+                parseFloat(this.computedStyle.transitionDuration) * 1000
+
+            this.transitionEasing = this.computedStyle.transitionTimingFunction
 
             this.configureTransitions()
             this.configureAnimations()
@@ -17,7 +25,15 @@ export default (Alpine) => {
                 notification.duration &&
                 notification.duration !== 'persistent'
             ) {
-                setTimeout(() => this.close(), notification.duration)
+                setTimeout(() => {
+                    if (!this.$el.matches(':hover')) {
+                        this.close()
+
+                        return
+                    }
+
+                    this.$el.addEventListener('mouseleave', () => this.close())
+                }, notification.duration)
             }
 
             this.isShown = true
@@ -27,7 +43,7 @@ export default (Alpine) => {
             const display = this.computedStyle.display
 
             const show = () => {
-                mutateDom(() => {
+                Alpine.mutateDom(() => {
                     this.$el.style.setProperty('display', display)
                     this.$el.style.setProperty('visibility', 'visible')
                 })
@@ -35,7 +51,7 @@ export default (Alpine) => {
             }
 
             const hide = () => {
-                mutateDom(() => {
+                Alpine.mutateDom(() => {
                     this.$el._x_isShown
                         ? this.$el.style.setProperty('visibility', 'hidden')
                         : this.$el.style.setProperty('display', 'none')
@@ -60,60 +76,92 @@ export default (Alpine) => {
         configureAnimations: function () {
             let animation
 
-            Livewire.hook('message.received', (_, component) => {
-                if (
-                    !component.serverMemo.data.isFilamentNotificationsComponent
-                ) {
-                    return
-                }
+            Livewire.hook(
+                'commit',
+                ({ component, commit, succeed, fail, respond }) => {
+                    if (
+                        !component.snapshot.data
+                            .isFilamentNotificationsComponent
+                    ) {
+                        return
+                    }
 
-                const getTop = () => this.$el.getBoundingClientRect().top
-                const oldTop = getTop()
+                    // Calling `el.getBoundingClientRect()` from outside `requestAnimationFrame()` can
+                    // occasionally cause the page to scroll to the top.
+                    requestAnimationFrame(() => {
+                        const getTop = () =>
+                            this.$el.getBoundingClientRect().top
+                        const oldTop = getTop()
 
-                animation = () => {
-                    this.$el.animate(
-                        [
-                            { transform: `translateY(${oldTop - getTop()}px)` },
-                            { transform: 'translateY(0px)' },
-                        ],
-                        {
-                            duration: this.getTransitionDuration(),
-                            easing: this.computedStyle.transitionTimingFunction,
-                        },
-                    )
-                }
+                        respond(() => {
+                            animation = () => {
+                                if (!this.isShown) {
+                                    return
+                                }
 
-                this.$el
-                    .getAnimations()
-                    .forEach((animation) => animation.finish())
-            })
+                                this.$el.animate(
+                                    [
+                                        {
+                                            transform: `translateY(${
+                                                oldTop - getTop()
+                                            }px)`,
+                                        },
+                                        { transform: 'translateY(0px)' },
+                                    ],
+                                    {
+                                        duration: this.transitionDuration,
+                                        easing: this.transitionEasing,
+                                    },
+                                )
+                            }
 
-            Livewire.hook('message.processed', (_, component) => {
-                if (
-                    !component.serverMemo.data.isFilamentNotificationsComponent
-                ) {
-                    return
-                }
+                            this.$el
+                                .getAnimations()
+                                .forEach((animation) => animation.finish())
+                        })
 
-                if (!this.isShown) {
-                    return
-                }
-
-                animation()
-            })
+                        succeed(({ snapshot, effect }) => {
+                            animation()
+                        })
+                    })
+                },
+            )
         },
 
         close: function () {
             this.isShown = false
 
             setTimeout(
-                () => Livewire.emit('notificationClosed', notification.id),
-                this.getTransitionDuration(),
+                () =>
+                    window.dispatchEvent(
+                        new CustomEvent('notificationClosed', {
+                            detail: {
+                                id: notification.id,
+                            },
+                        }),
+                    ),
+                this.transitionDuration,
             )
         },
 
-        getTransitionDuration: function () {
-            return parseFloat(this.computedStyle.transitionDuration) * 1000
+        markAsRead: function () {
+            window.dispatchEvent(
+                new CustomEvent('markedNotificationAsRead', {
+                    detail: {
+                        id: notification.id,
+                    },
+                }),
+            )
+        },
+
+        markAsUnread: function () {
+            window.dispatchEvent(
+                new CustomEvent('markedNotificationAsUnread', {
+                    detail: {
+                        id: notification.id,
+                    },
+                }),
+            )
         },
     }))
 }

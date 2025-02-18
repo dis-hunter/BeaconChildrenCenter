@@ -3,12 +3,14 @@ document.addEventListener('livewire:load', () => {
         updateMeter(); // Recalculate when Livewire processes updates
     });
 });
-const passwordInput = document.getElementById('password-input');
+const passwordInput = document.getElementById('password');
 const meterSections = document.querySelectorAll('.meter-section');
-passwordInput.addEventListener('input', updateMeter);
+passwordInput.addEventListener('input',function(){
+    updateMeter();
+});
 
 document.addEventListener('passwordGenerated',(event)=>{
-    const passwordInput = document.getElementById('password-input');
+    const passwordInput = document.getElementById('password');
     passwordInput.value=event.detail.password;
     updateMeter();
 });
@@ -72,19 +74,3 @@ function calculatePasswordStrength(password) {
 
     return strength;
 }
-
-const togglePassword= document.querySelector('#togglePassword');
-const password=document.querySelector('#password-input');
-togglePassword.addEventListener('click',(e)=>{
-    const type = password.getAttribute('type')==='password' ? 'text' : 'password';
-    password.setAttribute('type',type);
-    e.target.classList.toggle('bi-eye');
-});
-
-const togglePassword2= document.querySelector('#togglePassword2');
-const c_password=document.querySelector('#confirmpassword');
-togglePassword2.addEventListener('click',(e)=>{
-    const type2 = c_password.getAttribute('type')==='password' ? 'text' : 'password';
-    c_password.setAttribute('type',type2);
-    e.target.classList.toggle('bi-eye');
-});

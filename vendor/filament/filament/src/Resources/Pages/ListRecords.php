@@ -2,198 +2,88 @@
 
 namespace Filament\Resources\Pages;
 
-use Closure;
-use Filament\Notifications\Notification;
-use Filament\Pages\Actions\Action;
-use Filament\Pages\Actions\CreateAction;
-use Filament\Resources\Pages\Concerns\UsesResourceForm;
-use Filament\Resources\Table;
+use Filament\Actions\Action;
+use Filament\Actions\Contracts\HasRecord;
+use Filament\Actions\CreateAction;
+use Filament\Facades\Filament;
+use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
+use Filament\Resources\Concerns\HasTabs;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Livewire\Attributes\Url;
 
 class ListRecords extends Page implements Tables\Contracts\HasTable
 {
-    use Tables\Concerns\InteractsWithTable;
-    use UsesResourceForm;
+    use HasTabs;
+    use Tables\Concerns\InteractsWithTable {
+        makeTable as makeBaseTable;
+    }
 
-    protected static string $view = 'filament::resources.pages.list-records';
+    /**
+     * @var view-string
+     */
+    protected static string $view = 'filament-panels::resources.pages.list-records';
 
-    protected $queryString = [
-        'isTableReordering' => ['except' => false],
-        'tableFilters',
-        'tableSortColumn' => ['except' => ''],
-        'tableSortDirection' => ['except' => ''],
-        'tableSearchQuery' => ['except' => ''],
-    ];
+    #[Url]
+    public bool $isTableReordering = false;
+
+    /**
+     * @var array<string, mixed> | null
+     */
+    #[Url]
+    public ?array $tableFilters = null;
+
+    #[Url]
+    public ?string $tableGrouping = null;
+
+    #[Url]
+    public ?string $tableGroupingDirection = null;
+
+    /**
+     * @var ?string
+     */
+    #[Url]
+    public $tableSearch = '';
+
+    #[Url]
+    public ?string $tableSortColumn = null;
+
+    #[Url]
+    public ?string $tableSortDirection = null;
+
+    #[Url]
+    public ?string $activeTab = null;
 
     public function mount(): void
     {
-        static::authorizeResourceAccess();
+        $this->authorizeAccess();
+
+        $this->loadDefaultActiveTab();
     }
+
+    protected function authorizeAccess(): void {}
 
     public function getBreadcrumb(): ?string
     {
-        return static::$breadcrumb ?? __('filament::resources/pages/list-records.breadcrumb');
+        return static::$breadcrumb ?? __('filament-panels::resources/pages/list-records.breadcrumb');
     }
 
-    protected function getResourceTable(): Table
-    {
-        $table = Table::make();
-
-        $resource = static::getResource();
-
-        $table->actions(array_merge(
-            ($this->hasViewAction() ? [$this->getViewAction()] : []),
-            ($this->hasEditAction() ? [$this->getEditAction()] : []),
-            ($this->hasDeleteAction() ? [$this->getDeleteAction()] : []),
-        ));
-
-        if ($resource::canDeleteAny()) {
-            $table->bulkActions([$this->getDeleteBulkAction()]);
-        }
-
-        return $this->table($table);
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function hasDeleteAction(): bool
-    {
-        return $this->getDeleteAction() !== null;
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function hasEditAction(): bool
-    {
-        return static::getResource()::hasPage('edit');
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function hasViewAction(): bool
-    {
-        return static::getResource()::hasPage('view');
-    }
-
-    protected function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return static::getResource()::table($table);
     }
 
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getViewAction(): Tables\Actions\Action
+    public function getTitle(): string | Htmlable
     {
-        return Tables\Actions\ViewAction::make();
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getEditAction(): Tables\Actions\Action
-    {
-        return Tables\Actions\EditAction::make();
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getDeleteAction(): ?Tables\Actions\Action
-    {
-        return null;
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getDeleteBulkAction(): Tables\Actions\BulkAction
-    {
-        return Tables\Actions\DeleteBulkAction::make()
-            ->action(fn () => $this->bulkDelete());
-    }
-
-    /**
-     * @deprecated Use `->action()` on the action instead.
-     */
-    public function bulkDelete(): void
-    {
-        $this->callHook('beforeBulkDelete');
-
-        $this->handleRecordBulkDeletion($this->getSelectedTableRecords());
-
-        $this->callHook('afterBulkDelete');
-
-        if (filled($this->getBulkDeletedNotificationMessage())) {
-            Notification::make()
-                ->title($this->getBulkDeletedNotificationMessage())
-                ->success()
-                ->send();
-        }
-    }
-
-    /**
-     * @deprecated Use `->successNotificationTitle()` on the action instead.
-     */
-    protected function getBulkDeletedNotificationMessage(): ?string
-    {
-        return __('filament-support::actions/delete.multiple.messages.deleted');
-    }
-
-    /**
-     * @deprecated Use `->using()` on the action instead.
-     */
-    protected function handleRecordBulkDeletion(Collection $records): void
-    {
-        $records->each(fn (Model $record) => $record->delete());
-    }
-
-    protected function getTitle(): string
-    {
-        return static::$title ?? Str::headline(static::getResource()::getPluralModelLabel());
-    }
-
-    protected function getActions(): array
-    {
-        if (! $this->hasCreateAction()) {
-            return [];
-        }
-
-        return [$this->getCreateAction()];
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function hasCreateAction(): bool
-    {
-        $resource = static::getResource();
-
-        if (! $resource::hasPage('create')) {
-            return false;
-        }
-
-        if (! $resource::canCreate()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getCreateAction(): Action
-    {
-        return CreateAction::make();
+        return static::$title ?? static::getResource()::getTitleCasePluralModelLabel();
     }
 
     protected function configureAction(Action $action): void
@@ -204,20 +94,29 @@ class ListRecords extends Page implements Tables\Contracts\HasTable
         };
     }
 
-    protected function getCreateFormSchema(): array
+    public function form(Form $form): Form
     {
-        return $this->getResourceForm(columns: 2)->getSchema();
+        return static::getResource()::form($form);
     }
 
-    protected function configureCreateAction(CreateAction $action): void
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return static::getResource()::infolist($infolist);
+    }
+
+    protected function configureCreateAction(CreateAction | Tables\Actions\CreateAction $action): void
     {
         $resource = static::getResource();
 
         $action
             ->authorize($resource::canCreate())
             ->model($this->getModel())
-            ->modelLabel($this->getModelLabel())
-            ->form(fn (): array => $this->getCreateFormSchema());
+            ->modelLabel($this->getModelLabel() ?? static::getResource()::getModelLabel())
+            ->form(fn (Form $form): Form => $this->form($form->columns(2)));
+
+        if (($action instanceof CreateAction) && static::getResource()::isScopedToTenant()) {
+            $action->relationship(($tenant = Filament::getTenant()) ? fn (): Relation => static::getResource()::getTenantRelationship($tenant) : null);
+        }
 
         if ($resource::hasPage('create')) {
             $action->url(fn (): string => $resource::getUrl('create'));
@@ -227,6 +126,7 @@ class ListRecords extends Page implements Tables\Contracts\HasTable
     protected function configureTableAction(Tables\Actions\Action $action): void
     {
         match (true) {
+            $action instanceof Tables\Actions\CreateAction => $this->configureCreateAction($action),
             $action instanceof Tables\Actions\DeleteAction => $this->configureDeleteAction($action),
             $action instanceof Tables\Actions\EditAction => $this->configureEditAction($action),
             $action instanceof Tables\Actions\ForceDeleteAction => $this->configureForceDeleteAction($action),
@@ -243,18 +143,13 @@ class ListRecords extends Page implements Tables\Contracts\HasTable
             ->authorize(fn (Model $record): bool => static::getResource()::canDelete($record));
     }
 
-    protected function getEditFormSchema(): array
-    {
-        return $this->getResourceForm(columns: 2)->getSchema();
-    }
-
     protected function configureEditAction(Tables\Actions\EditAction $action): void
     {
         $resource = static::getResource();
 
         $action
             ->authorize(fn (Model $record): bool => $resource::canEdit($record))
-            ->form(fn (): array => $this->getEditFormSchema());
+            ->form(fn (Form $form): Form => $this->form($form->columns(2)));
 
         if ($resource::hasPage('edit')) {
             $action->url(fn (Model $record): string => $resource::getUrl('edit', ['record' => $record]));
@@ -279,18 +174,14 @@ class ListRecords extends Page implements Tables\Contracts\HasTable
             ->authorize(fn (Model $record): bool => static::getResource()::canRestore($record));
     }
 
-    protected function getViewFormSchema(bool $isDisabled = true): array
-    {
-        return $this->getResourceForm(columns: 2, isDisabled: $isDisabled)->getSchema();
-    }
-
     protected function configureViewAction(Tables\Actions\ViewAction $action): void
     {
         $resource = static::getResource();
 
         $action
             ->authorize(fn (Model $record): bool => $resource::canView($record))
-            ->form(fn (Tables\Actions\ViewAction $action): array => $this->getViewFormSchema($action->isFormDisabled()));
+            ->infolist(fn (Infolist $infolist): Infolist => $this->infolist($infolist->columns(2)))
+            ->form(fn (Form $form): Form => $this->form($form->columns(2)));
 
         if ($resource::hasPage('view')) {
             $action->url(fn (Model $record): string => $resource::getUrl('view', ['record' => $record]));
@@ -325,185 +216,133 @@ class ListRecords extends Page implements Tables\Contracts\HasTable
             ->authorize(static::getResource()::canRestoreAny());
     }
 
-    protected function getDefaultTableSortColumn(): ?string
-    {
-        return $this->getResourceTable()->getDefaultSortColumn();
-    }
-
-    protected function getDefaultTableSortDirection(): ?string
-    {
-        return $this->getResourceTable()->getDefaultSortDirection();
-    }
-
-    protected function getTableActions(): array
-    {
-        return $this->getResourceTable()->getActions();
-    }
-
-    protected function getTableActionsPosition(): ?string
-    {
-        return $this->getResourceTable()->getActionsPosition();
-    }
-
-    protected function getTableBulkActions(): array
-    {
-        return $this->getResourceTable()->getBulkActions();
-    }
-
-    public function isTableLoadingDeferred(): bool
-    {
-        return $this->getResourceTable()->isLoadingDeferred();
-    }
-
-    protected function getTableColumns(): array
-    {
-        return $this->getResourceTable()->getColumns();
-    }
-
-    protected function getTableContentGrid(): ?array
-    {
-        return $this->getResourceTable()->getContentGrid();
-    }
-
-    protected function getTableFilters(): array
-    {
-        return $this->getResourceTable()->getFilters();
-    }
-
-    protected function getTableFiltersLayout(): ?string
-    {
-        return $this->getResourceTable()->getFiltersLayout();
-    }
-
-    public function getTableRecordCheckboxPosition(): string
-    {
-        return $this->getResourceTable()->getRecordCheckboxPosition() ?? Tables\Actions\RecordCheckboxPosition::BeforeCells;
-    }
-
-    protected function getTableHeaderActions(): array
-    {
-        return $this->getResourceTable()->getHeaderActions();
-    }
-
-    protected function getTableReorderColumn(): ?string
-    {
-        return $this->getResourceTable()->getReorderColumn();
-    }
-
-    protected function isTableReorderable(): bool
-    {
-        return filled($this->getTableReorderColumn()) && static::getResource()::canReorder();
-    }
-
-    protected function getTablePollingInterval(): ?string
-    {
-        return $this->getResourceTable()->getPollingInterval();
-    }
-
-    protected function getTableRecordUrlUsing(): ?Closure
-    {
-        return function (Model $record): ?string {
-            foreach (['view', 'edit'] as $action) {
-                $action = $this->getCachedTableAction($action);
-
-                if (! $action) {
-                    continue;
-                }
-
-                $action->record($record);
-
-                if ($action->isHidden()) {
-                    continue;
-                }
-
-                $url = $action->getUrl();
-
-                if (! $url) {
-                    continue;
-                }
-
-                return $url;
-            }
-
-            $resource = static::getResource();
-
-            foreach (['view', 'edit'] as $action) {
-                if (! $resource::hasPage($action)) {
-                    continue;
-                }
-
-                if (! $resource::{'can' . ucfirst($action)}($record)) {
-                    continue;
-                }
-
-                return $resource::getUrl($action, ['record' => $record]);
-            }
-
-            return null;
-        };
-    }
-
-    protected function getTableRecordActionUsing(): ?Closure
-    {
-        return function (Model $record): ?string {
-            foreach (['view', 'edit'] as $action) {
-                $action = $this->getCachedTableAction($action);
-
-                if (! $action) {
-                    continue;
-                }
-
-                $action->record($record);
-
-                if ($action->isHidden()) {
-                    continue;
-                }
-
-                if ($action->getUrl()) {
-                    continue;
-                }
-
-                return $action->getName();
-            }
-
-            return null;
-        };
-    }
-
-    protected function getTableQuery(): Builder
-    {
-        return static::getResource()::getEloquentQuery();
-    }
-
-    protected function getMountedActionFormModel(): string
+    protected function getMountedActionFormModel(): Model | string | null
     {
         return $this->getModel();
     }
 
-    public function getTableRecordTitle(Model $record): string
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    public function getModelLabel(): ?string
     {
-        $resource = static::getResource();
-
-        return $resource::getRecordTitle($record);
+        return null;
     }
 
-    public function getModelLabel(): string
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    public function getPluralModelLabel(): ?string
     {
-        return static::getResource()::getModelLabel();
+        return null;
     }
 
-    public function getPluralModelLabel(): string
+    protected function makeTable(): Table
     {
-        return static::getResource()::getPluralModelLabel();
+        return $this->makeBaseTable()
+            ->query(fn (): Builder => $this->getTableQuery())
+            ->modifyQueryUsing($this->modifyQueryWithActiveTab(...))
+            ->modelLabel($this->getModelLabel() ?? static::getResource()::getModelLabel())
+            ->pluralModelLabel($this->getPluralModelLabel() ?? static::getResource()::getPluralModelLabel())
+            ->recordAction(function (Model $record, Table $table): ?string {
+                foreach (['view', 'edit'] as $action) {
+                    $action = $table->getAction($action);
+
+                    if (! $action) {
+                        continue;
+                    }
+
+                    $action->record($record);
+
+                    if (($actionGroup = $action->getGroup()) instanceof HasRecord) {
+                        $actionGroup->record($record);
+                    }
+
+                    if ($action->isHidden()) {
+                        continue;
+                    }
+
+                    if ($action->getUrl()) {
+                        continue;
+                    }
+
+                    return $action->getName();
+                }
+
+                return null;
+            })
+            ->recordTitle(fn (Model $record): string => static::getResource()::getRecordTitle($record))
+            ->recordUrl($this->getTableRecordUrlUsing() ?? function (Model $record, Table $table): ?string {
+                foreach (['view', 'edit'] as $action) {
+                    $action = $table->getAction($action);
+
+                    if (! $action) {
+                        continue;
+                    }
+
+                    $action->record($record);
+
+                    if (($actionGroup = $action->getGroup()) instanceof HasRecord) {
+                        $actionGroup->record($record);
+                    }
+
+                    if ($action->isHidden()) {
+                        continue;
+                    }
+
+                    $url = $action->getUrl();
+
+                    if (! $url) {
+                        continue;
+                    }
+
+                    return $url;
+                }
+
+                $resource = static::getResource();
+
+                foreach (['view', 'edit'] as $action) {
+                    if (! $resource::hasPage($action)) {
+                        continue;
+                    }
+
+                    if (! $resource::{'can' . ucfirst($action)}($record)) {
+                        continue;
+                    }
+
+                    return $resource::getUrl($action, ['record' => $record]);
+                }
+
+                return null;
+            })
+            ->authorizeReorder(static::getResource()::canReorder());
     }
 
-    public function getTableModelLabel(): string
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected function getTableQuery(): ?Builder
     {
-        return $this->getModelLabel();
+        return static::getResource()::getEloquentQuery();
     }
 
-    public function getTablePluralModelLabel(): string
+    /**
+     * @return array<int | string, string | Form>
+     */
+    protected function getForms(): array
     {
-        return $this->getPluralModelLabel();
+        return [];
+    }
+
+    /**
+     * @return array<NavigationItem | NavigationGroup>
+     */
+    public function getSubNavigation(): array
+    {
+        if (filled($cluster = static::getCluster())) {
+            return $this->generateNavigationItems($cluster::getClusteredComponents());
+        }
+
+        return [];
     }
 }

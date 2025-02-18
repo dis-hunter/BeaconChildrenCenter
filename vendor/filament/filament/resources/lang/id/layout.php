@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Mode Gelap',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Buka notifikasi',
-        ],
-
-        'light_mode' => [
-            'label' => 'Mode Terang',
+        'billing' => [
+            'label' => 'Kelola langganan',
         ],
 
         'logout' => [
             'label' => 'Keluar',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Buka notifikasi',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Menu pengguna',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Menu pengguna',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Mode Gelap',
+            ],
+
+            'light' => [
+                'label' => 'Mode Terang',
+            ],
+
+            'system' => [
+                'label' => 'Sesuai tema perangkat',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar :name',
+    ],
+
+    'logo' => [
+        'alt' => 'Logo :name',
     ],
 
 ];

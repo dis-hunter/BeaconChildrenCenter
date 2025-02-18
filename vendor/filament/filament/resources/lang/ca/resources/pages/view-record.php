@@ -6,7 +6,7 @@ return [
 
     'breadcrumb' => 'Veure',
 
-    'form' => [
+    'content' => [
 
         'tab' => [
             'label' => 'Veure',

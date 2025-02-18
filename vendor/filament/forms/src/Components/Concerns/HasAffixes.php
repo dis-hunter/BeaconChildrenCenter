@@ -4,112 +4,266 @@ namespace Filament\Forms\Components\Concerns;
 
 use Closure;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Support\Enums\ActionSize;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
 
 trait HasAffixes
 {
-    protected Action | Closure | null $suffixAction = null;
+    /**
+     * @var array<Action> | null
+     */
+    protected ?array $cachedSuffixActions = null;
 
-    protected string | Closure | null $suffixLabel = null;
+    /**
+     * @var array<Action | Closure>
+     */
+    protected array $suffixActions = [];
 
-    protected Action | Closure | null $prefixAction = null;
+    protected string | Htmlable | Closure | null $suffixLabel = null;
 
-    protected string | Closure | null $prefixLabel = null;
+    /**
+     * @var array<Action> | null
+     */
+    protected ?array $cachedPrefixActions = null;
+
+    /**
+     * @var array<Action | Closure>
+     */
+    protected array $prefixActions = [];
+
+    protected string | Htmlable | Closure | null $prefixLabel = null;
 
     protected string | Closure | null $prefixIcon = null;
 
+    /**
+     * @var string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null
+     */
+    protected string | array | Closure | null $prefixIconColor = null;
+
     protected string | Closure | null $suffixIcon = null;
 
-    public function prefix(string | Closure | null $label): static
+    /**
+     * @var string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null
+     */
+    protected string | array | Closure | null $suffixIconColor = null;
+
+    protected bool | Closure $isPrefixInline = false;
+
+    protected bool | Closure $isSuffixInline = false;
+
+    public function prefix(string | Htmlable | Closure | null $label, bool | Closure $isInline = false): static
     {
         $this->prefixLabel = $label;
+        $this->inlinePrefix($isInline);
 
         return $this;
     }
 
-    public function postfix(string | Closure | null $label): static
+    public function postfix(string | Htmlable | Closure | null $label, bool | Closure $isInline = false): static
     {
-        return $this->suffix($label);
+        return $this->suffix($label, $isInline);
     }
 
-    public function prefixAction(Action | Closure | null $action): static
+    public function prefixAction(Action | Closure $action, bool | Closure $isInline = false): static
     {
-        $this->prefixAction = $action;
+        $this->prefixActions([$action], $isInline);
 
         return $this;
     }
 
-    public function suffixAction(Action | Closure | null $action): static
+    /**
+     * @param  array<Action | Closure>  $actions
+     */
+    public function prefixActions(array $actions, bool | Closure $isInline = false): static
     {
-        $this->suffixAction = $action;
+        $this->prefixActions = [
+            ...$this->prefixActions,
+            ...$actions,
+        ];
+        $this->inlinePrefix($isInline);
 
         return $this;
     }
 
-    public function suffix(string | Closure | null $label): static
+    public function suffixAction(Action | Closure $action, bool | Closure $isInline = false): static
+    {
+        $this->suffixActions([$action], $isInline);
+
+        return $this;
+    }
+
+    /**
+     * @param  array<Action | Closure>  $actions
+     */
+    public function suffixActions(array $actions, bool | Closure $isInline = false): static
+    {
+        $this->suffixActions = [
+            ...$this->suffixActions,
+            ...$actions,
+        ];
+        $this->inlineSuffix($isInline);
+
+        return $this;
+    }
+
+    public function suffix(string | Htmlable | Closure | null $label, bool | Closure $isInline = false): static
     {
         $this->suffixLabel = $label;
+        $this->inlineSuffix($isInline);
 
         return $this;
     }
 
-    public function prefixIcon(string | Closure | null $iconName): static
+    public function inlinePrefix(bool | Closure $isInline = true): static
     {
-        $this->prefixIcon = $iconName;
+        $this->isPrefixInline = $isInline;
 
         return $this;
     }
 
-    public function suffixIcon(string | Closure | null $iconName): static
+    public function inlineSuffix(bool | Closure $isInline = true): static
     {
-        $this->suffixIcon = $iconName;
+        $this->isSuffixInline = $isInline;
 
         return $this;
     }
 
-    public function getPrefixAction(): ?Action
+    public function prefixIcon(string | Closure | null $icon, bool | Closure $isInline = false): static
     {
-        return $this->evaluate($this->prefixAction)?->component($this);
+        $this->prefixIcon = $icon;
+        $this->inlinePrefix($isInline);
+
+        return $this;
     }
 
-    public function getSuffixAction(): ?Action
+    /**
+     * @param  string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null  $color
+     */
+    public function prefixIconColor(string | array | Closure | null $color = null): static
     {
-        return $this->evaluate($this->suffixAction)?->component($this);
+        $this->prefixIconColor = $color;
+
+        return $this;
     }
 
-    public function getPrefixLabel()
+    public function suffixIcon(string | Closure | null $icon, bool | Closure $isInline = false): static
+    {
+        $this->suffixIcon = $icon;
+        $this->inlineSuffix($isInline);
+
+        return $this;
+    }
+
+    /**
+     * @param  string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | Closure | null  $color
+     */
+    public function suffixIconColor(string | array | Closure | null $color = null): static
+    {
+        $this->suffixIconColor = $color;
+
+        return $this;
+    }
+
+    /**
+     * @return array<Action>
+     */
+    public function getPrefixActions(): array
+    {
+        return $this->cachedPrefixActions ?? $this->cachePrefixActions();
+    }
+
+    /**
+     * @return array<Action>
+     */
+    public function cachePrefixActions(): array
+    {
+        $this->cachedPrefixActions = [];
+
+        foreach ($this->prefixActions as $prefixAction) {
+            foreach (Arr::wrap($this->evaluate($prefixAction)) as $action) {
+                $this->cachedPrefixActions[$action->getName()] = $this->prepareAction(
+                    $action
+                        ->defaultSize(ActionSize::Small)
+                        ->defaultView(Action::ICON_BUTTON_VIEW),
+                );
+            }
+        }
+
+        return $this->cachedPrefixActions;
+    }
+
+    /**
+     * @return array<Action>
+     */
+    public function getSuffixActions(): array
+    {
+        return $this->cachedSuffixActions ?? $this->cacheSuffixActions();
+    }
+
+    /**
+     * @return array<Action>
+     */
+    public function cacheSuffixActions(): array
+    {
+        $this->cachedSuffixActions = [];
+
+        foreach ($this->suffixActions as $suffixAction) {
+            foreach (Arr::wrap($this->evaluate($suffixAction)) as $action) {
+                $this->cachedSuffixActions[$action->getName()] = $this->prepareAction(
+                    $action
+                        ->defaultSize(ActionSize::Small)
+                        ->defaultView(Action::ICON_BUTTON_VIEW),
+                );
+            }
+        }
+
+        return $this->cachedSuffixActions;
+    }
+
+    public function getPrefixLabel(): string | Htmlable | null
     {
         return $this->evaluate($this->prefixLabel);
     }
 
-    public function getPostfixLabel()
-    {
-        return $this->getSuffixLabel();
-    }
-
-    public function getSuffixLabel()
+    public function getSuffixLabel(): string | Htmlable | null
     {
         return $this->evaluate($this->suffixLabel);
     }
 
-    public function getPrefixIcon()
+    public function getPrefixIcon(): ?string
     {
         return $this->evaluate($this->prefixIcon);
     }
 
-    public function getSuffixIcon()
+    public function getSuffixIcon(): ?string
     {
         return $this->evaluate($this->suffixIcon);
     }
 
-    public function getActions(): array
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
+     */
+    public function getPrefixIconColor(): string | array | null
     {
-        $prefixAction = $this->getPrefixAction();
-        $suffixAction = $this->getSuffixAction();
+        return $this->evaluate($this->prefixIconColor);
+    }
 
-        return array_merge(
-            parent::getActions(),
-            $prefixAction ? [$prefixAction->getName() => $prefixAction->component($this)] : [],
-            $suffixAction ? [$suffixAction->getName() => $suffixAction->component($this)] : [],
-        );
+    /**
+     * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
+     */
+    public function getSuffixIconColor(): string | array | null
+    {
+        return $this->evaluate($this->suffixIconColor);
+    }
+
+    public function isPrefixInline(): bool
+    {
+        return (bool) $this->evaluate($this->isPrefixInline);
+    }
+
+    public function isSuffixInline(): bool
+    {
+        return (bool) $this->evaluate($this->isSuffixInline);
     }
 }

@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'ویرایش',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'ذخیره شد',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'ذخیره شد',
+        ],
+
     ],
 
 ];

@@ -3,10 +3,14 @@
 namespace Illuminate\Http\Client;
 
 use Closure;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use GuzzleHttp\TransferStats;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -26,6 +30,20 @@ class Factory
      * @var \Illuminate\Contracts\Events\Dispatcher|null
      */
     protected $dispatcher;
+
+    /**
+     * The middleware to apply to every request.
+     *
+     * @var array
+     */
+    protected $globalMiddleware = [];
+
+    /**
+     * The options to apply to every request.
+     *
+     * @var \Closure|array
+     */
+    protected $globalOptions = [];
 
     /**
      * The stub callables that will handle requests.
@@ -68,11 +86,63 @@ class Factory
      * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
-    public function __construct(Dispatcher $dispatcher = null)
+    public function __construct(?Dispatcher $dispatcher = null)
     {
         $this->dispatcher = $dispatcher;
 
-        $this->stubCallbacks = collect();
+        $this->stubCallbacks = new Collection;
+    }
+
+    /**
+     * Add middleware to apply to every request.
+     *
+     * @param  callable  $middleware
+     * @return $this
+     */
+    public function globalMiddleware($middleware)
+    {
+        $this->globalMiddleware[] = $middleware;
+
+        return $this;
+    }
+
+    /**
+     * Add request middleware to apply to every request.
+     *
+     * @param  callable  $middleware
+     * @return $this
+     */
+    public function globalRequestMiddleware($middleware)
+    {
+        $this->globalMiddleware[] = Middleware::mapRequest($middleware);
+
+        return $this;
+    }
+
+    /**
+     * Add response middleware to apply to every request.
+     *
+     * @param  callable  $middleware
+     * @return $this
+     */
+    public function globalResponseMiddleware($middleware)
+    {
+        $this->globalMiddleware[] = Middleware::mapResponse($middleware);
+
+        return $this;
+    }
+
+    /**
+     * Set the options to apply to every request.
+     *
+     * @param  \Closure|array  $options
+     * @return $this
+     */
+    public function globalOptions($options)
+    {
+        $this->globalOptions = $options;
+
+        return $this;
     }
 
     /**
@@ -93,9 +163,23 @@ class Factory
 
         $response = new Psr7Response($status, $headers, $body);
 
-        return class_exists(\GuzzleHttp\Promise\Create::class)
-            ? \GuzzleHttp\Promise\Create::promiseFor($response)
-            : \GuzzleHttp\Promise\promise_for($response);
+        return Create::promiseFor($response);
+    }
+
+    /**
+     * Create a new connection exception for use during stubbing.
+     *
+     * @param  string|null  $message
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public static function failedConnection($message = null)
+    {
+        return function ($request) use ($message) {
+            return Create::rejectionFor(new ConnectException(
+                $message ?? "cURL error 6: Could not resolve host: {$request->toPsrRequest()->getUri()->getHost()} (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for {$request->toPsrRequest()->getUri()}.",
+                $request->toPsrRequest(),
+            ));
+        };
     }
 
     /**
@@ -135,11 +219,13 @@ class Factory
             return $this;
         }
 
-        $this->stubCallbacks = $this->stubCallbacks->merge(collect([
+        $this->stubCallbacks = $this->stubCallbacks->merge(new Collection([
             function ($request, $options) use ($callback) {
-                $response = $callback instanceof Closure
-                                ? $callback($request, $options)
-                                : $callback;
+                $response = $callback;
+
+                while ($response instanceof Closure) {
+                    $response = $response($request, $options);
+                }
 
                 if ($response instanceof PromiseInterface) {
                     $options['on_stats'](new TransferStats(
@@ -172,7 +258,7 @@ class Factory
      * Stub the given URL using the given callback.
      *
      * @param  string  $url
-     * @param  \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface|callable  $callback
+     * @param  \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface|callable|int|string|array  $callback
      * @return $this
      */
     public function stubUrl($url, $callback)
@@ -182,9 +268,19 @@ class Factory
                 return;
             }
 
-            return $callback instanceof Closure || $callback instanceof ResponseSequence
-                        ? $callback($request, $options)
-                        : $callback;
+            if (is_int($callback) && $callback >= 100 && $callback < 600) {
+                return static::response(status: $callback);
+            }
+
+            if (is_int($callback) || is_string($callback)) {
+                return static::response($callback);
+            }
+
+            if ($callback instanceof Closure || $callback instanceof ResponseSequence) {
+                return $callback($request, $options);
+            }
+
+            return $callback;
         });
     }
 
@@ -199,6 +295,16 @@ class Factory
         $this->preventStrayRequests = $prevent;
 
         return $this;
+    }
+
+    /**
+     * Determine if stray requests are being prevented.
+     *
+     * @return bool
+     */
+    public function preventingStrayRequests()
+    {
+        return $this->preventStrayRequests;
     }
 
     /**
@@ -227,7 +333,7 @@ class Factory
      * Record a request response pair.
      *
      * @param  \Illuminate\Http\Client\Request  $request
-     * @param  \Illuminate\Http\Client\Response  $response
+     * @param  \Illuminate\Http\Client\Response|null  $response
      * @return void
      */
     public function recordRequestResponsePair($request, $response)
@@ -335,16 +441,15 @@ class Factory
     public function recorded($callback = null)
     {
         if (empty($this->recorded)) {
-            return collect();
+            return new Collection;
         }
 
         $callback = $callback ?: function () {
             return true;
         };
 
-        return collect($this->recorded)->filter(function ($pair) use ($callback) {
-            return $callback($pair[0], $pair[1]);
-        });
+        return (new Collection($this->recorded))
+            ->filter(fn ($pair) => $callback($pair[0], $pair[1]));
     }
 
     /**
@@ -352,9 +457,21 @@ class Factory
      *
      * @return \Illuminate\Http\Client\PendingRequest
      */
+    public function createPendingRequest()
+    {
+        return tap($this->newPendingRequest(), function ($request) {
+            $request->stub($this->stubCallbacks)->preventStrayRequests($this->preventStrayRequests);
+        });
+    }
+
+    /**
+     * Instantiate a new pending request instance for this factory.
+     *
+     * @return \Illuminate\Http\Client\PendingRequest
+     */
     protected function newPendingRequest()
     {
-        return new PendingRequest($this);
+        return (new PendingRequest($this, $this->globalMiddleware))->withOptions(value($this->globalOptions));
     }
 
     /**
@@ -365,6 +482,16 @@ class Factory
     public function getDispatcher()
     {
         return $this->dispatcher;
+    }
+
+    /**
+     * Get the array of global middleware.
+     *
+     * @return array
+     */
+    public function getGlobalMiddleware()
+    {
+        return $this->globalMiddleware;
     }
 
     /**
@@ -380,8 +507,6 @@ class Factory
             return $this->macroCall($method, $parameters);
         }
 
-        return tap($this->newPendingRequest(), function ($request) {
-            $request->stub($this->stubCallbacks)->preventStrayRequests($this->preventStrayRequests);
-        })->{$method}(...$parameters);
+        return $this->createPendingRequest()->{$method}(...$parameters);
     }
 }

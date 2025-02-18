@@ -6,7 +6,7 @@ return [
 
         'heading' => 'Meldingen',
 
-        'buttons' => [
+        'actions' => [
 
             'clear' => [
                 'label' => 'Wissen',
@@ -20,7 +20,7 @@ return [
 
         'empty' => [
             'heading' => 'Geen meldingen',
-            'description' => 'Kijk later nog eens',
+            'description' => 'Kijk later nog eens.',
         ],
 
     ],

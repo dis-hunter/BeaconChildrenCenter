@@ -2,45 +2,80 @@
 
 namespace Filament\Resources\Pages\Concerns;
 
+use Filament\Resources\Pages\ContentTabPosition;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
+use Livewire\Attributes\Url;
 
 trait HasRelationManagers
 {
-    public $activeRelationManager = null;
+    #[Url]
+    public ?string $activeRelationManager = null;
 
-    protected function getRelationManagers(): array
+    /**
+     * @return array<class-string<RelationManager> | RelationGroup | RelationManagerConfiguration>
+     */
+    public function getRelationManagers(): array
     {
         $managers = $this->getResource()::getRelations();
 
         return array_filter(
             $managers,
-            function (string | RelationGroup $manager): bool {
+            function (string | RelationGroup | RelationManagerConfiguration $manager): bool {
                 if ($manager instanceof RelationGroup) {
-                    return (bool) count($manager->getManagers(ownerRecord: $this->getRecord()));
+                    return (bool) count($manager->ownerRecord($this->getRecord())->pageClass(static::class)->getManagers());
                 }
 
-                return $manager::canViewForRecord($this->getRecord());
+                return $this->normalizeRelationManagerClass($manager)::canViewForRecord($this->getRecord(), static::class);
             },
         );
     }
 
-    public function mountHasRelationManagers(): void
+    /**
+     * @param  class-string<RelationManager> | RelationManagerConfiguration  $manager
+     * @return class-string<RelationManager>
+     */
+    protected function normalizeRelationManagerClass(string | RelationManagerConfiguration $manager): string
+    {
+        if ($manager instanceof RelationManagerConfiguration) {
+            return $manager->relationManager;
+        }
+
+        return $manager;
+    }
+
+    public function renderingHasRelationManagers(): void
     {
         $managers = $this->getRelationManagers();
 
-        if (array_key_exists($this->activeRelationManager, $managers) || $this->hasCombinedRelationManagerTabsWithForm()) {
+        if (array_key_exists($this->activeRelationManager, $managers)) {
             return;
         }
 
-        $this->activeRelationManager = array_key_first($this->getRelationManagers()) ?? null;
+        if ($this->hasCombinedRelationManagerTabsWithContent()) {
+            return;
+        }
+
+        $this->activeRelationManager = array_key_first($managers);
     }
 
-    public function hasCombinedRelationManagerTabsWithForm(): bool
+    public function hasCombinedRelationManagerTabsWithContent(): bool
     {
         return false;
     }
 
-    public function getFormTabLabel(): ?string
+    public function getContentTabLabel(): ?string
+    {
+        return null;
+    }
+
+    public function getContentTabIcon(): ?string
+    {
+        return null;
+    }
+
+    public function getContentTabPosition(): ?ContentTabPosition
     {
         return null;
     }

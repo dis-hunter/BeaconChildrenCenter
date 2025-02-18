@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Включить темный режим',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Открыть уведомления',
-        ],
-
-        'light_mode' => [
-            'label' => 'Включить светлый режим',
+        'billing' => [
+            'label' => 'Управление подпиской',
         ],
 
         'logout' => [
             'label' => 'Выйти',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Открыть уведомления',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Меню пользователя',
         ],
 
         'sidebar' => [
@@ -34,10 +34,29 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Меню пользователя',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Включить темный режим',
+            ],
+
+            'light' => [
+                'label' => 'Включить светлый режим',
+            ],
+
+            'system' => [
+                'label' => 'Включить системный режим',
+            ],
+
         ],
 
     ],
 
+    'avatar' => [
+        'alt' => 'Аватар :name',
+    ],
+
+    'logo' => [
+        'alt' => 'Логотип :name',
+    ],
 ];

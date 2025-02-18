@@ -4,35 +4,90 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Вміст згорнутий',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
-                'label' => 'Додати до :label',
+            'clone' => [
+                'label' => 'Дублювати',
             ],
 
-            'delete_item' => [
+            'add' => [
+
+                'label' => 'Додати до :label',
+
+                'modal' => [
+
+                    'heading' => 'Додати до :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Додати',
+                        ],
+
+                    ],
+
+                ],
+            ],
+
+            'add_between' => [
+                'label' => 'Вставити між',
+
+                'modal' => [
+
+                    'heading' => 'Додати до :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Додати',
+                        ],
+
+                    ],
+
+                ],
+            ],
+
+            'delete' => [
                 'label' => 'Видалити',
             ],
 
-            'move_item' => [
+            'edit' => [
+
+                'label' => 'Змінити',
+
+                'modal' => [
+
+                    'heading' => 'Змінити блок',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Зберегти зміни',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'reorder' => [
                 'label' => 'Перемістити',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Перемістити вниз',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Перемістити вгору',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Згорнути',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Розгорнути',
             ],
 
@@ -48,9 +103,153 @@ return [
 
     ],
 
+    'checkbox_list' => [
+
+        'actions' => [
+
+            'deselect_all' => [
+                'label' => 'Зняти виділення',
+            ],
+
+            'select_all' => [
+                'label' => 'Виділити все',
+            ],
+
+        ],
+
+    ],
+
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Скасувати',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Режим "кадрування"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Режим "переміщення"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Відобразити по горизонталі',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Відобразити по вертикалі',
+                ],
+
+                'move_down' => [
+                    'label' => 'Перемістити вниз',
+                ],
+
+                'move_left' => [
+                    'label' => 'Перемістити вліво',
+                ],
+
+                'move_right' => [
+                    'label' => 'Перемістити вправо',
+                ],
+
+                'move_up' => [
+                    'label' => 'Перемістити у верх',
+                ],
+
+                'reset' => [
+                    'label' => 'Скинути',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Повернути вліво',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Повернути вправо',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Відношення сторін :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Зберегти',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Збільшити до 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Збільшити',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Зменшити',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Висота',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Обертання',
+                    'unit' => 'град',
+                ],
+
+                'width' => [
+                    'label' => 'Ширина',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Відношення сторін',
+
+                'no_fixed' => [
+                    'label' => 'Вільне',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Не рекомендується редагувати SVG-файли, оскільки під час масштабування може погіршитися якість.\n Ви впевнені, що хочере продовжити?',
+                    'disabled' => 'Редагування SVG-файлів заблоковано, оскільки під час масштабування може погіршитися якість.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Додати рядок',
@@ -58,6 +257,9 @@ return [
 
             'delete' => [
                 'label' => 'Видалити рядок',
+            ],
+            'reorder' => [
+                'label' => 'Перемістити рядок',
             ],
 
         ],
@@ -80,54 +282,68 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Прикріпити файли',
+            'blockquote' => 'Цитата',
             'bold' => 'Жирний',
             'bullet_list' => 'Маркувальний список',
             'code_block' => 'Код',
-            'edit' => 'Редагувати',
+            'heading' => 'Заголовок',
             'italic' => 'Курсив',
             'link' => 'Посилання',
             'ordered_list' => 'Нумерований список',
-            'preview' => 'Перегляд',
+            'redo' => 'Повернути',
             'strike' => 'Закреслений',
+            'table' => 'Таблиця',
+            'undo' => 'Скасувати',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Так',
+            'false' => 'Ні',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Вміст згорнутий',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Додати до :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Додати між',
+            ],
+
+            'delete' => [
                 'label' => 'Видалити',
             ],
 
-            'move_item' => [
+            'clone' => [
+                'label' => 'Дублювати',
+            ],
+
+            'reorder' => [
                 'label' => 'Перемістити',
             ],
 
-            'clone_item' => [
-                'label' => 'Клонувати',
-            ],
-
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Перемістити вниз',
             ],
 
-            'move_item_up' => [
-                'label' => 'Перемістити вгору',
+            'move_up' => [
+                'label' => 'Перемістити у верх',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Згорнути',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Розгорнути',
             ],
 
@@ -149,7 +365,7 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Посилання',
                     'unlink' => 'Прибрати посилання',
                 ],
@@ -166,16 +382,17 @@ return [
             'attach_files' => 'Прикріпити файли',
             'blockquote' => 'Цитата',
             'bold' => 'Жирний',
-            'bullet_list' => 'Маркувальний список',
+            'bullet_list' => 'Маркований список',
             'code_block' => 'Код',
-            'h1' => 'H1',
-            'h2' => 'H2',
-            'h3' => 'H3',
-            'italic' => 'Курсів',
+            'h1' => 'Назва',
+            'h2' => 'Заголовок',
+            'h3' => 'Підзаголовок',
+            'italic' => 'Курсив',
             'link' => 'Посилання',
             'ordered_list' => 'Нумерований список',
             'redo' => 'Повторити',
             'strike' => 'Закреслений',
+            'underline' => 'Підкреслений',
             'undo' => 'Скасувати',
         ],
 
@@ -187,6 +404,8 @@ return [
 
             'create_option' => [
 
+                'label' => 'Створити',
+
                 'modal' => [
 
                     'heading' => 'Створити',
@@ -195,6 +414,29 @@ return [
 
                         'create' => [
                             'label' => 'Створити',
+                        ],
+                        'create_another' => [
+                            'label' => 'Створити ще один',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'label' => 'Змінити',
+
+                'modal' => [
+
+                    'heading' => 'Змінити',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Зберегти',
                         ],
 
                     ],
@@ -212,9 +454,11 @@ return [
 
         'loading_message' => 'Завантаження...',
 
+        'max_items_message' => 'Тільки :count можна вибрати.',
+
         'no_search_results_message' => 'Немає варіантів, які відповідають вашому запиту.',
 
-        'placeholder' => 'Виберіть варіант',
+        'placeholder' => 'Обрати варіант',
 
         'searching_message' => 'Пошук...',
 
@@ -225,9 +469,34 @@ return [
         'placeholder' => 'Новий тег',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Приховати пароль',
+            ],
+
+            'show_password' => [
+                'label' => 'Показати пароль',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Так',
+            'false' => 'Ні',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Назад',

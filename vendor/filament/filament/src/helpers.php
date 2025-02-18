@@ -2,31 +2,48 @@
 
 namespace Filament;
 
-use Illuminate\Support\Str;
+use Filament\Facades\Filament;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
-if (! function_exists('Filament\get_asset_id')) {
-    function get_asset_id(string $file, string $manifestPath = null): ?string
+if (! function_exists('Filament\authorize')) {
+    /**
+     * @throws AuthorizationException
+     */
+    function authorize(string $action, Model | string $model, bool $shouldCheckPolicyExistence = true): Response
     {
-        $manifestPath ??= __DIR__ . '/../dist/mix-manifest.json';
+        $user = Filament::auth()->user();
 
-        if (! file_exists($manifestPath)) {
-            return null;
+        if (! $shouldCheckPolicyExistence) {
+            return Gate::forUser($user)->authorize($action, $model);
         }
 
-        $manifest = json_decode(file_get_contents($manifestPath), associative: true);
+        $policy = Gate::getPolicyFor($model);
 
-        $file = "/{$file}";
+        if (
+            ($policy === null) ||
+            (! method_exists($policy, $action))
+        ) {
+            /** @var bool | Response | null $response */
+            $response = invade(Gate::forUser($user))->callBeforeCallbacks( /** @phpstan-ignore-line */
+                $user,
+                $action,
+                [$model],
+            );
 
-        if (! array_key_exists($file, $manifest)) {
-            return null;
+            if ($response === false) {
+                throw new AuthorizationException;
+            }
+
+            if (! $response instanceof Response) {
+                return Response::allow();
+            }
+
+            return $response->authorize();
         }
 
-        $file = $manifest[$file];
-
-        if (! str_contains($file, 'id=')) {
-            return null;
-        }
-
-        return (string) Str::of($file)->after('id=');
+        return Gate::forUser($user)->authorize($action, $model);
     }
 }

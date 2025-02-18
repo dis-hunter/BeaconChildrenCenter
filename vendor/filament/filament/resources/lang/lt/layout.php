@@ -4,28 +4,60 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Perjungti tamsos režimą',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Atidaryti pranešimus',
-        ],
-
-        'light_mode' => [
-            'label' => 'Perjungti šviesos režimą',
+        'billing' => [
+            'label' => 'Tvarkyti prenumeratą',
         ],
 
         'logout' => [
             'label' => 'Atsijungti',
         ],
 
-        'user_menu' => [
+        'open_database_notifications' => [
+            'label' => 'Atidaryti pranešimus',
+        ],
+
+        'open_user_menu' => [
             'label' => 'Vartotojo meniu',
         ],
 
+        'sidebar' => [
+
+            'collapse' => [
+                'label' => 'Sutraukti šoninę juostą',
+            ],
+
+            'expand' => [
+                'label' => 'Išskleisti šoninę juostą',
+            ],
+
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Perjungti tamsos režimą',
+            ],
+
+            'light' => [
+                'label' => 'Perjungti šviesos režimą',
+            ],
+
+            'system' => [
+                'label' => 'Perjungti sistemos režimą',
+            ],
+
+        ],
+
+    ],
+
+    'avatar' => [
+        'alt' => ':name avataras',
+    ],
+
+    'logo' => [
+        'alt' => ':name logotipas',
     ],
 
 ];

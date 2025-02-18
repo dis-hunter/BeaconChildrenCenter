@@ -1,8 +1,7 @@
 <div
     {{
         $attributes->class([
-            'filament-tables-container rounded-xl border border-gray-300 bg-white shadow-sm',
-            'dark:border-gray-700 dark:bg-gray-800' => config('tables.dark_mode'),
+            'fi-ta-ctn divide-y divide-gray-200 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 dark:divide-white/10 dark:bg-gray-900 dark:ring-white/10',
         ])
     }}
 >

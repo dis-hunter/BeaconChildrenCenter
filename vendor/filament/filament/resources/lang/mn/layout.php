@@ -4,40 +4,60 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Гэрэлгүй горимд шилжих',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Сонордуулга нээх',
-        ],
-
-        'light_mode' => [
-            'label' => 'Гэрэлтэй горимд шилжих',
+        'billing' => [
+            'label' => 'Бүртгэлийг удирдах',
         ],
 
         'logout' => [
             'label' => 'Гарах',
         ],
 
-        'sidebar' => [
-
-            'collapse' => [
-                'label' => 'Хажуугийн хавтсыг хаах',
-            ],
-
-            'expand' => [
-                'label' => 'Хажуугийн хавтсыг нээх',
-            ],
-
+        'open_database_notifications' => [
+            'label' => 'Мэдэгдлүүдийг үзэх',
         ],
 
-        'user_menu' => [
+        'open_user_menu' => [
             'label' => 'Хэрэглэгчийн цэс',
         ],
 
+        'sidebar' => [
+
+            'collapse' => [
+                'label' => 'Баганыг хураах',
+            ],
+
+            'expand' => [
+                'label' => 'Баганыг дэлгэх',
+            ],
+
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Бараан горимыг нээх',
+            ],
+
+            'light' => [
+                'label' => 'Гэгээтэй горимыг нээх',
+            ],
+
+            'system' => [
+                'label' => 'Үйлдлийн системийн тохиргоогоор',
+            ],
+
+        ],
+
+    ],
+
+    'avatar' => [
+        'alt' => ':name аватар',
+    ],
+
+    'logo' => [
+        'alt' => ':name лого',
     ],
 
 ];

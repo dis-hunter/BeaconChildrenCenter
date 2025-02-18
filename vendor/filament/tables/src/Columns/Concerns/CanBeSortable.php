@@ -3,17 +3,22 @@
 namespace Filament\Tables\Columns\Concerns;
 
 use Closure;
-use Illuminate\Support\Str;
 
 trait CanBeSortable
 {
-    protected bool $isSortable = false;
+    protected bool | Closure $isSortable = false;
 
+    /**
+     * @var array<string> | null
+     */
     protected ?array $sortColumns = [];
 
     protected ?Closure $sortQuery = null;
 
-    public function sortable(bool | array $condition = true, ?Closure $query = null): static
+    /**
+     * @param  bool | array<string> | Closure  $condition
+     */
+    public function sortable(bool | array | Closure $condition = true, ?Closure $query = null): static
     {
         if (is_array($condition)) {
             $this->isSortable = true;
@@ -28,6 +33,9 @@ trait CanBeSortable
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getSortColumns(): array
     {
         return $this->sortColumns ?? $this->getDefaultSortColumns();
@@ -35,11 +43,14 @@ trait CanBeSortable
 
     public function isSortable(): bool
     {
-        return $this->isSortable;
+        return (bool) $this->evaluate($this->isSortable);
     }
 
-    protected function getDefaultSortColumns(): array
+    /**
+     * @return array{0: string}
+     */
+    public function getDefaultSortColumns(): array
     {
-        return [Str::of($this->getName())->afterLast('.')];
+        return [str($this->getName())->afterLast('.')];
     }
 }
