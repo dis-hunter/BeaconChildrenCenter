@@ -27,17 +27,17 @@
 
     <div x-data="{ open: true, isLoading: false, showReport: false, reportContent: [], reportType: '' }">
         <!-- Toggle Button -->
-        <button 
-            @click="open = !open" 
+        <button
+            @click="open = !open"
             class="flex items-center justify-between w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none"
         >
             <span class="text-black">Report Parameters</span>
-            <svg 
-                :class="open ? 'rotate-180' : ''" 
-                xmlns="http://www.w3.org/2000/svg" 
-                class="h-5 w-5 transform transition-transform duration-300" 
-                fill="none" 
-                viewBox="0 0 24 24" 
+            <svg
+                :class="open ? 'rotate-180' : ''"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 transform transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
                 stroke="currentColor"
             >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -50,10 +50,10 @@
                 @csrf
                 <div>
                     <label for="start_date" class="block text-sm font-medium text-black">Start Date</label>
-                    <input 
-                        type="date" 
-                        id="start_date" 
-                        name="start_date" 
+                    <input
+                        type="date"
+                        id="start_date"
+                        name="start_date"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
                         required
                     >
@@ -61,10 +61,10 @@
 
                 <div>
                     <label for="end_date" class="block text-sm font-medium text-black">End Date</label>
-                    <input 
-                        type="date" 
-                        id="end_date" 
-                        name="end_date" 
+                    <input
+                        type="date"
+                        id="end_date"
+                        name="end_date"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
                         required
                     >
@@ -72,11 +72,11 @@
 
                 <div>
                     <label for="report_type" class="block text-sm font-medium text-black">Report Type</label>
-                    <select 
-                        id="report_type" 
-                        name="report_type" 
+                    <select
+                        id="report_type"
+                        name="report_type"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-                        required 
+                        required
                     >
                         <option value="">Select Report</option>
                         <option value="encounter_summary">Encounter Summary</option>
@@ -86,18 +86,18 @@
                 </div>
 
                 <div>
-                    <button 
+                    <button
                     style="color:black;"
                         id="submitButton"
-                        type="submit" 
+                        type="submit"
                         class="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700"
                         :disabled="isLoading"
                     >
                         <template x-if="isLoading">
-                            <svg 
-                                class="animate-spin h-5 w-5 mr-2 text-white" 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                fill="none" 
+                            <svg
+                                class="animate-spin h-5 w-5 mr-2 text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
                                 viewBox="0 0 24 24"
                             >
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -133,7 +133,7 @@
     </div>
 </section>
 
-   
+
 
 
 
@@ -178,9 +178,12 @@
 
 
 
+{{--@push('scripts')--}}
+{{--        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>--}}
+{{--        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>--}}
+{{--@endpush--}}
 
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
 
 
@@ -223,7 +226,7 @@
                 console.error('Error fetching demographics data:', error);
             });
 
-         
+
 
 
 
