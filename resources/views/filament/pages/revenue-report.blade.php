@@ -173,15 +173,15 @@
         <!-- Report Results -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <div class="bg-gray-50 p-4 rounded-lg shadow">
-        <h3 class="text-lg font-medium text-gray-900">Total Revenue</h3>
+        <h3 class="text-lg font-medium text-gray-900">Total Expected Revenue</h3>
         <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.total_revenue)"></p>
     </div>
     <div class="bg-gray-50 p-4 rounded-lg shadow">
-        <h3 class="text-lg font-medium text-gray-900">Normal Payments</h3>
+        <h3 class="text-lg font-medium text-gray-900">Cash/Insurance Expected Payments</h3>
         <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.normal_payment)"></p>
     </div>
     <div class="bg-gray-50 p-4 rounded-lg shadow">
-        <h3 class="text-lg font-medium text-gray-900">Sponsored Payments</h3>
+        <h3 class="text-lg font-medium text-gray-900">NCPD Expected Payments</h3>
         <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.sponsored_payment)"></p>
     </div>
     <div class="bg-gray-50 p-4 rounded-lg shadow">
