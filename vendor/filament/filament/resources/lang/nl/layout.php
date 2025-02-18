@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Donkere weergave inschakelen',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Meldingen openen',
-        ],
-
-        'light_mode' => [
-            'label' => 'Lichte weergave inschakelen',
+        'billing' => [
+            'label' => 'Abonnement beheren',
         ],
 
         'logout' => [
             'label' => 'Uitloggen',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Meldingen openen',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Gebruikersmenu',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Gebruikersmenu',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Donker thema inschakelen',
+            ],
+
+            'light' => [
+                'label' => 'Licht thema inschakelen',
+            ],
+
+            'system' => [
+                'label' => 'Systeemthema inschakelen',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar van :name',
+    ],
+
+    'logo' => [
+        'alt' => ':name logo',
     ],
 
 ];

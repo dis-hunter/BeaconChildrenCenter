@@ -4,43 +4,93 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Content collapsed',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Clone',
             ],
 
-            'create_item' => [
+            'add' => [
+
                 'label' => 'Add to :label',
+
+                'modal' => [
+
+                    'heading' => 'Add to :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Add',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'create_item_between' => [
-                'label' => 'Insert',
+            'add_between' => [
+
+                'label' => 'Insert between blocks',
+
+                'modal' => [
+
+                    'heading' => 'Add to :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Add',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'Delete',
             ],
 
-            'move_item' => [
+            'edit' => [
+
+                'label' => 'Edit',
+
+                'modal' => [
+
+                    'heading' => 'Edit block',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Save changes',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'reorder' => [
                 'label' => 'Move',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Move down',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Move up',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Collapse',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expand',
             ],
 
@@ -58,7 +108,7 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
                 'label' => 'Deselect all',
@@ -72,9 +122,137 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Cancel',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Drag mode "crop"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Drag mode "move"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Flip image horizontally',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Flip image vertically',
+                ],
+
+                'move_down' => [
+                    'label' => 'Move image down',
+                ],
+
+                'move_left' => [
+                    'label' => 'Move image to left',
+                ],
+
+                'move_right' => [
+                    'label' => 'Move image to right',
+                ],
+
+                'move_up' => [
+                    'label' => 'Move image up',
+                ],
+
+                'reset' => [
+                    'label' => 'Reset',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Rotate image to left',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Rotate image to right',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Set aspect ratio to :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Save',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Zoom image to 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Zoom in',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Zoom out',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Height',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Rotation',
+                    'unit' => 'deg',
+                ],
+
+                'width' => [
+                    'label' => 'Width',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Aspect ratios',
+
+                'no_fixed' => [
+                    'label' => 'Free',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Editing SVG files is not recommended as it can result in quality loss when scaling.\n Are you sure you want to continue?',
+                    'disabled' => 'Editing SVG files is disabled as it can result in quality loss when scaling.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Add row',
@@ -108,54 +286,68 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Attach files',
+            'blockquote' => 'Blockquote',
             'bold' => 'Bold',
             'bullet_list' => 'Bullet list',
             'code_block' => 'Code block',
-            'edit' => 'Edit',
+            'heading' => 'Heading',
             'italic' => 'Italic',
             'link' => 'Link',
             'ordered_list' => 'Numbered list',
-            'preview' => 'Preview',
+            'redo' => 'Redo',
             'strike' => 'Strikethrough',
+            'table' => 'Table',
+            'undo' => 'Undo',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Yes',
+            'false' => 'No',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Content collapsed',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Add to :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Insert between',
+            ],
+
+            'delete' => [
                 'label' => 'Delete',
             ],
 
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Clone',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Move',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Move down',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Move up',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Collapse',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expand',
             ],
 
@@ -177,7 +369,7 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Link',
                     'unlink' => 'Unlink',
                 ],
@@ -216,6 +408,8 @@ return [
 
             'create_option' => [
 
+                'label' => 'Create',
+
                 'modal' => [
 
                     'heading' => 'Create',
@@ -224,6 +418,30 @@ return [
 
                         'create' => [
                             'label' => 'Create',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'Create & create another',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'label' => 'Edit',
+
+                'modal' => [
+
+                    'heading' => 'Edit',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Save',
                         ],
 
                     ],
@@ -257,9 +475,34 @@ return [
         'placeholder' => 'New tag',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Hide password',
+            ],
+
+            'show_password' => [
+                'label' => 'Show password',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Yes',
+            'false' => 'No',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Back',

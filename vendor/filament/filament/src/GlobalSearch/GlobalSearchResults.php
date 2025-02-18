@@ -16,9 +16,12 @@ class GlobalSearchResults
 
     public static function make(): static
     {
-        return new static();
+        return app(static::class);
     }
 
+    /**
+     * @param  array<GlobalSearchResult> | Arrayable  $results
+     */
     public function category(string $name, array | Arrayable $results = []): static
     {
         $this->categories[$name] = $results;

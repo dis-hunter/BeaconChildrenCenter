@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Chuyển chế độ tối',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Mở thông báo',
-        ],
-
-        'light_mode' => [
-            'label' => 'Chuyển chế độ sáng',
+        'billing' => [
+            'label' => 'Quản lý gói đăng ký',
         ],
 
         'logout' => [
             'label' => 'Đăng xuất',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Mở thông báo',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Menu người dùng',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Menu người dùng',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Bật chế độ tối',
+            ],
+
+            'light' => [
+                'label' => 'Bật chế độ sáng',
+            ],
+
+            'system' => [
+                'label' => 'Bật chế độ hệ thống',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Ảnh đại diện của :name',
+    ],
+
+    'logo' => [
+        'alt' => 'Logo :name',
     ],
 
 ];

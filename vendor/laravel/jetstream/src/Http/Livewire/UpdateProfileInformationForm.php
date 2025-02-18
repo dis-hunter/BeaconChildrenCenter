@@ -39,14 +39,18 @@ class UpdateProfileInformationForm extends Component
      */
     public function mount()
     {
-        $this->state = Auth::user()->withoutRelations()->toArray();
+        $user = Auth::user();
+
+        $this->state = array_merge([
+            'email' => $user->email,
+        ], $user->withoutRelations()->toArray());
     }
 
     /**
      * Update the user's profile information.
      *
      * @param  \Laravel\Fortify\Contracts\UpdatesUserProfileInformation  $updater
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|null
      */
     public function updateProfileInformation(UpdatesUserProfileInformation $updater)
     {
@@ -63,9 +67,9 @@ class UpdateProfileInformationForm extends Component
             return redirect()->route('profile.show');
         }
 
-        $this->emit('saved');
+        $this->dispatch('saved');
 
-        $this->emit('refresh-navigation-menu');
+        $this->dispatch('refresh-navigation-menu');
     }
 
     /**
@@ -77,7 +81,7 @@ class UpdateProfileInformationForm extends Component
     {
         Auth::user()->deleteProfilePhoto();
 
-        $this->emit('refresh-navigation-menu');
+        $this->dispatch('refresh-navigation-menu');
     }
 
     /**

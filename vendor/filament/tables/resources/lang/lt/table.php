@@ -2,69 +2,80 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Stulpeliai',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'ir :count daugiau',
-        ],
+        'text' => [
 
-        'messages' => [
-            'copied' => 'Nukopijuota',
+            'actions' => [
+                'collapse_list' => 'Slėpti :count',
+                'expand_list' => 'Rodyti dar :count',
+            ],
+
+            'more_list_items' => 'ir dar :count',
         ],
 
     ],
 
     'fields' => [
 
-        'search_query' => [
+        'bulk_select_page' => [
+            'label' => 'Pažymėti/atžymėti visus įrašus masiniam veiksmui.',
+        ],
+
+        'bulk_select_record' => [
+            'label' => 'Pažymėti/atžymėti įrašą :key masiniam veiksmui.',
+        ],
+
+        'bulk_select_group' => [
+            'label' => 'Pažymėti/atžymėti grupę :title masiniam veiksmui.',
+        ],
+
+        'search' => [
             'label' => 'Paieška',
             'placeholder' => 'Paieška',
+            'indicator' => 'Paieška',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Pagination Navigation',
+        'heading' => 'Santrauka',
 
-        'overview' => 'Rodomi nuo :first iki :last rezultatai iš :total',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'per puslapį',
-
-                'options' => [
-                    'all' => 'Viską',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'Viso :label',
+            'group' => ':group santrauka',
+            'page' => 'Šis puslapis',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Eiti į puslapį :page',
+            'average' => [
+                'label' => 'Vidurkis',
             ],
 
-            'next' => [
-                'label' => 'Kitas',
+            'count' => [
+                'label' => 'Viso',
             ],
 
-            'previous' => [
-                'label' => 'Buvęs',
+            'sum' => [
+                'label' => 'Suma',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
-            'label' => 'Finish reordering records',
+            'label' => 'Pabaik pertvarkyti įrašus',
         ],
 
         'enable_reordering' => [
@@ -75,23 +86,35 @@ return [
             'label' => 'Filtras',
         ],
 
-        'open_actions' => [
+        'group' => [
+            'label' => 'Grupė',
+        ],
+
+        'open_bulk_actions' => [
             'label' => 'Atidaryti veiksmus',
         ],
 
         'toggle_columns' => [
-            'label' => 'Toggle columns',
+            'label' => 'Perjungti stulpelius',
         ],
 
     ],
 
     'empty' => [
+
         'heading' => 'Nerasta įrašų',
+
+        'description' => 'Norėdami pradėti, sukurkite :model.',
+
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Taikyti filtrus',
+            ],
 
             'remove' => [
                 'label' => 'Pašalinti filtrą',
@@ -108,6 +131,8 @@ return [
 
         ],
 
+        'heading' => 'Filtrai',
+
         'indicator' => 'Aktyvūs filtrai',
 
         'multi_select' => [
@@ -120,7 +145,7 @@ return [
 
         'trashed' => [
 
-            'label' => 'Ištrinti įrašaų',
+            'label' => 'Ištrinti įrašai',
 
             'only_trashed' => 'Tik ištrinti įrašai',
 
@@ -132,13 +157,37 @@ return [
 
     ],
 
-    'reorder_indicator' => 'Vilk ir paleisk pakeisti įrašų eiliškumui.',
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Grupuoti pagal',
+                'placeholder' => 'Grupuoti pagal',
+            ],
+
+            'direction' => [
+
+                'label' => 'Grupės kryptis',
+
+                'options' => [
+                    'asc' => 'Didėjančia tvarka',
+                    'desc' => 'Mažėjančia tvarka',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
+    'reorder_indicator' => 'Vilkite ir paleiskite įrašų rikiavimui.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 įrašas pasirinktas.|:count įrašai pasirinkti.',
+        'selected_count' => '1 įrašas pasirinktas|:count įrašai pasirinkti',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Pažymėti visus :count',

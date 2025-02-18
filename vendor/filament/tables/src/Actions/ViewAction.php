@@ -3,7 +3,9 @@
 namespace Filament\Tables\Actions;
 
 use Closure;
-use Filament\Forms\ComponentContainer;
+use Filament\Actions\StaticAction;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
 class ViewAction extends Action
@@ -19,33 +21,34 @@ class ViewAction extends Action
     {
         parent::setUp();
 
-        $this->label(__('filament-support::actions/view.single.label'));
+        $this->label(__('filament-actions::view.single.label'));
 
-        $this->modalHeading(fn (): string => __('filament-support::actions/view.single.modal.heading', ['label' => $this->getRecordTitle()]));
+        $this->modalHeading(fn (): string => __('filament-actions::view.single.modal.heading', ['label' => $this->getRecordTitle()]));
 
-        $this->modalActions(fn (): array => array_merge(
-            $this->getExtraModalActions(),
-            [$this->getModalCancelAction()->label(__('filament-support::actions/view.single.modal.actions.close.label'))],
-        ));
+        $this->modalSubmitAction(false);
+        $this->modalCancelAction(fn (StaticAction $action) => $action->label(__('filament-actions::view.single.modal.actions.close.label')));
 
-        $this->color('secondary');
+        $this->color('gray');
 
-        $this->icon('heroicon-s-eye');
+        $this->icon(FilamentIcon::resolve('actions::view-action') ?? 'heroicon-m-eye');
 
-        $this->disableForm();
+        $this->disabledForm();
 
-        $this->mountUsing(function (ComponentContainer $form, Model $record): void {
-            $data = $record->attributesToArray();
+        $this->fillForm(function (Model $record, Table $table): array {
+            if ($translatableContentDriver = $table->makeTranslatableContentDriver()) {
+                $data = $translatableContentDriver->getRecordAttributesToArray($record);
+            } else {
+                $data = $record->attributesToArray();
+            }
 
             if ($this->mutateRecordDataUsing) {
                 $data = $this->evaluate($this->mutateRecordDataUsing, ['data' => $data]);
             }
 
-            $form->fill($data);
+            return $data;
         });
 
-        $this->action(static function (): void {
-        });
+        $this->action(static function (): void {});
     }
 
     public function mutateRecordDataUsing(?Closure $callback): static

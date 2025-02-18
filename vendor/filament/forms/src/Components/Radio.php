@@ -3,39 +3,35 @@
 namespace Filament\Forms\Components;
 
 use Closure;
-use Illuminate\Contracts\Support\Arrayable;
 
-class Radio extends Field
+class Radio extends Field implements Contracts\CanDisableOptions
 {
+    use Concerns\CanDisableOptions;
+    use Concerns\CanDisableOptionsWhenSelectedInSiblingRepeaterItems;
+    use Concerns\CanFixIndistinctState;
+    use Concerns\HasDescriptions;
     use Concerns\HasExtraInputAttributes;
+    use Concerns\HasGridDirection;
     use Concerns\HasOptions;
 
-    protected string $view = 'forms::components.radio';
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-forms::components.radio';
 
     protected bool | Closure $isInline = false;
-
-    protected array | Arrayable | Closure $descriptions = [];
-
-    protected bool | Closure | null $isOptionDisabled = null;
 
     protected function setUp(): void
     {
         parent::setUp();
     }
 
-    public function boolean(string $trueLabel = 'Yes', string $falseLabel = 'No'): static
+    public function boolean(?string $trueLabel = null, ?string $falseLabel = null): static
     {
         $this->options([
-            1 => $trueLabel,
-            0 => $falseLabel,
+            1 => $trueLabel ?? __('filament-forms::components.radio.boolean.true'),
+            0 => $falseLabel ?? __('filament-forms::components.radio.boolean.false'),
         ]);
-
-        return $this;
-    }
-
-    public function disableOptionWhen(bool | Closure $callback): static
-    {
-        $this->isOptionDisabled = $callback;
 
         return $this;
     }
@@ -43,36 +39,9 @@ class Radio extends Field
     public function inline(bool | Closure $condition = true): static
     {
         $this->isInline = $condition;
+        $this->inlineLabel(fn (Radio $component): ?bool => $component->evaluate($condition) ? true : null);
 
         return $this;
-    }
-
-    public function descriptions(array | Arrayable | Closure $descriptions): static
-    {
-        $this->descriptions = $descriptions;
-
-        return $this;
-    }
-
-    public function hasDescription($value): bool
-    {
-        return array_key_exists($value, $this->getDescriptions());
-    }
-
-    public function getDescription($value): ?string
-    {
-        return $this->getDescriptions()[$value] ?? null;
-    }
-
-    public function getDescriptions(): array
-    {
-        $descriptions = $this->evaluate($this->descriptions);
-
-        if ($descriptions instanceof Arrayable) {
-            $descriptions = $descriptions->toArray();
-        }
-
-        return $descriptions;
     }
 
     public function isInline(): bool
@@ -80,15 +49,14 @@ class Radio extends Field
         return (bool) $this->evaluate($this->isInline);
     }
 
-    public function isOptionDisabled($value, string $label): bool
+    public function getDefaultState(): mixed
     {
-        if ($this->isOptionDisabled === null) {
-            return false;
+        $state = parent::getDefaultState();
+
+        if (is_bool($state)) {
+            return $state ? 1 : 0;
         }
 
-        return (bool) $this->evaluate($this->isOptionDisabled, [
-            'label' => $label,
-            'value' => $value,
-        ]);
+        return $state;
     }
 }

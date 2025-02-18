@@ -10,7 +10,7 @@ class EditRoles extends EditRecord
 {
     protected static string $resource = RolesResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),

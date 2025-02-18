@@ -3,37 +3,25 @@
     'unreadNotificationsCount',
 ])
 
-<div {{ $attributes }}>
-    @if ($notifications->count())
-        <div class="mt-2 text-sm">
-            @if ($unreadNotificationsCount)
-                <x-notifications::link
-                    wire:click="markAllDatabaseNotificationsAsRead"
-                    color="secondary"
-                    tag="button"
-                    tabindex="-1"
-                    wire:target="markAllDatabaseNotificationsAsRead"
-                    wire:loading.attr="disabled"
-                    wire:loading.class="opacity-70 cursor-wait"
-                >
-                    {{ __('notifications::database.modal.buttons.mark_all_as_read.label') }}
-                </x-notifications::link>
-
-                <span>&bull;</span>
-            @endif
-
-            <x-notifications::link
-                wire:click="clearDatabaseNotifications"
-                x-on:click="close()"
-                color="secondary"
-                tag="button"
-                tabindex="-1"
-                wire:target="clearDatabaseNotifications"
-                wire:loading.attr="disabled"
-                wire:loading.class="opacity-70 cursor-wait"
-            >
-                {{ __('notifications::database.modal.buttons.clear.label') }}
-            </x-notifications::link>
-        </div>
+<div {{ $attributes->class('mt-2 flex gap-x-3') }}>
+    @if ($unreadNotificationsCount)
+        <x-filament::link
+            color="primary"
+            tabindex="-1"
+            tag="button"
+            wire:click="markAllNotificationsAsRead"
+        >
+            {{ __('filament-notifications::database.modal.actions.mark_all_as_read.label') }}
+        </x-filament::link>
     @endif
+
+    <x-filament::link
+        color="danger"
+        tabindex="-1"
+        tag="button"
+        wire:click="clearNotifications"
+        x-on:click="close()"
+    >
+        {{ __('filament-notifications::database.modal.actions.clear.label') }}
+    </x-filament::link>
 </div>

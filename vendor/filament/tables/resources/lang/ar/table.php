@@ -2,14 +2,27 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'الأعمدة',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'و :count أكثر',
+        'actions' => [
+            'label' => 'إجراء | إجراءات',
         ],
 
-        'messages' => [
-            'copied' => 'تم النسخ',
+        'text' => [
+
+            'actions' => [
+                'collapse_list' => 'عرض :count أقل',
+                'expand_list' => 'عرض :count أكثر',
+            ],
+
+            'more_list_items' => 'و :count إضافية',
+
         ],
 
     ],
@@ -17,59 +30,54 @@ return [
     'fields' => [
 
         'bulk_select_page' => [
-            'label' => 'تحديد / إلغاء تحديد كافة العناصر للإجراءات الجماعية.',
+            'label' => 'تحديد/إلغاء تحديد كافة العناصر للإجراءات الجماعية.',
         ],
 
         'bulk_select_record' => [
-            'label' => 'تحديد / إلغاء تحديد العنصر :key للإجراءات الجماعية',
+            'label' => 'تحديد/إلغاء تحديد العنصر :key للإجراءات الجماعية.',
         ],
 
-        'search_query' => [
+        'bulk_select_group' => [
+            'label' => 'تحديد/إلغاء تحديد المجموعة :title للإجراءات الجماعية.',
+        ],
+
+        'search' => [
             'label' => 'بحث',
             'placeholder' => 'بحث',
+            'indicator' => 'بحث',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'التنقل بين الصفحات',
+        'heading' => 'الملخص',
 
-        'overview' => '{1} عرض نتيجة واحدة|[3,10] عرض :first إلي :last من :total نتائج|[2,*] عرض :first إلي :last من :total نتيجة',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'لكل صفحة',
-
-                'options' => [
-                    'all' => 'الكل',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'كافة :label',
+            'group' => 'ملخص :group',
+            'page' => 'هذه الصفحة',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'انتقل إلى صفحة :page',
+            'average' => [
+                'label' => 'المتوسط',
             ],
 
-            'next' => [
-                'label' => 'التالي',
+            'count' => [
+                'label' => 'العدد',
             ],
 
-            'previous' => [
-                'label' => 'السابق',
+            'sum' => [
+                'label' => 'المجموع',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'إنهاء إعادة ترتيب السجلات',
@@ -83,8 +91,12 @@ return [
             'label' => 'تصفية',
         ],
 
-        'open_actions' => [
-            'label' => 'فتح الإجراءات',
+        'group' => [
+            'label' => 'مجموعة',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'الإجراءات',
         ],
 
         'toggle_columns' => [
@@ -95,38 +107,38 @@ return [
 
     'empty' => [
 
-        'heading' => 'لا توجد سجلات',
+        'heading' => 'لا توجد :model',
 
-        'buttons' => [
-
-            'reset_column_searches' => [
-                'label' => 'مسح البحث في العمود',
-            ],
-
-        ],
+        'description' => 'قم بإضافة :model للبدء.',
 
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'تطبيق التصفيات',
+            ],
 
             'remove' => [
-                'label' => 'إلغاء الفلاتر',
+                'label' => 'إلغاء التصفيات',
             ],
 
             'remove_all' => [
-                'label' => 'إلغاء كافة الفلاتر',
-                'tooltip' => 'إلغاء كافة الفلاتر',
+                'label' => 'إلغاء كافة التصفيات',
+                'tooltip' => 'إلغاء كافة التصفيات',
             ],
 
             'reset' => [
-                'label' => 'إعادة ضبط الفلاتر',
+                'label' => 'إعادة ضبط التصفيات',
             ],
 
         ],
 
-        'indicator' => 'الفلاتر النشطة',
+        'heading' => 'التصفيات',
+
+        'indicator' => 'التصفيات النشطة',
 
         'multi_select' => [
             'placeholder' => 'الكل',
@@ -150,13 +162,37 @@ return [
 
     ],
 
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'تجميع حسب',
+                'placeholder' => 'تجميع حسب',
+            ],
+
+            'direction' => [
+
+                'label' => 'إتجاه التجميع',
+
+                'options' => [
+                    'asc' => 'تصاعدي',
+                    'desc' => 'تنازلي',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'reorder_indicator' => 'قم بسحب وإسقاط السجلات بالترتيب.',
 
     'selection_indicator' => [
 
         'selected_count' => '{1} تم تحديد سجل واحد|[3,10] تم تحديد :count سجلات |[2,*] تم تحديد :count سجل',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'تحديد كل السجلات :count',

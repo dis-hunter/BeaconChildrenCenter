@@ -4,43 +4,41 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Conteúdo recolhido',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Clonar',
             ],
 
-            'create_item' => [
+            'add' => [
                 'label' => 'Adicionar em :label',
             ],
 
-            'create_item_between' => [
+            'add_between' => [
                 'label' => 'Inserir',
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'Excluir',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Mover',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Mover para baixo',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Mover para cima',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Recolher',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expandir',
             ],
 
@@ -58,7 +56,7 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
                 'label' => 'Desmarcar todos',
@@ -72,9 +70,137 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Cancelar',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Modo de arrastar "cortar"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Modo de arrastar "mover"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Inverter imagem horizontalmente',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Inverter imagem verticalmente',
+                ],
+
+                'move_down' => [
+                    'label' => 'Mover imagem para baixo',
+                ],
+
+                'move_left' => [
+                    'label' => 'Mover imagem para esquerda',
+                ],
+
+                'move_right' => [
+                    'label' => 'Mover imagem para direita',
+                ],
+
+                'move_up' => [
+                    'label' => 'Mover imagem para cima',
+                ],
+
+                'reset' => [
+                    'label' => 'Limpar',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Rotacionar imagem para esquerda',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Rotacionar imagem para direita',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Definir proporção para :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Salvar',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Ampliar imagem para 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Mais zoom',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Menos zoom',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Altura',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Rotação',
+                    'unit' => 'deg',
+                ],
+
+                'width' => [
+                    'label' => 'Largura',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Proporções',
+
+                'no_fixed' => [
+                    'label' => 'Livre',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Não é recomendado editar arquivos SVG, pois pode resultar em perda de qualidade ao dimensionar.\n Você tem certeza de que deseja continuar?',
+                    'disabled' => 'A edição de arquivos SVG está desativada, pois pode resultar em perda de qualidade ao dimensionar.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Adicionar linha',
@@ -107,55 +233,69 @@ return [
     'markdown_editor' => [
 
         'toolbar_buttons' => [
-            'attach_files' => 'Anexar arquivo',
+            'attach_files' => 'Anexar arquivos',
+            'blockquote' => 'Bloco de citação',
             'bold' => 'Negrito',
-            'bullet_list' => 'Lista',
+            'bullet_list' => 'Lista com marcadores',
             'code_block' => 'Bloco de código',
-            'edit' => 'Editar',
+            'heading' => 'Título',
             'italic' => 'Itálico',
             'link' => 'Link',
             'ordered_list' => 'Lista ordenada',
-            'preview' => 'Visualizar',
+            'redo' => 'Refazer',
             'strike' => 'Tachado',
+            'table' => 'Tabela',
+            'undo' => 'Desfazer',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Sim',
+            'false' => 'Não',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Conteúdo recolhido',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Adicionar em :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Inserir',
+            ],
+
+            'delete' => [
                 'label' => 'Excluir',
             ],
 
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Clonar',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Mover',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Mover para baixo',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Mover para cima',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Recolher',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expandir',
             ],
 
@@ -177,9 +317,9 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Link',
-                    'unlink' => 'Unlink',
+                    'unlink' => 'Remover link',
                 ],
 
                 'label' => 'URL',
@@ -192,18 +332,19 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Anexar arquivos',
-            'blockquote' => 'Citar',
+            'blockquote' => 'Bloco de citação',
             'bold' => 'Negrito',
-            'bullet_list' => 'Marcadores',
-            'code_block' => 'codeBlock',
+            'bullet_list' => 'Lista com marcadores',
+            'code_block' => 'Bloco de código',
             'h1' => 'Título',
             'h2' => 'Cabeçalho',
             'h3' => 'Subtítulo',
             'italic' => 'Itálico',
             'link' => 'Link',
-            'ordered_list' => 'Números',
+            'ordered_list' => 'Lista ordenada',
             'redo' => 'Refazer',
             'strike' => 'Tachado',
+            'underline' => 'Sublinhado',
             'undo' => 'Desfazer',
         ],
 
@@ -223,6 +364,28 @@ return [
 
                         'create' => [
                             'label' => 'Criar',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'Salvar e criar outro',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'Editar',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Salvar',
                         ],
 
                     ],
@@ -246,19 +409,44 @@ return [
 
         'placeholder' => 'Selecione uma opção',
 
-        'searching_message' => 'Buscando...',
+        'searching_message' => 'Pesquisando...',
 
         'search_prompt' => 'Comece a digitar para pesquisar...',
 
     ],
 
     'tags_input' => [
-        'placeholder' => 'Novo rótulo',
+        'placeholder' => 'Nova tag',
+    ],
+
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Esconder senha',
+            ],
+
+            'show_password' => [
+                'label' => 'Mostrar senha',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Sim',
+            'false' => 'Não',
+        ],
+
     ],
 
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Voltar',

@@ -7,8 +7,8 @@
 <body>
     <nav>
         <!-- Livewire actions for switching views -->
-        <a href="#" wire:click.prevent="$emit('switchView', 'home')">Home</a>
-<a href="#" wire:click.prevent="$emit('switchView', 'about')">About</a>
+        <a href="#" wire:click.prevent="$dispatch('switchView', 'home')">Home</a>
+<a href="#" wire:click.prevent="$dispatch('switchView', 'about')">About</a>
 
     </nav>
 

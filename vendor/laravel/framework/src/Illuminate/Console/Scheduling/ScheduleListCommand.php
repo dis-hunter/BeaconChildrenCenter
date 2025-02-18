@@ -5,9 +5,9 @@ namespace Illuminate\Console\Scheduling;
 use Closure;
 use Cron\CronExpression;
 use DateTimeZone;
-use Illuminate\Console\Application;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionFunction;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -25,17 +25,6 @@ class ScheduleListCommand extends Command
         {--timezone= : The timezone that times should be displayed in}
         {--next : Sort the listed tasks by their next due date}
     ';
-
-    /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'schedule:list';
 
     /**
      * The console command description.
@@ -61,7 +50,7 @@ class ScheduleListCommand extends Command
      */
     public function handle(Schedule $schedule)
     {
-        $events = collect($schedule->events());
+        $events = new Collection($schedule->events());
 
         if ($events->isEmpty()) {
             $this->components->info('No scheduled tasks have been defined.');
@@ -73,66 +62,14 @@ class ScheduleListCommand extends Command
 
         $expressionSpacing = $this->getCronExpressionSpacing($events);
 
+        $repeatExpressionSpacing = $this->getRepeatExpressionSpacing($events);
+
         $timezone = new DateTimeZone($this->option('timezone') ?? config('app.timezone'));
 
         $events = $this->sortEvents($events, $timezone);
 
-        $events = $events->map(function ($event) use ($terminalWidth, $expressionSpacing, $timezone) {
-            $expression = $this->formatCronExpression($event->expression, $expressionSpacing);
-
-            $command = $event->command ?? '';
-
-            $description = $event->description ?? '';
-
-            if (! $this->output->isVerbose()) {
-                $command = str_replace([Application::phpBinary(), Application::artisanBinary()], [
-                    'php',
-                    preg_replace("#['\"]#", '', Application::artisanBinary()),
-                ], $command);
-            }
-
-            if ($event instanceof CallbackEvent) {
-                if (class_exists($description)) {
-                    $command = $description;
-                    $description = '';
-                } else {
-                    $command = 'Closure at: '.$this->getClosureLocation($event);
-                }
-            }
-
-            $command = mb_strlen($command) > 1 ? "{$command} " : '';
-
-            $nextDueDateLabel = 'Next Due:';
-
-            $nextDueDate = $this->getNextDueDateForEvent($event, $timezone);
-
-            $nextDueDate = $this->output->isVerbose()
-                ? $nextDueDate->format('Y-m-d H:i:s P')
-                : $nextDueDate->diffForHumans();
-
-            $hasMutex = $event->mutex->exists($event) ? 'Has Mutex › ' : '';
-
-            $dots = str_repeat('.', max(
-                $terminalWidth - mb_strlen($expression.$command.$nextDueDateLabel.$nextDueDate.$hasMutex) - 8, 0
-            ));
-
-            // Highlight the parameters...
-            $command = preg_replace("#(php artisan [\w\-:]+) (.+)#", '$1 <fg=yellow;options=bold>$2</>', $command);
-
-            return [sprintf(
-                '  <fg=yellow>%s</>  %s<fg=#6C7280>%s %s%s %s</>',
-                $expression,
-                $command,
-                $dots,
-                $hasMutex,
-                $nextDueDateLabel,
-                $nextDueDate
-            ), $this->output->isVerbose() && mb_strlen($description) > 1 ? sprintf(
-                '  <fg=#6C7280>%s%s %s</>',
-                str_repeat(' ', mb_strlen($expression) + 2),
-                '⇁',
-                $description
-            ) : ''];
+        $events = $events->map(function ($event) use ($terminalWidth, $expressionSpacing, $repeatExpressionSpacing, $timezone) {
+            return $this->listEvent($event, $terminalWidth, $expressionSpacing, $repeatExpressionSpacing, $timezone);
         });
 
         $this->line(
@@ -141,7 +78,7 @@ class ScheduleListCommand extends Command
     }
 
     /**
-     * Gets the spacing to be used on each event row.
+     * Get the spacing to be used on each event row.
      *
      * @param  \Illuminate\Support\Collection  $events
      * @return array<int, int>
@@ -150,11 +87,101 @@ class ScheduleListCommand extends Command
     {
         $rows = $events->map(fn ($event) => array_map('mb_strlen', preg_split("/\s+/", $event->expression)));
 
-        return collect($rows[0] ?? [])->keys()->map(fn ($key) => $rows->max($key))->all();
+        return (new Collection($rows[0] ?? []))->keys()->map(fn ($key) => $rows->max($key))->all();
     }
 
     /**
-     * Sorts the events by due date if option set.
+     * Get the spacing to be used on each event row.
+     *
+     * @param  \Illuminate\Support\Collection  $events
+     * @return int
+     */
+    private function getRepeatExpressionSpacing($events)
+    {
+        return $events->map(fn ($event) => mb_strlen($this->getRepeatExpression($event)))->max();
+    }
+
+    /**
+     * List the given even in the console.
+     *
+     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param  int  $terminalWidth
+     * @param  array  $expressionSpacing
+     * @param  int  $repeatExpressionSpacing
+     * @param  \DateTimeZone  $timezone
+     * @return array
+     */
+    private function listEvent($event, $terminalWidth, $expressionSpacing, $repeatExpressionSpacing, $timezone)
+    {
+        $expression = $this->formatCronExpression($event->expression, $expressionSpacing);
+
+        $repeatExpression = str_pad($this->getRepeatExpression($event), $repeatExpressionSpacing);
+
+        $command = $event->command ?? '';
+
+        $description = $event->description ?? '';
+
+        if (! $this->output->isVerbose()) {
+            $command = $event->normalizeCommand($command);
+        }
+
+        if ($event instanceof CallbackEvent) {
+            $command = $event->getSummaryForDisplay();
+
+            if (in_array($command, ['Closure', 'Callback'])) {
+                $command = 'Closure at: '.$this->getClosureLocation($event);
+            }
+        }
+
+        $command = mb_strlen($command) > 1 ? "{$command} " : '';
+
+        $nextDueDateLabel = 'Next Due:';
+
+        $nextDueDate = $this->getNextDueDateForEvent($event, $timezone);
+
+        $nextDueDate = $this->output->isVerbose()
+            ? $nextDueDate->format('Y-m-d H:i:s P')
+            : $nextDueDate->diffForHumans();
+
+        $hasMutex = $event->mutex->exists($event) ? 'Has Mutex › ' : '';
+
+        $dots = str_repeat('.', max(
+            $terminalWidth - mb_strlen($expression.$repeatExpression.$command.$nextDueDateLabel.$nextDueDate.$hasMutex) - 8, 0
+        ));
+
+        // Highlight the parameters...
+        $command = preg_replace("#(php artisan [\w\-:]+) (.+)#", '$1 <fg=yellow;options=bold>$2</>', $command);
+
+        return [sprintf(
+            '  <fg=yellow>%s</> <fg=#6C7280>%s</> %s<fg=#6C7280>%s %s%s %s</>',
+            $expression,
+            $repeatExpression,
+            $command,
+            $dots,
+            $hasMutex,
+            $nextDueDateLabel,
+            $nextDueDate
+        ), $this->output->isVerbose() && mb_strlen($description) > 1 ? sprintf(
+            '  <fg=#6C7280>%s%s %s</>',
+            str_repeat(' ', mb_strlen($expression) + 2),
+            '⇁',
+            $description
+        ) : ''];
+    }
+
+    /**
+     * Get the repeat expression for an event.
+     *
+     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @return string
+     */
+    private function getRepeatExpression($event)
+    {
+        return $event->isRepeatable() ? "{$event->repeatSeconds}s " : '';
+    }
+
+    /**
+     * Sort the events by due date if option set.
      *
      * @param  \Illuminate\Support\Collection  $events
      * @param  \DateTimeZone  $timezone
@@ -176,15 +203,35 @@ class ScheduleListCommand extends Command
      */
     private function getNextDueDateForEvent($event, DateTimeZone $timezone)
     {
-        return Carbon::instance(
+        $nextDueDate = Carbon::instance(
             (new CronExpression($event->expression))
                 ->getNextRunDate(Carbon::now()->setTimezone($event->timezone))
                 ->setTimezone($timezone)
         );
+
+        if (! $event->isRepeatable()) {
+            return $nextDueDate;
+        }
+
+        $previousDueDate = Carbon::instance(
+            (new CronExpression($event->expression))
+                ->getPreviousRunDate(Carbon::now()->setTimezone($event->timezone), allowCurrentDate: true)
+                ->setTimezone($timezone)
+        );
+
+        $now = Carbon::now()->setTimezone($event->timezone);
+
+        if (! $now->copy()->startOfMinute()->eq($previousDueDate)) {
+            return $nextDueDate;
+        }
+
+        return $now
+            ->endOfSecond()
+            ->ceilSeconds($event->repeatSeconds);
     }
 
     /**
-     * Formats the cron expression based on the spacing provided.
+     * Format the cron expression based on the spacing provided.
      *
      * @param  string  $expression
      * @param  array<int, int>  $spacing
@@ -194,7 +241,7 @@ class ScheduleListCommand extends Command
     {
         $expressions = preg_split("/\s+/", $expression);
 
-        return collect($spacing)
+        return (new Collection($spacing))
             ->map(fn ($length, $index) => str_pad($expressions[$index], $length))
             ->implode(' ');
     }
@@ -207,9 +254,7 @@ class ScheduleListCommand extends Command
      */
     private function getClosureLocation(CallbackEvent $event)
     {
-        $callback = tap((new ReflectionClass($event))->getProperty('callback'))
-                        ->setAccessible(true)
-                        ->getValue($event);
+        $callback = (new ReflectionClass($event))->getProperty('callback')->getValue($event);
 
         if ($callback instanceof Closure) {
             $function = new ReflectionFunction($callback);

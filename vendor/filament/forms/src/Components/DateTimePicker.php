@@ -5,32 +5,43 @@ namespace Filament\Forms\Components;
 use Carbon\CarbonInterface;
 use Carbon\Exceptions\InvalidFormatException;
 use Closure;
+use DateTime;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Illuminate\Support\Carbon;
 use Illuminate\View\ComponentAttributeBag;
 
-class DateTimePicker extends Field
+class DateTimePicker extends Field implements Contracts\HasAffixActions
 {
+    use Concerns\CanBeNative;
+    use Concerns\CanBeReadOnly;
+    use Concerns\HasAffixes;
+    use Concerns\HasDatalistOptions;
+    use Concerns\HasExtraInputAttributes;
     use Concerns\HasPlaceholder;
+    use Concerns\HasStep;
     use HasExtraAlpineAttributes;
 
-    protected string $view = 'forms::components.date-time-picker';
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-forms::components.date-time-picker';
 
     protected string | Closure | null $displayFormat = null;
 
+    /**
+     * @var array<array<mixed> | Closure>
+     */
     protected array $extraTriggerAttributes = [];
 
-    protected int | null $firstDayOfWeek = null;
+    protected ?int $firstDayOfWeek = null;
 
     protected string | Closure | null $format = null;
 
-    protected string | bool | Closure | null $icon = null;
+    protected bool | Closure $hasDate = true;
 
-    protected bool | Closure $isWithoutDate = false;
+    protected bool | Closure $hasSeconds = true;
 
-    protected bool | Closure $isWithoutSeconds = false;
-
-    protected bool | Closure $isWithoutTime = false;
+    protected bool | Closure $hasTime = true;
 
     protected bool | Closure $shouldCloseOnDateSelection = false;
 
@@ -40,7 +51,22 @@ class DateTimePicker extends Field
 
     protected string | Closure | null $timezone = null;
 
+    protected string | Closure | null $locale = null;
+
+    /**
+     * @var array<DateTime | string> | Closure
+     */
     protected array | Closure $disabledDates = [];
+
+    public static string $defaultDateDisplayFormat = 'M j, Y';
+
+    public static string $defaultDateTimeDisplayFormat = 'M j, Y H:i';
+
+    public static string $defaultDateTimeWithSecondsDisplayFormat = 'M j, Y H:i:s';
+
+    public static string $defaultTimeDisplayFormat = 'H:i';
+
+    public static string $defaultTimeWithSecondsDisplayFormat = 'H:i:s';
 
     protected int | Closure | null $hoursStep = null;
 
@@ -59,15 +85,41 @@ class DateTimePicker extends Field
 
             if (! $state instanceof CarbonInterface) {
                 try {
-                    $state = Carbon::createFromFormat($component->getFormat(), $state);
+                    $state = Carbon::createFromFormat($component->getFormat(), (string) $state, config('app.timezone'));
                 } catch (InvalidFormatException $exception) {
-                    $state = Carbon::parse($state);
+                    try {
+                        $state = Carbon::parse($state, config('app.timezone'));
+                    } catch (InvalidFormatException $exception) {
+                        $component->state(null);
+
+                        return;
+                    }
                 }
             }
 
-            $state->setTimezone($component->getTimezone());
+            $state = $state->setTimezone($component->getTimezone());
 
-            $component->state((string) $state);
+            if (! $component->isNative()) {
+                $component->state((string) $state);
+
+                return;
+            }
+
+            if (! $component->hasTime()) {
+                $component->state($state->toDateString());
+
+                return;
+            }
+
+            $precision = $component->hasSeconds() ? 'second' : 'minute';
+
+            if (! $component->hasDate()) {
+                $component->state($state->toTimeString($precision));
+
+                return;
+            }
+
+            $component->state($state->toDateTimeString($precision));
         });
 
         $this->dehydrateStateUsing(static function (DateTimePicker $component, $state) {
@@ -98,6 +150,9 @@ class DateTimePicker extends Field
         return $this;
     }
 
+    /**
+     * @param  array<mixed> | Closure  $attributes
+     */
     public function extraTriggerAttributes(array | Closure $attributes, bool $merge = false): static
     {
         if ($merge) {
@@ -109,7 +164,7 @@ class DateTimePicker extends Field
         return $this;
     }
 
-    public function firstDayOfWeek(int | null $day): static
+    public function firstDayOfWeek(?int $day): static
     {
         if ($day < 0 || $day > 7) {
             $day = null;
@@ -127,11 +182,16 @@ class DateTimePicker extends Field
         return $this;
     }
 
-    public function icon(string | bool | Closure | null $icon): static
+    /**
+     * @deprecated Use `suffixIcon('heroicon-m-calendar')` instead.
+     */
+    public function icon(string | bool | null $icon = null): static
     {
-        $this->icon = $icon;
+        if ($icon === false) {
+            return $this;
+        }
 
-        return $this;
+        return $this->suffixIcon($icon ?? 'heroicon-m-calendar', isInline: true);
     }
 
     public function maxDate(CarbonInterface | string | Closure | null $date): static
@@ -156,6 +216,9 @@ class DateTimePicker extends Field
         return $this;
     }
 
+    /**
+     * @param  array<DateTime | string> | Closure  $dates
+     */
     public function disabledDates(array | Closure $dates): static
     {
         $this->disabledDates = $dates;
@@ -198,6 +261,13 @@ class DateTimePicker extends Field
         return $this;
     }
 
+    public function locale(string | Closure | null $locale): static
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function weekStartsOnMonday(): static
     {
         $this->firstDayOfWeek(1);
@@ -212,23 +282,53 @@ class DateTimePicker extends Field
         return $this;
     }
 
+    public function date(bool | Closure $condition = true): static
+    {
+        $this->hasDate = $condition;
+
+        return $this;
+    }
+
+    public function seconds(bool | Closure $condition = true): static
+    {
+        $this->hasSeconds = $condition;
+
+        return $this;
+    }
+
+    public function time(bool | Closure $condition = true): static
+    {
+        $this->hasTime = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated Use `date()` instead.
+     */
     public function withoutDate(bool | Closure $condition = true): static
     {
-        $this->isWithoutDate = $condition;
+        $this->date(fn (DateTimePicker $component): bool => ! $component->evaluate($condition));
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `seconds()` instead.
+     */
     public function withoutSeconds(bool | Closure $condition = true): static
     {
-        $this->isWithoutSeconds = $condition;
+        $this->seconds(fn (DateTimePicker $component): bool => ! $component->evaluate($condition));
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `time()` instead.
+     */
     public function withoutTime(bool | Closure $condition = true): static
     {
-        $this->isWithoutTime = $condition;
+        $this->time(fn (DateTimePicker $component): bool => ! $component->evaluate($condition));
 
         return $this;
     }
@@ -249,23 +349,26 @@ class DateTimePicker extends Field
         }
 
         if (! $this->hasTime()) {
-            return config('forms.components.date_time_picker.display_formats.date', 'M j, Y');
+            return static::$defaultDateDisplayFormat;
         }
 
         if (! $this->hasDate()) {
             return $this->hasSeconds() ?
-                config('forms.components.date_time_picker.display_formats.time_with_seconds', 'H:i:s') :
-                config('forms.components.date_time_picker.display_formats.time', 'H:i');
+                static::$defaultTimeWithSecondsDisplayFormat :
+                static::$defaultTimeDisplayFormat;
         }
 
         return $this->hasSeconds() ?
-            config('forms.components.date_time_picker.display_formats.date_time_with_seconds', 'M j, Y H:i:s') :
-            config('forms.components.date_time_picker.display_formats.date_time', 'M j, Y H:i');
+            static::$defaultDateTimeWithSecondsDisplayFormat :
+            static::$defaultDateTimeDisplayFormat;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getExtraTriggerAttributes(): array
     {
-        $temporaryAttributeBag = new ComponentAttributeBag();
+        $temporaryAttributeBag = new ComponentAttributeBag;
 
         foreach ($this->extraTriggerAttributes as $extraTriggerAttributes) {
             $temporaryAttributeBag = $temporaryAttributeBag->merge($this->evaluate($extraTriggerAttributes));
@@ -281,7 +384,7 @@ class DateTimePicker extends Field
 
     public function getFirstDayOfWeek(): int
     {
-        return $this->firstDayOfWeek ?? $this->getDefaultFirstDayOfWeek();
+        return $this->firstDayOfWeek ?? 1;
     }
 
     public function getFormat(): string
@@ -317,6 +420,9 @@ class DateTimePicker extends Field
         return $this->evaluate($this->minDate);
     }
 
+    /**
+     * @return array<DateTime | string>
+     */
     public function getDisabledDates(): array
     {
         return $this->evaluate($this->disabledDates);
@@ -327,19 +433,24 @@ class DateTimePicker extends Field
         return $this->evaluate($this->timezone) ?? config('app.timezone');
     }
 
+    public function getLocale(): string
+    {
+        return $this->evaluate($this->locale) ?? config('app.locale');
+    }
+
     public function hasDate(): bool
     {
-        return ! $this->evaluate($this->isWithoutDate);
+        return (bool) $this->evaluate($this->hasDate);
     }
 
     public function hasSeconds(): bool
     {
-        return ! $this->evaluate($this->isWithoutSeconds);
+        return (bool) $this->evaluate($this->hasSeconds);
     }
 
     public function hasTime(): bool
     {
-        return ! $this->evaluate($this->isWithoutTime);
+        return (bool) $this->evaluate($this->hasTime);
     }
 
     public function getHoursStep(): int
@@ -359,16 +470,56 @@ class DateTimePicker extends Field
 
     public function shouldCloseOnDateSelection(): bool
     {
-        return $this->evaluate($this->shouldCloseOnDateSelection);
+        return (bool) $this->evaluate($this->shouldCloseOnDateSelection);
     }
 
-    protected function getDefaultFirstDayOfWeek(): int
+    public function getStep(): int | float | string | null
     {
-        return config('forms.components.date_time_picker.first_day_of_week', 1);
+        $step = $this->evaluate($this->step);
+
+        if (filled($step)) {
+            return $step;
+        }
+
+        if (! $this->hasTime()) {
+            return null;
+        }
+
+        $secondsStep = $this->getSecondsStep();
+
+        if ($secondsStep > 1) {
+            return $secondsStep;
+        }
+
+        $minutesStep = $this->getMinutesStep();
+
+        if ($minutesStep > 1) {
+            return $minutesStep * 60;
+        }
+
+        $hoursStep = $this->getHoursStep();
+
+        if ($hoursStep > 1) {
+            return $hoursStep * 3600;
+        }
+
+        if (! $this->hasSeconds()) {
+            return null;
+        }
+
+        return 1;
     }
 
-    public function getIcon(): string | bool | null
+    public function getType(): string
     {
-        return $this->evaluate($this->icon);
+        if (! $this->hasDate()) {
+            return 'time';
+        }
+
+        if (! $this->hasTime()) {
+            return 'date';
+        }
+
+        return 'datetime-local';
     }
 }

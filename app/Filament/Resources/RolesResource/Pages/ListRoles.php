@@ -10,7 +10,7 @@ class ListRoles extends ListRecords
 {
     protected static string $resource = RolesResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),

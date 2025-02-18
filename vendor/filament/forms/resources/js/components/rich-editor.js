@@ -1,7 +1,4 @@
-import Trix from 'trix/dist/trix'
-
-import 'trix/dist/trix.css'
-import '../../css/components/rich-editor.css'
+import Trix from 'trix'
 
 Trix.config.blockAttributes.default.tagName = 'p'
 
@@ -33,9 +30,8 @@ Trix.config.textAttributes.underline = {
 
 Trix.Block.prototype.breaksOnReturn = function () {
     const lastAttribute = this.getLastAttribute()
-    const blockConfig = Trix.getBlockConfig(
-        lastAttribute ? lastAttribute : 'default',
-    )
+    const blockConfig =
+        Trix.config.blockAttributes[lastAttribute ? lastAttribute : 'default']
 
     return blockConfig?.breakOnReturn ?? false
 }
@@ -52,22 +48,22 @@ Trix.LineBreakInsertion.prototype.shouldInsertBlockBreak = function () {
     }
 }
 
-export default (Alpine) => {
-    Alpine.data('richEditorFormComponent', ({ state }) => {
-        return {
-            state,
+export default function richEditorFormComponent({ state }) {
+    return {
+        state,
 
-            init: function () {
-                this.$refs.trix?.editor?.loadHTML(this.state)
+        init: function () {
+            this.$refs.trixValue.value = this.state
+            this.$refs.trix.editor?.loadHTML(this.state ?? '')
 
-                this.$watch('state', () => {
-                    if (document.activeElement === this.$refs.trix) {
-                        return
-                    }
+            this.$watch('state', () => {
+                if (document.activeElement === this.$refs.trix) {
+                    return
+                }
 
-                    this.$refs.trix?.editor?.loadHTML(this.state)
-                })
-            },
-        }
-    })
+                this.$refs.trixValue.value = this.state
+                this.$refs.trix.editor?.loadHTML(this.state ?? '')
+            })
+        },
+    }
 }

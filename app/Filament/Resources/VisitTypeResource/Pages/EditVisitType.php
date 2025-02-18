@@ -10,7 +10,7 @@ class EditVisitType extends EditRecord
 {
     protected static string $resource = VisitTypeResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),

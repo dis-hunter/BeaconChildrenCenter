@@ -15,13 +15,11 @@ class DeleteAccountTest extends TestCase
     {
         if (! Features::hasAccountDeletionFeatures()) {
             $this->markTestSkipped('Account deletion is not enabled.');
-
-            return;
         }
 
         $this->actingAs($user = User::factory()->create());
 
-        $response = $this->delete('/user', [
+        $this->delete('/user', [
             'password' => 'password',
         ]);
 
@@ -32,13 +30,11 @@ class DeleteAccountTest extends TestCase
     {
         if (! Features::hasAccountDeletionFeatures()) {
             $this->markTestSkipped('Account deletion is not enabled.');
-
-            return;
         }
 
         $this->actingAs($user = User::factory()->create());
 
-        $response = $this->delete('/user', [
+        $this->delete('/user', [
             'password' => 'wrong-password',
         ]);
 

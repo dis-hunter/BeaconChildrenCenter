@@ -2,11 +2,11 @@
 
 return [
 
-    'title' => 'سەیرکردن :label',
+    'title' => 'بینینی :label',
 
-    'breadcrumb' => 'سەیرکردن',
+    'breadcrumb' => 'بینین',
 
-    'form' => [
+    'content' => [
 
         'tab' => [
             'label' => 'بینین',

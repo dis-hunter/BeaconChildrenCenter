@@ -2,50 +2,100 @@
 
 namespace Filament\Forms\Components\Actions;
 
-use Filament\Forms\Components\Actions\Modal\Actions\Action as ModalAction;
-use Filament\Support\Actions\Action as BaseAction;
-use Filament\Support\Actions\Concerns\CanBeDisabled;
-use Filament\Support\Actions\Concerns\CanOpenUrl;
-use Filament\Support\Actions\Concerns\HasTooltip;
+use Exception;
+use Filament\Actions\Concerns\HasMountableArguments;
+use Filament\Actions\MountableAction;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Js;
 
-class Action extends BaseAction
+class Action extends MountableAction
 {
     use Concerns\BelongsToComponent;
-    use CanBeDisabled;
-    use CanOpenUrl;
-    use HasTooltip;
+    use HasMountableArguments;
 
-    protected string $view = 'forms::components.actions.icon-button-action';
-
-    public function iconButton(): static
-    {
-        $this->view('forms::components.actions.icon-button-action');
-
-        return $this;
-    }
-
-    protected function getLivewireCallActionName(): string
+    public function getLivewireCallMountedActionName(): string
     {
         return 'callMountedFormComponentAction';
     }
 
-    protected static function getModalActionClass(): string
+    public function getLivewireClickHandler(): ?string
     {
-        return ModalAction::class;
+        if (! $this->isLivewireClickHandlerEnabled()) {
+            return null;
+        }
+
+        if (is_string($this->action)) {
+            return $this->action;
+        }
+
+        if ($event = $this->getLivewireEventClickHandler()) {
+            return $event;
+        }
+
+        $argumentsParameter = '';
+
+        if (count($arguments = $this->getArguments())) {
+            $argumentsParameter .= ', ';
+            $argumentsParameter .= Js::from($arguments);
+            $argumentsParameter .= '';
+        }
+
+        $componentKey = $this->getComponent()->getKey();
+
+        if (blank($componentKey)) {
+            $componentClass = $this->getComponent()::class;
+
+            throw new Exception("The form component [{$componentClass}] must have a [key()] set in order to use actions. This [key()] must be a unique identifier for the component.");
+        }
+
+        return "mountFormComponentAction('{$componentKey}', '{$this->getName()}'{$argumentsParameter})";
     }
 
-    public static function makeModalAction(string $name): ModalAction
+    public function toFormComponent(): ActionContainer
     {
-        /** @var ModalAction $action */
-        $action = parent::makeModalAction($name);
+        $component = ActionContainer::make($this);
 
-        return $action;
+        $this->component($component);
+
+        return $component;
     }
 
-    protected function getDefaultEvaluationParameters(): array
+    /**
+     * @return array<mixed>
+     */
+    protected function resolveDefaultClosureDependencyForEvaluationByName(string $parameterName): array
     {
-        return array_merge(parent::getDefaultEvaluationParameters(), [
-            'component' => $this->getComponent(),
-        ]);
+        return match ($parameterName) {
+            'component' => [$this->getComponent()],
+            'context', 'operation' => [$this->getComponent()->getContainer()->getOperation()],
+            'get' => [$this->getComponent()->getGetCallback()],
+            'model' => [$this->getComponent()->getModel()],
+            'record' => [$this->getComponent()->getRecord()],
+            'set' => [$this->getComponent()->getSetCallback()],
+            'state' => [$this->getComponent()->getState()],
+            default => parent::resolveDefaultClosureDependencyForEvaluationByName($parameterName),
+        };
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    protected function resolveDefaultClosureDependencyForEvaluationByType(string $parameterType): array
+    {
+        $record = $this->getComponent()->getRecord();
+
+        if (! $record) {
+            return parent::resolveDefaultClosureDependencyForEvaluationByType($parameterType);
+        }
+
+        return match ($parameterType) {
+            Model::class, $record::class => [$record],
+            default => parent::resolveDefaultClosureDependencyForEvaluationByType($parameterType),
+        };
+    }
+
+    public function getInfolistName(): string
+    {
+        return 'mountedFormComponentActionInfolist';
     }
 }

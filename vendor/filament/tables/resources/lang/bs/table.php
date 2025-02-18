@@ -4,12 +4,8 @@ return [
 
     'columns' => [
 
-        'tags' => [
-            'more' => 'i :count više',
-        ],
-
-        'messages' => [
-            'copied' => 'Kopirano',
+        'text' => [
+            'more_list_items' => 'i :count više',
         ],
 
     ],
@@ -24,52 +20,14 @@ return [
             'label' => 'Odaberi/poništi odabir stavke :key za grupne radnje.',
         ],
 
-        'search_query' => [
+        'search' => [
             'label' => 'Pretraga',
             'placeholder' => 'Tražite',
         ],
 
     ],
 
-    'pagination' => [
-
-        'label' => 'Navigacija po stranicama',
-
-        'overview' => '{1} Prikazuje 1 rezultat|[2,*]Prikazivanje :first od :last od ukupno :total rezultata',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'po stranici',
-
-                'options' => [
-                    'all' => 'Svi',
-                ],
-
-            ],
-
-        ],
-
-        'buttons' => [
-
-            'go_to_page' => [
-                'label' => 'Idite na stranicu :page',
-            ],
-
-            'next' => [
-                'label' => 'Dalje',
-            ],
-
-            'previous' => [
-                'label' => 'Nazad',
-            ],
-
-        ],
-
-    ],
-
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Završi preuređivanje zapisa',
@@ -83,7 +41,7 @@ return [
             'label' => 'Filter',
         ],
 
-        'open_actions' => [
+        'open_bulk_actions' => [
             'label' => 'Otvorene akcije',
         ],
 
@@ -99,7 +57,7 @@ return [
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
 
             'remove' => [
                 'label' => 'Skloni filter',
@@ -144,9 +102,9 @@ return [
 
     'selection_indicator' => [
 
-        'selected_count' => '1 izabran zapis.|:count izabrani zapisi.',
+        'selected_count' => '1 izabran zapis|:count izabrani zapisi',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Izaberite sve :count',

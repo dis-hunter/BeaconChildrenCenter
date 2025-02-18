@@ -4,30 +4,53 @@ namespace Filament\Forms\Components\Concerns;
 
 use Closure;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 
+use function Livewire\store;
+
 trait HasState
 {
     protected ?Closure $afterStateHydrated = null;
 
-    protected ?Closure $afterStateUpdated = null;
+    /**
+     * @var array<Closure>
+     */
+    protected array $afterStateUpdated = [];
 
     protected ?Closure $beforeStateDehydrated = null;
 
-    protected $defaultState = null;
+    protected mixed $defaultState = null;
 
     protected ?Closure $dehydrateStateUsing = null;
 
     protected ?Closure $mutateDehydratedStateUsing = null;
 
+    protected ?Closure $mutateStateForValidationUsing = null;
+
     protected bool $hasDefaultState = false;
 
     protected bool | Closure $isDehydrated = true;
 
+    protected bool | Closure $isDehydratedWhenHidden = false;
+
     protected ?string $statePath = null;
+
+    protected string $cachedAbsoluteStatePath;
+
+    /**
+     * @var string | array<string> | Closure | null
+     */
+    protected string | array | Closure | null $stripCharacters = null;
+
+    /**
+     * @var array<string>
+     */
+    protected array $cachedStripCharacters;
 
     public function afterStateHydrated(?Closure $callback): static
     {
@@ -36,9 +59,16 @@ trait HasState
         return $this;
     }
 
+    public function clearAfterStateUpdatedHooks(): static
+    {
+        $this->afterStateUpdated = [];
+
+        return $this;
+    }
+
     public function afterStateUpdated(?Closure $callback): static
     {
-        $this->afterStateUpdated = $callback;
+        $this->afterStateUpdated[] = $callback;
 
         return $this;
     }
@@ -61,13 +91,26 @@ trait HasState
 
     public function callAfterStateUpdated(): static
     {
-        if ($callback = $this->afterStateUpdated) {
-            $this->evaluate($callback, [
-                'old' => $this->getOldState(),
-            ]);
+        foreach ($this->afterStateUpdated as $callback) {
+            $runId = spl_object_id($callback) . md5(json_encode($this->getState()));
+
+            if (store($this)->has('executedAfterStateUpdatedCallbacks', iKey: $runId)) {
+                continue;
+            }
+
+            $this->callAfterStateUpdatedHook($callback);
+
+            store($this)->push('executedAfterStateUpdatedCallbacks', value: $runId, iKey: $runId);
         }
 
         return $this;
+    }
+
+    protected function callAfterStateUpdatedHook(Closure $hook): void
+    {
+        $this->evaluate($hook, [
+            'old' => $this->getOldState(),
+        ]);
     }
 
     public function callBeforeStateDehydrated(): static
@@ -79,7 +122,7 @@ trait HasState
         return $this;
     }
 
-    public function default($state): static
+    public function default(mixed $state): static
     {
         $this->defaultState = $state;
         $this->hasDefaultState = true;
@@ -94,6 +137,13 @@ trait HasState
         return $this;
     }
 
+    public function dehydratedWhenHidden(bool | Closure $condition = true): static
+    {
+        $this->isDehydratedWhenHidden = $condition;
+
+        return $this;
+    }
+
     public function formatStateUsing(?Closure $callback): static
     {
         $this->afterStateHydrated(fn (Component $component) => $component->state($component->evaluate($callback)));
@@ -101,6 +151,9 @@ trait HasState
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getStateToDehydrate(): array
     {
         if ($callback = $this->dehydrateStateUsing) {
@@ -110,10 +163,25 @@ trait HasState
         return [$this->getStatePath() => $this->getState()];
     }
 
-    public function dehydrateState(array &$state): void
+    /**
+     * @param  array<string, mixed>  $state
+     */
+    public function dehydrateState(array &$state, bool $isDehydrated = true): void
     {
-        if (! $this->isDehydrated()) {
-            Arr::forget($state, $this->getStatePath());
+        if (! ($isDehydrated && $this->isDehydrated())) {
+            if ($this->hasStatePath()) {
+                Arr::forget($state, $this->getStatePath());
+
+                return;
+            }
+
+            // If the component is not dehydrated, but it has child components,
+            // we need to dehydrate the child component containers while
+            // informing them that they are not dehydrated, so that their
+            // child components get removed from the state.
+            foreach ($this->getChildComponentContainers() as $container) {
+                $container->dehydrateState($state, isDehydrated: false);
+            }
 
             return;
         }
@@ -124,12 +192,12 @@ trait HasState
             }
         }
 
-        foreach ($this->getChildComponentContainers() as $container) {
-            if ($container->isHidden()) {
-                continue;
-            }
+        if ($this->isHiddenAndNotDehydrated()) {
+            return;
+        }
 
-            $container->dehydrateState($state);
+        foreach ($this->getChildComponentContainers(withHidden: true) as $container) {
+            $container->dehydrateState($state, $isDehydrated);
         }
     }
 
@@ -140,15 +208,20 @@ trait HasState
         return $this;
     }
 
-    public function hydrateState(?array &$hydratedDefaultState): void
+    /**
+     * @param  array<string, mixed> | null  $hydratedDefaultState
+     */
+    public function hydrateState(?array &$hydratedDefaultState, bool $andCallHydrationHooks = true): void
     {
         $this->hydrateDefaultState($hydratedDefaultState);
 
         foreach ($this->getChildComponentContainers(withHidden: true) as $container) {
-            $container->hydrateState($hydratedDefaultState);
+            $container->hydrateState($hydratedDefaultState, $andCallHydrationHooks);
         }
 
-        $this->callAfterStateHydrated();
+        if ($andCallHydrationHooks) {
+            $this->callAfterStateHydrated();
+        }
     }
 
     public function fill(): void
@@ -158,6 +231,9 @@ trait HasState
         $this->hydrateDefaultState($defaults);
     }
 
+    /**
+     * @param  array<string, mixed> | null  $hydratedDefaultState
+     */
     public function hydrateDefaultState(?array &$hydratedDefaultState): void
     {
         if ($hydratedDefaultState === null) {
@@ -181,14 +257,14 @@ trait HasState
         }
 
         if (! $this->hasDefaultState()) {
-            $this->state(null);
+            $this->hasStatePath() && $this->state(null);
 
             return;
         }
 
         $defaultState = $this->getDefaultState();
 
-        $this->state($this->getDefaultState());
+        $this->state($defaultState);
 
         Arr::set($hydratedDefaultState, $statePath, $defaultState);
     }
@@ -204,17 +280,62 @@ trait HasState
         }
     }
 
-    public function mutateDehydratedState($state)
+    public function mutateDehydratedState(mixed $state): mixed
     {
+        $state = $this->stripCharactersFromState($state);
+
+        if (! $this->mutateDehydratedStateUsing) {
+            return $state;
+        }
+
         return $this->evaluate(
             $this->mutateDehydratedStateUsing,
             ['state' => $state],
         );
     }
 
+    public function mutateStateForValidation(mixed $state): mixed
+    {
+        $state = $this->stripCharactersFromState($state);
+
+        if (! $this->mutateStateForValidationUsing) {
+            return $state;
+        }
+
+        return $this->evaluate(
+            $this->mutateStateForValidationUsing,
+            ['state' => $state],
+        );
+    }
+
+    protected function stripCharactersFromState(mixed $state): mixed
+    {
+        if (! is_string($state)) {
+            return $state;
+        }
+
+        $stripCharacters = $this->getStripCharacters();
+
+        if (empty($stripCharacters)) {
+            return $state;
+        }
+
+        return str_replace($stripCharacters, '', $state);
+    }
+
     public function mutatesDehydratedState(): bool
     {
-        return $this->mutateDehydratedStateUsing instanceof Closure;
+        return ($this->mutateDehydratedStateUsing instanceof Closure) || $this->hasStripCharacters();
+    }
+
+    public function mutatesStateForValidation(): bool
+    {
+        return ($this->mutateStateForValidationUsing instanceof Closure) || $this->hasStripCharacters();
+    }
+
+    public function hasStripCharacters(): bool
+    {
+        return filled($this->getStripCharacters());
     }
 
     public function mutateDehydratedStateUsing(?Closure $callback): static
@@ -224,7 +345,14 @@ trait HasState
         return $this;
     }
 
-    public function state($state): static
+    public function mutateStateForValidationUsing(?Closure $callback): static
+    {
+        $this->mutateStateForValidationUsing = $callback;
+
+        return $this;
+    }
+
+    public function state(mixed $state): static
     {
         $livewire = $this->getLivewire();
 
@@ -240,12 +368,12 @@ trait HasState
         return $this;
     }
 
-    public function getDefaultState()
+    public function getDefaultState(): mixed
     {
         return $this->evaluate($this->defaultState);
     }
 
-    public function getState()
+    public function getState(): mixed
     {
         $state = data_get($this->getLivewire(), $this->getStatePath());
 
@@ -260,13 +388,13 @@ trait HasState
         return $state;
     }
 
-    public function getOldState()
+    public function getOldState(): mixed
     {
         if (! Livewire::isLivewireRequest()) {
             return null;
         }
 
-        $state = request('serverMemo.data.' . $this->getStatePath());
+        $state = $this->getLivewire()->getOldFormState($this->getStatePath());
 
         if (blank($state)) {
             return null;
@@ -277,17 +405,30 @@ trait HasState
 
     public function getStatePath(bool $isAbsolute = true): string
     {
+        if (! $isAbsolute) {
+            return $this->statePath ?? '';
+        }
+
+        if (isset($this->cachedAbsoluteStatePath)) {
+            return $this->cachedAbsoluteStatePath;
+        }
+
         $pathComponents = [];
 
-        if ($isAbsolute && ($containerStatePath = $this->getContainer()->getStatePath())) {
+        if ($containerStatePath = $this->getContainer()->getStatePath()) {
             $pathComponents[] = $containerStatePath;
         }
 
-        if (filled($statePath = $this->statePath)) {
-            $pathComponents[] = $statePath;
+        if ($this->hasStatePath()) {
+            $pathComponents[] = $this->statePath;
         }
 
-        return implode('.', $pathComponents);
+        return $this->cachedAbsoluteStatePath = implode('.', $pathComponents);
+    }
+
+    public function hasStatePath(): bool
+    {
+        return filled($this->statePath);
     }
 
     protected function hasDefaultState(): bool
@@ -300,34 +441,31 @@ trait HasState
         return (bool) $this->evaluate($this->isDehydrated);
     }
 
-    protected function getGetCallback(): Closure
+    public function isDehydratedWhenHidden(): bool
     {
-        return function (Component | string $path, bool $isAbsolute = false) {
-            $livewire = $this->getLivewire();
-
-            return data_get(
-                $livewire,
-                $this->generateRelativeStatePath($path, $isAbsolute)
-            );
-        };
+        return (bool) $this->evaluate($this->isDehydratedWhenHidden);
     }
 
-    protected function getSetCallback(): Closure
+    public function isHiddenAndNotDehydrated(): bool
     {
-        return function (string | Component $path, $state, bool $isAbsolute = false) {
-            $livewire = $this->getLivewire();
+        if (! $this->isHidden()) {
+            return false;
+        }
 
-            data_set(
-                $livewire,
-                $this->generateRelativeStatePath($path, $isAbsolute),
-                $this->evaluate($state),
-            );
-
-            return $state;
-        };
+        return ! $this->isDehydratedWhenHidden();
     }
 
-    protected function generateRelativeStatePath(string | Component $path, bool $isAbsolute = false): string
+    public function getGetCallback(): Get
+    {
+        return new Get($this);
+    }
+
+    public function getSetCallback(): Set
+    {
+        return new Set($this);
+    }
+
+    public function generateRelativeStatePath(string | Component $path = '', bool $isAbsolute = false): string
     {
         if ($path instanceof Component) {
             return $path->getStatePath();
@@ -339,18 +477,41 @@ trait HasState
 
         $containerPath = $this->getContainer()->getStatePath();
 
-        while (Str::of($path)->startsWith('../')) {
+        while (str($path)->startsWith('../')) {
             $containerPath = Str::contains($containerPath, '.') ?
-                (string) Str::of($containerPath)->beforeLast('.') :
+                (string) str($containerPath)->beforeLast('.') :
                 null;
 
-            $path = (string) Str::of($path)->after('../');
+            $path = (string) str($path)->after('../');
         }
 
         if (blank($containerPath)) {
             return $path;
         }
 
-        return "{$containerPath}.{$path}";
+        return filled(ltrim($path, './')) ? "{$containerPath}.{$path}" : $containerPath;
+    }
+
+    protected function flushCachedAbsoluteStatePath(): void
+    {
+        unset($this->cachedAbsoluteStatePath);
+    }
+
+    /**
+     * @param  string | array<string> | Closure | null  $characters
+     */
+    public function stripCharacters(string | array | Closure | null $characters): static
+    {
+        $this->stripCharacters = $characters;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getStripCharacters(): array
+    {
+        return $this->cachedStripCharacters ??= Arr::wrap($this->evaluate($this->stripCharacters));
     }
 }

@@ -2,13 +2,13 @@
 
 return [
 
-    'buttons' => [
+    'actions' => [
 
-        'visit_documentation' => [
-            'label' => 'Documentation',
+        'open_documentation' => [
+            'label' => 'ドキュメント',
         ],
 
-        'visit_github' => [
+        'open_github' => [
             'label' => 'GitHub',
         ],
 

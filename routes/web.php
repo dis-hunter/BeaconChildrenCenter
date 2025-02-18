@@ -224,11 +224,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\IcdSearchController;
 
 
-Route::get('/admin', function () {
-    return view('beaconAdmin');
-});
 
-// General Routes
 // General Routes
 Route::view('/', 'home')->name('home');
 
@@ -363,6 +359,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:3'], function () {
         Route::get('/dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
         Route::get('/patients/{id?}', [ChildrenController::class, 'patientGet'])->name('patients.search');
+        Route::get('/reception/search', [ReceptionController::class, 'search_engine'])->name('reception.search');
         Route::get('/guardians', [ChildrenController::class, 'get']);
         Route::post('/guardians', [ChildrenController::class, 'create']);
         Route::get('/guardians/{id?}', [ChildrenController::class, 'childGet'])->name('guardians.search');
@@ -394,7 +391,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
     
-    Route::get('/admin', [ChildrenController::class, 'showChildren2']);
+    //Route::get('/admin', [ChildrenController::class, 'showChildren2']);
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
     Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);

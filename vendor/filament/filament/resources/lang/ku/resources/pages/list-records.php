@@ -2,6 +2,6 @@
 
 return [
 
-    'breadcrumb' => 'لیست',
+    'breadcrumb' => 'تۆمارەکان',
 
 ];

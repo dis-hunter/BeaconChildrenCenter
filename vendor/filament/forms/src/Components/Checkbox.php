@@ -6,9 +6,13 @@ class Checkbox extends Field
 {
     use Concerns\CanBeAccepted;
     use Concerns\CanBeInline;
+    use Concerns\CanFixIndistinctState;
     use Concerns\HasExtraInputAttributes;
 
-    protected string $view = 'forms::components.checkbox';
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-forms::components.checkbox';
 
     protected function setUp(): void
     {

@@ -2,14 +2,27 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Columns',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'and :count more',
+        'actions' => [
+            'label' => 'Action|Actions',
         ],
 
-        'messages' => [
-            'copied' => 'Copied',
+        'text' => [
+
+            'actions' => [
+                'collapse_list' => 'Show :count less',
+                'expand_list' => 'Show :count more',
+            ],
+
+            'more_list_items' => 'and :count more',
+
         ],
 
     ],
@@ -24,52 +37,47 @@ return [
             'label' => 'Select/deselect item :key for bulk actions.',
         ],
 
-        'search_query' => [
+        'bulk_select_group' => [
+            'label' => 'Select/deselect group :title for bulk actions.',
+        ],
+
+        'search' => [
             'label' => 'Search',
             'placeholder' => 'Search',
+            'indicator' => 'Search',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Pagination Navigation',
+        'heading' => 'Summary',
 
-        'overview' => '{1} Showing 1 result|[2,*] Showing :first to :last of :total results',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'per page',
-
-                'options' => [
-                    'all' => 'All',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'All :label',
+            'group' => ':group summary',
+            'page' => 'This page',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Go to page :page',
+            'average' => [
+                'label' => 'Average',
             ],
 
-            'next' => [
-                'label' => 'Next',
+            'count' => [
+                'label' => 'Count',
             ],
 
-            'previous' => [
-                'label' => 'Previous',
+            'sum' => [
+                'label' => 'Sum',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Finish reordering records',
@@ -83,8 +91,12 @@ return [
             'label' => 'Filter',
         ],
 
-        'open_actions' => [
-            'label' => 'Open actions',
+        'group' => [
+            'label' => 'Group',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'Bulk actions',
         ],
 
         'toggle_columns' => [
@@ -95,21 +107,19 @@ return [
 
     'empty' => [
 
-        'heading' => 'No records found',
+        'heading' => 'No :model',
 
-        'buttons' => [
-
-            'reset_column_searches' => [
-                'label' => 'Clear column search',
-            ],
-
-        ],
+        'description' => 'Create a :model to get started.',
 
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Apply filters',
+            ],
 
             'remove' => [
                 'label' => 'Remove filter',
@@ -121,10 +131,12 @@ return [
             ],
 
             'reset' => [
-                'label' => 'Reset filters',
+                'label' => 'Reset',
             ],
 
         ],
+
+        'heading' => 'Filters',
 
         'indicator' => 'Active filters',
 
@@ -150,13 +162,37 @@ return [
 
     ],
 
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Group by',
+                'placeholder' => 'Group by',
+            ],
+
+            'direction' => [
+
+                'label' => 'Group direction',
+
+                'options' => [
+                    'asc' => 'Ascending',
+                    'desc' => 'Descending',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'reorder_indicator' => 'Drag and drop the records into order.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 record selected.|:count records selected.',
+        'selected_count' => '1 record selected|:count records selected',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Select all :count',

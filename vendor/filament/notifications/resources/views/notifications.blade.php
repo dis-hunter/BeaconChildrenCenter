@@ -1,16 +1,22 @@
+@php
+    use Filament\Support\Enums\Alignment;
+    use Filament\Support\Enums\VerticalAlignment;
+@endphp
+
 <div>
     <div
         @class([
-            'filament-notifications pointer-events-none fixed inset-4 z-50 mx-auto flex gap-3',
-            match (config('notifications.layout.alignment.horizontal')) {
-                'left' => 'items-start',
-                'center' => 'items-center',
-                'right' => 'items-end',
+            'fi-no pointer-events-none fixed inset-4 z-50 mx-auto flex gap-3',
+            match (static::$alignment) {
+                Alignment::Start, Alignment::Left => 'items-start',
+                Alignment::Center => 'items-center',
+                Alignment::End, Alignment::Right => 'items-end',
+                default => null,
             },
-            match (config('notifications.layout.alignment.vertical')) {
-                'top' => 'flex-col-reverse justify-end',
-                'bottom' => 'flex-col justify-end',
-                'center' => 'flex-col justify-center'
+            match (static::$verticalAlignment) {
+                VerticalAlignment::Start => 'flex-col-reverse justify-end',
+                VerticalAlignment::End => 'flex-col justify-end',
+                VerticalAlignment::Center => 'flex-col justify-center',
             },
         ])
         role="status"
@@ -20,11 +26,7 @@
         @endforeach
     </div>
 
-    @if ($this->hasDatabaseNotifications())
-        <x-notifications::database />
-    @endif
-
     @if ($broadcastChannel = $this->getBroadcastChannel())
-        <x-notifications::echo :channel="$broadcastChannel" />
+        <x-filament-notifications::echo :channel="$broadcastChannel" />
     @endif
 </div>

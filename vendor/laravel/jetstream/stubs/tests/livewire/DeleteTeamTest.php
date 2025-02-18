@@ -25,8 +25,8 @@ class DeleteTeamTest extends TestCase
             $otherUser = User::factory()->create(), ['role' => 'test-role']
         );
 
-        $component = Livewire::test(DeleteTeamForm::class, ['team' => $team->fresh()])
-                                ->call('deleteTeam');
+        Livewire::test(DeleteTeamForm::class, ['team' => $team->fresh()])
+            ->call('deleteTeam');
 
         $this->assertNull($team->fresh());
         $this->assertCount(0, $otherUser->fresh()->teams);
@@ -36,9 +36,9 @@ class DeleteTeamTest extends TestCase
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
-        $component = Livewire::test(DeleteTeamForm::class, ['team' => $user->currentTeam])
-                                ->call('deleteTeam')
-                                ->assertHasErrors(['team']);
+        Livewire::test(DeleteTeamForm::class, ['team' => $user->currentTeam])
+            ->call('deleteTeam')
+            ->assertHasErrors(['team']);
 
         $this->assertNotNull($user->currentTeam->fresh());
     }

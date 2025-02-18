@@ -6,11 +6,11 @@
 
         <x-validation-errors class="mb-4" />
 
-        @if (session('status'))
+        @session('status')
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-                {{ session('status') }}
+                {{ $value }}
             </div>
-        @endif
+        @endsession
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -28,7 +28,7 @@
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
+                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
@@ -39,7 +39,7 @@
                     </a>
                 @endif
 
-                <x-button class="ml-4">
+                <x-button class="ms-4">
                     {{ __('Log in') }}
                 </x-button>
             </div>

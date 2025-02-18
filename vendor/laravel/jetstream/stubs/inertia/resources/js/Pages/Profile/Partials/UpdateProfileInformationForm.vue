@@ -90,6 +90,7 @@ const clearPhotoFileInput = () => {
             <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input
+                    id="photo"
                     ref="photoInput"
                     type="file"
                     class="hidden"
@@ -100,18 +101,18 @@ const clearPhotoFileInput = () => {
 
                 <!-- Current Profile Photo -->
                 <div v-show="! photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
+                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full size-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
                     <span
-                        class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
+                        class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
                         :style="'background-image: url(\'' + photoPreview + '\');'"
                     />
                 </div>
 
-                <SecondaryButton class="mt-2 mr-2" type="button" @click.prevent="selectNewPhoto">
+                <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewPhoto">
                     Select A New Photo
                 </SecondaryButton>
 
@@ -135,6 +136,7 @@ const clearPhotoFileInput = () => {
                     v-model="form.name"
                     type="text"
                     class="mt-1 block w-full"
+                    required
                     autocomplete="name"
                 />
                 <InputError :message="form.errors.name" class="mt-2" />
@@ -148,6 +150,7 @@ const clearPhotoFileInput = () => {
                     v-model="form.email"
                     type="email"
                     class="mt-1 block w-full"
+                    required
                     autocomplete="username"
                 />
                 <InputError :message="form.errors.email" class="mt-2" />
@@ -175,7 +178,7 @@ const clearPhotoFileInput = () => {
         </template>
 
         <template #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="mr-3">
+            <ActionMessage :on="form.recentlySuccessful" class="me-3">
                 Saved.
             </ActionMessage>
 

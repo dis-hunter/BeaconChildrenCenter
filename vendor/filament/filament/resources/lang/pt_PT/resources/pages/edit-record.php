@@ -15,15 +15,27 @@ return [
             ],
 
             'save' => [
-                'label' => 'Guardar',
+                'label' => 'Guardar alterações',
             ],
 
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Guardado!',
+    'content' => [
+
+        'tab' => [
+            'label' => 'Editar',
+        ],
+
+    ],
+
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Guardado',
+        ],
+
     ],
 
 ];

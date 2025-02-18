@@ -89,7 +89,7 @@
     
 </nav>
 <nav class="navbar navbar-expand-md responsive-navbar" id="Account">
-    <div class="global-search">@livewire('global-search')</div> 
+    <div class="global-search"><x-global-search/></div> 
 <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">

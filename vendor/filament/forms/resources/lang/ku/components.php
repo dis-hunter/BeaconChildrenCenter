@@ -4,43 +4,41 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'بابەت بچووک کرایەوە',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
-                'label' => 'پۆشتە',
+            'clone' => [
+                'label' => 'پۆشتەکردن',
             ],
 
-            'create_item' => [
+            'add' => [
                 'label' => 'زیادکردن بۆ :label',
             ],
 
-            'create_item_between' => [
-                'label' => 'زیادکردن',
+            'add_between' => [
+                'label' => 'داخڵکردن لە نێوان هێڵ',
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'سڕینەوە',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'جوڵاندن',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'جوڵاندن بۆ خوارەوە',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'جوڵاندن بۆ سەرەوە',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'بچووکردنەوە',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'فراوانکردن',
             ],
 
@@ -58,10 +56,10 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
-                'label' => 'لابردنی دیاریکردنی هەموو',
+                'label' => 'لابردنی هەموو دیاریکراوەکان',
             ],
 
             'select_all' => [
@@ -72,9 +70,128 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'پاشگەزبوونەوە',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'جۆری ڕاکێشان "بڕین"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'جۆری ڕاکێشان "جوڵاندن"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'وەرگێڕانی وێنە بە ئاسۆی',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'وەرگێڕانی وێنە بە ستونی',
+                ],
+
+                'move_down' => [
+                    'label' => 'جوڵاندنی وێنە بۆ خوارەوە',
+                ],
+
+                'move_left' => [
+                    'label' => 'جوڵاندنی وێنە بۆ چەپ',
+                ],
+
+                'move_right' => [
+                    'label' => 'جوڵاندنی وێنە بۆ ڕاست',
+                ],
+
+                'move_up' => [
+                    'label' => 'جوڵاندنی وێنە بۆ سەرەوە',
+                ],
+
+                'reset' => [
+                    'label' => 'دۆخی سەرەتا',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'سوڕانەوەی وێنە بۆ چەپ',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'سوڕانەوەی وێنە بۆ ڕاست',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'دانانی تێکڕای لاکان بۆ :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'نوێکردنەوە',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'نزیکردنەوەی وێنە بۆ ١٠٠%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'نزیککردنەوە',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'دوورخستنەوە',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'بەرزی',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'سوڕانەوە',
+                    'unit' => 'پلە',
+                ],
+
+                'width' => [
+                    'label' => 'پانی',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'تێکڕای لاکان',
+
+                'no_fixed' => [
+                    'label' => 'سەربەخۆ',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'زیادکردنی ڕیز',
@@ -108,54 +225,55 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'لکاندنی فایل',
+            'blockquote' => 'هێڵی وتە',
             'bold' => 'تۆخ کردن',
             'bullet_list' => 'لیستی خاڵ',
             'code_block' => 'هێڵی کۆد',
-            'edit' => 'نوسین',
+            'heading' => 'ناونیشان',
             'italic' => 'لارکردن',
             'link' => 'بەستەر',
             'ordered_list' => 'لیستی ژمارە',
-            'preview' => 'بینین',
+            'redo' => 'دووبارەکردن',
             'strike' => 'هێڵ بەسەرهێنان',
+            'table' => 'خشتە',
+            'undo' => 'گەڕانەوە',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'بابەت بچووک کرایەوە',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'زیادکردن بۆ :label',
             ],
 
-            'delete_item' => [
-                'label' => 'سرینەوە',
+            'delete' => [
+                'label' => 'سڕینەوە',
             ],
 
-            'clone_item' => [
-                'label' => 'پۆشتە',
+            'clone' => [
+                'label' => 'پۆشتەکردن',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'جوڵاندن',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'جوڵاندن بۆ خوارەوە',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'جوڵاندن بۆ سەرەوە',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'بچووکردنەوە',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'فراوانکردن',
             ],
 
@@ -177,14 +295,14 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'بەستەر',
                     'unlink' => 'لابردنی بەستەر',
                 ],
 
                 'label' => 'بەستەر',
 
-                'placeholder' => 'بەستەرێک بنوسە',
+                'placeholder' => 'بەستەر داخڵ بکە',
 
             ],
 
@@ -197,20 +315,21 @@ return [
             'bullet_list' => 'لیستی خاڵ',
             'code_block' => 'هێڵی کۆد',
             'h1' => 'ناونیشان',
-            'h2' => 'هێدەر',
-            'h3' => 'ژێر هێدەر',
+            'h2' => 'ناونیشانی دووەم',
+            'h3' => 'ناونیشانی سێیەم',
             'italic' => 'لارکردن',
             'link' => 'بەستەر',
             'ordered_list' => 'لیستی ژمارە',
             'redo' => 'دووبارەکردن',
             'strike' => 'هێڵ بەسەرهێنان',
+            'underline' => 'هێڵ بەژێرهێنان',
             'undo' => 'گەڕانەوە',
-
         ],
 
     ],
 
     'select' => [
+
         'actions' => [
 
             'create_option' => [
@@ -223,6 +342,28 @@ return [
 
                         'create' => [
                             'label' => 'دروستکردن',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'دروستکردن و تۆمارێکی تر',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'دەسکاریکردن',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'نوێکردنەوە',
                         ],
 
                     ],
@@ -242,11 +383,14 @@ return [
 
         'max_items_message' => 'تەنها :count دەتواندرێت دیاری بکرێت.',
 
-        'no_search_results_message' => 'هیچ هەڵبژاردەیەک نەدۆزرایەوە بۆ گەڕانەکەت.',
+        'no_search_results_message' => 'هیچ هەڵبژاردەیەک بۆ گەڕانەکەت نەدۆزرایەوە.',
+
         'placeholder' => 'هەڵبژاردەیەک دیاری بکە',
+
         'searching_message' => 'گەڕان...',
 
         'search_prompt' => 'دەستبکە بە نوسین بۆ گەڕان...',
+
     ],
 
     'tags_input' => [
@@ -255,7 +399,7 @@ return [
 
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'پێشوو',

@@ -15,10 +15,14 @@ return [
             ],
 
             'save' => [
-                'label' => 'حفظ',
+                'label' => 'حفظ التغييرات',
             ],
 
         ],
+
+    ],
+
+    'content' => [
 
         'tab' => [
             'label' => 'تعديل',
@@ -26,8 +30,12 @@ return [
 
     ],
 
-    'messages' => [
-        'saved' => 'تم الحفظ',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'تم الحفظ',
+        ],
+
     ],
 
 ];

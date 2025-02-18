@@ -7,9 +7,9 @@ use App\Filament\Resources\PaymentModesResource\RelationManagers;
 use App\Models\PaymentMode;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +19,7 @@ class PaymentModesResource extends Resource
 {
     protected static ?string $model = PaymentMode::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function getNavigationGroup(): ?string{
         return 'Static Data';

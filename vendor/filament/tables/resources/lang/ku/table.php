@@ -2,110 +2,124 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'ستوونەکان',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'وە :count زیاتر',
-        ],
-
-        'messages' => [
-            'copied' => 'لەبەرگیرا',
+        'text' => [
+            'more_list_items' => 'وە :count ی زیاتر',
         ],
 
     ],
 
     'fields' => [
 
-        'search_query' => [
+        'bulk_select_page' => [
+            'label' => 'دیاریکردن/لابردنی دیاریکردنەکان بۆ هەموو تۆمارەکان بۆ کۆمەڵەی کردارەکان.',
+        ],
+
+        'bulk_select_record' => [
+            'label' => 'دیاریکردن/لابردنی دیاریکراوەکان بۆ :key بۆ کۆمەڵەی کردارەکان.',
+        ],
+
+        'search' => [
             'label' => 'گەڕان',
             'placeholder' => 'گەڕان',
+            'indicator' => 'گەڕان',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'ڕێنوێیی پەڕەکردن',
+        'heading' => 'پوختە',
 
-        'overview' => 'پیشاندان :first بۆ :last لە :total ئەنجام',
-
-        'fields' => [
-
-            'records_per_page' => [
-                'label' => 'بۆ هەر پەڕەیەک',
-                'options' => [
-                    'all' => 'هەموو',
-                ],
-            ],
-
+        'subheadings' => [
+            'all' => 'هەموو :label',
+            'group' => ':group پوختە',
+            'page' => 'ئەم پەڕەیە',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'بڕۆ بۆ پەڕەی :page',
+            'average' => [
+                'label' => 'تێکڕا',
             ],
 
-            'next' => [
-                'label' => 'دواتر',
+            'count' => [
+                'label' => 'ژماردەکان',
             ],
 
-            'previous' => [
-                'label' => 'پێشوو',
+            'sum' => [
+                'label' => 'کۆی گشتی',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
-            'label' => 'کۆتایی بە ڕێکخستن ب‌هێنە',
+            'label' => 'تەواوکردنی ڕێکخستنی تۆمارەکان',
         ],
 
         'enable_reordering' => [
-            'label' => 'چالاک کردنی ڕێکخستن',
+            'label' => 'ڕێکخستنی تۆمارەکان',
         ],
 
         'filter' => [
             'label' => 'فلتەر',
         ],
 
-        'open_actions' => [
-            'label' => 'کردنەوەی کارەکان',
+        'group' => [
+            'label' => 'کۆمەڵ',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'کۆمەڵی کردارەکان',
         ],
 
         'toggle_columns' => [
-            'label' => 'ڕەوشتی خانە',
+            'label' => 'پشاندان/لابردنی ستوونەکان',
         ],
 
     ],
 
     'empty' => [
-        'heading' => 'هیچ تۆمارێک نەدۆزرایەوە',
+
+        'heading' => 'هیچ تۆمارێکی :model بوونی نییە.',
+
+        'description' => 'تۆمارێکی :model دروس بکە بۆ دەستپێکردن.',
+
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
 
             'remove' => [
-                'label' => 'سرینەوەی فلتەر',
+                'label' => 'سڕینەوەی فلتەر',
             ],
 
             'remove_all' => [
-                'label' => 'سرینەوەی هەموو فلتەرەکان',
-                'tooltip' => 'سرینەوەی هەوو فلتەرەکان',
+                'label' => 'سڕینەوەی هەموو فلتەرەکان',
+                'tooltip' => 'سڕینەوەی هەموو فلتەرەکان',
             ],
 
             'reset' => [
-                'label' => 'لابردنی هەموو فلتەر',
+                'label' => 'دۆخی سەرەتا',
             ],
 
         ],
 
-        'indicator' => 'فلتەری چالاک',
+        'heading' => 'فلتەرەکان',
+
+        'indicator' => 'فلتەرە چالاککراوەکان',
 
         'multi_select' => [
             'placeholder' => 'هەموو',
@@ -123,26 +137,50 @@ return [
 
             'with_trashed' => 'لەگەل تۆمارە سڕدراوەکان',
 
-            'without_trashed' => 'جگە لە تۆمارە سڕدراوەکان',
+            'without_trashed' => 'بەبێ تۆمارە سڕدراوەکان',
 
         ],
 
     ],
 
-    'reorder_indicator' => 'ڕاکێشان و فڕێدانی تۆمارەکان بۆ ڕیزکردن.',
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'کۆمەڵ کردن بە',
+                'placeholder' => 'کۆمەڵ کردن بە',
+            ],
+
+            'direction' => [
+
+                'label' => 'ئاڕاستەی کۆمەڵ کردن',
+
+                'options' => [
+                    'asc' => 'کەم بۆ زۆر',
+                    'desc' => 'زۆر بۆ کەم',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
+    'reorder_indicator' => 'تۆمارەکان هەڵبگرە و ڕیزیان بکە.',
 
     'selection_indicator' => [
 
-        'selected_count' => '١ تۆمار دیاری کراوە.|:count تۆمار دیاری کراوە.',
+        'selected_count' => '١ ڕیز دیاریکراوە|:count ڕیز دیاریکراوە',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
-                'label' => 'دیاریکردنی هەموو :count تۆمارەکان',
+                'label' => 'هەڵبژاردنی هەموو :count',
             ],
 
             'deselect_all' => [
-                'label' => 'لابردنی دیاریکردنی هەموو تۆمارەکان',
+                'label' => 'هەڵنەبژاردنی هەموو',
             ],
 
         ],
@@ -154,12 +192,12 @@ return [
         'fields' => [
 
             'column' => [
-                'label' => 'ریزبەندی',
+                'label' => 'کۆمەڵکردن بە',
             ],
 
             'direction' => [
 
-                'label' => 'جۆری ڕیزبەندی',
+                'label' => 'ئاڕاستەی کۆمەڵ کردن',
 
                 'options' => [
                     'asc' => 'کەم بۆ زۆر',

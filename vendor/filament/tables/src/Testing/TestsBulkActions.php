@@ -3,19 +3,21 @@
 namespace Filament\Tables\Testing;
 
 use Closure;
-use Filament\Support\Testing\TestsActions as BaseTestsActions;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Testing\Assert;
-use Livewire\Testing\TestableLivewire;
+use Livewire\Features\SupportTesting\Testable;
+
+use function Livewire\store;
 
 /**
  * @method HasTable instance()
  *
- * @mixin TestableLivewire
- * @mixin BaseTestsActions
+ * @mixin Testable
+ * @mixin Testable
  */
 class TestsBulkActions
 {
@@ -24,15 +26,10 @@ class TestsBulkActions
         return function (string $name, array | Collection $records): static {
             $name = $this->parseActionName($name);
 
-            /** @phpstan-ignore-next-line */
-            $this->assertTableBulkActionVisible($name);
-
-            $livewire = $this->instance();
-
             $records = array_map(
-                function ($record) use ($livewire) {
+                function ($record) {
                     if ($record instanceof Model) {
-                        return $livewire->getTableRecordKey($record);
+                        return $this->instance()->getTableRecordKey($record);
                     }
 
                     return $record;
@@ -42,25 +39,19 @@ class TestsBulkActions
 
             $this->call('mountTableBulkAction', $name, $records);
 
-            if (filled($this->instance()->redirectTo)) {
+            if (store($this->instance())->has('redirect')) {
                 return $this;
             }
 
-            $action = $livewire->getCachedTableBulkAction($name);
-
-            if (! $action->shouldOpenModal()) {
-                $this->assertNotDispatchedBrowserEvent('open-modal');
-
-                $this->assertNotSet('mountedTableBulkAction', $action->getName());
+            if ($this->instance()->mountedTableBulkAction === null) {
+                $this->assertNotDispatched('open-modal');
 
                 return $this;
             }
 
             $this->assertSet('mountedTableBulkAction', $name);
 
-            $this->assertDispatchedBrowserEvent('open-modal', [
-                'id' => "{$livewire->id}-table-bulk-action",
-            ]);
+            $this->assertDispatched('open-modal', id: "{$this->instance()->getId()}-table-bulk-action");
 
             return $this;
         };
@@ -69,7 +60,9 @@ class TestsBulkActions
     public function setTableBulkActionData(): Closure
     {
         return function (array $data): static {
-            $this->set('mountedTableBulkActionData', $data);
+            foreach (Arr::dot($data, prepend: 'mountedTableBulkActionData.') as $key => $value) {
+                $this->set($key, $value);
+            }
 
             return $this;
         };
@@ -77,9 +70,15 @@ class TestsBulkActions
 
     public function assertTableBulkActionDataSet(): Closure
     {
-        return function (array $data): static {
-            foreach ($data as $key => $value) {
-                $this->assertSet("mountedTableBulkActionData.{$key}", $value);
+        return function (array | Closure $state): static {
+            if ($state instanceof Closure) {
+                $state = $state($this->get('mountedTableBulkActionData'));
+            }
+
+            if (is_array($state)) {
+                foreach (Arr::dot($state, prepend: 'mountedTableBulkActionData.') as $key => $value) {
+                    $this->assertSet($key, $value);
+                }
             }
 
             return $this;
@@ -89,6 +88,9 @@ class TestsBulkActions
     public function callTableBulkAction(): Closure
     {
         return function (string $name, array | Collection $records, array $data = [], array $arguments = []): static {
+            /** @phpstan-ignore-next-line */
+            $this->assertTableBulkActionVisible($name);
+
             /** @phpstan-ignore-next-line */
             $this->mountTableBulkAction($name, $records);
 
@@ -109,24 +111,20 @@ class TestsBulkActions
     public function callMountedTableBulkAction(): Closure
     {
         return function (array $arguments = []): static {
-            $livewire = $this->instance();
-
-            $action = $livewire->getMountedTableBulkAction();
+            $action = $this->instance()->getMountedTableBulkAction();
 
             if (! $action) {
                 return $this;
             }
 
-            $this->call('callMountedTableBulkAction', json_encode($arguments));
+            $this->call('callMountedTableBulkAction', $arguments);
 
-            if (filled($this->instance()->redirectTo)) {
+            if (store($this->instance())->has('redirect')) {
                 return $this;
             }
 
             if ($this->get('mountedTableBulkAction') !== $action->getName()) {
-                $this->assertDispatchedBrowserEvent('close-modal', [
-                    'id' => "{$livewire->id}-table-bulk-action",
-                ]);
+                $this->assertDispatched('close-modal', id: "{$this->instance()->getId()}-table-bulk-action");
             }
 
             return $this;
@@ -138,10 +136,9 @@ class TestsBulkActions
         return function (string $name): static {
             $name = $this->parseActionName($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertInstanceOf(
                 BulkAction::class,
@@ -158,10 +155,9 @@ class TestsBulkActions
         return function (string $name): static {
             $name = $this->parseActionName($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertNull(
                 $action,
@@ -178,7 +174,7 @@ class TestsBulkActions
             $livewire = $this->instance();
             $this->assertActionListInOrder(
                 $names,
-                $livewire->getCachedTableBulkActions(),
+                $livewire->getTable()->getBulkActions(),
                 'table bulk',
                 BulkAction::class,
             );
@@ -195,10 +191,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertFalse(
                 $action->isHidden(),
@@ -217,10 +212,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertTrue(
                 $action->isHidden(),
@@ -239,10 +233,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertFalse(
                 $action->isDisabled(),
@@ -261,10 +254,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertTrue(
                 $action->isDisabled(),
@@ -283,10 +275,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertTrue(
                 $action->getIcon() === $icon,
@@ -305,10 +296,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertFalse(
                 $action->getIcon() === $icon,
@@ -327,10 +317,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertTrue(
                 $action->getLabel() === $label,
@@ -349,10 +338,9 @@ class TestsBulkActions
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
 
             Assert::assertFalse(
                 $action->getLabel() === $label,
@@ -365,20 +353,21 @@ class TestsBulkActions
 
     public function assertTableBulkActionHasColor(): Closure
     {
-        return function (string $name, string $color, $record = null): static {
+        return function (string $name, string | array $color, $record = null): static {
             $name = $this->parseActionName($name);
 
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
+
+            $colorName = is_string($color) ? $color : 'custom';
 
             Assert::assertTrue(
                 $action->getColor() === $color,
-                "Failed asserting that a table bulk action with name [{$name}] has color [{$color}] on the [{$livewireClass}] component for record [{$record}]."
+                "Failed asserting that a table bulk action with name [{$name}] has [{$colorName}] color on the [{$livewireClass}] component for record [{$record}]."
             );
 
             return $this;
@@ -387,27 +376,28 @@ class TestsBulkActions
 
     public function assertTableBulkActionDoesNotHaveColor(): Closure
     {
-        return function (string $name, string $color, $record = null): static {
+        return function (string $name, string | array $color, $record = null): static {
             $name = $this->parseActionName($name);
 
             /** @phpstan-ignore-next-line */
             $this->assertTableBulkActionExists($name);
 
-            $livewire = $this->instance();
-            $livewireClass = $livewire::class;
+            $action = $this->instance()->getTable()->getBulkAction($name);
 
-            $action = $livewire->getCachedTableBulkAction($name);
+            $livewireClass = $this->instance()::class;
+
+            $colorName = is_string($color) ? $color : 'custom';
 
             Assert::assertFalse(
                 $action->getColor() === $color,
-                "Failed asserting that a table bulk action with name [{$name}] does not have color [{$color}] on the [{$livewireClass}] component for record [{$record}]."
+                "Failed asserting that a table bulk action with name [{$name}] does not have [{$colorName}] color on the [{$livewireClass}] component for record [{$record}]."
             );
 
             return $this;
         };
     }
 
-    public function assertTableBulkActionHalted(): Closure
+    public function assertTableBulkActionMounted(): Closure
     {
         return function (string $name): static {
             $name = $this->parseActionName($name);
@@ -421,8 +411,27 @@ class TestsBulkActions
         };
     }
 
+    public function assertTableBulkActionNotMounted(): Closure
+    {
+        return function (string $name): static {
+            $name = $this->parseActionName($name);
+
+            /** @phpstan-ignore-next-line */
+            $this->assertTableBulkActionExists($name);
+
+            $this->assertNotSet('mountedTableBulkAction', $name);
+
+            return $this;
+        };
+    }
+
+    public function assertTableBulkActionHalted(): Closure
+    {
+        return $this->assertTableBulkActionMounted();
+    }
+
     /**
-     * @deprecated Use `->assertTableBulkActionHalted()` instead.
+     * @deprecated Use `assertTableBulkActionHalted()` instead.
      */
     public function assertTableBulkActionHeld(): Closure
     {

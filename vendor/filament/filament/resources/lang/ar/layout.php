@@ -4,40 +4,60 @@ return [
 
     'direction' => 'rtl',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'تفعيل الوضع الليلي',
-        ],
-
-        'database_notifications' => [
-            'label' => 'عرض التنبيهات',
-        ],
-
-        'light_mode' => [
-            'label' => 'تفعيل وضع النهار',
+        'billing' => [
+            'label' => 'إدارة الاشتراكات',
         ],
 
         'logout' => [
             'label' => 'تسجيل الخروج',
         ],
 
-        'sidebar' => [
-
-            'collapse' => [
-                'label' => 'طيّ الشريط الجانبي',
-            ],
-
-            'expand' => [
-                'label' => 'توسيع الشريط الجانبي',
-            ],
-
+        'open_database_notifications' => [
+            'label' => 'عرض التنبيهات',
         ],
 
-        'user_menu' => [
+        'open_user_menu' => [
             'label' => 'قائمة المستخدم',
         ],
 
+        'sidebar' => [
+
+            'collapse' => [
+                'label' => 'طيّ القائمة الجانبية',
+            ],
+
+            'expand' => [
+                'label' => 'توسيع القائمة الجانبية',
+            ],
+
+        ],
+
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'تفعيل الوضع الليلي',
+            ],
+
+            'light' => [
+                'label' => 'تفعيل الوضع النهاري',
+            ],
+
+            'system' => [
+                'label' => 'تفعيل سمة النظام',
+            ],
+
+        ],
+
+    ],
+
+    'avatar' => [
+        'alt' => 'صورة شخصية لـ :name',
+    ],
+
+    'logo' => [
+        'alt' => ':name شعار',
     ],
 
 ];

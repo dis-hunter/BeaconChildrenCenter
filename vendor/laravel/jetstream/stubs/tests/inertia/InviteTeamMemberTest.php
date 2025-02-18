@@ -17,15 +17,13 @@ class InviteTeamMemberTest extends TestCase
     {
         if (! Features::sendsTeamInvitations()) {
             $this->markTestSkipped('Team invitations not enabled.');
-
-            return;
         }
 
         Mail::fake();
 
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
-        $response = $this->post('/teams/'.$user->currentTeam->id.'/members', [
+        $this->post('/teams/'.$user->currentTeam->id.'/members', [
             'email' => 'test@example.com',
             'role' => 'admin',
         ]);
@@ -39,8 +37,6 @@ class InviteTeamMemberTest extends TestCase
     {
         if (! Features::sendsTeamInvitations()) {
             $this->markTestSkipped('Team invitations not enabled.');
-
-            return;
         }
 
         Mail::fake();
@@ -52,7 +48,7 @@ class InviteTeamMemberTest extends TestCase
             'role' => 'admin',
         ]);
 
-        $response = $this->delete('/team-invitations/'.$invitation->id);
+        $this->delete('/team-invitations/'.$invitation->id);
 
         $this->assertCount(0, $user->currentTeam->fresh()->teamInvitations);
     }

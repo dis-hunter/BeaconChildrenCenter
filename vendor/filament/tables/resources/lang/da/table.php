@@ -2,89 +2,194 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Kolonner',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'og :count flere',
-        ],
+        'text' => [
 
-        'messages' => [
-            'copied' => 'Kopieret',
+            'actions' => [
+                'collapse_list' => 'Vis :count mindre',
+                'expand_list' => 'Vis :count flere',
+            ],
+
+            'more_list_items' => 'og :count flere',
         ],
 
     ],
 
     'fields' => [
+        'bulk_select_page' => [
+            'label' => 'Vælg/fravælg alle rækker for masse handlinger.',
+        ],
 
-        'search_query' => [
+        'bulk_select_record' => [
+            'label' => 'Vælg/fravælg :key for masse handlinger.',
+        ],
+
+        'bulk_select_group' => [
+            'label' => 'Vælg/fravælg gruppe :title til massehandlinger.',
+        ],
+
+        'search' => [
             'label' => 'Søg',
             'placeholder' => 'Søg',
+            'indicator' => 'Søg',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Paginering Navigation',
+        'heading' => 'Resumé',
 
-        'overview' => 'Viser :first til :last af :total resultater',
+        'subheadings' => [
+            'all' => 'Alle :label',
+            'group' => ':group resumé',
+            'page' => 'Denne side',
+        ],
+
+        'summarizers' => [
+
+            'average' => [
+                'label' => 'Gennemsnit',
+            ],
+
+            'count' => [
+                'label' => 'Antal',
+            ],
+
+            'sum' => [
+                'label' => 'Sum',
+            ],
+
+        ],
+
+    ],
+
+    'actions' => [
+        'disable_reordering' => [
+            'label' => 'Afslut omrokering',
+        ],
+
+        'enable_reordering' => [
+            'label' => 'Omroker rækker',
+        ],
+
+        'filter' => [
+            'label' => 'Filtrer',
+        ],
+
+        'group' => [
+            'label' => 'Gruppe',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'Åbn handlinger',
+        ],
+
+        'toggle_columns' => [
+            'label' => 'Vælg kolonner',
+        ],
+    ],
+
+    'empty' => [
+        'heading' => 'Ingen resultater',
+        'description' => 'Opret en :model for at komme igang.',
+    ],
+
+    'filters' => [
+
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Anvend filtre',
+            ],
+
+            'remove' => [
+                'label' => 'Fjern filter',
+            ],
+
+            'remove_all' => [
+                'label' => 'Fjern alle filtre',
+                'tooltip' => 'Fjern alle filtre',
+            ],
+
+            'reset' => [
+                'label' => 'Nulstil',
+            ],
+
+        ],
+
+        'heading' => 'Filtre',
+
+        'indicator' => 'Aktive filtre',
+
+        'multi_select' => [
+            'placeholder' => 'Alle',
+        ],
+
+        'select' => [
+            'placeholder' => 'Alle',
+        ],
+
+        'trashed' => [
+
+            'label' => 'Slettede rækker',
+
+            'only_trashed' => 'Kun slettede rækker',
+
+            'with_trashed' => 'Med slettede rækker',
+
+            'without_trashed' => 'Uden slettede rækker',
+
+        ],
+
+    ],
+
+    'grouping' => [
 
         'fields' => [
 
-            'records_per_page' => [
+            'group' => [
+                'label' => 'Gruppere på',
+                'placeholder' => 'Gruppere på',
+            ],
 
-                'label' => 'per side',
+            'direction' => [
+
+                'label' => 'Grupperingsretning',
 
                 'options' => [
-                    'all' => 'Alle',
+                    'asc' => 'Stigende',
+                    'desc' => 'Faldende',
                 ],
 
             ],
 
         ],
 
-        'buttons' => [
-
-            'go_to_page' => [
-                'label' => 'Gå til side :page',
-            ],
-
-            'next' => [
-                'label' => 'Næste',
-            ],
-
-            'previous' => [
-                'label' => 'Forrige',
-            ],
-
-        ],
-
     ],
 
-    'buttons' => [
-
-        'filter' => [
-            'label' => 'Filtrer',
-        ],
-
-        'open_actions' => [
-            'label' => 'Åbn handlinger',
-        ],
-
-    ],
-
-    'empty' => [
-        'heading' => 'Ingen resultater',
-    ],
+    'reorder_indicator' => 'Træk og slip rækkerne i den ønskede rækkefølge.',
 
     'selection_indicator' => [
 
-        'buttons' => [
+        'selected_count' => '1 række valgt|:count rækker valgt',
+
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Vælg alle :count',
             ],
 
+            'deselect_all' => [
+                'label' => 'Fravælg alle',
+            ],
         ],
 
     ],

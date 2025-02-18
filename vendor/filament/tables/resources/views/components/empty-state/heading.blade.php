@@ -1,10 +1,5 @@
-<h2
-    {{
-        $attributes->class([
-            'filament-tables-empty-state-heading text-xl font-bold tracking-tight',
-            'dark:text-white' => config('tables.dark_mode'),
-        ])
-    }}
+<h4
+    {{ $attributes->class(['fi-ta-empty-state-heading text-base font-semibold leading-6 text-gray-950 dark:text-white']) }}
 >
     {{ $slot }}
-</h2>
+</h4>
