@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedService = serviceDropdown.value;
 
             // Clear existing options
-            specialistDropdown.innerHTML = '<option value="">-- Select Specialist --</option>';
+            specialistDropdown.innerHTML = '<option value="" class= "dropper">-- Select Specialist --</option>';
 
             if (selectedService) {
                 fetch(`/api/specialists?service=${selectedService}`)

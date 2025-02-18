@@ -211,6 +211,183 @@ body{
 .calendar .days .next-date{
   color:#b3b3b3;
 }
+
+
+    /* General Form Container */
+.form-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+/* Label Style */
+.form-container label {
+  display: block; /* Ensures label is on its own line */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6px; /* Spacing between label and input */
+  text-align: left; /* Align text to the left */
+}
+
+/* Input, Textarea, and Select Style */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container input[type="number"],
+.form-container select,
+.form-container textarea {
+  display: block; /* Ensure inputs appear below labels */
+  width: 5px !important; /* Full container width */
+ /* You can adjust the max width as needed */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #fff;
+  margin-bottom: 15px; /* Spacing between inputs */
+  transition: border-color 0.3s ease;
+}
+
+
+/* Search bar adjustment */
+#child-search-bar input[type="search"] {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+/* Only style select elements with the class "droopp" */
+select.droopp {
+  width: 150px !important; /* Force width for this specific element */
+  font-size: 13px !important; /* Smaller font size */
+  padding: 4px !important; /* Ensure padding is small */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  appearance: none; /* Remove default arrow styling */
+  -webkit-appearance: none; /* Safari-specific reset */
+}
+
+select.droopp option {
+  font-size: 10px !important; /* Ensure options are also smaller */
+}
+
+
+/* Dropdowns in Specialist Container */
+#specialist-container select {
+  display: block;
+  max-width: 300px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+/* Custom Dropdown Arrow */
+select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  padding-right: 30px;
+}
+
+/* Hover and Focus Effects */
+.form-container input:hover,
+.form-container select:hover,
+.form-container textarea:hover,
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+  border-color: #007BFF;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Textarea Styling */
+.form-container textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Button Style */
+.form-container button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+  
+    .loading-text {
+      font-size: 13px;
+      font-weight: bold;
+      color: black;
+  }
+
+  
+  .dots {
+      display: inline-block;
+      position: relative;
+  }
+  
+  .dots span {
+      display: inline-block;
+      position: relative;
+      animation: bounce 1.5s infinite ease-in-out;
+  }
+  
+  .dots span:nth-child(1) {
+      animation-delay: 0s;
+  }
+  
+  .dots span:nth-child(2) {
+      animation-delay: 0.2s;
+  }
+  
+  .dots span:nth-child(3) {
+      animation-delay: 0.4s;
+  }
+  
+  @keyframes bounce {
+      0%, 100% {
+          transform: translateY(0);
+      }
+      25% {
+          transform: translateY(-8px);
+      }
+      50% {
+          transform: translateY(0);
+      }
+      75% {
+          transform: translateY(8px);
+      }
+  }
+
+
+
+
 .calendar .days .active{
   position: relative;
   font-size: 1.6rem;

@@ -256,6 +256,35 @@ class AppointmentController extends Controller
     return response()->json($appointments);
     }
 
+    public function search(Request $request)
+{
+    $query = $request->input('query', '');
+    
+    if (strlen($query) < 1) {
+        return response()->json([]);
+    }
+
+    $searchTerm = "%{$query}%";
+
+    $results = DB::table('children')
+        ->select(
+            'children.id',
+            DB::raw("CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name"),
+            'children.dob',
+            DB::raw("CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name"),
+            'parents.email',
+            'parents.telephone'
+        )
+        ->join('child_parent', 'children.id', '=', 'child_parent.child_id')
+        ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+        ->where('children.fullname', 'ILIKE', $searchTerm)
+        ->orWhere('parents.fullname', 'ILIKE', $searchTerm)
+        ->get();
+
+    return response()->json($results);
+}
+
+
 
 public function index()
 {

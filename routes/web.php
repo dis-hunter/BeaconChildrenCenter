@@ -17,10 +17,26 @@ use App\Models\Invoice;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FamilySocialHistoryController;
+use App\Http\Controllers\PerinatalHistoryController;
+use App\Http\Controllers\PastMedicalHistoryController;
+use App\Http\Controllers\GeneralExamController;
+use App\Http\Controllers\DevelopmentAssessmentController;
+use App\Http\Controllers\InvestigationController;
+use App\Http\Controllers\CarePlanController;
+use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\ReceptionController;
+use App\Http\Controllers\VisitController;
+use App\Http\Controllers\StaffController;
+
+use App\Http\Controllers\ExpensesController;
 
 
 
 //Doctor Form Routes
+Route::get('/search-children', [AppointmentController::class, 'search']);
 
 Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
 Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
@@ -208,20 +224,7 @@ Route::post('/save-behaviour-assessment/{registrationNumber}', [BehaviourAssesme
 
 
 
-use App\Http\Controllers\FamilySocialHistoryController;
-use App\Http\Controllers\PerinatalHistoryController;
-use App\Http\Controllers\PastMedicalHistoryController;
-use App\Http\Controllers\GeneralExamController;
-use App\Http\Controllers\DevelopmentAssessmentController;
-use App\Http\Controllers\InvestigationController;
-use App\Http\Controllers\CarePlanController;
-use App\Http\Controllers\ReferralController;
-use App\Http\Controllers\PrescriptionController;
-use App\Http\Controllers\ReceptionController;
-use App\Http\Controllers\VisitController;
-use App\Http\Controllers\StaffController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\ExpensesController;
+
 
 
 // General Routes
