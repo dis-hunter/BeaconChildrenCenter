@@ -5,7 +5,7 @@ use Filament\Facades\Filament;
 use Filament\Tables\Actions\ViewAction;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Illuminate\Support\Str;
 use Filament\Resources\RelationManagers\RelationManager;
 

@@ -7,9 +7,9 @@ use App\Filament\Resources\InvoicesResource\RelationManagers;
 use App\Models\Invoice;
 use App\Models\Invoices;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -18,7 +18,7 @@ class InvoicesResource extends Resource
 {
     protected static ?string $model = Invoice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-receipt-tax';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
     public static function getNavigationGroup(): ?string{
         return 'Finance';

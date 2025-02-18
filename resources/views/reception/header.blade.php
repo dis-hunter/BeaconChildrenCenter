@@ -44,7 +44,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="/get-invoices" class="nav-link"><span class="icon">🕒</span> <span class="text">Invoices</span></a>
+                <a href="/get-invoices" class="nav-link"><span class="icon">📑</span><span class="text">Invoices</span></a>
             </li>
            
             
@@ -89,7 +89,7 @@
     
 </nav>
 <nav class="navbar navbar-expand-md responsive-navbar" id="Account">
-    <div class="global-search">@livewire('global-search')</div> 
+    <div class="global-search"><x-global-search/></div> 
 <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">

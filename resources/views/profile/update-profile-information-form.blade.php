@@ -12,9 +12,8 @@
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
-                <input type="file" class="hidden"
-                            wire:model="photo"
-                            accept="image/*"
+                <input type="file" id="photo" class="hidden"
+                            wire:model.live="photo"
                             x-ref="photo"
                             x-on:change="
                                     photoName = $refs.photo.files[0].name;
@@ -39,7 +38,7 @@
                     </span>
                 </div>
 
-                <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                <x-secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
                     {{ __('Select A New Photo') }}
                 </x-secondary-button>
 
@@ -52,35 +51,36 @@
                 <x-input-error for="photo" class="mt-2" />
             </div>
         @endif
+
         <!-- Name -->
-        <div class="col-span-6 sm:col-span-4">
+         <div class="col-span-6 sm:col-span-4">
             <x-label for="firstname" value="{{ __('First Name') }}" />
-            <x-input id="firstname" type="text" class="mt-1 block w-full" wire:model.defer="state.fullname.first_name" autocomplete="firstname" />
+            <x-input id="firstname" type="text" class="mt-1 block w-full" wire:model="state.fullname.first_name" autocomplete="firstname" />
             <x-input-error for="firstname" class="mt-2" />
         </div>
 
         <div class="col-span-6 sm:col-span-4">
             <x-label for="middlename" value="{{ __('Middle Name') }}" />
-            <x-input id="middlename" type="text" class="mt-1 block w-full" wire:model.defer="state.fullname.middle_name" autocomplete="middlename" />
+            <x-input id="middlename" type="text" class="mt-1 block w-full" wire:model="state.fullname.middle_name" autocomplete="middlename" />
             <x-input-error for="middlename" class="mt-2" />
         </div>
 
         <div class="col-span-6 sm:col-span-4">
             <x-label for="lastname" value="{{ __('Last Name') }}" />
-            <x-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.fullname.last_name" autocomplete="lastname" />
+            <x-input id="lastname" type="text" class="mt-1 block w-full" wire:model="state.fullname.last_name" autocomplete="lastname" />
             <x-input-error for="lastname" class="mt-2" />
         </div>
 
         <div class="col-span-6 sm:col-span-4">
             <x-label for="telephone" value="{{ __('Phone Number') }}" />
-            <x-input id="telephone" type="text" class="mt-1 block w-full" wire:model.defer="state.telephone" autocomplete="telephone" />
+            <x-input id="telephone" type="text" class="mt-1 block w-full" wire:model="state.telephone" autocomplete="telephone" />
             <x-input-error for="telephone" class="mt-2" />
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />
-            <x-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" autocomplete="username" />
+            <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required autocomplete="username" />
             <x-input-error for="email" class="mt-2" />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
@@ -93,7 +93,7 @@
                 </p>
 
                 @if ($this->verificationLinkSent)
-                    <p v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">
+                    <p class="mt-2 font-medium text-sm text-green-600">
                         {{ __('A new verification link has been sent to your email address.') }}
                     </p>
                 @endif
@@ -102,7 +102,7 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-action-message class="mr-3" on="saved">
+        <x-action-message class="me-3" on="saved">
             {{ __('Saved.') }}
         </x-action-message>
 

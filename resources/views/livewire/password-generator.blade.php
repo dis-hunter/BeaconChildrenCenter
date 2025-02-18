@@ -3,14 +3,14 @@
     <div class="row">
         <div class="col-md-6">
             <div class="d-flex justify-content-start align-items-center">
-                <div class="col-md-8">
+                <div class="col-md-8 col-sm-8">
                     <div class="form-floating mb-4">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" wire:model.defer="password" required autocomplete="new-password"/>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" wire:model="password" required autocomplete="new-password"/>
                         <i class="bi bi-eye-slash" id="togglePassword" style="transform: scale(1.2);"></i>
                         <label for="password">Password</label>
                     </div>
                 </div>
-                <div class="col-md-3 mb-4">
+                <div class="col-md-4 col-sm-4 mb-4">
                     <button
                         type="button"
                         x-data="{ loading: false }"
@@ -54,7 +54,7 @@
         
         <div class="col-md-6">
             <div class="form-floating mb-4">
-                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password" wire:model.defer="confirmpassword" required autocomplete="off" />
+                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password" wire:model="confirmpassword" required autocomplete="off" />
                 <i class="bi bi-eye-slash" id="togglePassword2" style="transform: scale(1.2);"></i>
                 <label for="password_confirmation">Confirm Password</label>
             </div>

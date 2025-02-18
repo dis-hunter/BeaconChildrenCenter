@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Appointments;
 use App\Models\children;
+use App\Models\Parents;
 use App\Models\Specialization;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,19 +18,28 @@ class ReceptionController extends Controller
     public function dashboard()
     {
         $dashboard = new \stdClass();
-        
+
         // Fetch only today's appointments
         $dashboard->appointments = appointments::whereDate('appointment_date', Carbon::today())->get();
 
-        // Default values for counts (ensuring zero if no records exist)
-        $dashboard->totalAppointments = $dashboard->appointments->count() ;
-        $dashboard->pendingAppointments = $dashboard->appointments->where('status', 'pending')->count();
-        $dashboard->ongoingAppointments = $dashboard->appointments->where('status', 'on-going')->count() ?? 0;
-        $dashboard->rejectedAppointments = $dashboard->appointments->where('status', 'rejected')->count() ?? 0;
+        $appointmentStats = Appointments::whereDate('appointment_date', Carbon::today())->selectRaw("
+            COUNT (*) as total,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+            SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
+            SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+        ")->first();
+
+
+        $dashboard->totalAppointments = $appointmentStats->total ?? '-';
+        $dashboard->ongoingAppointments = $appointmentStats->ongoing ?? '-';
+        $dashboard->pendingAppointments = $appointmentStats->pending ?? '-';
+        $dashboard->rejectedAppointments = $appointmentStats->rejected ?? '-';
+        $dashboard->successfulAppointments = $appointmentStats->success ?? '-';
 
         // Fetch active users
         $dashboard->activeUsers = User::getActiveUsers();
-        
+
         return view('reception.dashboard', compact('dashboard'));
     }
 
@@ -61,5 +71,24 @@ class ReceptionController extends Controller
         $appointment->update(['status' => 'success']);
 
         return redirect()->route('patients.search', ['id' => $id]);
+    }
+
+    public function search_engine(Request $request)
+    {
+        try {
+            $guardians = Parents::search($request->keyword)->get();
+            $children = children::search($request->keyword)->get();
+
+            return response()->json([
+                'guardians' => $guardians,
+                'patients' => $children
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Search failed',
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 }

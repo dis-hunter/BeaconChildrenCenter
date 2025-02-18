@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Appointments;
 use Carbon\Carbon;
 
-class AppointmentController extends Controller
+class AppointmentsController extends Controller
 {
     public function store(Request $request)
     {

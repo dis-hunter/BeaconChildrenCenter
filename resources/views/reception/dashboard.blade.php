@@ -125,7 +125,7 @@ img {
                 <div class="row">
                     <div class="d-flex justify-content-between">
                         <h5>Today's Appointments</h5>
-                        <a href="#">View all</a>
+                        <a href="{{route('reception.calendar')}}">View all</a>
                     </div>
                 </div>
 

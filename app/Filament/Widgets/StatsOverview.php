@@ -4,9 +4,8 @@ namespace App\Filament\Widgets;
 
 use App\Models\children;
 use App\Models\User;
-use Filament\Widgets\BarChartWidget;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Card;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverview extends BaseWidget
 {
@@ -15,9 +14,9 @@ class StatsOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('Total Patients', children::count())
+            Stat::make('Total Patients', children::count())
                 ->description('Increase in Patients')
-                ->descriptionIcon('heroicon-o-trending-up')
+                ->descriptionIcon('heroicon-o-arrow-trending-up')
                 ->color('success')
                 ->chart((children::selectRaw('COUNT(*) as count, EXTRACT(YEAR FROM created_at) as year, EXTRACT(MONTH FROM created_at) as month')
                     ->groupBy('year', 'month')
@@ -26,9 +25,9 @@ class StatsOverview extends BaseWidget
                     ->pluck('count'))
                     ->toArray()),
 
-            Card::make('Total App Users', User::count())
+            Stat::make('Total App Users', User::count())
                 ->description('Increase in Users')
-                ->descriptionIcon('heroicon-o-trending-up')
+                ->descriptionIcon('heroicon-o-arrow-trending-up')
                 ->color('success')
                 ->chart((User::selectRaw('COUNT(*) as count, EXTRACT(YEAR FROM created_at) as year, EXTRACT(MONTH FROM created_at) as month')
                     ->groupBy('year', 'month')

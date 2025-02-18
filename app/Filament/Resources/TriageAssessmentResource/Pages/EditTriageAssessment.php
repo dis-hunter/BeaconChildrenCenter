@@ -10,7 +10,7 @@ class EditTriageAssessment extends EditRecord
 {
     protected static string $resource = TriageAssessmentResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),
