@@ -1,5 +1,4 @@
 <?php
-// RevenueReportController.php
 namespace App\Http\Controllers;
 
 use App\Services\RevenueReportService;
@@ -41,7 +40,7 @@ class RevenueReportController extends Controller
         $paidInvoices = $this->calculatePaidInvoices($startDate, $endDate);
 
         // Calculate summary
-        $summary = $this->calculateSummary($query);
+        $summary = $this->calculateSummary($query, $startDate, $endDate);
 
         return response()->json([
             'daily' => $dailyRevenue->values(),
@@ -113,7 +112,7 @@ class RevenueReportController extends Controller
             });
     }
 
-    private function calculateSummary($query)
+    private function calculateSummary($query, $startDate, $endDate)
     {
         $normalPayment = $query->clone()
             ->where('visits.payment_mode_id', '!=', 3)
@@ -123,10 +122,16 @@ class RevenueReportController extends Controller
             ->where('visits.payment_mode_id', 3)
             ->sum('visit_type.sponsored_price');
 
+        $paidInvoicesTotal = DB::table('invoices')
+            ->where('invoice_status', true)
+            ->whereBetween('invoice_date', [$startDate, $endDate])
+            ->sum('total_amount');
+
         return [
             'normal_payment' => $normalPayment,
             'sponsored_payment' => $sponsoredPayment,
-            'total_revenue' => $normalPayment + $sponsoredPayment
+            'total_revenue' => $normalPayment + $sponsoredPayment,
+            'paid_invoices_total' => $paidInvoicesTotal
         ];
     }
 }
