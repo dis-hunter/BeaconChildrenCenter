@@ -157,6 +157,14 @@ form {
 .calendar-content{
   margin-left : 100px !important;
 }
+
+.add-event-wrapper {
+    display: none;
+}
+.add-event-wrapper.active {
+    display: block;
+}
+
   </style>
   @livewireStyles
 
@@ -196,6 +204,8 @@ form {
       </ul>
 
       <ul>
+
+      <!--
         <li>
           <a href="/staff/leave-request"  class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
             <i class="fas fa-users"></i>
@@ -203,7 +213,7 @@ form {
           </a>
         </li>
       </ul>
-
+-->
     </div>
 
     <!-- Main Content -->
@@ -488,41 +498,49 @@ async function startConsultation() {
 
     showSection('dashboard');
 </script>
-
 <script type="module">
-    import { initCalendar, prevMonth, nextMonth, updateEvents } from './calendar.js';
 
+
+     import { initCalendar, prevMonth, nextMonth, closeEventModal } from '/js/calendar.js';
+     import { handleAddEventListeners } from '/js/specialization.js';
+
+     
     document.addEventListener("DOMContentLoaded", () => {
-        initCalendar(); // Reinitialize calendar
+        // Initialize the calendar
+        initCalendar();
+
+        // Attach calendar-specific listeners
         attachEventListeners();
+
+        // Attach the "Add Event" form listeners from specialization.js
+        handleAddEventListeners();
     });
 
     function attachEventListeners() {
-        document.querySelector(".prev").addEventListener("click", prevMonth);
-        document.querySelector(".next").addEventListener("click", nextMonth);
+        // Cache elements to avoid repetitive DOM queries
+        const prevButton = document.querySelector(".prev");
+        const nextButton = document.querySelector(".next");
+        const closeButtons = document.querySelectorAll(".close");
+        const rescheduleModal = document.getElementById("reschedule-modal");
 
-        // Ensure event modal close functionality works
-        document.querySelectorAll(".close").forEach((closeBtn) => {
+        // Calendar navigation
+        if (prevButton) prevButton.addEventListener("click", prevMonth);
+        if (nextButton) nextButton.addEventListener("click", nextMonth);
+
+        // Close reschedule modal
+        closeButtons.forEach((closeBtn) => {
             closeBtn.addEventListener("click", function () {
-                document.getElementById("reschedule-modal").classList.add("hidden");
+                rescheduleModal?.classList.add("hidden");
             });
         });
+
+        
+
+        // Handle additional modal closures
+        closeEventModal();
     }
-    function newListeners(){
-      document.addEventListener("click", function (event) {
-            if (event.target.classList.contains("close")) {
-                document.querySelector(".add-event-wrapper")?.classList.remove("active");
-            }
-        });
-    }
-
-    import { closeEventModal } from './calendar.js';
-
-document.addEventListener("DOMContentLoaded", () => {
-    closeEventModal();
-});
-
 </script>
+
 
 
 

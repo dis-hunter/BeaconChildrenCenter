@@ -16,6 +16,13 @@ body{
   background-color: #e2e1dc;
 
 } */
+
+.spinner-border {
+  width: 2rem;
+  height: 2rem;
+  border-width: 0.2em;
+}
+
 .container{
   position: relative;
   min-height: 600px;

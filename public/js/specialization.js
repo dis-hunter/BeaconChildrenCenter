@@ -247,3 +247,29 @@ if (csrfTokenMeta) {
 
     
     });
+
+    export function handleAddEventListeners() {
+        // Cache the wrapper for efficiency
+        const addEventWrapper = document.querySelector(".add-event-wrapper");
+    
+        if (!addEventWrapper) {
+            console.warn("Add Event wrapper not found!");
+            return;
+        }
+    
+        // Add click listeners for "Add Event" and "Close" buttons
+        document.addEventListener("click", function (event) {
+            // Open the Add Event modal
+            if (event.target.classList.contains("add-event")) {
+                console.log("Opening Add Event modal...");
+                addEventWrapper.classList.add("active");
+            }
+    
+            // Close the Add Event modal
+            if (event.target.classList.contains("close")) {
+                console.log("Closing Add Event modal...");
+                addEventWrapper.classList.remove("active");
+            }
+        });
+    }
+    
