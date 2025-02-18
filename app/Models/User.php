@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Http\Responses\LoginResponse;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,14 +17,13 @@ use Laravel\Sanctum\HasApiTokens;
 
 use function PHPUnit\Framework\returnSelf;
 
-class User extends Authenticatable 
+class User extends Authenticatable implements HasName
 {
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -79,10 +80,8 @@ class User extends Authenticatable
         return json_decode($value);
     }
 
-    // Check if this attribute is defined in your User model
-    public function getFilamentName(): string
-    {
-    return 'Default Name'; // Provide a default fallback if name is null
+    public function getFilamentName(): string{
+        return $this->fullname?->first_name.' '.$this->fullname?->last_name;
     }
 
     public function role(){
@@ -120,6 +119,7 @@ class User extends Authenticatable
 
         return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&color=FFFFFF&background=000000';
     }
+    
     public function getDashboardRoute(){
         return match($this->role_id){
             1 => 'triage.dashboard',
@@ -132,7 +132,7 @@ class User extends Authenticatable
     
     public function getTherapistRoute($specialization_id){
         return match($specialization_id){
-            default => 'occupational_therapist', // Now redirects therapists to this route
+            default => 'therapistsDashboard', // Now redirects therapists to this route
         };
     }
     

@@ -1,36 +1,32 @@
 <?php
 
-use App\Http\Controllers\DiagnosisController;
-use App\Http\Controllers\ParentsController;
-use App\Http\Controllers\ChildrenController;
-use App\Http\Controllers\DoctorsController;
-use App\Http\Controllers\BehaviourAssesmentController;
-use App\Http\Controllers\TriageController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BehaviourAssesmentController;
+use App\Http\Controllers\BookedController;
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\CarePlanController;
+use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\DevelopmentAssessmentController;
+use App\Http\Controllers\DiagnosisController;
+use App\Http\Controllers\docSpecController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\TherapistController;
-use App\Http\Controllers\DoctorsDisplayController;
-use App\Http\Controllers\appointmentsController;
 use App\Http\Controllers\TherapyController;
 use App\Models\Invoice;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\FetchAppointments;
 use App\Http\Controllers\RescheduleController;
-use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FamilySocialHistoryController;
 use App\Http\Controllers\PerinatalHistoryController;
 use App\Http\Controllers\PastMedicalHistoryController;
 use App\Http\Controllers\GeneralExamController;
-use App\Http\Controllers\DevelopmentAssessmentController;
 use App\Http\Controllers\InvestigationController;
-use App\Http\Controllers\CarePlanController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
-
 use App\Http\Controllers\ExpensesController;
 
 
@@ -108,6 +104,13 @@ Route::get('register', [AuthController::class,'registerGet'])->name('register');
 Route::post('register', [AuthController::class, 'registerPost'])->name('register.post');
 Route::post('login', [AuthController::class, 'loginPost'])->name('login.post');
 Route::post('logout',[AuthController::class, 'logout'])->name('logout');
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+
+Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);
+
+Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
 
 Route::get('/get-triage-data/{registrationNumber}', [DoctorsController::class, 'getTriageData']);
 
@@ -296,8 +299,7 @@ Route::get('/staff-dropdown', [StaffController::class, 'index']);
 Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
 Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
 
-// Appointment Routes 
-Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
+
 
 // Visit Routes
 Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
@@ -309,11 +311,10 @@ Route::view('/visits-page', 'visits')->name('visits.page');
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
 
-    // Nurse Routes
+    //NURSE
     Route::group(['middleware' => 'role:1'], function () {
         Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
         Route::post('/start-triage/{visitId}', [TriageController::class, 'startTriage']);
-        // Route::get('/get-untriaged-visits', [TriageController::class, 'getUntriagedVisits']); 
         Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
         Route::view('/post-triage', 'postTriageQueue');
         Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
@@ -324,11 +325,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
     });
 
-    // Doctor Routes
-    Route::group(['middleware' => ['role:2','track_user_activity']], function () {
+    //DOCTOR
+    Route::group(['middleware' => ['role:2', 'track_user_activity']], function () {
         Route::get('/doctorDashboard', [DoctorsController::class, 'dashboard'])->name('doctor.dashboard');
-        //Route::get('/doctorDashboard/profile', [DoctorsController::class, 'profile'])->name('doctor.profile');
-        // Update Profile Route
         Route::post('/doctorDashboard/profile/update', [DoctorsController::class, 'updateProfile'])->name('doctor.profile.update');
         Route::get('/doctor/{registrationNumber}', [DoctorsController::class, 'getChildDetails'])->name('doctor.show');
         Route::get('/post-triage-queue', [TriageController::class, 'getPostTriageQueue']);
@@ -365,17 +364,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/save-diagnosis/{registrationNumber}', [DiagnosisController::class, 'saveDiagnosis']);
     });
 
-    // Receptionist Routes
+    //RECEPTIONIST
     Route::group(['middleware' => 'role:3'], function () {
         Route::get('/dashboard', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
         Route::get('/patients/{id?}', [ChildrenController::class, 'patientGet'])->name('patients.search');
+        Route::get('/reception/search', [ReceptionController::class, 'search_engine'])->name('reception.search');
         Route::get('/guardians', [ChildrenController::class, 'get']);
         Route::post('/guardians', [ChildrenController::class, 'create']);
         Route::get('/guardians/{id?}', [ChildrenController::class, 'childGet'])->name('guardians.search');
-        Route::post('/finish-appointment/{id}',[ReceptionController::class, 'finishAppointment'])->name('finish');
+        Route::post('/finish-appointment/{id}', [ReceptionController::class, 'finishAppointment'])->name('finish');
         Route::get('/visithandle/{id?}', [ReceptionController::class, 'search'])->name('search.visit');
         Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
-        //Joy's Routes
         Route::get('/reception/calendar', [ReceptionController::class, 'calendar'])->name('reception.calendar');
         Route::get('/get-invoices', [InvoiceController::class, 'getInvoices'])->name('invoices');
         Route::get('/invoices/{invoiceId}', [InvoiceController::class, 'getInvoiceContent'])->name('invoice.content');
@@ -413,8 +412,8 @@ Route::get('/triage-data/{child_id}', [TriageController::class, 'getTriageData']
 Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);//->name('visits.untriaged');
 Route::get('/therapist_dashboard', [TherapistController::class, 'showDashboard'])->name('occupational_therapist');
 
-Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
-Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
+        Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
+        Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
 
 
 Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
@@ -483,163 +482,121 @@ Route::get('/sign_in', function () {
     return view('sign_in');
 });
 
-Route::get('/appointments/booked-patients', [AuthController::class, 'bookedPatients'])->name('appointments.booked');
+    Route::get('/appointments/booked-patients', [AuthController::class, 'bookedPatients'])->name('appointments.booked');
 
 
-Route::get('/get-user-specialization-and-doctor', [AuthController::class, 'getUserSpecializationAndDoctor'])->name('get.user.specialization.doctor');
+    Route::get('/doctors/{specializationId}', [docSpecController::class, 'getDoctorsBySpecialization']);
 
 
+    Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
+    Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
+    //Therapist Routes
 
-// routes/web.php
+    Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form'); // Display the doctor form once the add doctor button is clicked
 
 
-// Show the calendar page
-//Route::get('/calendar', [AppointmentController::class, 'create'])->name('calendar');
-//Route::get('/calendar', [CalendarController::class, 'index'])->middleware('web');
 
+    //this handles parent related activity
+    Route::get('/parentform', [ParentsController::class, 'create'])->name('parents.create');
+    // Handle form submission to store a new parent
+    Route::post('/storeparents', [ParentsController::class, 'store'])->name('parents.store');
+    //search for parent
+    Route::post('/search-parent', [ParentsController::class, 'search'])->name('parents.search');
 
+    //Handles child related operations
+    Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
+    // Handle form submission to store a new child
+    Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
+    Route::get(
+        '/parents',
+        [
+            ParentsController::class,
+            'create'
+        ]
+    );
+    Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
 
+    // Child Routes
+    //Route::get('/childform', [ChildrenController::class, 'create'])->name('children.create');
+    //Route::post('/storechild', [ChildrenController::class, 'store'])->name('children.store');
+    Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');
 
 
 
-Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/api/visit-data', [VisitController::class, 'getVisitData']);
+    Route::get('/api/finance-data', [FinanceController::class, 'getFinanceData']);
+    Route::get('/get-gender-distribution', [ChildrenController::class, 'getGenderDistribution']);
+    Route::get('/get-visit-types', [VisitController::class, 'getVisitTypesData']);
 
 
+    Route::get('/visits/last7days', [VisitController::class, 'getVisitsLast7Days']);
 
+    Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
 
-Route::get('/doctors/{specializationId}', [docSpecController::class, 'getDoctorsBySpecialization']);
+    Route::delete('/cancel-appointment/{id}', [RescheduleController::class, 'cancelAppointment']);
 
+    Route::post('/reschedule-appointment/{appointmentId}', [RescheduleController::class, 'rescheduleAppointment'])->name('appointments.rescheduleAppointment');
 
+    Route::get('/calendar', [CalendarController::class, 'create'])->name('calendar');
 
-//Route::get('/doctor/dashboard', [DoctorDashboardController::class, 'index'])->name('doctor.dash');
-Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
+    Route::get('/doctor/calendar', [CalendarController::class, 'showDoctorDashboard'])->name('doctor.calendar');
+    Route::get('/therapist/calendar', [CalendarController::class, 'showTherapistDashboard'])->name('therapist.calendar');
 
 
 
+    Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])
+        ->name('doctors.specializationSearch');
+    // Staff Routes
+    Route::get('/staff-dropdown', [StaffController::class, 'index']);
+    Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
+    Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
+    // Appointment Routes 
+    Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
 
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']) ->where('registrationNumber', '.*');
+    Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
 
-Route::get('/specialists', [DoctorDashboardController::class, 'getSpecialists'])->name('specialists.get');
 
+    // Visit Routes
+    Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
+    Route::view('/visits-page', 'visits')->name('visits.page');
+    // Route::get('/payment-modes', [VisitController::class, 'getPaymentModes']);
 
 
-Route::get('/api/specialists', function (Illuminate\Http\Request $request) {
-    $service = $request->query('service');
 
-    // Fetch specialists based on the service
-    $specialists = Specialist::where('service', $service)->get(['id', 'name']);
+    Route::get('/specialists', [DoctorDashboardController::class, 'getSpecialists'])->name('specialists.get');
 
-    return response()->json($specialists);
-});
-Route::get('/get-doctors/{specializationId}', [AppointmentController::class, 'getDoctors']);
 
-Route::get('/check-availability', [AppointmentController::class, 'checkAvailability']);
+    // Route::get('/api/specialists', function (Illuminate\Http\Request $request) {
+    //     $service = $request->query('service');
 
+    //     // Fetch specialists based on the service
+    //     $specialists = Specialist::where('service', $service)->get(['id', 'name']);
 
+    //     return response()->json($specialists);
+    // });
 
-Route::get('/booked-patients', [BookedController::class, 'getBookedPatients'])->name('booked.patients');
 
-Route::get('/calendar-content', [CalendarController::class, 'create'])->name('calendar.content');
+    Route::get('/booked-patients', [BookedController::class, 'getBookedPatients'])->name('booked.patients');
 
-Route::get('/appointments/therapists', [AppointmentController::class, 'therapistAppointments'])->name('appointments.therapists');
-Route::get('/get-referral-data/{registration_number}', [ReferralController::class, 'getReferralData']);
-Route::get('/get-child-data/{registration_number}', [ReferralController::class, 'getChildData']);
-Route::post('/save-referral/{registration_number}', [ReferralController::class, 'saveReferral']);
-Route::get('/getDoctorNotes/{registrationNumber}', [VisitController::class, 'getDoctorNotes']);
+    Route::get('/appointments/therapists', [AppointmentController::class, 'therapistAppointments'])->name('appointments.therapists');
+    Route::get('/getDoctorNotes/{registrationNumber}', [VisitController::class, 'getDoctorNotes']);
 
+    Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
+    Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
 
-Route::post('/saveDoctorNotes', [VisitController::class, 'doctorNotes'])->name('doctorNotes.store');
 
+    Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
 
-Route::get('/visithandle', function () {
-    return view('Receiptionist/visits');
-});
-Route::get('/staff-dropdown', [StaffController::class, 'index']);
-
-Route::get('/get-prescriptions/{registrationNumber}', [PrescriptionController::class, 'show']);
-Route::post('/prescriptions/{registrationNumber}', [PrescriptionController::class, 'store']);
-
-
-
-Route::post('/search', [IcdSearchController::class, 'search']);
-
-
-
-
-
-
-
-
-
-
-Route::post('/parent/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
-Route::get('/children/search', [ChildrenController::class, 'search'])->name('children.search');
-Route::get('/children/create', [ChildrenController::class, 'create'])->name('children.create');
-Route::post('/children/store', [ChildrenController::class, 'store'])->name('children.store');
-
-Route::get('/doctors/specialization-search', [DoctorController::class, 'showSpecializations'])
-    ->name('doctors.specializationSearch');
-Route::get('/staff/fetch', [StaffController::class, 'fetchStaff'])->name('staff.fetch');
-Route::get('/specializations', [DoctorController::class, 'getSpecializations']);
-Route::get('/doctors', [DoctorController::class, 'getDoctorsBySpecialization']);
-// Add this route to handle the POST request for fetching staff full names
-Route::get('/staff/names', [StaffController::class, 'fetchStaff']);
-Route::get('/appointments', [AppointmentController::class, 'fetchStaff']);
-
-
-
-Route::post('/get-children', [ParentsController::class, 'getChildren'])->name('parent.get-children');
-
-
-Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
-
-Route::get('/therapists.therapist_dashboard', [TherapistController::class, 'showDashboard']);
-
-Route::post('/saveTherapyGoal', [TherapyController::class, 'saveTherapyGoal'])->name('savetherapy.store');
-Route::post('/completedVisit', [TherapyController::class, 'completedVisit'])->name('completedVisit.store');
-
-
-Route::post('/saveAssessment', [TherapyController::class, 'saveAssessment'])->name('saveAssessment.store');
-Route::post('/saveSession', [TherapyController::class, 'saveSession'])->name('saveSession.store');
-Route::post('/saveIndividualized', [TherapyController::class, 'saveIndividualized'])->name('saveIndividualized.store');
-Route::post('/saveFollowup', [TherapyController::class, 'saveFollowup'])->name('saveFollowup.store');
-
-Route::get('/untriaged-visits', [TriageController::class, 'getUntriagedVisits']);
-
-
-
-
-
-Route::get('/invoice/{registrationNumber}', [InvoiceController::class, 'countVisitsForToday']);
-
-
-
-
-//Temporary Admin route
-Route::get('/admin1', function () {
-    return view('beaconAdmin');
-});
-
-
-
-use App\Http\Controllers\PatientDemographicsController;
-
-// Route to fetch data for the pie charts
-Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
-
+    Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
 Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
 
-Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
+    Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
 
+    Route::post('/generate-encounter-summary', [ReportController::class, 'generateEncounterSummary']);
+    Route::post('/generate-staff-performance', [ReportController::class, 'generateStaffPerformance']);
 
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\RevenueReportController;
-
-Route::post('/generate-encounter-summary', [ReportController::class, 'generateEncounterSummary']);
-Route::post('/generate-staff-performance', [ReportController::class, 'generateStaffPerformance']);
-
-Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
-    ->name('revenue.breakdown');
+    Route::post('/revenue-breakdown', [ReportController::class, 'revenueBreakdown'])
+        ->name('revenue.breakdown');
 
 
 
@@ -648,5 +605,5 @@ Route::post('/generate-revenue-report', [RevenueReportController::class, 'genera
 Route::get('/analytics', [RevenueReportController::class, 'showAnalytics'])->name('analytics');
 
 
-use App\Http\Controllers\ExpenseController;
+
 Route::post('/expenses', [ExpenseController::class, 'getExpensesByDateRange'])->name('expenses');

@@ -9,7 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Grid;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Model;
 
 class EditInvoices extends EditRecord
@@ -48,7 +48,7 @@ class EditInvoices extends EditRecord
         return floatval($value);
     }
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [];
     }
@@ -135,7 +135,7 @@ class EditInvoices extends EditRecord
         return $actions;
     }
 
-    protected function form(Form $form): Form
+    public function form(Form $form): Form
     {
         $invoice = $this->record;
         $invoiceDetails = (array) $invoice->invoice_details;

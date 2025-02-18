@@ -10,7 +10,7 @@
     
         <!-- Search Input -->
         <div class="col-lg-5 col-md-5 col-sm-10 p-2">
-            <input type="text" wire:model.debounce.300ms="query" class="form-control search-input" placeholder="Enter parent details">
+            <input type="text" wire:model.live.debounce.300ms="query" class="form-control search-input" placeholder="Enter parent details">
             @error('query') 
                 <span class="text-danger error-message">{{ $message }}</span>
             @enderror

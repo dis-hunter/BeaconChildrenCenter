@@ -243,6 +243,23 @@ function updateEvents(date) {
     const loadingDiv = document.createElement("div");
     loadingDiv.classList.add("loading");
     loadingDiv.innerHTML = `
+        <div class="loader"></div>
+            <style>
+                .loader {
+                    height: 5px;
+                    width: inherit;
+                    --c:no-repeat linear-gradient(#6100ee 0 0);
+                    background: var(--c),var(--c),#d7b8fc;
+                    background-size: 60% 100%;
+                    animation: l16 3s infinite;
+                    border-radius: 5px;
+                    }
+                @keyframes l16 {
+                    0%   {background-position:-150% 0,-150% 0}
+                    66%  {background-position: 250% 0,-150% 0}
+                    100% {background-position: 250% 0, 250% 0}
+                    }
+            </style>
         <div class="loading-spinner"></div>
         <p class="loading-text" style="color:white;">loading appointments... Please wait!</p>
     `;
@@ -308,16 +325,31 @@ function updateEvents(date) {
                     // Append the event div to the container
                     eventsContainer.appendChild(eventDiv);
 
-                    // Add cancellation functionality
                     const cancelButton = eventDiv.querySelector(".cancel-btn");
                     cancelButton.addEventListener("click", (e) => {
                         const appointmentId = e.target.getAttribute("data-id");
-
+                    
                         if (confirm("Are you sure you want to cancel this appointment?")) {
+                            // Create a spinner container and append to body
+                            const spinnerContainer = document.createElement("div");
+                            spinnerContainer.classList.add("spinner-container");
+                    
+                            const spinner = document.createElement("div");
+                            spinner.classList.add("l-spinner");
+                    
+                            // Add the text "Cancelling..."
+                            const spinnerText = document.createElement("span");
+                            spinnerText.textContent = "Cancelling...";
+                            spinnerText.classList.add("spinner-text");
+                    
+                            spinnerContainer.appendChild(spinner);
+                            spinnerContainer.appendChild(spinnerText);
+                            document.body.appendChild(spinnerContainer); // Show spinner on the page
+                    
                             const csrfToken = document
                                 .querySelector('meta[name="csrf-token"]')
                                 .getAttribute("content");
-
+                    
                             fetch(`/cancel-appointment/${appointmentId}`, {
                                 method: "DELETE",
                                 headers: {
@@ -326,26 +358,26 @@ function updateEvents(date) {
                                 },
                             })
                                 .then((response) => {
+                                    document.body.removeChild(spinnerContainer); // Remove the spinner
                                     if (response.ok) {
                                         alert("Appointment canceled successfully.");
-                                        updateEvents(date);
+                                        updateEvents(date); // Refresh the events
                                     } else {
                                         return response.json().then((data) => {
                                             throw new Error(
-                                                data.message ||
-                                                    "Failed to cancel appointment."
+                                                data.message || "Failed to cancel appointment."
                                             );
                                         });
                                     }
                                 })
                                 .catch((error) => {
+                                    document.body.removeChild(spinnerContainer); // Remove the spinner
                                     console.error("Error canceling appointment:", error);
-                                    alert(
-                                        "An error occurred while canceling the appointment."
-                                    );
+                                    alert("An error occurred while canceling the appointment.");
                                 });
                         }
                     });
+                    
                 });
             } else {
                 const noEventDiv = document.createElement("div");

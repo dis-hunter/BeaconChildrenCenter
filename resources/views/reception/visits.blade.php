@@ -138,6 +138,18 @@
             <option value="5">Other</option>
         </select>
     </div>
+    <div id="copaySection" class="mt-3">
+    <h3>Copay Details</h3>
+    <div class="form-check mb-2">
+        <input type="checkbox" class="form-check-input" id="has_copay">
+        <label class="form-check-label" for="has_copay">Has Copay</label>
+    </div>
+    <div id="copayAmountDiv" class="form-group" style="display: none;">
+        <label for="copay_amount">Copay Amount:</label>
+        <input type="number" step="0.01" class="form-control" id="copay_amount" placeholder="Enter copay amount">
+    </div>
+</div>
+
     <div id="loading-overlay" class="loading-overlay" style="display: none;">
         <div class="loading-spinner">
             <div class="spinner"></div>
@@ -145,6 +157,16 @@
         </div>
     </div>
     <button id="submit-appointment" class="btn btn-primary mt-4">Create Visit</button>
+</div>
+<div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loading-card">
+        <div class="spinner"></div>
+        <div class="loading-status" id="loading-status">Creating visit...</div>
+        <div class="loading-substatus" id="loading-substatus">Preparing data</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="loading-progress-bar"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -334,72 +356,152 @@
         }
     };
 
+    const loadingUI = {
+    overlay: document.getElementById('loading-overlay'),
+    status: document.getElementById('loading-status'),
+    substatus: document.getElementById('loading-substatus'),
+    progressBar: document.getElementById('loading-progress-bar'),
+    
+    show(mainStatus = 'Creating visit...') {
+        this.overlay.style.display = 'flex';
+        this.status.textContent = mainStatus;
+        this.setProgress(0);
+    },
+    
+    hide() {
+        this.overlay.style.display = 'none';
+        this.setProgress(0);
+    },
+    
+    updateStatus(mainStatus, subStatus) {
+        this.status.textContent = mainStatus;
+        if (subStatus) {
+            this.substatus.textContent = subStatus;
+        }
+    },
+    
+    setProgress(percent) {
+        this.progressBar.style.width = `${percent}%`;
+    }
+};
+
     // Validation Functions
     const validation = {
-        async prepareAppointmentData() {
-            try {
-                const activeChild = document.querySelector('.select-child.active');
-                const activeDoctor = document.querySelector('.doctor-select-btn.active');
-                const visitType = document.getElementById('visit_type');
-                const paymentMode = document.getElementById('payment_mode');
-                const triagePass = document.getElementById('triage_pass');
+   async prepareAppointmentData() {
+    // Initialize data object first
+    const data = {
+        child_id: null,
+        doctor_id: null,
+        visit_type: null,
+        payment_mode_id: null,
+        triage_pass: null,
+        visit_date: utils.getTodayDate(),
+        source_type: 'Reception',
+        source_contact: '123456789',
+        staff_id: 3,
+        created_at: utils.getTodayDate(),
+        updated_at: utils.getTodayDate(),
+        has_copay: false,
+        copay_amount: null  // Set default to null
+    };
 
-                if (!activeChild || !activeDoctor || !visitType.value || !paymentMode.value || !triagePass.value) {
-                    throw new Error('Missing required fields');
-                }
+    try {
+        // Get references to DOM elements
+        const activeChild = document.querySelector('.select-child.active');
+        const activeDoctor = document.querySelector('.doctor-select-btn.active');
+        const visitType = document.getElementById('visit_type');
+        const paymentMode = document.getElementById('payment_mode');
+        const triagePass = document.getElementById('triage_pass');
+        const hasCopay = document.getElementById('has_copay');
+        const copayAmount = document.getElementById('copay_amount');
 
-                const data = {
-                    child_id: parseInt(activeChild.dataset.childId),
-                    doctor_id: parseInt(activeDoctor.dataset.doctorId),
-                    visit_type: parseInt(visitType.value),
-                    payment_mode_id: parseInt(paymentMode.value),
-                    triage_pass: triagePass.value === 'true',
-                    visit_date: utils.getTodayDate(),
-                    source_type: 'Reception',
-                    source_contact: '123456789',
-                    staff_id: 3,
-                    created_at: utils.getTodayDate(),
-                    updated_at: utils.getTodayDate()
-                };
+        // Validate required elements exist
+        if (!activeChild || !activeDoctor || !visitType || !paymentMode || !triagePass) {
+            throw new Error('Required form elements not found');
+        }
 
-            // Validate all fields have proper values
-            for (const [key, value] of Object.entries(data)) {
-                if (value === undefined || value === null || Number.isNaN(value)) {
-                    throw new Error(`Invalid value for field: ${key}`);
-                }
+        // Validate values are selected/entered
+        if (!activeChild.dataset.childId || 
+            !activeDoctor.dataset.doctorId || 
+            !visitType.value || 
+            !paymentMode.value || 
+            !triagePass.value) {
+            throw new Error('Please fill in all required fields');
+        }
+
+        // Populate data object
+        data.child_id = parseInt(activeChild.dataset.childId);
+        data.doctor_id = parseInt(activeDoctor.dataset.doctorId);
+        data.visit_type = parseInt(visitType.value);
+        data.payment_mode_id = parseInt(paymentMode.value);
+        data.triage_pass = triagePass.value === 'true';
+
+        // Only handle copay if checkbox is checked
+        if (hasCopay && hasCopay.checked) {
+            data.has_copay = true;
+            if (!copayAmount.value || isNaN(copayAmount.value) || parseFloat(copayAmount.value) <= 0) {
+                throw new Error('Please enter a valid copay amount');
             }
+            data.copay_amount = parseFloat(copayAmount.value);
+        } else {
+            // If copay is not checked, set these values explicitly
+            data.has_copay = false;
+            data.copay_amount = null;
+        }
 
-                console.log('Prepared appointment data:', data);
-                return data;
-            } catch (error) {
-                console.error('Error preparing appointment data:', error);
-                throw error;
+        // Validate only non-copay values if copay is not checked
+        const requiredFields = ['child_id', 'doctor_id', 'visit_type', 'payment_mode_id'];
+        for (const field of requiredFields) {
+            if (data[field] === null || data[field] === undefined || Number.isNaN(data[field])) {
+                throw new Error(`Invalid value for field: ${field}`);
             }
-        },
+        }
 
-        validateAppointmentData() {
-            const required = {
-                child: document.querySelector('.select-child.active'),
-                doctor: document.querySelector('.doctor-select-btn.active'),
-                visitType: document.getElementById('visit_type').value,
-                paymentMode: document.getElementById('payment_mode').value,
-                triagePass: document.getElementById('triage_pass').value
-            };
+        console.log('Prepared appointment data:', data);
+        return data;
 
-            for (const [key, value] of Object.entries(required)) {
-                if (!value) {
-                    return {
-                        isValid: false,
-                        message: `Please select a ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}.`
-                    };
-                }
-            }
+    } catch (error) {
+        console.error('Error preparing appointment data:', error);
+        throw error;
+    }
+},
 
+    validateAppointmentData() {
+    const required = {
+        child: document.querySelector('.select-child.active'),
+        doctor: document.querySelector('.doctor-select-btn.active'),
+        visitType: document.getElementById('visit_type').value,
+        paymentMode: document.getElementById('payment_mode').value,
+        triagePass: document.getElementById('triage_pass').value
+    };
+
+    // Check required fields
+    for (const [key, value] of Object.entries(required)) {
+        if (!value) {
             return {
-                isValid: true
+                isValid: false,
+                message: `Please select a ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}.`
             };
         }
+    }
+
+    // Check copay only if checkbox is checked
+    const hasCopay = document.getElementById('has_copay');
+    if (hasCopay && hasCopay.checked) {
+        const copayAmount = document.getElementById('copay_amount').value;
+        if (!copayAmount || isNaN(copayAmount) || parseFloat(copayAmount) <= 0) {
+            return {
+                isValid: false,
+                message: 'Please enter a valid copay amount'
+            };
+        }
+    }
+
+    return {
+        isValid: true
     };
+}
+};
 
     // Event Listeners
     document.addEventListener('DOMContentLoaded', async () => {
@@ -412,41 +514,82 @@
                 ui.populateDoctorTable(doctors);
             }
         });
+        document.getElementById('has_copay').addEventListener('change', function(e) {
+    const copayAmountDiv = document.getElementById('copayAmountDiv');
+    const copayAmount = document.getElementById('copay_amount');
+    
+    copayAmountDiv.style.display = e.target.checked ? 'block' : 'none';
+    if (!e.target.checked) {
+        copayAmount.value = ''; // Clear the copay amount when unchecked
+        // Remove any validation error messages if they exist
+        const errorMessage = copayAmountDiv.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.remove();
+        }
+    }
 
-        document.getElementById('submit-appointment').addEventListener('click', async () => {
-            try {
-                const validationResult = validation.validateAppointmentData();
-                if (!validationResult.isValid) {
-                    alert(validationResult.message);
-                    return;
-                }
+});
 
-                utils.showLoading(); // Show loading state
+document.getElementById('submit-appointment').addEventListener('click', async () => {
+    try {
+        const validationResult = validation.validateAppointmentData();
+        if (!validationResult.isValid) {
+            alert(validationResult.message);
+            return;
+        }
 
-                const appointmentData = await validation.prepareAppointmentData();
+        loadingUI.show();
+        loadingUI.updateStatus('Creating visit...', 'Validating data');
+        loadingUI.setProgress(20);
 
-                try {
-                    const result = await api.submitAppointment(appointmentData);
+        const appointmentData = await validation.prepareAppointmentData();
+        loadingUI.updateStatus('Creating visit...', 'Sending data to server');
+        loadingUI.setProgress(40);
 
-                    if (result.status === 'success') {
-                        alert('Appointment created successfully!');
-                        window.location.reload();
-                    } else {
-                        const errorMessage = result.message || 'Failed to create appointment';
-                        console.error('Server returned error:', result);
-                        alert(errorMessage);
-                    }
-                } catch (error) {
-                    console.error('Submission error details:', error);
-                    alert(`Error creating appointment: ${error.message}`);
-                }
-            } catch (error) {
-                console.error('Form error details:', error);
-                alert(`Form error: ${error.message}`);
-            } finally {
-                utils.hideLoading(); // Hide loading state regardless of success/failure
+        try {
+            const result = await api.submitAppointment(appointmentData);
+            loadingUI.setProgress(80);
+            loadingUI.updateStatus('Visit created!', 'Processing response');
+
+            if (result.status === 'success') {
+                loadingUI.updateStatus('Success!', 'Redirecting...');
+                loadingUI.setProgress(100);
+                
+                // Show success message with confetti effect
+                const successMessage = document.createElement('div');
+                successMessage.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3';
+                successMessage.style.zIndex = '10000';
+                successMessage.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Visit created successfully!
+                    </div>
+                `;
+                document.body.appendChild(successMessage);
+
+                // Redirect to dashboard after 2 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                    window.location.href = '/dashboard'; // Changed from reload() to redirect
+                }, 2000);
+            } else {
+                loadingUI.hide();
+                const errorMessage = result.message || 'Failed to create appointment';
+                console.error('Server returned error:', result);
+                alert(errorMessage);
             }
-        });
+        } catch (error) {
+            loadingUI.hide();
+            console.error('Submission error details:', error);
+            alert(`Error creating appointment: ${error.message}`);
+        }
+    } catch (error) {
+        loadingUI.hide();
+        console.error('Form error details:', error);
+        alert(`Form error: ${error.message}`);
+    }
+});
+
     });
 </script>
 

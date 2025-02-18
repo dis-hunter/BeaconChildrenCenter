@@ -6,17 +6,21 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css',
                     'resources/js/app.js',
-                    'resources/css/filament.css'
                 ],
-            refresh: true,
-            input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
-            ],
             refresh: [
                 ...refreshPaths,
-                'app/Http/Livewire/**',
+                'app/Livewire/**',
             ],
         }),
     ],
+    resolve: {
+        alias: {
+            '@' : 'resources/js',
+        },
+    },
+    build: {
+        commonjsOptions: {
+            include : [/node_modules/],
+        },
+    },
 });

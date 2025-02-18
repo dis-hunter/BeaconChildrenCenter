@@ -141,7 +141,6 @@
 
     <button 
         onclick="goToWorkspace(event)" 
-        data-specialization-id="2"
         class="block px-4 py-3 text-gray-700 border-b border-gray-100 transition-all duration-300 hover:bg-sky-50 hover:text-blue-600"
     >
         Therapist Workstation
@@ -191,7 +190,8 @@ function handleMissingData() {
 function goToWorkspace(event) {
     // Retrieve the specialization ID from the button's data attribute
     showLoadingIndicator('Opening Workstation...', 0);
-    const specializationId = event.target.getAttribute('data-specialization-id');
+    const specializationId = document.getElementById('specialization_id').value;
+
     const registrationNumber = extractRegistrationCode(); // Function to get registration number
 
     if (!registrationNumber || !specializationId) {
@@ -204,11 +204,14 @@ function goToWorkspace(event) {
         updateLoadingProgress(70, 'Loading Workstation...');
         // Redirect to the appropriate workspace URL based on the specialization ID
         switch (specializationId) {
+            case "9":
+                window.location.href = `/psychotherapist/${registrationNumber}`;
+                break;
             case "2":
-                window.location.href = `/occupational_therapist/${registrationNumber}`;
+                window.location.href = `/Occupational/${registrationNumber}`;
                 break;
             case "5":
-                window.location.href = `/nutritionist_therapist/${registrationNumber}`;
+                window.location.href = `/nutritionist/${registrationNumber}`;
                 break;
             case "3":
                 window.location.href = `/speech_therapist/${registrationNumber}`;
@@ -627,19 +630,24 @@ async function goToEncounterSummary() {
                     </div>
 
                     <div class="visits-container">
-                        ${result.data.visits.map(visit => `
-                            <div class="visit-entry" onclick="toggleDetails(this)">
-                                <h3>Visit Details</h3>
-                                <div class="visit-meta">
-                                    <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
-                                    <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
-                                </div>
-                                <div class="notes">
-                                    <strong>Doctor's Notes:</strong><br>
-                                    ${visit.notes || 'No notes recorded'}
-                                </div>
-                            </div>
-                        `).join('')}
+                    
+${result.data.visits.map(visit => `
+    <div class="visit-entry">
+        <h3>Visit Details</h3>
+        <div class="visit-meta">
+            <span><strong>Date:</strong> ${new Date(visit.visit_date).toLocaleDateString()}</span>
+            <span><strong>Doctor:</strong> ${visit.doctor_first_name} ${visit.doctor_last_name} </span>
+        </div>
+        <div class="notes">
+            <strong>Doctor's Notes:</strong><br>
+            ${visit.notes || 'No notes recorded'}
+        </div>
+            <button 
+                onclick="toggleDetails(this.parentElement)" 
+                class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
+                More Details
+            </button>    </div>
+`).join('')}
                     </div>
                 </div>
             `;

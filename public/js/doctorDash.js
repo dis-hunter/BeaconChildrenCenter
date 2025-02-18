@@ -96,6 +96,8 @@ const bookedContent = document.getElementById('booked-content');
 const leaveContent = document.getElementById('leave-content');
 const therapistContent = document.getElementById('therapist-content');
 const dropdownProfileLink = document.getElementById('dropdown-profile-link');
+const calendarLink = document.getElementById('calendar-link');
+const calendarContent = document.getElementById('calendar-content');
 
 function updatePatientList() {
   // 1. Get the currently active patient ID (if any)
@@ -165,6 +167,7 @@ sidebarLinks.forEach(link => {
     bookedContent.style.display = 'none';
     leaveContent.style.display = 'none';
     therapistContent.style.display = 'none';
+    calendarContent.style.display = 'none';
 
     // Show the corresponding content section based on the clicked link
     if (link === dashboardLink) {
@@ -174,12 +177,10 @@ sidebarLinks.forEach(link => {
     } else if (link === bookedLink) {
       bookedContent.style.display = 'block';
     } else if (link === therapistLink) {
-      therapistContent.style.display = 'block'; 
+      therapistContent.style.display = 'block';
+    }else if (link === calendarLink) {
+      calendarContent.style.display = 'block';
     }
- else if (link === leaveLink){
-  leaveContent.style.display = 'block';
-
- }
 
 
   });
@@ -270,6 +271,12 @@ document.getElementById('booked-link').addEventListener('click', async () => {
     // Clear any previous content
     bookedContent.innerHTML = '';
 
+    if (appointments.length === 0) {
+      // Show "No appointments for today" message
+      bookedContent.innerHTML = '</br> </br><p>No appointments for today.</p>';
+      return;
+    }
+
     // Create a table to display the appointments
     const table = document.createElement('table');
     table.classList.add('table', 'table-bordered');
@@ -301,18 +308,16 @@ document.getElementById('booked-link').addEventListener('click', async () => {
         tbody.appendChild(row);
     });
 
+    table.appendChild(tbody);
+    bookedContent.appendChild(table);
 
-
-
-      table.appendChild(tbody);
-      bookedContent.appendChild(table);
-
-      bookedContent.style.display = 'block'; // Show the booked appointments section
+    bookedContent.style.display = 'block'; // Show the booked appointments section
   } catch (error) {
-      console.error('Error loading booked patients:', error);
-      bookedContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
+    console.error('Error loading booked patients:', error);
+    bookedContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
   }
 });
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const calendarLink = document.getElementById('calendar-link');

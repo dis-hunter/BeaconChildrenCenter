@@ -37,7 +37,7 @@
                         <div>
                             <!-- Checkboxes for selection -->
                             <label class="checkbox-container">
-                                <input type="checkbox" wire:model="selectedItems" value="{{ $result->id }}" id="child_id_{{ $result->id }}" />
+                                <input type="checkbox" wire:model.live="selectedItems" value="{{ $result->id }}" id="child_id_{{ $result->id }}" />
                                 <span class="checkmark"></span> Select
                             </label>
                         </div>

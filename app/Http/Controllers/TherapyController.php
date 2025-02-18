@@ -224,6 +224,7 @@ class TherapyController extends Controller
                 ],
                 'doctorsNotes' => $doctorsNotes,
                 'staff_id' => auth()->user()->id,
+                
                 'specialization_id' => $staff->specialization_id
             ]);
         }

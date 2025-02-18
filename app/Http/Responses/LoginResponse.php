@@ -16,11 +16,11 @@ class LoginResponse implements LoginResponseContract
     ];
 
     protected const THERAPIST_REDIRECTS = [
-        2 => 'therapists.occupationalTherapist',
-        3 => 'therapists.speechTherapist',
-        4 => 'therapists.physiotherapyTherapist',
-        5 => 'therapists.nutritionist',
-        9 => 'therapists.psychotherapyTherapist',
+        2 => 'therapistsDashboard',
+        3 => 'therapistsDashboard',
+        4 => 'therapistsDashboard',
+        5 => 'therapistsDashboard',
+        9 => 'therapistsDashboard',
     ];
 
     public function toResponse($request)

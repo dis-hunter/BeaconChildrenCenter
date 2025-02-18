@@ -5,7 +5,9 @@
         x-data="{ 
             open: true,
             reportData: null,
+             isLoading: false,
             async generateReport(form) {
+            this.isLoading = true;
                 const formData = new FormData(form);
                 try {
                     const response = await fetch(form.action, {
@@ -19,7 +21,9 @@
                     this.renderCharts();
                 } catch (error) {
                     console.error('Error generating report:', error);
-                }
+                }finally {
+        this.isLoading = false;  // Set loading to false when done
+    }
             },
             formatCurrency(amount) {
                 return new Intl.NumberFormat('en-KE', {
@@ -56,6 +60,44 @@
                             borderColor: '#4F46E5',
                             tension: 0.1
                         }]
+                    }
+                });
+
+                // Render the Paid Invoices chart
+                const paidInvoicesChart = document.getElementById('paidInvoicesChart');
+                new Chart(paidInvoicesChart, {
+                    type: 'line',
+                    data: {
+                        labels: this.reportData.paidInvoices.map(item => item.date),
+                        datasets: [{
+                            label: 'Paid Invoices',
+                            data: this.reportData.paidInvoices.map(item => item.amount),
+                            borderColor: '#10B981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'KES ' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'KES ' + context.raw.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             }
@@ -113,30 +155,52 @@
                 </div>
             </div>
             <button 
-                type="submit" 
-                class="bg-gray-600 text-white py-2 px-4 rounded-md"
-            >
-                Generate Report
-            </button>
+    type="submit" 
+    class="bg-gray-600 text-white py-2 px-4 rounded-md"
+    :disabled="isLoading"
+>
+    <span x-show="!isLoading">Generate Report</span>
+    <span x-show="isLoading" class="flex items-center">
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Generating...
+    </span>
+</button>
         </form>
 
         <!-- Report Results -->
-        <div x-show="reportData" x-transition class="mt-8 space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-gray-50 p-4 rounded-lg shadow">
-                    <h3 class="text-lg font-medium text-gray-900">Total Revenue</h3>
-                    <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.total_revenue)"></p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg shadow">
-                    <h3 class="text-lg font-medium text-gray-900">Normal Payments</h3>
-                    <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.normal_payment)"></p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg shadow">
-                    <h3 class="text-lg font-medium text-gray-900">Sponsored Payments</h3>
-                    <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.sponsored_payment)"></p>
-                </div>
-            </div>
-
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="bg-gray-50 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-medium text-gray-900">Total Revenue</h3>
+        <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.total_revenue)"></p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-medium text-gray-900">Normal Payments</h3>
+        <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.normal_payment)"></p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-medium text-gray-900">Sponsored Payments</h3>
+        <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.sponsored_payment)"></p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-medium text-gray-900">Paid Invoices</h3>
+        <p class="text-2xl text-gray-900" x-text="formatCurrency(reportData.summary.paid_invoices_total)"></p>
+    </div>
+</div>
+<div 
+    x-show="isLoading" 
+    class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50"
+>
+    <div class="bg-white p-4 rounded-lg shadow-lg flex items-center">
+        <svg class="animate-spin h-5 w-5 text-gray-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-gray-700">Loading report data...</span>
+    </div>
+</div>
             <!-- Charts -->
             <div>
                 <h2 class="text-lg font-medium">Daily Revenue Trend</h2>
@@ -145,6 +209,11 @@
             <div>
                 <h2 class="text-lg font-medium">Revenue by Service</h2>
                 <canvas id="servicesChart" class="mt-4"></canvas>
+            </div>
+             <!-- New Paid Invoices chart -->
+             <div>
+                <h2 class="text-lg font-medium">Paid Invoices</h2>
+                <canvas id="paidInvoicesChart" class="mt-4"></canvas>
             </div>
         </div>
     </section>

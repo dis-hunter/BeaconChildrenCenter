@@ -1,21 +1,5 @@
 <?php
 
-use App\Filament\Pages\Dashboard;
-use App\Filament\Resources\PatientsResource\Widgets\PatientStats;
-use App\Filament\Widgets\StatsOverview;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Http\Middleware\MirrorConfigToSubpackages;
-use Filament\Pages;
-use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-
 return [
 
     /*
@@ -196,10 +180,10 @@ return [
     | Broadcasting
     |--------------------------------------------------------------------------
     |
-    | By uncommenting the Laravel Echo configuration, you may connect your
-    | admin panel to any Pusher-compatible websockets server.
+    | By uncommenting the Laravel Echo configuration, you may connect Filament
+    | to any Pusher-compatible websockets server.
     |
-    | This will allow your admin panel to receive real-time notifications.
+    | This will allow your users to receive real-time notifications.
     |
     */
 
@@ -209,81 +193,10 @@ return [
         //     'broadcaster' => 'pusher',
         //     'key' => env('VITE_PUSHER_APP_KEY'),
         //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
-        //     'wsHost' => env('VITE_PUSHER_HOST'),
-        //     'wsPort' => env('VITE_PUSHER_PORT'),
-        //     'wssPort' => env('VITE_PUSHER_PORT'),
         //     'forceTLS' => true,
         // ],
 
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Layout
-    |--------------------------------------------------------------------------
-    |
-    | This is the configuration for the general layout of the admin panel.
-    |
-    | You may configure the max content width from `xl` to `7xl`, or `full`
-    | for no max width.
-    |
-    */
-
-    'layout' => [
-        'actions' => [
-            'modal' => [
-                'actions' => [
-                    'alignment' => 'left',
-                ],
-            ],
-        ],
-        'forms' => [
-            'actions' => [
-                'alignment' => 'left',
-                'are_sticky' => false,
-            ],
-            'have_inline_labels' => false,
-        ],
-        'footer' => [
-            'should_show_logo' => false,
-        ],
-        'max_content_width' => null,
-        'notifications' => [
-            'vertical_alignment' => 'top',
-            'alignment' => 'right',
-        ],
-        'sidebar' => [
-            'is_collapsible_on_desktop' => true,
-            'groups' => [
-                'are_collapsible' => true,
-            ],
-            'width' => null,
-            'collapsed_width' => null,
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Favicon
-    |--------------------------------------------------------------------------
-    |
-    | This is the path to the favicon used for pages in the admin panel.
-    |
-    */
-
-    'favicon' => "images/favicon.png",
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default Avatar Provider
-    |--------------------------------------------------------------------------
-    |
-    | This is the service that will be used to retrieve default avatars if one
-    | has not been uploaded.
-    |
-    */
-
-    'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -295,48 +208,6 @@ return [
     |
     */
 
-    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DRIVER', 'public'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Google Fonts
-    |--------------------------------------------------------------------------
-    |
-    | This is the URL for Google Fonts that should be loaded. You may use any
-    | font, or set to `null` to prevent any Google Fonts from loading.
-    |
-    | When using a custom font, you should also set the font family in your
-    | custom theme's `tailwind.config.js` file.
-    |
-    */
-
-    'google_fonts' => 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Middleware
-    |--------------------------------------------------------------------------
-    |
-    | You may customize the middleware stack that Filament uses to handle
-    | requests.
-    |
-    */
-
-    'middleware' => [
-        'auth' => [
-            Authenticate::class,
-        ],
-        'base' => [
-            EncryptCookies::class,
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            AuthenticateSession::class,
-            ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
-            SubstituteBindings::class,
-            DispatchServingFilamentEvent::class,
-            MirrorConfigToSubpackages::class,
-        ],
-    ],
+    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),
 
 ];
