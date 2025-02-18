@@ -119,7 +119,7 @@ class AuthController extends Controller
                 // break;
 
             case 5:
-                return  redirect()->route('therapist.Dashboard');
+                return  redirect()->route('occupational_therapist');
                 break;
             default:
                 // return redirect()->route('home');
@@ -131,19 +131,19 @@ class AuthController extends Controller
     {
         switch (Auth::user()->specialization_id) {
             case 2:
-                return redirect()->route('therapistsDashboard');
+                return redirect()->route('occupational_therapist');
                 break;
 
             case 3:
-                // return redirect()->route('speech_therapist');
+                // return redirect()->route('reception.dashboard');
                 // break;
 
             case 4:
-                // return redirect()->route('physiotherapist');
+                // return redirect()->route('user.dashboard');
                 // break;
 
             case 5:
-                // return redirect()->route('nutritionist');
+                //return redirect()->route('occupational_therapist');
                 // break;
             case 6:
                 // return redirect()->route('therapist.dashboard');
@@ -152,8 +152,8 @@ class AuthController extends Controller
                 // return redirect()->route('therapist.dashboard');
                 // break;
             case 9:
-                return redirect()->route('psychotherapist');
-                break;
+                // return redirect()->route('therapist.dashboard');
+                // break;
             case 10:
                 // return redirect()->route('therapist.dashboard');
                 // break;
@@ -185,10 +185,10 @@ class AuthController extends Controller
     {
         // Get the authenticated user's ID
         $userId = auth()->id(); // This will get the authenticated user's ID
-        
+    
         // Get today's date
         $today = Carbon::today()->toDateString(); // 'YYYY-MM-DD'
-        
+    
         // SQL query to join the 'appointments' and 'children' tables and retrieve the required data
         $appointments = DB::select(
             'SELECT 
@@ -203,19 +203,21 @@ class AuthController extends Controller
             JOIN children ON appointments.child_id = children.id
             LEFT JOIN child_parent ON children.id = child_parent.child_id
             LEFT JOIN parents ON child_parent.parent_id = parents.id
-            WHERE appointments.staff_id = ? AND appointments.appointment_date = ?',
+            WHERE appointments.staff_id = ? 
+            AND appointments.appointment_date = ?
+            AND (appointments.status IS NULL OR appointments.status != \'rejected\')',
             [$userId, $today]
         );
-        
+    
         // Optionally, combine the names in PHP
         foreach ($appointments as &$appointment) {
             $appointment->child_name = "{$appointment->first_name} {$appointment->middle_name} {$appointment->last_name}";
         }
-        
+    
         // Return as JSON
         return response()->json($appointments);
-    }       
-
+    }
+    
     public function getUserSpecializationAndDoctor(Request $request)
 {
     // Ensure the user is authenticated

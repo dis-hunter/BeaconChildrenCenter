@@ -6,6 +6,7 @@
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 </head>
 <body>
@@ -16,7 +17,7 @@
       <i class="fas fa-user-md fa-4x"></i>
       <div>
         <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
-       
+        
       </div>
     </div>
     <div class="notifications">
@@ -27,6 +28,8 @@
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
+          <a href="#"  id="dropdown-profile-link">View Profile</a>
+          <a href="#">Settings</a>
           <a href="{{ route('profile.show') }}">View Profile</a>
           <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -40,7 +43,7 @@
   <main>
   @yield('content')
     <aside class="sidebar">
-      <nav>
+    <nav>
         <ul>
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> My Profile</a></li>
@@ -178,6 +181,13 @@
             console.error('Error fetching user specialization and doctor:', error);
         });
     }
+    
+    import { prevMonth, nextMonth } from '/public/js/calendar.js'; // Adjust the path if necessary
+
+// Ensure these buttons have the correct IDs or class names
+document.getElementById('prev-month-button').addEventListener('click', prevMonth);
+document.getElementById('next-month-button').addEventListener('click', nextMonth);
+
 </script>
 </body>
 </html>

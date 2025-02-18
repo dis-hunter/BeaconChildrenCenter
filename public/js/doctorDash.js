@@ -271,6 +271,12 @@ document.getElementById('booked-link').addEventListener('click', async () => {
     // Clear any previous content
     bookedContent.innerHTML = '';
 
+    if (appointments.length === 0) {
+      // Show "No appointments for today" message
+      bookedContent.innerHTML = '</br> </br><p>No appointments for today.</p>';
+      return;
+    }
+
     // Create a table to display the appointments
     const table = document.createElement('table');
     table.classList.add('table', 'table-bordered');
@@ -302,18 +308,16 @@ document.getElementById('booked-link').addEventListener('click', async () => {
         tbody.appendChild(row);
     });
 
+    table.appendChild(tbody);
+    bookedContent.appendChild(table);
 
-
-
-      table.appendChild(tbody);
-      bookedContent.appendChild(table);
-
-      bookedContent.style.display = 'block'; // Show the booked appointments section
+    bookedContent.style.display = 'block'; // Show the booked appointments section
   } catch (error) {
-      console.error('Error loading booked patients:', error);
-      bookedContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
+    console.error('Error loading booked patients:', error);
+    bookedContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
   }
 });
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const calendarLink = document.getElementById('calendar-link');

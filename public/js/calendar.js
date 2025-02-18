@@ -136,6 +136,8 @@ function nextMonth() {
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
 
+
+
 todayBtn.addEventListener("click", () => {
     today = new Date();
     month = today.getMonth();
@@ -323,16 +325,31 @@ function updateEvents(date) {
                     // Append the event div to the container
                     eventsContainer.appendChild(eventDiv);
 
-                    // Add cancellation functionality
                     const cancelButton = eventDiv.querySelector(".cancel-btn");
                     cancelButton.addEventListener("click", (e) => {
                         const appointmentId = e.target.getAttribute("data-id");
-
+                    
                         if (confirm("Are you sure you want to cancel this appointment?")) {
+                            // Create a spinner container and append to body
+                            const spinnerContainer = document.createElement("div");
+                            spinnerContainer.classList.add("spinner-container");
+                    
+                            const spinner = document.createElement("div");
+                            spinner.classList.add("l-spinner");
+                    
+                            // Add the text "Cancelling..."
+                            const spinnerText = document.createElement("span");
+                            spinnerText.textContent = "Cancelling...";
+                            spinnerText.classList.add("spinner-text");
+                    
+                            spinnerContainer.appendChild(spinner);
+                            spinnerContainer.appendChild(spinnerText);
+                            document.body.appendChild(spinnerContainer); // Show spinner on the page
+                    
                             const csrfToken = document
                                 .querySelector('meta[name="csrf-token"]')
                                 .getAttribute("content");
-
+                    
                             fetch(`/cancel-appointment/${appointmentId}`, {
                                 method: "DELETE",
                                 headers: {
@@ -341,26 +358,26 @@ function updateEvents(date) {
                                 },
                             })
                                 .then((response) => {
+                                    document.body.removeChild(spinnerContainer); // Remove the spinner
                                     if (response.ok) {
                                         alert("Appointment canceled successfully.");
-                                        updateEvents(date);
+                                        updateEvents(date); // Refresh the events
                                     } else {
                                         return response.json().then((data) => {
                                             throw new Error(
-                                                data.message ||
-                                                    "Failed to cancel appointment."
+                                                data.message || "Failed to cancel appointment."
                                             );
                                         });
                                     }
                                 })
                                 .catch((error) => {
+                                    document.body.removeChild(spinnerContainer); // Remove the spinner
                                     console.error("Error canceling appointment:", error);
-                                    alert(
-                                        "An error occurred while canceling the appointment."
-                                    );
+                                    alert("An error occurred while canceling the appointment.");
                                 });
                         }
                     });
+                    
                 });
             } else {
                 const noEventDiv = document.createElement("div");

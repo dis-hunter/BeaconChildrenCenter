@@ -367,3 +367,7 @@ table tbody tr:hover {
     transform: scale(1);
   }
 }
+
+.next{
+  margin-right :30px !important;
+}

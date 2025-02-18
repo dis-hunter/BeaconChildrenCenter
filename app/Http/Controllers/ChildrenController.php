@@ -339,7 +339,7 @@ class ChildrenController extends Controller
     
             // Determine leave status based on date range
             $today = date('Y-m-d');
-            if ($staffMember->leave_status === 'Approved' && $staffMember->start_date <= $today && $staffMember->end_date >= $today) {
+            if ($staffMember->leave_status === 'approved' && $staffMember->start_date <= $today && $staffMember->end_date >= $today) {
                 $staffMember->status = 'On Leave';
             } else {
                 $staffMember->status = 'Available';

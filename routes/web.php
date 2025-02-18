@@ -11,36 +11,48 @@ use App\Http\Controllers\DevelopmentAssessmentController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\docSpecController;
 use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\DoctorDashboardController;
-use App\Http\Controllers\DoctorsController;
-use App\Http\Controllers\ExpensesController;
-use App\Http\Controllers\FamilySocialHistoryController;
-use App\Http\Controllers\FetchAppointments;
-use App\Http\Controllers\FinanceController;
-use App\Http\Controllers\GeneralExamController;
-use App\Http\Controllers\IcdSearchController;
-use App\Http\Controllers\InvestigationController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\MetricsController;
-use App\Http\Controllers\MpesaController;
-use App\Http\Controllers\ParentsController;
-use App\Http\Controllers\PastMedicalHistoryController;
-use App\Http\Controllers\PatientDemographicsController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PerinatalHistoryController;
-use App\Http\Controllers\PrescriptionController;
-use App\Http\Controllers\ReceptionController;
-use App\Http\Controllers\ReferralController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\RescheduleController;
-use App\Http\Controllers\RevenueReportController;
-use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TherapyController;
-use App\Http\Controllers\TriageController;
-use App\Http\Controllers\VisitController;
 use App\Models\Invoice;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\FetchAppointments;
+use App\Http\Controllers\RescheduleController;
+use App\Http\Controllers\FamilySocialHistoryController;
+use App\Http\Controllers\PerinatalHistoryController;
+use App\Http\Controllers\PastMedicalHistoryController;
+use App\Http\Controllers\GeneralExamController;
+use App\Http\Controllers\InvestigationController;
+use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\ReceptionController;
+use App\Http\Controllers\VisitController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ExpensesController;
+
+
+
+//Doctor Form Routes
+Route::get('/search-children', [AppointmentController::class, 'search']);
+
+Route::get('/doctorslist', [DoctorController::class, 'index'])->name('doctors');
+Route::view('/doctor_form', 'AddDoctor.doctor_form'); // Display the form
+
+
+Route::get('/staff/leave-request', [LeaveController::class, 'create'])->name('leave.request');
+Route::get('/doc/requests', [LeaveController::class, 'docleave'])->name('doctor.leave');
+
+Route::post('/leave/store', [LeaveController::class, 'store'])->name('leave.store');
+Route::get('/leave-form-data', [LeaveController::class, 'getLeaveFormData']);
+Route::get('/admin/leave-requests', [LeaveController::class, 'adminLeaveRequests'])->name('admin.leaveRequests');
+Route::post('/admin/leave-requests/{id}/update', [LeaveController::class, 'updateLeaveStatus'])->name('admin.updateLeaveStatus');
+Route::get('/leave/requests', [LeaveController::class, 'showUserLeaves'])->name('leave.requests');
+
+Route::get('/reception/requests', [LeaveController::class, 'create2'])->name('leave2.request');
+
+//Therapist Routes
+
+Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Display the doctor form once the add doctor button is clicked
+
 
 /*
 |--------------------------------------------------------------------------

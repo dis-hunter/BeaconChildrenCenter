@@ -112,7 +112,7 @@ div h2 {
 
             <div class="add-event-wrapper">
 
-            <form action="{{ route('appointments.store') }}" method="POST">
+            <form action="{{ route('appointments.store') }}" method="POST" class= "form-container">
 
             @csrf
                 <div class="add-event-header">
@@ -124,12 +124,99 @@ div h2 {
                 <div class="add-event-body">
                     <div class="add-event-input">
                         <label for="event_name">Appointment Title</label> 
-                        <input type="text" id="event_name" placeholder="Event Name" class="event_name" style="color: black !important;"></br>
+                        <input type="text" id="event_name" placeholder="Event Name" class="event_name" style="color: black !important; width:170px !important"></br>
                     </div>
-                   
+                    <div class="d-flex align-items-center flex-column" id="child-search-bar" 
+     x-data="{ 
+         search: '', 
+         results: [], 
+         loading: false,
+         timeout: null,
+         abortController: null,
+         fetchResults() {
+             clearTimeout(this.timeout); // Clear previous timeout
+             this.timeout = setTimeout(() => {
+                 // Clear results immediately to prevent showing old data
+                 this.results = [];
+                 this.loading = true;
+
+                 if (this.abortController) {
+                     this.abortController.abort(); // Cancel any ongoing fetch request
+                 }
+                 this.abortController = new AbortController(); // Create a new AbortController for this request
+
+                 if (this.search.length >= 1) {
+                     fetch(`/search-children?query=${this.search}`, { signal: this.abortController.signal })
+                         .then(response => response.json())
+                         .then(data => {
+                             this.results = data; // Update results with new data
+                             this.loading = false;
+                         })
+                         .catch((error) => {
+                             if (error.name !== 'AbortError') { // Ignore fetch abort errors
+                                 this.results = []; // Clear results on other errors
+                                 this.loading = false;
+                             }
+                         });
+                 } else {
+                     this.loading = false;
+                 }
+             }, 200); // Adjust debounce delay as needed
+         }
+     }" 
+     x-init="fetchResults()">
+
+    <label for="search-bar" style="color: black !important;">Search</label>
+
+    <!-- Search Input -->
+    <input type="search" id="search-bar" x-model="search" @input="fetchResults" class="form-control mb-2"
+           placeholder="Search for a child" aria-label="Search" />
+
+    <!-- Loading Indicator -->
+    <div x-show="loading" class="loading-text" style="color: black; text-align: center; margin-bottom: 10px;">
+    L O A D I N G <span class="dots"><span>.</span><span>.</span><span>.</span></span>
+</div>
+
+
+    <!-- Search Input and Label -->
+    
+
+    <!-- No Results Message -->
+    <div x-show="noResults" style="color: red; text-align: center; margin-bottom: 10px;">No results found.</div>
+
+    <!-- Results Display -->
+    <div x-show="results.length > 0" class="results-container"
+     style="width: 350px; max-height: 300px; margin-left: 50px; overflow-y: auto; 
+            background-color: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <ul style="color: #333; list-style-type: none; padding: 0; margin: 0;">
+            <template x-for="result in results" :key="result.id">
+                <li class="result-item py-3 px-4" 
+                    style="border-bottom: 1px solid #f1f1f1; display: flex; align-items: center; transition: background-color 0.3s;">
+                    <div style="flex: 1;">
+                        <strong style="font-size: 16px; color: black;">Child Name:</strong> 
+                        <span x-text="result.child_name" style="font-size: 14px; font-weight: 600;"></span><br>
+                        <strong style="font-size: 16px; color: black;">Date of Birth:</strong> 
+                        <span x-text="result.dob" style="font-size: 14px;"></span><br>
+                        <strong style="font-size: 16px; color: black;">Parent Name:</strong> 
+                        <span x-text="result.parent_name" style="font-size: 14px;"></span><br>
+                        <strong style="font-size: 16px; color: black;">Email:</strong> 
+                        <span x-text="result.email" style="font-size: 14px;"></span><br>
+                        <strong style="font-size: 16px; color: black;">Phone:</strong> 
+                        <span x-text="result.telephone || 'Not available'" style="font-size: 14px;"></span><br>
+                    </div>
                     <div>
-                    @livewire('child-search-bar')
+                        <input type="checkbox" :id="`child_id_${result.id}`" :value="result.id" class="checkbox-input" style="cursor: pointer; " />
+                        <span style="font-size: 14px; margin-left: 8px;">Select</span>
                     </div>
+                </li>
+            </template>
+        </ul>
+    </div>
+
+</div>
+
+
+<br>
 
                     <!-- Appointment Time Inputs -->
                     <div class="add-event-input">
@@ -140,12 +227,12 @@ div h2 {
                     <div class="add-event-input">
                         <label for="event_time_end">Appointment Ending Time</label><br>
                         <input type="time" id="event_time_end" placeholder="Event ending time" class="event_time_end" style = "color :black !important">
-                    </div>
+                    </div> </br>
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">
                 <label for="doctor_specialization">Select a Specialization:</label><br>
-                <select name="doctor_specialization" id="doctor_specialization" style="color: black !important;">
-                    <option value="" style="color: black !important;">-- Select Specialization --</option>
+                <select name="doctor_specialization" id="doctor_specialization" class="form-control droopp" style="color: black !important;">
+                    <option value="" style="color: black !important; width :150px !important" >-- Select Specialization --</option>
                     @foreach($doctorSpecializations as $specialization)
                         <option value="{{ $specialization->id }}" style="color: black !important;">{{ $specialization->specialization }}</option>
                     @endforeach
@@ -252,7 +339,20 @@ margin: 20px auto; /* Center form */">
 
 
 
-
+ <script>
+    function fetchResults() {
+        this.loading = true;
+        fetch(`/search-children?query=${encodeURIComponent(this.search)}`)
+            .then(response => response.json())
+            .then(data => {
+                this.results = data;
+                this.loading = false;
+            })
+            .catch(() => {
+                this.loading = false;
+            });
+    }
+</script>
 
 </body>
 </html>

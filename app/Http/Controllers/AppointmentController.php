@@ -222,17 +222,18 @@ class AppointmentController extends Controller
     }
 
     public function therapistAppointments()
-    {
-        $today = Carbon::today()->toDateString();
-        $therapistSpecializations = DoctorSpecialization::whereIn('specialization', [
-            'Speech Therapy', 'Occupational Therapy', 'Physiotherapy', 'ABA', 'Nutrition'
-        ])->pluck('id');
-    
-        $appointments = Appointment::join('staff', 'appointments.staff_id', '=', 'staff.id')
+{
+    $today = Carbon::today()->toDateString();
+    $therapistSpecializations = DoctorSpecialization::whereIn('specialization', [
+        'Speech Therapy', 'Occupational Therapy', 'Physiotherapy', 'ABA', 'Nutrition'
+    ])->pluck('id');
+
+    $appointments = Appointment::join('staff', 'appointments.staff_id', '=', 'staff.id')
         ->join('doctor_specialization', 'staff.specialization_id', '=', 'doctor_specialization.id')
         ->join('children', 'appointments.child_id', '=', 'children.id')
         ->whereIn('staff.specialization_id', $therapistSpecializations)
         ->where('appointments.appointment_date', $today)
+        ->where('appointments.status', '!=', 'rejected') // Ensure status is not 'rejected'
         ->select(
             'appointments.id',
             DB::raw("TRIM(CONCAT(
@@ -249,12 +250,40 @@ class AppointmentController extends Controller
             'appointments.start_time',
             'appointments.end_time'
         )
-        
-    
         ->get();
-    
+
     return response()->json($appointments);
+}
+
+
+    public function search(Request $request)
+{
+    $query = $request->input('query', '');
+    
+    if (strlen($query) < 1) {
+        return response()->json([]);
     }
+
+    $searchTerm = "%{$query}%";
+
+    $results = DB::table('children')
+        ->select(
+            'children.id',
+            DB::raw("CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name"),
+            'children.dob',
+            DB::raw("CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name"),
+            'parents.email',
+            'parents.telephone'
+        )
+        ->join('child_parent', 'children.id', '=', 'child_parent.child_id')
+        ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+        ->where('children.fullname', 'ILIKE', $searchTerm)
+        ->orWhere('parents.fullname', 'ILIKE', $searchTerm)
+        ->get();
+
+    return response()->json($results);
+}
+
 
 
 public function index()
