@@ -112,6 +112,7 @@ return array(
     'App\\Http\\Controllers\\IcdSearchController' => $baseDir . '/app/Http/Controllers/IcdSearchController.php',
     'App\\Http\\Controllers\\InvestigationController' => $baseDir . '/app/Http/Controllers/InvestigationController.php',
     'App\\Http\\Controllers\\InvoiceController' => $baseDir . '/app/Http/Controllers/InvoiceController.php',
+    'App\\Http\\Controllers\\LeaveController' => $baseDir . '/app/Http/Controllers/LeaveController.php',
     'App\\Http\\Controllers\\MetricsController' => $baseDir . '/app/Http/Controllers/MetricsController.php',
     'App\\Http\\Controllers\\MpesaController' => $baseDir . '/app/Http/Controllers/MpesaController.php',
     'App\\Http\\Controllers\\ParentsController' => $baseDir . '/app/Http/Controllers/ParentsController.php',
@@ -170,6 +171,7 @@ return array(
     'App\\Models\\Follow_Up' => $baseDir . '/app/Models/Follow_Up.php',
     'App\\Models\\Gender' => $baseDir . '/app/Models/Gender.php',
     'App\\Models\\Invoice' => $baseDir . '/app/Models/Invoice.php',
+    'App\\Models\\LeaveType' => $baseDir . '/app/Models/LeaveType.php',
     'App\\Models\\ParentModel' => $baseDir . '/app/Models/ParentModel.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
     'App\\Models\\Prescription' => $baseDir . '/app/Models/Prescription.php',
@@ -178,6 +180,7 @@ return array(
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\Specialization' => $baseDir . '/app/Models/Specialization.php',
     'App\\Models\\Staff' => $baseDir . '/app/Models/Staff.php',
+    'App\\Models\\StaffLeave' => $baseDir . '/app/Models/StaffLeave.php',
     'App\\Models\\Triage' => $baseDir . '/app/Models/Triage.php',
     'App\\Models\\TriageAssessment' => $baseDir . '/app/Models/TriageAssessment.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
@@ -7712,10 +7715,13 @@ return array(
     'Predis\\Transaction\\AbortedMultiExecException' => $vendorDir . '/predis/predis/src/Transaction/AbortedMultiExecException.php',
     'Predis\\Transaction\\MultiExec' => $vendorDir . '/predis/predis/src/Transaction/MultiExec.php',
     'Predis\\Transaction\\MultiExecState' => $vendorDir . '/predis/predis/src/Transaction/MultiExecState.php',
+<<<<<<< HEAD
     'Psr\\Cache\\CacheException' => $vendorDir . '/psr/cache/src/CacheException.php',
     'Psr\\Cache\\CacheItemInterface' => $vendorDir . '/psr/cache/src/CacheItemInterface.php',
     'Psr\\Cache\\CacheItemPoolInterface' => $vendorDir . '/psr/cache/src/CacheItemPoolInterface.php',
     'Psr\\Cache\\InvalidArgumentException' => $vendorDir . '/psr/cache/src/InvalidArgumentException.php',
+=======
+>>>>>>> j_branch
     'Psr\\Clock\\ClockInterface' => $vendorDir . '/psr/clock/src/ClockInterface.php',
     'Psr\\Container\\ContainerExceptionInterface' => $vendorDir . '/psr/container/src/ContainerExceptionInterface.php',
     'Psr\\Container\\ContainerInterface' => $vendorDir . '/psr/container/src/ContainerInterface.php',

@@ -23,6 +23,11 @@ class Staff extends Model
         'specialization_id', 
         'gender_id'
     ];
+    public function getFilamentName(): string
+{
+    return $this->fullname ;
+}
+
 
     /**
      * Define the relationship with DoctorSpecialization.

@@ -1,0 +1,66 @@
+/* General Styles */
+body {
+    background-color: #f8f9fa; /* Light gray background */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Container Styles */
+.container {
+    background-color: #ffffff; /* Always white background */
+    padding: 30px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 600px;
+    margin: 50px auto; /* Center the form */
+}
+
+/* Form Input & Textarea Styles */
+.form-control {
+    border-radius: 8px; /* Rounded corners for inputs */
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Label Styling */
+.form-label {
+    font-weight: bold;
+}
+
+/* Select Dropdown Styling */
+select.form-control {
+    cursor: pointer;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Success Message */
+#successMessage {
+    display: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+}

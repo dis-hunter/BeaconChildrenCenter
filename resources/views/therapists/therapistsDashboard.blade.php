@@ -53,7 +53,121 @@
     .main-content.collapsed {
       margin-left: 60px;
     }
+
+    .close {
+    position: absolute; /* Position it relative to the modal */
+    top: 10px; /* Adjust this value to align properly */
+    right: 10px; /* Adjust this value to align properly */
+    cursor: pointer; /* Change cursor to indicate interactivity */
+    font-size: 18px; /* Size of the close icon */
+    color: #333; /* Default color for the icon */
+    transition: color 0.3s ease, transform 0.3s ease; /* Add hover and interaction effects */
+}
+
+.close:hover {
+    
+    transform: scale(1.2); /* Slightly enlarge the icon on hover */
+}
+
+
+    .cancel-btn,
+.reschedule-btn {
+    display: none;
+}
+
+/* Dropdown Styling */
+.dropdown-content {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: white; /* Background color */
+    color: black !important; /* Text color */
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1000;
+    border-radius: 6px;
+}
+
+.dropdown-content a {
+    color: black !important; /* Text color */
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Modal Styling */
+#reschedule-modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1100;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+#reschedule-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Overlay for Modal */
+.modal-overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+form {
+  color:black !important;
+}
+.calendar-content{
+  margin-left : 100px !important;
+}
+
+.add-event-wrapper {
+    display: none;
+}
+.add-event-wrapper.active {
+    display: block;
+}
+
   </style>
+  @livewireStyles
+
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
@@ -88,6 +202,18 @@
           </a>
         </li>
       </ul>
+
+      <ul>
+
+      <!--
+        <li>
+          <a href="/staff/leave-request"  class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+            <i class="fas fa-users"></i>
+            <span class="sidebar-text">Leave request</span>
+          </a>
+        </li>
+      </ul>
+-->
     </div>
 
     <!-- Main Content -->
@@ -128,9 +254,12 @@
         <!-- Calendar Section -->
         <div id="calendar" class="section hidden">
           <div class="bg-white rounded-lg shadow p-6">
+          @livewireScripts
             <div class="calendar-container"></div>
-
+            @livewireScripts
             @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+          </div>
+        </div>
 
        <!-- Patients Section -->
       <section id="patients" class="section hidden">
@@ -144,8 +273,6 @@
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Date/Time</th>
-                <th class="py-2 border">Completed</th>
-
               </tr>
             </thead>
             <tbody id="patient-table-body">
@@ -183,15 +310,17 @@
     }
 
     function showSection(sectionId) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
         section.classList.add('hidden');
-      });
-      document.getElementById(sectionId).classList.remove('hidden');
+    });
+    document.getElementById(sectionId).classList.remove('hidden');
 
-      if (sectionId === 'calendar') {
-        generateCalendar();
-      } else if (sectionId === 'patients') {
+    if (sectionId === 'calendar') {
+        initCalendar(); // Reinitialize calendar
+        attachEventListeners();
+    }
+ else if (sectionId === 'patients') {
         generatePatientList();
       }
 
@@ -272,7 +401,7 @@
     });
 }
 
-function selectPatient(index) {
+    function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
       patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
       patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
@@ -281,7 +410,7 @@ function selectPatient(index) {
 
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
-  alert(`Selected Registration Number: ${registrationNumber}`);
+  alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
   
   
   
@@ -289,6 +418,8 @@ function selectRegistrationNumber(registrationNumber, childId) {
 }
 
 async function startConsultation() {
+
+
   
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
@@ -367,6 +498,52 @@ async function startConsultation() {
 
     showSection('dashboard');
 </script>
+<script type="module">
+
+
+     import { initCalendar, prevMonth, nextMonth, closeEventModal } from '/js/calendar.js';
+     import { handleAddEventListeners } from '/js/specialization.js';
+
+     
+    document.addEventListener("DOMContentLoaded", () => {
+        // Initialize the calendar
+        initCalendar();
+
+        // Attach calendar-specific listeners
+        attachEventListeners();
+
+        // Attach the "Add Event" form listeners from specialization.js
+        handleAddEventListeners();
+    });
+
+    function attachEventListeners() {
+        // Cache elements to avoid repetitive DOM queries
+        const prevButton = document.querySelector(".prev");
+        const nextButton = document.querySelector(".next");
+        const closeButtons = document.querySelectorAll(".close");
+        const rescheduleModal = document.getElementById("reschedule-modal");
+
+        // Calendar navigation
+        if (prevButton) prevButton.addEventListener("click", prevMonth);
+        if (nextButton) nextButton.addEventListener("click", nextMonth);
+
+        // Close reschedule modal
+        closeButtons.forEach((closeBtn) => {
+            closeBtn.addEventListener("click", function () {
+                rescheduleModal?.classList.add("hidden");
+            });
+        });
+
+        
+
+        // Handle additional modal closures
+        closeEventModal();
+    }
+</script>
+
+
+
+
 <!-- <script>
     function generatePatientList() {
       const patientTableBody = document.getElementById("patient-table-body");
@@ -404,6 +581,7 @@ async function startConsultation() {
    
   </script> -->
 <script>
+  
   let selectedPatient = null;
 
   function generatePatientList() {
@@ -424,7 +602,6 @@ async function startConsultation() {
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
-      <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
       <td class="py-2 border">
        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
@@ -467,4 +644,3 @@ async function startConsultation() {
 </script>
 </body>
 </html>
-<!-- therapistsDashboard.blade.php -->

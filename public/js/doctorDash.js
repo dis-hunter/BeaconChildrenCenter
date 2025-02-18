@@ -89,9 +89,11 @@ const dashboardLink = document.getElementById('dashboard-link');
 const profileLink = document.getElementById('profile-link');
 const bookedLink = document.getElementById('booked-link');
 const therapistLink = document.getElementById('therapist-link');
+const leaveLink = document.getElementById('leave-link');
 const dashboardContent = document.getElementById('dashboard-content');
 const profileContent = document.getElementById('profile-content');
 const bookedContent = document.getElementById('booked-content');
+const leaveContent = document.getElementById('leave-content');
 const therapistContent = document.getElementById('therapist-content');
 const dropdownProfileLink = document.getElementById('dropdown-profile-link');
 const calendarLink = document.getElementById('calendar-link');
@@ -163,6 +165,7 @@ sidebarLinks.forEach(link => {
     dashboardContent.style.display = 'none';
     profileContent.style.display = 'none';
     bookedContent.style.display = 'none';
+    leaveContent.style.display = 'none';
     therapistContent.style.display = 'none';
     calendarContent.style.display = 'none';
 
@@ -180,7 +183,6 @@ sidebarLinks.forEach(link => {
     }
 
 
-
   });
 });
 
@@ -191,6 +193,7 @@ dropdownProfileLink.addEventListener('click', () => {
   profileContent.style.display = 'block';
   bookedContent.style.display = 'none';
   therapistContent.style.display = 'none';
+  leaveContent.style.display = 'none';
   // Update active state in sidebar
   sidebarLinks.forEach(link => link.parentElement.classList.remove('active'));
   profileLink.parentElement.classList.add('active');
@@ -445,4 +448,4 @@ loadingAnimationStyles.textContent = `
       z-index: 1000;
   }
 `;
-document.head.appendChild(loadingAnimationStyles);s
+document.head.appendChild(loadingAnimationStyles);
