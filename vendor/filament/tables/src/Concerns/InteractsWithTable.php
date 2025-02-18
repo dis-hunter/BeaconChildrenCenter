@@ -2,27 +2,28 @@
 
 namespace Filament\Tables\Concerns;
 
-use Exception;
+use Closure;
 use Filament\Forms;
-use Filament\Tables\Contracts\HasRelationshipTable;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use function Livewire\invade;
+use Livewire\WithPagination;
 
 trait InteractsWithTable
 {
     use CanBeStriped;
+    use CanDeferLoading;
+    use CanGroupRecords;
     use CanPaginateRecords;
     use CanPollRecords;
     use CanReorderRecords;
     use CanSearchRecords;
-    use CanSelectRecords;
     use CanSortRecords;
+    use CanSummarizeRecords;
     use CanToggleColumns;
-    use CanDeferLoading;
     use HasActions;
     use HasBulkActions;
     use HasColumns;
@@ -30,111 +31,139 @@ trait InteractsWithTable
     use HasEmptyState;
     use HasFilters;
     use HasHeader;
-    use HasRecords;
     use HasRecordAction;
     use HasRecordClasses;
+    use HasRecords;
     use HasRecordUrl;
-    use Forms\Concerns\InteractsWithForms;
-
-    protected bool $hasMounted = false;
+    use WithPagination {
+        WithPagination::resetPage as resetLivewirePage;
+    }
 
     protected Table $table;
 
+    protected bool $hasTableModalRendered = false;
+
+    protected bool $shouldMountInteractsWithTable = false;
+
     public function bootedInteractsWithTable(): void
     {
-        $this->table = $this->getTable();
+        $this->table = Action::configureUsing(
+            Closure::fromCallable([$this, 'configureTableAction']),
+            fn (): Table => BulkAction::configureUsing(
+                Closure::fromCallable([$this, 'configureTableBulkAction']),
+                fn (): Table => $this->table($this->makeTable()),
+            ),
+        );
 
-        $this->cacheTableActions();
-        $this->cacheTableBulkActions();
-        $this->cacheTableEmptyStateActions();
-        $this->cacheTableHeaderActions();
-
-        $this->cacheTableColumns();
-        $this->cacheTableColumnActions();
         $this->cacheForm('toggleTableColumnForm', $this->getTableColumnToggleForm());
 
-        $this->cacheTableFilters();
         $this->cacheForm('tableFiltersForm', $this->getTableFiltersForm());
 
-        if ($this->hasMounted) {
+        if (! $this->shouldMountInteractsWithTable) {
             return;
         }
 
-        if (blank($this->toggledTableColumns) || ($this->toggledTableColumns === [])) {
+        if (! count($this->toggledTableColumns ?? [])) {
             $this->getTableColumnToggleForm()->fill(session()->get(
                 $this->getTableColumnToggleFormStateSessionKey(),
                 $this->getDefaultTableColumnToggleState()
             ));
         }
 
+        $shouldPersistFiltersInSession = $this->getTable()->persistsFiltersInSession();
+        $filtersSessionKey = $this->getTableFiltersSessionKey();
+
         if (! count($this->tableFilters ?? [])) {
             $this->tableFilters = null;
         }
 
-        $shouldPersistTableFiltersInSession = $this->shouldPersistTableFiltersInSession();
-        $filtersSessionKey = $this->getTableFiltersSessionKey();
+        if (
+            ($this->tableFilters === null) &&
+            $shouldPersistFiltersInSession &&
+            session()->has($filtersSessionKey)
+        ) {
+            $this->tableFilters = session()->get($filtersSessionKey) ?? [];
+        }
 
-        if (($this->tableFilters === null) && $shouldPersistTableFiltersInSession && session()->has($filtersSessionKey)) {
-            $this->tableFilters = array_merge(
-                $this->tableFilters ?? [],
-                session()->get($filtersSessionKey) ?? [],
-            );
+        // https://github.com/filamentphp/filament/pull/7999
+        if ($this->tableFilters) {
+            $this->normalizeTableFilterValuesFromQueryString($this->tableFilters);
         }
 
         $this->getTableFiltersForm()->fill($this->tableFilters);
 
-        if ($shouldPersistTableFiltersInSession) {
+        if ($this->getTable()->hasDeferredFilters()) {
+            $this->tableFilters = $this->tableDeferredFilters;
+        }
+
+        if ($shouldPersistFiltersInSession) {
             session()->put(
                 $filtersSessionKey,
                 $this->tableFilters,
             );
         }
 
-        $shouldPersistTableSearchInSession = $this->shouldPersistTableSearchInSession();
+        if ($this->getTable()->isDefaultGroupSelectable()) {
+            $this->tableGrouping = $this->getTable()->getDefaultGroup()->getId();
+        }
+
+        $shouldPersistSearchInSession = $this->getTable()->persistsSearchInSession();
         $searchSessionKey = $this->getTableSearchSessionKey();
 
-        if (blank($this->tableSearchQuery) && $shouldPersistTableSearchInSession && session()->has($searchSessionKey)) {
-            $this->tableSearchQuery = session()->get($searchSessionKey);
+        if (
+            blank($this->tableSearch) &&
+            $shouldPersistSearchInSession &&
+            session()->has($searchSessionKey)
+        ) {
+            $this->tableSearch = session()->get($searchSessionKey);
         }
 
-        $this->tableSearchQuery = strval($this->tableSearchQuery);
+        $this->tableSearch = strval($this->tableSearch);
 
-        if ($shouldPersistTableSearchInSession) {
+        if ($shouldPersistSearchInSession) {
             session()->put(
                 $searchSessionKey,
-                $this->tableSearchQuery,
+                $this->tableSearch,
             );
         }
 
-        $shouldPersistTableColumnSearchInSession = $this->shouldPersistTableColumnSearchInSession();
-        $columnSearchSessionKey = $this->getTableColumnSearchSessionKey();
+        $shouldPersistColumnSearchesInSession = $this->getTable()->persistsColumnSearchesInSession();
+        $columnSearchesSessionKey = $this->getTableColumnSearchesSessionKey();
 
-        if ((blank($this->tableColumnSearchQueries) || ($this->tableColumnSearchQueries === [])) && $shouldPersistTableColumnSearchInSession && session()->has($columnSearchSessionKey)) {
-            $this->tableColumnSearchQueries = session()->get($columnSearchSessionKey);
+        if (
+            (blank($this->tableColumnSearches) || ($this->tableColumnSearches === [])) &&
+            $shouldPersistColumnSearchesInSession &&
+            session()->has($columnSearchesSessionKey)
+        ) {
+            $this->tableColumnSearches = session()->get($columnSearchesSessionKey) ?? [];
         }
 
-        $this->tableColumnSearchQueries = $this->castTableColumnSearchQueries(
-            $this->tableColumnSearchQueries ?? [],
+        $this->tableColumnSearches = $this->castTableColumnSearches(
+            $this->tableColumnSearches ?? [],
         );
 
-        if ($shouldPersistTableColumnSearchInSession) {
+        if ($shouldPersistColumnSearchesInSession) {
             session()->put(
-                $columnSearchSessionKey,
-                $this->tableColumnSearchQueries,
+                $columnSearchesSessionKey,
+                $this->tableColumnSearches,
             );
         }
 
-        $shouldPersistTableSortInSession = $this->shouldPersistTableSortInSession();
+        $shouldPersistSortInSession = $this->getTable()->persistsSortInSession();
         $sortSessionKey = $this->getTableSortSessionKey();
 
-        if (blank($this->tableSortColumn) && $shouldPersistTableSortInSession && session()->has($sortSessionKey)) {
+        if (
+            blank($this->tableSortColumn) &&
+            $shouldPersistSortInSession &&
+            session()->has($sortSessionKey)
+        ) {
             $sort = session()->get($sortSessionKey);
 
             $this->tableSortColumn = $sort['column'] ?? null;
             $this->tableSortDirection = $sort['direction'] ?? null;
         }
 
-        if ($shouldPersistTableSortInSession) {
+        if ($shouldPersistSortInSession) {
             session()->put(
                 $sortSessionKey,
                 [
@@ -144,22 +173,70 @@ trait InteractsWithTable
             );
         }
 
-        $this->hasMounted = true;
-    }
-
-    public function mountInteractsWithTable(): void
-    {
-        if ($this->isTablePaginationEnabled()) {
+        if ($this->getTable()->isPaginated()) {
             $this->tableRecordsPerPage = $this->getDefaultTableRecordsPerPageSelectOption();
         }
     }
 
-    protected function getCachedTable(): Table
+    public function mountInteractsWithTable(): void
+    {
+        $this->shouldMountInteractsWithTable = true;
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query($this->getTableQuery())
+            ->actions($this->getTableActions())
+            ->actionsColumnLabel($this->getTableActionsColumnLabel())
+            ->checkIfRecordIsSelectableUsing($this->isTableRecordSelectable())
+            ->columns($this->getTableColumns())
+            ->columnToggleFormColumns($this->getTableColumnToggleFormColumns())
+            ->columnToggleFormMaxHeight($this->getTableColumnToggleFormMaxHeight())
+            ->columnToggleFormWidth($this->getTableColumnToggleFormWidth())
+            ->content($this->getTableContent())
+            ->contentFooter($this->getTableContentFooter())
+            ->contentGrid($this->getTableContentGrid())
+            ->defaultSort($this->getDefaultTableSortColumn(), $this->getDefaultTableSortDirection())
+            ->deferLoading($this->isTableLoadingDeferred())
+            ->description($this->getTableDescription())
+            ->deselectAllRecordsWhenFiltered($this->shouldDeselectAllRecordsWhenTableFiltered())
+            ->emptyState($this->getTableEmptyState())
+            ->emptyStateActions($this->getTableEmptyStateActions())
+            ->emptyStateDescription($this->getTableEmptyStateDescription())
+            ->emptyStateHeading($this->getTableEmptyStateHeading())
+            ->emptyStateIcon($this->getTableEmptyStateIcon())
+            ->filters($this->getTableFilters())
+            ->filtersFormMaxHeight($this->getTableFiltersFormMaxHeight())
+            ->filtersFormWidth($this->getTableFiltersFormWidth())
+            ->groupedBulkActions($this->getTableBulkActions())
+            ->header($this->getTableHeader())
+            ->headerActions($this->getTableHeaderActions())
+            ->modelLabel($this->getTableModelLabel())
+            ->paginated($this->isTablePaginationEnabled())
+            ->paginatedWhileReordering($this->isTablePaginationEnabledWhileReordering())
+            ->paginationPageOptions($this->getTableRecordsPerPageSelectOptions())
+            ->persistFiltersInSession($this->shouldPersistTableFiltersInSession())
+            ->persistSearchInSession($this->shouldPersistTableSearchInSession())
+            ->persistColumnSearchesInSession($this->shouldPersistTableColumnSearchInSession())
+            ->persistSortInSession($this->shouldPersistTableSortInSession())
+            ->pluralModelLabel($this->getTablePluralModelLabel())
+            ->poll($this->getTablePollingInterval())
+            ->recordAction($this->getTableRecordActionUsing())
+            ->recordClasses($this->getTableRecordClassesUsing())
+            ->recordTitle(fn (Model $record): ?string => $this->getTableRecordTitle($record))
+            ->recordUrl($this->getTableRecordUrlUsing())
+            ->reorderable($this->getTableReorderColumn())
+            ->selectCurrentPageOnly($this->shouldSelectCurrentPageOnly())
+            ->striped($this->isTableStriped());
+    }
+
+    public function getTable(): Table
     {
         return $this->table;
     }
 
-    protected function getTable(): Table
+    protected function makeTable(): Table
     {
         return Table::make($this);
     }
@@ -169,26 +246,19 @@ trait InteractsWithTable
         return null;
     }
 
-    protected function getIdentifiedTableQueryStringPropertyNameFor(string $property): string
+    public function getIdentifiedTableQueryStringPropertyNameFor(string $property): string
     {
-        if (filled($this->getTableQueryStringIdentifier())) {
-            return $this->getTableQueryStringIdentifier() . ucfirst($property);
+        if (filled($identifier = $this->getTable()->getQueryStringIdentifier())) {
+            return $identifier . ucfirst($property);
         }
 
         return $property;
     }
 
+    /**
+     * @return array<string, Forms\Form>
+     */
     protected function getInteractsWithTableForms(): array
-    {
-        return $this->getTableForms();
-    }
-
-    public function getActiveTableLocale(): ?string
-    {
-        return null;
-    }
-
-    protected function getTableForms(): array
     {
         return [
             'mountedTableActionForm' => $this->getMountedTableActionForm(),
@@ -196,60 +266,55 @@ trait InteractsWithTable
         ];
     }
 
-    protected function getTableQuery(): Builder | Relation
+    public function getActiveTableLocale(): ?string
     {
-        if (! $this instanceof HasRelationshipTable) {
-            $livewireClass = static::class;
-
-            throw new Exception("Class [{$livewireClass}] must define a [getTableQuery()] method.");
-        }
-
-        $relationship = $this->getRelationship();
-
-        $query = $relationship->getQuery();
-
-        if ($relationship instanceof HasManyThrough) {
-            // https://github.com/laravel/framework/issues/4962
-            $query->select($query->getModel()->getTable() . '.*');
-
-            return $query;
-        }
-
-        if ($relationship instanceof BelongsToMany) {
-            // https://github.com/laravel/framework/issues/4962
-            if (! $this->allowsDuplicates()) {
-                $this->selectPivotDataInQuery($query);
-            }
-
-            // https://github.com/filamentphp/filament/issues/2079
-            $query->withCasts(
-                app($relationship->getPivotClass())->getCasts(),
-            );
-        }
-
-        return $query;
+        return null;
     }
 
-    protected function selectPivotDataInQuery(Builder | Relation $query): Builder | Relation
+    /**
+     * @param  ?string  $pageName
+     */
+    public function resetPage($pageName = null): void
     {
-        if (! $this instanceof HasRelationshipTable) {
-            return $query;
+        $this->resetLivewirePage($pageName ?? $this->getTablePaginationPageName());
+    }
+
+    /**
+     * @deprecated Override the `table()` method to configure the table.
+     */
+    protected function getTableQuery(): Builder | Relation | null
+    {
+        return null;
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    protected function normalizeTableFilterValuesFromQueryString(array &$data): void
+    {
+        foreach ($data as &$value) {
+            if (is_array($value)) {
+                $this->normalizeTableFilterValuesFromQueryString($value);
+            } elseif ($value === 'null') {
+                $value = null;
+            } elseif ($value === 'false') {
+                $value = false;
+            } elseif ($value === 'true') {
+                $value = true;
+            }
         }
+    }
 
-        /** @var BelongsToMany $relationship */
-        $relationship = $this->getRelationship();
+    public function resetTable(): void
+    {
+        $this->cacheForms();
 
-        $columns = [
-            $relationship->getTable() . '.*',
-            $query->getModel()->getTable() . '.*',
-        ];
+        $this->bootedInteractsWithTable();
 
-        if (! $this->allowsDuplicates()) {
-            $columns = array_merge(invade($relationship)->aliasedPivotColumns(), $columns);
-        }
+        $this->resetTableFiltersForm();
 
-        $query->select($columns);
+        $this->resetPage();
 
-        return $query;
+        $this->flushCachedTableRecords();
     }
 }

@@ -1,12 +1,14 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/lux/bootstrap.min.css" />
 <link rel="stylesheet" href="{{asset('css/navbar-fixed-left.min.css')}}">
+
 <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
     crossorigin="anonymous"></script>
   
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  @livewireStyles
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-left" id="mainNav">
 
@@ -18,6 +20,7 @@
 
     <div class="collapse navbar-collapse ml-3" id="navbarsExampleDefault">
         <ul class="navbar-nav">
+            
             @auth
             <li class="nav-item">
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
@@ -29,14 +32,21 @@
                 <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><span class="icon">📖</span> <span class="text">Appointments</span></a>
+                <a href="{{ route('reception.calendar') }}" class="nav-link">
+                    <span class="icon">📅</span>
+                    <span class="text">Appointments</span>
+                </a>
             </li>
+
+
             <li class="nav-item">
                 <a href="/visithandle" class="nav-link"><span class="icon">🕒</span> <span class="text">Visit</span></a>
             </li>
+
             <li class="nav-item">
-                <a href="/calendar" class="nav-link"><span class="icon">📅</span> <span class="text">Calendar</span></a>
+                <a href="/get-invoices" class="nav-link"><span class="icon">📑</span><span class="text">Invoices</span></a>
             </li>
+           
             
             
             {{-- <li class="nav-item dropdown">
@@ -79,7 +89,7 @@
     
 </nav>
 <nav class="navbar navbar-expand-md responsive-navbar" id="Account">
-    <div class="global-search">@livewire('global-search')</div> 
+    <div class="global-search"><x-global-search/></div> 
 <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -94,7 +104,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     @auth
                     <form action="/logout" method="post">@csrf<button class="dropdown-item" type="submit">Logout</button></form>
-                    <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                    <a class="dropdown-item" href="{{route('profile.show')}}">Profile</a>
                     @else
                     <a class="dropdown-item" href="{{route('login')}}">Login</a>
                     <a class="dropdown-item" href="{{route('register')}}">Register</a>
@@ -102,5 +112,52 @@
                 </div>
             </li>
         </ul>
+
+        <div id="calendar-section" class="col-md-9 p-4" style="display: none;">
+            <!-- Calendar will be displayed here dynamically -->
+        </div>
     </div>
     </nav>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarSection = document.getElementById('calendar-section');
+    const sidebarLinks = document.querySelectorAll('.load-section');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const section = this.getAttribute('data-section');
+
+            if (section === 'calendar-section') {
+                // Fetch calendar content (if not already loaded)
+                if (!calendarSection.innerHTML.trim()) {
+                    fetch('/calendar')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to load calendar');
+                            }
+                            return response.text();
+                        })
+                        .then(html => {
+                            calendarSection.innerHTML = html;
+                            calendarSection.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            calendarSection.innerHTML = '<p class="text-danger">Failed to load calendar.</p>';
+                            calendarSection.style.display = 'block';
+                        });
+                } else {
+                    calendarSection.style.display = 'block';
+                }
+            } else {
+                // Hide the calendar section for other links
+                calendarSection.style.display = 'none';
+            }
+        });
+    });
+});
+
+</script>

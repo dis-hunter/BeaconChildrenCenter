@@ -4,43 +4,93 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Obsah je skrytý',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klonovat',
             ],
 
-            'create_item' => [
+            'add' => [
+
                 'label' => 'Přidat k :label',
+
+                'modal' => [
+
+                    'heading' => 'Přidat k :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Přidat',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'create_item_between' => [
+            'add_between' => [
+
                 'label' => 'Vložit',
+
+                'modal' => [
+
+                    'heading' => 'Přidat k :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Přidat',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'delete_item' => [
+            'edit' => [
+
+                'label' => 'Upravit',
+
+                'modal' => [
+
+                    'heading' => 'Upravit blok',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Uložit',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'delete' => [
                 'label' => 'Smazat',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Přesunout',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Posunout dolů',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Posunout nahoru',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Skrýt',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Zobrazit',
             ],
 
@@ -58,7 +108,7 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
                 'label' => 'Odznačit vše',
@@ -72,9 +122,137 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Zrušit',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Táhněte pro oříznutí',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Táhněte pro přesun',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Překlopit obrázek horizontálně',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Překlopit obrázek vertikálně',
+                ],
+
+                'move_down' => [
+                    'label' => 'Posunout obrázek dolů',
+                ],
+
+                'move_left' => [
+                    'label' => 'Posunout obrázek doleva',
+                ],
+
+                'move_right' => [
+                    'label' => 'Posunout obrázek doprava',
+                ],
+
+                'move_up' => [
+                    'label' => 'Posunout obrázek nahoru',
+                ],
+
+                'reset' => [
+                    'label' => 'Reset',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Otočit obrázek doleva',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Otočit obrázek doprava',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Nastavit poměr stran na :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Uložit',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Zvětšit obrázek na 100 %',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Přiblížit',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Oddálit',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Výška',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Rotace',
+                    'unit' => 'deg',
+                ],
+
+                'width' => [
+                    'label' => 'Šířka',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Poměr stran',
+
+                'no_fixed' => [
+                    'label' => 'Vlastní',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Editace SVG souborů není doporučena, protože může dojít ke ztrátě kvality při škálování.\n Opravdu chcete pokračovat?',
+                    'disabled' => 'Úprava souborů SVG je zakázána, protože může vést ke ztrátě kvality při škálování.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Přidat řádek',
@@ -108,54 +286,68 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Přidat soubory',
+            'blockquote' => 'Bloková citace',
             'bold' => 'Tučně',
             'bullet_list' => 'Seznam s odrážkami',
             'code_block' => 'Blok kódu',
-            'edit' => 'Upravit',
+            'heading' => 'Nadpis',
             'italic' => 'Kurzíva',
             'link' => 'Odkaz',
             'ordered_list' => 'Číslovaný seznam',
-            'preview' => 'Náhled',
+            'redo' => 'Vpřed',
             'strike' => 'Přeškrtnutí',
+            'table' => 'Tabulka',
+            'undo' => 'Zpět',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Ano',
+            'false' => 'Ne',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Obsah je zavřený',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Přidat k :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Vložit mezi',
+            ],
+
+            'delete' => [
                 'label' => 'Smazat',
             ],
 
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klonovat',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Přesunout',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Posunout dolů',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Posunout nahoru',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Skrýt',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Zobrazit',
             ],
 
@@ -177,7 +369,7 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Přidat odkaz',
                     'unlink' => 'Odebrat odkaz',
                 ],
@@ -204,6 +396,7 @@ return [
             'ordered_list' => 'Číslovaný seznam',
             'redo' => 'Vpřed',
             'strike' => 'Přeškrtnutí',
+            'underline' => 'Podtržení',
             'undo' => 'Zpět',
         ],
 
@@ -223,6 +416,28 @@ return [
 
                         'create' => [
                             'label' => 'Vytvořit',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'Vytvořit a přidat další',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'Upravit',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Uložit',
                         ],
 
                     ],
@@ -249,15 +464,41 @@ return [
         'searching_message' => 'Hledání...',
 
         'search_prompt' => 'Zadejte hledaný výraz...',
+
     ],
 
     'tags_input' => [
         'placeholder' => 'Nový štítek',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Skrýt heslo',
+            ],
+
+            'show_password' => [
+                'label' => 'Zobrazit heslo',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Ano',
+            'false' => 'Ne',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Zpět',

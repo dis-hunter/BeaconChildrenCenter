@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Toggle dark mode',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Open notifications',
-        ],
-
-        'light_mode' => [
-            'label' => 'Toggle light mode',
+        'billing' => [
+            'label' => 'Manage subscription',
         ],
 
         'logout' => [
             'label' => 'Sign out',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Open notifications',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'User menu',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'User menu',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Enable dark theme',
+            ],
+
+            'light' => [
+                'label' => 'Enable light theme',
+            ],
+
+            'system' => [
+                'label' => 'Enable system theme',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar of :name',
+    ],
+
+    'logo' => [
+        'alt' => ':name logo',
     ],
 
 ];

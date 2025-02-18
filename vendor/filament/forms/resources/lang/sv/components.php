@@ -4,43 +4,41 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Innehåll komprimerat',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klona',
             ],
 
-            'create_item' => [
+            'add' => [
                 'label' => 'Lägg till i :label',
             ],
 
-            'create_item_between' => [
-                'label' => 'Infoga',
+            'add_between' => [
+                'label' => 'Infoga mellan block',
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'Radera',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Flytta',
             ],
 
-            'move_item_down' => [
-                'label' => 'Flytta ned',
+            'move_down' => [
+                'label' => 'Flytta ner',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Flytta upp',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Komprimera',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expandera',
             ],
 
@@ -58,7 +56,7 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
                 'label' => 'Avmarkera alla',
@@ -72,9 +70,137 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Avbryt',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Dragläge "beskär"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Dragläge "flytta"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Vänd bilden horisontellt',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Vänd bilden vertikalt',
+                ],
+
+                'move_down' => [
+                    'label' => 'Flytta bilden nedåt',
+                ],
+
+                'move_left' => [
+                    'label' => 'Flytta bilden åt vänster',
+                ],
+
+                'move_right' => [
+                    'label' => 'Flytta bilden åt höger',
+                ],
+
+                'move_up' => [
+                    'label' => 'Flytta bilden uppåt',
+                ],
+
+                'reset' => [
+                    'label' => 'Återställ',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Rotera bilden åt vänster',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Rotera bilden åt höger',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Ändra bildformat till :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Spara',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Zooma bilden till 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Zooma in',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Zooma ut',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Höjd',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Rotation',
+                    'unit' => 'grad',
+                ],
+
+                'width' => [
+                    'label' => 'Bredd',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Bildformat',
+
+                'no_fixed' => [
+                    'label' => 'Fritt',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Redigering av SVG-filer rekommenderas inte eftersom det tar bort bildens förmåga att skala utan kvalitetsförlust.\n Är du säker på att du vill fortsätta?',
+                    'disabled' => 'Redigering av SVG-filer är inaktiverat eftersom det tar bort bildens förmåga att skala utan kvalitetsförlust.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Lägg till rad',
@@ -108,54 +234,68 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Lägg till filer',
+            'blockquote' => 'Citat',
             'bold' => 'Fet',
             'bullet_list' => 'Punktlista',
             'code_block' => 'Kod',
-            'edit' => 'Skriv',
+            'heading' => 'Rubrik',
             'italic' => 'Kursiv',
             'link' => 'Länk',
             'ordered_list' => 'Nummerlista',
-            'preview' => 'Förhandsgranska',
+            'redo' => 'Gör om',
             'strike' => 'Genomstruken',
+            'table' => 'Tabell',
+            'undo' => 'Ångra',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Ja',
+            'false' => 'Nej',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Innehåll komprimerat',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Lägg till i :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Infoga mellan',
+            ],
+
+            'delete' => [
                 'label' => 'Radera',
             ],
 
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klona',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Flytta',
             ],
 
-            'move_item_down' => [
-                'label' => 'Flytta ned',
+            'move_down' => [
+                'label' => 'Flytta ner',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Flytta upp',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Komprimera',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Expandera',
             ],
 
@@ -177,7 +317,7 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Länka',
                     'unlink' => 'Ta bort länk',
                 ],
@@ -204,6 +344,7 @@ return [
             'ordered_list' => 'Nummerlista',
             'redo' => 'Gör om',
             'strike' => 'Genomstruken',
+            'underline' => 'Understruken',
             'undo' => 'Ångra',
         ],
 
@@ -223,6 +364,28 @@ return [
 
                         'create' => [
                             'label' => 'Skapa',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'Skapa & skapa en till',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'Redigera',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Spara',
                         ],
 
                     ],
@@ -256,9 +419,34 @@ return [
         'placeholder' => 'Ny tagg',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Dölj lösenord',
+            ],
+
+            'show_password' => [
+                'label' => 'Visa lösenord',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Ja',
+            'false' => 'Nej',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Föregående',

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Hospital Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="{{ asset('css/beaconAdmin.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -30,52 +34,123 @@
   </nav>
 
   <main>
-    <section id="dashboard" class="content-section">
-      <h2>Dashboard</h2>
+  <section id="dashboard" class="content-section">
+            <h2>Dashboard</h2>
+            <div class="metrics-row">
+                <div class="metric">
+                    <i class="fas fa-user-injured"></i>
+                    <h4>Total Patients</h4>
+                    <p>{{ $totalPatients }}</p>
+                </div>
+                <div class="metric">
+                    <i class="fas fa-user-plus"></i>
+                    <h4>New Registrations (Today)</h4>
+                    <p>{{ $newRegistrations }}</p>
+                </div>
+                <div class="metric">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Occupancy Rate</h4>
+                    <p>78%</p>
+                </div>
+            </div>
+        </section>
 
-      <section class="key-metrics">
-        <h3>Key Metrics</h3>
-        <div class="metric">
-          <i class="fas fa-user-injured"></i>
-          <h4>Total Patients</h4>
-          <p>358</p>
+        <section class="charts">
+            <h2>Patient Demographics</h2>
+            <div class="chart-row">
+                <div class="chart">
+              <h2>Gender Distribution</h2>
+              <canvas id="genderDistributionChart"></canvas>
+                </div>
+                  <div class="chart">
+                      <i class="fas fa-chart-bar"></i>
+                      <h4>Age Distribution</h4>
+                      <canvas id="ageDistributionChart" width="400" height="200"></canvas>
+                  </div>
+              </div>
+        </section>
+        
+        <section class="charts">
+            <h2>Visit Highlights</h2>
+            <div class="chart-row">
+                <div class="chart">
+                    <h3>Most Common Visit Types</h3>
+                    <canvas id="visitTypesChart"></canvas>
+                </div>
+                <div class="chart">
+                    <h3>Patient Visits</h3>
+                    <div class="chart-buttons">
+                        <button onclick="updateVisitChart('weekly')">Weekly</button>
+                        <button onclick="updateVisitChart('monthly')">Monthly</button>
+                        <button onclick="updateVisitChart('annually')">Annually</button>
+                    </div>
+                    <div id="loadingVisit" class="loading-indicator">Loading...</div>
+                    <canvas id="visitChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section class="charts">
+            <h2>Finances</h2>
+            <div class="chart-row">
+                <div class="chart">
+                    <h3>Financial Summary</h3>
+                    <div class="chart-buttons">
+                        <button onclick="updateFinanceChart('weekly')">Weekly</button>
+                        <button onclick="updateFinanceChart('monthly')">Monthly</button>
+                        <button onclick="updateFinanceChart('annually')">Annually</button>
+                    </div>
+                    <div id="loadingFinance" class="loading-indicator">Loading...</div>
+                    <canvas id="financeChart"></canvas>
+                </div>
+                <div class="chart">
+            <h2>Payment Methods Usage</h2>
+            <canvas id="paymentMethodsChart" width="400" height="100"></canvas>
         </div>
-        <div class="metric">
-          <i class="fas fa-user-plus"></i>
-          <h4>New Registrations (Today)</h4>
-          <p>24</p>
-        </div>
-        <div class="metric">
-          <i class="fas fa-chart-line"></i>
-          <h4>Occupancy Rate</h4>
-          <p>78%</p>
-        </div>
-      </section>
 
-      <section class="charts">
-        <div class="chart">
-          <h2>Patient Overview (Last 30 Days)</h2>
-          <canvas id="patientChart"></canvas>
-        </div>
-        <div class="chart">
-          <h2>Financial Summary (Last 30 Days)</h2>
-          <canvas id="financeChart"></canvas>
-        </div>
-      </section>
+
+            </div>
+
+            
+</section>
+
 
       <section class="todays-revenue">
         <h2>Today's Revenue</h2>
-        <p>$5,250</p>
+        <p>ksh : {{ number_format($todaysRevenue, 2) }}</p>
       </section>
 
+      <!-- Staff Availability Section -->
       <section class="staff-management">
-        <h2>Staff Availability</h2>
-        <div class="staff-list">
-          <p>Dr. Emily Smith - Available</p>
-          <p>Dr. John Doe - On Leave</p>
-          <p>Nurse Alice Johnson - Available</p>
-        </div>
-      </section>
+            <h2>Staff Availability</h2>
+            <table class="staff-table">
+                <thead>
+                    <tr>
+                        <th>Staff Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($staff as $staffMember)
+                    <tr>
+                        <td>{{ $staffMember->full_name }}</td>
+                        <td>{{ $staffMember->role }}</td>
+                        <td>
+                            @if($staffMember->status === 'Available')
+                                Available
+                            @elseif($staffMember->status === 'On Leave')
+                                On Leave
+                            @else
+                                Unknown
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </section>
+
 
     </section>
 
@@ -94,20 +169,26 @@
           </thead>
           <tbody>
             <tr>
-              <td>Jane Doe</td>
-              <td>8</td>
-              <td>Female</td>
-              <td>12345</td>
-              <td>Inpatient</td>
-              <td><button onclick="showInvoiceDates('Jane Doe', 12345)">See Invoices</button></td>
-            </tr>
-            <tr>
-              <td>Peter Pan</td>
-              <td>10</td>
-              <td>Male</td>
-              <td>67890</td>
-              <td>Outpatient</td>
-              <td><button onclick="showInvoiceDates('Peter Pan', 67890)">See Invoices</button></td>
+
+    
+@foreach ($children as $child)
+<tr>
+    <td>
+        {{ $child->fullname->first_name ?? '' }}
+        {{ $child->fullname->middle_name ?? '' }}
+        {{ $child->fullname->last_name ?? '' }}
+    </td>
+    <td>{{ \Carbon\Carbon::parse($child->dob)->age }}</td>
+    <td>{{ $child->gender->name ?? '' }}</td>
+    <td>{{ $child->registration_number }}</td>
+    <td><p>Status?</p></td>
+    <td>
+        <button onclick="showInvoiceDates('{{ $child->id }}')">See Invoices</button>
+    </td>
+</tr>
+@endforeach
+
+
             </tr>
           </tbody>
         </table>

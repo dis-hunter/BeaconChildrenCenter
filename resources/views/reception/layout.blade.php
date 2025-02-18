@@ -2,124 +2,22 @@
 <html>
 <head>
     <title>@yield('title','Reception')</title>
+
     <link rel="icon" type="image/png" href="{{asset('images/favicon.png')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="{{ asset('css/calendar.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @livewireStyles
+    
+
     <style>
         body {
             margin: 0;
             font-family: system-ui, -apple-system, sans-serif;
             background-color: #fff;
-        }
-
-        .sidebar {
-            height: 100%;
-            width: 200px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: #111827;
-            overflow: visible;  /* Changed to visible to show hover content */
-            padding-top: 20px;
-            color: white;
-            transition: width 0.3s ease;
-            z-index: 100;
-        }
-
-        .sidebar.collapsed {
-            width: 60px;
-        }
-
-        .toggle-button {
-            position: fixed;
-            left: 200px;
-            top: 20px;
-            background-color: #111827;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 0 6px 6px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: left 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toggle-button.collapsed {
-            left: 60px;
-        }
-
-        .toggle-button::before {
-            content: "◀";
-            font-size: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .toggle-button.collapsed::before {
-            transform: rotate(180deg);
-        }
-
-        .sidebar a {
-            padding: 12px 20px;
-            text-decoration: none;
-            font-size: 14px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar.collapsed a {
-            padding: 12px;
-            justify-content: center;
-            width: 60px;
-        }
-
-        .sidebar.collapsed a:hover {
-            width: auto;
-            background-color: #1f2937;
-            padding-right: 20px;
-        }
-
-        .sidebar.collapsed a span.icon {
-            margin-right: 0;
-            transition: margin 0.3s ease;
-        }
-
-        .sidebar.collapsed a:hover span.icon {
-            margin-right: 12px;
-        }
-
-        .sidebar.collapsed a span.text {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .sidebar.collapsed a:hover span.text {
-            display: inline;
-            opacity: 1;
-        }
-
-        .sidebar a:hover {
-            background-color: #1f2937;
-        }
-
-        .sidebar img {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 20px;
-            display: block;
         }
 
         .main {
@@ -486,8 +384,10 @@
 
 
     </style>
+
 </head>
 <body>
+
 
 <div class="main">
     @yield('content')
@@ -498,8 +398,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-@livewireScripts
-<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine-ie11.min.js" integrity="sha512-Atu8sttM7mNNMon28+GHxLdz4Xo2APm1WVHwiLW9gW4bmHpHc/E2IbXrj98SmefTmbqbUTOztKl5PDPiu0LD/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     Livewire.on('parentUpdated', message => {
 

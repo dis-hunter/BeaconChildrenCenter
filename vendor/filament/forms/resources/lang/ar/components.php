@@ -4,43 +4,89 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'طيّ المحتوى',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'نسخ',
             ],
 
-            'create_item' => [
+            'add' => [
                 'label' => 'إضافة إلى :label',
+
+                'modal' => [
+
+                    'heading' => 'إضافة إلى :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'إضافة',
+                        ],
+
+                    ],
+
+                ],
             ],
 
-            'create_item_between' => [
-                'label' => 'إدراج',
+            'add_between' => [
+                'label' => 'إدراج بين الوحدات',
+
+                'modal' => [
+
+                    'heading' => 'إضافة إلى  :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'إضافة',
+                        ],
+
+                    ],
+
+                ],
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'حذف',
             ],
 
-            'move_item' => [
+            'edit' => [
+
+                'label' => 'تعديل',
+
+                'modal' => [
+
+                    'heading' => 'تعديل القسم',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'حفظ التغييرات',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'reorder' => [
                 'label' => 'نقل',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'تحريك لأسفل',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'تحريك لأعلى',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'طيّ',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'توسيع',
             ],
 
@@ -58,7 +104,7 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
                 'label' => 'إلغاء تحديد الكل',
@@ -72,9 +118,137 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'إلغاء',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'وضع السحب "قص"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'وضع السحب "تحريك"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'قلب الصورة أفقياً',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'قلب الصورة عمودياً',
+                ],
+
+                'move_down' => [
+                    'label' => 'تحريك الصورة لأسفل',
+                ],
+
+                'move_left' => [
+                    'label' => 'تحريك الصورة لليسار',
+                ],
+
+                'move_right' => [
+                    'label' => 'تحريك الصورة لليمين',
+                ],
+
+                'move_up' => [
+                    'label' => 'تحريك الصورة لأعلى',
+                ],
+
+                'reset' => [
+                    'label' => 'استعادة',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'تدوير الصورة لليسار',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'تدوير الصورة لليمين',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'تعيين نسبة العرض للإرتفاع إلى :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'حفظ',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'تحجيم الصورة إلى 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'تكبير',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'تصغير',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'الارتفاع',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'الدوران',
+                    'unit' => 'deg',
+                ],
+
+                'width' => [
+                    'label' => 'العرض',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'نسبة الأبعاد',
+
+                'no_fixed' => [
+                    'label' => 'حر',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'لا يوصى بتحرير ملفات SVG لأنه قد يؤدي إلى فقدان الجودة عند تغيير الحجم.\n هل أنت متأكد من رغبتك في المتابعة؟',
+                    'disabled' => 'تم تعطيل تحرير ملفات SVG لأنه قد يؤدي إلى فقدان الجودة عند تغيير الحجم.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'إضافة صف',
@@ -107,55 +281,69 @@ return [
     'markdown_editor' => [
 
         'toolbar_buttons' => [
-            'attach_files' => 'إضافة ملفات',
+            'attach_files' => 'إرفاق ملفات',
+            'blockquote' => 'اقتباس',
             'bold' => 'عريض',
             'bullet_list' => 'قائمة نقطية',
             'code_block' => 'نص برمجي',
-            'edit' => 'تحرير',
+            'heading' => 'العناوين',
             'italic' => 'مائل',
             'link' => 'رابط تشعبي',
             'ordered_list' => 'قائمة رقمية',
-            'preview' => 'استعراض',
-            'strike' => 'خط في المنتصف',
+            'redo' => 'إعادة',
+            'strike' => 'يتوسطه خط',
+            'table' => 'جدول',
+            'undo' => 'تراجع',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'نعم',
+            'false' => 'لا',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'المحتوى مطوي',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'إضافة إلى :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'إدراج بين',
+            ],
+
+            'delete' => [
                 'label' => 'حذف',
             ],
 
-            'clone_item' => [
+            'clone' => [
                 'label' => 'نسخ',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'نقل',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'تحريك لأسفل',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'تحريك لأعلى',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'طيّ',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'توسيع',
             ],
 
@@ -177,7 +365,7 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'ربط',
                     'unlink' => 'فصل',
                 ],
@@ -204,6 +392,7 @@ return [
             'ordered_list' => 'قائمة رقمية',
             'redo' => 'إعادة',
             'strike' => 'خط في المنتصف',
+            'underline' => 'خط اسفل النص',
             'undo' => 'تراجع',
         ],
 
@@ -215,6 +404,8 @@ return [
 
             'create_option' => [
 
+                'label' => 'إضافة',
+
                 'modal' => [
 
                     'heading' => 'إضافة',
@@ -223,6 +414,30 @@ return [
 
                         'create' => [
                             'label' => 'إضافة',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'إضافة وبدء إضافة المزيد',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'label' => 'تعديل',
+
+                'modal' => [
+
+                    'heading' => 'تحرير',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'حفظ',
                         ],
 
                     ],
@@ -256,9 +471,34 @@ return [
         'placeholder' => 'كلمة مفتاحية جديدة',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'إخفاء كلمة المرور',
+            ],
+
+            'show_password' => [
+                'label' => 'عرض كلمة المرور',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'نعم',
+            'false' => 'لا',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'الخطوة السابقة',

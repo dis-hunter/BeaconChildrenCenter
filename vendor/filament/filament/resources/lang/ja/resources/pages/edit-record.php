@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => ':label編集',
+    'title' => ':label 編集',
 
     'breadcrumb' => '編集',
 
@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => '編集',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => '保存しました',
+    'notifications' => [
+
+        'saved' => [
+            'title' => '保存しました',
+        ],
+
     ],
 
 ];

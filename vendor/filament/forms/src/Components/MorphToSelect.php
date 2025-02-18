@@ -4,23 +4,32 @@ namespace Filament\Forms\Components;
 
 use Closure;
 use Filament\Forms\Components\MorphToSelect\Type;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class MorphToSelect extends Component
 {
     use Concerns\CanAllowHtml;
+    use Concerns\CanBeNative;
     use Concerns\CanBePreloaded;
     use Concerns\CanBeSearchable;
     use Concerns\HasLoadingMessage;
     use Concerns\HasName;
 
-    protected string $view = 'forms::components.fieldset';
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-forms::components.fieldset';
 
-    public bool | Closure $isRequired = false;
+    protected bool | Closure $isRequired = false;
 
     protected int | Closure $optionsLimit = 50;
 
-    public array | Closure $types = [];
+    /**
+     * @var array<Type> | Closure
+     */
+    protected array | Closure $types = [];
 
     final public function __construct(string $name)
     {
@@ -35,6 +44,9 @@ class MorphToSelect extends Component
         return $static;
     }
 
+    /**
+     * @return array<Component>
+     */
     public function getChildComponents(): array
     {
         $relationship = $this->getRelationship();
@@ -45,30 +57,33 @@ class MorphToSelect extends Component
         $isRequired = $this->isRequired();
 
         /** @var ?Type $selectedType */
-        $selectedType = $types[$this->evaluate(fn (Closure $get): ?string => $get($typeColumn))] ?? null;
+        $selectedType = $types[$this->evaluate(fn (Get $get): ?string => $get($typeColumn))] ?? null;
 
         return [
             Select::make($typeColumn)
                 ->label($this->getLabel())
-                ->disableLabel()
+                ->hiddenLabel()
                 ->options(array_map(
                     fn (Type $type): string => $type->getLabel(),
                     $types,
                 ))
+                ->native($this->isNative())
                 ->required($isRequired)
-                ->reactive()
-                ->afterStateUpdated(function (Closure $set) use ($keyColumn) {
+                ->live()
+                ->afterStateUpdated(function (Set $set) use ($keyColumn) {
                     $set($keyColumn, null);
                     $this->callAfterStateUpdated();
                 }),
             Select::make($keyColumn)
                 ->label($selectedType?->getLabel())
-                ->disableLabel()
+                ->hiddenLabel()
                 ->options($selectedType?->getOptionsUsing)
                 ->getSearchResultsUsing($selectedType?->getSearchResultsUsing)
                 ->getOptionLabelUsing($selectedType?->getOptionLabelUsing)
-                ->required($isRequired)
-                ->hidden(! $selectedType)
+                ->native($this->isNative())
+                ->required(filled($selectedType))
+                ->hidden(blank($selectedType))
+                ->dehydratedWhenHidden()
                 ->searchable($this->isSearchable())
                 ->searchDebounce($this->getSearchDebounce())
                 ->searchPrompt($this->getSearchPrompt())
@@ -78,7 +93,10 @@ class MorphToSelect extends Component
                 ->allowHtml($this->isHtmlAllowed())
                 ->optionsLimit($this->getOptionsLimit())
                 ->preload($this->isPreloaded())
-                ->reactive($this->isReactive())
+                ->when(
+                    $this->isLive(),
+                    fn (Select $component) => $component->live(onBlur: $this->isLiveOnBlur()),
+                )
                 ->afterStateUpdated(function () {
                     $this->callAfterStateUpdated();
                 }),
@@ -99,6 +117,9 @@ class MorphToSelect extends Component
         return $this;
     }
 
+    /**
+     * @param  array<Type> | Closure  $types
+     */
     public function types(array | Closure $types): static
     {
         $this->types = $types;
@@ -111,6 +132,9 @@ class MorphToSelect extends Component
         return $this->getModelInstance()->{$this->getName()}();
     }
 
+    /**
+     * @return array<string, Type>
+     */
     public function getTypes(): array
     {
         $types = [];

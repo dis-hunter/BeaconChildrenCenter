@@ -1,4 +1,5 @@
 // Sample data for charts (replace with actual data later)
+/*
 const patientData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
@@ -26,15 +27,81 @@ const financeData = {
 };
 
 // Chart initialization
-const patientChart = new Chart(document.getElementById('patientChart'), {
-    type: 'line',
-    data: patientData
-});
+//const patientChart = new Chart(document.getElementById('patientChart'), {
+   // type: 'line',
+   // data: patientData
+//});
 
 const financeChart = new Chart(document.getElementById('financeChart'), {
     type: 'line',
     data: financeData
-});
+}); */
+
+/*
+async function fetchFinanceData() {
+    try {
+        const response = await fetch('/finance-data');
+        const data = await response.json();
+
+        console.log("Finance Data:", data); // Debugging: Check API response in the console
+
+        const financeData = {
+            labels: data.labels, // Last 30 days
+            datasets: [
+                {
+                    label: 'Revenue',
+                    data: data.revenue.map(value => parseFloat(value)), // Ensure float
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    fill: false
+                },
+                {
+                    label: 'Expenses',
+                    data: data.expenses.map(value => parseFloat(value)), // Ensure float
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    fill: false
+                }
+            ]
+        };
+
+        const ctx = document.getElementById('financeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: financeData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'category', // Ensures labels (dates) align correctly
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching finance data:", error);
+    }
+}
+
+// Call function to load and display chart
+fetchFinanceData();
+
+*/
+
+
 
 // Add this JavaScript code to handle the navigation
 document.addEventListener('DOMContentLoaded', function() {
@@ -69,6 +136,310 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dashboard').classList.add('active');
 });
 // ... (other JavaScript code) ...
+
+// Global variables to store Chart.js instances
+let visitChartInstance;
+let financeChartInstance;
+
+// Update Visit Chart for the Annual View
+function updateVisitChart(period) {
+    // Show loading indicator
+    document.getElementById('loadingVisit').style.display = 'block';
+
+    $.ajax({
+        url: `/api/visit-data?period=${period}`,
+        method: 'GET',
+        success: function(data) {
+            if (visitChartInstance) visitChartInstance.destroy(); // Destroy old chart
+
+            const ctx = document.getElementById('visitChart').getContext('2d');
+            visitChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels, // Time period (e.g., months for annual, weeks for weekly)
+                    datasets: [{
+                        label: 'Visits',
+                        data: data.visits.map(v => v || 0), // Show 0 if no data for a month/week
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        fill: false
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            // Hide loading indicator
+            document.getElementById('loadingVisit').style.display = 'none';
+        },
+        error: function(error) {
+            console.error("Error fetching visit data:", error);
+            document.getElementById('loadingVisit').style.display = 'none'; // Hide loading on error
+        }
+    });
+}
+
+// Update Finance Chart for Monthly and Annual Views
+function updateFinanceChart(period) {
+    // Show loading indicator
+    document.getElementById('loadingFinance').style.display = 'block';
+
+    $.ajax({
+        url: `/api/finance-data?period=${period}`,
+        method: 'GET',
+        success: function(data) {
+            if (financeChartInstance) financeChartInstance.destroy(); // Destroy old chart
+
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            financeChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels, // Time period (e.g., months for annual, weeks for weekly)
+                    datasets: [
+                        {
+                            label: 'Revenue',
+                            data: data.revenue.map(r => r || 0), // Show 0 if no revenue data for a month/week
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            fill: false
+                        },
+                        {
+                            label: 'Expenses',
+                            data: data.expenses.map(e => e || 0), // Show 0 if no expense data for a month/week
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            fill: false
+                        }
+                    ]
+                },
+                options: { responsive: true }
+            });
+
+            // Hide loading indicator
+            document.getElementById('loadingFinance').style.display = 'none';
+        },
+        error: function(error) {
+            console.error("Error fetching finance data:", error);
+            document.getElementById('loadingFinance').style.display = 'none'; // Hide loading on error
+        }
+    });
+}
+
+// Load default data on page load (weekly)
+$(document).ready(function() {
+    updateVisitChart('weekly');
+    updateFinanceChart('weekly');
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+
+    fetch('/age-distribution')
+        .then(response => response.json())
+        .then(data => {
+            const ages = data.map(item => item.age);
+            const counts = data.map(item => item.count);
+
+            const ctx = document.getElementById('ageDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ages,
+                    datasets: [{
+                        label: 'Number of Children',
+                        data: counts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Ages'  // Label for the x-axis
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Children'  // Label for the y-axis
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching age distribution:', error));
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch the gender distribution data
+    fetch('/get-gender-distribution')  // Replace with the correct route for your controller
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.gender);  // Gender names (Male, Female, etc.)
+            const counts = data.map(item => item.count);  // Count of children for each gender
+
+            // Set up the chart
+            const ctx = document.getElementById('genderDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',  // Pie chart to show gender distribution
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Gender Distribution',
+                        data: counts,
+                        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0'],  // Colors for different genders
+                        borderColor: ['#fff', '#fff', '#fff', '#fff'],  // Border color
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' children';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching gender distribution:', error);
+        });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/get-visit-types')  // Replace with the correct route
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.visit_type);  // Visit type names
+            const counts = data.map(item => item.visit_count);  // Visit counts
+
+            // Create the chart
+            const ctx = document.getElementById('visitTypesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',  // Bar chart for visit types
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Visit Types Frequency',
+                        data: counts,
+                        backgroundColor: '#36A2EB',
+                        borderColor: '#007BFF',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Visit Types'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Visits'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching visit types data:', error);
+        });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+    fetch('/payment-methods')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Data fetched:', data); // Log the fetched data for confirmation
+
+            // Group the data by payment_modes_id and count the occurrences
+            const paymentMethods = data.reduce((acc, payment) => {
+                const modeId = payment.payment_mode_id;
+                acc[modeId] = (acc[modeId] || 0) + 1;
+                return acc;
+            }, {});
+
+            // Prepare data for the donut chart
+            const labels = Object.keys(paymentMethods).map(modeId => {
+                switch (parseInt(modeId)) {
+                    case 1: return 'CASH';
+                    case 2: return 'INSURANCE';
+                    case 3: return 'NCPWD';
+                    case 4: return 'PROBONO';
+                    case 5: return 'OTHER';
+                    default: return 'UNKNOWN';
+                }
+            });
+
+            const counts = Object.values(paymentMethods);
+            console.log('Prepared labels:', labels);
+            console.log('Prepared counts:', counts);
+
+            const ctx = document.getElementById('paymentMethodsChart');
+            if (ctx) {
+                console.log('Canvas context:', ctx);
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,  // Payment method names as labels
+                        datasets: [{
+                            label: 'Payment Methods',
+                            data: counts,  // Count of each payment method
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 99, 132, 0.6)',
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw + ' payments';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('Chart initialized');
+            } else {
+                console.error('Canvas element not found');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching payment methods data:', error);
+        });
+});
 
 function showDemographics() {
     const analyticsContent = document.getElementById('analytics-content');
@@ -390,37 +761,7 @@ document.addEventListener('DOMContentLoaded', function() {
     viewExpensesBtn.addEventListener('click', viewExpenseBreakdown);
 });
 
-function showInvoiceDates(patientName, clinicNumber) {
-    const invoiceOutput = document.getElementById('invoice-output');
-  invoiceOutput.innerHTML = ""; // Clear previous content
 
-  const patientInvoices = invoices.filter(invoice => invoice.patient === patientName);
-  const invoiceDates = patientInvoices.map(invoice => invoice.date);
-
-  const dateSelect = document.createElement("select");
-  dateSelect.id = `invoice-date-${patientName}`;
-  dateSelect.onchange = () => generateInvoice(patientName, clinicNumber);
-
-  // Add the "Select a date" option
-  const defaultOption = document.createElement("option");
-  defaultOption.value = "";
-  defaultOption.text = "Select a date";
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  dateSelect.appendChild(defaultOption);
-
-  invoiceDates.forEach(date => {
-    const option = document.createElement("option");
-    option.value = date;
-    option.text = date;
-    dateSelect.appendChild(option);
-  });
-
-  invoiceOutput.innerHTML = `
-        <h3>Select Invoice Date for ${patientName} (Clinic No. ${clinicNumber})</h3>
-    `;
-  invoiceOutput.appendChild(dateSelect);
-  }
 
   function generateInvoice(patientName, clinicNumber) {
     const selectedDate = document.getElementById(`invoice-date-${patientName}`).value;
@@ -453,102 +794,201 @@ function showInvoiceDates(patientName, clinicNumber) {
     invoiceOutput.appendChild(noInvoiceMessage); // Append the message to the output
   }
 }
-// Sample invoice data (replace with actual data later)
-const invoices = [
-    {
-      date: "2024-01-05",
-      invoiceId: "INV-001",
-      patient: "Jane Doe",
-      amount: 150,
-      status: "Pending",
-      paymentMethod: "Jubilee Insurance"
-    },
-    {
-      date: "2024-01-10",
-      invoiceId: "INV-004",
-      patient: "Jane Doe",
-      amount: 200,
-      status: "Paid",
-      paymentMethod: "Cash"
-    },
-    {
-      date: "2024-01-05",
-      invoiceId: "INV-002",
-      patient: "Peter Pan",
-      amount: 100,
-      status: "Paid",
-      paymentMethod: "Cash"
-    },
-    {
-      date: "2024-01-12",
-      invoiceId: "INV-005",
-      patient: "Peter Pan",
-      amount: 180,
-      status: "Pending",
-      paymentMethod: "AAR Insurance"
-    },
-    {
-      date: "2024-01-06",
-      invoiceId: "INV-003",
-      patient: "Alice Wonderland",
-      amount: 200,
-      status: "Pending",
-      paymentMethod: "Probono"
+
+  
+  
+
+  
+  // Function to display invoice details when a date is selected
+  function generateInvoice(patientName, clinicNumber) {
+    const selectedDate = document.getElementById(`invoice-date-${patientName}`).value;
+    const invoiceOutput = document.getElementById('invoice-output');
+  
+    // Instead of clearing the entire invoiceOutput, just clear the invoice details
+    const invoiceDetailsDiv = invoiceOutput.querySelector('div:not([id])'); // Select the div without an ID
+    if (invoiceDetailsDiv) {
+      invoiceDetailsDiv.remove(); // Remove only the invoice details
     }
-  ];
   
-  function showInvoicesForDate() {
-    const selectedDate = document.getElementById("invoice-date").value;
-    const invoiceList = document.getElementById("invoice-list");
-    invoiceList.innerHTML = ""; // Clear previous list
+    const patientInvoices = invoices.filter(invoice => invoice.patient === patientName);
+    const invoice = patientInvoices.find(invoice => invoice.date === selectedDate);
   
-    const filteredInvoices = invoices.filter(invoice => invoice.date === selectedDate);
-  
-    if (filteredInvoices.length > 0) {
-        const table = document.createElement("table");
-        table.innerHTML = `
-            <thead>
-                <tr>
-                    <th>Invoice ID</th>
-                    <th>Patient Name</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Payment Method</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${filteredInvoices.map(invoice => `
-                    <tr>
-                        <td>${invoice.invoiceId}</td>
-                        <td>${invoice.patient}</td>
-                        <td>$${invoice.amount}</td>
-                        <td>${invoice.status}</td>
-                        <td>${invoice.paymentMethod}</td>
-                        <td><button onclick="showInvoiceDetails('${invoice.invoiceId}')">View</button></td>
-                    </tr>
-                `).join("")}
-            </tbody>
-        `;
-        invoiceList.appendChild(table);
+    if (invoice) {
+      const invoiceDetails = document.createElement('div'); // Create a div to hold the invoice details
+      invoiceDetails.innerHTML = `
+              <h3>Invoice for ${patientName} (Clinic No. ${clinicNumber})</h3>
+              <p>Date: ${invoice.date}</p>
+              <p>Invoice ID: ${invoice.invoiceId}</p>
+              <p>Amount: $${invoice.amount}</p>
+              <p>Status: ${invoice.status}</p>
+              <p>Payment Method: ${invoice.paymentMethod}</p>
+              <button onclick="showInvoiceDetails('${invoice.invoiceId}')">View Details</button>
+          `;
+      invoiceOutput.appendChild(invoiceDetails); // Append the invoice details to the output
     } else {
-      invoiceList.innerHTML = "<p>No invoices found for this date.</p>";
+      const noInvoiceMessage = document.createElement('div'); // Create a div for the message
+      noInvoiceMessage.innerHTML = "<p>No invoice found for this date.</p>";
+      invoiceOutput.appendChild(noInvoiceMessage); // Append the message to the output
     }
   }
   
-  // Function to show invoice details (not implemented here)
-  function showInvoiceDetails(invoiceId) {
-    // TODO: Implement logic to fetch and display invoice details
-    console.log(`Showing details for invoice ${invoiceId}`);
+  // Dynamic version for fetching invoice dates from the server
+  function showInvoiceDates(childId) {
+    console.log('Fetching invoice dates for child:', childId); // Debug log
+    
+    fetch(`/get-invoice-dates/${childId}`)
+        .then(response => {
+            console.log('Response status:', response.status); // Debug log
+            
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.error || 'Server error');
+                });
+            }
+            return response.json();
+        })
+        .then(dates => {
+            console.log('Received dates:', dates); // Debug log
+            const invoiceOutput = document.getElementById('invoice-output');
+            
+            if (!dates || dates.length === 0) {
+                invoiceOutput.innerHTML = '<div class="alert alert-info">No invoices found for this child.</div>';
+                return;
+            }
+
+            let html = `
+                <div id="dates-container-${childId}">
+                    <label for="invoice-date-${childId}">Select Invoice Date:</label>
+                    <select id="invoice-date-${childId}" class="form-control">
+                        ${dates.map(date => 
+                            `<option value="${date}">${date}</option>`
+                        ).join('')}
+                    </select>
+                    <button class="btn btn-primary mt-2" onclick="showInvoiceDetails(${childId})">
+                        View Invoice Details
+                    </button>
+                </div>
+            `;
+            
+            invoiceOutput.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error details:', error);
+            document.getElementById('invoice-output').innerHTML = 
+                `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        });
+}
+
+function showInvoiceDetails(childId) {
+    const selectedDate = document.getElementById(`invoice-date-${childId}`).value;
+    
+    fetch(`/get-invoice-details/${childId}?date=${selectedDate}`)
+        .then(response => response.json())
+        .then(invoice => {
+            const invoiceOutput = document.getElementById('invoice-output');
+            const detailsDiv = document.createElement('div');
+            
+            if (invoice && !invoice.error) {
+                detailsDiv.innerHTML = `
+                    <div class="invoice-details mt-4">
+                        <h3>Invoice Details</h3>
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>Date:</strong> ${new Date(invoice.invoice_date).toLocaleDateString()}</p>
+                                <p><strong>Total Amount:</strong> $${invoice.total_amount.toFixed(2)}</p>
+                                <p><strong>Details:</strong> ${invoice.invoice_details}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                detailsDiv.innerHTML = '<div class="alert alert-warning">No invoice details found for this date.</div>';
+            }
+            
+            // Remove any existing invoice details
+            const existingDetails = invoiceOutput.querySelector('.invoice-details');
+            if (existingDetails) {
+                existingDetails.remove();
+            }
+            
+            invoiceOutput.appendChild(detailsDiv);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger mt-3';
+            errorDiv.textContent = 'Error loading invoice details. Please try again.';
+            document.getElementById('invoice-output').appendChild(errorDiv);
+        });
+}
+  
+  // Helper function to create the invoice date dropdown
+  function createInvoiceDropdown(invoices, childId) {
+    const dateSelect = document.createElement('select');
+    dateSelect.id = `invoice-date-${childId}`;
+    dateSelect.onchange = () => generateInvoice(childId);
+  
+    // Add the "Select a date" option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.text = 'Select a date';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    dateSelect.appendChild(defaultOption);
+  
+    // Populate the dropdown with invoice dates
+    invoices.forEach(invoice => {
+      const option = document.createElement('option');
+      option.value = invoice.invoice_date; // Assuming 'invoice_date' is the key for the date
+      option.text = invoice.invoice_date;
+      dateSelect.appendChild(option);
+    });
+  
+    return dateSelect;
   }
-  function showExpenseForm() {
-    const expenseForm = document.getElementById("expense-form");
-    if (expenseForm.style.display === "none") {
-      expenseForm.style.display = "block";
-    } else {
-      expenseForm.style.display = "none";
-    }
+  
+  // Helper function to create the 'Generate Invoice' button
+  function createGenerateButton(childId) {
+    const generateButton = document.createElement('button');
+    generateButton.textContent = 'Generate Invoice';
+    generateButton.onclick = () => generateInvoice(childId);
+    return generateButton;
   }
+  
+  // Function to fetch invoice details based on the selected date (also modified for dynamic data)
+  function generateInvoice(childId) {
+    const selectedDate = document.getElementById(`invoice-date-${childId}`).value;
+    const invoiceOutput = document.getElementById('invoice-output');
+  
+    fetch(`/get-invoice-details/${childId}?date=${selectedDate}`)
+      .then(response => response.json())
+      .then(invoice => {
+        // Clear previous invoice details
+        invoiceOutput.innerHTML = '';
+  
+        if (invoice) {
+          const invoiceDetails = document.createElement('div');
+          invoiceDetails.innerHTML = `
+              <h3>Invoice Details</h3>
+              <p>Date: ${invoice.invoice_date}</p>
+              <p>Invoice ID: ${invoice.id}</p>
+              <p>Amount: $${invoice.total_amount}</p>
+              <p>Status: ${invoice.status}</p>
+              <p>Payment Method: ${invoice.payment_method}</p>
+          `;
+          invoiceOutput.appendChild(invoiceDetails);
+        } else {
+          invoiceOutput.innerHTML = '<p>No invoice found for the selected date.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching invoice details:', error);
+        invoiceOutput.innerHTML = '<p>An error occurred while fetching invoice details.</p>';
+      });
+  }
+  
+
+  
   function updateExpenseDescriptions() {
     const category = document.getElementById("expense-category").value;
     const descriptionSelect = document.getElementById("expense-description");

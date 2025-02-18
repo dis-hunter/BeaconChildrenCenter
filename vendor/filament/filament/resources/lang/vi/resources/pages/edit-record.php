@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Chỉnh sửa',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Đã lưu',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Đã lưu',
+        ],
+
     ],
 
 ];

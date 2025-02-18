@@ -2,6 +2,7 @@
 
 namespace Illuminate\Console\Scheduling;
 
+use Illuminate\Console\Application;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ProcessUtils;
@@ -20,17 +21,6 @@ class ScheduleWorkCommand extends Command
     protected $signature = 'schedule:work {--run-output-file= : The file to direct <info>schedule:run</info> output to}';
 
     /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'schedule:work';
-
-    /**
      * The console command description.
      *
      * @var string
@@ -45,17 +35,13 @@ class ScheduleWorkCommand extends Command
     public function handle()
     {
         $this->components->info(
-            'Running scheduled tasks every minute.',
-            $this->getLaravel()->isLocal() ? OutputInterface::VERBOSITY_NORMAL : OutputInterface::VERBOSITY_VERBOSE
+            'Running scheduled tasks.',
+            $this->getLaravel()->environment('local') ? OutputInterface::VERBOSITY_NORMAL : OutputInterface::VERBOSITY_VERBOSE
         );
 
-        [$lastExecutionStartedAt, $executions] = [null, []];
+        [$lastExecutionStartedAt, $executions] = [Carbon::now()->subMinutes(10), []];
 
-        $command = implode(' ', array_map(fn ($arg) => ProcessUtils::escapeArgument($arg), [
-            PHP_BINARY,
-            defined('ARTISAN_BINARY') ? ARTISAN_BINARY : 'artisan',
-            'schedule:run',
-        ]));
+        $command = Application::formatCommandString('schedule:run');
 
         if ($this->option('run-output-file')) {
             $command .= ' >> '.ProcessUtils::escapeArgument($this->option('run-output-file')).' 2>&1';

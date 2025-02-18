@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Växla till mörkt läge',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Öppna aviseringar',
-        ],
-
-        'light_mode' => [
-            'label' => 'Växla till ljust läge',
+        'billing' => [
+            'label' => 'Hantera prenumeration',
         ],
 
         'logout' => [
             'label' => 'Logga ut',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Öppna notiser',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Användarmeny',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Användarmeny',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Använd mörkt tema',
+            ],
+
+            'light' => [
+                'label' => 'Använd ljust tema',
+            ],
+
+            'system' => [
+                'label' => 'Följ systemets tema',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => 'Avatar för :name',
+    ],
+
+    'logo' => [
+        'alt' => ':name logotyp',
     ],
 
 ];

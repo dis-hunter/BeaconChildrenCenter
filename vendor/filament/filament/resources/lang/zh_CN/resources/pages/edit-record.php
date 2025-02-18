@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => '编辑',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => '已保存',
+    'notifications' => [
+
+        'saved' => [
+            'title' => '已保存',
+        ],
+
     ],
 
 ];

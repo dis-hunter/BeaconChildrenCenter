@@ -2,7 +2,9 @@
 
 namespace Filament\Models\Contracts;
 
+use Filament\Panel;
+
 interface FilamentUser
 {
-    public function canAccessFilament(): bool;
+    public function canAccessPanel(Panel $panel): bool;
 }

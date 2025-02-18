@@ -4,43 +4,93 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Kandungan ditutup',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klon',
             ],
 
-            'create_item' => [
+            'add' => [
+
                 'label' => 'Tambah ke :label',
+
+                'modal' => [
+
+                    'heading' => 'Tambah ke :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Tambah',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'create_item_between' => [
+            'add_between' => [
+
                 'label' => 'Masukkan',
+
+                'modal' => [
+
+                    'heading' => 'Add to :label',
+
+                    'actions' => [
+
+                        'add' => [
+                            'label' => 'Tambah',
+                        ],
+
+                    ],
+
+                ],
+
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'Padam',
             ],
 
-            'move_item' => [
+            'edit' => [
+
+                'label' => 'Sunting',
+
+                'modal' => [
+
+                    'heading' => 'Sunting blok',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Simpan perubahan',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'reorder' => [
                 'label' => 'Pindah',
             ],
 
-            'move_item_down' => [
+            'move_down' => [
                 'label' => 'Pindah ke bawah',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Pindah ke atas',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Tutup',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Buka',
             ],
 
@@ -58,7 +108,7 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
                 'label' => 'Nyahpilih semua',
@@ -72,9 +122,137 @@ return [
 
     ],
 
+    'file_upload' => [
+
+        'editor' => [
+
+            'actions' => [
+
+                'cancel' => [
+                    'label' => 'Batal',
+                ],
+
+                'drag_crop' => [
+                    'label' => 'Mod seret "crop"',
+                ],
+
+                'drag_move' => [
+                    'label' => 'Mod seret "move"',
+                ],
+
+                'flip_horizontal' => [
+                    'label' => 'Balikkan imej mendatar',
+                ],
+
+                'flip_vertical' => [
+                    'label' => 'Balikkan imej menegak',
+                ],
+
+                'move_down' => [
+                    'label' => 'Gerakkan imej ke bawah',
+                ],
+
+                'move_left' => [
+                    'label' => 'Alihkan imej ke kiri',
+                ],
+
+                'move_right' => [
+                    'label' => 'Alihkan imej ke kanan',
+                ],
+
+                'move_up' => [
+                    'label' => 'Alihkan imej ke atas',
+                ],
+
+                'reset' => [
+                    'label' => 'Tetapkan semula',
+                ],
+
+                'rotate_left' => [
+                    'label' => 'Putar imej ke kiri',
+                ],
+
+                'rotate_right' => [
+                    'label' => 'Putar imej ke kanan',
+                ],
+
+                'set_aspect_ratio' => [
+                    'label' => 'Tetapkan nisbah bidang kepada :ratio',
+                ],
+
+                'save' => [
+                    'label' => 'Simpan',
+                ],
+
+                'zoom_100' => [
+                    'label' => 'Zum imej kepada 100%',
+                ],
+
+                'zoom_in' => [
+                    'label' => 'Zum masuk',
+                ],
+
+                'zoom_out' => [
+                    'label' => 'Zum keluar',
+                ],
+
+            ],
+
+            'fields' => [
+
+                'height' => [
+                    'label' => 'Ketinggian',
+                    'unit' => 'px',
+                ],
+
+                'rotation' => [
+                    'label' => 'Putaran',
+                    'unit' => 'deg',
+                ],
+
+                'width' => [
+                    'label' => 'Lebar',
+                    'unit' => 'px',
+                ],
+
+                'x_position' => [
+                    'label' => 'X',
+                    'unit' => 'px',
+                ],
+
+                'y_position' => [
+                    'label' => 'Y',
+                    'unit' => 'px',
+                ],
+
+            ],
+
+            'aspect_ratios' => [
+
+                'label' => 'Nisbah aspek',
+
+                'no_fixed' => [
+                    'label' => 'Bebas',
+                ],
+
+            ],
+
+            'svg' => [
+
+                'messages' => [
+                    'confirmation' => 'Mengedit fail SVG tidak disyorkan kerana ia boleh mengakibatkan kehilangan kualiti semasa penskalaan.\n Adakah anda pasti mahu meneruskan?',
+                    'disabled' => 'Mengedit fail SVG dilumpuhkan kerana ia boleh menyebabkan kehilangan kualiti apabila penskalaan.',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
                 'label' => 'Tambah Baris',
@@ -108,54 +286,68 @@ return [
 
         'toolbar_buttons' => [
             'attach_files' => 'Lampirkan fail',
+            'blockquote' => 'Blok petikan',
             'bold' => 'Bold',
             'bullet_list' => 'Bullet list',
             'code_block' => 'Blok kod',
-            'edit' => 'Sunting',
+            'heading' => 'Tajuk',
             'italic' => 'Italic',
             'link' => 'Pautan',
             'ordered_list' => 'Senarai bernombor',
-            'preview' => 'Pratonton',
+            'redo' => 'Buat semula',
             'strike' => 'Strikethrough',
+            'table' => 'Jadual',
+            'undo' => 'Buat asal',
+        ],
+
+    ],
+
+    'radio' => [
+
+        'boolean' => [
+            'true' => 'Ya',
+            'false' => 'Tidak',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Kandungan ditutup',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Tambah ke :label',
             ],
 
-            'delete_item' => [
+            'add_between' => [
+                'label' => 'Masukkan antara',
+            ],
+
+            'delete' => [
                 'label' => 'Padam',
             ],
 
-            'move_item' => [
-                'label' => 'Pindah',
-            ],
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klon',
             ],
 
-            'move_item_down' => [
+            'reorder' => [
+                'label' => 'Pindah',
+            ],
+
+            'move_down' => [
                 'label' => 'Pindah ke atas',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Pindah ke bawah',
             ],
 
-            'collapse_item' => [
+            'collapse' => [
                 'label' => 'Tutup',
             ],
 
-            'expand_item' => [
+            'expand' => [
                 'label' => 'Buka',
             ],
 
@@ -177,7 +369,7 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Pautkan',
                     'unlink' => 'Nyahpaut',
                 ],
@@ -204,6 +396,7 @@ return [
             'ordered_list' => 'Senarai bernombor',
             'redo' => 'Buat semula',
             'strike' => 'Strikethrough',
+            'underline' => 'Garis bawah',
             'undo' => 'Buat asal',
         ],
 
@@ -214,6 +407,7 @@ return [
         'actions' => [
 
             'create_option' => [
+                'label' => 'Cipta',
 
                 'modal' => [
 
@@ -223,6 +417,29 @@ return [
 
                         'create' => [
                             'label' => 'Cipta',
+                        ],
+
+                        'create_another' => [
+                            'label' => 'Cipta dan cipta yang lain',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+                'label' => 'Sunting',
+
+                'modal' => [
+
+                    'heading' => 'Sunting',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Simpan',
                         ],
 
                     ],
@@ -256,9 +473,34 @@ return [
         'placeholder' => 'Tag baru',
     ],
 
+    'text_input' => [
+
+        'actions' => [
+
+            'hide_password' => [
+                'label' => 'Sembunyikan kata laluan',
+            ],
+
+            'show_password' => [
+                'label' => 'Tunjukkan kata laluan',
+            ],
+
+        ],
+
+    ],
+
+    'toggle_buttons' => [
+
+        'boolean' => [
+            'true' => 'Ya',
+            'false' => 'Tidak',
+        ],
+
+    ],
+
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Sebelum',

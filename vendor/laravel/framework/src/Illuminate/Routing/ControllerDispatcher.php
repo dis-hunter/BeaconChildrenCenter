@@ -4,10 +4,11 @@ namespace Illuminate\Routing;
 
 use Illuminate\Container\Container;
 use Illuminate\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Illuminate\Support\Collection;
 
 class ControllerDispatcher implements ControllerDispatcherContract
 {
-    use RouteDependencyResolverTrait;
+    use FiltersControllerMiddleware, ResolvesRouteDependencies;
 
     /**
      * The container instance.
@@ -74,21 +75,8 @@ class ControllerDispatcher implements ControllerDispatcherContract
             return [];
         }
 
-        return collect($controller->getMiddleware())->reject(function ($data) use ($method) {
+        return (new Collection($controller->getMiddleware()))->reject(function ($data) use ($method) {
             return static::methodExcludedByOptions($method, $data['options']);
         })->pluck('middleware')->all();
-    }
-
-    /**
-     * Determine if the given options exclude a particular method.
-     *
-     * @param  string  $method
-     * @param  array  $options
-     * @return bool
-     */
-    public static function methodExcludedByOptions($method, array $options)
-    {
-        return (isset($options['only']) && ! in_array($method, (array) $options['only'])) ||
-            (! empty($options['except']) && in_array($method, (array) $options['except']));
     }
 }

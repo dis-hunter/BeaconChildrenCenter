@@ -3,10 +3,10 @@
 return [
 
     'field' => [
-        'label' => 'Глобал хайлт',
-        'placeholder' => 'хайлт',
+        'label' => 'Бүгдээс хайх',
+        'placeholder' => 'Хайлт',
     ],
 
-    'no_results_message' => 'Илэрц олдсонгүй.',
+    'no_results_message' => 'Хайлтын үр дүн олдсонгүй.',
 
 ];

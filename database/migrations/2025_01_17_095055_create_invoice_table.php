@@ -16,9 +16,12 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('visit_id')
+                ->constrained('visits')
+                ->onDelete('set null');
             $table->foreignId('child_id')
                 ->constrained('children')
-                ->onDelete('cascade');
+                ->onDelete('set null');
             $table->decimal('total_amount', 10, 2);
             $table->json('invoice_details');
             $table->date('invoice_date')->default(DB::raw('CURRENT_DATE'));

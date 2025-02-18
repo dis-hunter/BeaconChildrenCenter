@@ -2,37 +2,17 @@
 
 namespace Filament\GlobalSearch\Actions;
 
-use Filament\Support\Actions\BaseAction;
-use Filament\Support\Actions\Concerns\CanBeOutlined;
-use Filament\Support\Actions\Concerns\CanEmitEvent;
-use Filament\Support\Actions\Concerns\CanOpenUrl;
+use Filament\Actions\StaticAction;
+use Filament\Support\Enums\ActionSize;
 
-class Action extends BaseAction
+class Action extends StaticAction
 {
-    use CanBeOutlined;
-    use CanEmitEvent;
-    use CanOpenUrl;
-
-    protected string $view = 'filament::global-search.actions.link-action';
-
-    public function button(): static
+    protected function setUp(): void
     {
-        $this->view('filament::global-search.actions.button-action');
+        parent::setUp();
 
-        return $this;
-    }
+        $this->defaultView(static::LINK_VIEW);
 
-    public function link(): static
-    {
-        $this->view('filament::global-search.actions.link-action');
-
-        return $this;
-    }
-
-    public function iconButton(): static
-    {
-        $this->view('filament::global-search.actions.icon-button-action');
-
-        return $this;
+        $this->defaultSize(ActionSize::Small);
     }
 }

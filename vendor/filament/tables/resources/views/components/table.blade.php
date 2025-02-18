@@ -1,39 +1,42 @@
 @props([
     'footer' => null,
     'header' => null,
+    'headerGroups' => null,
+    'reorderable' => false,
+    'reorderAnimationDuration' => 300,
 ])
 
 <table
-    {{
-        $attributes->class([
-            'filament-tables-table w-full table-auto divide-y text-start',
-            'dark:divide-gray-700' => config('tables.dark_mode'),
-        ])
-    }}
+    {{ $attributes->class(['fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5']) }}
 >
     @if ($header)
-        <thead>
-            <tr class="bg-gray-500/5">
+        <thead class="divide-y divide-gray-200 dark:divide-white/5">
+            @if ($headerGroups)
+                <tr class="bg-gray-100 dark:bg-transparent">
+                    {{ $headerGroups }}
+                </tr>
+            @endif
+
+            <tr class="bg-gray-50 dark:bg-white/5">
                 {{ $header }}
             </tr>
         </thead>
     @endif
 
     <tbody
-        wire:sortable
-        wire:end.stop="reorderTable($event.target.sortable.toArray())"
-        wire:sortable.options="{ animation: 100 }"
-        @class([
-            'divide-y whitespace-nowrap',
-            'dark:divide-gray-700' => config('tables.dark_mode'),
-        ])
+        @if ($reorderable)
+            x-on:end.stop="$wire.reorderTable($event.target.sortable.toArray())"
+            x-sortable
+            data-sortable-animation-duration="{{ $reorderAnimationDuration }}"
+        @endif
+        class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5"
     >
         {{ $slot }}
     </tbody>
 
     @if ($footer)
-        <tfoot>
-            <tr class="bg-gray-50">
+        <tfoot class="bg-gray-50 dark:bg-white/5">
+            <tr>
                 {{ $footer }}
             </tr>
         </tfoot>

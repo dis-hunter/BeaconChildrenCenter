@@ -4,52 +4,50 @@ return [
 
     'builder' => [
 
-        'collapsed' => 'Uzkurtutako edukia',
+        'actions' => [
 
-        'buttons' => [
-
-            'clone_item' => [
+            'clone' => [
                 'label' => 'Klonatu',
             ],
 
-            'create_item' => [
+            'add' => [
                 'label' => 'Gehitu :label',
             ],
 
-            'create_item_between' => [
-                'label' => 'Txartatu',
+            'add_between' => [
+                'label' => 'Txertatu',
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'Ezabatu',
             ],
 
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Mugitu',
             ],
 
-            'move_item_down' => [
-                'label' => 'Jeitsi',
+            'move_down' => [
+                'label' => 'Jaitsi',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Igo',
             ],
 
-            'collapse_item' => [
-                'label' => 'Uzkurtu',
+            'collapse' => [
+                'label' => 'Kontrairatu',
             ],
 
-            'expand_item' => [
-                'label' => 'Hedatu',
+            'expand' => [
+                'label' => 'Zabaldu',
             ],
 
             'collapse_all' => [
-                'label' => 'Dena uzkurtu',
+                'label' => 'Kontrairatu dena',
             ],
 
             'expand_all' => [
-                'label' => 'Dena hedatu',
+                'label' => 'Zabaldu dena',
             ],
 
         ],
@@ -58,14 +56,14 @@ return [
 
     'checkbox_list' => [
 
-        'buttons' => [
+        'actions' => [
 
             'deselect_all' => [
-                'label' => 'Guztiak deshautatu',
+                'label' => 'Deselektatu guztia',
             ],
 
             'select_all' => [
-                'label' => 'Guztiak hautatu',
+                'label' => 'Aukeratu guztia',
             ],
 
         ],
@@ -74,18 +72,18 @@ return [
 
     'key_value' => [
 
-        'buttons' => [
+        'actions' => [
 
             'add' => [
-                'label' => 'Gehitu lerroa',
+                'label' => 'Gehitu errenkada',
             ],
 
             'delete' => [
-                'label' => 'Lerroa ezabatu',
+                'label' => 'Ezabatu errenkada',
             ],
 
             'reorder' => [
-                'label' => 'Lerroa berrantolatu',
+                'label' => 'Birordenatu errenkada',
             ],
 
         ],
@@ -93,7 +91,7 @@ return [
         'fields' => [
 
             'key' => [
-                'label' => 'Kodea',
+                'label' => 'Giltza',
             ],
 
             'value' => [
@@ -107,64 +105,67 @@ return [
     'markdown_editor' => [
 
         'toolbar_buttons' => [
-            'attach_files' => 'Artxikoak erantsi',
+            'attach_files' => 'Erantsi agiriak',
+            'blockquote' => 'Aipuak',
             'bold' => 'Lodia',
-            'bullet_list' => 'Binetak',
+            'bullet_list' => 'Buletinak',
             'code_block' => 'Kode-blokea',
+            'heading' => 'Goiburua',
             'edit' => 'Idatzi',
             'italic' => 'Etzana',
-            'link' => ',Esteka',
-            'ordered_list' => 'Zenbakidun zerrenda',
-            'preview' => 'Aurrebista',
-            'strike' => 'Zirriborratu',
+            'link' => 'Esteka',
+            'ordered_list' => 'Zerrenda zenbakiduna',
+            'preview' => 'Aurreikuspena',
+            'strike' => 'Marratua',
+            'redo' => 'Berregin',
+            'table' => 'Taula',
+            'undo' => 'Desegin',
         ],
 
     ],
 
     'repeater' => [
 
-        'collapsed' => 'Uzkurtutako edukia',
+        'actions' => [
 
-        'buttons' => [
-
-            'create_item' => [
+            'add' => [
                 'label' => 'Gehitu :label',
             ],
 
-            'delete_item' => [
+            'delete' => [
                 'label' => 'Ezabatu',
             ],
 
-            'clone_item' => [
-                'label' => 'Klonatu',
-            ],
-
-            'move_item' => [
+            'reorder' => [
                 'label' => 'Mugitu',
             ],
 
-            'move_item_down' => [
+            'clone' => [
+                'label' => 'Klonatu',
+            ],
+
+            'move_down' => [
                 'label' => 'Jaitsi',
             ],
 
-            'move_item_up' => [
+            'move_up' => [
                 'label' => 'Igo',
             ],
 
-            'collapse_item' => [
-                'label' => 'Uzkurtu',
+            'collapse' => [
+                'label' => 'Kontrairatu',
             ],
 
-            'expand_item' => [
-                'label' => 'Hedatu',
+            'expand' => [
+                'label' => 'Zabaldu',
             ],
 
             'collapse_all' => [
-                'label' => 'Dena uzkurtu',
+                'label' => 'Kontrairatu dena',
             ],
 
             'expand_all' => [
-                'label' => 'Dena hedatu',
+                'label' => 'Zabaldu dena',
             ],
 
         ],
@@ -177,33 +178,34 @@ return [
 
             'link' => [
 
-                'buttons' => [
+                'actions' => [
                     'link' => 'Esteka',
                     'unlink' => 'Kendu esteka',
                 ],
 
                 'label' => 'URL',
 
-                'placeholder' => 'Tekleatu URL esteka bat',
+                'placeholder' => 'Idatzi URL estekatzeko',
 
             ],
 
         ],
 
         'toolbar_buttons' => [
-            'attach_files' => 'Artxiboak erantsi',
-            'blockquote' => 'Aipatu',
+            'attach_files' => 'Erantsi agiriak',
+            'blockquote' => 'Aipuak',
             'bold' => 'Lodia',
-            'bullet_list' => 'Binetak',
+            'bullet_list' => 'Buletinak',
             'code_block' => 'Kode-blokea',
-            'h1' => 'Titulua',
+            'h1' => 'Izenburua',
             'h2' => 'Goiburua',
-            'h3' => 'Azpiburua',
+            'h3' => 'Azpigoiburua',
             'italic' => 'Etzana',
             'link' => 'Esteka',
-            'ordered_list' => 'Zenbakidun zerrenda',
+            'ordered_list' => 'Zerrenda zenbakiduna',
             'redo' => 'Berregin',
-            'strike' => 'Zirriborratu',
+            'strike' => 'Marratua',
+            'underline' => 'Azpimarratua',
             'undo' => 'Desegin',
         ],
 
@@ -224,6 +226,27 @@ return [
                         'create' => [
                             'label' => 'Sortu',
                         ],
+                        'create_another' => [
+                            'label' => 'Sortu eta beste bat',
+                        ],
+
+                    ],
+
+                ],
+
+            ],
+
+            'edit_option' => [
+
+                'modal' => [
+
+                    'heading' => 'Editatu',
+
+                    'actions' => [
+
+                        'save' => [
+                            'label' => 'Gorde',
+                        ],
 
                     ],
 
@@ -239,17 +262,12 @@ return [
         ],
 
         'loading_message' => 'Kargatzen...',
-
-        'max_items_message' => ':count bakarrik hauta daitezke.',
-
-        'no_search_results_message' => 'Ez da kointzidentziarik aurkitu egindako bilaketarekin.',
-
-        'placeholder' => 'Hautatu aukera bat',
-
+        'max_items_message' => 'Soilik :count hauta daiteke.',
+        'no_search_results_message' => 'Ez da bat datorren bilaketarekin.',
+        'placeholder' => 'Aukeratu aukera bat',
         'searching_message' => 'Bilatzen...',
 
-        'search_prompt' => 'Tekleatu bilatzeko...',
-
+        'search_prompt' => 'Idatzi bilatzeko...',
     ],
 
     'tags_input' => [
@@ -258,7 +276,7 @@ return [
 
     'wizard' => [
 
-        'buttons' => [
+        'actions' => [
 
             'previous_step' => [
                 'label' => 'Aurrekoa',

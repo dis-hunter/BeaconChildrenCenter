@@ -20,14 +20,22 @@ return [
 
         ],
 
+    ],
+
+    'content' => [
+
         'tab' => [
             'label' => 'Edytuj',
         ],
 
     ],
 
-    'messages' => [
-        'saved' => 'Zapisano zmiany',
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Zapisano zmiany',
+        ],
+
     ],
 
 ];

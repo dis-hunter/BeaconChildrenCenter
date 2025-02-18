@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\HasBroadcastChannel;
 use Illuminate\Contracts\Routing\BindingRegistrar;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Reflector;
 use ReflectionClass;
 use ReflectionFunction;
@@ -140,7 +141,7 @@ abstract class Broadcaster implements BroadcasterContract
     {
         $callbackParameters = $this->extractParameters($callback);
 
-        return collect($this->extractChannelKeys($pattern, $channel))->reject(function ($value, $key) {
+        return (new Collection($this->extractChannelKeys($pattern, $channel)))->reject(function ($value, $key) {
             return is_numeric($key);
         })->map(function ($value, $key) use ($callbackParameters) {
             return $this->resolveBinding($key, $value, $callbackParameters);
@@ -371,6 +372,18 @@ abstract class Broadcaster implements BroadcasterContract
      */
     protected function channelNameMatchesPattern($channel, $pattern)
     {
+        $pattern = str_replace('.', '\.', $pattern);
+
         return preg_match('/^'.preg_replace('/\{(.*?)\}/', '([^\.]+)', $pattern).'$/', $channel);
+    }
+
+    /**
+     * Get all of the registered channels.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getChannels()
+    {
+        return new Collection($this->channels);
     }
 }

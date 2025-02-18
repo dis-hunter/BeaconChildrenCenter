@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
 class children extends Model implements ShouldQueue
@@ -55,11 +57,10 @@ class children extends Model implements ShouldQueue
         return $this->belongsTo(Gender::class);
     }
 
-
     // Define the relationship to the Triage model
     public function triage()
     {
-        return $this->hasOne(Triage::class);
+        return $this->hasMany(Triage::class,'child_id');
     }
 
 
@@ -67,4 +68,38 @@ class children extends Model implements ShouldQueue
     {
         return $this->hasManyThrough(Parents::class, ChildParent::class, 'child_id', 'id', 'id', 'parent_id');
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'child_id'); // Adjust the foreign key if needed
+    }
+
+    public function visits(): HasMany
+    {
+        return $this->hasMany(Visits::class, 'child_id');
+    }
+
+
+    public function careplan(): HasMany
+    {
+        return $this->hasMany(Careplan::class, 'child_id');
+    }
+
+    public function prescription(): HasMany
+    {
+        return $this->hasMany(Prescription::class, 'child_id');
+    }
+
+    public function referral(): HasMany
+    {
+        return $this->hasMany(Referral::class, 'child_id');
+    }
+
+    public function followUp(): HasMany
+    {
+        return $this->hasMany(Follow_Up::class, 'child_id');
+    }
+
+
+
 }

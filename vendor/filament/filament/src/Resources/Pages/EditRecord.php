@@ -2,50 +2,75 @@
 
 namespace Filament\Resources\Pages;
 
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ReplicateAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\ComponentContainer;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
-use Filament\Pages\Actions\Action;
-use Filament\Pages\Actions\DeleteAction;
-use Filament\Pages\Actions\ForceDeleteAction;
-use Filament\Pages\Actions\ReplicateAction;
-use Filament\Pages\Actions\RestoreAction;
-use Filament\Pages\Actions\ViewAction;
-use Filament\Pages\Contracts\HasFormActions;
+use Filament\Pages\Concerns\CanUseDatabaseTransactions;
+use Filament\Pages\Concerns\HasUnsavedDataChangesAlert;
+use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Support\Exceptions\Halt;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Js;
+use Throwable;
+
+use function Filament\Support\is_app_url;
 
 /**
- * @property ComponentContainer $form
+ * @property Form $form
  */
-class EditRecord extends Page implements HasFormActions
+class EditRecord extends Page
 {
-    use Concerns\HasRecordBreadcrumb;
+    use CanUseDatabaseTransactions;
     use Concerns\HasRelationManagers;
-    use Concerns\InteractsWithRecord;
-    use Concerns\UsesResourceForm;
+    use Concerns\InteractsWithRecord {
+        configureAction as configureActionRecord;
+    }
+    use HasUnsavedDataChangesAlert;
+    use InteractsWithFormActions;
 
-    protected static string $view = 'filament::resources.pages.edit-record';
+    /**
+     * @var view-string
+     */
+    protected static string $view = 'filament-panels::resources.pages.edit-record';
 
-    public $data;
+    /**
+     * @var array<string, mixed> | null
+     */
+    public ?array $data = [];
 
     public ?string $previousUrl = null;
 
-    protected $queryString = [
-        'activeRelationManager',
-    ];
+    public static function getNavigationIcon(): string | Htmlable | null
+    {
+        return static::$navigationIcon
+            ?? FilamentIcon::resolve('panels::resources.pages.edit-record.navigation-item')
+            ?? 'heroicon-o-pencil-square';
+    }
 
     public function getBreadcrumb(): string
     {
-        return static::$breadcrumb ?? __('filament::resources/pages/edit-record.breadcrumb');
+        return static::$breadcrumb ?? __('filament-panels::resources/pages/edit-record.breadcrumb');
     }
 
-    public function getFormTabLabel(): ?string
+    public function getContentTabLabel(): ?string
     {
-        return __('filament::resources/pages/edit-record.form.tab.label');
+        return __('filament-panels::resources/pages/edit-record.content.tab.label');
     }
 
-    public function mount($record): void
+    public function mount(int | string $record): void
     {
         $this->record = $this->resolveRecord($record);
 
@@ -58,45 +83,115 @@ class EditRecord extends Page implements HasFormActions
 
     protected function authorizeAccess(): void
     {
-        static::authorizeResourceAccess();
-
         abort_unless(static::getResource()::canEdit($this->getRecord()), 403);
     }
 
     protected function fillForm(): void
     {
+        /** @internal Read the DocBlock above the following method. */
+        $this->fillFormWithDataAndCallHooks($this->getRecord());
+    }
+
+    /**
+     * @internal Never override or call this method. If you completely override `fillForm()`, copy the contents of this method into your override.
+     *
+     * @param  array<string, mixed>  $extraData
+     */
+    protected function fillFormWithDataAndCallHooks(Model $record, array $extraData = []): void
+    {
         $this->callHook('beforeFill');
 
-        $data = $this->getRecord()->attributesToArray();
-
-        $data = $this->mutateFormDataBeforeFill($data);
+        $data = $this->mutateFormDataBeforeFill([
+            ...$record->attributesToArray(),
+            ...$extraData,
+        ]);
 
         $this->form->fill($data);
 
         $this->callHook('afterFill');
     }
 
-    protected function refreshFormData(array $attributes): void
+    /**
+     * @param  array<string>  $attributes
+     */
+    public function refreshFormData(array $attributes): void
     {
-        $this->data = array_merge(
-            $this->data,
-            $this->getRecord()->only($attributes),
-        );
+        $data = [
+            ...$this->data,
+            ...Arr::only($this->getRecord()->attributesToArray(), $attributes),
+        ];
+
+        $this->form->fill($data);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
     protected function mutateFormDataBeforeFill(array $data): array
     {
         return $data;
     }
 
-    public function save(bool $shouldRedirect = true): void
+    public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true): void
     {
         $this->authorizeAccess();
 
         try {
+            $this->beginDatabaseTransaction();
+
             $this->callHook('beforeValidate');
 
-            $data = $this->form->getState();
+            $data = $this->form->getState(afterValidate: function () {
+                $this->callHook('afterValidate');
+
+                $this->callHook('beforeSave');
+            });
+
+            $data = $this->mutateFormDataBeforeSave($data);
+
+            $this->handleRecordUpdate($this->getRecord(), $data);
+
+            $this->callHook('afterSave');
+
+            $this->commitDatabaseTransaction();
+        } catch (Halt $exception) {
+            $exception->shouldRollbackDatabaseTransaction() ?
+                $this->rollBackDatabaseTransaction() :
+                $this->commitDatabaseTransaction();
+
+            return;
+        } catch (Throwable $exception) {
+            $this->rollBackDatabaseTransaction();
+
+            throw $exception;
+        }
+
+        $this->rememberData();
+
+        if ($shouldSendSavedNotification) {
+            $this->getSavedNotification()?->send();
+        }
+
+        if ($shouldRedirect && ($redirectUrl = $this->getRedirectUrl())) {
+            $this->redirect($redirectUrl, navigate: FilamentView::hasSpaMode() && is_app_url($redirectUrl));
+        }
+    }
+
+    public function saveFormComponentOnly(Component $component): void
+    {
+        $this->authorizeAccess();
+
+        try {
+            $this->beginDatabaseTransaction();
+
+            $this->callHook('beforeValidate');
+
+            $data = ComponentContainer::make($component->getLivewire())
+                ->schema([$component])
+                ->model($component->getRecord())
+                ->statePath($this->getFormStatePath())
+                ->getState();
 
             $this->callHook('afterValidate');
 
@@ -107,15 +202,21 @@ class EditRecord extends Page implements HasFormActions
             $this->handleRecordUpdate($this->getRecord(), $data);
 
             $this->callHook('afterSave');
+
+            $this->commitDatabaseTransaction();
         } catch (Halt $exception) {
+            $exception->shouldRollbackDatabaseTransaction() ?
+                $this->rollBackDatabaseTransaction() :
+                $this->commitDatabaseTransaction();
+
             return;
+        } catch (Throwable $exception) {
+            $this->rollBackDatabaseTransaction();
+
+            throw $exception;
         }
 
-        $this->getSavedNotification()?->send();
-
-        if ($shouldRedirect && ($redirectUrl = $this->getRedirectUrl())) {
-            $this->redirect($redirectUrl);
-        }
+        $this->rememberData();
     }
 
     protected function getSavedNotification(): ?Notification
@@ -133,7 +234,7 @@ class EditRecord extends Page implements HasFormActions
 
     protected function getSavedNotificationTitle(): ?string
     {
-        return $this->getSavedNotificationMessage() ?? __('filament::resources/pages/edit-record.messages.saved');
+        return $this->getSavedNotificationMessage() ?? __('filament-panels::resources/pages/edit-record.notifications.saved.title');
     }
 
     /**
@@ -144,6 +245,9 @@ class EditRecord extends Page implements HasFormActions
         return null;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         $record->update($data);
@@ -151,74 +255,19 @@ class EditRecord extends Page implements HasFormActions
         return $record;
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
     protected function mutateFormDataBeforeSave(array $data): array
     {
         return $data;
     }
 
-    public function openDeleteModal(): void
-    {
-        $this->dispatchBrowserEvent('open-modal', [
-            'id' => 'delete',
-        ]);
-    }
-
-    /**
-     * @deprecated Use `->action()` on the action instead.
-     */
-    public function delete(): void
-    {
-        abort_unless(static::getResource()::canDelete($this->getRecord()), 403);
-
-        $this->callHook('beforeDelete');
-
-        $this->getRecord()->delete();
-
-        $this->callHook('afterDelete');
-
-        $this->getDeletedNotification()?->send();
-
-        $this->redirect($this->getDeleteRedirectUrl());
-    }
-
-    protected function getDeletedNotification(): ?Notification
-    {
-        $title = $this->getDeletedNotificationTitle();
-
-        if (blank($title)) {
-            return null;
-        }
-
-        return Notification::make()
-            ->success()
-            ->title($title);
-    }
-
-    protected function getDeletedNotificationTitle(): ?string
-    {
-        return $this->getDeletedNotificationMessage() ?? __('filament-support::actions/delete.single.messages.deleted');
-    }
-
-    /**
-     * @deprecated Use `getDeletedNotificationTitle()` instead.
-     */
-    protected function getDeletedNotificationMessage(): ?string
-    {
-        return null;
-    }
-
-    protected function getActions(): array
-    {
-        $resource = static::getResource();
-
-        return array_merge(
-            (($resource::hasPage('view') && $resource::canView($this->getRecord())) ? [$this->getViewAction()] : []),
-            ($resource::canDelete($this->getRecord()) ? [$this->getDeleteAction()] : []),
-        );
-    }
-
     protected function configureAction(Action $action): void
     {
+        $this->configureActionRecord($action);
+
         match (true) {
             $action instanceof DeleteAction => $this->configureDeleteAction($action),
             $action instanceof ForceDeleteAction => $this->configureForceDeleteAction($action),
@@ -235,24 +284,12 @@ class EditRecord extends Page implements HasFormActions
 
         $action
             ->authorize($resource::canView($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle());
+            ->infolist(fn (Infolist $infolist): Infolist => static::getResource()::infolist($infolist->columns(2)))
+            ->form(fn (Form $form): Form => static::getResource()::form($form));
 
         if ($resource::hasPage('view')) {
             $action->url(fn (): string => static::getResource()::getUrl('view', ['record' => $this->getRecord()]));
-
-            return;
         }
-
-        $action->form($this->getFormSchema());
-    }
-
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getViewAction(): Action
-    {
-        return ViewAction::make();
     }
 
     protected function configureForceDeleteAction(ForceDeleteAction $action): void
@@ -261,25 +298,19 @@ class EditRecord extends Page implements HasFormActions
 
         $action
             ->authorize($resource::canForceDelete($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle())
             ->successRedirectUrl($resource::getUrl('index'));
     }
 
     protected function configureReplicateAction(ReplicateAction $action): void
     {
         $action
-            ->authorize(static::getResource()::canReplicate($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle());
+            ->authorize(static::getResource()::canReplicate($this->getRecord()));
     }
 
     protected function configureRestoreAction(RestoreAction $action): void
     {
         $action
-            ->authorize(static::getResource()::canRestore($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle());
+            ->authorize(static::getResource()::canRestore($this->getRecord()));
     }
 
     protected function configureDeleteAction(DeleteAction $action): void
@@ -288,31 +319,23 @@ class EditRecord extends Page implements HasFormActions
 
         $action
             ->authorize($resource::canDelete($this->getRecord()))
-            ->record($this->getRecord())
-            ->recordTitle($this->getRecordTitle())
             ->successRedirectUrl($resource::getUrl('index'));
     }
 
-    /**
-     * @deprecated Actions are no longer pre-defined.
-     */
-    protected function getDeleteAction(): Action
-    {
-        return DeleteAction::make()
-            ->action(fn () => $this->delete());
-    }
-
-    protected function getTitle(): string | Htmlable
+    public function getTitle(): string | Htmlable
     {
         if (filled(static::$title)) {
             return static::$title;
         }
 
-        return __('filament::resources/pages/edit-record.title', [
+        return __('filament-panels::resources/pages/edit-record.title', [
             'label' => $this->getRecordTitle(),
         ]);
     }
 
+    /**
+     * @return array<Action | ActionGroup>
+     */
     protected function getFormActions(): array
     {
         return [
@@ -324,7 +347,7 @@ class EditRecord extends Page implements HasFormActions
     protected function getSaveFormAction(): Action
     {
         return Action::make('save')
-            ->label(__('filament::resources/pages/edit-record.form.actions.save.label'))
+            ->label(__('filament-panels::resources/pages/edit-record.form.actions.save.label'))
             ->submit('save')
             ->keyBindings(['mod+s']);
     }
@@ -337,26 +360,36 @@ class EditRecord extends Page implements HasFormActions
     protected function getCancelFormAction(): Action
     {
         return Action::make('cancel')
-            ->label(__('filament::resources/pages/edit-record.form.actions.cancel.label'))
-            ->url($this->previousUrl ?? static::getResource()::getUrl())
-            ->color('secondary');
+            ->label(__('filament-panels::resources/pages/edit-record.form.actions.cancel.label'))
+            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from($this->previousUrl ?? static::getResource()::getUrl()) . ')')
+            ->color('gray');
     }
 
+    public function form(Form $form): Form
+    {
+        return $form;
+    }
+
+    /**
+     * @return array<int | string, string | Form>
+     */
     protected function getForms(): array
     {
         return [
-            'form' => $this->makeForm()
-                ->context('edit')
-                ->model($this->getRecord())
-                ->schema($this->getFormSchema())
-                ->statePath('data')
-                ->inlineLabel(config('filament.layout.forms.have_inline_labels')),
+            'form' => $this->form(static::getResource()::form(
+                $this->makeForm()
+                    ->operation('edit')
+                    ->model($this->getRecord())
+                    ->statePath($this->getFormStatePath())
+                    ->columns($this->hasInlineLabels() ? 1 : 2)
+                    ->inlineLabel($this->hasInlineLabels()),
+            )),
         ];
     }
 
-    protected function getFormSchema(): array
+    public function getFormStatePath(): ?string
     {
-        return $this->getResourceForm(columns: config('filament.layout.forms.have_inline_labels') ? 1 : 2)->getSchema();
+        return 'data';
     }
 
     protected function getRedirectUrl(): ?string
@@ -364,16 +397,8 @@ class EditRecord extends Page implements HasFormActions
         return null;
     }
 
-    /**
-     * @deprecated Use `->successRedirectUrl()` on the action instead.
-     */
-    protected function getDeleteRedirectUrl(): ?string
+    public static function shouldRegisterNavigation(array $parameters = []): bool
     {
-        return static::getResource()::getUrl('index');
-    }
-
-    protected function getMountedActionFormModel(): Model
-    {
-        return $this->getRecord();
+        return parent::shouldRegisterNavigation($parameters) && static::getResource()::canEdit($parameters['record']);
     }
 }

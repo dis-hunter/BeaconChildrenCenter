@@ -7,8 +7,14 @@ use Illuminate\View\ComponentAttributeBag;
 
 trait HasExtraInputAttributes
 {
+    /**
+     * @var array<array<mixed> | Closure>
+     */
     protected array $extraInputAttributes = [];
 
+    /**
+     * @param  array<mixed> | Closure  $attributes
+     */
     public function extraInputAttributes(array | Closure $attributes, bool $merge = false): static
     {
         if ($merge) {
@@ -20,9 +26,12 @@ trait HasExtraInputAttributes
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getExtraInputAttributes(): array
     {
-        $temporaryAttributeBag = new ComponentAttributeBag();
+        $temporaryAttributeBag = new ComponentAttributeBag;
 
         foreach ($this->extraInputAttributes as $extraInputAttributes) {
             $temporaryAttributeBag = $temporaryAttributeBag->merge($this->evaluate($extraInputAttributes));

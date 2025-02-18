@@ -2,35 +2,23 @@
 
 namespace Filament\Notifications\Concerns;
 
-use Closure;
+use Filament\Support\Concerns\HasIcon as BaseTrait;
+use Filament\Support\Facades\FilamentIcon;
 
 trait HasIcon
 {
-    protected string | Closure | null $icon = null;
-
-    protected string | Closure | null $iconColor = 'secondary';
-
-    public function icon(string | Closure | null $icon): static
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    public function iconColor(string | Closure | null $color): static
-    {
-        $this->iconColor = $color;
-
-        return $this;
+    use BaseTrait {
+        getIcon as baseGetIcon;
     }
 
     public function getIcon(): ?string
     {
-        return $this->evaluate($this->icon);
-    }
-
-    public function getIconColor(): ?string
-    {
-        return $this->evaluate($this->iconColor);
+        return $this->baseGetIcon() ?? match ($this->getStatus()) {
+            'danger' => FilamentIcon::resolve('notifications::notification.danger') ?? 'heroicon-o-x-circle',
+            'info' => FilamentIcon::resolve('notifications::notification.info') ?? 'heroicon-o-information-circle',
+            'success' => FilamentIcon::resolve('notifications::notification.success') ?? 'heroicon-o-check-circle',
+            'warning' => FilamentIcon::resolve('notifications::notification.warning') ?? 'heroicon-o-exclamation-circle',
+            default => null,
+        };
     }
 }

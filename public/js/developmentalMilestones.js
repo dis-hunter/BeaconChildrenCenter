@@ -157,7 +157,7 @@ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMil
      `;
  
      console.log("Fetching developmental milestones...");
-     const registrationNumber = "REG-001";
+     const registrationNumber = window.location.pathname.split('/').pop();
      await loadDevelopmentalMilestones(registrationNumber);
  
      // Add event listener to the save button

@@ -4,11 +4,18 @@ namespace Filament\Forms\Components\Concerns;
 
 use Closure;
 use Filament\Forms\ComponentContainer;
+use Filament\Forms\Components\Component;
 
 trait HasChildComponents
 {
+    /**
+     * @var array<Component> | Closure
+     */
     protected array | Closure $childComponents = [];
 
+    /**
+     * @param  array<Component> | Closure  $components
+     */
     public function childComponents(array | Closure $components): static
     {
         $this->childComponents = $components;
@@ -16,6 +23,9 @@ trait HasChildComponents
         return $this;
     }
 
+    /**
+     * @param  array<Component> | Closure  $components
+     */
     public function schema(array | Closure $components): static
     {
         $this->childComponents($components);
@@ -23,15 +33,21 @@ trait HasChildComponents
         return $this;
     }
 
+    /**
+     * @return array<Component>
+     */
     public function getChildComponents(): array
     {
         return $this->evaluate($this->childComponents);
     }
 
+    /**
+     * @param  array-key  $key
+     */
     public function getChildComponentContainer($key = null): ComponentContainer
     {
-        if (filled($key)) {
-            return $this->getChildComponentContainers()[$key];
+        if (filled($key) && array_key_exists($key, $containers = $this->getChildComponentContainers())) {
+            return $containers[$key];
         }
 
         return ComponentContainer::make($this->getLivewire())
@@ -39,6 +55,9 @@ trait HasChildComponents
             ->components($this->getChildComponents());
     }
 
+    /**
+     * @return array<ComponentContainer>
+     */
     public function getChildComponentContainers(bool $withHidden = false): array
     {
         if (! $this->hasChildComponentContainer($withHidden)) {

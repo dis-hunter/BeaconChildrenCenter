@@ -2,37 +2,46 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use App\Http\Responses\LoginResponse;
+use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+use function PHPUnit\Framework\returnSelf;
+
+class User extends Authenticatable implements HasName
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    //use SoftDeletes, HasRoles;
-
-    protected $table = 'staff';
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+    protected $table='staff';
+
     protected $fillable = [
         'fullname',
         'email',
+        'password',
         'telephone',
         'staff_no',
-        'password',
         'gender_id',
         'role_id',
         'specialization_id',
-        'is_admin',
+        'profile_photo_path',
     ];
 
     /**
@@ -41,8 +50,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'password',
         'remember_token',
-        'is_admin',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at',
     ];
 
     /**
@@ -51,16 +63,26 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'fullname'=> 'array',
+        'fullname' => 'array',
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean'
+        'is_admin' => 'boolean',
+    ];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'profile_photo_url',
     ];
 
-   // Accessor for fullname (assuming it's stored as JSON)
-   public function getFullnameAttribute($value)
-   {
-       return json_decode($value);
-   }
+    public function getFullnameAttribute($value){
+        return json_decode($value);
+    }
+
+    public function getFilamentName(): string{
+        return $this->fullname?->first_name.' '.$this->fullname?->last_name;
+    }
 
     public function role(){
         return $this->belongsTo(Role::class, 'role_id');
@@ -69,7 +91,7 @@ class User extends Authenticatable
     public function gender(){
         return $this->belongsTo(Gender::class, 'gender_id');
     }
-    
+
     public function specialization()
     {
         return $this->belongsTo(Specialization::class); 
@@ -82,6 +104,36 @@ class User extends Authenticatable
     public static function getActiveUsers($minutes=5){
         return self::whereHas('activeSession', function ($query) use ($minutes){
             $query->where('last_activity', '>=', Carbon::now()->subMinutes($minutes));
-        })->with('activeSession')->get();
+        })
+        ->with('activeSession')
+        ->get();
     }
+
+    protected function defaultProfilePhotoUrl()
+    {
+        $fullname = $this->fullname;
+        $initials = collect([
+            mb_substr($fullname->first_name ?? '', 0, 1),
+            mb_substr($fullname->last_name ?? '', 0, 1)
+        ])->filter()->join(' ');
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&color=FFFFFF&background=000000';
+    }
+    
+    public function getDashboardRoute(){
+        return match($this->role_id){
+            1 => 'triage.dashboard',
+            2 => 'doctor.dashboard',
+            3 => 'reception.dashboard',
+            5 => $this->getTherapistRoute($this->specialization_id), // Calls therapist function
+            default => RouteServiceProvider::HOME,
+        };
+    }
+    
+    public function getTherapistRoute($specialization_id){
+        return match($specialization_id){
+            default => 'therapistsDashboard', // Now redirects therapists to this route
+        };
+    }
+    
 }

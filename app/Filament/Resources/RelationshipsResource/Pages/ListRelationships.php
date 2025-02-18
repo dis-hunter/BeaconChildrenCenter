@@ -10,7 +10,7 @@ class ListRelationships extends ListRecords
 {
     protected static string $resource = RelationshipsResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),

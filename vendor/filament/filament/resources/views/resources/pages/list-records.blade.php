@@ -1,14 +1,16 @@
-<x-filament::page
-    :class="
-        \Illuminate\Support\Arr::toCssClasses([
-            'filament-resources-list-records-page',
-            'filament-resources-' . str_replace('/', '-', $this->getResource()::getSlug()),
-        ])
-    "
+<x-filament-panels::page
+    @class([
+        'fi-resource-list-records-page',
+        'fi-resource-' . str_replace('/', '-', $this->getResource()::getSlug()),
+    ])
 >
-    {{ \Filament\Facades\Filament::renderHook('resource.pages.list-records.table.start') }}
+    <div class="flex flex-col gap-y-6">
+        <x-filament-panels::resources.tabs />
 
-    {{ $this->table }}
+        {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_BEFORE, scopes: $this->getRenderHookScopes()) }}
 
-    {{ \Filament\Facades\Filament::renderHook('resource.pages.list-records.table.end') }}
-</x-filament::page>
+        {{ $this->table }}
+
+        {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_AFTER, scopes: $this->getRenderHookScopes()) }}
+    </div>
+</x-filament-panels::page>

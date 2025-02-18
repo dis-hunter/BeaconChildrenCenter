@@ -11,6 +11,179 @@ body {
     justify-content: space-between;
     align-items: center;
   }
+  .metrics-row {
+    display: flex;
+    justify-content: space-between; /* Even spacing between items */
+    gap: 1rem; /* Spacing between items */
+    margin-top: 20px;
+    align-items: center;
+}
+
+.metrics-row {
+  display: flex;
+  justify-content: space-between; /* Even spacing between items */
+  gap: 1rem; /* Spacing between items */
+  margin-top: 20px;
+  align-items: stretch; /* Stretch items to match the tallest one */
+}
+
+.metric {
+  flex: 1; /* Ensure all metrics have equal width */
+  text-align: center; /* Center-align text */
+  background-color: #f9f9f9; /* Light background for better visibility */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex; /* Enable flex layout inside the card */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: center; /* Center content vertically */
+  min-height: 200px; /* Set a minimum height to standardize */
+}
+
+.metric i {
+  font-size: 2rem;
+  color: #007bff; /* Icon color */
+  margin-bottom: 10px;
+}
+.metric h4 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+.metric p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between rows */
+}
+
+.chart-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+.chart {
+  flex: 1;
+  min-width: 300px; /* Prevents shrinking too much */
+  text-align: center;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.chart-buttons {
+  margin-bottom: 10px;
+}
+
+.chart-buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.chart-buttons button:hover {
+  background-color: #0056b3;
+}
+.loading-indicator {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  padding: 20px;
+}
+
+.loading-indicator:after {
+  content: "⏳"; /* Add a simple spinner symbol */
+  display: inline-block;
+  margin-left: 10px;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+.content-section {
+  padding: 20px;
+  text-align: center;
+}
+h2 {
+  color: #007acc;
+  border-bottom: 2px solid #007acc;
+  display: inline-block;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+.metrics-row, .chart-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.metric, .chart {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 122, 204, 0.2);
+  text-align: center;
+  width: 300px;
+}
+.metric i {
+  font-size: 40px;
+  color: #007acc;
+  margin-bottom: 10px;
+}
+.chart-buttons button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+.chart-buttons button:hover {
+  background-color: #005b99;
+}
+.loading-indicator {
+  display: none;
+  color: #007acc;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.staff-table {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.staff-table th, .staff-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+.staff-table th {
+  background-color: #007acc;
+  color: white;
+}
+
   
   nav ul {
     list-style: none;

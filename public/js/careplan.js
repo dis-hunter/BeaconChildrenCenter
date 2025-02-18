@@ -6,82 +6,179 @@ carePlan.addEventListener('click', (event) => {
     const mainContent = document.querySelector('.main');
     mainContent.innerHTML = `
     <head>
-        <link rel="stylesheet" href="../css/carePlan.css">
+        <style>
+  .container {
+    width: 100%; 
+    margin: 0 auto; 
+    font-family: sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 0; 
+    box-shadow: none; 
+    padding: 10px; 
+    
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 5px; 
+}
+
+.row { 
+    display: flex;
+    justify-content: space-between; /* Distribute columns evenly */
+    margin-bottom: 2px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column; /* Stack title and textarea vertically */
+    align-items: flex-start;
+    width: 48%; /* Each section takes about half the row width */
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 2px; /* Add a small margin below title */
+    color: #007bff;
+}
+
+textarea {
+    width: 100%;
+    padding: 5px;
+    margin-top: 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: none;
+    border-radius: 4px;
+    height: 30px; 
+}
+
+input[type="checkbox"] {
+    margin-right: 5px; 
+    accent-color: #007bff;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; 
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.loading-indicator {
+    display: none;
+    text-align: center;
+    margin-top: 5px; 
+}
+
+input[type="date"] {
+    height: 30px; 
+    padding: 5px;
+}
+        </style>
     </head>
     <body>
         <div class="container">
-            <h2>Management Plan</h2>
-            <div class="section">
-                <div class="section-title">Occupational Therapy</div>
-                <input type="checkbox" id="occupationalTherapy" name="occupationalTherapy">
-                <textarea id="occupationalTherapyNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Speech Therapy</div>
-                <input type="checkbox" id="speechTherapy" name="speechTherapy">
-                <textarea id="speechTherapyNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Sensory Integration</div>
-                <input type="checkbox" id="sensoryIntegration" name="sensoryIntegration">
-                <textarea id="sensoryIntegrationNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Physiotherapy</div>
-                <input type="checkbox" id="physioTherapy" name="physioTherapy">
-                <textarea id="physioTherapyNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Psychotherapy</div>
-                <input type="checkbox" id="psychotherapy" name="psychotherapy">
-                <textarea id="psychotherapyNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">ABA Therapy</div>
-                <input type="checkbox" id="abaTherapy" name="abaTherapy">
-                <textarea id="abaTherapyNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Nutritionist</div>
-                <input type="checkbox" id="nutritionist" name="nutritionist">
-                <textarea id="nutritionistNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Medical Report</div>
-                <input type="checkbox" id="medicalReport" name="medicalReport">
-                <textarea id="medicalReportNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Education Assessment</div>
-                <input type="checkbox" id="educationAssessment" name="educationAssessment">
-                <textarea id="educationAssessmentNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Referral</div>
-                <input type="checkbox" id="referral" name="referral">
-                <textarea id="referralNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Assistive Devices</div>
-                <input type="checkbox" id="assistiveDevices" name="assistiveDevices">
-                <textarea id="assistiveDevicesNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Orthotics</div>
-                <input type="checkbox" id="orthotics" name="orthotics">
-                <textarea id="orthoticsNotes" placeholder="Notes..."></textarea>
-            </div>
-            <div class="section">
-                <div class="section-title">Other</div>
-                <textarea id="otherNotes" placeholder="Notes..."></textarea> 
-            </div>
-            <div class="section">
-                <div class="section-title">Return Date</div>
-                <input type="date" id="returnDate" name="returnDate">
-            </div>
-            <button type="submit">Save</button>
-            <div class="loading-indicator"></div>
+    <h2>Management Plan</h2>
+
+    <div class="row">
+        <div class="section">
+            <div class="section-title">Occupational Therapy</div>
+            <input type="checkbox" id="occupationalTherapy" name="occupationalTherapy">
+            <textarea id="occupationalTherapyNotes" placeholder="Notes..."></textarea>
         </div>
+        <div class="section">
+            <div class="section-title">Speech Therapy</div>
+            <input type="checkbox" id="speechTherapy" name="speechTherapy">
+            <textarea id="speechTherapyNotes" placeholder="Notes..."></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section">
+            <div class="section-title">Sensory Integration</div>
+            <input type="checkbox" id="sensoryIntegration" name="sensoryIntegration">
+            <textarea id="sensoryIntegrationNotes" placeholder="Notes..."></textarea>
+        </div>
+        <div class="section">
+            <div class="section-title">Physiotherapy</div>
+            <input type="checkbox" id="physioTherapy" name="physioTherapy">
+            <textarea id="physioTherapyNotes" placeholder="Notes..."></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section">
+            <div class="section-title">Psychotherapy</div>
+            <input type="checkbox" id="psychotherapy" name="psychotherapy">
+            <textarea id="psychotherapyNotes" placeholder="Notes..."></textarea>
+        </div>
+        <div class="section">
+            <div class="section-title">ABA Therapy</div>
+            <input type="checkbox" id="abaTherapy" name="abaTherapy">
+            <textarea id="abaTherapyNotes" placeholder="Notes..."></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section">
+            <div class="section-title">Nutritionist</div>
+            <input type="checkbox" id="nutritionist" name="nutritionist">
+            <textarea id="nutritionistNotes" placeholder="Notes..."></textarea>
+        </div>
+        <div class="section">
+            <div class="section-title">Medical Report</div>
+            <input type="checkbox" id="medicalReport" name="medicalReport">
+            <textarea id="medicalReportNotes" placeholder="Notes..."></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section">
+            <div class="section-title">Education Assessment</div>
+            <input type="checkbox" id="educationAssessment" name="educationAssessment">
+            <textarea id="educationAssessmentNotes" placeholder="Notes..."></textarea>
+        </div>
+        <div class="section">
+            <div class="section-title">Referral</div>
+            <input type="checkbox" id="referral" name="referral">
+            <textarea id="referralNotes" placeholder="Notes..."></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section">
+            <div class="section-title">Assistive Devices</div>
+            <input type="checkbox" id="assistiveDevices" name="assistiveDevices">
+            <textarea id="assistiveDevicesNotes" placeholder="Notes..."></textarea>
+        </div>
+        <div class="section">
+            <div class="section-title">Orthotics</div>
+            <input type="checkbox" id="orthotics" name="orthotics">
+            <textarea id="orthoticsNotes" placeholder="Notes..."></textarea>
+        </div>
+    </div>
+    <div class="row"> 
+        <div class="section">
+            <div class="section-title">Other</div>
+            <textarea id="otherNotes" placeholder="Notes..."></textarea> 
+        </div>
+        <div class="section">
+            <div class="section-title">Return Date</div>
+            <input type="date" id="returnDate" name="returnDate">
+        </div>
+    </div>
+
+    <button type="submit">Save</button>
+    <div class="loading-indicator"></div>
+</div>
     </body>
     `;
 
@@ -152,4 +249,3 @@ carePlan.addEventListener('click', (event) => {
         }
     });
 });
-

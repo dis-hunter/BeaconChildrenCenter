@@ -4,12 +4,8 @@ return [
 
     'columns' => [
 
-        'tags' => [
-            'more' => 'na :count zaidi',
-        ],
-
-        'messages' => [
-            'copied' => 'Imeigwa',
+        'text' => [
+            'more_list_items' => 'na :count zaidi',
         ],
 
     ],
@@ -24,52 +20,14 @@ return [
             'label' => 'Chagua/acha kuchagua kipengele :key kwa vitendo vingi.',
         ],
 
-        'search_query' => [
+        'search' => [
             'label' => 'Tafuta',
             'placeholder' => 'Tafuta',
         ],
 
     ],
 
-    'pagination' => [
-
-        'label' => 'Urambazaji wa kurasa',
-
-        'overview' => 'Onesha :first mpaka :last ya :total ya matokeo',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'kwa kurasa',
-
-                'options' => [
-                    'all' => 'Zote',
-                ],
-
-            ],
-
-        ],
-
-        'buttons' => [
-
-            'go_to_page' => [
-                'label' => 'Nenda kwenye kurasa :page',
-            ],
-
-            'next' => [
-                'label' => 'Mbele',
-            ],
-
-            'previous' => [
-                'label' => 'Nyuma',
-            ],
-
-        ],
-
-    ],
-
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Maliza kupangilia rekodi upya',
@@ -83,7 +41,7 @@ return [
             'label' => 'Chuja',
         ],
 
-        'open_actions' => [
+        'open_bulk_actions' => [
             'label' => 'Fungua matendo',
         ],
 
@@ -99,7 +57,7 @@ return [
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
 
             'remove' => [
                 'label' => 'Toa mchujo',
@@ -144,9 +102,9 @@ return [
 
     'selection_indicator' => [
 
-        'selected_count' => 'Rekodi 1 imeshaguliwa .|Rekodi :count zimeshaguliwa.',
+        'selected_count' => 'Rekodi 1 imeshaguliwa|Rekodi :count zimeshaguliwa',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Chagua :count',

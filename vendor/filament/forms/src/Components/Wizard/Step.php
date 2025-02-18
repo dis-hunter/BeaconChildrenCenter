@@ -17,12 +17,17 @@ class Step extends Component implements CanConcealComponents
 
     protected string | Closure | null $icon = null;
 
-    protected string $view = 'forms::components.wizard.step';
+    protected string | Closure | null $completedIcon = null;
+
+    /**
+     * @var view-string
+     */
+    protected string $view = 'filament-forms::components.wizard.step';
 
     final public function __construct(string $label)
     {
         $this->label($label);
-        $this->id(Str::slug($label));
+        $this->id(Str::slug(Str::transliterate($label, strict: true)));
     }
 
     public static function make(string $label): static
@@ -71,6 +76,13 @@ class Step extends Component implements CanConcealComponents
         return $this;
     }
 
+    public function completedIcon(string | Closure | null $icon): static
+    {
+        $this->completedIcon = $icon;
+
+        return $this;
+    }
+
     public function callAfterValidation(): void
     {
         $this->evaluate($this->afterValidation);
@@ -91,6 +103,14 @@ class Step extends Component implements CanConcealComponents
         return $this->evaluate($this->icon);
     }
 
+    public function getCompletedIcon(): ?string
+    {
+        return $this->evaluate($this->completedIcon);
+    }
+
+    /**
+     * @return array<string, int | null>
+     */
     public function getColumnsConfig(): array
     {
         return $this->columns ?? $this->getContainer()->getColumnsConfig();

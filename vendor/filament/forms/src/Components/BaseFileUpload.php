@@ -3,6 +3,8 @@
 namespace Filament\Forms\Components;
 
 use Closure;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -11,20 +13,28 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use League\Flysystem\UnableToCheckFileExistence;
-use Livewire\TemporaryUploadedFile;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Throwable;
 
-class BaseFileUpload extends Field
+class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValidationRules
 {
+    use Concerns\HasNestedRecursiveValidationRules;
+    use Concerns\HasUploadingMessage;
+
+    /**
+     * @var array<string> | Arrayable | Closure | null
+     */
     protected array | Arrayable | Closure | null $acceptedFileTypes = null;
 
-    protected bool | Closure $canDownload = false;
+    protected bool | Closure $isDeletable = true;
 
-    protected bool | Closure $canOpen = false;
+    protected bool | Closure $isDownloadable = false;
 
-    protected bool | Closure $canPreview = true;
+    protected bool | Closure $isOpenable = false;
 
-    protected bool | Closure $canReorder = false;
+    protected bool | Closure $isPreviewable = true;
+
+    protected bool | Closure $isReorderable = false;
 
     protected string | Closure | null $directory = null;
 
@@ -36,15 +46,19 @@ class BaseFileUpload extends Field
 
     protected int | Closure | null $minSize = null;
 
+    protected int | Closure | null $maxParallelUploads = null;
+
     protected int | Closure | null $maxFiles = null;
 
     protected int | Closure | null $minFiles = null;
 
     protected bool | Closure $shouldPreserveFilenames = false;
 
-    protected bool | Closure $shouldMoveFile = false;
+    protected bool | Closure $shouldMoveFiles = false;
 
     protected bool | Closure $shouldStoreFiles = true;
+
+    protected bool | Closure $shouldFetchFileInformation = true;
 
     protected string | Closure | null $fileNamesStatePath = null;
 
@@ -54,7 +68,7 @@ class BaseFileUpload extends Field
 
     protected ?Closure $getUploadedFileNameForStorageUsing = null;
 
-    protected ?Closure $getUploadedFileUrlUsing = null;
+    protected ?Closure $getUploadedFileUsing = null;
 
     protected ?Closure $reorderUploadedFilesUsing = null;
 
@@ -71,10 +85,20 @@ class BaseFileUpload extends Field
                 return;
             }
 
+            $shouldFetchFileInformation = $component->shouldFetchFileInformation();
+
             $files = collect(Arr::wrap($state))
-                ->filter(static function (string $file) use ($component): bool {
+                ->filter(static function (string $file) use ($component, $shouldFetchFileInformation): bool {
+                    if (blank($file)) {
+                        return false;
+                    }
+
+                    if (! $shouldFetchFileInformation) {
+                        return true;
+                    }
+
                     try {
-                        return blank($file) || $component->getDisk()->exists($file);
+                        return $component->getDisk()->exists($file);
                     } catch (UnableToCheckFileExistence $exception) {
                         return false;
                     }
@@ -115,21 +139,27 @@ class BaseFileUpload extends Field
             return $files[0] ?? null;
         });
 
-        $this->getUploadedFileUrlUsing(static function (BaseFileUpload $component, string $file): ?string {
+        $this->getUploadedFileUsing(static function (BaseFileUpload $component, string $file, string | array | null $storedFileNames): ?array {
             /** @var FilesystemAdapter $storage */
             $storage = $component->getDisk();
 
-            try {
-                if (! $storage->exists($file)) {
+            $shouldFetchFileInformation = $component->shouldFetchFileInformation();
+
+            if ($shouldFetchFileInformation) {
+                try {
+                    if (! $storage->exists($file)) {
+                        return null;
+                    }
+                } catch (UnableToCheckFileExistence $exception) {
                     return null;
                 }
-            } catch (UnableToCheckFileExistence $exception) {
-                return null;
             }
+
+            $url = null;
 
             if ($component->getVisibility() === 'private') {
                 try {
-                    return $storage->temporaryUrl(
+                    $url = $storage->temporaryUrl(
                         $file,
                         now()->addMinutes(5),
                     );
@@ -138,11 +168,18 @@ class BaseFileUpload extends Field
                 }
             }
 
-            return $storage->url($file);
+            $url ??= $storage->url($file);
+
+            return [
+                'name' => ($component->isMultiple() ? ($storedFileNames[$file] ?? null) : $storedFileNames) ?? basename($file),
+                'size' => $shouldFetchFileInformation ? $storage->size($file) : 0,
+                'type' => $shouldFetchFileInformation ? $storage->mimeType($file) : null,
+                'url' => $url,
+            ];
         });
 
         $this->getUploadedFileNameForStorageUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file) {
-            return $component->shouldPreserveFilenames() ? $file->getClientOriginalName() : $file->getFilename();
+            return $component->shouldPreserveFilenames() ? $file->getClientOriginalName() : (Str::ulid() . '.' . $file->getClientOriginalExtension());
         });
 
         $this->saveUploadedFileUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file): ?string {
@@ -154,11 +191,13 @@ class BaseFileUpload extends Field
                 return null;
             }
 
-            /** @phpstan-ignore-next-line */
-            if ($component->shouldMoveFile() && $component->getDiskName() == $file->disk) {
+            if (
+                $component->shouldMoveFiles() &&
+                ($component->getDiskName() == (fn (): string => $this->disk)->call($file))
+            ) {
                 $newPath = trim($component->getDirectory() . '/' . $component->getUploadedFileNameForStorage($file), '/');
 
-                $component->getDisk()->move($file->path(), $newPath);
+                $component->getDisk()->move((fn (): string => $this->path)->call($file), $newPath);
 
                 return $newPath;
             }
@@ -173,19 +212,23 @@ class BaseFileUpload extends Field
         });
     }
 
-    public function callAfterStateUpdated(): static
+    protected function callAfterStateUpdatedHook(Closure $hook): void
     {
-        if ($callback = $this->afterStateUpdated) {
-            $state = $this->getState();
+        /** @var array<string | TemporaryUploadedFile> $state */
+        $state = $this->getState() ?? [];
 
-            $this->evaluate($callback, [
-                'state' => $this->isMultiple() ? $state : Arr::first($state ?? []),
-            ]);
-        }
+        /** @var array<string | TemporaryUploadedFile> $oldState */
+        $oldState = $this->getOldState() ?? [];
 
-        return $this;
+        $this->evaluate($hook, [
+            'state' => $this->isMultiple() ? $state : Arr::first($state),
+            'old' => $this->isMultiple() ? $oldState : Arr::first($oldState),
+        ]);
     }
 
+    /**
+     * @param  array<string> | Arrayable | Closure  $types
+     */
     public function acceptedFileTypes(array | Arrayable | Closure $types): static
     {
         $this->acceptedFileTypes = $types;
@@ -199,6 +242,13 @@ class BaseFileUpload extends Field
         return $this;
     }
 
+    public function deletable(bool | Closure $condition = true): static
+    {
+        $this->isDeletable = $condition;
+
+        return $this;
+    }
+
     public function directory(string | Closure | null $directory): static
     {
         $this->directory = $directory;
@@ -206,37 +256,77 @@ class BaseFileUpload extends Field
         return $this;
     }
 
-    public function disk($name): static
+    public function disk(string | Closure | null $name): static
     {
         $this->diskName = $name;
 
         return $this;
     }
 
+    public function downloadable(bool | Closure $condition = true): static
+    {
+        $this->isDownloadable = $condition;
+
+        return $this;
+    }
+
+    public function openable(bool | Closure $condition = true): static
+    {
+        $this->isOpenable = $condition;
+
+        return $this;
+    }
+
+    public function reorderable(bool | Closure $condition = true): static
+    {
+        $this->isReorderable = $condition;
+
+        return $this;
+    }
+
+    public function previewable(bool | Closure $condition = true): static
+    {
+        $this->isPreviewable = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated Use `downloadable()` instead.
+     */
     public function enableDownload(bool | Closure $condition = true): static
     {
-        $this->canDownload = $condition;
+        $this->downloadable($condition);
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `openable()` instead.
+     */
     public function enableOpen(bool | Closure $condition = true): static
     {
-        $this->canOpen = $condition;
+        $this->openable($condition);
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `reorderable()` instead.
+     */
     public function enableReordering(bool | Closure $condition = true): static
     {
-        $this->canReorder = $condition;
+        $this->reorderable($condition);
 
         return $this;
     }
 
+    /**
+     * @deprecated Use `previewable()` instead.
+     */
     public function disablePreview(bool | Closure $condition = true): static
     {
-        $this->canPreview = fn (BaseFileUpload $component): bool => ! $component->evaluate($condition);
+        $this->previewable(fn (BaseFileUpload $component): bool => ! $component->evaluate($condition));
 
         return $this;
     }
@@ -248,13 +338,6 @@ class BaseFileUpload extends Field
         return $this;
     }
 
-    public function storeFiles(bool | Closure $condition = true): static
-    {
-        $this->shouldStoreFiles = $condition;
-
-        return $this;
-    }
-
     public function preserveFilenames(bool | Closure $condition = true): static
     {
         $this->shouldPreserveFilenames = $condition;
@@ -262,9 +345,26 @@ class BaseFileUpload extends Field
         return $this;
     }
 
+    public function moveFiles(bool | Closure $condition = true): static
+    {
+        $this->shouldMoveFiles = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated Use `moveFiles()` instead.
+     */
     public function moveFile(bool | Closure $condition = true): static
     {
-        $this->shouldMoveFile = $condition;
+        $this->moveFiles($condition);
+
+        return $this;
+    }
+
+    public function fetchFileInformation(bool | Closure $condition = true): static
+    {
+        $this->shouldFetchFileInformation = $condition;
 
         return $this;
     }
@@ -295,6 +395,13 @@ class BaseFileUpload extends Field
         return $this;
     }
 
+    public function maxParallelUploads(int | Closure | null $count): static
+    {
+        $this->maxParallelUploads = $count;
+
+        return $this;
+    }
+
     public function maxFiles(int | Closure | null $count): static
     {
         $this->maxFiles = $count;
@@ -316,6 +423,23 @@ class BaseFileUpload extends Field
         return $this;
     }
 
+    public function storeFiles(bool | Closure $condition = true): static
+    {
+        $this->shouldStoreFiles = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated Use `storeFiles()` instead.
+     */
+    public function storeFile(bool | Closure $condition = true): static
+    {
+        $this->storeFiles($condition);
+
+        return $this;
+    }
+
     public function visibility(string | Closure | null $visibility): static
     {
         $this->visibility = $visibility;
@@ -330,9 +454,9 @@ class BaseFileUpload extends Field
         return $this;
     }
 
-    public function getUploadedFileUrlUsing(?Closure $callback): static
+    public function getUploadedFileUsing(?Closure $callback): static
     {
-        $this->getUploadedFileUrlUsing = $callback;
+        $this->getUploadedFileUsing = $callback;
 
         return $this;
     }
@@ -351,26 +475,34 @@ class BaseFileUpload extends Field
         return $this;
     }
 
-    public function canDownload(): bool
+    public function isDeletable(): bool
     {
-        return $this->evaluate($this->canDownload);
+        return (bool) $this->evaluate($this->isDeletable);
     }
 
-    public function canOpen(): bool
+    public function isDownloadable(): bool
     {
-        return $this->evaluate($this->canOpen);
+        return (bool) $this->evaluate($this->isDownloadable);
     }
 
-    public function canPreview(): bool
+    public function isOpenable(): bool
     {
-        return $this->evaluate($this->canPreview);
+        return (bool) $this->evaluate($this->isOpenable);
     }
 
-    public function canReorder(): bool
+    public function isPreviewable(): bool
     {
-        return $this->evaluate($this->canReorder);
+        return (bool) $this->evaluate($this->isPreviewable);
     }
 
+    public function isReorderable(): bool
+    {
+        return (bool) $this->evaluate($this->isReorderable);
+    }
+
+    /**
+     * @return array<string> | null
+     */
     public function getAcceptedFileTypes(): ?array
     {
         $types = $this->evaluate($this->acceptedFileTypes);
@@ -394,7 +526,17 @@ class BaseFileUpload extends Field
 
     public function getDiskName(): string
     {
-        return $this->evaluate($this->diskName) ?? config('forms.default_filesystem_disk');
+        return $this->evaluate($this->diskName) ?? config('filament.default_filesystem_disk');
+    }
+
+    public function getMaxFiles(): ?int
+    {
+        return $this->evaluate($this->maxFiles);
+    }
+
+    public function getMinFiles(): ?int
+    {
+        return $this->evaluate($this->minFiles);
     }
 
     public function getMaxSize(): ?int
@@ -407,6 +549,11 @@ class BaseFileUpload extends Field
         return $this->evaluate($this->minSize);
     }
 
+    public function getMaxParallelUploads(): ?int
+    {
+        return $this->evaluate($this->maxParallelUploads);
+    }
+
     public function getVisibility(): string
     {
         return $this->evaluate($this->visibility);
@@ -414,12 +561,22 @@ class BaseFileUpload extends Field
 
     public function shouldPreserveFilenames(): bool
     {
-        return $this->evaluate($this->shouldPreserveFilenames);
+        return (bool) $this->evaluate($this->shouldPreserveFilenames);
     }
 
-    public function shouldMoveFile(): bool
+    public function shouldMoveFiles(): bool
     {
-        return $this->evaluate($this->shouldMoveFile);
+        return (bool) $this->evaluate($this->shouldMoveFiles);
+    }
+
+    public function shouldFetchFileInformation(): bool
+    {
+        return (bool) $this->evaluate($this->shouldFetchFileInformation);
+    }
+
+    public function shouldStoreFiles(): bool
+    {
+        return (bool) $this->evaluate($this->shouldStoreFiles);
     }
 
     public function getFileNamesStatePath(): ?string
@@ -431,11 +588,9 @@ class BaseFileUpload extends Field
         return $this->generateRelativeStatePath($this->fileNamesStatePath);
     }
 
-    public function shouldStoreFiles(): bool
-    {
-        return $this->evaluate($this->shouldStoreFiles);
-    }
-
+    /**
+     * @return array<mixed>
+     */
     public function getValidationRules(): array
     {
         $rules = [
@@ -443,11 +598,11 @@ class BaseFileUpload extends Field
             'array',
         ];
 
-        if (filled($count = $this->maxFiles)) {
+        if (filled($count = $this->getMaxFiles())) {
             $rules[] = "max:{$count}";
         }
 
-        if (filled($count = $this->minFiles)) {
+        if (filled($count = $this->getMinFiles())) {
             $rules[] = "min:{$count}";
         }
 
@@ -456,10 +611,12 @@ class BaseFileUpload extends Field
 
             $name = $this->getName();
 
+            $validationMessages = $this->getValidationMessages();
+
             $validator = Validator::make(
                 [$name => $files],
-                ["{$name}.*" => array_merge(['file'], parent::getValidationRules())],
-                [],
+                ["{$name}.*" => ['file', ...parent::getValidationRules()]],
+                $validationMessages ? ["{$name}.*" => $validationMessages] : [],
                 ["{$name}.*" => $this->getValidationAttribute()],
             );
 
@@ -524,7 +681,7 @@ class BaseFileUpload extends Field
             return;
         }
 
-        $this->evaluate(function (BaseFileUpload $component, Closure $get, Closure $set) use ($file, $statePath) {
+        $this->evaluate(function (BaseFileUpload $component, Get $get, Set $set) use ($file, $statePath) {
             if (! $component->isMultiple()) {
                 $set($statePath, null);
 
@@ -541,9 +698,12 @@ class BaseFileUpload extends Field
         });
     }
 
+    /**
+     * @param  array<array-key>  $fileKeys
+     */
     public function reorderUploadedFiles(array $fileKeys): void
     {
-        if (! $this->canReorder) {
+        if (! $this->isReorderable) {
             return;
         }
 
@@ -556,7 +716,10 @@ class BaseFileUpload extends Field
         $this->state($state);
     }
 
-    public function getUploadedFileUrls(): ?array
+    /**
+     * @return array<array{name: string, size: int, type: string, url: string} | null> | null
+     */
+    public function getUploadedFiles(): ?array
     {
         $urls = [];
 
@@ -567,7 +730,7 @@ class BaseFileUpload extends Field
                 continue;
             }
 
-            $callback = $this->getUploadedFileUrlUsing;
+            $callback = $this->getUploadedFileUsing;
 
             if (! $callback) {
                 return [$fileKey => null];
@@ -575,6 +738,7 @@ class BaseFileUpload extends Field
 
             $urls[$fileKey] = $this->evaluate($callback, [
                 'file' => $file,
+                'storedFileNames' => $this->getStoredFileNames(),
             ]) ?: null;
         }
 
@@ -621,7 +785,7 @@ class BaseFileUpload extends Field
             return $storedFile;
         }, Arr::wrap($this->getState())));
 
-        if ($this->canReorder && ($callback = $this->reorderUploadedFilesUsing)) {
+        if ($this->isReorderable && ($callback = $this->reorderUploadedFilesUsing)) {
             $state = $this->evaluate($callback, [
                 'state' => $state,
             ]);
@@ -638,7 +802,7 @@ class BaseFileUpload extends Field
             return;
         }
 
-        $this->evaluate(function (BaseFileUpload $component, Closure $get, Closure $set) use ($file, $fileName, $statePath) {
+        $this->evaluate(function (BaseFileUpload $component, Get $get, Set $set) use ($file, $fileName, $statePath) {
             if (! $component->isMultiple()) {
                 $set($statePath, $fileName);
 
@@ -652,13 +816,16 @@ class BaseFileUpload extends Field
         });
     }
 
+    /**
+     * @return string | array<string, string> | null
+     */
     public function getStoredFileNames(): string | array | null
     {
         $state = null;
         $statePath = $this->fileNamesStatePath;
 
         if (filled($statePath)) {
-            $state = $this->evaluate(fn (Closure $get) => $get($statePath));
+            $state = $this->evaluate(fn (Get $get) => $get($statePath));
         }
 
         if (blank($state) && $this->isMultiple()) {
@@ -670,10 +837,10 @@ class BaseFileUpload extends Field
 
     public function isMultiple(): bool
     {
-        return $this->evaluate($this->isMultiple);
+        return (bool) $this->evaluate($this->isMultiple);
     }
 
-    public function getUploadedFileNameForStorageUsing(Closure $callback): static
+    public function getUploadedFileNameForStorageUsing(?Closure $callback): static
     {
         $this->getUploadedFileNameForStorageUsing = $callback;
 
@@ -687,19 +854,26 @@ class BaseFileUpload extends Field
         ]);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getStateToDehydrate(): array
     {
         $state = parent::getStateToDehydrate();
 
         if ($fileNamesStatePath = $this->getFileNamesStatePath()) {
-            $state = array_merge($state, [
+            $state = [
+                ...$state,
                 $fileNamesStatePath => $this->getStoredFileNames(),
-            ]);
+            ];
         }
 
         return $state;
     }
 
+    /**
+     * @param  array<string, array<mixed>>  $rules
+     */
     public function dehydrateValidationRules(array &$rules): void
     {
         parent::dehydrateValidationRules($rules);

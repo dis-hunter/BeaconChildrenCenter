@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'Tumma tila',
-        ],
-
-        'database_notifications' => [
-            'label' => 'Avaa ilmoitukset',
-        ],
-
-        'light_mode' => [
-            'label' => 'Vaalea tila',
+        'billing' => [
+            'label' => 'Hallitse tilausta',
         ],
 
         'logout' => [
             'label' => 'Kirjaudu ulos',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'Avaa ilmoitukset',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'Käyttäjävalikko',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'Käyttäjävalikko',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'Tumma tila',
+            ],
+
+            'light' => [
+                'label' => 'Vaalea tila',
+            ],
+
+            'system' => [
+                'label' => 'Järjestelmän tila',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => ':name avatar',
+    ],
+
+    'logo' => [
+        'alt' => ':name logo',
     ],
 
 ];

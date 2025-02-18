@@ -501,6 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setupToggleVisibility('xray-checkbox', 'xray-options');
       setupToggleVisibility('mri-checkbox', 'mri-options');
       setupToggleVisibility('ct-checkbox', 'ct-options');
+      setupToggleVisibility('hormone-test-checkbox', 'hormone-test-options'); // Add this line
   
       // Toggle visibility of "Other" textareas
       setupToggleVisibility('haematology-other-checkbox', 'haematology-other-textarea');
@@ -521,6 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         const collectedData = {
           haematology: getCheckedValues('haematology'),
+          hormoneTests: getCheckedValues('hormone-test'),
           biochemistry: getCheckedValues('biochemistry'),
           urine: getCheckedValues('urine'),
           stool: getCheckedValues('stool'),
@@ -541,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         const postData = {
           haematology: collectedData.haematology,
+          hormoneTests: collectedData.hormoneTests,
           biochemistry: collectedData.biochemistry,
           urine: collectedData.urine,
           stool: collectedData.stool,

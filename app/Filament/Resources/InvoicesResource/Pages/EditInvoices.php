@@ -48,7 +48,7 @@ class EditInvoices extends EditRecord
         return floatval($value);
     }
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [];
     }

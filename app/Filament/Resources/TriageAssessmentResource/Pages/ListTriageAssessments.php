@@ -10,7 +10,7 @@ class ListTriageAssessments extends ListRecords
 {
     protected static string $resource = TriageAssessmentResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),

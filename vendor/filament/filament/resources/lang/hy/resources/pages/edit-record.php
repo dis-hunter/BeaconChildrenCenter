@@ -22,8 +22,20 @@ return [
 
     ],
 
-    'messages' => [
-        'saved' => 'Պահպանված է',
+    'content' => [
+
+        'tab' => [
+            'label' => 'Խմբագրել',
+        ],
+
+    ],
+
+    'notifications' => [
+
+        'saved' => [
+            'title' => 'Պահպանված է',
+        ],
+
     ],
 
 ];

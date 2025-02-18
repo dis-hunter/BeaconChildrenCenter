@@ -2,14 +2,26 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Kolum',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 'dan :count lagi',
+        'actions' => [
+            'label' => 'Tindakan|Tindakan',
         ],
 
-        'messages' => [
-            'copied' => 'Disalin',
+        'text' => [
+
+            'actions' => [
+                'collapse_list' => 'Tunjukkan kurang :count',
+                'expand_list' => 'Tunjukkan :count lagi',
+            ],
+
+            'more_list_items' => 'dan :count lagi',
         ],
 
     ],
@@ -24,52 +36,47 @@ return [
             'label' => 'Pilih/nyahpilih item :key untuk tindakan pukal.',
         ],
 
-        'search_query' => [
+        'bulk_select_group' => [
+            'label' => 'Pilih/nyahpilih kumpulan :title untuk tindakan pukal.',
+        ],
+
+        'search' => [
             'label' => 'Cari',
             'placeholder' => 'Carian',
+            'indicator' => 'Carian',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Navigasi Penomboran',
+        'heading' => 'Ringkasan',
 
-        'overview' => 'Menunjukkan :first ke :last dari :total rekod',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'setiap halaman',
-
-                'options' => [
-                    'all' => 'Semua',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'Semua :label',
+            'group' => ':group ringkasan',
+            'page' => 'Muka surat ini',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Pergi ke halaman :page',
+            'average' => [
+                'label' => 'Purata',
             ],
 
-            'next' => [
-                'label' => 'Seterusnya',
+            'count' => [
+                'label' => 'Bilangan',
             ],
 
-            'previous' => [
-                'label' => 'Sebelumnya',
+            'sum' => [
+                'label' => 'Jumlah',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Selesai menyusun semula rekod',
@@ -80,10 +87,14 @@ return [
         ],
 
         'filter' => [
-            'label' => 'Penapis',
+            'label' => 'Tapisan',
         ],
 
-        'open_actions' => [
+        'group' => [
+            'label' => 'Kumpulan',
+        ],
+
+        'open_bulk_actions' => [
             'label' => 'Tindakan terbuka',
         ],
 
@@ -97,36 +108,36 @@ return [
 
         'heading' => 'Tiada rekod dijumpai',
 
-        'buttons' => [
-
-            'reset_column_searches' => [
-                'label' => 'Kosongkan carian',
-            ],
-
-        ],
+        'description' => 'Cipta :model untuk bermula.',
 
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Gunakan tapisan',
+            ],
 
             'remove' => [
-                'label' => 'Buang penapis',
+                'label' => 'Buang tapisan',
             ],
 
             'remove_all' => [
-                'label' => 'Buang semua penapis',
-                'tooltip' => 'Buang semua penapis',
+                'label' => 'Buang semua tapisan',
+                'tooltip' => 'Buang semua tapisan',
             ],
 
             'reset' => [
-                'label' => 'Tetapkan semula penapis',
+                'label' => 'Tetapkan semula tapisan',
             ],
 
         ],
 
-        'indicator' => 'Penapis aktif',
+        'heading' => 'Tapisan',
+
+        'indicator' => 'Tapisan aktif',
 
         'multi_select' => [
             'placeholder' => 'Semua',
@@ -150,13 +161,37 @@ return [
 
     ],
 
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Kumpulan mengikut',
+                'placeholder' => 'Kumpulan mengikut',
+            ],
+
+            'direction' => [
+
+                'label' => 'Arah kumpulan',
+
+                'options' => [
+                    'asc' => 'Menaik',
+                    'desc' => 'Menurun',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
     'reorder_indicator' => 'Seret dan lepaskan rekod mengikut susunan.',
 
     'selection_indicator' => [
 
-        'selected_count' => '{1} 1 rekod dipilih.|[2,*] :count rekod yang dipilih.',
+        'selected_count' => '{1} 1 rekod dipilih|[2,*] :count rekod yang dipilih',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Pilih semua :count',

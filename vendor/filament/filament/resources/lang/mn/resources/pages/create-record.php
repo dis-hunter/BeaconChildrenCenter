@@ -2,9 +2,9 @@
 
 return [
 
-    'title' => 'Шинэ :label',
+    'title' => 'Үүсгэх :label',
 
-    'breadcrumb' => 'Шинэ',
+    'breadcrumb' => 'Үүсгэх',
 
     'form' => [
 
@@ -15,19 +15,23 @@ return [
             ],
 
             'create' => [
-                'label' => 'Шинэ',
+                'label' => 'Үүсгэх',
             ],
 
             'create_another' => [
-                'label' => 'Хадгалах & Шинээр үүсгэх',
+                'label' => 'Үүсгээд & өөр шинийг үүсгэх',
             ],
 
         ],
 
     ],
 
-    'messages' => [
-        'created' => 'Шинээр үүссэн',
+    'notifications' => [
+
+        'created' => [
+            'title' => 'Created',
+        ],
+
     ],
 
 ];

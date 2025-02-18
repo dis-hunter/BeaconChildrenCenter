@@ -4,7 +4,6 @@ namespace Filament\Tables\Columns\Concerns;
 
 use Closure;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 trait CanBeSearchable
 {
@@ -14,10 +13,18 @@ trait CanBeSearchable
 
     protected bool $isSearchable = false;
 
+    /**
+     * @var array<string> | null
+     */
     protected ?array $searchColumns = null;
 
     protected ?Closure $searchQuery = null;
 
+    protected bool | Closure | null $isSearchForcedCaseInsensitive = null;
+
+    /**
+     * @param  bool | array<string> | string  $condition
+     */
     public function searchable(
         bool | array | string $condition = true,
         ?Closure $query = null,
@@ -39,6 +46,16 @@ trait CanBeSearchable
         return $this;
     }
 
+    public function forceSearchCaseInsensitive(bool | Closure | null $condition = true): static
+    {
+        $this->isSearchForcedCaseInsensitive = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string>
+     */
     public function getSearchColumns(): array
     {
         return $this->searchColumns ?? $this->getDefaultSearchColumns();
@@ -59,8 +76,16 @@ trait CanBeSearchable
         return $this->isSearchable() && $this->isIndividuallySearchable;
     }
 
-    protected function getDefaultSearchColumns(): array
+    public function isSearchForcedCaseInsensitive(): ?bool
     {
-        return [Str::of($this->getName())->afterLast('.')];
+        return $this->evaluate($this->isSearchForcedCaseInsensitive);
+    }
+
+    /**
+     * @return array{0: string}
+     */
+    public function getDefaultSearchColumns(): array
+    {
+        return [(string) str($this->getName())->afterLast('.')];
     }
 }

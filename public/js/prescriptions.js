@@ -195,6 +195,7 @@ prescriptionsLink.addEventListener('click', async (event) => {
             <h2>Prescribed Drugs</h2>
             <div id="prescribed-drugs">
                 </div>
+        <button type="button" id="print-prescription-btn">Print Prescription</button> <form id="prescription-form">
 
     `;
     mainContent.scrollTop = 0; 
@@ -223,7 +224,21 @@ prescriptionsLink.addEventListener('click', async (event) => {
         `;
         submitButton.disabled = true;
 
-        const formData = new FormData(form);
+        const prescribedDrugs = Array.from(prescribedDrugsContainer.querySelectorAll('.prescribed-drug span'))
+        .map(drugElement => drugElement.textContent);
+
+    // 2. Create a FormData object
+    const formData = new FormData(); 
+
+    // 3. Append the prescribed drugs to the FormData object
+    formData.append('prescribed_drugs', JSON.stringify(prescribedDrugs)); 
+
+    // 4. Log the FormData object 
+    for (const pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+    }
+
+    
 
         try {
             const response = await fetch(`/prescriptions/${registrationNumber}`, {
@@ -231,7 +246,7 @@ prescriptionsLink.addEventListener('click', async (event) => {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                body: formData
+                body: formData 
             });
 
             console.log('Response status:', response.status);
@@ -275,38 +290,45 @@ prescriptionsLink.addEventListener('click', async (event) => {
     function getSelectedDrug() {
         const selectedDrugs = [];
         const drugCategories = form.querySelectorAll('.drug-category');
-
+    
         drugCategories.forEach(category => {
             const categoryName = category.querySelector('label').textContent;
             const drugList = category.querySelectorAll('.drug-list input[type="checkbox"]:checked');
+            
             drugList.forEach(drug => {
-                selectedDrugs.push(drug.value);
+                // Make sure 'on' is not being added to selected drugs
+                if (drug.value !== 'on') {
+                    selectedDrugs.push(drug.value);
+                }
             });
+    
+            // Check if 'Other' drug is selected and its textarea has a value
             const otherDrugTextArea = category.querySelector('.drug-list textarea');
             if (otherDrugTextArea.style.display === 'block' && otherDrugTextArea.value.trim() !== '') {
                 selectedDrugs.push(otherDrugTextArea.value.trim());
             }
         });
-
+    
         const formulation = form.querySelector('#formulation').value;
         const dose = form.querySelector('#dose').value;
         const units = form.querySelector('#units').value;
         const frequency = form.querySelector('#frequency').value;
         const durationType = form.querySelector('input[name="duration"]:checked');
         const durationText = durationType ? document.getElementById('duration_text').value : '';
-
+    
         if (selectedDrugs.length === 0 || !formulation || !dose || !units || !frequency) {
-            return null; 
+            return null;
         }
-
+    
         let duration = durationType.value;
         if (duration !== 'stat') {
-          duration = durationText + ' ' + duration; // Changed order here
+            duration = durationText + ' ' + duration; // Changed order here
         }
-
-        return `${selectedDrugs.join(', ')} ${formulation} ${dose}${units} ${frequency} ${duration}`; 
+    
+        return `${selectedDrugs.join(', ')} ${formulation} ${dose}${units} ${frequency} ${duration}`;
     }
-
+    
+   
     // Function to reset the form
     function resetForm() {
         // Get all the input elements within the form
@@ -333,6 +355,64 @@ prescriptionsLink.addEventListener('click', async (event) => {
     // Add event listener to the "Add Drug" button
     addDrugBtn.addEventListener('click', addDrug); 
     // Initial fetch on page load
+    // ... other code ...
+
+// Function to print the prescription
+function printPrescription() {
+    const printWindow = window.open('', '_blank'); // Open a new window
+    const prescriptionContent = prescribedDrugsContainer.innerHTML; // Get the content of the prescribed drugs container
+  
+    // Create the HTML content for the print window
+    printWindow.document.write(`
+        <html>
+          <head>
+            <title>Prescription</title>
+            <style>
+              body {
+                font-family: 'Arial', sans-serif; 
+                margin: 20px; 
+              }
+      
+              h1 {
+                text-align: center;
+                color: #007bff; /* Blue color for the heading */
+                margin-bottom: 15px;
+              }
+      
+              #prescribed-drugs {
+                /* Removed border */ 
+                padding: 10px;
+              }
+      
+              .prescribed-drug {
+                margin-bottom: 10px; 
+                padding: 10px;
+                border-bottom: 1px solid #eee; /* Subtle separator between drugs */
+              }
+      
+              .prescribed-drug span {
+                font-weight: bold; 
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Prescription</h1>
+            <div id="prescribed-drugs">${prescriptionContent}</div> 
+          </body>
+        </html>
+      `);
+  
+    printWindow.document.close(); 
+    printWindow.focus(); 
+    printWindow.print(); 
+    printWindow.close(); 
+  }
+  
+  // ... other code ...
+  
+  // Add event listener to the "Print Prescription" button (you'll need to add this button to your HTML)
+  const printPrescriptionBtn = document.getElementById('print-prescription-btn'); // Replace with your button's ID
+  printPrescriptionBtn.addEventListener('click', printPrescription);
     
     
     

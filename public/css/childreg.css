@@ -1,0 +1,201 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White form background */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+/* Form Header */
+.container h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: black; /* Bootstrap primary color */
+    text-align: center;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    color: #495057; /* Dark gray for labels */
+}
+
+/* Inputs and Select */
+.form-control,
+.form-select {
+    border: 1px solid #ced4da; /* Subtle gray border */
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #29B1DD80; /* Highlighted border color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle shadow */
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color: #29B1DD80;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #29B1DD80;
+}
+
+/* Success Message */
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+/* Table Alignment */
+.row {
+    align-items: center;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 576px) {
+    .form-control,
+    .form-select {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        font-size: 16px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+}
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Form Container */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White form background */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #e9ecef;
+}
+
+/* Section Headers */
+h3 {
+    text-align: center;
+    color: black; /* Bootstrap primary color */
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray for alternate rows */
+}
+
+table tr:hover {
+    background-color: #e9ecef; /* Highlight on hover */
+}
+
+/* Inputs, Selects, and Buttons */
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    border-color: black; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+button, input[type="submit"] {
+    background-color: #29B1DD80;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Alerts */
+.alert {
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    table, label, input, select, button {
+        font-size: 14px;
+    }
+}
+

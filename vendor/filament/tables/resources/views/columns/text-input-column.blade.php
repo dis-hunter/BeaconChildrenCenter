@@ -1,91 +1,142 @@
 @php
-    $alignClass = match ($getAlignment()) {
-        'center' => 'text-center',
-        'right' => 'text-right',
-        default => 'text-left',
-    };
+    use Filament\Support\Enums\Alignment;
 
+    $isDisabled = $isDisabled();
     $state = $getState();
+    $mask = $getMask();
+
+    $alignment = $getAlignment() ?? Alignment::Start;
+
+    if (! $alignment instanceof Alignment) {
+        $alignment = filled($alignment) ? (Alignment::tryFrom($alignment) ?? $alignment) : null;
+    }
+
+    if (filled($mask)) {
+        $type = 'text';
+    } else {
+        $type = $getType();
+    }
 @endphp
 
 <div
     x-data="{
         error: undefined,
-        state: @js($state),
-        isLoading: false,
+
         isEditing: false,
+
+        isLoading: false,
+
+        name: @js($getName()),
+
+        recordKey: @js($recordKey),
+
+        state: @js($state),
     }"
     x-init="
-        Livewire.hook('message.processed', (component) => {
-            if (component.component.id !== @js($this->id)) {
-                return
-            }
+        () => {
+            Livewire.hook('commit', ({ component, commit, succeed, fail, respond }) => {
+                succeed(({ snapshot, effect }) => {
+                    $nextTick(() => {
+                        if (component.id !== @js($this->getId())) {
+                            return
+                        }
 
-            if (isEditing) {
-                return
-            }
+                        if (isEditing) {
+                            return
+                        }
 
-            if (! $refs.newState) {
-                return
-            }
+                        if (! $refs.newState) {
+                            return
+                        }
 
-            let newState = $refs.newState.value
+                        let newState = $refs.newState.value.replaceAll('\\'+String.fromCharCode(34), String.fromCharCode(34))
 
-            if (state === newState) {
-                return
-            }
+                        if (state === newState) {
+                            return
+                        }
 
-            state = newState
-        })
+                        state = newState
+                    })
+                })
+            })
+        }
     "
     {{
         $attributes
-            ->merge($getExtraAttributes())
-            ->class(['filament-tables-text-input-column'])
+            ->merge($getExtraAttributes(), escape: false)
+            ->class([
+                'fi-ta-text-input w-full min-w-48',
+                'px-3 py-4' => ! $isInline(),
+            ])
     }}
 >
     <input
         type="hidden"
-        value="{{ \Illuminate\Support\Str::of($state)->replace('"', '\\"') }}"
+        value="{{ str($state)->replace('"', '\\"') }}"
         x-ref="newState"
     />
 
-    <input
-        x-model="state"
-        type="{{ $getType() }}"
-        {!! $isDisabled() ? 'disabled' : null !!}
-        {!! ($inputMode = $getInputMode()) ? "inputmode=\"{$inputMode}\"" : null !!}
-        {!! ($placeholder = $getPlaceholder()) ? "placeholder=\"{$placeholder}\"" : null !!}
-        {!! ($interval = $getStep()) ? "step=\"{$interval}\"" : null !!}
-        x-on:focus="isEditing = true"
-        x-on:blur="isEditing = false"
-        x-on:change{{ $getType() === 'number' ? '.debounce.1s' : null }}="
-            isLoading = true
-            response = await $wire.updateTableColumnState(
-                @js($getName()),
-                @js($recordKey),
-                $event.target.value,
-            )
-            error = response?.error ?? undefined
-            if (! error) state = response
-            isLoading = false
+    <x-filament::input.wrapper
+        :alpine-disabled="'isLoading || ' . \Illuminate\Support\Js::from($isDisabled)"
+        alpine-valid="error === undefined"
+        x-tooltip="
+            error === undefined
+                ? false
+                : {
+                    content: error,
+                    theme: $store.theme,
+                }
         "
-        :readonly="isLoading"
-        x-tooltip="error"
-        {{
-            $attributes
-                ->merge($getExtraInputAttributes())
-                ->merge($getExtraAttributes())
-                ->class([
-                    'ml-0.5 inline-block rounded-lg text-gray-900 shadow-sm outline-none transition duration-75 read-only:opacity-50 focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70',
-                    $alignClass,
-                    'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500' => config('forms.dark_mode'),
-                ])
-        }}
-        x-bind:class="{
-            'border-gray-300': ! error,
-            'dark:border-gray-600': ! error && @js(config('forms.dark_mode')),
-            'border-danger-600 ring-1 ring-inset ring-danger-600': error,
-        }"
-    />
+        x-on:click.stop.prevent=""
+    >
+        {{-- format-ignore-start --}}
+        <x-filament::input
+            :disabled="$isDisabled"
+            :input-mode="$getInputMode()"
+            :placeholder="$getPlaceholder()"
+            :step="$getStep()"
+            :type="$type"
+            :x-bind:disabled="$isDisabled ? null : 'isLoading'"
+            x-model="state"
+            x-on:blur="isEditing = false"
+            x-on:focus="isEditing = true"
+            :attributes="
+                \Filament\Support\prepare_inherited_attributes(
+                    $getExtraInputAttributeBag()
+                        ->merge([
+                            'x-on:change' . ($type === 'number' ? '.debounce.1s' : null) => '
+                                isLoading = true
+
+                                const response = await $wire.updateTableColumnState(
+                                    name,
+                                    recordKey,
+                                    $event.target.value,
+                                )
+
+                                error = response?.error ?? undefined
+
+                                if (! error) {
+                                    state = response
+                                }
+
+                                isLoading = false
+                            ',
+                            'x-mask' . ($mask instanceof \Filament\Support\RawJs ? ':dynamic' : '') => filled($mask) ? $mask : null,
+                        ])
+                        ->class([
+                            match ($alignment) {
+                                Alignment::Start => 'text-start',
+                                Alignment::Center => 'text-center',
+                                Alignment::End => 'text-end',
+                                Alignment::Left => 'text-left',
+                                Alignment::Right => 'text-right',
+                                Alignment::Justify, Alignment::Between => 'text-justify',
+                                default => $alignment,
+                            },
+                        ])
+                )
+            "
+        />
+        {{-- format-ignore-end --}}
+    </x-filament::input.wrapper>
 </div>

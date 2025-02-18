@@ -16,22 +16,28 @@ class TernaryFilter extends SelectFilter
     {
         parent::setUp();
 
-        $this->trueLabel(__('forms::components.select.boolean.true'));
-        $this->falseLabel(__('forms::components.select.boolean.false'));
+        $this->trueLabel(__('filament-forms::components.select.boolean.true'));
+        $this->falseLabel(__('filament-forms::components.select.boolean.false'));
         $this->placeholder('-');
 
         $this->boolean();
 
-        $this->indicateUsing(function (array $state): array {
+        $this->indicateUsing(function (TernaryFilter $filter, array $state): array {
             if (blank($state['value'] ?? null)) {
                 return [];
             }
 
             $stateLabel = $state['value'] ?
-                $this->getTrueLabel() :
-                $this->getFalseLabel();
+                $filter->getTrueLabel() :
+                $filter->getFalseLabel();
 
-            return ["{$this->getIndicator()}: {$stateLabel}"];
+            $indicator = $filter->getIndicator();
+
+            if (! $indicator instanceof Indicator) {
+                $indicator = Indicator::make("{$indicator}: {$stateLabel}");
+            }
+
+            return [$indicator];
         });
     }
 
@@ -51,15 +57,15 @@ class TernaryFilter extends SelectFilter
 
     public function getTrueLabel(): ?string
     {
-        return $this->trueLabel;
+        return $this->evaluate($this->trueLabel);
     }
 
     public function getFalseLabel(): ?string
     {
-        return $this->falseLabel;
+        return $this->evaluate($this->falseLabel);
     }
 
-    protected function getFormField(): Select
+    public function getFormField(): Select
     {
         return parent::getFormField()
             ->boolean(
@@ -76,7 +82,7 @@ class TernaryFilter extends SelectFilter
                 if ($this->queriesRelationships()) {
                     return $query->whereRelation(
                         $this->getRelationshipName(),
-                        $this->getRelationshipTitleColumnName(),
+                        $this->getRelationshipTitleAttribute(),
                         '!=',
                         null,
                     );
@@ -88,7 +94,7 @@ class TernaryFilter extends SelectFilter
                 if ($this->queriesRelationships()) {
                     return $query->whereRelation(
                         $this->getRelationshipName(),
-                        $this->getRelationshipTitleColumnName(),
+                        $this->getRelationshipTitleAttribute(),
                         null,
                     );
                 }
@@ -107,7 +113,7 @@ class TernaryFilter extends SelectFilter
                 if ($this->queriesRelationships()) {
                     return $query->whereRelation(
                         $this->getRelationshipName(),
-                        $this->getRelationshipTitleColumnName(),
+                        $this->getRelationshipTitleAttribute(),
                         true,
                     );
                 }
@@ -118,7 +124,7 @@ class TernaryFilter extends SelectFilter
                 if ($this->queriesRelationships()) {
                     return $query->whereRelation(
                         $this->getRelationshipName(),
-                        $this->getRelationshipTitleColumnName(),
+                        $this->getRelationshipTitleAttribute(),
                         false,
                     );
                 }
@@ -130,7 +136,7 @@ class TernaryFilter extends SelectFilter
         return $this;
     }
 
-    public function queries(Closure $true, Closure $false, Closure $blank = null): static
+    public function queries(Closure $true, Closure $false, ?Closure $blank = null): static
     {
         $this->query(function (Builder $query, array $data) use ($blank, $false, $true) {
             if (blank($data['value'] ?? null)) {
@@ -143,5 +149,18 @@ class TernaryFilter extends SelectFilter
         });
 
         return $this;
+    }
+
+    public function getDefaultState(): mixed
+    {
+        $defaultState = $this->evaluate($this->defaultState);
+
+        // Ensure that the default state is cast to an integer
+        // so that it matches the value of a select option.
+        if (is_bool($defaultState)) {
+            $defaultState = $defaultState ? 1 : 0;
+        }
+
+        return $defaultState;
     }
 }

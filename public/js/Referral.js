@@ -57,6 +57,11 @@ referralButton.addEventListener('click', async (event) => {
           <label><input type="checkbox" name="specialist" value="Cardiologist" ${referralData?.data?.specialists?.includes('Cardiologist') ? 'checked' : ''}> Cardiologist</label>
           <label><input type="checkbox" name="specialist" value="Gastroenterologist" ${referralData?.data?.specialists?.includes('Gastroenterologist') ? 'checked' : ''}> Gastroenterologist</label>
           <label><input type="checkbox" name="specialist" value="Pulmonologist" ${referralData?.data?.specialists?.includes('Pulmonologist') ? 'checked' : ''}> Pulmonologist</label>
+          <label><input type="checkbox" name="specialist" value="Dermatologist" ${referralData?.data?.specialists?.includes('Dermatologist') ? 'checked' : ''}> Dermatologist</label> 
+          <label><input type="checkbox" name="specialist" value="Infectious Disease" ${referralData?.data?.specialists?.includes('Infectious Disease') ? 'checked' : ''}> Infectious Disease</label> 
+          <label><input type="checkbox" name="specialist" value="Opthalmologist" ${referralData?.data?.specialists?.includes('Opthalmologist') ? 'checked' : ''}> Opthalmologist</label> 
+          <label><input type="checkbox" name="specialist" value="Neurosurgeon" ${referralData?.data?.specialists?.includes('Neurosurgeon') ? 'checked' : ''}> Neurosurgeon</label> 
+      </div>
         </div>
 
         <div class="referral-letter">

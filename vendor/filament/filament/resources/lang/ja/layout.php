@@ -4,22 +4,22 @@ return [
 
     'direction' => 'ltr',
 
-    'buttons' => [
+    'actions' => [
 
-        'dark_mode' => [
-            'label' => 'ダークモードに切り替える',
-        ],
-
-        'database_notifications' => [
-            'label' => 'お知らせを確認',
-        ],
-
-        'light_mode' => [
-            'label' => 'ライトモードに切り替える',
+        'billing' => [
+            'label' => 'サブスクリプションを管理',
         ],
 
         'logout' => [
             'label' => 'ログアウト',
+        ],
+
+        'open_database_notifications' => [
+            'label' => 'お知らせを確認',
+        ],
+
+        'open_user_menu' => [
+            'label' => 'ユーザーメニュー',
         ],
 
         'sidebar' => [
@@ -34,10 +34,30 @@ return [
 
         ],
 
-        'user_menu' => [
-            'label' => 'ユーザーメニュー',
+        'theme_switcher' => [
+
+            'dark' => [
+                'label' => 'ダークモードに切り替える',
+            ],
+
+            'light' => [
+                'label' => 'ライトモードに切り替える',
+            ],
+
+            'system' => [
+                'label' => 'システムテーマを有効にする',
+            ],
+
         ],
 
+    ],
+
+    'avatar' => [
+        'alt' => ':nameのアバター',
+    ],
+
+    'logo' => [
+        'alt' => ':nameロゴ',
     ],
 
 ];

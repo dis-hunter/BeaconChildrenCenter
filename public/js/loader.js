@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
+    addTextareaAutoResize();
 });
 
 // Enhanced show/hide functions with progress support
@@ -117,8 +118,26 @@ function updateLoadingProgress(progress, message = null) {
         text.textContent = message;
     }
 }
-
 // Usage example:
 // showLoadingIndicator('Loading data...', 0);
 // updateLoadingProgress(50, 'Halfway there...');
 // hideLoadingIndicator();
+
+function addTextareaAutoResize() {
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+      textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+      });
+      
+      textarea.addEventListener('blur', () => {
+        textarea.style.height = '30px';
+      });
+
+      // Trigger initial resize
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight) + 'px';
+    });
+  }
+

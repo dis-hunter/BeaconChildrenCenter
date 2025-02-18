@@ -2,79 +2,90 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Sütunlar',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => 've :count daha',
-        ],
-
-        'messages' => [
-            'copied' => 'Kopyalandı',
+        'text' => [
+            'more_list_items' => 've :count daha',
         ],
 
     ],
 
     'fields' => [
 
-        'search_query' => [
+        'bulk_select_page' => [
+            'label' => 'Toplu işlemler için tüm öğeleri seç/seçimi kaldır.',
+        ],
+
+        'bulk_select_record' => [
+            'label' => 'Toplu işlemler için :key öğesini seç/seçimi kaldır.',
+        ],
+
+        'bulk_select_group' => [
+            'label' => 'Toplu işlemler için :title grubunu seç/seçimi kaldır.',
+        ],
+
+        'search' => [
             'label' => 'Ara',
             'placeholder' => 'Ara',
+            'indicator' => 'Ara',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Sayfalandırma Navigasyonu',
+        'heading' => 'Özet',
 
-        'overview' => 'Toplam :total sonuçtan :first ile :last arası görüntüleniyor',
-
-        'fields' => [
-
-            'records_per_page' => [
-                'label' => 'sayfa başına',
-
-                'options' => [
-                    'all' => 'Tümü',
-                ],
-            ],
-
+        'subheadings' => [
+            'all' => 'Tüm :label',
+            'group' => ':group özeti',
+            'page' => 'Bu sayfa',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => ':page. sayfaya git',
+            'average' => [
+                'label' => 'Ortalama',
             ],
 
-            'next' => [
-                'label' => 'Sonraki',
+            'count' => [
+                'label' => 'Sayı',
             ],
 
-            'previous' => [
-                'label' => 'Önceki',
+            'sum' => [
+                'label' => 'Toplam',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
-            'label' => 'Sıralamayı kapat',
+            'label' => 'Sıralamayı bitir',
         ],
 
         'enable_reordering' => [
-            'label' => 'Sıralamayı aç',
+            'label' => 'Kayıtları sırala',
         ],
 
         'filter' => [
             'label' => 'Filtrele',
         ],
 
-        'open_actions' => [
-            'label' => 'Eylemleri aç',
+        'group' => [
+            'label' => 'Grupla',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'Toplu işlemler',
         ],
 
         'toggle_columns' => [
@@ -84,12 +95,16 @@ return [
     ],
 
     'empty' => [
-        'heading' => 'Kayıt bulunamadı',
+
+        'heading' => ':model Yok',
+
+        'description' => 'Başlamak için bir :model oluşturun.',
+
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
 
             'remove' => [
                 'label' => 'Filtreyi kaldır',
@@ -101,10 +116,12 @@ return [
             ],
 
             'reset' => [
-                'label' => 'Filtreleri sıfırla',
+                'label' => 'Sıfırla',
             ],
 
         ],
+
+        'heading' => 'Filtreler',
 
         'indicator' => 'Aktif filtreler',
 
@@ -118,28 +135,52 @@ return [
 
         'trashed' => [
 
-            'label' => 'Silinen kayıtlar',
+            'label' => 'Silinmiş kayıtlar',
 
-            'only_trashed' => 'Sadece silinen kayıtlar',
+            'only_trashed' => 'Yalnızca silinmiş kayıtlar',
 
-            'with_trashed' => 'Silinen kayıtlar ile',
+            'with_trashed' => 'Silinmiş kayıtlarla birlikte',
 
-            'without_trashed' => 'Silinen kayıtlar olmadan',
+            'without_trashed' => 'Silinmiş kayıtlar olmadan',
 
         ],
 
     ],
 
-    'reorder_indicator' => 'Sıralamayı değiştirmek için sürükleyin.',
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Grupla',
+                'placeholder' => 'Grupla',
+            ],
+
+            'direction' => [
+
+                'label' => 'Grup yönü',
+
+                'options' => [
+                    'asc' => 'Artan',
+                    'desc' => 'Azalan',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
+    'reorder_indicator' => 'Kayıtları sıralamak için sürükleyip bırakın.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 kayıt seçildi.|:count kayıt seçildi.',
+        'selected_count' => '1 kayıt seçildi|:count kayıt seçildi',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
-                'label' => 'Tüm :count kaydı seç',
+                'label' => 'Tüm :count kaydı seç ',
             ],
 
             'deselect_all' => [
@@ -155,12 +196,12 @@ return [
         'fields' => [
 
             'column' => [
-                'label' => 'Sırala',
+                'label' => 'Şuna göre sırala',
             ],
 
             'direction' => [
 
-                'label' => 'Sıralama türü',
+                'label' => 'Sıralama yönü',
 
                 'options' => [
                     'asc' => 'Artan',

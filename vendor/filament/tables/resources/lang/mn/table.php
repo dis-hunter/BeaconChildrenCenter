@@ -2,14 +2,23 @@
 
 return [
 
+    'column_toggle' => [
+
+        'heading' => 'Баганууд',
+
+    ],
+
     'columns' => [
 
-        'tags' => [
-            'more' => '... :count илүү',
-        ],
+        'text' => [
 
-        'messages' => [
-            'copied' => 'Хуулав',
+            'actions' => [
+                'collapse_list' => 'Харуулах :count бага',
+                'expand_list' => 'Харуулах :count илүү',
+            ],
+
+            'more_list_items' => 'ба :count илүү',
+
         ],
 
     ],
@@ -24,52 +33,47 @@ return [
             'label' => 'Олонг сонгох/Цуцлах :key.',
         ],
 
-        'search_query' => [
+        'bulk_select_group' => [
+            'label' => 'Сонгох/цуцлах бүлэг :title багц үйлдэлд.',
+        ],
+
+        'search' => [
             'label' => 'Хайх',
             'placeholder' => 'Хайх',
+            'indicator' => 'Хайх',
         ],
 
     ],
 
-    'pagination' => [
+    'summary' => [
 
-        'label' => 'Хуудас',
+        'heading' => 'Нийлбэр',
 
-        'overview' => '{1} Нийт 1 |[2,*] Нийт :total бичлэг :first - :last',
-
-        'fields' => [
-
-            'records_per_page' => [
-
-                'label' => 'хуудас бүр',
-
-                'options' => [
-                    'all' => 'Бүгд',
-                ],
-
-            ],
-
+        'subheadings' => [
+            'all' => 'Бүгд :label',
+            'group' => ':group нийлбэр',
+            'page' => 'Энэ хуудас',
         ],
 
-        'buttons' => [
+        'summarizers' => [
 
-            'go_to_page' => [
-                'label' => 'Хуудасруу очих :page',
+            'average' => [
+                'label' => 'Дундаж',
             ],
 
-            'next' => [
-                'label' => 'Дараах',
+            'count' => [
+                'label' => 'Тоо',
             ],
 
-            'previous' => [
-                'label' => 'Өмнөх',
+            'sum' => [
+                'label' => 'Нийлбэр',
             ],
 
         ],
 
     ],
 
-    'buttons' => [
+    'actions' => [
 
         'disable_reordering' => [
             'label' => 'Эрэмбэлэлтийг дуусгах',
@@ -83,8 +87,12 @@ return [
             'label' => 'Шүүлтүүр',
         ],
 
-        'open_actions' => [
-            'label' => 'Үйлдэл',
+        'group' => [
+            'label' => 'Бүлэг',
+        ],
+
+        'open_bulk_actions' => [
+            'label' => 'Багц үйлдэл',
         ],
 
         'toggle_columns' => [
@@ -95,21 +103,19 @@ return [
 
     'empty' => [
 
-        'heading' => 'Илэрц хоосон',
+        'heading' => ':model хоосон',
 
-        'buttons' => [
-
-            'reset_column_searches' => [
-                'label' => 'Цэвэрлэх',
-            ],
-
-        ],
+        'description' => 'Шинэ :model мэдээлэл үүсгэх.',
 
     ],
 
     'filters' => [
 
-        'buttons' => [
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Шүүлтийг батлах',
+            ],
 
             'remove' => [
                 'label' => 'Цэвэрлэх',
@@ -125,6 +131,8 @@ return [
             ],
 
         ],
+
+        'heading' => 'Шүүлтүүрүүд',
 
         'indicator' => 'Филтерийг идэвхижүүлэх',
 
@@ -154,9 +162,9 @@ return [
 
     'selection_indicator' => [
 
-        'selected_count' => '1 бичлэг сонгогдов.|:count -г сонгов.',
+        'selected_count' => '1 бичлэг сонгогдов|:count -г сонгов',
 
-        'buttons' => [
+        'actions' => [
 
             'select_all' => [
                 'label' => 'Бүгдийг сонго :count',
@@ -181,6 +189,30 @@ return [
             'direction' => [
 
                 'label' => 'Эрэмбэлэх',
+
+                'options' => [
+                    'asc' => 'Өсөх',
+                    'desc' => 'Буурах',
+                ],
+
+            ],
+
+        ],
+
+    ],
+
+    'grouping' => [
+
+        'fields' => [
+
+            'group' => [
+                'label' => 'Бүлэглэх',
+                'placeholder' => 'Бүлэглэх',
+            ],
+
+            'direction' => [
+
+                'label' => 'Бүлгийн чиглэл',
 
                 'options' => [
                     'asc' => 'Өсөх',

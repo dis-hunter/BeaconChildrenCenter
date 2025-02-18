@@ -31,8 +31,12 @@ class Visits extends Model
         'staff_id',
         'doctor_id',
         'appointment_id',
+        'triage_pass',
         'created_at',
         'updated_at',
+        'has_copay',     
+    'copay_amount',
+        
     ];
 
     /**
@@ -44,6 +48,8 @@ class Visits extends Model
         'triage_pass' => 'boolean',
         'completed' => 'boolean',
         'triage_pass' => 'boolean',
+        'has_copay' => 'boolean',     
+    'copay_amount' => 'decimal:2', 
     ];
 
     public function staff()
@@ -55,6 +61,7 @@ class Visits extends Model
     {
         return $this->belongsTo(VisitType::class, 'visit_type');
     }
+    
     public function paymentMode(): BelongsTo
     {
         return $this->belongsTo(PaymentMode::class);
