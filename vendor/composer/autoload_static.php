@@ -4,11 +4,7 @@
 
 namespace Composer\Autoload;
 
-<<<<<<< HEAD
-class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
-=======
-class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
->>>>>>> j_branch
+class ComposerStaticInit53b0276a9aaeb345d64922532c237320
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -136,10 +132,7 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
-<<<<<<< HEAD
             'Psr\\Cache\\' => 10,
-=======
->>>>>>> j_branch
             'Predis\\' => 7,
             'PragmaRX\\Google2FA\\' => 19,
             'PhpParser\\' => 10,
@@ -490,13 +483,10 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
-<<<<<<< HEAD
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-=======
->>>>>>> j_branch
         'Predis\\' => 
         array (
             0 => __DIR__ . '/..' . '/predis/predis/src',
@@ -965,6 +955,7 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
         'App\\Models\\Invoice' => __DIR__ . '/../..' . '/app/Models/Invoice.php',
         'App\\Models\\LeaveType' => __DIR__ . '/../..' . '/app/Models/LeaveType.php',
         'App\\Models\\ParentModel' => __DIR__ . '/../..' . '/app/Models/ParentModel.php',
+        'App\\Models\\Parents' => __DIR__ . '/../..' . '/app/Models/Parents.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\Prescription' => __DIR__ . '/../..' . '/app/Models/Prescription.php',
         'App\\Models\\Referral' => __DIR__ . '/../..' . '/app/Models/Referral.php',
@@ -977,6 +968,7 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
         'App\\Models\\TriageAssessment' => __DIR__ . '/../..' . '/app/Models/TriageAssessment.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\VisitType' => __DIR__ . '/../..' . '/app/Models/VisitType.php',
+        'App\\Models\\Visits' => __DIR__ . '/../..' . '/app/Models/Visits.php',
         'App\\Models\\children' => __DIR__ . '/../..' . '/app/Models/children.php',
         'App\\Output\\Concerns\\InteractsWithSymbols' => __DIR__ . '/..' . '/laravel/pint/app/Output/Concerns/InteractsWithSymbols.php',
         'App\\Output\\ProgressOutput' => __DIR__ . '/..' . '/laravel/pint/app/Output/ProgressOutput.php',
@@ -8507,13 +8499,10 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
         'Predis\\Transaction\\AbortedMultiExecException' => __DIR__ . '/..' . '/predis/predis/src/Transaction/AbortedMultiExecException.php',
         'Predis\\Transaction\\MultiExec' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExec.php',
         'Predis\\Transaction\\MultiExecState' => __DIR__ . '/..' . '/predis/predis/src/Transaction/MultiExecState.php',
-<<<<<<< HEAD
         'Psr\\Cache\\CacheException' => __DIR__ . '/..' . '/psr/cache/src/CacheException.php',
         'Psr\\Cache\\CacheItemInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemInterface.php',
         'Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemPoolInterface.php',
         'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
-=======
->>>>>>> j_branch
         'Psr\\Clock\\ClockInterface' => __DIR__ . '/..' . '/psr/clock/src/ClockInterface.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
@@ -10513,16 +10502,9 @@ class ComposerStaticInit7ace2664ff5d70e63a83b26446480c31
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-<<<<<<< HEAD
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$classMap;
-=======
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit7ace2664ff5d70e63a83b26446480c31::$classMap;
->>>>>>> j_branch
+            $loader->prefixLengthsPsr4 = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$classMap;
 
         }, null, ClassLoader::class);
     }

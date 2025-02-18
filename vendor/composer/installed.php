@@ -1,15 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-<<<<<<< HEAD
         'pretty_version' => 'dev-OfficialBranch',
         'version' => 'dev-OfficialBranch',
-        'reference' => 'b7ab8fce9f43920913b22f4692f3d43249f66992',
-=======
-        'pretty_version' => 'dev-J_branch',
-        'version' => 'dev-J_branch',
-        'reference' => '1a3436399502bc70646fe45cbf2c9510291eff01',
->>>>>>> j_branch
+        'reference' => 'dc31e7da77ccad5fc57cfdb199ac3292e6c88550',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -590,15 +584,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-<<<<<<< HEAD
             'pretty_version' => 'dev-OfficialBranch',
             'version' => 'dev-OfficialBranch',
-            'reference' => 'b7ab8fce9f43920913b22f4692f3d43249f66992',
-=======
-            'pretty_version' => 'dev-J_branch',
-            'version' => 'dev-J_branch',
-            'reference' => '1a3436399502bc70646fe45cbf2c9510291eff01',
->>>>>>> j_branch
+            'reference' => 'dc31e7da77ccad5fc57cfdb199ac3292e6c88550',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -818,15 +806,9 @@
             'dev_requirement' => true,
         ),
         'nesbot/carbon' => array(
-<<<<<<< HEAD
             'pretty_version' => '3.8.5',
             'version' => '3.8.5.0',
             'reference' => 'b1a53a27898639579a67de42e8ced5d5386aa9a4',
-=======
-            'pretty_version' => '2.73.0',
-            'version' => '2.73.0.0',
-            'reference' => '9228ce90e1035ff2f0db84b40ec2e023ed802075',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../nesbot/carbon',
             'aliases' => array(),
@@ -1024,7 +1006,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'psr/cache' => array(
             'pretty_version' => '3.0.0',
             'version' => '3.0.0.0',
@@ -1034,8 +1015,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-=======
->>>>>>> j_branch
         'psr/clock' => array(
             'pretty_version' => '1.0.0',
             'version' => '1.0.0.0',
@@ -1429,15 +1408,9 @@
             'dev_requirement' => false,
         ),
         'spatie/laravel-permission' => array(
-<<<<<<< HEAD
             'pretty_version' => '6.15.0',
             'version' => '6.15.0.0',
             'reference' => '86074fcfd127f9fa7bcdf550b7c938e3beb0d65f',
-=======
-            'pretty_version' => '6.12.0',
-            'version' => '6.12.0.0',
-            'reference' => '420ea2a49db480302813d444834baaf7c8674782',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/laravel-permission',
             'aliases' => array(),
@@ -1486,15 +1459,9 @@
             'dev_requirement' => false,
         ),
         'symfony/error-handler' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => '959a74d044a6db21f4caa6d695648dcb5584cb49',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => 'e8d3b5b1975e67812a54388b1ba8e9ec28eb770e',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/error-handler',
             'aliases' => array(),
@@ -1543,60 +1510,36 @@
             'dev_requirement' => false,
         ),
         'symfony/http-foundation' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => 'ee1b504b8926198be89d05e5b6fc4c3810c090f0',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => 'd0492d6217e5ab48f51fca76f64cf8e78919d0db',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/http-foundation',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/http-kernel' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => 'caae9807f8e25a9b43ce8cc6fafab6cf91f0cc9b',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => 'fca7197bfe9e99dfae7fb1ad3f7f5bd9ef80e1b7',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/http-kernel',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/mailer' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => 'f3871b182c44997cf039f3b462af4a48fb85f9d3',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => 'e93a6ae2767d7f7578c2b7961d9d8e27580b2b11',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/mailer',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/mime' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => '2fc3b4bd67e4747e45195bc4c98bea4628476204',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => '917d77981eb1ea963608d5cda4d9c0cf72eaa68e',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/mime',
             'aliases' => array(),
@@ -1684,15 +1627,9 @@
             'dev_requirement' => false,
         ),
         'symfony/routing' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => 'ee9a67edc6baa33e5fae662f94f91fd262930996',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => 'e9bfc94953019089acdfb9be51c1b9142c4afa68',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/routing',
             'aliases' => array(),
@@ -1750,15 +1687,9 @@
             'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.2.3',
             'version' => '7.2.3.0',
             'reference' => '82b478c69745d8878eb60f9a049a4d584996f73a',
-=======
-            'pretty_version' => 'v6.4.18',
-            'version' => '6.4.18.0',
-            'reference' => '4ad10cf8b020e77ba665305bb7804389884b4837',
->>>>>>> j_branch
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),

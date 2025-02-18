@@ -173,6 +173,7 @@ return array(
     'App\\Models\\Invoice' => $baseDir . '/app/Models/Invoice.php',
     'App\\Models\\LeaveType' => $baseDir . '/app/Models/LeaveType.php',
     'App\\Models\\ParentModel' => $baseDir . '/app/Models/ParentModel.php',
+    'App\\Models\\Parents' => $baseDir . '/app/Models/Parents.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
     'App\\Models\\Prescription' => $baseDir . '/app/Models/Prescription.php',
     'App\\Models\\Referral' => $baseDir . '/app/Models/Referral.php',
@@ -185,6 +186,7 @@ return array(
     'App\\Models\\TriageAssessment' => $baseDir . '/app/Models/TriageAssessment.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\VisitType' => $baseDir . '/app/Models/VisitType.php',
+    'App\\Models\\Visits' => $baseDir . '/app/Models/Visits.php',
     'App\\Models\\children' => $baseDir . '/app/Models/children.php',
     'App\\Output\\Concerns\\InteractsWithSymbols' => $vendorDir . '/laravel/pint/app/Output/Concerns/InteractsWithSymbols.php',
     'App\\Output\\ProgressOutput' => $vendorDir . '/laravel/pint/app/Output/ProgressOutput.php',
@@ -7715,13 +7717,10 @@ return array(
     'Predis\\Transaction\\AbortedMultiExecException' => $vendorDir . '/predis/predis/src/Transaction/AbortedMultiExecException.php',
     'Predis\\Transaction\\MultiExec' => $vendorDir . '/predis/predis/src/Transaction/MultiExec.php',
     'Predis\\Transaction\\MultiExecState' => $vendorDir . '/predis/predis/src/Transaction/MultiExecState.php',
-<<<<<<< HEAD
     'Psr\\Cache\\CacheException' => $vendorDir . '/psr/cache/src/CacheException.php',
     'Psr\\Cache\\CacheItemInterface' => $vendorDir . '/psr/cache/src/CacheItemInterface.php',
     'Psr\\Cache\\CacheItemPoolInterface' => $vendorDir . '/psr/cache/src/CacheItemPoolInterface.php',
     'Psr\\Cache\\InvalidArgumentException' => $vendorDir . '/psr/cache/src/InvalidArgumentException.php',
-=======
->>>>>>> j_branch
     'Psr\\Clock\\ClockInterface' => $vendorDir . '/psr/clock/src/ClockInterface.php',
     'Psr\\Container\\ContainerExceptionInterface' => $vendorDir . '/psr/container/src/ContainerExceptionInterface.php',
     'Psr\\Container\\ContainerInterface' => $vendorDir . '/psr/container/src/ContainerInterface.php',
