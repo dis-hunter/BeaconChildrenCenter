@@ -18174,3 +18174,7 @@ LINE 1: ...ast_name') AS doctor_name from \"staff\" inner join \"doctor_sp...
 [2025-02-18 21:53:09] local.INFO: select * from "leave_types"  
 [2025-02-18 21:53:10] local.INFO: select * from "staff" where "id" = ? limit 1  
 [2025-02-18 21:53:10] local.INFO: select "visits".*, "children"."fullname", "children"."registration_number" from "visits" inner join "children" on "visits"."child_id" = "children"."id" where "visits"."triage_pass" = ? and "visits"."visit_date"::date = ? and "visits"."doctor_id" = ?  
+[2025-02-18 21:53:15] local.INFO: select * from "doctor_specialization"  
+[2025-02-18 21:53:16] local.INFO: select * from "leave_types"  
+[2025-02-18 21:53:17] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-18 21:53:17] local.INFO: fullname is already an object: {"lastname":"Kipkemboi","firstname":"Joy","last_name":"Kipkemboi","first_name":"Joy","middlename":"Chepchumba","middle_name":"Chepchumba"} 
