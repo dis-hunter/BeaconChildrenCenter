@@ -208,6 +208,7 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ExpensesController;
 
 use App\Http\Controllers\BookedController;
 use App\Http\Controllers\CalendarController;
@@ -705,6 +706,7 @@ use App\Http\Controllers\PatientDemographicsController;
 // Route to fetch data for the pie charts
 Route::get('/patient-demographics', [PatientDemographicsController::class, 'getDemographicsData'])->name('demographics.data');
 
+Route::post('/AddExpense', [ExpensesController::class, 'saveExpenses']);
 
 Route::get('/disease-statistics', [DiagnosisController::class, 'getDiseaseStatistics'])->name('disease.statistics');
 

@@ -884,6 +884,8 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Http\\Controllers\\DoctorFormController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorFormController.php',
         'App\\Http\\Controllers\\DoctorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/DoctorsController.php',
         'App\\Http\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExampleController.php',
+        'App\\Http\\Controllers\\ExpenseController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpenseController.php',
+        'App\\Http\\Controllers\\ExpensesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpensesController.php',
         'App\\Http\\Controllers\\FamilySocialHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/FamilySocialHistoryController.php',
         'App\\Http\\Controllers\\FetchAppointments' => __DIR__ . '/../..' . '/app/Http/Controllers/FetchAppointments.php',
         'App\\Http\\Controllers\\FetchController' => __DIR__ . '/../..' . '/app/Http/Controllers/FetchController.php',

@@ -8,6 +8,7 @@ use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Contracts\Support\Htmlable;
 
+
 class Dashboard extends Page
 {
     protected static string $routePath = '/';
