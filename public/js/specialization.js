@@ -129,6 +129,64 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
     }
+
+    window.onload = function () {
+        const addEventContainer = document.querySelector(".add-event-wrapper");
+        
+        // Ensure the modal is hidden initially
+        if (addEventContainer) {
+          addEventContainer.classList.remove("active");
+          addEventContainer.style.display = "none";
+          console.log("Modal is hidden on page load.");
+        }
+      
+        // Set up the modal behavior
+        window.handleAddEventModal();
+      };
+      
+      window.handleAddEventModal = function () {
+        const addEventButton = document.querySelector(".add-event");
+        const closeButton = document.querySelector(".close");
+        const modalWrapper = document.querySelector(".add-event-wrapper");
+      
+        // Ensure the modal is hidden initially
+        if (modalWrapper) {
+          modalWrapper.classList.remove("active");
+          modalWrapper.style.display = "none";
+        }
+      
+        // Open modal on button click
+        if (addEventButton && modalWrapper) {
+          addEventButton.addEventListener("click", function () {
+            console.log("Add event button clicked");
+            modalWrapper.classList.add("active");
+            modalWrapper.style.display = "block";
+          });
+        } else {
+          console.warn("Add event button or modal container not found.");
+        }
+      
+        // Close modal on close button click
+        if (closeButton && modalWrapper) {
+          closeButton.addEventListener("click", function () {
+            console.log("Close button clicked");
+            modalWrapper.classList.remove("active");
+            modalWrapper.style.display = "none";
+          });
+        } else {
+          console.warn("Close button or modal container not found.");
+        }
+      };
+      
+      
+      // Ensure it runs after the DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        window.handleAddEventModal();
+      });
+      
+      
+      
+    
     
 
     // Service Dropdown Change Event
@@ -215,25 +273,28 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(request),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                document.body.removeChild(spinnerContainer); // Remove the loader
-                if (data && data.success) {
-                    alert("Appointment successfully created!");
-                    addEventContainer.classList.remove("active");
-    
-                    const formModal = document.getElementById("form-modal");
-                    if (formModal) {
-                        formModal.style.display = "none"; // Hide the form/modal
-                    }
-    
-                    window.updateEvents(request.appointment_date);
-                } else {
-                    const errorMessage = data && data.message ? data.message : "An unknown error occurred";
-                    alert("Error: " + errorMessage);
-                    console.error("Error:", errorMessage);
+        .then((response) => response.json())
+        .then((data) => {
+            document.body.removeChild(spinnerContainer); // Remove the loader
+            if (data && data.success) {
+                alert("Appointment successfully created!");
+                if (addEventContainer) {
+                    addEventContainer.classList.remove("active");  // Remove the active class
+                    addEventContainer.style.display = "none";      // Hide the modal using display style
+                  }
+            
+                const formModal = document.getElementById("form-modal");
+                if (formModal) {
+                    formModal.style.display = "none"; // Hide the form/modal
                 }
-            })
+
+                window.updateEvents(request.appointment_date);
+            } else {
+                const errorMessage = data && data.message ? data.message : "An unknown error occurred";
+                alert("Error: " + errorMessage);
+                console.error("Error:", errorMessage);
+            }
+        })
             .catch((error) => {
                 document.body.removeChild(spinnerContainer); // Remove the loader
                 alert("An unexpected error occurred: " + (error.message || error));
@@ -255,6 +316,9 @@ if (csrfTokenMeta) {
 } else {
     console.error('CSRF token meta tag not found');
 }
+
+
+  
 
     
     });

@@ -110,7 +110,9 @@ div h2 {
 
             </div>
 
-            <div class="add-event-wrapper">
+            <div class="add-event-wrapper hidden" id="modal-wrapper">  
+            
+
 
             <form action="{{ route('appointments.store') }}" method="POST" class= "form-container">
 
