@@ -136,6 +136,8 @@ function nextMonth() {
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
 
+
+
 todayBtn.addEventListener("click", () => {
     today = new Date();
     month = today.getMonth();
@@ -323,16 +325,31 @@ function updateEvents(date) {
                     // Append the event div to the container
                     eventsContainer.appendChild(eventDiv);
 
-                    // Add cancellation functionality
                     const cancelButton = eventDiv.querySelector(".cancel-btn");
                     cancelButton.addEventListener("click", (e) => {
                         const appointmentId = e.target.getAttribute("data-id");
-
+                    
                         if (confirm("Are you sure you want to cancel this appointment?")) {
+                            // Create a spinner container and append to body
+                            const spinnerContainer = document.createElement("div");
+                            spinnerContainer.classList.add("spinner-container");
+                    
+                            const spinner = document.createElement("div");
+                            spinner.classList.add("l-spinner");
+                    
+                            // Add the text "Cancelling..."
+                            const spinnerText = document.createElement("span");
+                            spinnerText.textContent = "Cancelling...";
+                            spinnerText.classList.add("spinner-text");
+                    
+                            spinnerContainer.appendChild(spinner);
+                            spinnerContainer.appendChild(spinnerText);
+                            document.body.appendChild(spinnerContainer); // Show spinner on the page
+                    
                             const csrfToken = document
                                 .querySelector('meta[name="csrf-token"]')
                                 .getAttribute("content");
-
+                    
                             fetch(`/cancel-appointment/${appointmentId}`, {
                                 method: "DELETE",
                                 headers: {
@@ -341,26 +358,26 @@ function updateEvents(date) {
                                 },
                             })
                                 .then((response) => {
+                                    document.body.removeChild(spinnerContainer); // Remove the spinner
                                     if (response.ok) {
                                         alert("Appointment canceled successfully.");
-                                        updateEvents(date);
+                                        updateEvents(date); // Refresh the events
                                     } else {
                                         return response.json().then((data) => {
                                             throw new Error(
-                                                data.message ||
-                                                    "Failed to cancel appointment."
+                                                data.message || "Failed to cancel appointment."
                                             );
                                         });
                                     }
                                 })
                                 .catch((error) => {
+                                    document.body.removeChild(spinnerContainer); // Remove the spinner
                                     console.error("Error canceling appointment:", error);
-                                    alert(
-                                        "An error occurred while canceling the appointment."
-                                    );
+                                    alert("An error occurred while canceling the appointment.");
                                 });
                         }
                     });
+                    
                 });
             } else {
                 const noEventDiv = document.createElement("div");
@@ -414,56 +431,72 @@ function updateEvents(date) {
     });
 
     // Handle Reschedule Form Submission
-    document
-    .getElementById("reschedule-form")
-    .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const newDate = document.getElementById("newDate").value;
-        const startTime = document.getElementById("appointment-start-time").value;
-        const endTime = document.getElementById("appointment-end-time").value;
-        const appointmentId = this.dataset.appointmentId;
-
-        const requestData = {
-            new_date: newDate,
-            new_start_time: startTime,
-            new_end_time: endTime,
-            appointment_id: appointmentId,
-        };
-
-        const csrfToken = document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute('content');
-
-            fetch(`/reschedule-appointment/${appointmentId}`, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify(requestData),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                submitButton.disabled = false; // Re-enable the button
-            
-                if (data.success) {
-                    alert(data.message);
-                    document.getElementById("reschedule-modal").classList.add("hidden");
-                    location.reload(); // Refresh the page
-                } else {
-                    alert(data.message || "Error occurred.");
+    document.addEventListener("DOMContentLoaded", function () {
+        const rescheduleForm = document.getElementById("reschedule-form");
+    
+        if (rescheduleForm) {
+            rescheduleForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+    
+                // Check if a loader already exists to prevent duplicate loaders and submissions
+                if (document.querySelector(".loading")) {
+                    return;
                 }
-            })
-            .catch((error) => {
-                console.error("Error rescheduling appointment:", error);
-                submitButton.disabled = false; // Re-enable the button on error
+    
+                // Create and show the rescheduling loader inside the form
+                const rescheduleLoader = document.createElement("div");
+                rescheduleLoader.classList.add("loading");
+                rescheduleLoader.innerHTML = `
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text" style="color:black;">Rescheduling appointment... Please wait!</p>
+                `;
+                rescheduleForm.appendChild(rescheduleLoader); // Append the loader to the form
+    
+                const newDate = document.getElementById("newDate").value;
+                const startTime = document.getElementById("appointment-start-time").value;
+                const endTime = document.getElementById("appointment-end-time").value;
+                const appointmentId = this.dataset.appointmentId;
+    
+                const requestData = {
+                    new_date: newDate,
+                    new_start_time: startTime,
+                    new_end_time: endTime,
+                    appointment_id: appointmentId,
+                };
+    
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+                fetch(`/reschedule-appointment/${appointmentId}`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify(requestData),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Remove the loader
+                        rescheduleLoader.remove();
+    
+                        if (data.success) {
+                            alert(data.message);
+                            document.getElementById("reschedule-modal").classList.add("hidden");
+                            location.reload(); // Refresh the page
+                        } else {
+                            alert(data.message || "Error occurred.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error rescheduling appointment:", error);
+                        alert("An error occurred while rescheduling the appointment.");
+                        rescheduleLoader.remove(); // Remove loader on error
+                    });
             });
-                
-               
-           
+        }
     });
+    
 
 }
 
@@ -490,12 +523,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// function getActiveDay(date) {
-//     const day = new Date(year, month, date);
-//     const dayName = day.toString().split(" ")[0];
-//     eventDay.innerHTML = dayName;
-//     eventDate.innerHTML = `${date} ${months[month]} ${year}`;
-// }
 
 function getActiveDay(date) {
     // Ensure date is a number

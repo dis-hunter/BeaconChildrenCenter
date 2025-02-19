@@ -113,13 +113,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Show/Hide Add Event Form
     if (addEventBtn && addEventContainer && addEventCloseBtn) {
-        addEventBtn.addEventListener("click", () => {
-            addEventContainer.classList.toggle("active");
+        document.addEventListener("click", function (event) {
+            // Open the "Add Event" modal
+            if (event.target.classList.contains("add-event")) {
+                document.querySelector(".add-event-wrapper")?.classList.add("active");
+            }
+        
+            // Close the modal
+            if (event.target.classList.contains("close")) {
+                document.querySelector(".add-event-wrapper")?.classList.remove("active");
+            }
         });
-
-        addEventCloseBtn.addEventListener("click", () => {
-            addEventContainer.classList.remove("active");
-        });
+        
+        
     }
     
 
@@ -129,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedService = serviceDropdown.value;
 
             // Clear existing options
-            specialistDropdown.innerHTML = '<option value="">-- Select Specialist --</option>';
+            specialistDropdown.innerHTML = '<option value="" class= "dropper">-- Select Specialist --</option>';
 
             if (selectedService) {
                 fetch(`/api/specialists?service=${selectedService}`)
@@ -164,26 +170,37 @@ document.addEventListener("DOMContentLoaded", function () {
     addEventsSubmit?.addEventListener("click", function (event) {
         event.preventDefault();
     
-        // Get the selected checkbox by querying the checkbox with the class or id (specific to your case)
+        // Create a spinner container and append to body
+        const spinnerContainer = document.createElement("div");
+        spinnerContainer.classList.add("spinner-container");
+    
+        const spinner = document.createElement("div");
+        spinner.classList.add("l-spinner");
+    
+        // Add the text "Creating Appointment..."
+        const spinnerText = document.createElement("span");
+        spinnerText.textContent = "Creating Appointment...";
+        spinnerText.classList.add("spinner-text");
+    
+        spinnerContainer.appendChild(spinner);
+        spinnerContainer.appendChild(spinnerText);
+        document.body.appendChild(spinnerContainer); // Show the loader
+    
+        // Get the selected checkbox by querying the checkbox with the class or id
         const selectedChildCheckbox = document.querySelector('input[type="checkbox"]:checked[id^="child_id_"]');
-        
-        
-            const selectedChildId = selectedChildCheckbox.value; // This will get the child_id from the selected checkbox
-            console.log("Selected Child ID:", selectedChildId);
+        const selectedChildId = selectedChildCheckbox ? selectedChildCheckbox.value : null;
     
-            const request = {
-                appointment_title: document.getElementById("event_name")?.value || "",
-                staff_id: document.getElementById("specialist")?.value || "",
-                start_time: document.getElementById("event_time_from")?.value || "",
-                end_time: document.getElementById("event_time_end")?.value || "",
-                child_id: selectedChildId || "",  // Send the selected child_id here
-                appointment_date: formattedDate,
-                doctor_id: 2, // Example, adjust as needed
-                status: "pending",
-            };
-        
+        const request = {
+            appointment_title: document.getElementById("event_name")?.value || "",
+            staff_id: document.getElementById("specialist")?.value || "",
+            start_time: document.getElementById("event_time_from")?.value || "",
+            end_time: document.getElementById("event_time_end")?.value || "",
+            child_id: selectedChildId,
+            appointment_date: formattedDate,
+            doctor_id: 2, // Example, adjust as needed
+            status: "pending",
+        };
     
-        
         fetch("http://127.0.0.1:8000/appointments", {
             method: "POST",
             headers: {
@@ -195,33 +212,30 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then((response) => response.json())
             .then((data) => {
+                document.body.removeChild(spinnerContainer); // Remove the loader
                 if (data && data.success) {
-                    // Show success alert
                     alert("Appointment successfully created!");
                     addEventContainer.classList.remove("active");
-                    
-                    // Close the form
+    
                     const formModal = document.getElementById("form-modal");
                     if (formModal) {
                         formModal.style.display = "none"; // Hide the form/modal
                     }
-            
-                    // Refresh the appointments list
-                    location.reload(); // Reloads the current page
+    
+                    location.reload(); // Reload the page
                 } else {
-                    // Ensure the error message exists before showing it
-                    const errorMessage = data && data.message ? data.message : "An unknown error occurred"; // Fallback message
+                    const errorMessage = data && data.message ? data.message : "An unknown error occurred";
                     alert("Error: " + errorMessage);
-            
-                    // Optionally, keep the form open for corrections
                     console.error("Error:", errorMessage);
                 }
             })
             .catch((error) => {
-                // Handle network errors or unexpected issues
-                alert("An unexpected error occurred: " + error.message || error);
+                document.body.removeChild(spinnerContainer); // Remove the loader
+                alert("An unexpected error occurred: " + (error.message || error));
                 console.error("Error:", error);
             });
+    
+    
             
             console.log('request data',request);
         
@@ -239,3 +253,29 @@ if (csrfTokenMeta) {
 
     
     });
+
+    export function handleAddEventListeners() {
+        // Cache the wrapper for efficiency
+        const addEventWrapper = document.querySelector(".add-event-wrapper");
+    
+        if (!addEventWrapper) {
+            console.warn("Add Event wrapper not found!");
+            return;
+        }
+    
+        // Add click listeners for "Add Event" and "Close" buttons
+        document.addEventListener("click", function (event) {
+            // Open the Add Event modal
+            if (event.target.classList.contains("add-event")) {
+                console.log("Opening Add Event modal...");
+                addEventWrapper.classList.add("active");
+            }
+    
+            // Close the Add Event modal
+            if (event.target.classList.contains("close")) {
+                console.log("Closing Add Event modal...");
+                addEventWrapper.classList.remove("active");
+            }
+        });
+    }
+    

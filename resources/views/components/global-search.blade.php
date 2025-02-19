@@ -44,19 +44,19 @@
         </div>
         <!-- Search Results Dropdown -->
         <div x-show="query.length > 2" x-transition class="dropdown-menu show w-100 position-absolute mt-1"
-            style="z-index: 1050; max-height: 300px; min-height:40px; overflow-y: auto; background: white; border: 1px solid #ddd;">
-            
+            style="z-index: 1050; max-height: 300px; min-height:40px; overflow-y: auto; overflow-x: hidden; background: white; border: 1px solid #ddd;">
+
             <div class="row d-flex justify-content-center align-items-center">
-    
+
                 <div class="col-10">
                     <div class="loader" x-show="loading"></div>
                 </div>
-            
+
                 <div class="col-2 text-end">
                     <button type="button" class="btn-close" x-on:click="resetSearch()" style="z-index: 1051;"></button>
                 </div>
             </div>
-            
+
 
             <template x-if="results.guardians?.length">
                 <div>

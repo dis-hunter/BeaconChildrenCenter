@@ -186,6 +186,7 @@ function updateFinanceChart(period) {
         url: `/api/finance-data?period=${period}`,
         method: 'GET',
         success: function(data) {
+            console.log("API Response:", data);
             if (financeChartInstance) financeChartInstance.destroy(); // Destroy old chart
 
             const ctx = document.getElementById('financeChart').getContext('2d');
@@ -320,6 +321,24 @@ document.addEventListener('DOMContentLoaded', function () {
             const labels = data.map(item => item.visit_type);  // Visit type names
             const counts = data.map(item => item.visit_count);  // Visit counts
 
+            // Create an array of girly pastel colors for bars
+            const pastelColors = [
+                '#FAD0C9',  // Light Pink
+                '#F8BBD0',  // Lighter Pink
+                '#E1BEE7',  // Light Lilac
+                '#D1C4E9',  // Lavender
+                '#B3E5FC',  // Light Blue
+                '#FFCCBC',  // Light Peach
+                '#FFE0B2',  // Soft Yellow
+                '#FFABAB',  // Soft Red
+                '#FF80AB',  // Pastel Coral
+                '#FFECB3'   // Pastel Yellow
+            ];
+
+            // Generate random pastel colors for each bar
+            const backgroundColors = counts.map((_, index) => pastelColors[index % pastelColors.length]);
+            const borderColors = backgroundColors.map(color => shadeColor(color, -20)); // Darker shade for borders
+
             // Create the chart
             const ctx = document.getElementById('visitTypesChart').getContext('2d');
             new Chart(ctx, {
@@ -329,8 +348,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     datasets: [{
                         label: 'Visit Types Frequency',
                         data: counts,
-                        backgroundColor: '#36A2EB',
-                        borderColor: '#007BFF',
+                        backgroundColor: backgroundColors,  // Pastel colors for bars
+                        borderColor: borderColors,  // Darker border colors
                         borderWidth: 1
                     }]
                 },
@@ -358,6 +377,24 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching visit types data:', error);
         });
 });
+
+// Function to darken the color (used for border)
+function shadeColor(color, percent) {
+    let R = parseInt(color.substr(1, 2), 16);
+    let G = parseInt(color.substr(3, 2), 16);
+    let B = parseInt(color.substr(5, 2), 16);
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+    R = (R < 255) ? R : 255;
+    G = (G < 255) ? G : 255;
+    B = (B < 255) ? B : 255;
+    const RR = ((R.toString(16).length === 1) ? "0" : "") + R.toString(16);
+    const GG = ((G.toString(16).length === 1) ? "0" : "") + G.toString(16);
+    const BB = ((B.toString(16).length === 1) ? "0" : "") + B.toString(16);
+    return "#" + RR + GG + BB;
+}
+
 
 
 

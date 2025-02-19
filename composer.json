@@ -12,7 +12,7 @@
         "laravel/framework": "^11.0",
         "laravel/jetstream": "^5.0",
         "laravel/sanctum": "^4.0",
-        "laravel/scout": "^10.11",
+        "laravel/scout": "^10.13",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^3.4",
         "meilisearch/meilisearch-php": "^1.13",
@@ -78,6 +78,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

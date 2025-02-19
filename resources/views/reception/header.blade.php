@@ -37,6 +37,13 @@
                     <span class="text">Appointments</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('leave2.request') }}" class="nav-link">
+                    <span class="icon">🏖️</span>
+                    <span class="text">leave request</span>
+                </a>
+            </li>
+
 
 
             <li class="nav-item">

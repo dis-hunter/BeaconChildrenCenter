@@ -6,16 +6,18 @@
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 </head>
 <body>
 
-  <header>
+@section('header_sidebar')  
+<header>
     <div class="profile">
       <i class="fas fa-user-md fa-4x"></i>
       <div>
         <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
-       
+        
       </div>
     </div>
     <div class="notifications">
@@ -26,6 +28,8 @@
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
+          <a href="#"  id="dropdown-profile-link">View Profile</a>
+          <a href="#">Settings</a>
           <a href="{{ route('profile.show') }}">View Profile</a>
           <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -37,8 +41,9 @@
   </header>
 
   <main>
+  @yield('content')
     <aside class="sidebar">
-      <nav>
+    <nav>
         <ul>
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> My Profile</a></li>
@@ -53,6 +58,7 @@
         </ul>
       </nav>
     </aside>
+    @show 
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
@@ -74,10 +80,6 @@
         </table>
         <ul id="patient-list"></ul>
       </div>
-      <div class="actions">
-        <!-- <button class="start-consult">Start Consultation</button> -->
-        <!-- <button class="view-schedule">View Schedule</button> -->
-      </div>
     </section>
 
     <section class="profile-content" id="profile-content" style="display: none;">
@@ -89,19 +91,11 @@
 
     <section class="content" id="booked-content" style="display: none;">
     <!-- This section will be populated with the doctor's booked appointments -->
-</section>
-
-
-
+    </section>
 
 
     <section class="content" id="therapist-content" style="display: none;">
-    <div id="therapist-content" style="display: none;">
-    <div id="therapy-appointments-table"></div>
-        
-    </div>
-
-
+   
     </section>
   
     
@@ -175,6 +169,13 @@
             console.error('Error fetching user specialization and doctor:', error);
         });
     }
+    
+    import { prevMonth, nextMonth } from '/public/js/calendar.js'; // Adjust the path if necessary
+
+// Ensure these buttons have the correct IDs or class names
+document.getElementById('prev-month-button').addEventListener('click', prevMonth);
+document.getElementById('next-month-button').addEventListener('click', nextMonth);
+
 </script>
 </body>
 </html>

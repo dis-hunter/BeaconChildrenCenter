@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
+class ComposerStaticInit53b0276a9aaeb345d64922532c237320
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -887,6 +887,7 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Http\\Controllers\\IcdSearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/IcdSearchController.php',
         'App\\Http\\Controllers\\InvestigationController' => __DIR__ . '/../..' . '/app/Http/Controllers/InvestigationController.php',
         'App\\Http\\Controllers\\InvoiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/InvoiceController.php',
+        'App\\Http\\Controllers\\LeaveController' => __DIR__ . '/../..' . '/app/Http/Controllers/LeaveController.php',
         'App\\Http\\Controllers\\MetricsController' => __DIR__ . '/../..' . '/app/Http/Controllers/MetricsController.php',
         'App\\Http\\Controllers\\MpesaController' => __DIR__ . '/../..' . '/app/Http/Controllers/MpesaController.php',
         'App\\Http\\Controllers\\ParentsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ParentsController.php',
@@ -944,7 +945,9 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Models\\Follow_Up' => __DIR__ . '/../..' . '/app/Models/Follow_Up.php',
         'App\\Models\\Gender' => __DIR__ . '/../..' . '/app/Models/Gender.php',
         'App\\Models\\Invoice' => __DIR__ . '/../..' . '/app/Models/Invoice.php',
+        'App\\Models\\LeaveType' => __DIR__ . '/../..' . '/app/Models/LeaveType.php',
         'App\\Models\\ParentModel' => __DIR__ . '/../..' . '/app/Models/ParentModel.php',
+        'App\\Models\\Parents' => __DIR__ . '/../..' . '/app/Models/Parents.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\Prescription' => __DIR__ . '/../..' . '/app/Models/Prescription.php',
         'App\\Models\\Referral' => __DIR__ . '/../..' . '/app/Models/Referral.php',
@@ -952,10 +955,12 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\Specialization' => __DIR__ . '/../..' . '/app/Models/Specialization.php',
         'App\\Models\\Staff' => __DIR__ . '/../..' . '/app/Models/Staff.php',
+        'App\\Models\\StaffLeave' => __DIR__ . '/../..' . '/app/Models/StaffLeave.php',
         'App\\Models\\Triage' => __DIR__ . '/../..' . '/app/Models/Triage.php',
         'App\\Models\\TriageAssessment' => __DIR__ . '/../..' . '/app/Models/TriageAssessment.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\VisitType' => __DIR__ . '/../..' . '/app/Models/VisitType.php',
+        'App\\Models\\Visits' => __DIR__ . '/../..' . '/app/Models/Visits.php',
         'App\\Models\\children' => __DIR__ . '/../..' . '/app/Models/children.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -10151,9 +10156,9 @@ class ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitb1138c900d019454d02a4f87f2ab2b56::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$classMap;
 
         }, null, ClassLoader::class);
     }
