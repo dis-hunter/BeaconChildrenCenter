@@ -11,7 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Model;
-
+use Filament\Notifications\Notification;
 class EditInvoices extends EditRecord
 {
     protected static string $resource = InvoicesResource::class;
@@ -71,8 +71,12 @@ class EditInvoices extends EditRecord
                 ->action(function () use ($invoice) {
                     $invoice->invoice_status = true;
                     $invoice->save();
-                    
-                    $this->notify('success', 'Invoice marked as paid successfully.');
+                   
+                    Notification::make()
+                        ->success()
+                        ->title('Invoice marked as paid successfully.')
+                        ->send();
+                        
                     return redirect()->to(static::getResource()::getUrl());
                 })
                 ->requiresConfirmation()
@@ -121,8 +125,12 @@ class EditInvoices extends EditRecord
                     $invoice->total_amount = $totalRemaining; // **Update total_amount**
                     $invoice->save();
                     
-                    $this->notify('success', 'Insurance amounts processed successfully. Total Remaining: Ksh' . number_format($totalRemaining, 2));
-                    return redirect()->to(static::getResource()::getUrl());
+                    Notification::make()
+                    ->success()
+                    ->title('Invoice marked as paid successfully.')
+                    ->send();
+                    
+                return redirect()->to(static::getResource()::getUrl());
                 })
                 ->requiresConfirmation()
                 ->modalHeading('Submit Insurance Amounts')
