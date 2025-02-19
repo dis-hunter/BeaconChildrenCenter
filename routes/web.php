@@ -31,6 +31,9 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PatientDemographicsController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DoctorsController;
+use App\Http\Controllers\TriageController;
+use App\Http\Controllers\IcdSearchController;
 
 
 
