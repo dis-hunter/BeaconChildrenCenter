@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->foreignId('gender_id')
                 ->constrained('gender','id')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->string('telephone');
             $table->string('email');
             $table->string('national_id')->unique();
@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('referer')->nullable();
             $table->foreignId('relationship_id')
                 ->constrained('relationships','id')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ npm-debug.log*
 yarn-error.log*
 
 # Laravel Directories
-vendor/
+vendor/*
 /vendor/
 .env
 .env.*.backup
@@ -42,3 +42,4 @@ Thumbs.db
 *.swp
 *.swo
 storage/logs/laravel.log
+public/hot

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('birth_cert')->unique();
             $table->foreignId('gender_id')
                 ->constrained('gender','id')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->string('registration_number')->unique();
             $table->timestamps();
         });
