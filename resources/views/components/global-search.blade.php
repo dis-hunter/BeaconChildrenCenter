@@ -1,9 +1,9 @@
-<script src="//unpkg.com/alpinejs" defer></script>
-
-<div x-data="{
+<div x-cloak="true"
+    x-data="{
     query: '',
     loading: false,
     results: { guardians: [], patients: [] },
+    searched: false,
 
     resetSearch() {
         this.query = '';
@@ -23,12 +23,12 @@
             url.searchParams.set('keyword', this.query);
             const response = await fetch(url);
             this.results = await response.json();
-            console.log(this.results);
         } catch (error) {
             console.error('Search Error:', error);
         }
 
         this.loading = false;
+        this.searched = true;
     }
 }" @click.away="resetSearch()" @keydown.escape.window="resetSearch()">
     <div class="position-relative">
@@ -90,6 +90,12 @@
                             </a>
                         </div>
                     </template>
+                </div>
+            </template>
+
+            <template x-if="results.guardians?.length == 0 && results.patients?.length == 0 && loading == false && searched == true">
+                <div class="dropdown-item">
+                    <span class="text-red-500">Whoops! <strong x-text="query"></strong> not found.</span>
                 </div>
             </template>
         </div>

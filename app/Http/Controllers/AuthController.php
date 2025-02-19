@@ -51,7 +51,7 @@ class AuthController extends Controller
 
         $reg = new RegistrationNumberManager('staff', 'staff_no');
         $staff_no = $reg->generateUniqueRegNumber();
-        
+
         $data['fullname'] = [
             'first_name' => $request->firstname,
             'middle_name' => $request->middlename,
@@ -69,7 +69,7 @@ class AuthController extends Controller
         }else{
             return redirect(route('register.post'))->with('error', 'Passwords do not match!')->withInput($request->except(['password','confirmpassword']));
         }
-        
+
         if (!$staff) {
             return redirect(route('register.post'))->with('error', 'Registration Failed. Try again later!')->withInput($request->except(['password', 'confirmpassword']));
         }
@@ -99,7 +99,7 @@ class AuthController extends Controller
 
     public function authenticated()
 {
-    
+
 
         switch (Auth::user()->role_id) {
             case 1:
@@ -126,6 +126,8 @@ class AuthController extends Controller
                 // break;
         }
     }
+
+
 
     public function therapist_redirect()
     {
@@ -185,13 +187,13 @@ class AuthController extends Controller
     {
         // Get the authenticated user's ID
         $userId = auth()->id(); // This will get the authenticated user's ID
-    
+
         // Get today's date
         $today = Carbon::today()->toDateString(); // 'YYYY-MM-DD'
-    
+
         // SQL query to join the 'appointments' and 'children' tables and retrieve the required data
         $appointments = DB::select(
-            'SELECT 
+            'SELECT
                 children.fullname->>\'first_name\' AS first_name,
                 children.fullname->>\'middle_name\' AS middle_name,
                 children.fullname->>\'last_name\' AS last_name,
@@ -203,21 +205,21 @@ class AuthController extends Controller
             JOIN children ON appointments.child_id = children.id
             LEFT JOIN child_parent ON children.id = child_parent.child_id
             LEFT JOIN parents ON child_parent.parent_id = parents.id
-            WHERE appointments.staff_id = ? 
+            WHERE appointments.staff_id = ?
             AND appointments.appointment_date = ?
             AND (appointments.status IS NULL OR appointments.status != \'rejected\')',
             [$userId, $today]
         );
-    
+
         // Optionally, combine the names in PHP
         foreach ($appointments as &$appointment) {
             $appointment->child_name = "{$appointment->first_name} {$appointment->middle_name} {$appointment->last_name}";
         }
-    
+
         // Return as JSON
         return response()->json($appointments);
     }
-    
+
     public function getUserSpecializationAndDoctor(Request $request)
 {
     // Ensure the user is authenticated
@@ -233,8 +235,8 @@ class AuthController extends Controller
         ->join('doctor_specializations', 'staff.specialization_id', '=', 'doctor_specializations.id')
         ->join('doctors', 'doctor_specializations.id', '=', 'doctors.specialization_id')
         ->where('staff.user_id', $userId)
-        ->select('doctor_specializations.id AS specialization_id', 'doctor_specializations.specialization', 
-                 'doctors.id AS doctor_id', 
+        ->select('doctor_specializations.id AS specialization_id', 'doctor_specializations.specialization',
+                 'doctors.id AS doctor_id',
                  DB::raw("CONCAT(doctors.fullname->>'first_name', ' ', doctors.fullname->>'middle_name', ' ', doctors.fullname->>'last_name') AS doctor_name"))
         ->first();
 
@@ -246,6 +248,6 @@ class AuthController extends Controller
     return response()->json($userDetails);
 }
 
-    
+
 
 }

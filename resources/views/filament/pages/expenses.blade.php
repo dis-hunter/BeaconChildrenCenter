@@ -152,25 +152,256 @@
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    let selectedCategory = '';
+    let selectedDescription = '';
+    let enteredFullName = '';
+    let Amount;
+    let PaymentMethod = '';
+
+    window.onload = function() {
         const expenseForm = document.getElementById("expense-form");
         setTimeout(() => {
-            expenseForm.classList.add("active");
+            expenseForm.classList.add('active');
         }, 10);
-    });
-
-    function showValues() {
-        const category = document.getElementById("expense-category").value;
-        const description = document.getElementById("expense-description").value;
-        const amount = document.getElementById("expense-amount").value;
-        const paymentMethod = document.getElementById("payment-method").value;
-
-        console.log("Category:", category);
-        console.log("Description:", description);
-        console.log("Amount:", amount);
-        console.log("Payment Method:", paymentMethod);
     }
-</script>
+
+    function updateExpenseDescriptions() {
+        const categorySelect = document.getElementById("expense-category");
+        const descriptionSelect = document.getElementById("expense-description");
+        const otherDescriptionInput = document.getElementById("other-description");
+        const fullNameContainer = document.getElementById("full-name-container") || createFullNameContainer();
+
+        selectedCategory = categorySelect.value;
+
+        descriptionSelect.innerHTML = '<option value="">Select Description</option>';
+        otherDescriptionInput.style.display = "none";
+
+        if (selectedCategory === "2") {
+            fullNameContainer.style.display = "block";
+            const fullNameInput = document.getElementById("full-name");
+            fullNameInput.required = true;
+        } else {
+            fullNameContainer.style.display = "none";
+            const fullNameInput = document.getElementById("full-name");
+            if (fullNameInput) {
+                fullNameInput.required = false;
+            }
+        }
+
+        let descriptions = [];
+        switch (selectedCategory) {
+            case "1":
+                descriptions = ["Rent", "Service Charge", "Other"];
+                break;
+            case "2":
+                descriptions = ["Doctor", "Nurse", "Nurse Aid", "Speech Therapist", "Occupational Therapist",
+                    "Physiotherapist", "Psychologist", "Nutritionist", "Therapy Assistant", "Accountant",
+                    "Administrator", "Receptionist", "Errand boy", "Cleaner", "Accountant", "Other"
+                ];
+                break;
+            case "3":
+                descriptions = ["KMPDB Annual retention(Dr Oringe)", "KMPBD clinic annual registration",
+                    "Association of Speech Therapists", "Physiotherapy Counsel of Kenya",
+                    "Kenya Occupational Therapy Assosciation", "Kenya Health Professionals Authority",
+                    "Medical Waste disposal", "Business Permit", "Public Health Lisence", "Single business permit",
+                    "Public health Permit", "Solid waste disposal", "Other"
+                ];
+                break;
+            case "4":
+                descriptions = ["Beacon facility indemnity", "Fire cover", " Buglary",
+                    "Professional indemnity(Dr.Oringe)", "Other"
+                ];
+                break;
+            case "5":
+                descriptions = ["Software development", "Hardware purchase", "Technical support",
+                    "Database hosting subscription", "Internet Service Providers", "Other"
+                ];
+                break;
+            case "6":
+                descriptions = ["Trainings", "Workshops/Seminars", "Journal subscriptions", "E-book subscriptions",
+                    "Conferences", "Newspapers/Editorials", "Other"
+                ];
+                break;
+            case "7":
+                descriptions = ["Online marketing", "Webinars", "Meeting costs", "Banners", "Marketing tools",
+                    "Branding", "Other"
+                ];
+                break;
+            case "8":
+                descriptions = ["Fuel costs", "Car Hire", "Uber/Bolt", "Rider charges", "Other"];
+                break;
+            case "9":
+                descriptions = ["Treadmill", "Standing bike", "Walking Frame", "Walking Support Bar", "Hammock swing",
+                    "Mini step", "Therapy balls", "Trampoline", "Play pen", "Filler balls", "Massager", "Play toys",
+                    "Weighted blanket", "Floor matts", "Gym matts", "Beam bag", "Therapy foam blocks",
+                    "Therapy mirrors", "Therapy boards", "Therapy music system", "Other"
+                ];
+                break;
+            case "10":
+                descriptions = ["Office Tables", "Chairs", "Cabinets", "Beds", "Steps", "Other"];
+                break;
+            case "11":
+                descriptions = ["Construction Work", "Plumbing repairs", "Electrical maintenance", "Painting work",
+                    "Welders", "Capentery works", "Security services", "Other"
+                ];
+                break;
+            case "12":
+                descriptions = ["Electricity bills", "Medical waste disposal", "Internet provider", "Online Marketing",
+                    "Photocopy/printing", "Airtime", "Deliveries", "Online Marketing", "Monthly staff meeting",
+                    "Other"
+                ];
+                break;
+            case "13":
+                descriptions = ["Gloves", "Sanitizers", "Bleach and detergents", "Wooden spatulas",
+                    "Sugar and tea/coffee", "Drinking mineral water", "Cleaning materials", "Stationary", "Other"
+                ];
+                break;
+            case "14":
+                descriptions = ["Conference attendance/CME", "Newspaper", "Journals and e-subscriptions",
+                    "Rider charges", "Fuel", "Other"
+                ];
+                break;
+            default:
+                break;
+        }
+
+        descriptions.forEach(description => {
+            const option = document.createElement("option");
+            option.value = description.toLowerCase();
+            option.text = description;
+            descriptionSelect.appendChild(option);
+        });
+
+        descriptionSelect.addEventListener("change", () => {
+            selectedDescription = descriptionSelect.value;
+            if (selectedDescription === "other") {
+                otherDescriptionInput.style.display = "block";
+                otherDescriptionInput.addEventListener("input", () => {
+                    selectedDescription = otherDescriptionInput.value;
+                });
+            } else {
+                otherDescriptionInput.style.display = "none";
+            }
+        });
+    }
+
+    function createFullNameContainer() {
+        const container = document.createElement("div");
+        container.id = "full-name-container";
+        container.style.display = "none";
+
+        const label = document.createElement("label");
+        label.htmlFor = "full-name";
+        label.textContent = "Full Name:";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = "full-name";
+        input.name = "full-name";
+        input.required = true;
+
+        input.addEventListener("input", () => {
+            enteredFullName = input.value;
+        });
+
+        container.appendChild(label);
+        container.appendChild(input);
+
+        const expenseDescription = document.getElementById("expense-description");
+        expenseDescription.parentNode.insertBefore(container, expenseDescription.nextSibling);
+
+        return container;
+    }
+
+    const categoryMapping = {
+        "1": "Rent and service charge",
+        "2": "Salaries/wages",
+        "3": "Licences and permits",
+        "4": "Insurance",
+        "5": "ICT needs",
+        "6": "Continuous Professional Development",
+        "7": "Marketing and Advertising",
+        "8": "Transport and Delivery",
+        "9": "Therapy Equipment",
+        "10": "Furniture",
+        "11": "Office repairs and maintenance",
+        "12": "Monthly utility bills",
+        "13": "Consumables",
+        "14": "Other charges"
+    };
+
+    async function showValues() {
+    // Get the submit button
+    const submitButton = document.querySelector('button[onclick*="showValues"]');
+    
+    // Disable the button and change appearance
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.style.backgroundColor = '#888888'; // Change to gray color
+        submitButton.style.cursor = 'not-allowed';
+        submitButton.textContent = 'Processing...'; // Optional: change text to show it's processing
+    }
+    
+    // Show loader
+    const loaderOverlay = document.querySelector('.loader-overlay');
+    loaderOverlay.classList.add('loader-active');
+    const Amount = document.getElementById("expense-amount").value;
+    const PaymentMethod = document.getElementById("payment-method").value;
+    const categoryName = categoryMapping[selectedCategory] || selectedCategory;
+    try {
+        const response = await fetch('/AddExpense', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                    'content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                category: categoryName,
+                description: selectedDescription,
+                fullname: enteredFullName,
+                amount: Amount,
+                payment_method: PaymentMethod
+            })
+        });
+        const result = await response.json();
+        if (response.ok && result.status === 'success') {
+            // Optional: Show success state before redirect
+            if (submitButton) {
+                submitButton.style.backgroundColor = '#4CAF50'; // Green for success
+                submitButton.textContent = 'Success!';
+            }
+            
+            alert(result.message);
+            // Hide loader
+            loaderOverlay.classList.remove('loader-active');
+            // Refresh the page
+            window.location.reload();
+        } else {
+            throw new Error(result.message || 'Failed to save notes');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+        // Hide loader in case of error
+        loaderOverlay.classList.remove('loader-active');
+        
+        // Reset button style and re-enable it in case of error
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.style.backgroundColor = ''; // Reset to default color
+            submitButton.style.cursor = 'pointer';
+            submitButton.textContent = 'Add Expense'; // Reset text
+        }
+    }
+}
+
+    // Optional: Add theme toggle functionality
+    document.getElementById('theme-toggle')?.addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+    });
+    </script>
 
         </div> <!-- End Root Element -->
 </x-filament::page>

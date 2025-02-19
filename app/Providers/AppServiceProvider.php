@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Auth\CachedEloquentUserProvider;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -38,20 +40,24 @@ class AppServiceProvider extends ServiceProvider
                 ->symbols()
                 ->uncompromised();
         });
-        
-        
 
-        DB::listen(function ($query){
-            Log::info($query->sql);
+        auth()->provider('cachedEloquent', function (Application $application, array $config){
+            return new CachedEloquentUserProvider($application['hash'], $config['model']);
         });
-        View::share('doctorSpecializations', DoctorSpecialization::all());
 
 
-        // Share leave types with all views
-        $leaveTypes = LeaveType::all(); // Retrieve all leave types
-        
-        // Share the leaveTypes variable globally
-        View::share('leaveTypes', $leaveTypes);
+
+//        DB::listen(function ($query){
+//            Log::info($query->sql);
+//        });
+//        View::share('doctorSpecializations', DoctorSpecialization::all());
+//
+//
+//        // Share leave types with all views
+//        $leaveTypes = LeaveType::all(); // Retrieve all leave types
+//
+//        // Share the leaveTypes variable globally
+//        View::share('leaveTypes', $leaveTypes);
 
     }
 }
