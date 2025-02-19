@@ -28,6 +28,9 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PatientDemographicsController;
+use App\Http\Controllers\ReportController;
 
 
 
@@ -46,24 +49,10 @@ Route::get('/leave-form-data', [LeaveController::class, 'getLeaveFormData']);
 Route::get('/admin/leave-requests', [LeaveController::class, 'adminLeaveRequests'])->name('admin.leaveRequests');
 Route::post('/admin/leave-requests/{id}/update', [LeaveController::class, 'updateLeaveStatus'])->name('admin.updateLeaveStatus');
 Route::get('/leave/requests', [LeaveController::class, 'showUserLeaves'])->name('leave.requests');
-
 Route::get('/reception/requests', [LeaveController::class, 'create2'])->name('leave2.request');
 
-//Therapist Routes
 
 Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Display the doctor form once the add doctor button is clicked
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 // Home Route
 Route::get('/', function () {
@@ -231,31 +220,62 @@ Route::group(['middleware' => 'auth'], function () {
     
     //ADMIN
     Route::group(['middleware' => 'role:4'], function () {
-        Route::controller(PatientDemographicsController::class)->group(function () {
-            Route::get('/patient-demographics', 'getDemographicsData')->name('demographics.data');
-        });
-        Route::controller(ExpensesController::class)->group(function () {
-            Route::post('/AddExpense', 'saveExpenses');
-        });
-        Route::controller(DiagnosisController::class)->group(function () {
-            Route::get('/disease-statistics', 'getDiseaseStatistics')->name('disease.statistics');
-        });
-        Route::controller(ReportController::class)->group(function () {
-            Route::post('/generate-encounter-summary', 'generateEncounterSummary');
-            Route::post('/generate-staff-performance', 'generateStaffPerformance');
-            Route::post('/revenue-breakdown', 'revenueBreakdown')->name('revenue.breakdown');
-        });
-        Route::controller(RevenueReportController::class)->group(function () {
-            Route::post('/generate-report', 'generate')->name('generate.report');
-            Route::post('/generate-revenue-report', 'generateRevenueReport')->name('generate.revenue.report');
-            Route::get('/analytics', 'showAnalytics')->name('analytics');
-        });
-        Route::controller(MetricsController::class)->group(function () {
-            Route::get('/key-metrics', 'keyMetrics')->name('key.metrics');
-            Route::get('/age-distribution', 'ageDistribution')->name('age.distribution');
-        });
+        // Route::controller(PatientDemographicsController::class)->group(function () {
+        //     Route::get('/patient-demographics', 'getDemographicsData')->name('demographics.data');
+        // });
+        // Route::controller(ExpensesController::class)->group(function () {
+        //     Route::post('/AddExpense', 'saveExpenses');
+        // });
+        // Route::controller(DiagnosisController::class)->group(function () {
+        //     Route::get('/disease-statistics', 'getDiseaseStatistics')->name('disease.statistics');
+        // });
+        // Route::controller(ReportController::class)->group(function () {
+        //     Route::post('/generate-encounter-summary', 'generateEncounterSummary');
+        //     Route::post('/generate-staff-performance', 'generateStaffPerformance');
+        //     Route::post('/revenue-breakdown', 'revenueBreakdown')->name('revenue.breakdown');
+        // });
+        // Route::controller(RevenueReportController::class)->group(function () {
+        //     Route::post('/generate-report', 'generate')->name('generate.report');
+        //     Route::post('/generate-revenue-report', 'generateRevenueReport')->name('generate.revenue.report');
+        //     Route::get('/analytics', 'showAnalytics')->name('analytics');
+        // });
+        // Route::controller(MetricsController::class)->group(function () {
+        //     Route::get('/key-metrics', 'keyMetrics')->name('key.metrics');
+        //     Route::get('/age-distribution', 'ageDistribution')->name('age.distribution');
+        // });
     });
 });
+
+
+//This is temporary before admin auth is implemented
+Route::controller(PatientDemographicsController::class)->group(function () {
+    Route::get('/patient-demographics', 'getDemographicsData')->name('demographics.data');
+});
+Route::controller(ExpensesController::class)->group(function () {
+    Route::post('/AddExpense', 'saveExpenses');
+});
+Route::controller(DiagnosisController::class)->group(function () {
+    Route::get('/disease-statistics', 'getDiseaseStatistics')->name('disease.statistics');
+});
+Route::controller(ReportController::class)->group(function () {
+    Route::post('/generate-encounter-summary', 'generateEncounterSummary');
+    Route::post('/generate-staff-performance', 'generateStaffPerformance');
+    Route::post('/revenue-breakdown', 'revenueBreakdown')->name('revenue.breakdown');
+});
+Route::controller(RevenueReportController::class)->group(function () {
+    Route::post('/generate-report', 'generate')->name('generate.report');
+    Route::post('/generate-revenue-report', 'generateRevenueReport')->name('generate.revenue.report');
+    Route::get('/analytics', 'showAnalytics')->name('analytics');
+});
+Route::controller(MetricsController::class)->group(function () {
+    Route::get('/key-metrics', 'keyMetrics')->name('key.metrics');
+    Route::get('/age-distribution', 'ageDistribution')->name('age.distribution');
+});
+
+
+
+
+
 
 // Authentication Routes
 Route::controller(AuthController::class)->group(function () {

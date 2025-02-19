@@ -21,6 +21,13 @@
 }
 
     </style>
+   
+ <head>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+</head>
+
+
 <section class="bg-white p-6 rounded-lg shadow-md">
     <h1 style="color:black;" class="text-xl font-bold mb-2 text-black">Custom Report</h1>
     <p class="text-gray-600 mb-4 text-black">Select parameters to generate a custom report.</p>
@@ -178,10 +185,7 @@
 
 
 
-{{--@push('scripts')--}}
-{{--        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>--}}
-{{--        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>--}}
-{{--@endpush--}}
+
 
 
     <script>
