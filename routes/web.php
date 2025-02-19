@@ -283,12 +283,9 @@ Route::controller(MetricsController::class)->group(function () {
 
 // Authentication Routes
 Route::controller(AuthController::class)->group(function () {
-    Route::get('login', 'loginGet')->name('login');
-    Route::post('login', 'loginPost')->name('login.post');
-    Route::get('register', 'registerGet')->name('register');
-    Route::post('register', 'registerPost')->name('register.post');
-    Route::post('logout', 'logout')->name('logout');
+
     Route::get('/appointments/booked-patients', 'bookedPatients')->name('appointments.booked');
+
 });
 
 // Parent Routes
