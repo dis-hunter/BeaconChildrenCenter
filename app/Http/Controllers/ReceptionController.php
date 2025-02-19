@@ -73,22 +73,4 @@ class ReceptionController extends Controller
         return redirect()->route('patients.search', ['id' => $id]);
     }
 
-    public function search_engine(Request $request)
-    {
-        try {
-            $guardians = Parents::search($request->keyword)->get();
-            $children = children::search($request->keyword)->get();
-
-            return response()->json([
-                'guardians' => $guardians,
-                'patients' => $children
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Search failed',
-                'error' => $th->getMessage()
-            ], 500);
-        }
-    }
 }

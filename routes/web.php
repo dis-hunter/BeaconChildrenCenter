@@ -11,6 +11,7 @@ use App\Http\Controllers\DevelopmentAssessmentController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\docSpecController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TherapyController;
 use App\Models\Invoice;
@@ -67,14 +68,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:1'], function () {
         Route::controller(TriageController::class)->group(function () {
             Route::get('/untriaged-visits', 'getUntriagedVisits');
-            Route::post('/start-triage/{visitId}', 'startTriage'); 
-            Route::get('/post-triage-queue', 'getPostTriageQueue'); 
+            Route::post('/start-triage/{visitId}', 'startTriage');
+            Route::get('/post-triage-queue', 'getPostTriageQueue');
             Route::post('/triage', 'store');
             Route::get('/triage', 'create')->name('triage');
             Route::get('/triage-data/{child_id}', 'getTriageData');
         });
         Route::get('/get-patient-name/{childId}', [ChildrenController::class, 'getPatientName']);
-        Route::view('/post-triage', 'postTriageQueue'); 
+        Route::view('/post-triage', 'postTriageQueue');
         Route::view('/triageDashboard', 'triageDash')->name('triage.dashboard');
     });
 
@@ -197,11 +198,11 @@ Route::group(['middleware' => 'auth'], function () {
         });
         Route::controller(ReceptionController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('reception.dashboard');
-            Route::get('/reception/search', 'search_engine')->name('reception.search');
             Route::post('/finish-appointment/{id}', 'finishAppointment')->name('finish');
             Route::get('/visithandle/{id?}', 'search')->name('search.visit');
             Route::get('/reception/calendar', 'calendar')->name('reception.calendar');
         });
+        Route::get('/reception/search', [SearchController::class,'search'])->name('reception.search');
         Route::controller(ChildrenController::class)->group(function () {
             Route::get('/patients/{id?}', 'patientGet')->name('patients.search');
             Route::get('/guardians', 'get');
@@ -217,7 +218,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/invoice/{registrationNumber}', 'countVisitsForToday')->where('registrationNumber', '.*');
         });
     });
-    
+
     //ADMIN
     Route::group(['middleware' => 'role:4'], function () {
         // Route::controller(PatientDemographicsController::class)->group(function () {

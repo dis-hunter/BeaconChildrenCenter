@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Http\Responses\LoginResponse;
+use App\Observers\UserObserver;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,6 +18,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
 use function PHPUnit\Framework\returnSelf;
+
+#[ObservedBy(UserObserver::class)]
 
 class User extends Authenticatable implements HasName
 {
@@ -94,7 +98,7 @@ class User extends Authenticatable implements HasName
 
     public function specialization()
     {
-        return $this->belongsTo(Specialization::class); 
+        return $this->belongsTo(Specialization::class);
     }
 
     public function activeSession(){
@@ -119,7 +123,7 @@ class User extends Authenticatable implements HasName
 
         return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&color=FFFFFF&background=000000';
     }
-    
+
     public function getDashboardRoute(){
         return match($this->role_id){
             1 => 'triage.dashboard',
@@ -129,11 +133,11 @@ class User extends Authenticatable implements HasName
             default => RouteServiceProvider::HOME,
         };
     }
-    
+
     public function getTherapistRoute($specialization_id){
         return match($specialization_id){
             default => 'therapistsDashboard', // Now redirects therapists to this route
         };
     }
-    
+
 }

@@ -23,7 +23,6 @@
             url.searchParams.set('keyword', this.query);
             const response = await fetch(url);
             this.results = await response.json();
-            console.log(this.results);
         } catch (error) {
             console.error('Search Error:', error);
         }
