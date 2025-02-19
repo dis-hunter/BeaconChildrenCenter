@@ -42,3 +42,4 @@ Thumbs.db
 *.swp
 *.swo
 storage/logs/laravel.log
+public/hot
