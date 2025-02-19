@@ -43,11 +43,23 @@ class TherapistController extends Controller
     public function showDashboard()
     {
         $staff_id = auth()->user()->id;
+        $fullname = auth()->user()->fullname; // Fetch the fullname attribute
+
+        // Check if fullname is already an object
+        if (is_object($fullname)) {
+            $fullnameArray = (array) $fullname;
+        } else {
+            $fullnameArray = json_decode($fullname, true); // Decode the JSON string
+        }
+
+        // Concatenate the full name
+        $doctorName = trim($fullnameArray['first_name'] . ' ' . ($fullnameArray['middle_name'] ?? '') . ' ' . $fullnameArray['last_name']);
+
         $cacheKey = 'recent_visits_' . $staff_id; // Make cache key unique per doctor
-    
+
         // Attempt to retrieve visits from cache
         $visits = Cache::get($cacheKey);
-    
+
         if (!$visits) {
             // Fetch last 20 visits from the database
             $visits = DB::table('visits')
@@ -65,12 +77,11 @@ class TherapistController extends Controller
                 ->orderBy('visits.created_at', 'desc')
                 ->limit(20)
                 ->get();
-    
+
             // Store in cache for 60 minutes
             Cache::put($cacheKey, $visits, now()->addMinutes(60));
         }
-    
-        return view('therapists.therapistsDashboard', compact('visits'));
-    }
 
-}    
+        return view('therapists.therapistsDashboard', compact('visits', 'doctorName'));
+    }
+}
