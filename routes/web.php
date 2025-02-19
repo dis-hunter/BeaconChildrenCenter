@@ -35,6 +35,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\TriageController;
 use App\Http\Controllers\IcdSearchController;
+use App\Http\Controllers\MpesaController;
 
 
 
