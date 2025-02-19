@@ -18,17 +18,17 @@ return new class extends Migration
             $table->foreignId('visit_id')
                 ->nullable()
                 ->constrained('visits','id')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('child_id')
                 ->constrained('children','id')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('doctor_id')
                 ->nullable()
                 ->constrained('staff','id')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->json('data');
             $table->timestamps();
         });

@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('parent_id')
                 ->constrained('parents','id')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('child_id')
                 ->constrained('children','id')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
