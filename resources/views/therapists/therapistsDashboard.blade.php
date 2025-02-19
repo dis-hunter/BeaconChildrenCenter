@@ -87,6 +87,16 @@
             <span class="sidebar-text">Patients</span>
           </a>
         </li>
+        <!-- Logout Link -->
+             <li>
+               <a href="http://127.0.0.1:8000/login" 
+              class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
+              onclick="showLoader(event)">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+            </li>
+
       </ul>
     </div>
 
@@ -96,8 +106,7 @@
         <div class="flex justify-between items-center px-6 py-4">
           <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
           <div class="flex items-center gap-4">
-            <span class="text-gray-600">Welcome, Dr. [Name]</span>
-            <span id="current-date" class="text-gray-600"></span>
+          <span class="text-gray-600">Welcome, Dr. {{ $doctorName }}</span>            <span id="current-date" class="text-gray-600"></span>
             <button class="text-gray-600 hover:text-gray-800">
               <i class="fas fa-bell"></i>
             </button>
