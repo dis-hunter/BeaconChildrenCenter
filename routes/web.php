@@ -106,11 +106,11 @@ Route::group(['middleware' => 'auth'], function () {
         });
         Route::view('/psychotherapy_dashboard', 'therapists.psychotherapyDashboard');
         Route::view('/physiotherapy_dashboard', 'therapists.physiotherapyDashboard');
-        Route::view('/occupational_therapist', 'therapists.occupationalTherapist');
-        Route::view('/speech_therapist', 'therapists.speechTherapist');
-        Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');
-        Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist');
-        Route::view('/nutritionist', 'therapists.nutritionist');
+        Route::view('/occupational_therapist', 'therapists.occupationalTherapist')->name('occupational_therapist');
+        Route::view('/speech_therapist', 'therapists.speechTherapist')->name('speech_therapist');
+        Route::view('/physical_therapist', 'therapists.physiotherapyTherapist')->name('physical_therapist');
+        Route::view('/psychotherapy_therapist', 'therapists.psychotherapyTherapist')->name('psychotherapy_therapist');
+        Route::view('/nutritionist', 'therapists.nutritionist')->name('nutritionist');
         Route::view('/speechtherapy_dashboard', 'therapists.speechtherapyDashboard');
         Route::view('/nutritionist_dashboard', 'therapists.nutritionistDashboard');
         Route::view('/physical_therapist', 'therapists.physiotherapyTherapist');

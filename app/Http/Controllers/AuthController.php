@@ -126,7 +126,7 @@ class AuthController extends Controller
                 // break;
         }
     }
-
+]
     public function therapist_redirect()
     {
         switch (Auth::user()->specialization_id) {
