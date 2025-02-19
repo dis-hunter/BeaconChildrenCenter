@@ -4,8 +4,6 @@
   <title>Therapist Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
     .sidebar {
       width: 200px;
@@ -55,112 +53,7 @@
     .main-content.collapsed {
       margin-left: 60px;
     }
-
-    .close {
-    position: absolute; /* Position it relative to the modal */
-    top: 10px; /* Adjust this value to align properly */
-    right: 10px; /* Adjust this value to align properly */
-    cursor: pointer; /* Change cursor to indicate interactivity */
-    font-size: 18px; /* Size of the close icon */
-    color: #333; /* Default color for the icon */
-    transition: color 0.3s ease, transform 0.3s ease; /* Add hover and interaction effects */
-}
-
-.close:hover {
-    
-    transform: scale(1.2); /* Slightly enlarge the icon on hover */
-}
-
-
-    .cancel-btn,
-.reschedule-btn {
-    display: none;
-}
-
-/* Dropdown Styling */
-.dropdown-content {
-    display: none; /* Initially hidden */
-    position: absolute;
-    background-color: white; /* Background color */
-    color: black !important; /* Text color */
-    min-width: 150px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 12px 16px;
-    z-index: 1000;
-    border-radius: 6px;
-}
-
-.dropdown-content a {
-    color: black !important; /* Text color */
-    padding: 8px 12px;
-    text-decoration: none;
-    display: block;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-content a:last-child {
-    border-bottom: none;
-}
-
-.dropdown-content a:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
-}
-
-/* Show Dropdown on Hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Modal Styling */
-#reschedule-modal {
-    display: none; /* Initially hidden */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1100;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 90%;
-}
-
-#reschedule-modal .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: black;
-}
-
-.hidden {
-    display: none;
-}
-
-/* Overlay for Modal */
-.modal-overlay {
-    display: none; /* Initially hidden */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-form {
-  color:black !important;
-}
-.calendar-content{
-  margin-left : 100px !important;
-}
   </style>
-  
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
@@ -235,19 +128,10 @@ form {
         <!-- Calendar Section -->
         <div id="calendar" class="section hidden">
           <div class="bg-white rounded-lg shadow p-6">
-          @livewireScripts
             <div class="calendar-container"></div>
-
-            @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
-
-
-
-          <!--
             <div id="appointments-list" class="mt-6 hidden">
               <ul id="appointments-for-day" class="space-y-2"></ul>
             </div>
-
-            !--->
           </div>
         </div>
 
@@ -263,6 +147,8 @@ form {
               <th class="py-2 border">Child Name</th>
               <th class="py-2 border">Registration Number</th>
                 <th class="py-2 border">Visit Date/Time</th>
+                <th class="py-2 border">Completed</th>
+
               </tr>
             </thead>
             <tbody id="patient-table-body">
@@ -319,7 +205,7 @@ form {
       const now = new Date();
       currentDate.textContent = now.toLocaleString();
     }
-    /*
+
     function generateCalendar() {
       const calendarContainer = document.querySelector('.calendar-container');
       const today = new Date();
@@ -357,7 +243,7 @@ form {
       }
       tableHtml += '</tr></table>';
       calendarContainer.innerHTML = tableHtml;
-    }*/
+    }
 
     function showAppointments(date) {
       const appointmentsList = document.getElementById('appointments-for-day');
@@ -388,7 +274,7 @@ form {
     });
 }
 
-    function selectPatient(index) {
+function selectPatient(index) {
       const patientListItems = document.querySelectorAll('.patient-list li');
       patientListItems.forEach(item => item.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500'));
       patientListItems[index].classList.add('bg-blue-50', 'border-l-4', 'border-blue-500');
@@ -397,7 +283,7 @@ form {
 
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
-  alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
+  alert(`Selected Registration Number: ${registrationNumber}`);
   
   
   
@@ -405,8 +291,6 @@ function selectRegistrationNumber(registrationNumber, childId) {
 }
 
 async function startConsultation() {
-
-
   
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
@@ -542,6 +426,7 @@ async function startConsultation() {
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
+      <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
       <td class="py-2 border">
        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
@@ -569,20 +454,7 @@ async function startConsultation() {
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();
   });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const closeModalButton = document.getElementById('close-modal');
-    const modal = document.getElementById('add-event-wrapper');
-    const modalOverlay = document.querySelector('.modal-overlay');
-
-    const hideModal = () => {
-        modal.classList.add('hidden');
-        if (modalOverlay) modalOverlay.style.display = 'none';
-    };
-
-    closeModalButton.addEventListener('click', hideModal);
-});
-
 </script>
 </body>
 </html>
+<!-- therapistsDashboard.blade.php -->

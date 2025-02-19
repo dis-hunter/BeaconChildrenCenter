@@ -87,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/therapist', 'index')->name('therapist.index');
             Route::post('/therapist/save', 'saveAssessment');
             Route::get('/therapist/progress', 'getProgress')->name('therapist.progress');
-            Route::get('/therapist_dashboard', 'showDashboard');
+            Route::get('/therapist_dashboard', 'showDashboard')->name('therapistsDashboard');
             Route::get('/therapist/calendar', 'showTherapistDashboard')->name('therapist.calendar');
         });
         Route::controller(TherapyController::class)->group(function () {
