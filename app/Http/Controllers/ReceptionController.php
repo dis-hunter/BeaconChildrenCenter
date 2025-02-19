@@ -10,37 +10,53 @@ use App\Models\Parents;
 use App\Models\Specialization;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use stdClass;
 
 class ReceptionController extends Controller
 {
-    public function dashboard()
+    public function dashboard(): View
     {
-        $dashboard = new \stdClass();
+        // Initial load just returns the view with minimal data
+        return view('reception.dashboard');
+    }
 
-        // Fetch only today's appointments
-        $dashboard->appointments = appointments::whereDate('appointment_date', Carbon::today())->get();
+    public function getAppointmentStats(): JsonResponse
+    {
+        $appointmentStats = Appointments::whereDate('appointment_date', Carbon::today())
+            ->selectRaw("
+                COUNT(*) as total,
+                SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+                SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
+                SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
+                SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+            ")->first();
 
-        $appointmentStats = Appointments::whereDate('appointment_date', Carbon::today())->selectRaw("
-            COUNT (*) as total,
-            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
-            SUM(CASE WHEN status = 'ongoing' THEN 1 ELSE 0 END) as ongoing,
-            SUM(CASE WHEN status = 'success' THEN 1 ELSE 0 END) as success,
-            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
-        ")->first();
+        return response()->json([
+            'totalAppointments' => $appointmentStats->total ?? '-',
+            'ongoingAppointments' => $appointmentStats->ongoing ?? '-',
+            'pendingAppointments' => $appointmentStats->pending ?? '-',
+            'rejectedAppointments' => $appointmentStats->rejected ?? '-',
+            'successfulAppointments' => $appointmentStats->success ?? '-',
+        ]);
+    }
 
+    public function getTodayAppointments(): JsonResponse
+    {
+        $appointments = Appointments::whereDate('appointment_date', Carbon::today())->get();
 
-        $dashboard->totalAppointments = $appointmentStats->total ?? '-';
-        $dashboard->ongoingAppointments = $appointmentStats->ongoing ?? '-';
-        $dashboard->pendingAppointments = $appointmentStats->pending ?? '-';
-        $dashboard->rejectedAppointments = $appointmentStats->rejected ?? '-';
-        $dashboard->successfulAppointments = $appointmentStats->success ?? '-';
+        return response()->json([
+            'appointments' => $appointments
+        ]);
+    }
 
-        // Fetch active users
-        $dashboard->activeUsers = User::getActiveUsers();
-
-        return view('reception.dashboard', compact('dashboard'));
+    public function getActiveUsers() : JsonResponse
+    {
+        return response()->json([
+            'activeUsers' => User::getActiveUsers()
+        ]);
     }
 
     public function search($id = null)

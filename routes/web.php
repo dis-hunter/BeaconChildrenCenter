@@ -199,8 +199,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/receiptionist_dashboard', function () {
             return view('Receiptionist\Receiptionist_dashboard');
         });
+        Route::prefix('/dashboard')->group(function () {
+            Route::get('/', [ReceptionController::class, 'dashboard'])->name('reception.dashboard');
+            Route::get('/stats', [ReceptionController::class, 'getAppointmentStats'])->name('reception.dashboard.stats');
+            Route::get('/appointments', [ReceptionController::class, 'getTodayAppointments'])->name('reception.dashboard.appointments');
+            Route::get('/active-users', [ReceptionController::class, 'getActiveUsers'])->name('reception.dashboard.users');
+        });
         Route::controller(ReceptionController::class)->group(function () {
-            Route::get('/dashboard', 'dashboard')->name('reception.dashboard');
             Route::post('/finish-appointment/{id}', 'finishAppointment')->name('finish');
             Route::get('/visithandle/{id?}', 'search')->name('search.visit');
             Route::get('/reception/calendar', 'calendar')->name('reception.calendar');
