@@ -91,19 +91,11 @@
 
     <section class="content" id="booked-content" style="display: none;">
     <!-- This section will be populated with the doctor's booked appointments -->
-</section>
-
-
-
+    </section>
 
 
     <section class="content" id="therapist-content" style="display: none;">
-    <div id="therapist-content" style="display: none;">
-    <div id="therapy-appointments-table"></div>
-        
-    </div>
-
-
+   
     </section>
   
     
