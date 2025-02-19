@@ -85,35 +85,82 @@ class TherapyController extends Controller
     public function getChildDetails($registrationNumber)
 {
     try {
-        // Retrieve child by registration number
-        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+        // 1. Eager load the child with related data in fewer queries
+        $child = DB::table('children')
+            ->select('children.*', 'gender.gender')
+            ->leftJoin('gender', 'children.gender_id', '=', 'gender.id')
+            ->where('children.registration_number', $registrationNumber)
+            ->first();
+
         if (!$child) {
             return response()->json(['error' => 'Child not found'], 404);
         }
 
-        // Decode the fullname JSON for the child
-        $fullname = json_decode($child->fullname);
-        $firstName = $fullname->first_name ?? null;
-        $middleName = $fullname->middle_name ?? null;
-        $lastName = $fullname->last_name ?? null;
-
-        // Combine the child's names into a single string
-        $fullName = trim("{$firstName} {$middleName} {$lastName}");
-
-        // Get gender name
-        $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
-
-        // Get the staff details
+        // 2. Get staff details once
         $staff_id = auth()->user()->id;
-        $staff = DB::table('staff')->where('id', $staff_id)->first();
+        $staff = DB::table('staff')
+            ->where('id', $staff_id)
+            ->select('specialization_id')
+            ->first();
 
-        // Retrieve the latest visit for the child
-        $visit = DB::table('visits')->where('child_id', $child->id)->latest()->first();
+        // 3. Decode the fullname JSON for the child
+        $fullname = json_decode($child->fullname);
+        $fullName = trim(
+            ($fullname->first_name ?? '') . ' ' . 
+            ($fullname->middle_name ?? '') . ' ' . 
+            ($fullname->last_name ?? '')
+        );
+
+        // 4. Get visit in the same query as the parents (using subquery)
+        $visit = DB::table('visits')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
         if (!$visit) {
             return response()->json(['error' => 'No visit found for the child'], 404);
         }
 
-        // Define tables to fetch data from
+        // 5. Get all parents in a single query
+        $parents = DB::table('parents')
+            ->select('parents.*')
+            ->join('child_parent', 'parents.id', '=', 'child_parent.parent_id')
+            ->where('child_parent.child_id', $child->id)
+            ->get();
+
+        // Process parent data
+        $maleParentDetails = ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+        $femaleParentDetails = ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+        $preferNotToSayParentDetails = ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
+
+        foreach ($parents as $parent) {
+            $parentFullname = json_decode($parent->fullname);
+            $formattedName = trim(
+                ($parentFullname->first_name ?? '') . ' ' . 
+                ($parentFullname->middle_name ?? '') . ' ' . 
+                ($parentFullname->last_name ?? '')
+            );
+            
+            $parentDetails = [
+                'fullname' => $formattedName,
+                'telephone' => $parent->telephone ?? 'N/A',
+                'email' => $parent->email ?? 'N/A',
+            ];
+            
+            switch ($parent->gender_id) {
+                case 1: // Male
+                    $maleParentDetails = $parentDetails;
+                    break;
+                case 2: // Female
+                    $femaleParentDetails = $parentDetails;
+                    break;
+                case 3: // Prefer not to say
+                    $preferNotToSayParentDetails = $parentDetails;
+                    break;
+            }
+        }
+
+        // 6. Define tables to fetch data from
         $tables = [
             'triage',
             'development_milestones',
@@ -126,7 +173,6 @@ class TherapyController extends Controller
             'family_social_history',
             'diagnosis',
             'behaviour_assessment'
-            // Add other tables here as needed
         ];
 
         // Function to format data consistently
@@ -144,97 +190,57 @@ class TherapyController extends Controller
             return $formattedText . "\n";
         }
 
-        // Retrieve parent details based on gender
-        $parentIds = DB::table('child_parent')->where('child_id', $child->id)->pluck('parent_id');
-
-        $maleParent = DB::table('parents')
-            ->whereIn('id', $parentIds)
-            ->where('gender_id', 1) // Male
-            ->first();
-
-        $femaleParent = DB::table('parents')
-            ->whereIn('id', $parentIds)
-            ->where('gender_id', 2) // Female
-            ->first();
-
-        $preferNotToSayParent = DB::table('parents')
-            ->whereIn('id', $parentIds)
-            ->where('gender_id', 3) // Prefer not to say
-            ->first();
-
-        // Function to format parent's full name
-        function formatParentFullName($parent) {
-            if ($parent) {
-                $fullname = json_decode($parent->fullname);
-                return trim("{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}");
-            }
-            return 'N/A';
-        }
-
-        // Assign formatted full names for each parent
-        $maleParentDetails = $maleParent ? [
-            'fullname' => formatParentFullName($maleParent),
-            'telephone' => $maleParent->telephone ?? 'N/A',
-            'email' => $maleParent->email ?? 'N/A',
-        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
-
-        $femaleParentDetails = $femaleParent ? [
-            'fullname' => formatParentFullName($femaleParent),
-            'telephone' => $femaleParent->telephone ?? 'N/A',
-            'email' => $femaleParent->email ?? 'N/A',
-        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
-
-        $preferNotToSayParentDetails = $preferNotToSayParent ? [
-            'fullname' => formatParentFullName($preferNotToSayParent),
-            'telephone' => $preferNotToSayParent->telephone ?? 'N/A',
-            'email' => $preferNotToSayParent->email ?? 'N/A',
-        ] : ['fullname' => 'N/A', 'telephone' => 'N/A', 'email' => 'N/A'];
-
-        // Initialize doctor's notes
+        // 7. More efficient approach: Use a single chunked query to get data from all tables
         $doctorsNotes = "";
         
-        // Fetch and format data from each table
-        foreach ($tables as $table) {
-            $data = DB::table($table)
-                ->where('child_id', $child->id)
-                ->latest()
-                ->first();
+        // Chunk the tables to reduce query complexity
+        $tableChunks = array_chunk($tables, 3);
+        
+        foreach ($tableChunks as $tableChunk) {
+            $placeholders = implode(',', array_fill(0, count($tableChunk), '?'));
             
-            $sectionTitle = ucwords(str_replace('_', ' ', $table));
+            // Get the latest records for each table in this chunk
+            $records = DB::select("
+                SELECT t.table_name, t.data
+                FROM (
+                    SELECT 
+                        q.table_name,
+                        q.data,
+                        ROW_NUMBER() OVER (PARTITION BY q.table_name ORDER BY q.created_at DESC) as rn
+                    FROM (
+                        " . implode(' UNION ALL ', array_map(function($table) {
+                            return "SELECT '{$table}' as table_name, data, created_at FROM {$table} WHERE child_id = ?";
+                        }, $tableChunk)) . "
+                    ) q
+                ) t
+                WHERE t.rn = 1
+            ", array_merge(array_fill(0, count($tableChunk), $child->id)));
             
-            if ($data) {
-                $decodedData = json_decode($data->data);
-                $doctorsNotes .= formatDataSection($decodedData, $sectionTitle);
-            } else {
-                $doctorsNotes .= "{$sectionTitle}: No data available.\n\n";
+            // Process the results
+            $recordsByTable = [];
+            foreach ($records as $record) {
+                $recordsByTable[$record->table_name] = $record;
+            }
+            
+            // Generate the doctor's notes for this chunk
+            foreach ($tableChunk as $table) {
+                $sectionTitle = ucwords(str_replace('_', ' ', $table));
+                
+                if (isset($recordsByTable[$table])) {
+                    $decodedData = json_decode($recordsByTable[$table]->data);
+                    $doctorsNotes .= formatDataSection($decodedData, $sectionTitle);
+                } else {
+                    $doctorsNotes .= "{$sectionTitle}: No data available.\n\n";
+                }
             }
         }
 
-        // Return response for AJAX requests
-        if (request()->wantsJson() || request()->ajax()) {
-            return response()->json([
-                'child' => $child,
-                'child_id' => $child->id,
-                'fullName' => $fullName,
-                'gender' => $gender,
-                'parents' => [
-                    'maleParent' => $maleParentDetails,
-                    'femaleParent' => $femaleParentDetails,
-                    'preferNotToSayParent' => $preferNotToSayParentDetails,
-                ],
-                'doctorsNotes' => $doctorsNotes,
-                'staff_id' => auth()->user()->id,
-                
-                'specialization_id' => $staff->specialization_id
-            ]);
-        }
-
-        // Otherwise, return view
-        return view('therapists.occupationaltherapyDashboard', [
+        // Return response based on request type
+        $responseData = [
             'child' => $child,
             'child_id' => $child->id,
             'fullName' => $fullName,
-            'gender' => $gender,
+            'gender' => $child->gender,
             'parents' => [
                 'maleParent' => $maleParentDetails,
                 'femaleParent' => $femaleParentDetails,
@@ -242,7 +248,14 @@ class TherapyController extends Controller
             ],
             'doctorsNotes' => $doctorsNotes,
             'specialization_id' => $staff->specialization_id
-        ]);
+        ];
+
+        if (request()->wantsJson() || request()->ajax()) {
+            $responseData['staff_id'] = auth()->user()->id;
+            return response()->json($responseData);
+        }
+
+        return view('therapists.occupationaltherapyDashboard', $responseData);
     } catch (Exception $e) {
         return response()->json(['error' => $e->getMessage()], 500);
     }

@@ -12,10 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Builder;
-
+use Filament\Forms\Components\DatePicker;
 class InvoicesResource extends Resource
 {
     protected static ?string $model = Invoice::class;
@@ -86,10 +88,9 @@ class InvoicesResource extends Resource
 
                 BadgeColumn::make('invoice_status')
                     ->label('Invoice Status')
-                    ->enum([
-                        true => 'Paid',
-                        false => 'Pending',
-                    ])
+                    ->state(function ($record) {
+                        return $record->invoice_status ? 'Paid' : 'Pending';
+                    })
                     ->colors([
                         'success' => true,
                         'warning' => false,

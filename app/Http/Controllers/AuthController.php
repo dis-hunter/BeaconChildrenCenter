@@ -119,14 +119,14 @@ class AuthController extends Controller
                 // break;
 
             case 5:
-                return  redirect()->route('occupational_therapist');
+                return  redirect()->route('therapistsDashboard');
                 break;
             default:
                 // return redirect()->route('home');
                 // break;
         }
     }
-
+]
     public function therapist_redirect()
     {
         switch (Auth::user()->specialization_id) {
