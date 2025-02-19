@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit53b0276a9aaeb345d64922532c237320
+class ComposerStaticInitd3215109485c8fb73df21b01ad04aff3
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -800,6 +800,7 @@ class ComposerStaticInit53b0276a9aaeb345d64922532c237320
         'App\\Actions\\Fortify\\UpdateUserPassword' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserPassword.php',
         'App\\Actions\\Fortify\\UpdateUserProfileInformation' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserProfileInformation.php',
         'App\\Actions\\Jetstream\\DeleteUser' => __DIR__ . '/../..' . '/app/Actions/Jetstream/DeleteUser.php',
+        'App\\Auth\\CachedEloquentUserProvider' => __DIR__ . '/../..' . '/app/Auth/CachedEloquentUserProvider.php',
         'App\\Console\\Commands\\CleanOldSessions' => __DIR__ . '/../..' . '/app/Console/Commands/CleanOldSessions.php',
         'App\\Console\\Commands\\LogoutUser' => __DIR__ . '/../..' . '/app/Console/Commands/LogoutUser.php',
         'App\\Console\\Commands\\MakeService' => __DIR__ . '/../..' . '/app/Console/Commands/MakeService.php',
@@ -808,7 +809,6 @@ class ComposerStaticInit53b0276a9aaeb345d64922532c237320
         'App\\Events\\InvoicePaid' => __DIR__ . '/../..' . '/app/Events/InvoicePaid.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Filament\\Actions\\CustomViewAction' => __DIR__ . '/../..' . '/app/Filament/Actions/CustomViewAction.php',
-        'App\\Filament\\Pages\\AddInvoice' => __DIR__ . '/../..' . '/app/Filament/Pages/AddInvoice.php',
         'App\\Filament\\Pages\\Analytics' => __DIR__ . '/../..' . '/app/Filament/Pages/Analytics.php',
         'App\\Filament\\Pages\\Dashboard' => __DIR__ . '/../..' . '/app/Filament/Pages/Dashboard.php',
         'App\\Filament\\Pages\\Expenses' => __DIR__ . '/../..' . '/app/Filament/Pages/Expenses.php',
@@ -901,6 +901,7 @@ class ComposerStaticInit53b0276a9aaeb345d64922532c237320
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Controllers\\RescheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/RescheduleController.php',
         'App\\Http\\Controllers\\RevenueReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/RevenueReportController.php',
+        'App\\Http\\Controllers\\SearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/SearchController.php',
         'App\\Http\\Controllers\\SpecializationController' => __DIR__ . '/../..' . '/app/Http/Controllers/SpecializationController.php',
         'App\\Http\\Controllers\\StaffController' => __DIR__ . '/../..' . '/app/Http/Controllers/StaffController.php',
         'App\\Http\\Controllers\\TherapistController' => __DIR__ . '/../..' . '/app/Http/Controllers/TherapistController.php',
@@ -962,6 +963,7 @@ class ComposerStaticInit53b0276a9aaeb345d64922532c237320
         'App\\Models\\VisitType' => __DIR__ . '/../..' . '/app/Models/VisitType.php',
         'App\\Models\\Visits' => __DIR__ . '/../..' . '/app/Models/Visits.php',
         'App\\Models\\children' => __DIR__ . '/../..' . '/app/Models/children.php',
+        'App\\Observers\\UserObserver' => __DIR__ . '/../..' . '/app/Observers/UserObserver.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -2435,6 +2437,7 @@ class ComposerStaticInit53b0276a9aaeb345d64922532c237320
         'Filament\\Actions\\Exports\\Downloaders\\Contracts\\Downloader' => __DIR__ . '/..' . '/filament/actions/src/Exports/Downloaders/Contracts/Downloader.php',
         'Filament\\Actions\\Exports\\Downloaders\\CsvDownloader' => __DIR__ . '/..' . '/filament/actions/src/Exports/Downloaders/CsvDownloader.php',
         'Filament\\Actions\\Exports\\Downloaders\\XlsxDownloader' => __DIR__ . '/..' . '/filament/actions/src/Exports/Downloaders/XlsxDownloader.php',
+        'Filament\\Actions\\Exports\\Enums\\Contracts\\ExportFormat' => __DIR__ . '/..' . '/filament/actions/src/Exports/Enums/Contracts/ExportFormat.php',
         'Filament\\Actions\\Exports\\Enums\\ExportFormat' => __DIR__ . '/..' . '/filament/actions/src/Exports/Enums/ExportFormat.php',
         'Filament\\Actions\\Exports\\ExportColumn' => __DIR__ . '/..' . '/filament/actions/src/Exports/ExportColumn.php',
         'Filament\\Actions\\Exports\\Exporter' => __DIR__ . '/..' . '/filament/actions/src/Exports/Exporter.php',
@@ -10156,9 +10159,9 @@ class ComposerStaticInit53b0276a9aaeb345d64922532c237320
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit53b0276a9aaeb345d64922532c237320::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd3215109485c8fb73df21b01ad04aff3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd3215109485c8fb73df21b01ad04aff3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitd3215109485c8fb73df21b01ad04aff3::$classMap;
 
         }, null, ClassLoader::class);
     }
