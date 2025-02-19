@@ -1,3 +1,4 @@
+//import { updateEvents } from './calendar.js';
 document.addEventListener("DOMContentLoaded", function () {
     const addEventBtn = document.querySelector(".add-event");
     const addEventContainer = document.querySelector(".add-event-wrapper");
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookAppointmentBtn = document.getElementById("book-appointment");
 
     let formattedDate = ""; // Store the dynamically updated formatted date
+    
 
     // Function to update the formatted date when the event date changes
     function updateFormattedDate() {
@@ -166,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Specialist Dropdown Change Event
         specialistDropdown?.addEventListener("change", checkDoctorAvailability);
     }
+    
 
     addEventsSubmit?.addEventListener("click", function (event) {
         event.preventDefault();
@@ -200,6 +203,8 @@ document.addEventListener("DOMContentLoaded", function () {
             doctor_id: 2, // Example, adjust as needed
             status: "pending",
         };
+        
+
     
         fetch("http://127.0.0.1:8000/appointments", {
             method: "POST",
@@ -222,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         formModal.style.display = "none"; // Hide the form/modal
                     }
     
-                    location.reload(); // Reload the page
+                    window.updateEvents(request.appointment_date);
                 } else {
                     const errorMessage = data && data.message ? data.message : "An unknown error occurred";
                     alert("Error: " + errorMessage);

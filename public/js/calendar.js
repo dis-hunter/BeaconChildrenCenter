@@ -230,7 +230,8 @@ function updateEvents(date) {
 
     eventsContainer.innerHTML = events;
 }*/
-function updateEvents(date) {
+ // calendar.js
+ function updateEvents(date) {
     const eventsContainer = document.getElementById("events-container");
 
     // Clear the container to remove any previous events
@@ -499,6 +500,8 @@ function updateEvents(date) {
     
 
 }
+window.updateEvents = updateEvents;
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const openModalButton = document.getElementById("openModalButton"); // Button to open the modal
