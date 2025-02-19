@@ -99,14 +99,3 @@ function hideTodayBtn() {
 }
 
 renderCalendar();
-document.addEventListener('DOMContentLoaded', function() {
-  // Show loading spinner while waiting for dashboard data
-  let loadingElement = document.getElementById('loading');
-  loadingElement.style.display = 'block';
-
-  // Simulate loading delay (for example purposes)
-  setTimeout(function() {
-      // Hide loading spinner after "data is loaded"
-      loadingElement.style.display = 'none';
-  }, 2000); // Adjust the time for your actual AJAX call or data fetch duration
-});
