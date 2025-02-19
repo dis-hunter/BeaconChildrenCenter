@@ -3,16 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InvoicesResource\Pages;
-use App\Filament\Resources\InvoicesResource\RelationManagers;
 use App\Models\Invoice;
-use App\Models\Invoices;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class InvoicesResource extends Resource
 {
@@ -20,15 +22,20 @@ class InvoicesResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
-    public static function getNavigationGroup(): ?string{
-        return 'Finance';
-    }
+    protected static ?string $navigationGroup = 'Finance';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Textarea::make('invoice_details')
+                    ->label('Invoice Details')
+                    ->rows(5)
+                    ->required(),
+
+                DatePicker::make('invoice_date')
+                    ->label('Invoice Date')
+                    ->required(),
             ]);
     }
 
@@ -36,26 +43,148 @@ class InvoicesResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')
+                    ->label('Invoice ID')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('child_id')
+                    ->label('Child ID')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('child.fullname')
+                    ->label('Child Name')
+                    ->formatStateUsing(function ($state) {
+                        if (is_array($state)) {
+                            return implode(' ', array_values($state));
+                        }
+                        if (is_object($state)) {
+                            return implode(' ', array_values((array)$state));
+                        }
+                        try {
+                            $decoded = json_decode($state, true);
+                            if ($decoded && is_array($decoded)) {
+                                return implode(' ', array_values($decoded));
+                            }
+                        } catch (\Exception $e) {
+                            return 'N/A';
+                        }
+                        return $state ?? 'N/A';
+                    })
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('total_amount')
+                    ->label('Total Amount')
+                    ->sortable(),
+
+                TextColumn::make('invoice_date')
+                    ->label('Invoice Date')
+                    ->date()
+                    ->sortable(),
+
+                BadgeColumn::make('invoice_status')
+                    ->label('Invoice Status')
+                    ->enum([
+                        true => 'Paid',
+                        false => 'Pending',
+                    ])
+                    ->colors([
+                        'success' => true,
+                        'warning' => false,
+                    ])
+                    ->sortable()
             ])
             ->filters([
-                //
+                // Child ID Filter
+                Filter::make('child_id')
+                    ->form([
+                        TextInput::make('child_id')
+                            ->label('Child ID')
+                            ->numeric()
+                            ->placeholder('Enter Child ID'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['child_id'],
+                            fn (Builder $query, $value): Builder => $query->where('child_id', $value)
+                        );
+                    }),
+
+                // Invoice Status Filter
+                SelectFilter::make('invoice_status')
+                    ->label('Payment Status')
+                    ->options([
+                        '1' => 'Paid',
+                        '0' => 'Pending',
+                    ]),
+
+                // Price Range Filter
+                Filter::make('amount_range')
+                    ->form([
+                        TextInput::make('amount_from')
+                            ->label('Minimum Amount')
+                            ->numeric()
+                            ->placeholder('Min Amount'),
+                        TextInput::make('amount_to')
+                            ->label('Maximum Amount')
+                            ->numeric()
+                            ->placeholder('Max Amount'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['amount_from'],
+                                fn (Builder $query, $amount): Builder => $query->where('total_amount', '>=', $amount)
+                            )
+                            ->when(
+                                $data['amount_to'],
+                                fn (Builder $query, $amount): Builder => $query->where('total_amount', '<=', $amount)
+                            );
+                    }),
+
+                // Date Range Filter
+                Filter::make('invoice_date_range')
+                    ->form([
+                        DatePicker::make('date_from')
+                            ->label('From Date'),
+                        DatePicker::make('date_to')
+                            ->label('To Date'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '>=', $date)
+                            )
+                            ->when(
+                                $data['date_to'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '<=', $date)
+                            );
+                    }),
+
+                // Exact Date Filter
+                Filter::make('exact_date')
+                    ->form([
+                        DatePicker::make('date')
+                            ->label('Exact Date'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['date'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '=', $date)
+                        );
+                    }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make()->label('More Details'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-    
+
     public static function getPages(): array
     {
         return [
@@ -63,5 +192,5 @@ class InvoicesResource extends Resource
             'create' => Pages\CreateInvoices::route('/create'),
             'edit' => Pages\EditInvoices::route('/{record}/edit'),
         ];
-    }    
+    }
 }

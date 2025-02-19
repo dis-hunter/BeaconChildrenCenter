@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+
 
 class PatientDemographicsController extends Controller
 {
@@ -15,10 +16,18 @@ class PatientDemographicsController extends Controller
      */
     public function getDemographicsData()
     {
-        // Fetch all children records
-        $children = Children::all();
+        $cacheKey = 'patient_demographics_data'; // Set a cache key
 
-        // Initialize age groups
+        if (Cache::has($cacheKey)) {
+            $cachedData = Cache::get($cacheKey);
+           
+            return response()->json($cachedData);
+        }
+
+        // Use eager loading to prevent N+1 queries
+        $children = Children::with('gender')->get(['id', 'dob', 'gender_id']);
+
+        // Calculate age groups
         $ageGroups = [
             '0-5' => 0,
             '6-12' => 0,
@@ -26,10 +35,8 @@ class PatientDemographicsController extends Controller
             '19+' => 0,
         ];
 
-        // Calculate age groups
         foreach ($children as $child) {
             $age = Carbon::parse($child->dob)->age;
-
             if ($age <= 5) {
                 $ageGroups['0-5']++;
             } elseif ($age <= 12) {
@@ -41,41 +48,28 @@ class PatientDemographicsController extends Controller
             }
         }
 
-        // Log the age groups
-        Log::info('Age Groups Data:', $ageGroups);
+        // Use SQL aggregation instead of looping for gender distribution
+        $genderDistribution = Children::selectRaw('gender_id, COUNT(*) as count')
+            ->groupBy('gender_id')
+            ->pluck('count', 'gender_id');
 
-        // Initialize gender distribution
-        $genderDistribution = [
-            'Male' => 0,
-            'Female' => 0,
-            'Other' => 0,
+        // Convert gender IDs to labels
+        $formattedGenderDistribution = [
+            'Male' => $genderDistribution[1] ?? 0,
+            'Female' => $genderDistribution[2] ?? 0,
+            'Other' => $genderDistribution[3] ?? 0,
         ];
 
-        // Calculate gender distribution
-        foreach ($children as $child) {
-            $genderId = $child->gender->id;
-            switch ($genderId) {
-                case 1:
-                    $genderDistribution['Male']++;
-                    break;
-                case 2:
-                    $genderDistribution['Female']++;
-                    break;
-                case 3:
-                    $genderDistribution['Other']++;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // Log the gender distribution
-        Log::info('Gender Distribution Data:', $genderDistribution);
-
-        // Return data as JSON response
-        return response()->json([
+        // Prepare and cache data
+        $dataToCache = [
             'ageGroups' => $ageGroups,
-            'genderDistribution' => $genderDistribution,
-        ]);
+            'genderDistribution' => $formattedGenderDistribution,
+        ];
+
+       
+        Cache::put($cacheKey, $dataToCache, now()->addMinutes(60));
+
+        return response()->json($dataToCache);
     }
 }
+
