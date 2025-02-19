@@ -165,7 +165,7 @@ sidebarLinks.forEach(link => {
     dashboardContent.style.display = 'none';
     profileContent.style.display = 'none';
     bookedContent.style.display = 'none';
-    leaveContent.style.display = 'none';
+    // leaveContent.style.display = 'none';
     therapistContent.style.display = 'none';
     calendarContent.style.display = 'none';
 

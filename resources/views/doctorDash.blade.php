@@ -80,10 +80,6 @@
         </table>
         <ul id="patient-list"></ul>
       </div>
-      <div class="actions">
-        <!-- <button class="start-consult">Start Consultation</button> -->
-        <!-- <button class="view-schedule">View Schedule</button> -->
-      </div>
     </section>
 
     <section class="profile-content" id="profile-content" style="display: none;">

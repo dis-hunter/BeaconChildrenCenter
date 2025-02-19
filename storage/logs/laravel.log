@@ -5797,3 +5797,514 @@
 [2025-02-19 11:47:51] local.INFO: select * from "doctor_specialization"  
 [2025-02-19 11:47:54] local.INFO: select * from "leave_types"  
 [2025-02-19 11:47:54] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:47:57] local.INFO: select * from "leave_types"  
+[2025-02-19 11:47:59] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:48:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:10] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:12] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:48:20] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:22] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:22] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:24] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:48:24] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:25] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:48:26] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:48:27] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:48:27] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:48:32] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:32] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:35] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:35] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:36] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 11:48:36] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-19 11:48:37] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:48:41] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:43] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:45] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:48] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:48] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:50] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:48:50] local.INFO: select * from "leave_types"  
+[2025-02-19 11:48:51] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:48:52] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:48:53] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:48:58] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:48:58] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:49:00] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:01] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:01] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:49:02] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:49:02] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:49:03] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:49:03] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:49:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:49:10] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:10] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:49:13] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:15] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:49:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:49:26] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:28] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:49:36] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:49:39] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:41] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:49:49] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:49:52] local.INFO: select * from "leave_types"  
+[2025-02-19 11:49:54] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:50:02] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:05] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:06] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:50:09] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:12] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:13] local.INFO: select "children"."id", CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name, "children"."dob", CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name, "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text ILIKE ? or "parents"."fullname"::text ILIKE ?  
+[2025-02-19 11:50:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:17] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:17] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:19] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:50:19] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:27] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:30] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:32] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:50:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:43] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:45] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:50:46] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:49] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:49] local.INFO: Received specialization_id: 1  
+[2025-02-19 11:50:50] local.INFO: select "staff"."id", CONCAT(staff.fullname->>'first_name', ' ', staff.fullname->>'middle_name', ' ', staff.fullname->>'last_name') AS full_name from "staff" inner join "doctor_specialization" on "staff"."specialization_id" = "doctor_specialization"."id" where "doctor_specialization"."id" = ?  
+[2025-02-19 11:50:53] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:54] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:50:56] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:57] local.INFO: select * from "leave_types"  
+[2025-02-19 11:50:57] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:51:05] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:06] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:07] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:08] local.INFO: select count(*) as aggregate from "children" where "id" = ?  
+[2025-02-19 11:51:08] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:09] local.INFO: select count(*) as aggregate from "staff" where "id" = ?  
+[2025-02-19 11:51:10] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:51:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:17] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:18] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:21] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:23] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:51:31] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:32] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:34] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:35] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:36] local.INFO: select count(*) as aggregate from "children" where "id" = ?  
+[2025-02-19 11:51:36] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:51:37] local.INFO: select count(*) as aggregate from "staff" where "id" = ?  
+[2025-02-19 11:51:41] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:44] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:44] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:51:47] local.INFO: select * from "leave_types"  
+[2025-02-19 11:51:49] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:51:57] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:00] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:01] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:52:10] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:13] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:14] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:52:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:17] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:18] local.INFO: select count(*) as aggregate from "children" where "id" = ?  
+[2025-02-19 11:52:19] local.INFO: select count(*) as aggregate from "staff" where "id" = ?  
+[2025-02-19 11:52:20] local.INFO: select count(*) as aggregate from "appointments" where "staff_id" = ? and "appointment_date" = ?  
+[2025-02-19 11:52:21] local.INFO: select exists(select * from "appointments" where "staff_id" = ? and "appointment_date" = ? and "status" in (?, ?) and (("start_time" <= ? and "end_time" > ?) or ("start_time" < ? and "end_time" >= ?) or ("start_time" >= ? and "end_time" <= ?))) as "exists"  
+[2025-02-19 11:52:22] local.INFO: select exists(select * from "appointments" where "child_id" = ? and "appointment_date" = ? and "status" in (?, ?) and (("start_time" <= ? and "end_time" > ?) or ("start_time" < ? and "end_time" >= ?) or ("start_time" >= ? and "end_time" <= ?))) as "exists"  
+[2025-02-19 11:52:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:23] local.INFO: insert into "appointments" ("appointment_title", "appointment_date", "start_time", "end_time", "staff_id", "child_id", "status", "doctor_id", "updated_at", "created_at") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning "id"  
+[2025-02-19 11:52:25] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:27] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:52:27] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:30] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:37] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:38] local.INFO: select * from "leave_types"  
+d" = ? limit 1  
+[2025-02-19 11:52:39] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:52:40] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:52:40] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:52:40] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:52:45] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:47] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:48] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 11:52:48] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-02-19 11:52:48] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:51] local.INFO: select * from "leave_types"  
+[2025-02-19 11:52:52] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:52:53] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:52:55] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:00] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:01] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:02] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:03] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 11:53:03] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-02-19 11:53:04] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:05] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:53:08] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:11] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:16] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:17] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:18] local.INFO: select * from "leave_types"  
+eue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:53:19] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:53:20] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:53:21] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:53:26] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:26] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:28] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:29] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:53:29] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:30] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:53:31] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:53:31] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:53:31] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:53:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:37] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:38] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:41] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:41] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:42] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:53:44] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:45] local.INFO: select "children"."id", CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name, "children"."dob", CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name, "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text ILIKE ? or "parents"."fullname"::text ILIKE ?  
+[2025-02-19 11:53:49] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:51] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:53:52] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:53] local.INFO: select * from "leave_types"  
+[2025-02-19 11:53:55] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:54:04] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:07] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:08] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:54:09] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:09] local.INFO: Received specialization_id: 3  
+[2025-02-19 11:54:10] local.INFO: select "staff"."id", CONCAT(staff.fullname->>'first_name', ' ', staff.fullname->>'middle_name', ' ', staff.fullname->>'last_name') AS full_name from "staff" inner join "doctor_specialization" on "staff"."specialization_id" = "doctor_specialization"."id" where "doctor_specialization"."id" = ?  
+[2025-02-19 11:54:15] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:16] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:18] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:19] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:21] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:54:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:25] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:26] local.INFO: select count(*) as aggregate from "children" where "id" = ?  
+[2025-02-19 11:54:27] local.INFO: select count(*) as aggregate from "staff" where "id" = ?  
+[2025-02-19 11:54:28] local.INFO: select count(*) as aggregate from "appointments" where "staff_id" = ? and "appointment_date" = ?  
+[2025-02-19 11:54:29] local.INFO: select exists(select * from "appointments" where "staff_id" = ? and "appointment_date" = ? and "status" in (?, ?) and (("start_time" <= ? and "end_time" > ?) or ("start_time" < ? and "end_time" >= ?) or ("start_time" >= ? and "end_time" <= ?))) as "exists"  
+[2025-02-19 11:54:29] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:30] local.INFO: select exists(select * from "appointments" where "child_id" = ? and "appointment_date" = ? and "status" in (?, ?) and (("start_time" <= ? and "end_time" > ?) or ("start_time" < ? and "end_time" >= ?) or ("start_time" >= ? and "end_time" <= ?))) as "exists"  
+[2025-02-19 11:54:31] local.INFO: insert into "appointments" ("appointment_title", "appointment_date", "start_time", "end_time", "staff_id", "child_id", "status", "doctor_id", "updated_at", "created_at") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning "id"  
+[2025-02-19 11:54:32] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:34] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:54:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:37] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:42] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:42] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:45] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:45] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:46] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:54:47] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:54:47] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:54:48] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:54:48] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:54:52] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:55] local.INFO: select * from "leave_types"  
+[2025-02-19 11:54:55] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:54:56] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 11:54:56] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":75,"appointment_date":"2025-02-19","start_time":"12:50:00","end_time":"01:00:00","appointment_title":"Alice Appointment","status":"pending","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"last_name\": \"Johnson\", \"first_name\": \"Alice\", \"middle_name\": \"Wilson\"}","staff_name":"{\"first_name\":\"Speech\",\"middle_name\":\"Therapist\",\"last_name\":\"therapist\"}"},{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-02-19 11:54:58] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:00] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:55:00] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:03] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:08] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:10] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:11] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:11] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 11:55:11] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":75,"appointment_date":"2025-02-19","start_time":"12:50:00","end_time":"01:00:00","appointment_title":"Alice Appointment","status":"pending","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"last_name\": \"Johnson\", \"first_name\": \"Alice\", \"middle_name\": \"Wilson\"}","staff_name":"{\"first_name\":\"Speech\",\"middle_name\":\"Therapist\",\"last_name\":\"therapist\"}"},{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"}]}} 
+[2025-02-19 11:55:12] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:55:16] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:18] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:21] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:23] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:25] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:55:25] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:26] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:55:27] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:55:28] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:55:33] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:33] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:35] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:36] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:55:37] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:55:38] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:55:38] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:55:38] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:55:43] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:45] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:46] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:46] local.INFO: select "children"."id", CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name, "children"."dob", CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name, "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text ILIKE ? or "parents"."fullname"::text ILIKE ?  
+[2025-02-19 11:55:49] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:50] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:55:51] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:53] local.INFO: select * from "leave_types"  
+[2025-02-19 11:55:54] local.INFO: select "children"."id", CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name, "children"."dob", CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name, "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text ILIKE ? or "parents"."fullname"::text ILIKE ?  
+[2025-02-19 11:55:59] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:55:59] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:01] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:02] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:02] local.INFO: select "children"."id", CONCAT(children.fullname->>'first_name', ' ', children.fullname->>'last_name') as child_name, "children"."dob", CONCAT(parents.fullname->>'first_name', ' ', parents.fullname->>'last_name') as parent_name, "parents"."email", "parents"."telephone" from "children" inner join "child_parent" on "children"."id" = "child_parent"."child_id" inner join "parents" on "child_parent"."parent_id" = "parents"."id" where "children"."fullname"::text ILIKE ? or "parents"."fullname"::text ILIKE ?  
+[2025-02-19 11:56:03] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:56:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:10] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:12] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:15] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:16] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:56:17] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:21] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:24] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:24] local.INFO: Received specialization_id: 1  
+[2025-02-19 11:56:24] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:25] local.INFO: select "staff"."id", CONCAT(staff.fullname->>'first_name', ' ', staff.fullname->>'middle_name', ' ', staff.fullname->>'last_name') AS full_name from "staff" inner join "doctor_specialization" on "staff"."specialization_id" = "doctor_specialization"."id" where "doctor_specialization"."id" = ?  
+[2025-02-19 11:56:27] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:29] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:56:30] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:32] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:37] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:37] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:40] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:40] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:41] local.INFO: select count(*) as aggregate from "children" where "id" = ?  
+[2025-02-19 11:56:42] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:56:42] local.INFO: select count(*) as aggregate from "staff" where "id" = ?  
+[2025-02-19 11:56:43] local.INFO: select count(*) as aggregate from "appointments" where "staff_id" = ? and "appointment_date" = ?  
+[2025-02-19 11:56:43] local.INFO: select exists(select * from "appointments" where "staff_id" = ? and "appointment_date" = ? and "status" in (?, ?) and (("start_time" <= ? and "end_time" > ?) or ("start_time" < ? and "end_time" >= ?) or ("start_time" >= ? and "end_time" <= ?))) as "exists"  
+[2025-02-19 11:56:44] local.INFO: select exists(select * from "appointments" where "child_id" = ? and "appointment_date" = ? and "status" in (?, ?) and (("start_time" <= ? and "end_time" > ?) or ("start_time" < ? and "end_time" >= ?) or ("start_time" >= ? and "end_time" <= ?))) as "exists"  
+[2025-02-19 11:56:45] local.INFO: insert into "appointments" ("appointment_title", "appointment_date", "start_time", "end_time", "staff_id", "child_id", "status", "doctor_id", "updated_at", "created_at") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning "id"  
+[2025-02-19 11:56:50] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:50] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:56:53] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:53] local.INFO: select * from "leave_types"  
+[2025-02-19 11:56:54] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:56:57] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:00] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:01] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:57:02] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:57:03] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:57:03] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:57:03] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:06] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:07] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:57:07] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:10] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:11] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 11:57:11] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":75,"appointment_date":"2025-02-19","start_time":"12:50:00","end_time":"01:00:00","appointment_title":"Alice Appointment","status":"pending","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"last_name\": \"Johnson\", \"first_name\": \"Alice\", \"middle_name\": \"Wilson\"}","staff_name":"{\"first_name\":\"Speech\",\"middle_name\":\"Therapist\",\"last_name\":\"therapist\"}"},{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"},{"appointmentId":76,"appointment_date":"2025-02-19","start_time":"16:00:00","end_time":"17:00:00","appointment_title":"Chebet's Appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"last_name\": \"Comedian\", \"first_name\": \"Chebet\", \"middle_name\": \"Rono\"}","staff_name":"{\"first_name\":\"Emmanuel\",\"middle_name\":\"Magunga\",\"last_name\":\"Oringe\"}"}]}} 
+[2025-02-19 11:57:15] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:15] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:18] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:18] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:20] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:57:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:25] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:26] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:57:27] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:57:28] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:28] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:57:31] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:33] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:57:33] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:35] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:36] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:57:37] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:57:38] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:57:38] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 11:57:41] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:43] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:44] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:45] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:45] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:57:54] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:57:57] local.INFO: select * from "leave_types"  
+[2025-02-19 11:57:58] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:58:06] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:58:10] local.INFO: select * from "leave_types"  
+[2025-02-19 11:58:11] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:58:20] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:58:22] local.INFO: select * from "leave_types"  
+[2025-02-19 11:58:24] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:58:32] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:58:35] local.INFO: select * from "leave_types"  
+[2025-02-19 11:58:36] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:58:45] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:58:48] local.INFO: select * from "leave_types"  
+[2025-02-19 11:58:49] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:58:57] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:58:58] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:59:00] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:00] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:01] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:59:02] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:59:10] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:59:13] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:14] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:59:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:59:25] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:27] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:59:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:59:38] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:40] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:59:48] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:59:51] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 11:59:51] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:52] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 11:59:53] local.INFO: select * from "leave_types"  
+[2025-02-19 11:59:54] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 11:59:55] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 11:59:56] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 11:59:56] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 12:00:01] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:01] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:04] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:04] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:05] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 12:00:05] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":75,"appointment_date":"2025-02-19","start_time":"12:50:00","end_time":"01:00:00","appointment_title":"Alice Appointment","status":"pending","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"last_name\": \"Johnson\", \"first_name\": \"Alice\", \"middle_name\": \"Wilson\"}","staff_name":"{\"first_name\":\"Speech\",\"middle_name\":\"Therapist\",\"last_name\":\"therapist\"}"},{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"},{"appointmentId":76,"appointment_date":"2025-02-19","start_time":"16:00:00","end_time":"17:00:00","appointment_title":"Chebet's Appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"last_name\": \"Comedian\", \"first_name\": \"Chebet\", \"middle_name\": \"Rono\"}","staff_name":"{\"first_name\":\"Emmanuel\",\"middle_name\":\"Magunga\",\"last_name\":\"Oringe\"}"}]}} 
+[2025-02-19 12:00:05] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:00:09] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:12] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:17] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:17] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:18] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:00:19] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:20] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 12:00:21] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 12:00:22] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 12:00:26] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:27] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:29] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:30] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 12:00:31] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:00:31] local.INFO: SELECT 
+                children.fullname->>'first_name' AS first_name,
+                children.fullname->>'middle_name' AS middle_name,
+                children.fullname->>'last_name' AS last_name,
+                appointments.start_time,
+                appointments.end_time,
+                parents.email AS parent_email,
+                parents.telephone AS parent_telephone
+            FROM appointments
+            JOIN children ON appointments.child_id = children.id
+            LEFT JOIN child_parent ON children.id = child_parent.child_id
+            LEFT JOIN parents ON child_parent.parent_id = parents.id
+            WHERE appointments.staff_id = ? 
+            AND appointments.appointment_date = ?
+            AND (appointments.status IS NULL OR appointments.status != 'rejected')  
+[2025-02-19 12:00:36] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:38] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:39] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 12:00:39] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:40] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 12:00:41] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 12:00:41] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 12:00:42] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:44] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:00:46] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:48] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:52] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:53] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:00:55] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:55] local.INFO: select * from "leave_types"  
+[2025-02-19 12:00:57] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:01:00] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:03] local.INFO: select * from "leave_types"  
+[2025-02-19 12:01:04] local.INFO: select "id" from "doctor_specialization" where "specialization" in (?, ?, ?, ?, ?)  
+[2025-02-19 12:01:05] local.INFO: select "appointments"."id", TRIM(CONCAT(
+                COALESCE(children.fullname->>'first_name', ''), 
+                ' ', 
+                COALESCE(children.fullname->>'middle_name', ''), 
+                ' ', 
+                COALESCE(children.fullname->>'last_name', '')
+            )) AS child_name, "appointments"."doctor_id", "staff"."fullname" as "staff_name", "doctor_specialization"."specialization", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time" from "appointments" inner join "staff" on "appointments"."staff_id" = "staff"."id" inner join "doctor_specialization" on "staff"."specialization_id" = "doctor_specialization"."id" inner join "children" on "appointments"."child_id" = "children"."id" where "staff"."specialization_id" in (?, ?, ?, ?, ?) and "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 12:01:05] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:08] local.INFO: select * from "leave_types"  
+[2025-02-19 12:01:09] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:01:09] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:12] local.INFO: select * from "leave_types"  
+[2025-02-19 12:01:18] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:21] local.INFO: select * from "leave_types"  
+[2025-02-19 12:01:22] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:01:31] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:34] local.INFO: select * from "leave_types"  
+[2025-02-19 12:01:35] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:01:43] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:46] local.INFO: select * from "leave_types"  
+[2025-02-19 12:01:48] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:01:56] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:01:59] local.INFO: select * from "leave_types"  
+[2025-02-19 12:02:01] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:02:09] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:02:12] local.INFO: select * from "leave_types"  
+[2025-02-19 12:02:14] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:02:22] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:02:25] local.INFO: select * from "leave_types"  
+[2025-02-19 12:02:26] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:02:35] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:02:38] local.INFO: select * from "leave_types"  
+[2025-02-19 12:02:40] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:02:48] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:02:51] local.INFO: select * from "leave_types"  
+[2025-02-19 12:02:52] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:03:01] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:04] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:05] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:03:12] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:14] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:15] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:16] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 12:03:17] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:17] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 12:03:18] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 12:03:18] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-19 12:03:19] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:03:23] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:25] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:27] local.INFO: select "appointments"."id" as "appointmentId", "appointments"."appointment_date", "appointments"."start_time", "appointments"."end_time", "appointments"."appointment_title", "appointments"."status", "parents"."fullname" as "parent_name", "parents"."telephone" as "parent_phone", "parents"."email" as "parent_email", "children"."fullname" as "child_name", "staff"."fullname" as "staff_name" from "appointments" left join "child_parent" on "appointments"."child_id" = "child_parent"."child_id" left join "parents" on "child_parent"."parent_id" = "parents"."id" left join "staff" on "appointments"."staff_id" = "staff"."id" left join "children" on "appointments"."child_id" = "children"."id" where "appointments"."appointment_date" = ? and "appointments"."status" != ?  
+[2025-02-19 12:03:27] local.INFO: Fetched appointments for date: 2025-02-19 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":75,"appointment_date":"2025-02-19","start_time":"12:50:00","end_time":"01:00:00","appointment_title":"Alice Appointment","status":"pending","parent_name":"{\"first_name\":\"David\",\"middle_name\":\"Lee\",\"last_name\":\"Johnson\"}","parent_phone":"9876543210","parent_email":"david.johnson@example.com","child_name":"{\"last_name\": \"Johnson\", \"first_name\": \"Alice\", \"middle_name\": \"Wilson\"}","staff_name":"{\"first_name\":\"Speech\",\"middle_name\":\"Therapist\",\"last_name\":\"therapist\"}"},{"appointmentId":74,"appointment_date":"2025-02-19","start_time":"15:50:00","end_time":"13:50:00","appointment_title":"KDB Appointment","status":"pending","parent_name":"{\"first_name\":\"Kevin\",\"middle_name\":\"De\",\"last_name\":\"Bruyne\"}","parent_phone":"5454545454","parent_email":"kdb@gmail.com","child_name":"{\"last_name\": \"Ankara\", \"first_name\": \"KDB\", \"middle_name\": \"Junior\"}","staff_name":"{\"lastname\": \"Kipkemboi\", \"firstname\": \"Joy\", \"last_name\": \"Kipkemboi\", \"first_name\": \"Joy\", \"middlename\": \"Chepchumba\", \"middle_name\": \"Chepchumba\"}"},{"appointmentId":76,"appointment_date":"2025-02-19","start_time":"16:00:00","end_time":"17:00:00","appointment_title":"Chebet's Appointment","status":"pending","parent_name":"{\"first_name\":\"Mama\",\"middle_name\":\"Chebet\",\"last_name\":\"Rono\"}","parent_phone":"0712356048","parent_email":"mamachebet@gmail.com","child_name":"{\"last_name\": \"Comedian\", \"first_name\": \"Chebet\", \"middle_name\": \"Rono\"}","staff_name":"{\"first_name\":\"Emmanuel\",\"middle_name\":\"Magunga\",\"last_name\":\"Oringe\"}"}]}} 
+[2025-02-19 12:03:27] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:30] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:31] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:31] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:03:33] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:38] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:40] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:41] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:42] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 12:03:43] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:43] local.INFO: select * from "active_users" where "active_users"."staff_id" = ? and "active_users"."staff_id" is not null and ("staff_id" = ?) limit 1  
+[2025-02-19 12:03:44] local.INFO: update "active_users" set "last_activity" = ?, "updated_at" = ? where "id" = ?  
+[2025-02-19 12:03:44] local.INFO: select * from "jobs" where "queue" = ? and (("reserved_at" is null and "available_at" <= ?) or ("reserved_at" <= ?)) order by "id" asc limit 1 FOR UPDATE SKIP LOCKED  
+[2025-02-19 12:03:48] local.INFO: select * from "doctor_specialization"  
+[2025-02-19 12:03:50] local.INFO: select * from "leave_types"  
+[2025-02-19 12:03:51] local.INFO: select * from "staff" where "id" = ? limit 1  
+[2025-02-19 12:03:52] local.INFO: SELECT 
+                children.fullname->>'first_name' AS first_name,
+                children.fullname->>'middle_name' AS middle_name,
+                children.fullname->>'last_name' AS last_name,
+                appointments.start_time,
+                appointments.end_time,
+                parents.email AS parent_email,
+                parents.telephone AS parent_telephone
+            FROM appointments
+            JOIN children ON appointments.child_id = children.id
+            LEFT JOIN child_parent ON children.id = child_parent.child_id
+            LEFT JOIN parents ON child_parent.parent_id = parents.id
+            WHERE appointments.staff_id = ? 
+            AND appointments.appointment_date = ?
+            AND (appointments.status IS NULL OR appointments.status != 'rejected')  
+[2025-02-19 12:03:52] local.INFO: select * from "doctor_specialization"  
