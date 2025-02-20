@@ -9,13 +9,13 @@ use App\Models\Staff;
 use App\Models\Invoice;
 
 
+
 class ReportController extends Controller
 {
+   
+
     public function generateEncounterSummary(Request $request)
     {
-       
-      
-    
         // Validate incoming request
         $validated = $request->validate([
             'start_date' => 'required|date',
@@ -26,31 +26,36 @@ class ReportController extends Controller
         $startDate = $validated['start_date'];
         $endDate = $validated['end_date'];
     
-      
-       
-    
-        // Eager load child, staff, and invoice relationships, reducing query complexity
+        // Fetch visits within the date range
         $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
-            ->with(['child:id,fullname', 'staff:id,fullname'])  // No need to eager load invoice here, we handle it separately
+            ->with(['child:id,fullname', 'staff:id,fullname'])
             ->get();
     
-        // Process visits and format encounters data
-        $encounters = $visits->map(function ($visit) {
-            // Get the corresponding invoice based on child_id and visit_date
-            $invoice = Invoice::where('child_id', $visit->child_id)
-                ->where('invoice_date', $visit->visit_date)
-                ->first();
+        // Group invoices by child_id and date (without time)
+        $invoices = Invoice::whereBetween('invoice_date', [$startDate, $endDate])
+            ->get()
+            ->groupBy(function ($invoice) {
+                return $invoice->child_id . '_' . \Carbon\Carbon::parse($invoice->invoice_date)->toDateString();
+            });
     
-            // Format the encounter data
+    
+        // Process visits and match them to invoices
+        $encounters = $visits->map(function ($visit) use ($invoices) {
+            $visitDate = \Carbon\Carbon::parse($visit->visit_date)->toDateString();
+            $invoiceKey = $visit->child_id . '_' . $visitDate;
+    
+            // Find the invoice for this visit
+            $invoice = $invoices->get($invoiceKey)?->first();
+    
+    
             return [
-                'date' => $visit->visit_date,
+                'date' => $visitDate,
                 'child_name' => $this->formatChildFullname($visit->child->fullname ?? null),
                 'specialist_name' => $this->formatStaffFullname($visit->staff),
-                'invoice_id' => $invoice ? $invoice->id : 'N/A',  // If invoice exists, fetch its id; otherwise, return 'N/A'
+                'invoice_id' => $invoice ? $invoice->id : 'N/A',
             ];
-        })->toArray();  // Convert collection to array
+        })->toArray();
     
-        // Return the response with the encounters data
         return response()->json([
             'success' => true,
             'encounters' => $encounters,
@@ -58,6 +63,7 @@ class ReportController extends Controller
             'end_date' => $endDate,
         ]);
     }
+    
     
     
     // Helper method to format names, added check to ensure only strings are processed
