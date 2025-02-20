@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <label for="expense-amount">Amount:</label>
                             <div class="amount-input-wrapper">
-                                <span class="currency-symbol">$</span>
+                                <span class="currency-symbol">Ksh   </span>
                                 <input type="number" id="expense-amount" name="expense-amount" required>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
 
     .currency-symbol {
         position: absolute;
-        left: 1rem;
+        left: 0rem;
         top: 50%;
         transform: translateY(-50%);
         color: var(--text-primary);
