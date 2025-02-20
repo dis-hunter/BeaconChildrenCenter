@@ -7,6 +7,14 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
+  header{
+  width: 100vw;
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+   
     .sidebar {
       width: 200px;
       transition: width 0.3s ease;
@@ -228,6 +236,7 @@ align-items: flex-start; /* Align content to the top */
   z-index: 10; /* Ensure it appears above other elements */
 }
 
+
 /* Ensure the dashboard doesn't overlap with patients when both are visible */
 /* Enlarge dashboard cards */
 #dashboard > div {
@@ -388,18 +397,17 @@ align-items: flex-start; /* Align content to the top */
     </div>
 
     <div id="main-content" class="main-content flex-1">
-  <header class="bg-white shadow">
-    <div class="flex justify-between items-center px-6 py-4">
-      <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-      <div class="flex items-center gap-4">
-        <span class="text-gray-600">Welcome, Dr. [Name]</span>
-        <span id="current-date" class="text-gray-600"></span>
-        <button class="text-gray-600 hover:text-gray-800">
-          <i class="fas fa-bell"></i>
-        </button>
-      </div>
-    </div>
-  </header>
+    <header class="bg-white shadow">
+        <div class="flex justify-between items-center px-6 py-4">
+          <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+          <div class="flex items-center gap-4">
+          <span class="text-gray-600">Welcome, Dr. {{ $doctorName }}</span>            <span id="current-date" class="text-gray-600"></span>
+            <button class="text-gray-600 hover:text-gray-800">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
+        </div>
+      </header>
 
   <main class="p-6">
    <!-- Dashboard Section -->
@@ -822,6 +830,18 @@ window.addEventListener("load", function () {
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();
   });
+</script>
+<script>
+  function updateDateTime() {
+  const now = new Date();
+  const currentDate = document.getElementById('current-date');
+  currentDate.textContent = now.toLocaleString();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+});
 </script>
 
 
