@@ -74,7 +74,7 @@ class VisitController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
+            Cache::forget('recent_visits_' . $validatedData['doctor_id']);
             return response()->json(['status' => 'success', 'data' => 'yes'], 201);
     
             return response()->json(['status' => 'success', 'message' => 'Appointment created successfully'], 201);
