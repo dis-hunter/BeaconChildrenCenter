@@ -23,6 +23,9 @@ WORKDIR /var/www
 # Copy Laravel app
 COPY . .
 
+# Point Apache to Laravel's public directory
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/public|' /etc/apache2/sites-available/000-default.conf
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
