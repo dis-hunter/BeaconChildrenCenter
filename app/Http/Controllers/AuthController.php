@@ -125,7 +125,9 @@ class AuthController extends Controller
                 // return redirect()->route('home');
                 // break;
         }
-}
+    }
+
+
 
     public function therapist_redirect()
     {

@@ -15,6 +15,10 @@ let activeDay;
 let month = today.getMonth();
 let year = today.getFullYear();
 
+window.month = new Date().getMonth();
+window.year = new Date().getFullYear();
+window.today = new Date();
+
 const months = [
     "January",
     "February",
@@ -49,7 +53,7 @@ const eventsArr = [
     },
 ];
 
-function initCalendar() {
+window.initCalendar = function () {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const prevLastDay = new Date(year, month, 0);
@@ -113,28 +117,50 @@ function initCalendar() {
     addlistener();
 }
 
-// Navigation
-function prevMonth() {
+document.addEventListener("DOMContentLoaded", function () {
+    // Select buttons by class name
+    const prevButton = document.querySelector(".prev");
+    const nextButton = document.querySelector(".next");
+  
+    // Add event listeners if buttons exist and functions are available
+    if (prevButton && typeof window.prevMonth === "function") {
+      prevButton.addEventListener("click", window.prevMonth);
+    }
+  
+    if (nextButton && typeof window.nextMonth === "function") {
+      nextButton.addEventListener("click", window.nextMonth);
+    }
+  
+    // Logging to verify button selection and event attachment
+    console.log("Prev button:", prevButton);
+    console.log("Next button:", nextButton);
+  });
+  
+  // Define the window functions for navigation
+  window.prevMonth = function () {
+    console.log("Previous month clicked");
     month--;
     if (month < 0) {
         month = 11;
         year--;
     }
-    initCalendar();
-}
-
-function nextMonth() {
+    
+    initCalendar(); // Ensure this function updates the calendar
+  };
+  
+  window.nextMonth = function () {
+    console.log("Next month clicked");
     month++;
     if (month > 11) {
         month = 0;
         year++;
     }
-    initCalendar();
-}
 
-// Event Listeners
-prev.addEventListener("click", prevMonth);
-next.addEventListener("click", nextMonth);
+     
+    initCalendar(); // Ensure this function updates the calendar
+  };
+  
+
 
 
 
@@ -230,7 +256,8 @@ function updateEvents(date) {
 
     eventsContainer.innerHTML = events;
 }*/
-function updateEvents(date) {
+ // calendar.js
+ function updateEvents(date) {
     const eventsContainer = document.getElementById("events-container");
 
     // Clear the container to remove any previous events
@@ -499,6 +526,8 @@ function updateEvents(date) {
     
 
 }
+window.updateEvents = updateEvents;
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const openModalButton = document.getElementById("openModalButton"); // Button to open the modal

@@ -4,6 +4,8 @@
   <title>Therapist Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
     .sidebar {
       width: 200px;
@@ -53,7 +55,292 @@
     .main-content.collapsed {
       margin-left: 60px;
     }
+
+    .close {
+    position: absolute; /* Position it relative to the modal */
+    top: 10px; /* Adjust this value to align properly */
+    right: 10px; /* Adjust this value to align properly */
+    cursor: pointer; /* Change cursor to indicate interactivity */
+    font-size: 18px; /* Size of the close icon */
+    color: #333; /* Default color for the icon */
+    transition: color 0.3s ease, transform 0.3s ease; /* Add hover and interaction effects */
+}
+
+.close:hover {
+    
+    transform: scale(1.2); /* Slightly enlarge the icon on hover */
+}
+
+
+    .cancel-btn,
+.reschedule-btn {
+    display: none;
+}
+
+/* Dropdown Styling */
+.dropdown-content {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: white; /* Background color */
+    color: black !important; /* Text color */
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1000;
+    border-radius: 6px;
+}
+
+.dropdown-content a {
+    color: black !important; /* Text color */
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Modal Styling */
+#reschedule-modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1100;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+#reschedule-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Overlay for Modal */
+.modal-overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+form {
+  color:black !important;
+}
+.calendar-content{
+  margin-left : 100px !important;
+}
+#patients {
+  position: relative; /* Ensures only this section is affected */
+  top: 15%; /* Moves the #patients section 40% down */
+  width: 100%; /* Ensures it covers the full width */
+}
+
+.section {
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensures sections take up the full width */
+}
+
+
+
+.main-content header {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  width: 1070px !important;
+}
+
+
+/* Ensure the header extends to the end */
+header.bg-white.shadow {
+  width: 100%;
+}
+
+
+
+/* Ensure the main content takes up the remaining space */
+/* Ensure the main content takes up the remaining space */
+
+
+/* Ensure the header extends to the end */
+header.bg-white.shadow {
+  width: 100%;
+}
+
+/* Dashboard Section */
+#dashboard {
+  margin-bottom: 15px; /* Add space between dashboard and patients section */
+}
+body{
+  display: flex;
+flex-direction: column; /* Stack elements vertically */
+align-items: flex-start; /* Align content to the top */
+
+}
+
+
+/* Make the patients section appear immediately below the dashboard */
+/* Limit the height of the patients section */
+/* Update the patients section to appear at the top */
+#patients {
+  position: absolute; /* Position it absolutely */
+  top: 100px; /* Position it right below the header */
+  left: 0;
+  width: 900px !important;
+  margin-left: 220px !important;
+  margin-bottom: 0 !important;
+  z-index: 10; /* Ensure it appears above other elements */
+}
+
+/* Ensure the dashboard doesn't overlap with patients when both are visible */
+/* Enlarge dashboard cards */
+#dashboard > div {
+  padding: 2rem !important; /* Increase internal padding (from p-6 to larger) */
+  min-height: 220px; /* Set minimum height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Make icons larger */
+#dashboard > div i.fas {
+  font-size: 2.5rem !important; /* Larger icon (from text-2xl) */
+  margin-bottom: 2rem !important; /* Increase space below icon */
+}
+
+/* Make headings larger */
+#dashboard > div h3 {
+  font-size: 1.5rem !important; /* Larger heading (from text-xl) */
+  margin-bottom: 0.75rem !important; /* More space below heading */
+}
+
+/* Make description text larger */
+#dashboard > div p {
+  font-size: 1.125rem !important; /* Larger text */
+  line-height: 1.5;
+}
+/* Add Event Modal Styling */
+.add-event-wrapper {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it's above other content */
+  justify-content: center;
+  align-items: center;
+}
+
+.add-event-wrapper.active {
+  display: flex; /* Show modal when active */
+}
+
+.add-event-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: black;
+}
+
+.close:hover {
+  color: #555;
+}
+/* Add more space between cards */
+/* Adjust grid layout for 2 columns instead of 3 */
+#dashboard.grid {
+  grid-template-columns: repeat(2, 1fr) !important; /* Force 2 equal columns */
+  gap: 2rem !important;
+  width: 100%;
+}
+
+/* Make each card wider */
+#dashboard > div {
+  width: 100% !important; /* Ensure cards take full width of their grid cell */
+  padding: 2.5rem !important;
+  min-height: 240px;
+}
+
+/* For mobile views, ensure one column */
+@media (max-width: 768px) {
+  #dashboard.grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Ensure proper visibility control */
+.section.hidden {
+  display: none !important;
+}
+
+#dashboard > div i.fas {
+  margin-bottom: 1.5rem !important; /* mb-6 with !important flag */
+}
+
+
+/* Ensure the patients section content does not stretch */
+#patients .bg-white.rounded-lg.shadow.p-6 {
+  width: 100%; /* Occupy full width */
+}
+/* Optional: Adjust the main content padding if needed */
+
+/* Optional: Adjust the grid layout for the dashboard section */
+#dashboard {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+  
   </style>
+  
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
@@ -87,88 +374,89 @@
             <span class="sidebar-text">Patients</span>
           </a>
         </li>
+        <!-- Logout Link -->
+             <li>
+               <a href="http://127.0.0.1:8000/login" 
+              class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
+              onclick="showLoader(event)">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+            </li>
+
       </ul>
     </div>
 
-    <!-- Main Content -->
     <div id="main-content" class="main-content flex-1">
-      <header class="bg-white shadow">
-        <div class="flex justify-between items-center px-6 py-4">
-          <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-          <div class="flex items-center gap-4">
-            <span class="text-gray-600">Welcome, Dr. [Name]</span>
-            <span id="current-date" class="text-gray-600"></span>
-            <button class="text-gray-600 hover:text-gray-800">
-              <i class="fas fa-bell"></i>
-            </button>
-          </div>
-        </div>
-      </header>
+  <header class="bg-white shadow">
+    <div class="flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+      <div class="flex items-center gap-4">
+        <span class="text-gray-600">Welcome, Dr. [Name]</span>
+        <span id="current-date" class="text-gray-600"></span>
+        <button class="text-gray-600 hover:text-gray-800">
+          <i class="fas fa-bell"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
-      <main class="p-6">
-        <!-- Dashboard Section -->
-        <div id="dashboard" class="section grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div onclick="showSection('calendar')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
-            <i class="fas fa-calendar-check text-blue-500 text-2xl mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">Appointments</h3>
-            <p class="text-gray-600">View and manage your appointments.</p>
-          </div>
-          <div onclick="showSection('patients')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
-            <i class="fas fa-user-clock text-green-500 text-2xl mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">Patients Waiting</h3>
-            <p class="text-gray-600">See patients waiting in the waiting room.</p>
-          </div>
-          <div class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
-            <i class="fas fa-tasks text-purple-500 text-2xl mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">Tasks/Reminders</h3>
-            <p class="text-gray-600">Manage your tasks and reminders.</p>
-          </div>
-        </div>
-
-        <!-- Calendar Section -->
-        <div id="calendar" class="section hidden">
-          <div class="bg-white rounded-lg shadow p-6">
-            <div class="calendar-container"></div>
-            <div id="appointments-list" class="mt-6 hidden">
-              <ul id="appointments-for-day" class="space-y-2"></ul>
-            </div>
-          </div>
-        </div>
-
-       <!-- Patients Section -->
-      <section id="patients" class="section hidden">
-        <div class="bg-white rounded-lg shadow p-6">
-          <header>
-            <h3 class="text-xl font-semibold mb-4">Patients Waiting</h3>
-          </header>
-          <table class="min-w-full bg-white border-collapse">
-            <thead>
-              <tr>
-              <th class="py-2 border">Child Name</th>
-              <th class="py-2 border">Registration Number</th>
-                <th class="py-2 border">Visit Date/Time</th>
-                <th class="py-2 border">Completed</th>
-
-              </tr>
-            </thead>
-            <tbody id="patient-table-body">
-              <!-- Data will be dynamically populated -->
-            </tbody>
-          </table>
-          <button
-            id="startConsultationBtn"
-            onclick="startConsultation()"
-            class="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
-          >
-            Start Consultation
-          </button>
-        </div>
-      </section>
-    </main>
-  </div>
-      </main>
+  <main class="p-6">
+   <!-- Dashboard Section -->
+   <div id="dashboard" class="section grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div onclick="showSection('calendar')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
+      <i class="fas fa-calendar-check text-blue-500 text-2xl mb-6"></i>
+      <h3 class="text-xl font-semibold mb-2">Appointments</h3>
+      <p class="text-gray-600">View and manage your appointments.</p>
+    </div>
+    <div onclick="showSection('patients')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
+      <i class="fas fa-user-clock text-green-500 text-2xl mb-6"></i>
+      <h3 class="text-xl font-semibold mb-2">Patients Waiting</h3>
+      <p class="text-gray-600">See patients waiting in the waiting room.</p>
     </div>
   </div>
+
+
+    <!-- Calendar Section -->
+    <div id="calendar" class="section hidden">
+      <div class="bg-white rounded-lg shadow p-6">
+        @livewireScripts
+        <div class="calendar-container"></div>
+        @livewireScripts
+        @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
+      </div>
+    </div>
+
+    <!-- Patients Section -->
+    <div id="patients" class="section hidden">
+      <div class="bg-white rounded-lg shadow p-6">
+        <header>
+          <h3 class="text-xl font-semibold mb-4">Patients Waiting</h3>
+        </header>
+        <table class="min-w-full bg-white border-collapse">
+          <thead>
+            <tr>
+              <th class="py-2 border">Child Name</th>
+              <th class="py-2 border">Registration Number</th>
+              <th class="py-2 border">Visit Date/Time</th>
+              <th class="py-2 border">Completed</th>
+            </tr>
+          </thead>
+          <tbody id="patient-table-body">
+            <!-- Data will be dynamically populated -->
+          </tbody>
+        </table>
+        <button
+          id="startConsultationBtn"
+          onclick="startConsultation()"
+          class="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
+        >
+          Start Consultation
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
 
   <script src="{{ asset('js/loader.js') }}"></script>    
   <script>
@@ -193,7 +481,8 @@
       document.getElementById(sectionId).classList.remove('hidden');
 
       if (sectionId === 'calendar') {
-        generateCalendar();
+        initCalendar(); // Reinitialize calendar
+        attachEventListeners();
       } else if (sectionId === 'patients') {
         generatePatientList();
       }
@@ -205,6 +494,8 @@
       const now = new Date();
       currentDate.textContent = now.toLocaleString();
     }
+
+    /*
 
     function generateCalendar() {
       const calendarContainer = document.querySelector('.calendar-container');
@@ -243,7 +534,7 @@
       }
       tableHtml += '</tr></table>';
       calendarContainer.innerHTML = tableHtml;
-    }
+    }*/
 
     function showAppointments(date) {
       const appointmentsList = document.getElementById('appointments-for-day');
@@ -405,6 +696,83 @@ async function startConsultation() {
 
    
   </script> -->
+
+  <script>
+    // First window.onload handler for handling modal behavior
+window.onload = function () {
+  const modalWrapper = document.querySelector(".add-event-wrapper");
+  if (modalWrapper) {
+    modalWrapper.classList.remove("active"); // Ensure the modal is hidden when the page loads
+    modalWrapper.style.display = "none"; // Hide the modal initially
+  }
+
+  window.handleAddEventModal();
+};
+
+// Modal behavior function
+window.handleAddEventModal = function () {
+  const addEventButton = document.querySelector(".add-event");
+  const closeButton = document.querySelector(".close");
+  const modalWrapper = document.querySelector(".add-event-wrapper");
+
+  // Open modal on button click
+  if (addEventButton && modalWrapper) {
+    addEventButton.addEventListener("click", function () {
+      console.log("Add event button clicked");
+      modalWrapper.style.display = "flex"; // Show the modal
+      modalWrapper.classList.add("active"); // Add active class for styling
+    });
+  }
+
+  // Close modal on close button click
+  if (closeButton && modalWrapper) {
+    closeButton.addEventListener("click", function () {
+      console.log("Close button clicked");
+      modalWrapper.style.display = "none"; // Hide the modal
+      modalWrapper.classList.remove("active"); // Remove active class
+    });
+  }
+
+  // Close modal when clicking outside the modal
+  window.addEventListener("click", function (event) {
+    if (event.target === modalWrapper) {
+      modalWrapper.style.display = "none";
+      modalWrapper.classList.remove("active");
+    }
+  });
+};
+
+// Second window.onload handler for month/year behavior
+window.addEventListener("load", function () {
+  // Check if month and year variables are defined (on window)
+  if (typeof window.month === "number" && typeof window.year === "number") {
+    console.log("Month and year are accessible:", window.month, window.year);
+  } else {
+    console.warn("Month and year are not defined properly.");
+  }
+
+  // Set up navigation button behavior
+  if (typeof window.prevMonth === "function" && typeof window.nextMonth === "function") {
+    const prevButton = document.querySelector(".prev");
+    const nextButton = document.querySelector(".next");
+
+    if (prevButton) {
+      prevButton.addEventListener("click", window.prevMonth);
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener("click", window.nextMonth);
+    }
+  } else {
+    console.warn("prevMonth or nextMonth functions are not defined.");
+  }
+});
+
+</script>
+
+
+
+
 <script>
   let selectedPatient = null;
 
@@ -455,6 +823,9 @@ async function startConsultation() {
     generatePatientList();
   });
 </script>
+
+
+
 </body>
 </html>
 <!-- therapistsDashboard.blade.php -->

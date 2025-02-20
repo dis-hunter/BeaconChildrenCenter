@@ -27,17 +27,17 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();            
             $table->foreignId('gender_id')
                 ->constrained('gender','id')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('role_id')
                 ->constrained('roles','id')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('specialization_id')
                 ->nullable()
                 ->constrained('doctor_specialization','id')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
                 
             $table->text('two_factor_secret')
                 ->after('password')
