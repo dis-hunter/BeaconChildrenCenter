@@ -38,8 +38,8 @@ RUN mkdir -p storage/framework/views && chmod -R 775 storage/framework/views
 RUN composer config --global process-timeout 2000
 
 
-# Install Laravel dependencies
-RUN composer update
+RUN rm -rf /var/www/vendor composer.lock
+RUN composer install --no-interaction --no-dev --prefer-dist
 
 # Set proper permissions for Laravel directories
 RUN chown -R www-data:www-data /var/www && \
