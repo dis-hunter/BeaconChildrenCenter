@@ -388,18 +388,17 @@ align-items: flex-start; /* Align content to the top */
     </div>
 
     <div id="main-content" class="main-content flex-1">
-  <header class="bg-white shadow">
-    <div class="flex justify-between items-center px-6 py-4">
-      <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-      <div class="flex items-center gap-4">
-        <span class="text-gray-600">Welcome, Dr. [Name]</span>
-        <span id="current-date" class="text-gray-600"></span>
-        <button class="text-gray-600 hover:text-gray-800">
-          <i class="fas fa-bell"></i>
-        </button>
-      </div>
-    </div>
-  </header>
+    <header class="bg-white shadow">
+        <div class="flex justify-between items-center px-6 py-4">
+          <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+          <div class="flex items-center gap-4">
+          <span class="text-gray-600">Welcome, Dr. {{ $doctorName }}</span>            <span id="current-date" class="text-gray-600"></span>
+            <button class="text-gray-600 hover:text-gray-800">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
+        </div>
+      </header>
 
   <main class="p-6">
    <!-- Dashboard Section -->
