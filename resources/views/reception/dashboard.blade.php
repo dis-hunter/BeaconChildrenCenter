@@ -50,11 +50,8 @@
             ]);
 
             this.stats = await statsRes.json();
-            console.log(this.stats);
             this.appointments = await appointmentsRes.json();
-            console.log(this.appointments);
             this.activeUsers = await usersRes.json();
-            console.log(this.activeUsers);
         } catch (error) {
             console.error('Failed to load dashboard data:', error);
         } finally {
@@ -138,6 +135,7 @@
 
                                 <!-- Loading State -->
                                 <template x-if="loading">
+                                    <div class="d-flex justify-content-between align-items-center">
                                     <div class="text-center placeholder-glow">
                                         <span class="placeholder rounded-circle mb-2" style="width: 60px; height: 60px; display: inline-block;"></span>
                                         <br>
@@ -152,6 +150,7 @@
                                         <span class="placeholder rounded-circle mb-2" style="width: 60px; height: 60px; display: inline-block;"></span>
                                         <br>
                                         <span class="placeholder rounded-pill col-6"></span>
+                                    </div>
                                     </div>
                                 </template>
 
