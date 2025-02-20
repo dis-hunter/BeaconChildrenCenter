@@ -1,15 +1,17 @@
 <x-filament::page>
-        <div> <!-- Single Root Element -->
-            <div class="loader-overlay">
-                <div class="loader"></div>
-            </div>
+    <div> <!-- Single Root Element -->
+        <div class="loader-overlay">
+            <div class="loader"></div>
+        </div>
 
-            <section id="finances" class="content-section">
-                <h3>Add Expense Below</h3>
-                <div id="expense-tracking">
-                    <div id="expense-form" class="fade-in">
-                        <h4>Add New Expense</h4>
-                        <form id="new-expense-form">
+        <section id="finances" class="content-section">
+            
+
+            <div id="expense-tracking">
+                <div id="expense-form" class="fade-in">
+                    <h4 class="form-title">Add Expense Below</h4>
+                    <form id="new-expense-form" class="expense-form-grid">
+                        <div class="form-group">
                             <label for="expense-category">Category:</label>
                             <select id="expense-category" name="expense-category" onchange="updateExpenseDescriptions()">
                                 <option value="">Select Category</option>
@@ -28,29 +30,42 @@
                                 <option value="13">Consumables</option>
                                 <option value="14">Other charges</option>
                             </select>
+                        </div>
 
+                        <div class="form-group">
                             <label for="expense-description">Description:</label>
                             <select id="expense-description" name="expense-description">
                                 <option value="">Select Description</option>
                             </select>
-                            <input type="text" id="other-description" name="other-description" style="display: none;"
-                                placeholder="Enter other description">
+                            <input type="text" id="other-description" name="other-description" 
+                                   class="hidden-input" placeholder="Enter other description">
+                        </div>
 
+                        <div class="form-group">
                             <label for="expense-amount">Amount:</label>
-                            <input type="number" id="expense-amount" name="expense-amount" required>
+                            <div class="amount-input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="expense-amount" name="expense-amount" required>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
                             <label for="payment-method">Payment Method:</label>
                             <select id="payment-method" name="payment-method">
                                 <option value="cash">Cash</option>
                                 <option value="card">Card</option>
                                 <option value="bank_transfer">Bank Transfer</option>
                             </select>
-                        </form>
-                        <button onclick="showValues()">Add Expense</button>
-                    </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" onclick="showValues()" class="submit-btn">Add Expense</button>
+                        </div>
+                    </form>
                 </div>
-            </section>
-            
+            </div>
+        </section>
+
 <style>
     /* General Styling */
     :root {
@@ -64,6 +79,8 @@
         --input-border: #C4A862;
         --button-hover: #C4A862;
         --button-text-hover: #ffffff;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
     }
 
     .dark {
@@ -77,8 +94,144 @@
         --input-border: #C4A862;
         --button-hover: #C4A862;
         --button-text-hover: #1B2433;
+        --card-bg: #2D3748;
+        --shadow-color: rgba(0, 0, 0, 0.3);
     }
 
+    /* Layout and Spacing */
+    .content-section {
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        min-height: 100vh;
+    }
+
+    /* Balance Card Styling */
+    .balance-card {
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px var(--shadow-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .balance-content {
+        flex-grow: 1;
+    }
+
+    .balance-label {
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .balance-amount {
+        color: var(--text-primary);
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    .theme-toggle-btn:hover {
+        transform: scale(1.1);
+    }
+
+    /* Form Styling */
+    .expense-form-grid {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-title {
+        color: var(--text-secondary);
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        color: var(--text-primary);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    select, input {
+        background-color: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-primary);
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        width: 100%;
+        transition: border-color 0.3s ease;
+    }
+
+    select:focus, input:focus {
+        outline: none;
+        border-color: var(--text-secondary);
+    }
+
+    .amount-input-wrapper {
+        position: relative;
+    }
+
+    .currency-symbol {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-primary);
+    }
+
+    input[type="number"] {
+        padding-left: 2rem;
+    }
+
+    .hidden-input {
+        display: none;
+    }
+
+    /* Button Styling */
+    .submit-btn {
+        background-color: var(--text-secondary);
+        color: var(--bg-primary);
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        font-weight: 500;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: var(--button-hover);
+        transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+        background-color: #888888;
+        cursor: not-allowed;
+    }
+
+    /* Loader Styling */
     .loader-overlay {
         display: none;
         position: fixed;
@@ -90,6 +243,10 @@
         z-index: 9999;
         justify-content: center;
         align-items: center;
+    }
+
+    .loader-overlay.loader-active {
+        display: flex;
     }
 
     .loader {
@@ -107,47 +264,29 @@
         }
     }
 
-    body {
-        background-color: var(--bg-primary);
-        color: var(--text-primary);
-        font-family: 'Arial', sans-serif;
+    /* Animations */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.5s ease forwards;
     }
 
-    .content-section {
-        padding: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    h3, h4 {
-        color: var(--text-secondary);
-        margin-bottom: 1.5rem;
-    }
+    /* Responsive Design */
+    @media (max-width: 640px) {
+        .content-section {
+            padding: 1rem;
+        }
 
-    #expense-tracking button {
-        background-color: transparent;
-        border: 2px solid var(--border-color);
-        color: var(--text-secondary);
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.375rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    #expense-tracking button:hover {
-        background-color: var(--button-hover);
-        color: var(--button-text-hover);
-    }
-
-    #expense-form {
-        background-color: var(--bg-secondary);
-        border: 1px solid var(--border-color);
-        border-radius: 0.5rem;
-        padding: 2rem;
-        margin-top: 1.5rem;
-        backdrop-filter: blur(8px);
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .balance-amount {
+            font-size: 1.5rem;
+        }
     }
 </style>
 
