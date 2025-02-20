@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  beacon_app:
+    build: .
+    container_name: beacon_app
+    ports:
+      - "8080:80"     # Apache
+      - "6379:6379"   # Redis
+    volumes:
+      - .:/var/www
+      - ./.env:/var/www/.env  # ✅ Ensure .env is volumed
+    networks:
+      - beacon_network
+
+networks:
+  beacon_network:
+    driver: bridge
