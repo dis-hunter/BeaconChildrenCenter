@@ -822,6 +822,18 @@ window.addEventListener("load", function () {
     generatePatientList();
   });
 </script>
+<script>
+  function updateDateTime() {
+  const now = new Date();
+  const currentDate = document.getElementById('current-date');
+  currentDate.textContent = now.toLocaleString();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+});
+</script>
 
 
 
