@@ -7,6 +7,14 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
+  header{
+  width: 100vw;
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+   
     .sidebar {
       width: 200px;
       transition: width 0.3s ease;
@@ -227,6 +235,7 @@ align-items: flex-start; /* Align content to the top */
   margin-bottom: 0 !important;
   z-index: 10; /* Ensure it appears above other elements */
 }
+
 
 /* Ensure the dashboard doesn't overlap with patients when both are visible */
 /* Enlarge dashboard cards */
