@@ -4,9 +4,6 @@ set -e
 # Start Redis Server
 service redis-server start
 
-# Run migrations
-php artisan migrate --force
-
 # Clear and cache config
 php artisan optimize
 
