@@ -27,7 +27,7 @@ class RestrictIP
         // ✅ Allowed IP addresses
         $allowed_ips = [
             '197.237.175.62', // Example Internal IP
-            '192.168.100.12', // Example Public IP
+            '197.254.66.54', // Example Public IP
             '127.0.0.1',      // Localhost
         ];
 
