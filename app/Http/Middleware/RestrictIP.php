@@ -25,22 +25,22 @@ class RestrictIP
             '127.0.0.1',      // Localhost
         ];
 
-        // Continue request if IP is allowed
+        // Inject console log for both allowed and blocked IPs
+        $script = "<script>console.log('Client IP: {$clientIP}');</script>";
+
         if (in_array($clientIP, $allowed_ips)) {
             $response = $next($request);
-
-            // Inject JavaScript to log IP in browser console
-            if ($response instanceof \Illuminate\Http\Response) {
-                $content = $response->getContent();
-                $script = "<script>console.log('Client IP: {$clientIP}');</script>";
-                $content = str_replace('</body>', $script . '</body>', $content);
-                $response->setContent($content);
-            }
-
-            return $response;
+        } else {
+            $response = response()->view('errors.403', [], 403);
         }
 
-        // If IP is not allowed, show 403
-        return response()->view('errors.403', [], 403);
+        // Inject console log into response
+        if ($response instanceof \Illuminate\Http\Response) {
+            $content = $response->getContent();
+            $content = str_replace('</body>', $script . '</body>', $content);
+            $response->setContent($content);
+        }
+
+        return $response;
     }
 }
