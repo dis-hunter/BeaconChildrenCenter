@@ -16,12 +16,18 @@ class RestrictIP
      */
     public function handle(Request $request, Closure $next)
     {
-        $clientIP = $request->ip(); // Get the client's IP address
+        $clientIP = $request->server('REMOTE_ADDR');
+
+        // Fallback if behind proxy/load balancer
+        if ($request->headers->has('X-Forwarded-For')) {
+            $clientIP = explode(',', $request->header('X-Forwarded-For'))[0];
+        }
+
 
         // ✅ Allowed IP addresses
         $allowed_ips = [
             '197.237.175.62', // Example Internal IP
-            '100.64.0.2', // Example Public IP
+            '192.168.100.12', // Example Public IP
             '127.0.0.1',      // Localhost
         ];
 
