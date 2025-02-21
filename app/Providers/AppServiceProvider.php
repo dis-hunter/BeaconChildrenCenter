@@ -11,6 +11,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\View;
 use App\Models\DoctorSpecialization;
 use App\Models\LeaveType;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+         // Force HTTPS in production
+    if (env('APP_ENV') === 'production') {
+        URL::forceScheme('https');
+    }
         Password::default(function(){
             return env('APP_ENV')=='local' ?
                 Password::min(6) :
