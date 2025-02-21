@@ -4,6 +4,10 @@ set -e
 # Start Redis Server
 service redis-server start
 
+
+#start the laravel queues worker
+supervisord
+
 #buld assets
 npm run build
 
@@ -20,7 +24,5 @@ php artisan scout:import "\App\Models\Parents"
 php artisan scout:import "\App\Models\children"
 
 # Start Apache in foreground
-apache2-foreground
+exec apache2-foreground
 
-#start the laravel queues worker
-supervisord
