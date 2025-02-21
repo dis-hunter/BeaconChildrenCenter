@@ -10,9 +10,6 @@ npm run build
 # Clear and cache config
 php artisan optimize
 
-#start the laravel queues worker
-supervisord
-
 until curl -s -f "${MEILISEARCH_HOST}/health" > /dev/null; do
     echo "Waiting for Meilisearch to be ready..."
     sleep 2
@@ -23,4 +20,7 @@ php artisan scout:import "\App\Models\Parents"
 php artisan scout:import "\App\Models\children"
 
 # Start Apache in foreground
-exec apache2-foreground
+apache2-foreground
+
+#start the laravel queues worker
+supervisord
