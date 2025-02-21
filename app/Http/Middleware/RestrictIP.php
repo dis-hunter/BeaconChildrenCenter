@@ -16,17 +16,31 @@ class RestrictIP
      */
     public function handle(Request $request, Closure $next)
     {
+        $clientIP = $request->ip(); // Get the client's IP address
+
         // ✅ Allowed IP addresses
         $allowed_ips = [
             '197.237.175.62', // Example Internal IP
             '192.168.100.12', // Example Public IP
-            '127.0.0.1', // Another Allowed IP
+            '127.0.0.1',      // Localhost
         ];
 
-        if (!in_array($request->ip(), $allowed_ips)) {
-            return response()->view('errors.403', [], 403);
+        // Continue request if IP is allowed
+        if (in_array($clientIP, $allowed_ips)) {
+            $response = $next($request);
+
+            // Inject JavaScript to log IP in browser console
+            if ($response instanceof \Illuminate\Http\Response) {
+                $content = $response->getContent();
+                $script = "<script>console.log('Client IP: {$clientIP}');</script>";
+                $content = str_replace('</body>', $script . '</body>', $content);
+                $response->setContent($content);
+            }
+
+            return $response;
         }
 
-        return $next($request);
+        // If IP is not allowed, show 403
+        return response()->view('errors.403', [], 403);
     }
 }
