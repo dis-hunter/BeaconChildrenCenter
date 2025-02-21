@@ -376,11 +376,11 @@ align-items: flex-start; /* Align content to the top */
         </li>
         <!-- Logout Link -->
              <li>
-               <a href="http://127.0.0.1:8000/login" 
+               <a href="/login" 
               class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
               onclick="showLoader(event)">
                 <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
+                <span>Log Out</span>
             </a>
             </li>
 
