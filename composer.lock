@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3215109485c8fb73df21b01ad04aff3",
+    "content-hash": "88e6fbe405608c7bc38012f6390c84b0",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -335,6 +335,58 @@
                 }
             ],
             "time": "2023-11-29T23:19:16+00:00"
+        },
+        {
+            "name": "calebporzio/sushi",
+            "version": "v2.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/calebporzio/sushi.git",
+                "reference": "932d09781bff75c812541d2d269400fd7d730bab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/calebporzio/sushi/zipball/932d09781bff75c812541d2d269400fd7d730bab",
+                "reference": "932d09781bff75c812541d2d269400fd7d730bab",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "php": "^7.1.3|^8.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.9 || ^3.1.4",
+                "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0 || ^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sushi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "Eloquent's missing \"array\" driver.",
+            "support": {
+                "source": "https://github.com/calebporzio/sushi/tree/v2.4.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/calebporzio",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-17T14:42:34+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -8310,6 +8362,195 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.3.0"
             },
             "time": "2024-12-21T16:25:41+00:00"
+        },
+        {
+            "name": "tomatophp/console-helpers",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomatophp/console-helpers.git",
+                "reference": "69dd818a2bfa7d038467fb526be6c9b573d36a34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomatophp/console-helpers/zipball/69dd818a2bfa7d038467fb526be6c9b573d36a34",
+                "reference": "69dd818a2bfa7d038467fb526be6c9b573d36a34",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TomatoPHP\\ConsoleHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fady Mondy",
+                    "email": "EngFadyMondy@gmail.com"
+                }
+            ],
+            "description": "tons of helper you need for you artisan command line application",
+            "keywords": [
+                "application",
+                "artisan",
+                "command",
+                "console",
+                "helpers",
+                "line"
+            ],
+            "support": {
+                "issues": "https://github.com/tomatophp/console-helpers/issues",
+                "source": "https://github.com/tomatophp/console-helpers/tree/v1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/3x1io",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-02-12T12:00:38+00:00"
+        },
+        {
+            "name": "tomatophp/filament-artisan",
+            "version": "v1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomatophp/filament-artisan.git",
+                "reference": "530c26678a987c2117db9bee8be36e7af4ff0513"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomatophp/filament-artisan/zipball/530c26678a987c2117db9bee8be36e7af4ff0513",
+                "reference": "530c26678a987c2117db9bee8be36e7af4ff0513",
+                "shasum": ""
+            },
+            "require": {
+                "calebporzio/sushi": "*",
+                "filament/filament": "^3.0.0",
+                "php": "^8.1|^8.2",
+                "tomatophp/console-helpers": "^1.1",
+                "tomatophp/filament-developer-gate": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TomatoPHP\\FilamentArtisan\\FilamentArtisanServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TomatoPHP\\FilamentArtisan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fady Mondy",
+                    "email": "info@3x1.io"
+                }
+            ],
+            "description": "Simple but yet powerful library for running some artisan commands for FilamentPHP",
+            "keywords": [
+                "artisan",
+                "commands",
+                "filament",
+                "gui",
+                "laravel",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/tomatophp/filament-artisan/issues",
+                "source": "https://github.com/tomatophp/filament-artisan/tree/v1.1.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/3x1io",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-09-17T16:34:42+00:00"
+        },
+        {
+            "name": "tomatophp/filament-developer-gate",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomatophp/filament-developer-gate.git",
+                "reference": "4cec435f36cef2a06871cbe7d7cd7b8b11abc7ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomatophp/filament-developer-gate/zipball/4cec435f36cef2a06871cbe7d7cd7b8b11abc7ac",
+                "reference": "4cec435f36cef2a06871cbe7d7cd7b8b11abc7ac",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0.0",
+                "filament/notifications": "^3.0.0",
+                "php": "^8.1|^8.2",
+                "tomatophp/console-helpers": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TomatoPHP\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TomatoPHP\\FilamentDeveloperGate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fady Mondy",
+                    "email": "info@3x1.io"
+                }
+            ],
+            "description": "Secure your selected route by using a middleware with static password for developers only",
+            "keywords": [
+                "auth",
+                "developer",
+                "filament",
+                "gate",
+                "laravel",
+                "php",
+                "secure",
+                "tools"
+            ],
+            "support": {
+                "issues": "https://github.com/tomatophp/filament-developer-gate/issues",
+                "source": "https://github.com/tomatophp/filament-developer-gate/tree/v1.0.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/3x1io",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-07-08T10:18:17+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

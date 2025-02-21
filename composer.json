@@ -18,7 +18,8 @@
         "meilisearch/meilisearch-php": "^1.13",
         "predis/predis": "^2.3",
         "pusher/pusher-php-server": "^7.2",
-        "spatie/laravel-permission": "^6.10"
+        "spatie/laravel-permission": "^6.10",
+        "tomatophp/filament-artisan": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
