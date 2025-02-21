@@ -228,7 +228,7 @@
                                         </template>
                                     </template>
 
-                                    <template x-if="!loading && !appointments.length">
+                                    <template x-if="!loading && appointments.appointments.length == 0">
                                         <div class="alert alert-info">
                                             No appointments for today.
                                         </div>
@@ -419,7 +419,7 @@
                                 </ul>
                             </template>
 
-                            <template x-if="!loading && !activeUsers.length">
+                            <template x-if="!loading && activeUsers.activeUsers.length == 0">
                                 <div class="alert alert-info">
                                     No Active Doctors Online!
                                 </div>
