@@ -197,4 +197,25 @@
       0 => 'Spatie\\Permission\\PermissionServiceProvider',
     ),
   ),
+  'tomatophp/console-helpers' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-artisan' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentArtisan\\FilamentArtisanServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-developer-gate' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider',
+    ),
+  ),
 );

@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,7 @@ use function PHPUnit\Framework\returnSelf;
 
 #[ObservedBy(UserObserver::class)]
 
-class User extends Authenticatable implements HasName
+class User extends Authenticatable implements HasName, FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
@@ -85,7 +86,7 @@ class User extends Authenticatable implements HasName
     }
 
     public function getFilamentName(): string{
-        return $this->fullname?->first_name.' '.$this->fullname?->last_name;
+        return ($this->fullname?->first_name ?? '').' '.($this->fullname?->last_name ?? '') ;
     }
 
     public function role(){
@@ -140,4 +141,9 @@ class User extends Authenticatable implements HasName
         };
     }
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        //return $this->is_admin;
+        return true;
+    }
 }
