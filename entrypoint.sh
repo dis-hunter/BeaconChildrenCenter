@@ -4,9 +4,8 @@ set -e
 # Start Redis Server
 service redis-server start
 
-
-#start the laravel queues worker
-supervisord
+# Start supervisor in the background
+/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &
 
 #buld assets
 npm run build
