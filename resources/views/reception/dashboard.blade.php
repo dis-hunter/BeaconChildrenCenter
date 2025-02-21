@@ -52,6 +52,9 @@
             this.stats = await statsRes.json();
             this.appointments = await appointmentsRes.json();
             this.activeUsers = await usersRes.json();
+            console.log(this.stats);
+            console.log(this.appointments);
+            console.log(this.activeUsers);
         } catch (error) {
             console.error('Failed to load dashboard data:', error);
         } finally {
@@ -228,7 +231,7 @@
                                         </template>
                                     </template>
 
-                                    <template x-if="!loading && !appointments.length">
+                                    <template x-if="!loading && appointments.appointments.length == 0">
                                         <div class="alert alert-info">
                                             No appointments for today.
                                         </div>
@@ -419,7 +422,7 @@
                                 </ul>
                             </template>
 
-                            <template x-if="!loading && !activeUsers.length">
+                            <template x-if="!loading && activeUsers.activeUsers.length == 0">
                                 <div class="alert alert-info">
                                     No Active Doctors Online!
                                 </div>
