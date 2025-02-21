@@ -46,9 +46,10 @@ RUN chown -R www-data:www-data /var/www && \
     chmod -R 775 storage bootstrap/cache
 
 
-
 # Expose ports for Apache and Redi
 EXPOSE 80 6379
 
-# Start both Redis and Apache when the container runs
-CMD service redis-server start && apache2-foreground
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT["/usr/local/bin/entrypoint.sh"]
