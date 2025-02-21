@@ -1597,3 +1597,17 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-21 11:14:49] local.INFO: Incoming request from IP: 127.0.0.1  
 [2025-02-21 11:15:40] local.INFO: Incoming request from IP: 172.20.0.1  
 >>>>>>> f6b0ea38bcf9ce795d112e0650a3b754e6a3eaef
+[2025-02-21 17:01:29] local.ERROR: Class "TomatoPHP\ConsoleHelpers\ConsoleHelpersServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider\" not found at C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:961)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('TomatoPHP\\\\Conso...')
+#1 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(75): Illuminate\\Foundation\\Application->register('TomatoPHP\\\\Conso...')
+#2 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#3 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#4 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#5 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(187): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#6 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(171): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#7 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#8 C:\\xampp\\htdocs\\BeaconChildrenCenter\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#9 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
+#10 {main}
+"} 
