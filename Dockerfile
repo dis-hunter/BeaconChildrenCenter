@@ -65,7 +65,7 @@ RUN touch /var/log/supervisor/worker.log
 
 # Set proper permissions for Laravel directories
 RUN chown -R www-data:www-data /var/www && \
-    chown -R www-data:www-data /var/log/supervisor \
+    chown -R www-data:www-data /var/log/supervisor && \
     chmod -R 775 storage bootstrap/cache
 
 # Expose ports for Apache and Redi
