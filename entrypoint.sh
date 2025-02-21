@@ -4,6 +4,9 @@ set -e
 # Start Redis Server
 service redis-server start
 
+#buld assets
+npm run build
+
 # Clear and cache config
 php artisan optimize
 

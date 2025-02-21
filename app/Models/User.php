@@ -47,6 +47,7 @@ class User extends Authenticatable implements HasName, FilamentUser
         'role_id',
         'specialization_id',
         'profile_photo_path',
+        'is_admin',
     ];
 
     /**

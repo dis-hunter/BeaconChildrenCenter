@@ -52,9 +52,6 @@
             this.stats = await statsRes.json();
             this.appointments = await appointmentsRes.json();
             this.activeUsers = await usersRes.json();
-            console.log(this.stats);
-            console.log(this.appointments);
-            console.log(this.activeUsers);
         } catch (error) {
             console.error('Failed to load dashboard data:', error);
         } finally {
