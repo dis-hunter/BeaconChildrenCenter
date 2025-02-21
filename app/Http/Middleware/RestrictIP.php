@@ -30,7 +30,7 @@ class RestrictIP
             '197.254.66.54', // Example Public IP
             '127.0.0.1',
             '41.209.57.168' ,
-            '192.168.144.1' ,    // Localhost
+            '197.136.185.70' ,    // Localhost
         ];
 
         // Inject console log for both allowed and blocked IPs
