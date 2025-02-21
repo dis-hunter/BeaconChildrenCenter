@@ -12,9 +12,9 @@ until curl -s -f "${MEILISEARCH_HOST}/health" > /dev/null; do
     sleep 2
 done
 
-php artisan scout:import "/App/Models/Parents"
+php artisan scout:import "\App\Models\Parents"
 
-php artisan scout:import "/App/Models/children"
+php artisan scout:import "\App\Models\children"
 
 # Start Apache in foreground
 apache2-foreground
