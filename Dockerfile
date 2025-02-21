@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     git \
     libpq-dev \
+    supervisor \
     redis-server \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -41,10 +42,13 @@ RUN composer config --global process-timeout 2000
 RUN rm -rf /var/www/vendor composer.lock
 RUN composer install --no-interaction --no-dev --prefer-dist
 
+#Setup Supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN mkdir -p /var/log/supervisor
+
 # Set proper permissions for Laravel directories
 RUN chown -R www-data:www-data /var/www && \
     chmod -R 775 storage bootstrap/cache
-
 
 # Expose ports for Apache and Redi
 EXPOSE 80 6379
