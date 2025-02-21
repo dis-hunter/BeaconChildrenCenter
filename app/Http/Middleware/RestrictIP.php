@@ -28,7 +28,8 @@ class RestrictIP
         $allowed_ips = [
             '197.237.175.62', // Example Internal IP
             '197.254.66.54', // Example Public IP
-            '127.0.0.1',      // Localhost
+            '127.0.0.1',
+            '41.209.57.168'      // Localhost
         ];
 
         // Inject console log for both allowed and blocked IPs
