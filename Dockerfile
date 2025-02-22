@@ -58,7 +58,7 @@ RUN composer install --no-interaction --no-dev --prefer-dist
 RUN npm install
 
 #Setup Supervisor configuration
-COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /var/log/supervisor
 RUN touch /var/log/supervisor/supervisord.log
 RUN touch /var/log/supervisor/worker.log
