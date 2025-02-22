@@ -16,11 +16,11 @@ meilisearch --master-key=${MEILISEARCH_KEY} --http-addr '0.0.0.0:7700' &
 
 sleep 10
 
+php artisan queue:restart
+
 #Index the Models for the search engine
 php artisan scout:import "\App\Models\Parents"
 php artisan scout:import "\App\Models\children"
-
-php artisan queue:restart
 
 # Start Apache in foreground
 exec apache2-foreground
