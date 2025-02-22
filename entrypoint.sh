@@ -5,9 +5,9 @@ set -e
 service redis-server start
 
 # Start supervisor in the background
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &
+supervisorctl reread
 
-sleep 2
+supervisorctl update
 
 #buld assets
 npm run build
@@ -23,6 +23,11 @@ done
 #Index the Models for the search engine
 php artisan scout:import "\App\Models\Parents"
 php artisan scout:import "\App\Models\children"
+
+
+supervisorctl reload
+
+service supervisor restart
 
 # Start Apache in foreground
 exec apache2-foreground
