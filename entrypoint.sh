@@ -10,10 +10,6 @@ service redis-server start
 
 sleep 3
 
-supervisorctl reread
-
-supervisorctl update
-
 #buld assets
 npm run build
 
