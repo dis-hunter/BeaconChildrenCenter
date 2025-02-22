@@ -12,9 +12,9 @@ sleep 3
 # Clear and cache config
 php artisan optimize
 
-meilisearch --master-key=${MEILISEARCH_KEY} &
+meilisearch --master-key=${MEILISEARCH_KEY} --http-addr '0.0.0.0:7700' &
 
-sleep 3
+sleep 10
 
 #Index the Models for the search engine
 php artisan scout:import "\App\Models\Parents"
