@@ -7,6 +7,14 @@ service redis-server start
 # Start supervisor in the background
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &
 
+sleep 2
+
+supervisorctl reread
+
+supervisorctl update
+
+supervisorctl start "laravel-worker:*"
+
 #buld assets
 npm run build
 
