@@ -13,14 +13,14 @@
     }
 
     .sidebar.collapsed {
-      width: 60px;
+      width: 40px;
     }
 
     .toggle-button {
       position: fixed;
       left: 200px;
       top: 20px;
-      background-color: #111827;
+      background-color:rgb(0, 0, 0);
       color: white;
       width: 24px;
       height: 24px;
@@ -34,7 +34,7 @@
     }
 
     .toggle-button.collapsed {
-      left: 60px;
+      left: 40px;
     }
 
     .toggle-button::before {
@@ -50,6 +50,7 @@
     .main-content {
       margin-left: 200px;
       transition: margin-left 0.3s ease;
+      margin-right:0px;
     }
 
     .main-content.collapsed {
@@ -81,7 +82,7 @@
         <li>
           <a href="#" onclick="showSection('calendar')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
             <i class="fas fa-calendar-alt"></i>
-            <span class="sidebar-text">Calendar</span>
+            <span class="sidebar-text">  Calendar</span>
           </a>
         </li>
         <li>
@@ -110,7 +111,7 @@
           <div class="flex items-center gap-4">
           <span class="text-gray-600">Welcome, Dr. {{ $doctorName }}</span>            <span id="current-date" class="text-gray-600"></span>
             <button class="text-gray-600 hover:text-gray-800">
-              <i class="fas fa-bell"></i>
+              <i class="fas fa-clock"></i>
             </button>
           </div>
         </div>
@@ -121,7 +122,7 @@
    <div id="dashboard" class="section grid grid-cols-1 md:grid-cols-2 gap-6">
     <div onclick="showSection('calendar')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
       <i class="fas fa-calendar-check text-blue-500 text-2xl mb-6"></i>
-      <h3 class="text-xl font-semibold mb-2">Appointments</h3>
+      <h3 class="text-xl font-semibold mb-2 ">Appointments</h3>
       <p class="text-gray-600">View and manage your appointments.</p>
     </div>
     <div onclick="showSection('patients')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
