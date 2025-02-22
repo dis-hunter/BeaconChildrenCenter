@@ -9,12 +9,6 @@ service redis-server start
 
 sleep 2
 
-supervisorctl reread
-
-supervisorctl update
-
-supervisorctl start "laravel-worker:*"
-
 #buld assets
 npm run build
 
