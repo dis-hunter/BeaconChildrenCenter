@@ -62,11 +62,14 @@ RUN rm -rf vendor composer.lock && \
 # Install npm dependencies and build assets
 RUN npm install && npm run build
 
+# Setup Supervisor directories and logs
+RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
+    touch /var/log/supervisor/supervisord.log /var/log/supervisor/worker.log && \
+    chmod -R 777 /var/log/supervisor /var/run/supervisord
+
 # Setup Supervisor for Laravel Queue Workers
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
-RUN mkdir -p /var/log/supervisor && \
-    touch /var/log/supervisor/supervisord.log /var/log/supervisor/worker.log && \
-    chmod -R 777 /var/log/supervisor
+
 
 # Expose necessary ports (Apache, Redis, Meilisearch)
 EXPOSE 80 6379 7700
