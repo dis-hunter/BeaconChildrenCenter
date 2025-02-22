@@ -63,11 +63,12 @@ class TherapistController extends Controller
         // Check if cache exists and contains the latest records
         $latestVisitCount = DB::table('visits')
             ->where('doctor_id', $staff_id)
-            ->whereDate('created_at', '=', now()->toDateString())
+            // ->whereDate('created_at', '=', now()->toDateString())
             ->where('triage_pass', true)
             ->count();
     
         if (!$visits || count($visits) !== $latestVisitCount) {
+            //TODO:UNCOMMENT THE CODE BELOW
             // Fetch latest visits if cache is empty or outdated
             $visits = DB::table('visits')
                 ->join('children', 'visits.child_id', '=', 'children.id')
@@ -79,7 +80,8 @@ class TherapistController extends Controller
                     'visits.completed'
                 )
                 ->where('visits.doctor_id', $staff_id)
-                ->whereDate('visits.created_at', '=', now()->toDateString())
+                 //TODO:UNCOMMENT THE CODE BELOW
+                // ->whereDate('visits.created_at', '=', now()->toDateString())
                 ->where('visits.triage_pass', true)
                 ->orderBy('visits.created_at', 'desc')
                 ->limit(20)
