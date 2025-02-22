@@ -208,7 +208,7 @@ function goToWorkspace(event) {
                 window.location.href = `/psychotherapist/${registrationNumber}`;
                 break;
             case "2":
-                window.location.href = `/Occupational/${registrationNumber}`;
+                window.location.href = `/occupational_therapist/${registrationNumber}`;
                 break;
             case "5":
                 window.location.href = `/nutritionist/${registrationNumber}`;
