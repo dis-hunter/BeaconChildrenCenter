@@ -1675,3 +1675,39 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-21 19:42:29] local.INFO: Fetched appointments for date: 2025-02-21 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":87,"appointment_date":"2025-02-21","start_time":"01:15:00","end_time":"02:15:00","appointment_title":"Carvalho","status":"pending","parent_name":"{\"first_name\":\"Bernado\",\"middle_name\":\"Silva\",\"last_name\":\"Bernadiki\"}","parent_phone":"34343434","parent_email":"rrr@gmail.com","child_name":"{\"last_name\": \"Juniour\", \"first_name\": \"Carvalho\", \"middle_name\": \"Silva\"}","staff_name":"{\"first_name\":\"Mandem\",\"middle_name\":\"Weall\",\"last_name\":\"Fahmm\"}"}]}} 
 [2025-02-21 19:43:52] local.INFO: Fetched appointments for date: 2025-02-21 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 >>>>>>> 5ec473c3a7ff86b9ecd386897d67b937d8a53c0c
+[2025-02-22 07:15:45] local.ERROR: include(/var/www/vendor/composer/../tomatophp/console-helpers/src/ConsoleHelpersServiceProvider.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): include(/var/www/vendor/composer/../tomatophp/console-helpers/src/ConsoleHelpersServiceProvider.php): Failed to open stream: No such file or directory at /var/www/vendor/composer/ClassLoader.php:576)
+[stacktrace]
+#0 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'include(/var/ww...', '/var/www/vendor...', 576)
+#1 /var/www/vendor/composer/ClassLoader.php(576): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'include(/var/ww...', '/var/www/vendor...', 576)
+#2 /var/www/vendor/composer/ClassLoader.php(576): include('/var/www/vendor...')
+#3 /var/www/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/vendor...')
+#4 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(961): Composer\\Autoload\\ClassLoader->loadClass('TomatoPHP\\\\Conso...')
+#5 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('TomatoPHP\\\\Conso...')
+#6 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php(75): Illuminate\\Foundation\\Application->register('TomatoPHP\\\\Conso...')
+#7 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#8 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#9 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#10 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(187): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#11 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(171): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#12 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#13 /var/www/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#14 {main}
+"} 
+[2025-02-22 13:21:13] local.ERROR: include(/var/www/vendor/composer/../tomatophp/console-helpers/src/ConsoleHelpersServiceProvider.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): include(/var/www/vendor/composer/../tomatophp/console-helpers/src/ConsoleHelpersServiceProvider.php): Failed to open stream: No such file or directory at /var/www/vendor/composer/ClassLoader.php:576)
+[stacktrace]
+#0 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'include(/var/ww...', '/var/www/vendor...', 576)
+#1 /var/www/vendor/composer/ClassLoader.php(576): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'include(/var/ww...', '/var/www/vendor...', 576)
+#2 /var/www/vendor/composer/ClassLoader.php(576): include('/var/www/vendor...')
+#3 /var/www/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/vendor...')
+#4 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(961): Composer\\Autoload\\ClassLoader->loadClass('TomatoPHP\\\\Conso...')
+#5 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('TomatoPHP\\\\Conso...')
+#6 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php(75): Illuminate\\Foundation\\Application->register('TomatoPHP\\\\Conso...')
+#7 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(871): Illuminate\\Foundation\\ProviderRepository->load(Array)
+#8 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#9 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#10 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(187): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#11 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(171): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#12 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#13 /var/www/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#14 {main}
+"} 
