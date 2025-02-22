@@ -12,7 +12,7 @@ sleep 3
 # Clear and cache config
 php artisan optimize
 
-meilisearch --master-key=${MEILISEARCH_KEY} --http-addr '0.0.0.0:7700' &
+meilisearch --master-key=${MEILISEARCH_KEY} &
 
 sleep 10
 
