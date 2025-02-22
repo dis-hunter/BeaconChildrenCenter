@@ -4,8 +4,15 @@ set -e
 # Start Redis Server
 service redis-server start
 
+
 # Start supervisor in the background
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &
+/usr/bin/supervisord -c /etc/supervisor/conf.d/laravel-worker.conf &
+
+sleep 3
+
+supervisorctl reread
+
+supervisorctl update
 
 #buld assets
 npm run build
@@ -21,6 +28,9 @@ done
 #Index the Models for the search engine
 php artisan scout:import "\App\Models\Parents"
 php artisan scout:import "\App\Models\children"
+
+
+php artisan queue:restart
 
 # Start Apache in foreground
 exec apache2-foreground
