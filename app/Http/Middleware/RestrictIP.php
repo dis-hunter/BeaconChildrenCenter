@@ -32,6 +32,7 @@ class RestrictIP
             '41.209.57.168' ,
             '197.136.185.70' ,
             '197.237.150.104', 
+            '41.80.114.251',
         ];
 
         // Inject console log for both allowed and blocked IPs
