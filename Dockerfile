@@ -72,7 +72,7 @@ COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
 
 # Expose necessary ports (Apache, Redis, Meilisearch)
-EXPOSE 80 6379 7700
+EXPOSE 80 6379 7700 8000
 
 # Copy entrypoint script and make it executable
 COPY entrypoint.sh /usr/local/bin/
