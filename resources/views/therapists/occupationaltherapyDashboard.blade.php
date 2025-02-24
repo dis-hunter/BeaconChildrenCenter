@@ -82,7 +82,7 @@
        class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
        onclick="showLoader(event)">
         <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
+        <span>Back to Home</span>
     </a>
     <script>
         function showLoader(event) {
