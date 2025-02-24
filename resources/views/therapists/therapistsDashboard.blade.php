@@ -608,6 +608,7 @@ async function startConsultation() {
         const data = await response.json();
          // Update loading progress
          updateLoadingProgress(80, 'Processing data...');
+         hideLoadingIndicator();
         
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;

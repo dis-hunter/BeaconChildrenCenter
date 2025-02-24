@@ -205,18 +205,28 @@ function goToWorkspace(event) {
         // Redirect to the appropriate workspace URL based on the specialization ID
         switch (specializationId) {
             case "9":
+                hideLoadingIndicator();
+
                 window.location.href = `/psychotherapist/${registrationNumber}`;
                 break;
             case "2":
+                hideLoadingIndicator();
+
                 window.location.href = `/occupational_therapist/${registrationNumber}`;
                 break;
             case "5":
+                hideLoadingIndicator();
+
                 window.location.href = `/nutritionist/${registrationNumber}`;
                 break;
             case "3":
+                hideLoadingIndicator();
+
                 window.location.href = `/speech_therapist/${registrationNumber}`;
                 break;
             case "4":
+                hideLoadingIndicator();
+
                 window.location.href = `/physiotherapist/${registrationNumber}`;
                 break;
             default:

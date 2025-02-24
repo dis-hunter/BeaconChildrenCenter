@@ -2601,3 +2601,6 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 #15 {main}
 "} 
 [2025-02-24 11:04:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:23:24] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:25:46] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:27:29] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
