@@ -1,7 +1,7 @@
 # Use official PHP image with Apache
 FROM php:8.2-apache
 
-# Install system dependencies and PHP extensions for Laravel & Redis
+# Install system dependencies and PHP extensions for Laravel, Redis, and Meilisearch
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -11,11 +11,29 @@ RUN apt-get update && apt-get install -y \
     zip \
     git \
     libpq-dev \
+    supervisor \
     redis-server \
     curl \
+    gnupg \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql intl zip \
     && pecl install redis && docker-php-ext-enable redis
+
+# Install Meilisearch
+RUN curl -L https://install.meilisearch.com | sh && \
+    mv meilisearch /usr/local/bin/meilisearch && \
+    chmod +x /usr/local/bin/meilisearch
+
+# Install Node.js and npm
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && \
+    apt-get install -y nodejs && \
+    npm install -g npm@latest
+
+# Verify Node.js and npm installation
+RUN node -v && npm -v
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
@@ -32,23 +50,38 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/public|' /etc/apa
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Create the cache directory and set permissions
-RUN mkdir -p storage/framework/views && chmod -R 775 storage/framework/views
+# Prepare cache directories and set permissions
+RUN mkdir -p storage/framework/views storage/framework/cache storage/logs bootstrap/cache && \
+    chmod -R 775 storage bootstrap/cache && \
+    chown -R www-data:www-data storage bootstrap/cache
 
-RUN composer config --global process-timeout 2000
+# Clear old vendor files and install Composer dependencies
+RUN rm -rf vendor composer.lock && \
+    composer install --no-interaction --no-dev --prefer-dist
+
+# Install npm dependencies and build assets
+RUN npm install && npm run build
+
+# Setup Supervisor directories and logs
+RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
+    touch /var/log/supervisor/supervisord.log /var/log/supervisor/worker.log && \
+    chmod -R 777 /var/log/supervisor /var/run/supervisord
+
+# Setup Supervisor for Laravel Queue Workers
+COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
 
-RUN rm -rf /var/www/vendor composer.lock
-RUN composer install --no-interaction --no-dev --prefer-dist
-
-# Set proper permissions for Laravel directories
-RUN chown -R www-data:www-data /var/www && \
-    chmod -R 775 storage bootstrap/cache
+RUN php artisan scout:import "App\Models\children"
+RUN php artisan scout:import "App\Models\Parents"
 
 
 
-# Expose ports for Apache and Redi
-EXPOSE 80 6379
+# Expose necessary ports (Apache, Redis, Meilisearch)
+EXPOSE 80 6379 7700 8000
 
-# Start both Redis and Apache when the container runs
-CMD service redis-server start && apache2-foreground
+# Copy entrypoint script and make it executable
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Start using the entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

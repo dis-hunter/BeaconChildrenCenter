@@ -68,6 +68,7 @@ class TherapistController extends Controller
             ->count();
     
         if (!$visits || count($visits) !== $latestVisitCount) {
+            //TODO:UNCOMMENT THE CODE BELOW
             // Fetch latest visits if cache is empty or outdated
             $visits = DB::table('visits')
                 ->join('children', 'visits.child_id', '=', 'children.id')

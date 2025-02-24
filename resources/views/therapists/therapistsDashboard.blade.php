@@ -7,21 +7,13 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
-  header{
-  width: 100vw;
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
-  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
-}
-
-   
-    .sidebar {
+     .sidebar {
       width: 200px;
       transition: width 0.3s ease;
     }
 
     .sidebar.collapsed {
-      width: 60px;
+      width: 40px;
     }
 
     .toggle-button {
@@ -42,7 +34,7 @@
     }
 
     .toggle-button.collapsed {
-      left: 60px;
+      left: 40px;
     }
 
     .toggle-button::before {
@@ -181,7 +173,7 @@ form {
 
 
 
-.main-content header {
+/* .main-content header {
   padding: 10px;
   background-color: #f8f9fa;
   border-bottom: 1px solid #ddd;
@@ -192,13 +184,13 @@ form {
   padding: 1rem;
   border-bottom: 1px solid #ddd;
   width: 1070px !important;
-}
+} */
 
 
 /* Ensure the header extends to the end */
-header.bg-white.shadow {
+/* header.bg-white.shadow {
   width: 100%;
-}
+} */
 
 
 
@@ -207,20 +199,20 @@ header.bg-white.shadow {
 
 
 /* Ensure the header extends to the end */
-header.bg-white.shadow {
+/* header.bg-white.shadow {
   width: 100%;
-}
+} */
 
 /* Dashboard Section */
-#dashboard {
+/* #dashboard {
   margin-bottom: 15px; /* Add space between dashboard and patients section */
-}
+/* }
 body{
   display: flex;
 flex-direction: column; /* Stack elements vertically */
-align-items: flex-start; /* Align content to the top */
+/* align-items: flex-start; Align content to the top */
 
-}
+/* }  */
 
 
 /* Make the patients section appear immediately below the dashboard */
@@ -230,40 +222,39 @@ align-items: flex-start; /* Align content to the top */
   position: absolute; /* Position it absolutely */
   top: 100px; /* Position it right below the header */
   left: 0;
-  width: 900px !important;
-  margin-left: 220px !important;
+  width: 80% !important;
+  margin-left: 220px !important; 
   margin-bottom: 0 !important;
   z-index: 10; /* Ensure it appears above other elements */
 }
 
-
 /* Ensure the dashboard doesn't overlap with patients when both are visible */
 /* Enlarge dashboard cards */
-#dashboard > div {
-  padding: 2rem !important; /* Increase internal padding (from p-6 to larger) */
-  min-height: 220px; /* Set minimum height */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+/* #dashboard > div { */
+  /* padding: 2rem !important; Increase internal padding (from p-6 to larger) */
+  /* min-height: 220px; Set minimum height */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+/* } */
 
 /* Make icons larger */
-#dashboard > div i.fas {
-  font-size: 2.5rem !important; /* Larger icon (from text-2xl) */
-  margin-bottom: 2rem !important; /* Increase space below icon */
-}
+/* #dashboard > div i.fas {
+  font-size: 2.5rem !important;
+  margin-bottom: 2rem !important; 
+} */
 
 /* Make headings larger */
-#dashboard > div h3 {
-  font-size: 1.5rem !important; /* Larger heading (from text-xl) */
-  margin-bottom: 0.75rem !important; /* More space below heading */
-}
+/* #dashboard > div h3 {
+  font-size: 1.5rem !important; /
+  margin-bottom: 0.75rem !important; 
+} */
 
 /* Make description text larger */
-#dashboard > div p {
-  font-size: 1.125rem !important; /* Larger text */
+/* #dashboard > div p {
+  font-size: 1.125rem !important; 
   line-height: 1.5;
-}
+} */
 /* Add Event Modal Styling */
 .add-event-wrapper {
   display: none; /* Hidden by default */
@@ -312,11 +303,11 @@ align-items: flex-start; /* Align content to the top */
 }
 
 /* Make each card wider */
-#dashboard > div {
-  width: 100% !important; /* Ensure cards take full width of their grid cell */
+/* #dashboard > div {
+  width: 100% !important; 
   padding: 2.5rem !important;
   min-height: 240px;
-}
+} */
 
 /* For mobile views, ensure one column */
 @media (max-width: 768px) {
@@ -336,9 +327,9 @@ align-items: flex-start; /* Align content to the top */
 
 
 /* Ensure the patients section content does not stretch */
-#patients .bg-white.rounded-lg.shadow.p-6 {
-  width: 100%; /* Occupy full width */
-}
+/* #patients .bg-white.rounded-lg.shadow.p-6 {
+  width: 100%; 
+} */
 /* Optional: Adjust the main content padding if needed */
 
 /* Optional: Adjust the grid layout for the dashboard section */
@@ -374,7 +365,7 @@ align-items: flex-start; /* Align content to the top */
         <li>
           <a href="#" onclick="showSection('calendar')" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
             <i class="fas fa-calendar-alt"></i>
-            <span class="sidebar-text">Calendar</span>
+            <span class="sidebar-text">  Calendar</span>
           </a>
         </li>
         <li>
@@ -403,7 +394,7 @@ align-items: flex-start; /* Align content to the top */
           <div class="flex items-center gap-4">
           <span class="text-gray-600">Welcome, Dr. {{ $doctorName }}</span>            <span id="current-date" class="text-gray-600"></span>
             <button class="text-gray-600 hover:text-gray-800">
-              <i class="fas fa-bell"></i>
+              <i class="fas fa-clock"></i>
             </button>
           </div>
         </div>
@@ -414,7 +405,7 @@ align-items: flex-start; /* Align content to the top */
    <div id="dashboard" class="section grid grid-cols-1 md:grid-cols-2 gap-6">
     <div onclick="showSection('calendar')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
       <i class="fas fa-calendar-check text-blue-500 text-2xl mb-6"></i>
-      <h3 class="text-xl font-semibold mb-2">Appointments</h3>
+      <h3 class="text-xl font-semibold mb-2 ">Appointments</h3>
       <p class="text-gray-600">View and manage your appointments.</p>
     </div>
     <div onclick="showSection('patients')" class="bg-white rounded-lg shadow p-6 cursor-pointer hover:-translate-y-1 transition-transform">
