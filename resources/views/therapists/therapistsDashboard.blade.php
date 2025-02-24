@@ -574,7 +574,7 @@ function selectPatient(index) {
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
   alert(`Selected Registration Number: ${registrationNumber}`);
-  
+  console.log(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
   
   
   // Further actions can be added here, e.g., saving to a variable or performing an API request

@@ -1,5 +1,5 @@
     document.addEventListener('DOMContentLoaded', () => {
-        showTabContent('therapyAssesment'); // Default tab to show
+        showTabContent('therapyAssessment'); // Default tab to show
 
         document.addEventListener('keydown', (event) => {
             const activeTab = document.querySelector('.tabs-content.active');

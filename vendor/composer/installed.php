@@ -595,7 +595,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-OfficialBranch',
             'version' => 'dev-OfficialBranch',
-            'reference' => '5bb6a2213eb660c1b9ae26beee0c86cb360f67c3',
+            'reference' => '125a40d33cd2701e5f3b7efc12b97e84b0111e6c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

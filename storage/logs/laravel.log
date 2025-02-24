@@ -1737,6 +1737,7 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-22 13:08:17] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-22 13:14:51] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 >>>>>>> c7a2f56e9eba4913025022aec3381a0729d584e1
+<<<<<<< HEAD
 [2025-02-23 13:40:41] local.ERROR: Search Error ["cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2025 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/parents/search"] 
 [2025-02-23 13:44:39] local.ERROR: Search Error ["cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2044 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/parents/search"] 
 [2025-02-23 13:44:43] local.ERROR: Search Error ["cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2046 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/parents/search"] 
@@ -2689,3 +2690,6 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 >>>>>>> 3b32c848a61302c12f7c98c8d42d52396a600be2
 [2025-02-24 11:29:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-24 11:34:19] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+=======
+>>>>>>> 3fc3b269fef3df4b8f801b0227e2243744a1b103
+[2025-02-24 11:36:32] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
