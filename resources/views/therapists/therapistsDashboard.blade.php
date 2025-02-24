@@ -600,7 +600,7 @@ async function startConsultation() {
        // Update loading progress
        updateLoadingProgress(20, 'Checking patient data...');
         // First make an AJAX call to check if the patient exists and get initial data
-        const response = await fetch(`http://127.0.0.1:8000/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
+        const response = await fetch(`/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

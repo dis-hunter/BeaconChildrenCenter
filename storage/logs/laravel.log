@@ -1597,3 +1597,18 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-21 11:14:49] local.INFO: Incoming request from IP: 127.0.0.1  
 [2025-02-21 11:15:40] local.INFO: Incoming request from IP: 172.20.0.1  
 >>>>>>> f6b0ea38bcf9ce795d112e0650a3b754e6a3eaef
+[2025-02-22 12:15:14] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-22 16:04:23] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-22 16:06:29] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:37:30] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\filament\\filament\\src\\Resources\\Pages\\ListRecords.php:23)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-24 10:40:21] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:43:41] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:44:18] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:49:12] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:55:55] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
