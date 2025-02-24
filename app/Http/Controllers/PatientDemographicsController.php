@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Children;
+use App\Models\children;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -25,7 +25,7 @@ class PatientDemographicsController extends Controller
         }
 
         // Use eager loading to prevent N+1 queries
-        $children = Children::with('gender')->get(['id', 'dob', 'gender_id']);
+        $children = children::with('gender')->get(['id', 'dob', 'gender_id']);
 
         // Calculate age groups
         $ageGroups = [
@@ -49,7 +49,7 @@ class PatientDemographicsController extends Controller
         }
 
         // Use SQL aggregation instead of looping for gender distribution
-        $genderDistribution = Children::selectRaw('gender_id, COUNT(*) as count')
+        $genderDistribution = children::selectRaw('gender_id, COUNT(*) as count')
             ->groupBy('gender_id')
             ->pluck('count', 'gender_id');
 

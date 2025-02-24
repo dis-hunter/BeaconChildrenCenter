@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
 
     
-        fetch("http://127.0.0.1:8000/appointments", {
+        fetch("/appointments", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
