@@ -2693,3 +2693,10 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 =======
 >>>>>>> 3fc3b269fef3df4b8f801b0227e2243744a1b103
 [2025-02-24 11:36:32] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:42:21] local.INFO: fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
+[2025-02-24 11:42:27] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:42:36] local.INFO: fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
+[2025-02-24 11:43:58] local.ERROR: Maximum execution time of 30 seconds exceeded {"userId":2,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\storage\\framework\\views\\dddf4eb1a3f8611e9e94c1ec2f63fb0b.php:1)
+[stacktrace]
+#0 {main}
+"} 
