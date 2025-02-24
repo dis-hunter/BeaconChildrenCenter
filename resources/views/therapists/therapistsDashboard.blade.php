@@ -574,7 +574,7 @@ function selectPatient(index) {
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
   alert(`Selected Registration Number: ${registrationNumber}`);
-  
+  console.log(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
   
   
   // Further actions can be added here, e.g., saving to a variable or performing an API request
@@ -608,6 +608,7 @@ async function startConsultation() {
         const data = await response.json();
          // Update loading progress
          updateLoadingProgress(80, 'Processing data...');
+         hideLoadingIndicator();
         
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;

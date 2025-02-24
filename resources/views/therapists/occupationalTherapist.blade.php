@@ -56,8 +56,11 @@
 
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Occupational Therapy</h1>
-        <input type="text" id="firstName" name="firstName" value="{{ $firstName }}">
-        <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+        
+        <div class="flex items-center w-full px-3 py-2 border border-gray-300 text-blue-900 rounded-md">
+    <span class="text-black font-medium mr-2">Patient Name:</span>
+        <input type="text" id="fullName" name="fullName" value="{{ $firstName }} {{ $middleName }} {{ $lastName }}">        <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
+</div>
 
 
 
@@ -268,23 +271,24 @@
                 event.preventDefault();
             }
         });
-        async function saveAssessment() {
-        showLoadingIndicator('Saving...', 0);
-        const categories = [
-            'Weight(kg)',
-             'Weight for Age', 
-             'Height(cm)',
-              'Height for Age',
-               'Head circumference',
-               'Weight for Height','BMI','MUAC(cm)','Girth circumference',
-               'Medical Problems', 'Dietry Intake', 'Lifestyle factors', 'Psychosocial/Behavioural factors', 'Biochemical Data'
-        ];
+    });
 
-        const assessmentData = {};
+    function showTabContent(tab) {
+        document.querySelectorAll('.tabs-content').forEach(content => {
+            content.classList.add('hidden');
+            content.classList.remove('active');
+        });
+        document.getElementById(tab).classList.remove('hidden');
+        document.getElementById(tab).classList.add('active');
 
-         // Collect data from the textareas - no delay needed here
-         updateLoadingProgress(30, 'Sending data...');
-        // Collect data from the textareas
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        document.querySelector(`[data-value="${tab}"]`).classList.add('active');
+    }
+</script>
+    <script >
+            document.addEventListener('DOMContentLoaded', () => {
         categories.forEach(category => {
             const textarea = document.getElementById(`assessment_${category}`);
             if (textarea) {
@@ -342,7 +346,7 @@ headers: {
     </script>  
     <script >
             document.addEventListener('DOMContentLoaded', () => {
-        showTabContent('therapyAssesment'); // Default tab to show
+        showTabContent('therapyAssessment'); // Default tab to show
 
         document.addEventListener('keydown', (event) => {
             const activeTab = document.querySelector('.tabs-content.active');

@@ -1737,6 +1737,7 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-22 13:08:17] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-22 13:14:51] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 >>>>>>> c7a2f56e9eba4913025022aec3381a0729d584e1
+<<<<<<< HEAD
 [2025-02-23 13:40:41] local.ERROR: Search Error ["cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2025 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/parents/search"] 
 [2025-02-23 13:44:39] local.ERROR: Search Error ["cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2044 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/parents/search"] 
 [2025-02-23 13:44:43] local.ERROR: Search Error ["cURL error 7: Failed to connect to 127.0.0.1 port 7700 after 2046 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:7700/indexes/parents/search"] 
@@ -2673,6 +2674,11 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 #15 {main}
 "} 
 [2025-02-24 11:04:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+<<<<<<< HEAD
+[2025-02-24 11:23:24] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:25:46] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:27:29] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+=======
 >>>>>>> 8c31bffd86786bea24c201c542f20a54e85ef0a6
 [2025-02-24 11:23:00] local.INFO: Parent Data for Child 1:  
 [2025-02-24 11:23:08] local.INFO: Fetching general exam for registration number: REG-001  
@@ -2681,6 +2687,7 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-24 11:23:27] local.INFO: General exam data found for visit ID: 132  
 [2025-02-24 11:23:46] local.INFO: Fetching general exam for registration number: REG-001  
 [2025-02-24 11:23:47] local.INFO: General exam data found for visit ID: 132  
+<<<<<<< HEAD
 [2025-02-24 11:36:52] local.INFO: Parent Data for Child 1:  
 [2025-02-24 11:41:04] local.INFO: Registration number received: REG-001  
 [2025-02-24 11:41:04] local.INFO: Diagnoses received: {"data":["Diseases of the circulatory system complicating pregnancy, childbirth or the puerperium (Code: JB64.4)"]} 
@@ -2691,3 +2698,11 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-24 11:45:13] local.INFO: Diagnoses received: {"data":["Fever of other or unknown origin (Code: MG26)"]} 
 [2025-02-24 11:45:14] local.INFO: Child found with ID: 1  
 [2025-02-24 11:45:14] local.INFO: Visit found with ID: 132  
+=======
+>>>>>>> 3b32c848a61302c12f7c98c8d42d52396a600be2
+[2025-02-24 11:29:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:34:19] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+=======
+>>>>>>> 3fc3b269fef3df4b8f801b0227e2243744a1b103
+[2025-02-24 11:36:32] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+>>>>>>> 732ec8ea4e19a711a8a1583c215bffcb04a4e567
