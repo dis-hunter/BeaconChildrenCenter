@@ -2681,3 +2681,13 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-24 11:23:27] local.INFO: General exam data found for visit ID: 132  
 [2025-02-24 11:23:46] local.INFO: Fetching general exam for registration number: REG-001  
 [2025-02-24 11:23:47] local.INFO: General exam data found for visit ID: 132  
+[2025-02-24 11:36:52] local.INFO: Parent Data for Child 1:  
+[2025-02-24 11:41:04] local.INFO: Registration number received: REG-001  
+[2025-02-24 11:41:04] local.INFO: Diagnoses received: {"data":["Diseases of the circulatory system complicating pregnancy, childbirth or the puerperium (Code: JB64.4)"]} 
+[2025-02-24 11:41:04] local.INFO: Child found with ID: 1  
+[2025-02-24 11:41:05] local.INFO: Visit found with ID: 132  
+[2025-02-24 11:44:40] local.INFO: Parent Data for Child 1:  
+[2025-02-24 11:45:13] local.INFO: Registration number received: REG-001  
+[2025-02-24 11:45:13] local.INFO: Diagnoses received: {"data":["Fever of other or unknown origin (Code: MG26)"]} 
+[2025-02-24 11:45:14] local.INFO: Child found with ID: 1  
+[2025-02-24 11:45:14] local.INFO: Visit found with ID: 132  
