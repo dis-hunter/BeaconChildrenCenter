@@ -141,28 +141,69 @@ class TriageController extends Controller
     }
     // 'doctor_id' => auth()->user()->id,
     public function getPostTriageQueue()
-{
-    try {
-        $doctorId = auth()->user()->id;
-        $date = now()->toDateString();
-        $cacheKey = "post_triage_queue_{$doctorId}_{$date}";
-
-        // Check if data exists in cache
-        if (Cache::has($cacheKey)) {
+    {
+        try {
+            $doctorId = auth()->user()->id;
+            $date = now()->toDateString();
+            $cacheKey = "post_triage_queue_{$doctorId}_{$date}";
+    
+            // Check if data exists in cache
+            if (Cache::has($cacheKey)) {
+                $cachedPatients = Cache::get($cacheKey);
+    
+                // Check if there are new records in the database
+                $latestRecord = DB::table('visits')
+                    ->where('triage_pass', true)
+                    ->whereDate('visit_date', $date)
+                    ->where('doctor_id', $doctorId)
+                    ->latest('created_at')
+                    ->first();
+    
+                // If the latest record in the database is not in the cache, refresh the cache
+                if (!$latestRecord || !collect($cachedPatients)->contains('id', $latestRecord->id)) {
+                    $patients = $this->fetchPatientsFromDatabase($doctorId, $date);
+                    Cache::put($cacheKey, $patients, now()->addMinutes(60));
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => $patients
+                    ]);
+                }
+    
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $cachedPatients
+                ]);
+            }
+    
+            // Fetch data from the database and store in cache
+            $patients = $this->fetchPatientsFromDatabase($doctorId, $date);
+            Cache::put($cacheKey, $patients, now()->addMinutes(60));
+    
             return response()->json([
                 'status' => 'success',
-                'data' => Cache::get($cacheKey)
+                'data' => $patients
             ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to fetch post-triage queue',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // Retrieve latest 20 records from the database
-        $patients = DB::table('visits')
+    }
+    
+    /**
+     * Fetch patients from the database.
+     */
+    private function fetchPatientsFromDatabase($doctorId, $date)
+    {
+        return DB::table('visits')
             ->join('children', 'visits.child_id', '=', 'children.id')
             ->select('visits.*', 'children.fullname', 'children.registration_number')
             ->where('visits.triage_pass', true)
             ->whereDate('visits.visit_date', $date)
             ->where('visits.doctor_id', $doctorId)
-            ->latest('visits.created_at') // Get the most recent records
+            ->latest('visits.created_at')
             ->limit(20)
             ->get()
             ->map(function ($visit) {
@@ -178,22 +219,7 @@ class TriageController extends Controller
                 }
                 return $visit;
             });
-
-        // Store data in cache for 60 minutes
-        Cache::put($cacheKey, $patients, now()->addMinutes(60));
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $patients
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Failed to fetch post-triage queue',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
     public function getNurseName() {
         $nurse = auth()->user();
 
