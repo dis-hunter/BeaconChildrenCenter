@@ -1598,6 +1598,23 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-21 11:15:40] local.INFO: Incoming request from IP: 172.20.0.1  
 >>>>>>> f6b0ea38bcf9ce795d112e0650a3b754e6a3eaef
 <<<<<<< HEAD
+[2025-02-22 12:15:14] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-22 16:04:23] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-22 16:06:29] local.INFO: Fetched appointments for date: 2025-02-22 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:37:30] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\filament\\filament\\src\\Resources\\Pages\\ListRecords.php:23)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-24 10:40:21] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:43:41] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:44:18] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:49:12] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 10:55:55] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+=======
+<<<<<<< HEAD
 [2025-02-21 17:01:29] local.ERROR: Class "TomatoPHP\ConsoleHelpers\ConsoleHelpersServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider\" not found at C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:961)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(893): Illuminate\\Foundation\\Application->resolveProvider('TomatoPHP\\\\Conso...')
@@ -2563,6 +2580,7 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-24 10:44:21] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
 [2025-02-24 10:44:26] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-24 10:44:42] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+<<<<<<< HEAD
 [2025-02-24 10:59:45] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
 [2025-02-24 10:59:51] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-24 11:00:07] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
@@ -2633,3 +2651,26 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 #58 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #59 {main}
 "} 
+=======
+>>>>>>> 55d5adef7c59e1c5940fbdd655f906c3a35de95f
+[2025-02-24 10:59:47] local.ERROR: include(C:\Users\User\Hospital\BeaconChildrenCenter\vendor\composer/../tomatophp/console-helpers/src/ConsoleHelpersServiceProvider.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): include(C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer/../tomatophp/console-helpers/src/ConsoleHelpersServiceProvider.php): Failed to open stream: No such file or directory at C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php:576)
+[stacktrace]
+#0 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError()
+#1 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php(576): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#2 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php(576): include('...')
+#3 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}()
+#4 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(961): Composer\\Autoload\\ClassLoader->loadClass()
+#5 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(893): Illuminate\\Foundation\\Application->resolveProvider()
+#6 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\ProviderRepository.php(75): Illuminate\\Foundation\\Application->register()
+#7 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(871): Illuminate\\Foundation\\ProviderRepository->load()
+#8 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterProviders.php(37): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#9 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap()
+#10 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(187): Illuminate\\Foundation\\Application->bootstrapWith()
+#11 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(171): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#12 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#13 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#14 C:\\Users\\User\\Hospital\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('...')
+#15 {main}
+"} 
+[2025-02-24 11:04:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+>>>>>>> 8c31bffd86786bea24c201c542f20a54e85ef0a6

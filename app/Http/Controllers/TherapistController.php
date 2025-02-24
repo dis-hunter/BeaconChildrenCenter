@@ -64,7 +64,7 @@ class TherapistController extends Controller
         $latestVisitCount = DB::table('visits')
             ->where('doctor_id', $staff_id)
             // ->whereDate('created_at', '=', now()->toDateString())
-            ->where('triage_pass', true)
+            // ->where('triage_pass', true)
             ->count();
     
         if (!$visits || count($visits) !== $latestVisitCount) {
@@ -80,9 +80,8 @@ class TherapistController extends Controller
                     'visits.completed'
                 )
                 ->where('visits.doctor_id', $staff_id)
-                 //TODO:UNCOMMENT THE CODE BELOW
                 // ->whereDate('visits.created_at', '=', now()->toDateString())
-                ->where('visits.triage_pass', true)
+                // ->where('visits.triage_pass', true)
                 ->orderBy('visits.created_at', 'desc')
                 ->limit(20)
                 ->get();
