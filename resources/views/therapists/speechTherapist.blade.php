@@ -44,7 +44,7 @@
         <div class="flex items-center w-full px-3 py-2 border border-gray-300 text-blue-900 rounded-md">
     <span class="text-black font-medium mr-2">Patient Name:</span>
         <input type="text" id="fullName" name="fullName" value="{{ $firstName }} {{ $middleName }} {{ $lastName }}">        <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
-</div>        <input type="text" id="lastName" name="lastName" value="{{ $lastName }}">
+</div>        
         <input   type="hidden" id="child_id" name="child_id" value="{{ $child_id }}">
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <!-- <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
