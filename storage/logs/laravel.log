@@ -2495,3 +2495,4 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 #56 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #57 {main}
 "} 
+[2025-02-24 10:06:15] local.INFO: Disease Statistics Before Caching: {"Autism":1,"ADHD":1,"Learning disorder":0,"Intellectual development":0,"Other":3} 

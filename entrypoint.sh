@@ -12,9 +12,9 @@ sleep 3
 # Clear and cache config
 php artisan optimize
 
-meilisearch --master-key=LGUC3FIdLOTUEFkFGkrkTha7QNOK4K4BNj2ZAhr7Ouw &
+# meilisearch --master-key=LGUC3FIdLOTUEFkFGkrkTha7QNOK4K4BNj2ZAhr7Ouw &
 
-sleep 10
+# sleep 10
 
 php artisan queue:restart
 
