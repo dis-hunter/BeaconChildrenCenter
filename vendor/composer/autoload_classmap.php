@@ -298,7 +298,6 @@ return array(
     'Barryvdh\\Debugbar\\Support\\Clockwork\\ClockworkCollector' => $vendorDir . '/barryvdh/laravel-debugbar/src/Support/Clockwork/ClockworkCollector.php',
     'Barryvdh\\Debugbar\\Support\\Clockwork\\Converter' => $vendorDir . '/barryvdh/laravel-debugbar/src/Support/Clockwork/Converter.php',
     'Barryvdh\\Debugbar\\Support\\Explain' => $vendorDir . '/barryvdh/laravel-debugbar/src/Support/Explain.php',
-    'Barryvdh\\Debugbar\\Support\\RequestIdGenerator' => $vendorDir . '/barryvdh/laravel-debugbar/src/Support/RequestIdGenerator.php',
     'Barryvdh\\Debugbar\\SymfonyHttpDriver' => $vendorDir . '/barryvdh/laravel-debugbar/src/SymfonyHttpDriver.php',
     'Barryvdh\\Debugbar\\Twig\\Extension\\Debug' => $vendorDir . '/barryvdh/laravel-debugbar/src/Twig/Extension/Debug.php',
     'Barryvdh\\Debugbar\\Twig\\Extension\\Dump' => $vendorDir . '/barryvdh/laravel-debugbar/src/Twig/Extension/Dump.php',

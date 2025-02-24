@@ -1100,7 +1100,6 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'Barryvdh\\Debugbar\\Support\\Clockwork\\ClockworkCollector' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Support/Clockwork/ClockworkCollector.php',
         'Barryvdh\\Debugbar\\Support\\Clockwork\\Converter' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Support/Clockwork/Converter.php',
         'Barryvdh\\Debugbar\\Support\\Explain' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Support/Explain.php',
-        'Barryvdh\\Debugbar\\Support\\RequestIdGenerator' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Support/RequestIdGenerator.php',
         'Barryvdh\\Debugbar\\SymfonyHttpDriver' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/SymfonyHttpDriver.php',
         'Barryvdh\\Debugbar\\Twig\\Extension\\Debug' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Twig/Extension/Debug.php',
         'Barryvdh\\Debugbar\\Twig\\Extension\\Dump' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Twig/Extension/Dump.php',
