@@ -71,6 +71,11 @@ RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
 
+RUN php artisan scout:import "App\Models\children"
+RUN php artisan scout:import "App\Models\Parents"
+
+
+
 # Expose necessary ports (Apache, Redis, Meilisearch)
 EXPOSE 80 6379 7700 8000
 
