@@ -168,6 +168,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/recordResults/{registration_number}', 'recordResults')->name('recordResults');
             Route::post('/saveInvestigationResults/{registration_number}', 'saveInvestigationResults');
         });
+        Route::controller(DiagnosisController::class)->group(function () {
+            Route::post('/save-diagnosis/{registration_number}', 'saveDiagnosis');
+        });
         Route::controller(CarePlanController::class)->group(function () {
             Route::post('/save-careplan/{registration_number}', 'saveCarePlan');
         });

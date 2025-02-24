@@ -126,17 +126,20 @@ function search(event) {
     saveButton.addEventListener('click', async () => {
       const selectedDiagnoses = Array.from(selectedDiagnosesDiv.querySelectorAll('.diagnosis-item'))
         .map(item => item.textContent.trim());
-  
+    
       console.log("Saving diagnoses:", selectedDiagnoses);
       const registrationNumber = getRegistrationNumberFromUrl();
       console.log('Registration number:', registrationNumber);
-  
+    
       function getRegistrationNumberFromUrl() {
           const pathParts = window.location.pathname.split('/');
           return pathParts[pathParts.length - 1];
       }
-  
-  
+    
+      // Add Loading Indicator
+      saveButton.disabled = true;
+      saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    
       try {
         const response = await fetch(`/save-diagnosis/${registrationNumber}`, {
           method: 'POST',
@@ -146,7 +149,7 @@ function search(event) {
           },
           body: JSON.stringify({ diagnoses: selectedDiagnoses })
         });
-  
+    
         if (response.ok) {
           alert('Diagnoses saved successfully!');
         } else {
@@ -157,6 +160,11 @@ function search(event) {
       } catch (error) {
         console.error('Error saving diagnoses:', error);
         alert('An error occurred while saving diagnoses.');
+      } finally {
+        // Remove Loading Indicator
+        saveButton.disabled = false;
+        saveButton.innerHTML = 'Save';
       }
     });
+    
   });

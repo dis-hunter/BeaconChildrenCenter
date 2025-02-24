@@ -2687,12 +2687,25 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-24 11:23:27] local.INFO: General exam data found for visit ID: 132  
 [2025-02-24 11:23:46] local.INFO: Fetching general exam for registration number: REG-001  
 [2025-02-24 11:23:47] local.INFO: General exam data found for visit ID: 132  
+<<<<<<< HEAD
+[2025-02-24 11:36:52] local.INFO: Parent Data for Child 1:  
+[2025-02-24 11:41:04] local.INFO: Registration number received: REG-001  
+[2025-02-24 11:41:04] local.INFO: Diagnoses received: {"data":["Diseases of the circulatory system complicating pregnancy, childbirth or the puerperium (Code: JB64.4)"]} 
+[2025-02-24 11:41:04] local.INFO: Child found with ID: 1  
+[2025-02-24 11:41:05] local.INFO: Visit found with ID: 132  
+[2025-02-24 11:44:40] local.INFO: Parent Data for Child 1:  
+[2025-02-24 11:45:13] local.INFO: Registration number received: REG-001  
+[2025-02-24 11:45:13] local.INFO: Diagnoses received: {"data":["Fever of other or unknown origin (Code: MG26)"]} 
+[2025-02-24 11:45:14] local.INFO: Child found with ID: 1  
+[2025-02-24 11:45:14] local.INFO: Visit found with ID: 132  
+=======
 >>>>>>> 3b32c848a61302c12f7c98c8d42d52396a600be2
 [2025-02-24 11:29:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-24 11:34:19] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 =======
 >>>>>>> 3fc3b269fef3df4b8f801b0227e2243744a1b103
 [2025-02-24 11:36:32] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+<<<<<<< HEAD
 [2025-02-24 11:42:21] local.INFO: fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
 [2025-02-24 11:42:27] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-24 11:42:36] local.INFO: fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
@@ -2700,3 +2713,17 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [stacktrace]
 #0 {main}
 "} 
+=======
+>>>>>>> 732ec8ea4e19a711a8a1583c215bffcb04a4e567
+[2025-02-24 11:47:38] local.INFO: Registration number received: REG-001  
+[2025-02-24 11:47:38] local.INFO: Validated data:  {"haematology":[],"hormoneTests":["Prolactin"],"biochemistry":[],"urine":[],"stool":[],"xray":[],"mri":[],"ct":[],"genetic_tests":[],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null,"other_functional_tests":null} 
+[2025-02-24 11:47:39] local.INFO: Investigation data to be saved:  {"haematology":[],"hormoneTests":["Prolactin"],"biochemistry":[],"urine":[],"stool":[],"xray":[],"mri":[],"ct":[],"genetic_tests":[],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null,"other_functional_tests":null} 
+[2025-02-24 11:58:06] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-24 11:58:10] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:58:20] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-24 11:58:28] local.INFO: Parent Data for Child 1:  
+[2025-02-24 12:01:19] local.INFO: Registration number received: REG-001  
+[2025-02-24 12:01:19] local.INFO: Prescribed drugs received: {"data":"[\"diclofenac syrup 1mg od stat\"]"} 
+[2025-02-24 12:01:20] local.INFO: Child found with ID: 1  
+[2025-02-24 12:01:20] local.INFO: Visit found with ID: 132  
+>>>>>>> e1ca9c990e32356985ef0ee9932ce0021ff66147
