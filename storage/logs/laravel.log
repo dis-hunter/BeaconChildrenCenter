@@ -2706,3 +2706,14 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 >>>>>>> 3fc3b269fef3df4b8f801b0227e2243744a1b103
 [2025-02-24 11:36:32] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 >>>>>>> 732ec8ea4e19a711a8a1583c215bffcb04a4e567
+[2025-02-24 11:47:38] local.INFO: Registration number received: REG-001  
+[2025-02-24 11:47:38] local.INFO: Validated data:  {"haematology":[],"hormoneTests":["Prolactin"],"biochemistry":[],"urine":[],"stool":[],"xray":[],"mri":[],"ct":[],"genetic_tests":[],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null,"other_functional_tests":null} 
+[2025-02-24 11:47:39] local.INFO: Investigation data to be saved:  {"haematology":[],"hormoneTests":["Prolactin"],"biochemistry":[],"urine":[],"stool":[],"xray":[],"mri":[],"ct":[],"genetic_tests":[],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null,"other_functional_tests":null} 
+[2025-02-24 11:58:06] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-24 11:58:10] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-24 11:58:20] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-24 11:58:28] local.INFO: Parent Data for Child 1:  
+[2025-02-24 12:01:19] local.INFO: Registration number received: REG-001  
+[2025-02-24 12:01:19] local.INFO: Prescribed drugs received: {"data":"[\"diclofenac syrup 1mg od stat\"]"} 
+[2025-02-24 12:01:20] local.INFO: Child found with ID: 1  
+[2025-02-24 12:01:20] local.INFO: Visit found with ID: 132  
