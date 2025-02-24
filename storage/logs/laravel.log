@@ -2674,3 +2674,10 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 "} 
 [2025-02-24 11:04:50] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 >>>>>>> 8c31bffd86786bea24c201c542f20a54e85ef0a6
+[2025-02-24 11:23:00] local.INFO: Parent Data for Child 1:  
+[2025-02-24 11:23:08] local.INFO: Fetching general exam for registration number: REG-001  
+[2025-02-24 11:23:09] local.INFO: General exam data found for visit ID: 132  
+[2025-02-24 11:23:26] local.INFO: Fetching general exam for registration number: REG-001  
+[2025-02-24 11:23:27] local.INFO: General exam data found for visit ID: 132  
+[2025-02-24 11:23:46] local.INFO: Fetching general exam for registration number: REG-001  
+[2025-02-24 11:23:47] local.INFO: General exam data found for visit ID: 132  

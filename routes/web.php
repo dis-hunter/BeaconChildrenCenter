@@ -37,6 +37,7 @@ use App\Http\Controllers\TriageController;
 use App\Http\Controllers\IcdSearchController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\RevenueReportController;
+use App\Http\Controllers\MetricsController;
 
 
 
@@ -130,11 +131,14 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/save-cns-data/{registrationNumber}', 'saveCnsData');
             Route::get('/get-development-milestones/{registrationNumber}', 'getMilestones');
             Route::post('/save-development-milestones/{registrationNumber}', 'saveMilestones');
-            Route::get('/general-exam/{registrationNumber}', 'getGeneralExam');
-            Route::post('/general-exam/{registrationNumber}', 'saveGeneralExam');
             Route::get('/diagnosis/{registrationNumber}', 'getDiagnosis');
             Route::post('/diagnosis/{registrationNumber}', 'saveDiagnosis');
             Route::get('/get-triage-data/{registrationNumber}', 'getTriageData');
+        });
+
+        Route::controller(GeneralExamController::class)->group(function () {
+            Route::get('/general-exam/{registrationNumber}', 'getGeneralExam');
+            Route::post('/general-exam/{registrationNumber}', 'saveGeneralExam');
         });
         Route::controller(TriageController::class)->group(function () {
             Route::get('/post-triage-queue', 'getPostTriageQueue');
