@@ -22,8 +22,8 @@ php artisan queue:restart
 php artisan scout:import "\App\Models\Parents"
 php artisan scout:import "\App\Models\children"
 
-# ✅ Start Laravel’s built-in server
-php artisan serve --host=0.0.0.0 --port=8000
+# # ✅ Start Laravel’s built-in server
+# php artisan serve --host=0.0.0.0 --port=8000
 
 # Start Apache in foreground
 exec apache2-foreground
