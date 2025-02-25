@@ -171,11 +171,11 @@
                         View
                     </a>
 
-                    @if (!$invoice->invoice_status)
+                    <!-- @if (!$invoice->invoice_status)
                         <button class="pay-button" onclick="openPaymentModal({{ $invoice->id }}, '{{ $invoice->total_amount }}')">
                             Pay Now
                         </button>
-                    @endif
+                    @endif -->
                 </td>
             </tr>
         @endforeach
@@ -184,7 +184,7 @@
     @endif
 </div>
 
-<!-- Payment Modal -->
+<!-- Payment Modal
 <div id="paymentModal" class="modal">
     <div class="modal-content">
         <img src=" {{ asset ('images/Mpesa.png')}}" 
@@ -194,193 +194,203 @@
         <button class="pay" onclick="payInvoice()">Pay Now</button>
         <button class="cancel" onclick="closePaymentModal()">Cancel</button>
     </div>
-</div>
+</div> -->
 
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
-let currentInvoiceId = null;
-let currentTotalAmount = null;
 
-// Open payment modal
-function openPaymentModal(invoiceId, totalAmount) {
-    currentInvoiceId = invoiceId;
-    currentTotalAmount = totalAmount;
-    document.getElementById('paymentModal').style.display = 'flex';
-}
+   /*
+   *************************************************************************************
+    * This code is commented out because it requires the M-Pesa API to be fully implemented.
+     I will activate this code when the clinic applies for an official paybill number
+   **************************************************************************************
+   */
 
-// Close modal
-function closePaymentModal() {
-    document.getElementById('paymentModal').style.display = 'none';
-    document.getElementById('phone').value = "";
-}
+
+
+// let currentInvoiceId = null;
+// let currentTotalAmount = null;
+
+// // Open payment modal
+// function openPaymentModal(invoiceId, totalAmount) {
+//     currentInvoiceId = invoiceId;
+//     currentTotalAmount = totalAmount;
+//     document.getElementById('paymentModal').style.display = 'flex';
+// }
+
+// // Close modal
+// function closePaymentModal() {
+//     document.getElementById('paymentModal').style.display = 'none';
+//     document.getElementById('phone').value = "";
+// }
 
 // Process Payment
-async function payInvoice() {
-    const phone = document.getElementById('phone').value;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+// async function payInvoice() {
+//     const phone = document.getElementById('phone').value;
+//     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    if (!/^(07|01)\d{8}$/.test(phone)) {
-        alert("Please enter a valid phone number starting with 07 or 01 (e.g., 0712345678 or 0112345678)");
-        return;
-    }
+//     if (!/^(07|01)\d{8}$/.test(phone)) {
+//         alert("Please enter a valid phone number starting with 07 or 01 (e.g., 0712345678 or 0112345678)");
+//         return;
+//     }
 
-    try {
-        let response = await fetch("{{ route('mpesa.stkpush') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": csrfToken
-            },
-            body: JSON.stringify({
-                invoice_id: currentInvoiceId,
-                phone: phone
-            }),
-        });
+//     try {
+//         let response = await fetch("{{ route('mpesa.stkpush') }}", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "X-CSRF-TOKEN": csrfToken
+//             },
+//             body: JSON.stringify({
+//                 invoice_id: currentInvoiceId,
+//                 phone: phone
+//             }),
+//         });
 
-        let data = await response.json();
+//         let data = await response.json();
 
-        if (response.ok) {
-            alert("Payment initiated. Please check your phone.");
-            closePaymentModal();
-            waitForPaymentConfirmation(currentInvoiceId); // Start polling for confirmation
-        } else {
-            alert(data.error || "Payment initiation failed. Try again.");
-        }
+//         if (response.ok) {
+//             alert("Payment initiated. Please check your phone.");
+//             closePaymentModal();
+//             waitForPaymentConfirmation(currentInvoiceId); // Start polling for confirmation
+//         } else {
+//             alert(data.error || "Payment initiation failed. Try again.");
+//         }
 
-    } catch (error) {
-        alert("Error processing payment. Try again.");
-    }
-}
+//     } catch (error) {
+//         alert("Error processing payment. Try again.");
+//     }
+// }
 
-// Poll server to check payment status
-function waitForPaymentConfirmation(invoiceId) {
-    let attempt = 1; // Track the number of checks
+// // Poll server to check payment status
+// function waitForPaymentConfirmation(invoiceId) {
+//     let attempt = 1; // Track the number of checks
 
-    const checkStatus = async () => {
-        console.log(`Check #${attempt}: Checking payment status for invoice ID ${invoiceId}...`);
+//     const checkStatus = async () => {
+//         console.log(`Check #${attempt}: Checking payment status for invoice ID ${invoiceId}...`);
 
-        try {
-            let response = await fetch(`/check-payment-status/${invoiceId}`);
-            let data = await response.json();
+//         try {
+//             let response = await fetch(`/check-payment-status/${invoiceId}`);
+//             let data = await response.json();
 
-            console.log(`Check #${attempt}: Response received -`, data);
+//             console.log(`Check #${attempt}: Response received -`, data);
 
-            if (data.paid) { // If invoice_status is true
-                console.log(`Check #${attempt}: Payment successful!`);
+//             if (data.paid) { // If invoice_status is true
+//                 console.log(`Check #${attempt}: Payment successful!`);
 
-                // Show success popup
-                showPopup("Payment Successful", "Your payment has been received!");
+//                 // Show success popup
+//                 showPopup("Payment Successful", "Your payment has been received!");
 
-                // Update UI: Change "Unpaid" to "Paid"
-                let row = document.querySelector(`tr[data-invoice-id="${invoiceId}"]`);
-                if (row) {
-                    let statusCell = row.querySelector(".status");
-                    statusCell.innerHTML = `<span style="color: green; font-weight: bold;">Paid</span>`;
+//                 // Update UI: Change "Unpaid" to "Paid"
+//                 let row = document.querySelector(`tr[data-invoice-id="${invoiceId}"]`);
+//                 if (row) {
+//                     let statusCell = row.querySelector(".status");
+//                     statusCell.innerHTML = `<span style="color: green; font-weight: bold;">Paid</span>`;
 
-                    // Remove the "Pay Now" button
-                    let payButton = row.querySelector(".pay-button");
-                    if (payButton) {
-                        payButton.remove();
-                    }
-                }
+//                     // Remove the "Pay Now" button
+//                     let payButton = row.querySelector(".pay-button");
+//                     if (payButton) {
+//                         payButton.remove();
+//                     }
+//                 }
 
-                return; // Stop polling
-            }
+//                 return; // Stop polling
+//             }
 
-            console.log(`Check #${attempt}: Payment not received yet, retrying in 5 seconds...`);
-            attempt++; // Increment attempt count
+//             console.log(`Check #${attempt}: Payment not received yet, retrying in 5 seconds...`);
+//             attempt++; // Increment attempt count
 
-            // Retry after 5 seconds if payment is still pending
-            setTimeout(checkStatus, 5000);
-        } catch (error) {
-            console.error(`Check #${attempt}: Error checking payment status:`, error);
-            console.log(`Check #${attempt}: Retrying in 5 seconds...`);
-            setTimeout(checkStatus, 5000);
-        }
-    };
+//             // Retry after 5 seconds if payment is still pending
+//             setTimeout(checkStatus, 5000);
+//         } catch (error) {
+//             console.error(`Check #${attempt}: Error checking payment status:`, error);
+//             console.log(`Check #${attempt}: Retrying in 5 seconds...`);
+//             setTimeout(checkStatus, 5000);
+//         }
+//     };
 
-    checkStatus();
-}
+//     checkStatus();
+// }
 
 
 
-// Show popup
+// // Show popup
 
-function showPopup(title, message) {
-    // Create the popup container
-    let popup = document.createElement("div");
-    popup.style.position = "fixed";
-    popup.style.top = "50%";
-    popup.style.left = "50%";
-    popup.style.transform = "translate(-50%, -50%)";
-    popup.style.backgroundColor = "#fff";
-    popup.style.padding = "30px";
-    popup.style.borderRadius = "12px";
-    popup.style.boxShadow = "0px 8px 16px rgba(0, 0, 0, 0.2)";
-    popup.style.textAlign = "center";
-    popup.style.zIndex = "1000";
-    popup.style.maxWidth = "400px";
-    popup.style.width = "90%";
-    popup.style.animation = "fadeIn 0.3s ease-in-out";
+// function showPopup(title, message) {
+//     // Create the popup container
+//     let popup = document.createElement("div");
+//     popup.style.position = "fixed";
+//     popup.style.top = "50%";
+//     popup.style.left = "50%";
+//     popup.style.transform = "translate(-50%, -50%)";
+//     popup.style.backgroundColor = "#fff";
+//     popup.style.padding = "30px";
+//     popup.style.borderRadius = "12px";
+//     popup.style.boxShadow = "0px 8px 16px rgba(0, 0, 0, 0.2)";
+//     popup.style.textAlign = "center";
+//     popup.style.zIndex = "1000";
+//     popup.style.maxWidth = "400px";
+//     popup.style.width = "90%";
+//     popup.style.animation = "fadeIn 0.3s ease-in-out";
 
-    // Add the animated tick icon
-    popup.innerHTML = `
-        <div class="tick-container" style="margin-bottom: 20px;">
-            <svg width="80" height="80" viewBox="0 0 80 80">
-                <circle cx="40" cy="40" r="38" stroke="#4CAF50" stroke-width="4" fill="none"
-                    stroke-dasharray="240" stroke-dashoffset="240" class="animated-circle"></circle>
-                <path d="M20 40 L35 55 L60 25" stroke="#4CAF50" stroke-width="4" fill="none"
-                    stroke-dasharray="60" stroke-dashoffset="60" class="animated-tick"></path>
-            </svg>
-        </div>
-        <h3 style="margin: 0; font-size: 24px; color: #333;">${title}</h3>
-        <p style="margin: 10px 0 20px; font-size: 16px; color: #666;">${message}</p>
-        <button onclick="this.parentElement.remove()" style="background-color: #4CAF50; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">Close</button>
-    `;
+//     // Add the animated tick icon
+//     popup.innerHTML = `
+//         <div class="tick-container" style="margin-bottom: 20px;">
+//             <svg width="80" height="80" viewBox="0 0 80 80">
+//                 <circle cx="40" cy="40" r="38" stroke="#4CAF50" stroke-width="4" fill="none"
+//                     stroke-dasharray="240" stroke-dashoffset="240" class="animated-circle"></circle>
+//                 <path d="M20 40 L35 55 L60 25" stroke="#4CAF50" stroke-width="4" fill="none"
+//                     stroke-dasharray="60" stroke-dashoffset="60" class="animated-tick"></path>
+//             </svg>
+//         </div>
+//         <h3 style="margin: 0; font-size: 24px; color: #333;">${title}</h3>
+//         <p style="margin: 10px 0 20px; font-size: 16px; color: #666;">${message}</p>
+//         <button onclick="this.parentElement.remove()" style="background-color: #4CAF50; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">Close</button>
+//     `;
 
-    // Append the popup to the body
-    document.body.appendChild(popup);
+//     // Append the popup to the body
+//     document.body.appendChild(popup);
 
-    // Start animations after the element is added to the DOM
-    setTimeout(() => {
-        document.querySelector(".animated-circle").style.animation = "drawCircle 0.6s ease-in-out forwards 0.3s";
-        document.querySelector(".animated-tick").style.animation = "drawTick 0.4s ease-in-out forwards 0.9s";
-    }, 50);
-}
+//     // Start animations after the element is added to the DOM
+//     setTimeout(() => {
+//         document.querySelector(".animated-circle").style.animation = "drawCircle 0.6s ease-in-out forwards 0.3s";
+//         document.querySelector(".animated-tick").style.animation = "drawTick 0.4s ease-in-out forwards 0.9s";
+//     }, 50);
+// }
 
-// Add CSS animations for the tick icon
-const style = document.createElement("style");
-style.innerHTML = `
-    @keyframes drawCircle {
-        from {
-            stroke-dashoffset: 240;
-        }
-        to {
-            stroke-dashoffset: 0;
-        }
-    }
-    @keyframes drawTick {
-        from {
-            stroke-dashoffset: 60;
-        }
-        to {
-            stroke-dashoffset: 0;
-        }
-    }
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translate(-50%, -55%);
-        }
-        to {
-            opacity: 1;
-            transform: translate(-50%, -50%);
-        }
-    }
-`;
-document.head.appendChild(style);
+// // Add CSS animations for the tick icon
+// const style = document.createElement("style");
+// style.innerHTML = `
+//     @keyframes drawCircle {
+//         from {
+//             stroke-dashoffset: 240;
+//         }
+//         to {
+//             stroke-dashoffset: 0;
+//         }
+//     }
+//     @keyframes drawTick {
+//         from {
+//             stroke-dashoffset: 60;
+//         }
+//         to {
+//             stroke-dashoffset: 0;
+//         }
+//     }
+//     @keyframes fadeIn {
+//         from {
+//             opacity: 0;
+//             transform: translate(-50%, -55%);
+//         }
+//         to {
+//             opacity: 1;
+//             transform: translate(-50%, -50%);
+//         }
+//     }
+// `;
+// document.head.appendChild(style);
 
 document.addEventListener("DOMContentLoaded", function () {
     checkCopayments();

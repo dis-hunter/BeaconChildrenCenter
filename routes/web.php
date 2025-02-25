@@ -38,6 +38,7 @@ use App\Http\Controllers\IcdSearchController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\RevenueReportController;
 use App\Http\Controllers\MetricsController;
+use App\Http\Controllers\ExpenseController;
 
 
 
@@ -281,6 +282,9 @@ Route::controller(ReportController::class)->group(function () {
     Route::post('/generate-encounter-summary', 'generateEncounterSummary');
     Route::post('/generate-staff-performance', 'generateStaffPerformance');
     Route::post('/revenue-breakdown', 'revenueBreakdown')->name('revenue.breakdown');
+});
+Route::controller(ExpenseController::class)->group(function () {
+    Route::post('/expenses', 'getExpensesByDateRange');
 });
 Route::controller(RevenueReportController::class)->group(function () {
     Route::post('/generate-report', 'generate')->name('generate.report');

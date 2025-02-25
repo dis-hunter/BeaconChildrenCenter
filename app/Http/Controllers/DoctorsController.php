@@ -110,31 +110,32 @@ class DoctorsController extends Controller
     {
         try {
             Log::info("getTriageData called with registration number: " . $registrationNumber);
-
+    
             $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
+    
             if (!$child) {
                 Log::warning("Child not found for registration number: " . $registrationNumber);
                 abort(404);
             }
-
-            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
-
+    
+            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at', 'desc')->first();
+    
             if (!$triage) {
                 Log::warning("Triage data not found for child with registration number: " . $registrationNumber);
-                return response()->json(['error' => 'Triage data not found'], 404);
+                return response()->json(null); // ✅ Return null instead of 404
             }
-
+    
             $triageData = json_decode($triage->data);
-
+    
             Log::info("Triage data retrieved: ", (array)$triageData);
-
+    
             return response()->json($triageData);
         } catch (\Exception $e) {
             Log::error("Error in getTriageData: " . $e->getMessage());
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
+    
 
     public function saveCnsData(Request $request, $registrationNumber)
     {
@@ -237,132 +238,211 @@ class DoctorsController extends Controller
         return response()->json(['message' => 'Milestones saved successfully'], 200);
     }
     public function getChildDetails($registrationNumber)
-{
-    try {
-        // Retrieve child by registration number
-        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-        if (!$child) {
-            return response()->json(['error' => 'Child not found'], 404);
-        }
-
-        // Decode the fullname JSON
-        $fullname = json_decode($child->fullname);
-        $firstName = $fullname->first_name ?? null;
-        $middleName = $fullname->middle_name ?? null;
-        $lastName = $fullname->last_name ?? null;
-
-        // Get gender name
-        $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
-
-        // Retrieve the latest visit for the child
-        $visit = DB::table('visits')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-
-        // Check if a visit exists
-        if (!$visit) {
-            return response()->json(['error' => 'No visit found for the child'], 404);
-        }
-        $parentData = DB::table('child_parent')
-            ->where('child_id', $child->id)
-            ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
-            ->join('relationships', 'parents.relationship_id', '=', 'relationships.id')
-            ->select(
-                'parents.fullname',
-                'parents.telephone',
-                'parents.email',
-                'relationships.relationship'
-            )
-            ->get();
-            $parents = [];
-        foreach ($parentData as $parent) {
-            $fullname = json_decode($parent->fullname);
-            $parents[$parent->relationship] = [
-                'fullname' => $fullname->first_name . ' ' . ($fullname->middle_name ?? '') . ' ' . $fullname->last_name,
-                'telephone' => $parent->telephone,
-                'email' => $parent->email,
-            ];
-        }
-
-        Log::info('Parent Data for Child ' . $child->id . ':', $parents);
-
-        // Fetch triage data
-        $triage = DB::table('triage')->where('child_id', $child->id)->first();
-        $triageData = $triage ? json_decode($triage->data) : null;
-
-        // Fetch CNS data
-        $cnsData = DB::table('cns')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-        $cnsData = $cnsData ? json_decode($cnsData->data) : null;
-        
-        $perinatalHistory = DB::table('perinatal_history')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-        $perinatalHistory = $perinatalHistory ? json_decode($perinatalHistory->data) : null;
-
-        // Fetch developmental milestones
-        $milestones = DB::table('development_milestones')
-            ->where('child_id', $child->id)
-            ->latest()
-            ->first();
-        $milestonesData = $milestones ? json_decode($milestones->data) : null;
-        
-        $pastMedicalHistory = DB::table('past_medical_history')
-        ->where('child_id', $child->id)
-        ->latest()
-        ->first();
-    $pastMedicalHistory = $pastMedicalHistory ? json_decode($pastMedicalHistory->data) : null;
+    {
+        try {
+            // Retrieve child by registration number
+            $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+            if (!$child) {
+                return response()->json(['error' => 'Child not found'], 404);
+            }
     
-    $BehaviourAssessment = DB::table('behaviour_assessment')
-        ->where('child_id', $child->id)
-        ->latest()
-        ->first();
-    $BehaviourAssessment = $BehaviourAssessment ? json_decode($BehaviourAssessment->data) : null;
+            // Decode the fullname JSON
+            $fullname = json_decode($child->fullname);
+            $firstName = $fullname->first_name ?? null;
+            $middleName = $fullname->middle_name ?? null;
+            $lastName = $fullname->last_name ?? null;
     
-    $FamilySocialHistory = DB::table('family_social_history')
-        ->where('child_id', $child->id)
-        ->latest()
-        ->first();
-    $FamilySocialHistory = $FamilySocialHistory ? json_decode($FamilySocialHistory->data) : null;
-
-
-        // Pass all data to the view
-       // Prepare the data for the textarea
-$doctorsNotes = "";
-$doctorsNotes .= $triageData ? "Triage Data:\n" . json_encode($triageData, JSON_PRETTY_PRINT) . "\n\n" : "Triage Data: No data available.\n\n";
-$doctorsNotes .= $cnsData ? "CNS Data:\n" . json_encode($cnsData, JSON_PRETTY_PRINT) . "\n\n" : "CNS Data: No data available.\n\n";
-$doctorsNotes .= $milestonesData ? "Milestones Data:\n" . json_encode($milestonesData, JSON_PRETTY_PRINT) . "\n\n" : "Milestones Data: No data available.\n\n";
-
-$doctorsNotes .= $perinatalHistory ? "perinatalHistory Data:\n" . json_encode($perinatalHistory, JSON_PRETTY_PRINT) . "\n\n" : "perinatalHistory Data: No data available.\n\n";
-
-$doctorsNotes .= $pastMedicalHistory ? "pastMedicalHistory Data:\n" . json_encode($pastMedicalHistory, JSON_PRETTY_PRINT) . "\n\n" : "pastMedicalHistory Data: No data available.\n\n";
-
-$doctorsNotes .= $BehaviourAssessment ? "BehaviourAssessment Data:\n" . json_encode($BehaviourAssessment, JSON_PRETTY_PRINT) . "\n\n" : "BehaviourAssessment Data: No data available.\n\n";
-
-$doctorsNotes .= $FamilySocialHistory ? "FamilySocialHistory Data:\n" . json_encode($FamilySocialHistory, JSON_PRETTY_PRINT) . "\n\n" : "FamilySocialHistory Data: No data available.\n\n";
-
-// Pass the notes to the view
-return view('doctor', [
-    'child' => $child,
-    'child_id'=>$child->id,
-    'firstName' => $firstName,
-    'middleName' => $middleName,
-    'lastName' => $lastName,
-    'gender' => $gender,
-    'doctorsNotes' => $doctorsNotes,
-    'parents' => $parents,
+            // Get gender name
+            $gender = DB::table('gender')->where('id', $child->gender_id)->value('gender');
     
-]);
-
-    } catch (\Exception $e) {
-        Log::error("Error in getChildDetails: " . $e->getMessage());
-        return response()->json(['error' => 'Internal server error'], 500);
+            // Retrieve the latest visit for the child
+            $visit = DB::table('visits')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+    
+            // Check if a visit exists
+            if (!$visit) {
+                return response()->json(['error' => 'No visit found for the child'], 404);
+            }
+            $parentData = DB::table('child_parent')
+                ->where('child_id', $child->id)
+                ->join('parents', 'child_parent.parent_id', '=', 'parents.id')
+                ->join('relationships', 'parents.relationship_id', '=', 'relationships.id')
+                ->select(
+                    'parents.fullname',
+                    'parents.telephone',
+                    'parents.email',
+                    'relationships.relationship'
+                )
+                ->get();
+                $parents = [];
+            foreach ($parentData as $parent) {
+                $fullname = json_decode($parent->fullname);
+                $parents[$parent->relationship] = [
+                    'fullname' => $fullname->first_name . ' ' . ($fullname->middle_name ?? '') . ' ' . $fullname->last_name,
+                    'telephone' => $parent->telephone,
+                    'email' => $parent->email,
+                ];
+            }
+    
+            Log::info('Parent Data for Child ' . $child->id . ':', $parents);
+    
+            // Fetch triage data
+            $triage = DB::table('triage')->where('child_id', $child->id)->first();
+            $triageData = $triage ? json_decode($triage->data) : null;
+    
+            // Fetch CNS data
+            $cnsData = DB::table('cns')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $cnsData = $cnsData ? json_decode($cnsData->data) : null;
+            
+            $perinatalHistory = DB::table('perinatal_history')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $perinatalHistory = $perinatalHistory ? json_decode($perinatalHistory->data) : null;
+    
+            // Fetch developmental milestones
+            $milestones = DB::table('development_milestones')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $milestonesData = $milestones ? json_decode($milestones->data) : null;
+            
+            $pastMedicalHistory = DB::table('past_medical_history')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $pastMedicalHistory = $pastMedicalHistory ? json_decode($pastMedicalHistory->data) : null;
+            
+            $BehaviourAssessment = DB::table('behaviour_assessment')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $BehaviourAssessment = $BehaviourAssessment ? json_decode($BehaviourAssessment->data) : null;
+            
+            $FamilySocialHistory = DB::table('family_social_history')
+                ->where('child_id', $child->id)
+                ->latest()
+                ->first();
+            $FamilySocialHistory = $FamilySocialHistory ? json_decode($FamilySocialHistory->data) : null;
+    
+            // Format the data in a readable format
+            $doctorsNotes = "";
+            
+            // Format Triage Data
+            $doctorsNotes .= "Triage:\n";
+            if ($triageData) {
+                foreach ($triageData as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    $doctorsNotes .= "$formattedKey: $value\n";
+                }
+            } else {
+                $doctorsNotes .= "No triage data available.\n";
+            }
+            $doctorsNotes .= "\n";
+            
+            // Format CNS Data
+            $doctorsNotes .= "CNS Data:\n";
+            if ($cnsData) {
+                foreach ($cnsData as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    $doctorsNotes .= "$formattedKey: $value\n";
+                }
+            } else {
+                $doctorsNotes .= "No CNS data available.\n";
+            }
+            $doctorsNotes .= "\n";
+            
+            // Format Development Milestones
+            $doctorsNotes .= "Development Milestones:\n";
+            if ($milestonesData) {
+                foreach ($milestonesData as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    if ($value !== null) {
+                        $doctorsNotes .= "$formattedKey: $value\n";
+                    }
+                }
+            } else {
+                $doctorsNotes .= "No development milestones data available.\n";
+            }
+            $doctorsNotes .= "\n";
+            
+            // Format Perinatal History
+            $doctorsNotes .= "Perinatal History:\n";
+            if ($perinatalHistory) {
+                foreach ($perinatalHistory as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    if ($value !== null) {
+                        $doctorsNotes .= "$formattedKey: $value\n";
+                    }
+                }
+            } else {
+                $doctorsNotes .= "No perinatal history data available.\n";
+            }
+            $doctorsNotes .= "\n";
+            
+            // Format Past Medical History
+            $doctorsNotes .= "Past Medical History:\n";
+            if ($pastMedicalHistory) {
+                foreach ($pastMedicalHistory as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    if ($value !== null) {
+                        $doctorsNotes .= "$formattedKey: $value\n";
+                    }
+                }
+            } else {
+                $doctorsNotes .= "No past medical history data available.\n";
+            }
+            $doctorsNotes .= "\n";
+            
+            // Format Behaviour Assessment
+            $doctorsNotes .= "Behaviour Assessment:\n";
+            if ($BehaviourAssessment) {
+                foreach ($BehaviourAssessment as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    if ($value !== null) {
+                        $doctorsNotes .= "$formattedKey: $value\n";
+                    }
+                }
+            } else {
+                $doctorsNotes .= "No behaviour assessment data available.\n";
+            }
+            $doctorsNotes .= "\n";
+            
+            // Format Family Social History
+            $doctorsNotes .= "Family Social History:\n";
+            if ($FamilySocialHistory) {
+                foreach ($FamilySocialHistory as $key => $value) {
+                    $formattedKey = ucwords(str_replace('_', ' ', $key));
+                    if ($value !== null) {
+                        $doctorsNotes .= "$formattedKey: $value\n";
+                    }
+                }
+            } else {
+                $doctorsNotes .= "No family social history data available.\n";
+            }
+            
+            // Pass all data to the view
+            return view('doctor', [
+                'child' => $child,
+                'child_id' => $child->id,
+                'firstName' => $firstName,
+                'middleName' => $middleName,
+                'lastName' => $lastName,
+                'gender' => $gender,
+                'doctorsNotes' => $doctorsNotes,
+                'parents' => $parents,
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error("Error in getChildDetails: " . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
-}
 
 public function dashboard()
 {

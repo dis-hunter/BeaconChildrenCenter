@@ -567,10 +567,14 @@ document.getElementById('submit-appointment').addEventListener('click', async ()
                 `;
                 document.body.appendChild(successMessage);
 
+                 // Extract the patient ID from the current URL
+                const pathSegments = window.location.pathname.split('/');
+                const patientId = pathSegments[pathSegments.length - 1]; // Get the last part of the URL
+
                 // Redirect to dashboard after 2 seconds
                 setTimeout(() => {
                     successMessage.remove();
-                    window.location.href = '/dashboard'; // Changed from reload() to redirect
+                    window.location.href = `/patients/${patientId}`;
                 }, 2000);
             } else {
                 loadingUI.hide();

@@ -15,8 +15,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache; 
 
-
-
 class VisitController extends Controller
 {
     public function getVisitsLast7Days()

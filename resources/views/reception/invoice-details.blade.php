@@ -3,13 +3,7 @@
 @extends('reception.header')
 @section('content')
 <style>
-    /* Hide buttons when printing */
-    @media print {
-        button, a {
-            display: none !important;
-        }
-    }
-
+    
     /* Invoice styling */
     .invoice-container {
         max-width: 800px;
@@ -18,6 +12,8 @@
         border: 1px solid #ddd;
         background-color: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        min-height: 600px;
     }
 
     .invoice-header {
@@ -29,17 +25,13 @@
         max-width: 150px;
         height: auto;
         margin-bottom: 10px;
-       margin-left:300px;
+        margin-left: 300px;
     }
 
     .invoice-header h2 {
         margin: 0;
         font-size: 20px;
         color: #333;
-    }
-
-    .invoice-details {
-        margin-bottom: 20px;
     }
 
     .invoice-details p {
@@ -82,21 +74,24 @@
         margin: 0 5px;
     }
 
-    /* Terms and Conditions */
-    .invoice-terms {
-        margin-top: 20px;
-        font-size: 13px;
-        color: #555;
+
+@media print {
+   
+    button, a, .search-bar, nav, .navbar, .sidebar , .input-group{
+        display: none !important;
     }
 
-    /* Ensure logo is visible when printing */
-    @media print {
-        .invoice-header img {
-            display: block !important;
-            max-width: 100px;
-        }
+    /* Remove form borders */
+    .invoice-container {
+        border: none !important;
+        box-shadow: none !important;
     }
+
+}
+
+
 </style>
+
 
 <div class="invoice-container">
     <!-- Invoice Header with Logo -->
@@ -138,14 +133,6 @@
         <p><strong>Total Amount:</strong> KES {{ number_format($invoice->total_amount, 2) }}</p>
     </div>
 
-    <!-- Terms and Conditions -->
-    <div class="invoice-terms">
-        <h4>Terms and Conditions</h4>
-        <p>1. Payment should be made within 7 days of the invoice date.</p>
-        <p>2. Late payments may attract additional charges.</p>
-        <p>3. Services rendered are non-refundable.</p>
-        <p>4. If you have any questions, please contact our office.</p>
-    </div>
 
     <!-- Actions -->
     <div class="invoice-actions">
