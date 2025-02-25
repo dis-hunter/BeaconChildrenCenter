@@ -55,7 +55,8 @@ class CarePlanController extends Controller
             }
     
             // Assuming staff ID is 1 (replace with actual logic to get staff ID)
-            $staffId = 1; 
+            $staffId = auth()->user()->id;
+        
     
             // Prepare the data to be stored as JSON
             $carePlanData = [
