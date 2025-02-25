@@ -2877,3 +2877,5 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-25 11:20:00] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
 [2025-02-25 11:20:04] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-25 11:20:18] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:22:25] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:22:29] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
