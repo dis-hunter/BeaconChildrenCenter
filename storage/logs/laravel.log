@@ -4235,3 +4235,4 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-25 20:32:18] local.INFO: Fetching expenses from 2025-02-01 00:00:00 to 2025-02-14 23:59:59  
 [2025-02-25 20:32:21] local.INFO: 1 expenses found.  
 [2025-02-25 20:32:21] local.INFO: Response sent to front end: [{"id":18,"category":"ICT needs","amount":12000,"description":"software development","created_at":"2025-02-02T11:53:53.000000Z","payment_method":"bank_transfer"}] 
+[2025-02-25 20:39:02] local.INFO: Cached Disease Statistics Retrieved: {"Autism":1,"ADHD":1,"Learning disorder":0,"Intellectual development":0,"Other":6} 

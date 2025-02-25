@@ -14,8 +14,6 @@ use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache; 
-w
-
 
 class VisitController extends Controller
 {
