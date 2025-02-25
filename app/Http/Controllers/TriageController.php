@@ -192,34 +192,66 @@ class TriageController extends Controller
         }
     }
     
-    /**
-     * Fetch patients from the database.
-     */
+
+
     private function fetchPatientsFromDatabase($doctorId, $date)
     {
-        return DB::table('visits')
-            ->join('children', 'visits.child_id', '=', 'children.id')
-            ->select('visits.*', 'children.fullname', 'children.registration_number')
-            ->where('visits.triage_pass', true)
-            ->whereDate('visits.visit_date', $date)
-            ->where('visits.doctor_id', $doctorId)
-            ->latest('visits.created_at')
-            ->limit(20)
-            ->get()
-            ->map(function ($visit) {
+        Log::info("Fetching post-triage queue for Doctor ID: {$doctorId} on {$date}");
+    
+        try {
+            // Fetch records from the database
+            $patients = DB::table('visits')
+                ->join('children', 'visits.child_id', '=', 'children.id')
+                ->join('visit_type', 'visits.visit_type', '=', 'visit_type.id')
+                ->select(
+                    'visits.*',
+                    'children.fullname as child_fullname',
+                    'children.registration_number',
+                    'visit_type.visit_type as visit_type_name',
+                    'visit_type.sponsored_price',
+                    'visit_type.normal_price'
+                )
+                ->where('visits.triage_pass', true)
+                ->whereDate('visits.visit_date', $date)
+                ->where('visits.doctor_id', $doctorId)
+                ->latest('visits.created_at')
+                ->limit(20)
+                ->get();
+    
+            Log::info("Fetched " . count($patients) . " patients for Doctor ID: {$doctorId}");
+    
+            // Map and process patient data
+            $processedPatients = $patients->map(function ($visit) {
                 try {
-                    $fullname = json_decode($visit->fullname);
+                    // Decode child's fullname
+                    $fullname = json_decode($visit->child_fullname);
                     if ($fullname && isset($fullname->first_name, $fullname->middle_name, $fullname->last_name)) {
                         $visit->patient_name = trim("{$fullname->first_name} {$fullname->middle_name} {$fullname->last_name}");
                     } else {
-                        $visit->patient_name = $visit->fullname ?? 'N/A';
+                        $visit->patient_name = $visit->child_fullname ?? 'N/A';
                     }
                 } catch (\Exception $e) {
+                    Log::error("Error decoding child's fullname: " . $e->getMessage());
                     $visit->patient_name = 'N/A';
                 }
+    
+                // Attach visit type info
+                $visit->visit_type = $visit->visit_type_name ?? 'N/A';
+                $visit->sponsored_price = $visit->sponsored_price ?? 0;
+                $visit->normal_price = $visit->normal_price ?? 0;
+    
+                Log::debug("Processed Visit ID: {$visit->id} | Patient: {$visit->patient_name} | Visit Type: {$visit->visit_type}");
+    
                 return $visit;
             });
+    
+            return $processedPatients;
+        } catch (\Exception $e) {
+            Log::error("Failed to fetch post-triage queue for Doctor ID: {$doctorId}. Error: " . $e->getMessage());
+            return collect(); // Return empty collection on failure
+        }
     }
+    
     public function getNurseName() {
         $nurse = auth()->user();
 

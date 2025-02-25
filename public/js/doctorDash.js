@@ -30,46 +30,50 @@ async function fetchPostTriageQueue() {
           return;
       }
 
-      data.data.forEach(visit => {
+      data.data.forEach((visit, index) => {
           const row = document.createElement('tr');
           row.innerHTML = `
-              <td>${visit.patient_name || 'N/A'}</td>
+              <td style="text-align: left;">
+                  <div>
+                    <p style="font-size: 20px; color:#007bff; margin-bottom: 10px; display: inline;">${index + 1}. ${visit.patient_name || 'N/A'}</p><br>
+                    <small style="color: gray; font-size: 14px; margin-left: 28px;">${visit.visit_type || 'N/A'}</small>
+
+
+                  </div>
+              </td>
               <td>
                   <button 
                       onclick="startConsultation('${visit.registration_number}')" 
                       class="consult-btn"
                       style="background-color: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
                   >
-                      Start Consultation
+                      Start Session
                   </button>
               </td>
               <style>
-  .consult-btn {
-    background-color: #007bff; /* Blue background */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size:16px;
-    transition: all 0.3s ease; /* Smooth transitions for all properties */
-    
-  }
+                  .consult-btn {
+                      background-color: #007bff;
+                      color: white;
+                      padding: 10px 20px;
+                      border: none;
+                      border-radius: 5px;
+                      cursor: pointer;
+                      font-size: 16px;
+                      transition: all 0.3s ease;
+                  }
 
-  .consult-btn:hover {
-    background-color: white; /* Darker blue on hover */
-    color:black;
-    border:1px solid black;
-    
-  }
-    td {
-    padding: 15px; 
-    text-align: center; 
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions */
-  }
+                  .consult-btn:hover {
+                      background-color: white;
+                      color: black;
+                      border: 1px solid black;
+                  }
 
-</style>
+                  td {
+                      padding: 10px;
+                      border-bottom: 1px solid #ddd;
+                      transition: background-color 0.3s ease, transform 0.2s ease;
+                  }
+              </style>
           `;
           patientList.appendChild(row);
       });
@@ -77,6 +81,7 @@ async function fetchPostTriageQueue() {
       console.error('Failed to fetch post-triage queue:', error);
   }
 }
+
 
 // Auto-fetch on page load
 document.addEventListener('DOMContentLoaded', fetchPostTriageQueue);
