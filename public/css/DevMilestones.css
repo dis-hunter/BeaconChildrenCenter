@@ -19,22 +19,23 @@ body {
   }
   
   .section-title {
-    background-color: lightblue; /* Light blue background for titles */
+    background-color: #007bff; /* Light blue background for titles */
     padding: 10px;
     font-weight: bold;
     margin-bottom: 5px;
+    color:white;
   }
   
   .grid-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* Adjust for number of columns */
     gap: 5px;
-    background-color: lightblue;
+    background-color: #007bff;
     padding: 10px;
-  }
+    
   
   .grid-item {
-    border-right: 1px solid black;
+    border-right: 1px solid white;
     padding: 5px;
     text-align: center;
   }
@@ -55,6 +56,8 @@ body {
   .grid-item label {
     display: block;
     margin-bottom: 5px;
+    color:white;
+  
   }
   
   .grid-item input[type="text"] {

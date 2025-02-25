@@ -2727,3 +2727,128 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-24 12:01:20] local.INFO: Child found with ID: 1  
 [2025-02-24 12:01:20] local.INFO: Visit found with ID: 132  
 >>>>>>> e1ca9c990e32356985ef0ee9932ce0021ff66147
+[2025-02-24 18:36:52] local.INFO: Fetched appointments for date: 2025-02-24 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 08:54:10] local.ERROR: Maximum execution time of 60 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 60 seconds exceeded at C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2025-02-25 08:56:43] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 08:56:50] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 08:57:08] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 08:57:18] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:02:49] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:05:51] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:07:09] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:07:57] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:08:52] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:12:38] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:13:21] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:14:42] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:15:53] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:17:11] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:17:48] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:18:04] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:18:34] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:23:01] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:23:11] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:25:14] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:26:14] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:28:10] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:29:34] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:30:12] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:31:18] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:32:26] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:33:04] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:33:55] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:34:39] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:35:27] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:36:55] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:37:37] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:38:03] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:39:01] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:40:51] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:40:52] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:41:36] local.INFO: Querying child for registration number: {"registration_number":"REG-001"} 
+[2025-02-25 09:41:37] local.INFO: Child found: {"child_id":1} 
+[2025-02-25 09:41:37] local.INFO: Milestone data:  {"milestone":{"stdClass":{"id":1,"visit_id":1,"child_id":1,"doctor_id":2,"data":"{\"Neck Support\":\"3\",\"Sitting\":\"6\",\"Crawling\":\"8\",\"Standing\":\"10\",\"Walking\":\"12\",\"Cooing\\/Babbling\":\"4\",\"First Word\":\"10\",\"Vocabulary\":\"15\",\"Phrase Speech\":\"20\",\"Conversational\":\"24\",\"Smiling\\/Laughing\":\"2\",\"Attachments\":\"6\",\"Feeding\":\"12\",\"Elimination\":\"18\",\"Teething\":\"6\"}","created_at":"2024-12-30 16:27:26","updated_at":"2024-12-30 16:27:26"}}} 
+[2025-02-25 09:43:48] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:43:49] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:44:18] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:44:27] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:44:28] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:45:25] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:45:26] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:45:35] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:46:23] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:46:24] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:47:10] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:47:21] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:47:22] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:48:22] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:48:31] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 09:48:32] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 09:50:23] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:51:47] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:52:39] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:53:30] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:54:33] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:55:18] local.INFO: Querying child for registration number: {"registration_number":"REG-001"} 
+[2025-02-25 09:55:18] local.INFO: Child found: {"child_id":1} 
+[2025-02-25 09:55:19] local.INFO: Milestone data:  {"milestone":{"stdClass":{"id":1,"visit_id":1,"child_id":1,"doctor_id":2,"data":"{\"Neck Support\":\"3\",\"Sitting\":\"6\",\"Crawling\":\"8\",\"Standing\":\"10\",\"Walking\":\"12\",\"Cooing\\/Babbling\":\"4\",\"First Word\":\"10\",\"Vocabulary\":\"15\",\"Phrase Speech\":\"20\",\"Conversational\":\"24\",\"Smiling\\/Laughing\":\"2\",\"Attachments\":\"6\",\"Feeding\":\"12\",\"Elimination\":\"18\",\"Teething\":\"6\"}","created_at":"2024-12-30 16:27:26","updated_at":"2024-12-30 16:27:26"}}} 
+[2025-02-25 09:56:57] local.INFO: Querying child for registration number: {"registration_number":"REG-001"} 
+[2025-02-25 09:56:57] local.INFO: Child found: {"child_id":1} 
+[2025-02-25 09:56:58] local.INFO: Milestone data:  {"milestone":{"stdClass":{"id":1,"visit_id":1,"child_id":1,"doctor_id":2,"data":"{\"Neck Support\":\"3\",\"Sitting\":\"6\",\"Crawling\":\"8\",\"Standing\":\"10\",\"Walking\":\"12\",\"Cooing\\/Babbling\":\"4\",\"First Word\":\"10\",\"Vocabulary\":\"15\",\"Phrase Speech\":\"20\",\"Conversational\":\"24\",\"Smiling\\/Laughing\":\"2\",\"Attachments\":\"6\",\"Feeding\":\"12\",\"Elimination\":\"18\",\"Teething\":\"6\"}","created_at":"2024-12-30 16:27:26","updated_at":"2024-12-30 16:27:26"}}} 
+[2025-02-25 09:57:37] local.INFO: Parent Data for Child 1:  
+[2025-02-25 09:57:47] local.INFO: Querying child for registration number: {"registration_number":"REG-001"} 
+[2025-02-25 09:57:48] local.INFO: Child found: {"child_id":1} 
+[2025-02-25 09:57:48] local.INFO: Milestone data:  {"milestone":{"stdClass":{"id":1,"visit_id":1,"child_id":1,"doctor_id":2,"data":"{\"Neck Support\":\"3\",\"Sitting\":\"6\",\"Crawling\":\"8\",\"Standing\":\"10\",\"Walking\":\"12\",\"Cooing\\/Babbling\":\"4\",\"First Word\":\"10\",\"Vocabulary\":\"15\",\"Phrase Speech\":\"20\",\"Conversational\":\"24\",\"Smiling\\/Laughing\":\"2\",\"Attachments\":\"6\",\"Feeding\":\"12\",\"Elimination\":\"18\",\"Teething\":\"6\"}","created_at":"2024-12-30 16:27:26","updated_at":"2024-12-30 16:27:26"}}} 
+[2025-02-25 09:58:37] local.INFO: Querying child for registration number: {"registration_number":"REG-001"} 
+[2025-02-25 09:58:37] local.INFO: Child found: {"child_id":1} 
+[2025-02-25 09:58:38] local.INFO: Milestone data:  {"milestone":{"stdClass":{"id":1,"visit_id":1,"child_id":1,"doctor_id":2,"data":"{\"Neck Support\":\"3\",\"Sitting\":\"6\",\"Crawling\":\"8\",\"Standing\":\"10\",\"Walking\":\"12\",\"Cooing\\/Babbling\":\"4\",\"First Word\":\"10\",\"Vocabulary\":\"15\",\"Phrase Speech\":\"20\",\"Conversational\":\"24\",\"Smiling\\/Laughing\":\"2\",\"Attachments\":\"6\",\"Feeding\":\"12\",\"Elimination\":\"18\",\"Teething\":\"6\"}","created_at":"2024-12-30 16:27:26","updated_at":"2024-12-30 16:27:26"}}} 
+[2025-02-25 10:05:40] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:06:46] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:07:53] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:09:54] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:11:21] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:13:47] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:17:18] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:18:14] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:20:27] local.INFO: Fetching general exam for registration number: REG-001  
+[2025-02-25 10:20:28] local.INFO: General exam data found for visit ID: 137  
+[2025-02-25 10:21:52] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:22:02] local.INFO: Fetching general exam for registration number: REG-001  
+[2025-02-25 10:22:03] local.INFO: General exam data found for visit ID: 137  
+[2025-02-25 10:22:53] local.INFO: Fetching general exam for registration number: REG-001  
+[2025-02-25 10:22:54] local.INFO: General exam data found for visit ID: 137  
+[2025-02-25 10:26:01] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:27:22] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:28:23] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:30:05] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:30:41] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 10:30:42] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 10:33:14] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:35:48] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:37:11] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:37:45] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:38:16] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:43:23] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:46:21] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:47:24] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:53:29] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:56:59] local.INFO: Parent Data for Child 1:  
+[2025-02-25 10:59:25] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:00:29] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:01:32] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:02:14] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:12:04] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:12:26] local.INFO: Fetching child data for registration number: REG-001  
+[2025-02-25 11:12:27] local.INFO: Child data fetched successfully:  {"id":1,"fullname":"{\"last_name\": \"Smith\", \"first_name\": \"John\", \"middle_name\": \"Doe\"}","dob":"2018-05-10","birth_cert":"BC/123456","gender_id":1,"registration_number":"REG-001","created_at":"2024-12-30 16:17:45","updated_at":"2024-12-30 16:17:45"} 
+[2025-02-25 11:12:33] local.INFO: Fetching referral data for registration number: REG-001  
+[2025-02-25 11:12:34] local.INFO: Child found:  {"id":1,"fullname":"{\"last_name\": \"Smith\", \"first_name\": \"John\", \"middle_name\": \"Doe\"}","dob":"2018-05-10","birth_cert":"BC/123456","gender_id":1,"registration_number":"REG-001","created_at":"2024-12-30 16:17:45","updated_at":"2024-12-30 16:17:45"} 
+[2025-02-25 11:12:34] local.INFO: Referral data fetched successfully:  {"id":3,"visit_id":41,"child_id":1,"staff_id":1,"data":"{\"specialists\":[\"Orthopedic Surgeon\",\"Neurologist\",\"Developmental Pediatrician\",\"Infectious Disease\",\"Opthalmologist\"],\"summaryHistory\":\"Things\",\"differentialDiagnosis\":\"THINGS\",\"reasonsForReferral\":\"dfgadhdhasdg\",\"referredTo\":\"ghjgjdgs\"}","created_at":"2025-01-11 18:58:34","updated_at":"2025-01-11 18:58:34"} 
+[2025-02-25 11:13:52] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:14:02] local.INFO: Fetching child data for registration number: REG-001  
+[2025-02-25 11:14:03] local.INFO: Child data fetched successfully:  {"id":1,"fullname":"{\"last_name\": \"Smith\", \"first_name\": \"John\", \"middle_name\": \"Doe\"}","dob":"2018-05-10","birth_cert":"BC/123456","gender_id":1,"registration_number":"REG-001","created_at":"2024-12-30 16:17:45","updated_at":"2024-12-30 16:17:45"} 
+[2025-02-25 11:14:08] local.INFO: Fetching referral data for registration number: REG-001  
+[2025-02-25 11:14:09] local.INFO: Child found:  {"id":1,"fullname":"{\"last_name\": \"Smith\", \"first_name\": \"John\", \"middle_name\": \"Doe\"}","dob":"2018-05-10","birth_cert":"BC/123456","gender_id":1,"registration_number":"REG-001","created_at":"2024-12-30 16:17:45","updated_at":"2024-12-30 16:17:45"} 
+[2025-02-25 11:14:09] local.INFO: Referral data fetched successfully:  {"id":3,"visit_id":41,"child_id":1,"staff_id":1,"data":"{\"specialists\":[\"Orthopedic Surgeon\",\"Neurologist\",\"Developmental Pediatrician\",\"Infectious Disease\",\"Opthalmologist\"],\"summaryHistory\":\"Things\",\"differentialDiagnosis\":\"THINGS\",\"reasonsForReferral\":\"dfgadhdhasdg\",\"referredTo\":\"ghjgjdgs\"}","created_at":"2025-01-11 18:58:34","updated_at":"2025-01-11 18:58:34"} 

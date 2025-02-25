@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function createInputField(label, id, value) {
     return `
         <div class="grid-item">
-            <label for="${id}">${label}:</label>
+            <label style="color:white;" for="${id}">${label}:</label>
             <input type="text" id="${id}" value="${value || ''}">
         </div>
     `;

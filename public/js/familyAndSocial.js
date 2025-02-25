@@ -70,6 +70,7 @@ function removeLoadingIndicator(uniqueId) {
 
 async function loadFamilyAndSocialHistoryForm(mainContent, registrationNumber) {
     mainContent.innerHTML = `
+    <link rel="stylesheet" href="../css/FamilyAndSocial.css">
         <div id="family-social-container">
             <div class="container">
                 <h2>Family and Social History</h2>

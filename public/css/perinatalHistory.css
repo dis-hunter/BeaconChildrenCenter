@@ -13,28 +13,32 @@
   }
   
   .section-title {
-    background-color: lightblue;
+    background-color: #007bff;
     padding: 10px;
     font-weight: bold;
+    color:white;
   }
   
   .grid-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr); 
     gap: 5px;
-    background-color: lightblue;
+    background-color: #007bff;
     padding: 10px;
+   
   }
   
   .grid-item {
-    border-right: 1px solid black; 
+    border-right: 1px solid white; 
     padding: 5px;
     text-align: center;
+   
   }
   .grid-item input[type="text"] {
     font-size: 14px; 
     padding: 5px; 
     width:90px;
+   
    
   }
   
@@ -43,7 +47,7 @@
   }
   
   .highlighted {
-    background-color: lightblue;
+    background-color: #007bff;
   }
   
   textarea {
@@ -59,6 +63,7 @@
   .grid-item label {
     display: block;
     margin-bottom: 5px;
+    color:white
   }
   
   /* Style for the buttons */

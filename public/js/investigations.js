@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         display: block;
         margin-bottom: 5px;
         cursor: pointer;
+        color:black;
       }
   
       input[type="checkbox"],
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       button[type="submit"] {
-        background-color: #28a745;
+        background-color:#007bff;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       button[type="submit"]:hover {
-        background-color: #218838;
+        background-color: #0056b3;
       }
   
       table {

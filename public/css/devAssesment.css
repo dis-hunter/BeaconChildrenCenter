@@ -1,96 +1,138 @@
-.container {
-  max-width: 600px;
-  margin: 0 auto;
+/* General Body Styling */
+body {
   font-family: Arial, sans-serif;
-  color: #333;
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 
+/* Container Styling */
+.container {
+  width: 85%;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
 h2 {
   text-align: center;
-  margin-bottom: 20px;
-  color: Black;
+  color: #007bff;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #007bff;
+  padding-bottom: 8px;
+  font-size: 20px;
 }
 
-/* Styling for sections */
+/* Chronological Age Display */
+#chronologicalAge {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+#chronologicalAge strong {
+  color: #007bff;
+}
+
+/* Sections Styling */
 .sections {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
+/* Section Box */
 .section {
-  margin-bottom: 20px;
-}
-
-.section-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #444;
-}
-
-textarea {
-  width: 100%;
-  height: 80px;
-  resize: vertical;
-  padding: 10px;
-  font-size: 14px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  outline: none;
+  padding: 10px;
+  background-color: #f9f9f9;
 }
 
-textarea:focus {
-  border-color: lightblue;
-  background: #f0f8ff;
+/* Section Titles */
+.section-title {
+  background-color: #007bff;
+  color: white;
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 3px;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
-/* Styling for Dev Age container */
+/* Textarea Styling */
+textarea {
+  width: 100%;
+  height: 60px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  resize: vertical;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+/* Developmental Age Container */
 .dev-age-container {
-  margin-top: 10px;
+  margin-top: 6px;
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .dev-age-heading {
-  flex: 1;
-  font-size: 14px;
   font-weight: bold;
-  color: #555;
+  width: 70px;
+  color: #007bff;
+  font-size: 13px;
 }
 
 .dev-age-input {
-  flex: 2;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  outline: none;
+  flex-grow: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 13px;
 }
 
-.dev-age-input:focus {
-  border-color: #0056b3;
-}
-
-/* Styling for Save button */
+/* Save Button */
 .save-btn {
-  display: block;
   width: 100%;
-  padding: 12px;
-  background: #0056b3;
+  background-color: #007bff;
   color: white;
+  padding: 10px;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .save-btn:hover {
-  background: #004099;
+  background-color: #0056b3;
+  transition: background-color 0.2s ease;
 }
 
-.save-btn:active {
-  background: #003366;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  .dev-age-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dev-age-heading {
+    width: 100%;
+  }
+
+  .dev-age-input {
+    width: 100%;
+  }
 }

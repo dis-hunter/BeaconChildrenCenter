@@ -92,8 +92,8 @@ function search(event) {
       <label for="selectedDiagnoses">Selected Diagnoses:</label>
       <div id="selectedDiagnoses"></div>
     </div>
-    <button type="submit">Search</button>
-    <button type="button" id="saveDiagnosis">Save</button>
+    <button style="background-color:#007bff; font-size:15px;" type="submit">Search</button>
+    <button type="button" id="saveDiagnosis" style="font-size:15px;" >Save</button>
   </form>
 </div>
     `;

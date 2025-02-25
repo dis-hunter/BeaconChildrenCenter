@@ -81,8 +81,8 @@ referralButton.addEventListener('click', async (event) => {
           <textarea id="referredTo">${referralData?.data?.referredTo || ''}</textarea>
         </div>
 
-        <button id="printButton">Print Referral Letter</button>
-        <button id="saveButton">Save Referral</button>
+        <button style="background-color:#007bff;" id="printButton">Print Referral Letter</button>
+        <button  style="background-color:#007bff;" id="saveButton">Save Referral</button>
         <div class="loading-indicator"></div>
       </div>
     `;

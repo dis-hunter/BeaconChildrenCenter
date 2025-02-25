@@ -1,102 +1,140 @@
+/* General Body Styling */
 body {
-    font-family: sans-serif;
-  }
-  
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container Styling */
+.container {
+  width: 80%;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+/* Section Titles */
+.section-title {
+  background-color: #007bff;
+  padding: 10px;
+  font-weight: bold;
+  color: white;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Section Layout */
+.section {
+  margin-bottom: 20px;
+}
+
+/* Grid for CNS */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  background-color: #e7f1ff;
+  border-radius: 4px;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.grid-item label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.grid-item input[type="text"],
+.grid-item select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Textarea with Label */
+.textarea-with-label {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.textarea-label {
+  width: 200px;
+  background-color: #007bff;
+  padding: 10px;
+  font-weight: bold;
+  color: white;
+  border-radius: 4px 0 0 4px;
+  text-align: right;
+  height: 60px;
+}
+
+textarea {
+  flex-grow: 1;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+/* Button Styling */
+button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: block;
+  margin: 20px auto 0 auto;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transition: background-color 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .container {
-    width: 660px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 95%;
   }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .section {
-    margin-bottom: 20px;
-  }
-  
-  .section-title {
-    background-color: lightblue;
-    padding: 10px;
-    font-weight: bold;
-  }
-  
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6 columns */
-    gap: 5px;
-    background-color: lightblue;
-    padding: 10px;
-  }
-  
-  .grid-item {
-    border-right: 1px solid black;
-    padding: 5px;
-    text-align: center;
-  }
-  
-  .grid-item:last-child {
-    border-right: none;
-  }
-  
-  .grid-item input[type="text"] {
-    font-size: 14px; 
-    padding: 5px; 
-    width: 100px;
-  }
-  
-  .grid-item label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  /* Styles for the textareas with labels */
+
   .textarea-with-label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    flex-direction: column;
   }
-  
+
   .textarea-label {
-    width: 200px; /* Adjust width as needed */
-    background-color: lightblue;
-    padding: 10px;
-    font-weight: bold;
-    margin-right: 10px;
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    text-align: left;
   }
-  
+
   textarea {
-    flex-grow: 1;
-    height: 50px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    resize: vertical;
+    border-radius: 0 0 4px 4px;
   }
-  
-  select {
-    width: 100px;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-  
-  button {
-    background-color: #4CAF50; 
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 10px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
+}

@@ -1,5 +1,6 @@
 body {
     font-family: sans-serif;
+
   }
   
   .container {
@@ -24,7 +25,8 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columns */
     gap: 5px;
-    background-color: lightblue;
+    background-color: #007bff;
+    color:white;
     padding: 10px;
   }
   

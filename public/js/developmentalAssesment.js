@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="save-btn">Save</button>
+                    <button style="background-color:#007bff" type="submit" class="save-btn">Save</button>
                 </div>
             `;
   

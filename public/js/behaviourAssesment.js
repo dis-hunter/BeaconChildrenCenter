@@ -62,6 +62,7 @@ function removeLoadingIndicator(uniqueId) {
 async function loadBehaviourAssessmentForm(mainContent) {
     console.log("Rendering the form...");
     mainContent.innerHTML = `
+<link rel="stylesheet" href="../css/BehaviourAssesment.css">
     <div id="behaviourAssessment-container">
         
         <body>

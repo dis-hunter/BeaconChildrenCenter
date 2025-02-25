@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         const mainContent = document.querySelector('.main');
         mainContent.innerHTML = `
+          <link rel='stylesheet' href='../css/pastMedicalHistory.css'>
           <div class="container">
             <h2>Past Medical History</h2>
             <div class="section">
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
               <textarea id="interventions">${pastMedicalHistoryData ? pastMedicalHistoryData.interventions : ''}</textarea>
             </div>
             <button type="submit" id="saveButton">Save</button>
-            <button type="button">Back</button>
+           
           </div>
         `;
         
