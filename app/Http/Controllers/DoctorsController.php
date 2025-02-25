@@ -110,31 +110,32 @@ class DoctorsController extends Controller
     {
         try {
             Log::info("getTriageData called with registration number: " . $registrationNumber);
-
+    
             $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
+    
             if (!$child) {
                 Log::warning("Child not found for registration number: " . $registrationNumber);
                 abort(404);
             }
-
-            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
-
+    
+            $triage = DB::table('triage')->where('child_id', $child->id)->orderBy('created_at', 'desc')->first();
+    
             if (!$triage) {
                 Log::warning("Triage data not found for child with registration number: " . $registrationNumber);
-                return response()->json(['error' => 'Triage data not found'], 404);
+                return response()->json(null); // ✅ Return null instead of 404
             }
-
+    
             $triageData = json_decode($triage->data);
-
+    
             Log::info("Triage data retrieved: ", (array)$triageData);
-
+    
             return response()->json($triageData);
         } catch (\Exception $e) {
             Log::error("Error in getTriageData: " . $e->getMessage());
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
+    
 
     public function saveCnsData(Request $request, $registrationNumber)
     {

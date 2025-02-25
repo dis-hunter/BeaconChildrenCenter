@@ -296,7 +296,7 @@ function fetchReport() {
     } else if (reportType === 'staff_performance') {
         endpoint = '/generate-staff-performance';
     } else if (reportType === 'expense_breakdown') {
-        endpoint = '/expenses'; // New endpoint for expense breakdown
+        endpoint = '/expenses'; 
     } else {
         alert('Invalid report type. Please select a valid option.');
         showLoading(false);
@@ -320,7 +320,7 @@ function fetchReport() {
             } else if (reportType === 'staff_performance') {
                 reportData = data.performance;
             } else if (reportType === 'expense_breakdown') {
-                reportData = data.data; // Use 'data' field from response
+                reportData = data.data; 
             }
 
             currentPage = 1;
