@@ -7,6 +7,9 @@ use App\Models\Visits;
 use App\Models\Children;
 use App\Models\Staff;
 use App\Models\Invoice;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -14,58 +17,94 @@ class ReportController extends Controller
 {
    
 
-    public function generateEncounterSummary(Request $request)
-{
-    try {
-        $validated = $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'report_type' => 'required|string|in:encounter_summary',
-        ]);
-
-        $startDate = $validated['start_date'];
-        $endDate = $validated['end_date'];
-
-        $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
-            ->with(['child:id,fullname', 'staff:id,fullname'])
-            ->get();
-
-        $invoices = Invoice::whereBetween('invoice_date', [$startDate, $endDate])
-            ->get()
-            ->groupBy(function ($invoice) {
-                return $invoice->child_id . '_' . \Carbon\Carbon::parse($invoice->invoice_date)->toDateString();
-            });
-
-        $encounters = $visits->map(function ($visit) use ($invoices) {
-            $visitDate = \Carbon\Carbon::parse($visit->visit_date)->toDateString();
-            $invoiceKey = $visit->child_id . '_' . $visitDate;
-
-            $invoice = $invoices->get($invoiceKey)?->first();
-
-            return [
-                'date' => $visitDate,
-                'child_name' => $this->formatChildFullname($visit->child->fullname ?? 'N/A'),
-                'specialist_name' => $this->formatStaffFullname($visit->staff),
-                'invoice_id' => $invoice ? $invoice->id : 'N/A',
-            ];
-        })->toArray();
-
-        return response()->json([
-            'success' => true,
-            'encounters' => $encounters,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'error' => $e->getMessage(),
-            'line' => $e->getLine(),
-            'file' => $e->getFile(),
-        ], 500);
+   public function generateEncounterSummary(Request $request)
+    {
+        // Log the incoming request
+        Log::info('Fetching encounter summary with request data:', $request->all());
+    
+        try {
+            // Validate the request
+            $validated = $request->validate([
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+                'report_type' => 'required|string|in:encounter_summary',
+            ]);
+    
+            // Convert dates to Carbon instances
+            $startDate = Carbon::parse($validated['start_date'])->startOfDay();
+            $endDate = Carbon::parse($validated['end_date'])->endOfDay();
+    
+            // Log the date range
+            Log::info("Fetching encounters from {$startDate} to {$endDate}");
+    
+            // Fetch visits
+            $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
+                ->with(['child:id,fullname', 'staff:id,fullname'])
+                ->get();
+    
+            if ($visits->isEmpty()) {
+                Log::warning("No visits found between {$startDate} and {$endDate}");
+            } else {
+                Log::info(count($visits) . " visits found.");
+            }
+    
+            // Fetch invoices
+            $invoices = Invoice::whereBetween('invoice_date', [$startDate, $endDate])
+                ->get()
+                ->groupBy(function ($invoice) {
+                    return $invoice->child_id . '_' . Carbon::parse($invoice->invoice_date)->toDateString();
+                });
+    
+            // Map encounters
+            $encounters = $visits->map(function ($visit) use ($invoices) {
+                $visitDate = Carbon::parse($visit->visit_date)->toDateString();
+                $invoiceKey = $visit->child_id . '_' . $visitDate;
+    
+                $invoice = $invoices->get($invoiceKey)?->first();
+    
+                return [
+                    'date' => $visitDate,
+                    'child_name' => $this->formatChildFullname($visit->child->fullname ?? 'N/A'),
+                    'specialist_name' => $this->formatStaffFullname($visit->staff),
+                    'invoice_id' => $invoice ? $invoice->id : 'N/A',
+                ];
+            })->toArray();
+    
+            // Log the response
+            Log::info('Encounter summary response:', $encounters);
+    
+            // Return response
+            return response()->json([
+                'success' => true,
+                'message' => 'Encounter summary retrieved successfully',
+                'encounters' => $encounters,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'report_type' => $validated['report_type'],
+            ]);
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Log validation errors
+            Log::error('Validation Error:', $e->errors());
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            // Log unexpected errors
+            Log::error('Error fetching encounters:', ['error' => $e->getMessage(), 'line' => $e->getLine()]);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while fetching encounters',
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+            ], 500);
+        }
     }
-}
 
     
     
