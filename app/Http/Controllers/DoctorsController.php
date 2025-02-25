@@ -368,20 +368,36 @@ public function dashboard()
 {
     $doctor = auth()->user();
 
+    // Log authenticated doctor
+    Log::info('Authenticated Doctor:', ['doctor' => $doctor]);
+
+    // Handle fullname (still check if it's an object or JSON string)
     if (is_object($doctor->fullname)) {
         $fullName = $doctor->fullname;
-        Log::info('fullname is already an object:', (array)$fullName);
+        Log::info('Fullname is already an object:', (array)$fullName);
     } else {
-        $fullName = json_decode($doctor->fullname, true);
-        Log::info('fullname decoded from JSON:', $fullName);
+        $fullName = json_decode($doctor->fullname);
+        Log::info('Fullname decoded from JSON:', (array)$fullName);
+    }
+
+    // Directly fetch specialization from User model
+    $specialization = $doctor->specialization ? $doctor->specialization->specialization : null;
+
+    // Log specialization
+    if ($specialization) {
+        Log::info('Doctor specialization found:', ['specialization' => $specialization]);
+    } else {
+        Log::warning('No specialization found for doctor with ID:', ['doctor_id' => $doctor->id]);
     }
 
     return view('doctorDash', [
         'doctor' => $doctor,
-        'firstName' => $fullName->first_name ?? null, // Access as object properties
-        'lastName' => $fullName->last_name ?? null,   // Access as object properties
+        'firstName' => $fullName->first_name ?? null,
+        'lastName' => $fullName->last_name ?? null,
+        'specialization' => $specialization,
     ]);
 }
+
 
 }
 

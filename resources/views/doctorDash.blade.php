@@ -17,6 +17,7 @@
       <i class="fas fa-user-md fa-4x"></i>
       <div>
         <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
+        <p style="font-size: 18px; color:white;">{{ $specialization ?? '' }}</p>
         
       </div>
     </div>
@@ -138,7 +139,7 @@
       } else if (hours >= 18) {
         greeting = "Good evening";
       }
-      document.getElementById('greeting').textContent = `${greeting}, Dr. {{ $lastName }}!`;
+      document.getElementById('greeting').textContent = `${greeting}, Dr. {{ $lastName }}`;
     }
     updateGreeting(); 
     setInterval(updateGreeting, 60 * 60 * 1000);

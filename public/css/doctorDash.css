@@ -111,7 +111,7 @@ header {
 
 .profile i {
   color: white;
-  animation: pulse 2s infinite;
+  
 }
 
 .profile h2 {
@@ -197,7 +197,7 @@ main {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #bdc3c7;
+  color: white;
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;
@@ -355,18 +355,7 @@ table tbody tr:hover {
   transform: translateY(-3px);
 }
 
-/* Animations */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+
 
 .next{
   margin-right :30px !important;
