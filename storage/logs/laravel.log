@@ -2852,3 +2852,28 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-25 11:14:08] local.INFO: Fetching referral data for registration number: REG-001  
 [2025-02-25 11:14:09] local.INFO: Child found:  {"id":1,"fullname":"{\"last_name\": \"Smith\", \"first_name\": \"John\", \"middle_name\": \"Doe\"}","dob":"2018-05-10","birth_cert":"BC/123456","gender_id":1,"registration_number":"REG-001","created_at":"2024-12-30 16:17:45","updated_at":"2024-12-30 16:17:45"} 
 [2025-02-25 11:14:09] local.INFO: Referral data fetched successfully:  {"id":3,"visit_id":41,"child_id":1,"staff_id":1,"data":"{\"specialists\":[\"Orthopedic Surgeon\",\"Neurologist\",\"Developmental Pediatrician\",\"Infectious Disease\",\"Opthalmologist\"],\"summaryHistory\":\"Things\",\"differentialDiagnosis\":\"THINGS\",\"reasonsForReferral\":\"dfgadhdhasdg\",\"referredTo\":\"ghjgjdgs\"}","created_at":"2025-01-11 18:58:34","updated_at":"2025-01-11 18:58:34"} 
+[2025-02-25 11:14:49] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:14:53] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:15:03] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:15:43] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:15:47] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:15:52] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:16:14] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:16:18] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:16:27] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:16:37] local.INFO: Parent Data for Child 1:  
+[2025-02-25 11:16:46] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:16:51] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:16:56] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:17:23] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:17:26] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:17:38] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:18:12] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:18:16] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:18:28] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:19:17] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:19:22] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:19:34] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:20:00] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-25 11:20:04] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 11:20:18] local.INFO: fullname is already an object: {"first_name":"Emmanuel","middle_name":"Magunga","last_name":"Oringe"} 

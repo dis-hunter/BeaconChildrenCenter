@@ -38,28 +38,29 @@ async function fetchPostTriageQueue() {
                   <button 
                       onclick="startConsultation('${visit.registration_number}')" 
                       class="consult-btn"
-                      style="background-color: #008CBA; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
+                      style="background-color: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"
                   >
                       Start Consultation
                   </button>
               </td>
               <style>
   .consult-btn {
-    background-color: #008CBA; /* Blue background */
+    background-color: #007bff; /* Blue background */
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
+    font-size:16px;
     transition: all 0.3s ease; /* Smooth transitions for all properties */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    
   }
 
   .consult-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-2px); /* Move up slightly */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+    background-color: white; /* Darker blue on hover */
+    color:black;
+    border:1px solid black;
+    
   }
     td {
     padding: 15px; 
