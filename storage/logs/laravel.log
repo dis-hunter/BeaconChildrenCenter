@@ -3191,3 +3191,48 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-25 15:45:38] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Doctor","middle_name":"","last_name":"Maina"},"telephone":"1111111111","email":"doctor@gmail.com","email_verified_at":null,"staff_no":"2","gender_id":1,"role_id":2,"specialization_id":1,"created_at":"2024-12-30T13:17:47.000000Z","updated_at":"2025-02-02T14:39:10.000000Z","current_team_id":null,"profile_photo_path":"profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png","is_admin":false,"profile_photo_url":"http://127.0.0.1:8000/storage/profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png"}}} 
 [2025-02-25 15:45:38] local.INFO: Fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
 [2025-02-25 15:45:39] local.INFO: Doctor specialization found: {"specialization":"Paediatrician"} 
+[2025-02-25 16:07:48] local.INFO: Parent Data for Child 1:  
+[2025-02-25 16:07:59] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 16:08:00] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 16:08:16] local.INFO: Parent Data for Child 1:  
+[2025-02-25 16:08:25] local.INFO: getTriageData called with registration number: REG-001  
+[2025-02-25 16:08:27] local.INFO: Triage data retrieved:  {"triage_priority":"emergency","triage_sorting":["speech","speech"],"temperature":"44","weight":"12","height":"1.8","head_circumference":"14","blood_pressure":"56/80","pulse_rate":"78","respiratory_rate":"5","oxygen_saturation":"99","muac":"4"} 
+[2025-02-25 16:14:12] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Doctor","middle_name":"","last_name":"Maina"},"telephone":"1111111111","email":"doctor@gmail.com","email_verified_at":null,"staff_no":"2","gender_id":1,"role_id":2,"specialization_id":1,"created_at":"2024-12-30T13:17:47.000000Z","updated_at":"2025-02-02T14:39:10.000000Z","current_team_id":null,"profile_photo_path":"profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png","is_admin":false,"profile_photo_url":"http://127.0.0.1:8000/storage/profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png"}}} 
+[2025-02-25 16:14:12] local.INFO: Fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
+[2025-02-25 16:14:13] local.INFO: Doctor specialization found: {"specialization":"Paediatrician"} 
+[2025-02-25 16:14:19] local.INFO: Fetched appointments for date: 2025-02-25 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-25 16:14:23] local.INFO: Fetching post-triage queue for Doctor ID: 2 on 2025-02-25  
+[2025-02-25 16:14:24] local.INFO: Fetched 1 patients for Doctor ID: 2  
+[2025-02-25 16:14:24] local.DEBUG: Processed Visit ID: 138 | Patient: Cleo Bernhard Roberts | Visit Type: Paediatric Consultation  
+[2025-02-25 16:14:29] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Doctor","middle_name":"","last_name":"Maina"},"telephone":"1111111111","email":"doctor@gmail.com","email_verified_at":null,"staff_no":"2","gender_id":1,"role_id":2,"specialization_id":1,"created_at":"2024-12-30T13:17:47.000000Z","updated_at":"2025-02-02T14:39:10.000000Z","current_team_id":null,"profile_photo_path":"profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png","is_admin":false,"profile_photo_url":"http://127.0.0.1:8000/storage/profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png"}}} 
+[2025-02-25 16:14:29] local.INFO: Fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
+[2025-02-25 16:14:30] local.INFO: Doctor specialization found: {"specialization":"Paediatrician"} 
+[2025-02-25 16:14:36] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:14:47] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:14:48] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:15:03] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:15:04] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:18:16] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:18:32] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:18:34] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:26:05] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:26:16] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:26:17] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:26:53] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:27:03] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:27:04] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:27:22] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:27:33] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:27:34] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:29:40] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:29:50] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:29:51] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:30:26] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:30:37] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:30:38] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:31:13] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:31:24] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:31:25] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:32:01] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:32:11] local.INFO: getTriageData called with registration number: REG-9229  
+[2025-02-25 16:32:12] local.WARNING: Triage data not found for child with registration number: REG-9229  
