@@ -15,54 +15,58 @@ class ReportController extends Controller
    
 
     public function generateEncounterSummary(Request $request)
-    {
-        // Validate incoming request
+{
+    try {
         $validated = $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'report_type' => 'required|string|in:encounter_summary',
         ]);
-    
+
         $startDate = $validated['start_date'];
         $endDate = $validated['end_date'];
-    
-        // Fetch visits within the date range
+
         $visits = Visits::whereBetween('visit_date', [$startDate, $endDate])
             ->with(['child:id,fullname', 'staff:id,fullname'])
             ->get();
-    
-        // Group invoices by child_id and date (without time)
+
         $invoices = Invoice::whereBetween('invoice_date', [$startDate, $endDate])
             ->get()
             ->groupBy(function ($invoice) {
                 return $invoice->child_id . '_' . \Carbon\Carbon::parse($invoice->invoice_date)->toDateString();
             });
-    
-    
-        // Process visits and match them to invoices
+
         $encounters = $visits->map(function ($visit) use ($invoices) {
             $visitDate = \Carbon\Carbon::parse($visit->visit_date)->toDateString();
             $invoiceKey = $visit->child_id . '_' . $visitDate;
-    
-            // Find the invoice for this visit
+
             $invoice = $invoices->get($invoiceKey)?->first();
-    
-    
+
             return [
                 'date' => $visitDate,
-                'child_name' => $this->formatChildFullname($visit->child->fullname ?? null),
+                'child_name' => $this->formatChildFullname($visit->child->fullname ?? 'N/A'),
                 'specialist_name' => $this->formatStaffFullname($visit->staff),
                 'invoice_id' => $invoice ? $invoice->id : 'N/A',
             ];
         })->toArray();
-    
+
         return response()->json([
             'success' => true,
             'encounters' => $encounters,
             'start_date' => $startDate,
             'end_date' => $endDate,
         ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'error' => $e->getMessage(),
+            'line' => $e->getLine(),
+            'file' => $e->getFile(),
+        ], 500);
     }
+}
+
     
     
     
