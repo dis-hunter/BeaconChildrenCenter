@@ -3236,3 +3236,17 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 [2025-02-25 16:32:01] local.INFO: Parent Data for Child 46:  
 [2025-02-25 16:32:11] local.INFO: getTriageData called with registration number: REG-9229  
 [2025-02-25 16:32:12] local.WARNING: Triage data not found for child with registration number: REG-9229  
+[2025-02-25 16:34:22] local.INFO: Querying child for registration number: {"registration_number":"REG-9229"} 
+[2025-02-25 16:34:22] local.INFO: Child found: {"child_id":46} 
+[2025-02-25 16:34:23] local.INFO: Milestone data:  {"milestone":{"stdClass":{"id":4,"visit_id":138,"child_id":46,"doctor_id":2,"data":"{\"Neck Support\":\"2\",\"Sitting\":\"2\",\"Crawling\":\"2\",\"Standing\":\"2\",\"Walking\":\"2\",\"Cooing\\/Babbling\":\"1\",\"First Word\":\"2\",\"Vocabulary\":\"4\",\"Phrase Speech\":\"4\",\"Conversational\":\"1\",\"Smiling\\/Laughing\":\"3\",\"Attachments\":\"3\",\"Feeding\":null,\"Elimination\":null,\"Teething\":null}","created_at":"2025-02-25 13:06:17","updated_at":"2025-02-25 16:06:16"}}} 
+[2025-02-25 16:37:03] local.INFO: Fetching general exam for registration number: REG-9229  
+[2025-02-25 16:37:04] local.INFO: No general exam data found for visit ID: 138  
+[2025-02-25 16:38:39] local.INFO: Fetching general exam for registration number: REG-9229  
+[2025-02-25 16:38:41] local.INFO: No general exam data found for visit ID: 138  
+[2025-02-25 16:46:47] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:47:56] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:49:06] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:49:52] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:50:15] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:50:43] local.INFO: Parent Data for Child 46:  
+[2025-02-25 16:51:26] local.INFO: Parent Data for Child 46:  

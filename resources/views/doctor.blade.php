@@ -39,8 +39,8 @@
 }
 
 .sidebar a:hover {
-  background-color: lightblue; /* Theme color on hover */
-  color: white;
+  background-color: white; /* Theme color on hover */
+  color: black;
   padding-left: 25px;
   transform: translateX(5px); /* Subtle slide effect */
 }
@@ -235,7 +235,7 @@ button:hover {
 <div class="sidebar">
 
 
-  <h2  style="color:white; font-size:15px;"><span style="color:white; font-size:19px;">Patient:{{ $firstName }} {{ $middleName }} {{ $lastName }}</span></h2> 
+  <p style="margin-left:18px;"><span style="color:white; font-size:19px;">Active Patient:<br>{{ $firstName }} {{ $middleName }} {{ $lastName }}</span></p> 
   <a href="#" id="homeLink"><i class="fas fa-home"></i> Home</a>
   <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
