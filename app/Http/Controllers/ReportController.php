@@ -20,7 +20,7 @@ class ReportController extends Controller
         $validated = $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'report_type' => 'required|in:encounter_summary,financial_summary,expenses_breakdown,revenue_breakdown,staff_performance',
+            'report_type' => 'required|string|in:encounter_summary',
         ]);
     
         $startDate = $validated['start_date'];
