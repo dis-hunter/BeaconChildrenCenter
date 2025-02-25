@@ -198,4 +198,6 @@ return [
 
     'same_site' => 'lax',
 
+    'serialization' => 'php',
+
 ];

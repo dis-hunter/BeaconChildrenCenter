@@ -219,7 +219,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/visithandle/{id?}', 'search')->name('search.visit');
             Route::get('/reception/calendar', 'calendar')->name('reception.calendar');
         });
+
         Route::get('/reception/search', [SearchController::class,'search'])->name('reception.search');
+
         Route::controller(ChildrenController::class)->group(function () {
             Route::get('/patients/{id?}', 'patientGet')->name('patients.search');
             Route::get('/guardians', 'get');
@@ -395,3 +397,7 @@ Route::controller(DoctorDashboardController::class)->group(function () {
 
 // Fetch Appointments Route
 Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
+
+Route::get('/debug-session', function () {
+    dd(session()->all());
+});

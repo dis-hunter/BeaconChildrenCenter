@@ -6,7 +6,7 @@
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
     crossorigin="anonymous"></script>
-  
+
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   @livewireStyles
 
@@ -20,7 +20,7 @@
 
     <div class="collapse navbar-collapse ml-3" id="navbarsExampleDefault">
         <ul class="navbar-nav">
-            
+
             @auth
             <li class="nav-item">
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
@@ -53,9 +53,9 @@
             <li class="nav-item">
                 <a href="/get-invoices" class="nav-link"><span class="icon">📑</span><span class="text">Invoices</span></a>
             </li>
-           
-            
-            
+
+
+
             {{-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                 <div class="dropdown-menu">
@@ -87,18 +87,39 @@
                     Fixed Right
                 </a>
             </li>
-           
+
         </ul> --}}
         @endauth
     </div>
 
     <!-- User Dropdown Menu at Top-Right -->
-    
+
 </nav>
 <nav class="navbar navbar-expand-md responsive-navbar" id="Account">
-    <div class="global-search"><x-global-search/></div> 
+    <div class="global-search"><x-global-search/></div>
+
 <div class="ml-auto">
         <ul class="navbar-nav">
+            <li class="nav-item">
+                <div class="d-flex align-items-center">
+                    <!-- Bell Icon -->
+                    <i class="fa fa-bell position-relative" style="font-size: 1.25rem; color: #555;"></i>
+                </div>
+            </li>
+
+            <li class="nav-item" x-data="{ showMessage: true }" x-show="showMessage" style="transition: opacity 0.5s ease;">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show p-2 m-0 ms-2" role="alert" x-init="setTimeout(() => showMessage = false, 5000)">
+                        <strong>Success!</strong> {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show p-2 m-0 ms-2" role="alert" x-init="setTimeout(() => showMessage = false, 5000)">
+                        <strong>Error!</strong> {{ session('error') }}
+                    </div>
+                @endif
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user"></i>
