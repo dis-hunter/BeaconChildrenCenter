@@ -40,7 +40,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             DebugSession::class,
-            ContentSecurityPolicyMiddleware::class,
         ],
 
         'track_user_activity' => [
