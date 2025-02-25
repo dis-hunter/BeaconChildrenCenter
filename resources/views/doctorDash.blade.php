@@ -7,6 +7,44 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    .dot-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        background-color: #007bff;
+        border-radius: 50%;
+        animation: bounce 1.2s infinite ease-in-out;
+    }
+
+    .dot:nth-child(1) {
+        animation-delay: 0s;
+    }
+
+    .dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+        0%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(12px);
+        }
+    }
+</style>
 
 </head>
 <body>
@@ -73,7 +111,13 @@
           </thead>
           <tbody id="post-triage-list">
             <tr>
-              <td colspan="6" style="text-align: center;">Loading...</td>
+            <td colspan="6" style="text-align: center;">
+        <div class="dot-loader">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </td>
             </tr>
           </tbody>
         </table>
