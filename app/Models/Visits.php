@@ -73,7 +73,7 @@ class Visits extends Model
     }
     public function child()
     {
-        return $this->belongsTo(Children::class, 'child_id');
+        return $this->belongsTo(children::class, 'child_id');
     }
 
     public function doctor()
