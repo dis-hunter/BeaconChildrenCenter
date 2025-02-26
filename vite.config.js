@@ -16,12 +16,26 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@' : 'resources/js',
+            '@': 'resources/js',
         },
     },
     build: {
         commonjsOptions: {
-            include : [/node_modules/],
+            include: [/node_modules/],
         },
+        // Added production optimizations
+        minify: 'terser',
+        manifest: true,
+        outDir: 'public/build',
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: [
+                        // List your major dependencies here for better chunking
+                    ]
+                }
+            }
+        }
     },
+
 });
