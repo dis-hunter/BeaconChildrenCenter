@@ -40,7 +40,7 @@ WORKDIR /var/www
 COPY package*.json ./
 
 # Install npm dependencies
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Copy Laravel app files
 COPY . .
