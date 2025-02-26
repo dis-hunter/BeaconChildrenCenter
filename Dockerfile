@@ -77,7 +77,6 @@ RUN  php artisan migrate --path=database/migrations/2025_01_01_173028_create_the
 
 RUN php artisan migrate --force
 
-RUN artisan db:seed --force
 
 
 # Expose necessary ports (Apache, Redis)
