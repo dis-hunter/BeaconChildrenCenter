@@ -19,11 +19,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql intl zip \
     && pecl install redis && docker-php-ext-enable redis
 
-# Install Meilisearch
-RUN curl -L https://install.meilisearch.com | sh && \
-    mv meilisearch /usr/local/bin/meilisearch && \
-    chmod +x /usr/local/bin/meilisearch
-
 # Install Node.js and npm
 RUN mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
@@ -41,8 +36,17 @@ RUN a2enmod rewrite
 # Set working directory
 WORKDIR /var/www
 
+# Copy package.json and package-lock.json first (for better caching)
+COPY package*.json ./
+
+# Install npm dependencies
+RUN npm ci --omit=dev
+
 # Copy Laravel app files
 COPY . .
+
+# Build assets with Vite
+RUN npm run build
 
 # Set Apache to serve from Laravel's public directory
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/public|' /etc/apache2/sites-available/000-default.conf
@@ -59,9 +63,6 @@ RUN mkdir -p storage/framework/views storage/framework/cache storage/logs bootst
 RUN rm -rf vendor composer.lock && \
     composer install --no-interaction --no-dev --prefer-dist
 
-# Install npm dependencies and build assets
-RUN npm install && npm run build
-
 # Setup Supervisor directories and logs
 RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
     touch /var/log/supervisor/supervisord.log /var/log/supervisor/worker.log && \
@@ -70,14 +71,8 @@ RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
 # Setup Supervisor for Laravel Queue Workers
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
-
-RUN php artisan scout:import "App\Models\children"
-RUN php artisan scout:import "App\Models\Parents"
-
-
-
-# Expose necessary ports (Apache, Redis, Meilisearch)
-EXPOSE 80 6379 7700 8000
+# Expose necessary ports (Apache, Redis)
+EXPOSE 80 6379
 
 # Copy entrypoint script and make it executable
 COPY entrypoint.sh /usr/local/bin/

@@ -11,7 +11,7 @@ export default defineConfig({
                 ...refreshPaths,
                 'app/Livewire/**',
             ],
-            integrity: process.env.NODE_ENV === 'production',
+            integrity: true,
         }),
     ],
     resolve: {
