@@ -23,11 +23,22 @@
             <tr class="border-b bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
                 <td class="p-2">{{ $visit->visit_date }}</td>
                 <td class="p-2">
-                    {{ $childName['first_name'] ?? '' }} {{ $childName['middle_name'] ?? '' }} {{ $childName['last_name'] ?? '' }}
-                </td>
-                <td class="p-2">
-                    {{ $doctorName['first_name'] ?? '' }} {{ $doctorName['middle_name'] ?? '' }} {{ $doctorName['last_name'] ?? '' }}
-                </td>
+    @php
+        $childName = is_string($visit->child->fullname) 
+            ? json_decode($visit->child->fullname, true) 
+            : (array) $visit->child->fullname;
+    @endphp
+    {{ $childName['first_name'] ?? '' }} {{ $childName['middle_name'] ?? '' }} {{ $childName['last_name'] ?? '' }}
+</td>
+
+<td class="p-2">
+    @php
+        $doctorName = is_string($visit->doctor->fullname) 
+            ? json_decode($visit->doctor->fullname, true) 
+            : (array) $visit->doctor->fullname;
+    @endphp
+    {{ $doctorName['first_name'] ?? '' }} {{ $doctorName['middle_name'] ?? '' }} {{ $doctorName['last_name'] ?? '' }}
+</td>
                 <td class="p-2">{{ $visit->visitType->visit_type }}</td>
             </tr>
         @endforeach
