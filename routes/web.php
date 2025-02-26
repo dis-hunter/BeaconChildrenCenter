@@ -4,6 +4,10 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BehaviourAssesmentController;
 use App\Http\Controllers\BookedController;
+use App\Http\Controllers\ParentsController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\DoctorDashboardController;
+
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CarePlanController;
 use App\Http\Controllers\ChildrenController;
