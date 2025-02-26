@@ -7,7 +7,7 @@
             <x-filament::input type="date" wire:model="endDate" placeholder="End Date" required />
             
               <!-- Sort Order Dropdown (Automatically Updates) -->
-            <select wire:model.live="sortOrder" class="p-2 border rounded">
+            <select wire:model.live="sortOrder" >
                 <option value="desc">Newest First</option>
                 <option value="asc">Oldest First</option>
             </select>
