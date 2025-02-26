@@ -73,12 +73,6 @@ RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
 
-RUN  php artisan migrate --path=database/migrations/2025_01_01_173028_create_therapy_table.php
-
-RUN php artisan migrate --force
-
-
-
 # Expose necessary ports (Apache, Redis)
 EXPOSE 80 6379
 
