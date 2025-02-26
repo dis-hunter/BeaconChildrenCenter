@@ -18,4 +18,8 @@ class Prescription extends Model
     public function getDataAttribute($value){
         return json_decode($value);
     }
+
+    public function doctor(){
+        return $this->belongsTo(User::class, 'staff_id');
+    }
 }

@@ -76,11 +76,11 @@ class ChildrenController extends Controller
             'middle_name' => ucwords($validatedData['middlename2']),
             'last_name' => ucwords($validatedData['lastname2']),
         ];
-
+        $child_id=null;
 
         //transaction for data consistency
         try {
-            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData,$regis) {
+            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData,$regis, &$child_id) {
                 //Create the parent record
                 $parent = Parents::create([
                     'fullname' => $parent_fullname,
@@ -108,13 +108,14 @@ class ChildrenController extends Controller
                     'parent_id' => $parent->id,
                     'child_id' => $children->id,
                 ]);
+
+                $child_id=$children->id;
             });
+            return redirect()->route('guardians.search',['id'=>$child_id])->with('success', 'Record Saved Successfully!');
         } catch (\Exception $e) {
             Log::error('Create Parent & child (Reception)',[$e->getMessage()]);
-            return redirect()->back()->with('error', 'Failed to save new record...')->withInput($validatedData);
+            return redirect()->back()->with('error', 'Failed to save new record...')->withInput($validatedData)->with('showForm',true);
         }
-
-        return redirect()->back()->with('success', 'Record Saved Successfully!');
     }
 
     public function search(Request $request)
@@ -169,7 +170,7 @@ class ChildrenController extends Controller
             ], 500);
         }
     }
-    
+
 
 
     public function patientGet($id = null)
@@ -178,61 +179,38 @@ class ChildrenController extends Controller
         return view('reception.patients', ['child' => null]);
     }
 
-    // Get the latest record IDs using subqueries
-    $latestVisitId = Visits::select('id')
-        ->where('child_id', $id)
-        ->latest()
-        ->limit(1);
-
-    $latestTriageId = Triage::select('id')
-        ->where('child_id', $id)
-        ->latest()
-        ->limit(1);
-
-    $latestCareplanId = Careplan::select('id')
-        ->where('child_id', $id)
-        ->latest()
-        ->limit(1);
-
-    $latestPrescriptionId = Prescription::select('id')
-        ->where('child_id', $id)
-        ->latest()
-        ->limit(1);
-
-    $latestReferralId = Referral::select('id')
-        ->where('child_id', $id)
-        ->latest()
-        ->limit(1);
-
-    $latestFollowUpId = Follow_Up::select('id')
-        ->where('child_id', $id)
-        ->latest()
-        ->limit(1);
-
-    // Single query with all relationships
     $child = Children::with([
         'gender',
-        'visits' => function ($query) use ($latestVisitId) {
-            $query->whereIn('id', $latestVisitId)
-                  ->with('visitType');
-        },
-        'triage' => function ($query) use ($latestTriageId) {
-            $query->whereIn('id', $latestTriageId);
-        },
-        'careplan' => function ($query) use ($latestCareplanId) {
-            $query->whereIn('id', $latestCareplanId);
-        },
-        'prescription' => function ($query) use ($latestPrescriptionId) {
-            $query->whereIn('id', $latestPrescriptionId);
-        },
-        'referral' => function ($query) use ($latestReferralId) {
-            $query->whereIn('id', $latestReferralId);
-        },
-        'followUp' => function ($query) use ($latestFollowUpId) {
-            $query->whereIn('id', $latestFollowUpId);
-        }
-    ])
-    ->findOrFail($id);
+        'visits' => fn($query) => $query
+            ->where('child_id', $id)
+            ->latest()
+            ->take(1)
+            ->with('visitType'),
+        'triage' => fn($query) => $query
+            ->where('child_id', $id)
+            ->latest()
+            ->take(1),
+        'careplan' => fn($query) => $query
+            ->where('child_id', $id)
+            ->latest()
+            ->take(1)
+            ->with('doctor'), // Include doctor in the same query
+        'prescription' => fn($query) => $query
+            ->where('child_id', $id)
+            ->latest()
+            ->take(1)
+            ->with('doctor'),
+        'referral' => fn($query) => $query
+            ->where('child_id', $id)
+            ->latest()
+            ->take(1)
+            ->with('doctor'),
+        'followUp' => fn($query) => $query
+            ->where('child_id', $id)
+            ->latest()
+            ->take(1)
+            ->with('doctor')
+    ])->findOrFail($id);
 
     // Calculate age
     $child->age = $child->dob ? Carbon::parse($child->dob)->age : 'Unknown';
@@ -263,13 +241,13 @@ class ChildrenController extends Controller
 }
 
 
-   
+
     public function showChildren()
     {
         $children = DB::table('children')->select('id', 'fullname', 'dob', 'birth_cert', 'gender_id', 'registration_number', 'created_at', 'updated_at')->get();
         return view('therapists.therapistsDashboard', ['children' => $children]);
     }
-    
+
     public function showChildren2()
 {
     // Retrieve children data with gender details
@@ -295,7 +273,7 @@ class ChildrenController extends Controller
 
     // Get today's date
     $today = Carbon::today()->toDateString();
-    
+
     // New registrations today
     $newRegistrations = DB::table('children')
         ->whereDate('created_at', $today)
@@ -325,7 +303,7 @@ class ChildrenController extends Controller
                     $staffMember->fullname = $decodedName;
                 }
             }
-    
+
             // Extract full name ensuring proper spacing
             $fullNameParts = [
                 $staffMember->fullname['first_name'] ?? '',
@@ -336,7 +314,7 @@ class ChildrenController extends Controller
                 $staffMember->fullname['lastname'] ?? ''
             ];
             $staffMember->full_name = trim(implode(' ', array_filter($fullNameParts)));
-    
+
             // Determine leave status based on date range
             $today = date('Y-m-d');
             if ($staffMember->leave_status === 'approved' && $staffMember->start_date <= $today && $staffMember->end_date >= $today) {
@@ -344,11 +322,11 @@ class ChildrenController extends Controller
             } else {
                 $staffMember->status = 'Available';
             }
-    
+
             return $staffMember;
         });
-    
-    
+
+
     // Pass all data to the view
     return view('beaconAdmin', [
         'children' => $children,
@@ -358,7 +336,7 @@ class ChildrenController extends Controller
         'staff' => $staff,
     ]);
 }
-    
+
 public function getGenderDistribution()
 {
     // Fetch the gender distribution data
@@ -377,4 +355,4 @@ public function getGenderDistribution()
 
 
 
-    
+

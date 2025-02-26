@@ -25,4 +25,10 @@ class Careplan extends Model
             return str_contains($key, 'Notes') && !is_null($value);
         }, ARRAY_FILTER_USE_BOTH);
     }
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'staff_id');
+    }
+
 }
