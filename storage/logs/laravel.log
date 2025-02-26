@@ -5867,3 +5867,25 @@ Did you mean one of these?
 [2025-02-26 13:45:37] local.INFO: Fetched appointments for date: 2025-02-26 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 =======
 >>>>>>> 065ac56e1b549d018e90f4c5ed027681741fb265
+[2025-02-26 13:48:16] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Doctor","middle_name":"","last_name":"Maina"},"telephone":"1111111111","email":"doctor@gmail.com","email_verified_at":null,"staff_no":"2","gender_id":1,"role_id":2,"specialization_id":1,"created_at":"2024-12-30T13:17:47.000000Z","updated_at":"2025-02-02T14:39:10.000000Z","current_team_id":null,"profile_photo_path":"profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png","is_admin":false,"profile_photo_url":"http://127.0.0.1:8000/storage/profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png"}}} 
+[2025-02-26 13:48:18] local.INFO: Fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
+[2025-02-26 13:48:20] local.INFO: Doctor specialization found: {"specialization":"Paediatrician"} 
+[2025-02-26 13:48:26] local.INFO: Fetched appointments for date: 2025-02-26 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-02-26 13:48:37] local.INFO: Fetching post-triage queue for Doctor ID: 2 on 2025-02-26  
+[2025-02-26 13:48:38] local.INFO: Fetched 2 patients for Doctor ID: 2  
+[2025-02-26 13:48:38] local.DEBUG: Processed Visit ID: 142 | Patient: Alexie Lesch Hudson | Visit Type: Paediatric Consultation  
+[2025-02-26 13:48:38] local.DEBUG: Processed Visit ID: 140 | Patient: Alice Wilson Johnson | Visit Type: Paediatric Consultation  
+[2025-02-26 13:48:46] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Doctor","middle_name":"","last_name":"Maina"},"telephone":"1111111111","email":"doctor@gmail.com","email_verified_at":null,"staff_no":"2","gender_id":1,"role_id":2,"specialization_id":1,"created_at":"2024-12-30T13:17:47.000000Z","updated_at":"2025-02-02T14:39:10.000000Z","current_team_id":null,"profile_photo_path":"profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png","is_admin":false,"profile_photo_url":"http://127.0.0.1:8000/storage/profile-photos/c0XzzBEP4125cKRkrtxfKSTi7s1KZRdJ2ooWKnmv.png"}}} 
+[2025-02-26 13:48:46] local.INFO: Fullname is already an object: {"first_name":"Doctor","middle_name":"","last_name":"Maina"} 
+[2025-02-26 13:48:47] local.INFO: Doctor specialization found: {"specialization":"Paediatrician"} 
+[2025-02-26 13:59:28] local.ERROR: Error in getChildDetails: SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. (Connection: pgsql, SQL: select * from "children" where "registration_number" = REG-4704 limit 1)  
+[2025-02-26 13:59:40] local.ERROR: Error in getChildDetails: SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. (Connection: pgsql, SQL: select * from "children" where "registration_number" = REG-4704 limit 1)  
+[2025-02-26 14:00:37] local.ERROR: Error in getChildDetails: SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. (Connection: pgsql, SQL: select * from "children" where "registration_number" = REG-4704 limit 1)  
+[2025-02-26 14:01:55] local.INFO: Parent Data for Child 36:  
+[2025-02-26 14:04:42] local.INFO: Parent Data for Child 36:  
