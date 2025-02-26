@@ -46,8 +46,6 @@ class RestrictIP
             '105.27.124.230',
         ];
 
-        // Inject console log for both allowed and blocked IPs
-        $script = "<script>console.log('Client IP: {$clientIP}');</script>";
 
         if (in_array($clientIP, $allowed_ips)) {
             $response = $next($request);
@@ -55,12 +53,7 @@ class RestrictIP
             $response = response()->view('errors.403', [], 403);
         }
 
-        // Inject console log into response
-        if ($response instanceof \Illuminate\Http\Response) {
-            $content = $response->getContent();
-            $content = str_replace('</body>', $script . '</body>', $content);
-            $response->setContent($content);
-        }
+        
 
         return $response;
     }
