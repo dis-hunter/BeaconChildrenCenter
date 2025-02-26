@@ -61,6 +61,7 @@ RUN mkdir -p storage/framework/views storage/framework/cache storage/logs bootst
 
 # Clear old vendor files and install Composer dependencies
 RUN rm -rf vendor composer.lock && \
+    rm public/hot && \
     composer install --no-interaction --no-dev --prefer-dist
 
 # Setup Supervisor directories and logs
