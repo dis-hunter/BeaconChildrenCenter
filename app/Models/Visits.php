@@ -75,4 +75,10 @@ class Visits extends Model
     {
         return $this->belongsTo(Children::class, 'child_id');
     }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Staff::class, 'doctor_id');
+    }
+
 }
