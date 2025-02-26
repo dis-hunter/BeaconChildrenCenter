@@ -10,14 +10,6 @@ service redis-server start
 sleep 3
 
 
-# Run migrations
- php artisan migrate --path=database/migrations/2025_01_01_173028_create_therapy_table.php
-
-php artisan migrate --force
-
-php artisan db:seed --force
-
-
 # Clear and cache config
 php artisan optimize
 
