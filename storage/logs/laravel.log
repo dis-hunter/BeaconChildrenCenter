@@ -4957,6 +4957,7 @@ Behaviour Assessment: No data available.","completed":true,"payment_mode_id":3,"
 =======
 >>>>>>> 09f614eddc4337f5ee426185e471ff5dcfde2bdd
 >>>>>>> 47f481b054c931aa6f054edccb31c9f5f381a6ca
+<<<<<<< HEAD
 [2025-02-26 06:36:29] local.INFO: Disease Statistics Before Caching: {"Autism":1,"ADHD":1,"Learning disorder":0,"Intellectual development":0,"Other":6} 
 [2025-02-26 06:36:34] local.INFO: Cached Disease Statistics Retrieved: {"Autism":1,"ADHD":1,"Learning disorder":0,"Intellectual development":0,"Other":6} 
 [2025-02-26 06:36:50] local.INFO: Fetching encounter summary with request data: {"start_date":"2025-02-01","end_date":"2025-02-05","report_type":"encounter_summary"} 
@@ -5864,3 +5865,5 @@ Did you mean one of these?
 [2025-02-26 13:39:23] local.INFO: Fetched appointments for date: 2025-02-26 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-26 13:39:33] local.INFO: Fetched appointments for date: 2025-02-26 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
 [2025-02-26 13:45:37] local.INFO: Fetched appointments for date: 2025-02-26 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+=======
+>>>>>>> 065ac56e1b549d018e90f4c5ed027681741fb265

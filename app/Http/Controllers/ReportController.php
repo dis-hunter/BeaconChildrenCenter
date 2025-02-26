@@ -17,7 +17,7 @@ class ReportController extends Controller
 {
    
 
-    public function generateEncounterSummary(Request $request)
+   public function generateEncounterSummary(Request $request)
     {
         // Log the incoming request
         Log::info('Fetching encounter summary with request data:', $request->all());
@@ -105,6 +105,7 @@ class ReportController extends Controller
             ], 500);
         }
     }
+
     
     
     

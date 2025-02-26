@@ -86,6 +86,7 @@
                         required
                     >
                         <option value="">Select Report</option>
+                        <option value="encounter_summary">Encounter Summary</option>
                         <option value="staff_performance">Staff Performance</option>
                         <option value="expense_breakdown">Expense Breakdown</option>
                     </select>
