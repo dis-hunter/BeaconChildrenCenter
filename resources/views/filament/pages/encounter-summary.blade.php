@@ -5,6 +5,12 @@
         <form wire:submit.prevent="fetchVisits" class="flex gap-4 mb-4">
             <x-filament::input type="date" wire:model="startDate" placeholder="Start Date" required />
             <x-filament::input type="date" wire:model="endDate" placeholder="End Date" required />
+            
+              <!-- Sort Order Dropdown (Automatically Updates) -->
+            <select wire:model.live="sortOrder" class="p-2 border rounded">
+                <option value="desc">Newest First</option>
+                <option value="asc">Oldest First</option>
+            </select>
             <x-filament::button type="submit">Search</x-filament::button>
         </form>
 

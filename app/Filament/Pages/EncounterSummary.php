@@ -14,14 +14,20 @@ class EncounterSummary extends Page
 
     public $startDate;
     public $endDate;
+    public $sortOrder = 'desc'; // Default: Show newest visits first
     public $visits = [];
 
     public function form(Form $form): Form
     {
         return $form->schema([
-            DatePicker::make('startDate')->label('Start Date')->reactive(),
-            DatePicker::make('endDate')->label('End Date')->reactive(),
+            DatePicker::make('startDate')->label('Start Date')->reactive()->afterStateUpdated(fn () => $this->fetchVisits()),
+            DatePicker::make('endDate')->label('End Date')->reactive()->afterStateUpdated(fn () => $this->fetchVisits()),
         ]);
+    }
+
+    public function updatedSortOrder()
+    {
+        $this->fetchVisits(); // Automatically fetch data when sorting order changes
     }
 
     public function fetchVisits()
@@ -34,6 +40,7 @@ class EncounterSummary extends Page
                     'doctor:id,fullname',
                     'visitType:id,visit_type'
                 ])
+                ->orderBy('visit_date', $this->sortOrder) // Apply sorting
                 ->get();
         }
     }
