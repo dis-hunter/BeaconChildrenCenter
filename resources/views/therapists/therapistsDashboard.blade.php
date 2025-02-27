@@ -850,8 +850,7 @@ window.addEventListener("load", function () {
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
-      <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
-      <td class="py-2 border">
+<td class="py-2 border">${visit.completed === "true" || visit.completed === true ? "&#10004;" : "&#10008;"}</td>      <td class="py-2 border">
        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
   Select

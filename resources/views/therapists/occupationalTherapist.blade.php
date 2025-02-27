@@ -53,6 +53,8 @@
     <div class="flex justify-between mb-4">
         <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
     </div>
+    <button id="backButton" onclick="NavigateBack()"class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+
 
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Occupational Therapy</h1>
@@ -200,7 +202,15 @@
             });
         });
     });
-
+    function extractRegistrationCode() {
+    // Example: Assume registrationNumber is the last part of the current URL
+    const pathSegments = window.location.pathname.split('/');
+    return pathSegments[pathSegments.length - 1]; // Returns the last segment as registrationNumber
+}
+function NavigateBack() {
+    const RegNo=extractRegistrationCode();
+    window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
+}
     // Handle changes in selected dates
     function handleDatesChange(type, category, event) {
         const selectedDates = event.target.value;
