@@ -3,6 +3,7 @@
 <head>
   <title>Therapist Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/js/app.js','resources/css/app.css'])
     @livewireStyles
   <style>
