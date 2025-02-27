@@ -77,7 +77,7 @@
                 <div>
                     <h6 class="dropdown-header">PATIENTS</h6>
 
-                    @if(auth()->id() == 2 || auth()->id() == 5)
+                    @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 5)
                         <template x-for="patient in results.patients" :key="patient.id">
                             <div class="dropdown-item d-flex justify-content-between align-items-center">
                                 <a :href="'/patients/' + patient.id" class="text-decoration-none">

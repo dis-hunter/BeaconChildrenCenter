@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         try {
 
-            if(auth()->id() == 2 || auth()->id() == 5){
+            if(auth()->user()->role_id == 2 || auth()->user()->role_id == 5){
                 $children = children::search($request->keyword)->take(5)->get();
                 $guardians = [];
             }else {
