@@ -9,6 +9,7 @@ service redis-server start
 
 sleep 3
 
+
 # Clear and cache config
 php artisan optimize
 

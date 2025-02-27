@@ -67,7 +67,7 @@
 }
 
 .close:hover {
-    
+
     transform: scale(1.2); /* Slightly enlarge the icon on hover */
 }
 
@@ -223,7 +223,7 @@ flex-direction: column; /* Stack elements vertically */
   top: 100px; /* Position it right below the header */
   left: 0;
   width: 80% !important;
-  margin-left: 220px !important; 
+  margin-left: 220px !important;
   margin-bottom: 0 !important;
   z-index: 10; /* Ensure it appears above other elements */
 }
@@ -241,18 +241,18 @@ flex-direction: column; /* Stack elements vertically */
 /* Make icons larger */
 /* #dashboard > div i.fas {
   font-size: 2.5rem !important;
-  margin-bottom: 2rem !important; 
+  margin-bottom: 2rem !important;
 } */
 
 /* Make headings larger */
 /* #dashboard > div h3 {
   font-size: 1.5rem !important; /
-  margin-bottom: 0.75rem !important; 
+  margin-bottom: 0.75rem !important;
 } */
 
 /* Make description text larger */
 /* #dashboard > div p {
-  font-size: 1.125rem !important; 
+  font-size: 1.125rem !important;
   line-height: 1.5;
 } */
 /* Add Event Modal Styling */
@@ -304,7 +304,7 @@ flex-direction: column; /* Stack elements vertically */
 
 /* Make each card wider */
 /* #dashboard > div {
-  width: 100% !important; 
+  width: 100% !important;
   padding: 2.5rem !important;
   min-height: 240px;
 } */
@@ -328,7 +328,7 @@ flex-direction: column; /* Stack elements vertically */
 
 /* Ensure the patients section content does not stretch */
 /* #patients .bg-white.rounded-lg.shadow.p-6 {
-  width: 100%; 
+  width: 100%;
 } */
 /* Optional: Adjust the main content padding if needed */
 
@@ -338,9 +338,9 @@ flex-direction: column; /* Stack elements vertically */
   gap: 20px;
 }
 
-  
+
   </style>
-  
+
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
@@ -374,15 +374,22 @@ flex-direction: column; /* Stack elements vertically */
             <span class="sidebar-text">Patients</span>
           </a>
         </li>
+          <li>
+              <a href="{{route('profile.show')}}" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-user"></i>
+                  <span class="sidebar-text">My Profile</span>
+              </a>
+          </li>
         <!-- Logout Link -->
-             <li>
-               <a href="/login" 
-              class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"
-              onclick="showLoader(event)">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Log Out</span>
-            </a>
-            </li>
+          <li>
+              <form action="/logout" method="POST">
+                  @csrf
+                  <button type="submit" href="#" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-sign-out"></i>
+                  <span class="sidebar-text">Logout</span>
+              </button>
+              </form>
+          </li>
 
       </ul>
     </div>
@@ -457,7 +464,7 @@ flex-direction: column; /* Stack elements vertically */
   </main>
 </div>
 
-  <script src="{{ asset('js/loader.js') }}"></script>    
+  <script src="{{ asset('js/loader.js') }}"></script>
   <script>
     let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
     let sidebarExpanded = true;
@@ -466,7 +473,7 @@ flex-direction: column; /* Stack elements vertically */
       const sidebar = document.getElementById('sidebar');
       const toggleButton = document.getElementById('toggle-button');
       const mainContent = document.getElementById('main-content');
-      
+
       sidebar.classList.toggle('collapsed');
       toggleButton.classList.toggle('collapsed');
       mainContent.classList.toggle('collapsed');
@@ -575,13 +582,13 @@ function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
   alert(`Selected Registration Number: ${registrationNumber}`);
   console.log(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
-  
-  
+
+
   // Further actions can be added here, e.g., saving to a variable or performing an API request
 }
 
 async function startConsultation() {
-  
+
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
         return;
@@ -609,14 +616,14 @@ async function startConsultation() {
          // Update loading progress
          updateLoadingProgress(80, 'Processing data...');
          hideLoadingIndicator();
-        
+
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
 
     } catch (error) {
         console.error('Error starting consultation:', error);
         let errorMessage = 'Error starting consultation. ';
-        
+
         if (error.message.includes('404')) {
             errorMessage += 'Patient not found.';
         } else if (error.message.includes('403')) {
@@ -624,13 +631,13 @@ async function startConsultation() {
         } else {
             errorMessage += 'Please try again or contact support.';
         }
-        
+
         alert(errorMessage);
     }
-} 
+}
     showSection('dashboard');
     hideLoadingIndicator();
-    
+
     const currentDate = document.getElementById('current-date');
     updateDateTime();
     setInterval(updateDateTime, 1000);
@@ -694,7 +701,7 @@ async function startConsultation() {
       }
     }
 
-   
+
   </script> -->
 
   <script>
@@ -796,7 +803,7 @@ window.addEventListener("load", function () {
       <td class="py-2 border">${visit.created_at}</td>
       <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
       <td class="py-2 border">
-       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
+       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
   Select
 </button>
@@ -817,7 +824,7 @@ window.addEventListener("load", function () {
     event.currentTarget.classList.add("bg-blue-50", "border-l-4", "border-blue-500");
   }
 
- 
+
 
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();

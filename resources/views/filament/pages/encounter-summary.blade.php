@@ -7,10 +7,13 @@
             <x-filament::input type="date" wire:model="endDate" placeholder="End Date" required />
             
               <!-- Sort Order Dropdown (Automatically Updates) -->
-            <select wire:model.live="sortOrder" >
-                <option value="desc">Newest First</option>
-                <option value="asc">Oldest First</option>
-            </select>
+              <select wire:model.live="sortOrder" 
+    class="bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
+>
+    <option value="desc">Newest First</option>
+    <option value="asc">Oldest First</option>
+</select>
+
             <x-filament::button type="submit">Search</x-filament::button>
         </form>
 

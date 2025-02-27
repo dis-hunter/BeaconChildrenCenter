@@ -11,17 +11,31 @@ export default defineConfig({
                 ...refreshPaths,
                 'app/Livewire/**',
             ],
-            integrity: process.env.NODE_ENV === 'production',
+            integrity: true,
         }),
     ],
     resolve: {
         alias: {
-            '@' : 'resources/js',
+            '@': 'resources/js',
         },
     },
     build: {
         commonjsOptions: {
-            include : [/node_modules/],
+            include: [/node_modules/],
         },
+        // Added production optimizations
+        minify: 'terser',
+        manifest: true,
+        outDir: 'public/build',
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: [
+                        // List your major dependencies here for better chunking
+                    ]
+                }
+            }
+        }
     },
+
 });
