@@ -47,6 +47,7 @@ class PrescriptionController extends Controller
                 Log::error("No visit found for child ID: " . $child->id);
                 return response()->json(['message' => 'No visit found for this child'], 404);
             }
+            $staffid=auth()->user()->id;
 
             Log::info("Visit found with ID: " . $visit->id);
 
@@ -59,7 +60,7 @@ class PrescriptionController extends Controller
             DB::table('prescriptions')->insert([
                 'visit_id' => $visit->id,
                 'child_id' => $child->id,
-                'staff_id' => 1,
+                'staff_id' => $staffid,
                 'data' => json_encode($prescriptionData),
                 'created_at' => now(),
                 'updated_at' => now(),

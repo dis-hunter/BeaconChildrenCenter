@@ -146,23 +146,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function showSaveButtonLoadingIndicator() {
       const saveButton = document.getElementById('saveButton');
       saveButton.disabled = true;
-      saveButton.innerHTML = 'Saving... <span class="loading-spinner"></span>';
-      
-      const spinner = document.createElement('span');
-      spinner.classList.add('loading-spinner');
-      spinner.style.cssText = `
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #007bff;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        animation: spin 1s linear infinite;
-        display: inline-block;
-        margin-left: 10px;
+      saveButton.innerHTML = 'Saving...';
+  
+      const loadingDots = document.createElement('span');
+      loadingDots.classList.add('loading-dots');
+      loadingDots.style.cssText = `
+          display: inline-flex;
+          margin-left: 10px;
       `;
-      saveButton.appendChild(spinner);
-      console.log("Save button loading indicator shown"); // Debugging save button loading state
-    }
+  
+      for (let i = 0; i < 3; i++) {
+          const dot = document.createElement('span');
+          dot.style.cssText = `
+              width: 6px;
+              height: 6px;
+              margin: 0 3px;
+              background-color: #007bff;
+              border-radius: 50%;
+              display: inline-block;
+              animation: pulse 1.5s infinite ease-in-out;
+              animation-delay: ${i * 0.2}s;
+          `;
+          loadingDots.appendChild(dot);
+      }
+  
+      saveButton.appendChild(loadingDots);
+      console.log("Save button loading indicator shown"); // Debugging
+  
+      // Add animation styles
+      const styleSheet = document.createElement('style');
+      styleSheet.innerHTML = `
+          @keyframes pulse {
+              0% { transform: scale(1); opacity: 0.3; }
+              50% { transform: scale(1.3); opacity: 1; }
+              100% { transform: scale(1); opacity: 0.3; }
+          }
+      `;
+      document.head.appendChild(styleSheet);
+  }
+  
   
     function removeSaveButtonLoadingIndicator() {
       const saveButton = document.getElementById('saveButton');

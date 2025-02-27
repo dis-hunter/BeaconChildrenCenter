@@ -125,7 +125,7 @@ class InvoiceController extends Controller
                 'visit_type.normal_price',
                 'visits.payment_mode_id',
                 'visits.copay_amount',
-                'payment_modes.payment_mode as payment_method'
+                'payment_modes.name as payment_method'
             )
             ->get();
     

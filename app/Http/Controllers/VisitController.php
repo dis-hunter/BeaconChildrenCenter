@@ -39,7 +39,6 @@ class VisitController extends Controller
             'visit_date' => 'required|date',
             'source_type' => 'required|string',
             'source_contact' => 'required|string|max:15',
-            'staff_id' => 'required|integer|exists:staff,id',
             'doctor_id' => 'required|integer|exists:staff,id',
             'payment_mode_id' => 'required|integer|exists:payment_modes,id', // Validate payment mode
             'triage_pass' => 'required|boolean',
@@ -54,6 +53,8 @@ class VisitController extends Controller
         if($appointment){
             $appointment->update(['status' => 'ongoing']);
         }
+            // Get the currently authenticated user's ID as staff_id
+        $staffId = auth()->id(); 
                                         
 
         try {
@@ -63,7 +64,7 @@ class VisitController extends Controller
                 'visit_date' => $validatedData['visit_date'],
                 'source_type' => $validatedData['source_type'],
                 'source_contact' => $validatedData['source_contact'],
-                'staff_id' => $validatedData['staff_id'],
+                'staff_id' => $staffId,
                 'doctor_id' => $validatedData['doctor_id'],
                 'appointment_id' => $appointment->id ?? null,
                 'payment_mode_id' => $validatedData['payment_mode_id'],
