@@ -19,7 +19,7 @@
         this.loading = true;
 
         try {
-            const url = new URL(@js(route('reception.search')));
+            const url = new URL(@js(route('global.search')));
             url.searchParams.set('keyword', this.query);
             const response = await fetch(url);
             this.results = await response.json();
