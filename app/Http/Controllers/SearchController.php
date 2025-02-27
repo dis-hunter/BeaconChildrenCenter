@@ -12,8 +12,14 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         try {
-            $children = children::search($request->keyword)->take(5)->get();
-            $guardians = Parents::search($request->keyword)->take(5)->get();
+
+            if(auth()->id() == 2 || auth()->id() == 5){
+                $children = children::search($request->keyword)->take(5)->get();
+                $guardians = [];
+            }else {
+                $children = children::search($request->keyword)->take(5)->get();
+                $guardians = Parents::search($request->keyword)->take(5)->get();
+            }
 
             return response()->json([
                 'guardians' => $guardians,
