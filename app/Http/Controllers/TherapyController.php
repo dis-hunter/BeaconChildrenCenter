@@ -479,17 +479,18 @@ public function PhysioTherapy($registrationNumber)
 
 
 
-
-
-
 public function saveTherapyGoal(Request $request)
 {
+    Log::info('saveTherapyGoal called', ['request_data' => $request->all()]);
+
     $validatedData = $request->validate([
         'child_id' => 'required|exists:children,id',
         'staff_id' => 'required|integer|exists:staff,id',
         'therapy_id' => 'required|integer|exists:therapy,id',
         'data' => 'required|array', // Ensures that 'data' is an array
     ]);
+
+    Log::info('Validated data:', $validatedData);
 
     try {
         // Fetch the latest visit_id for the provided child_id
@@ -499,19 +500,22 @@ public function saveTherapyGoal(Request $request)
             ->first();
 
         if (!$latestVisit) {
+            Log::warning('No visits found for child_id', ['child_id' => $validatedData['child_id']]);
             return response()->json(['status' => 'error', 'message' => 'No visits found for the provided child_id'], 404);
         }
 
         // Get the visit_id from the latest visit
         $visitId = $latestVisit->id;
+        Log::info('Latest visit ID retrieved:', ['visit_id' => $visitId]);
 
         // Convert the 'data' array into a JSON string
         $jsonData = json_encode($validatedData['data'], JSON_THROW_ON_ERROR);
+        Log::info('JSON encoded data:', ['json_data' => $jsonData]);
 
         // Insert data into the therapy_goals table
         DB::table('therapy_goals')->insert([
             'child_id' => $validatedData['child_id'],
-            'staff_id' =>auth()->user()->id,
+            'staff_id' => auth()->user()->id,
             'therapy_id' => $validatedData['therapy_id'],
             'visit_id' => $visitId, // Use the fetched visit_id
             'data' => $jsonData, // Save the JSON-encoded string
@@ -519,13 +523,26 @@ public function saveTherapyGoal(Request $request)
             'updated_at' => now(),
         ]);
 
+        Log::info('Therapy goal successfully inserted into database', [
+            'child_id' => $validatedData['child_id'],
+            'staff_id' => auth()->user()->id,
+            'therapy_id' => $validatedData['therapy_id'],
+            'visit_id' => $visitId,
+            'data' => $jsonData
+        ]);
+
         return response()->json(['status' => 'success', 'message' => 'Therapy goals saved successfully'], 201);
     } catch (\JsonException $jsonException) {
+        Log::error('JSON encoding error', ['exception' => $jsonException->getMessage()]);
         return response()->json(['status' => 'error', 'message' => 'Invalid JSON data provided'], 400);
     } catch (\Exception $e) {
+        Log::error('Exception occurred in saveTherapyGoal', ['exception' => $e->getMessage()]);
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 }
+
+
+
 //Assessment handling like pushing to db
 
 public function saveAssessment(Request $request)

@@ -299,7 +299,7 @@
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: assessmentData // Add the collected categories data as a JSON object
         };
@@ -509,7 +509,7 @@ headers: {
     // Prepare the full payload with other required attributes
     const payload = {
         child_id: childId, // Replace with the actual element ID or logic
-        staff_id: 8, // Replace with the actual element ID or logic
+        staff_id: 1, // Replace with the actual element ID or logic
         therapy_id:1, // Replace with the actual element ID or logic
         data: goalsData // Add the collected categories data as a JSON object
     };
@@ -586,7 +586,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: assessmentData // Add the collected categories data as a JSON object
         };
@@ -662,7 +662,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: individualizedData // Add the collected categories data as a JSON object
         };
@@ -738,7 +738,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: sessionData // Add the collected categories data as a JSON object
         };
@@ -816,7 +816,7 @@ headers: {
 
         const payload = {
             child_id: childId,
-            staff_id: 8,
+            staff_id: 1,
             therapy_id: 1,
             data: followupData
         };
