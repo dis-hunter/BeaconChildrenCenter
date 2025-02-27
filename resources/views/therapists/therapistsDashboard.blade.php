@@ -831,49 +831,66 @@ window.addEventListener("load", function () {
 
 <script>
   let selectedPatient = null;
-
   function generatePatientList() {
-  const patientTableBody = document.getElementById("patient-table-body");
-  patientTableBody.innerHTML = ""; // Clear existing rows
+    const patientTableBody = document.getElementById("patient-table-body");
+    patientTableBody.innerHTML = ""; // Clear existing rows
 
-  // Assuming visits is an array of patient visit objects passed from backend
-  const visits = @json($visits); // Use Laravel's Blade directive to pass data
+    // Assuming visits is an array of patient visit objects passed from backend
+    const visits = @json($visits); // Use Laravel's Blade directive to pass data
 
-  visits.forEach((visit) => {
-    const fullname = JSON.parse(visit.fullname);
-    const fullNameString = fullname
-      ? `${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}`
-      : visit.fullname;
+    visits.forEach((visit) => {
+      const fullname = JSON.parse(visit.fullname);
+      const fullNameString = fullname
+        ? `${fullname.first_name} ${fullname.middle_name || ""} ${fullname.last_name}`
+        : visit.fullname;
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
+      const row = document.createElement("tr");
+      row.innerHTML = `
         <td class="py-2 border">${fullNameString}</td>
         <td class="py-2 border">${visit.registration_number}</td>
-      <td class="py-2 border">${visit.created_at}</td>
-      <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
-      <td class="py-2 border">
-       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-        onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
-  Select
-</button>
-
-      </td>
-    `;
-    patientTableBody.appendChild(row);
-  });
-}
-
-
-
-  function selectPatient(patient) {
-    selectedPatient = patient;
-    const patientTableBody = document.getElementById("patient-table-body");
-    const rows = patientTableBody.querySelectorAll("tr");
-    rows.forEach(row => row.classList.remove("bg-blue-50", "border-l-4", "border-blue-500"));
-    event.currentTarget.classList.add("bg-blue-50", "border-l-4", "border-blue-500");
+        <td class="py-2 border">${visit.created_at}</td>
+        <td class="py-2 border">${visit.completed ? "&#10004;" : "&#10008;"}</td>
+        <td class="py-2 border">
+          <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+            onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}', this)">
+            Select
+          </button>
+        </td>
+      `;
+      patientTableBody.appendChild(row);
+    });
   }
 
+  function selectRegistrationNumber(registrationNumber, childId, button) {
+    if (selectedRegistrationNumber === registrationNumber) {
+      // Unselect the patient
+      selectedRegistrationNumber = null;
+      button.textContent = 'Select';
+      button.classList.remove('bg-red-500', 'hover:bg-red-600');
+      button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+    } else {
+      // Select the patient
+      selectedRegistrationNumber = registrationNumber;
+      button.textContent = 'Unselect';
+      button.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+      button.classList.add('bg-red-500', 'hover:bg-red-600');
+    }
 
+    // Highlight the selected row
+    const previouslySelectedRow = document.querySelector('.selected-row');
+    if (previouslySelectedRow) {
+      previouslySelectedRow.classList.remove('selected-row');
+      const previousButton = previouslySelectedRow.querySelector('button');
+      previousButton.textContent = 'Select';
+      previousButton.classList.remove('bg-red-500', 'hover:bg-red-600');
+      previousButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+    }
+
+    const selectedRow = button.closest('tr');
+    if (selectedRow) {
+      selectedRow.classList.toggle('selected-row');
+    }
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();
