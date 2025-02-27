@@ -18,7 +18,7 @@ class specializationSeeder extends Seeder
         DB::table('doctor_specialization')->insert([
             ['specialization'=>'Pediatrician'],
             ['specialization'=>'Medical Officer'],
-            ['specialization'=>'Psycholotherapist'],
+            ['specialization'=>'Psychotherapist'],
             ['specialization'=>'Occupational Therapist'],
             ['specialization'=>'Speech Therapist'],
             ['specialization'=>'Physiotherapist'],
