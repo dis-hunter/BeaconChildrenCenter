@@ -206,6 +206,60 @@ class VisitController extends Controller
 //     return view('your-view', compact('paymentModes'));
 // }
 
+
+//new
+
+public function getVisitTypesBySpecialization($specializationId)
+{
+    // Example: We'll use a switch statement to decide which visit_type IDs
+    // belong to which specialization. Replace this logic with your own.
+    
+    switch ($specializationId) {
+        case 1:  // Paediatrician
+            $visitTypeIds = [1, 9, 11]; // e.g. "Paediatric Consultation", "General Consultation", "Review"
+            break;
+        case 2:  // Occupational Therapy
+            $visitTypeIds = [ 2,4, 10,11]; // "Therapy Assessment", "Occupational Therapy", "Therapy Reports"
+            break;
+        case 3:  // Speech Therapy
+            $visitTypeIds = [2,6, 10,11]; 
+            break;
+        case 4:  // Physiotherapy
+            $visitTypeIds = [2,5, 10,11]; 
+            break;
+        case 5:  // Nutrition
+            $visitTypeIds = [2, 8, 10, 11]; 
+            break;
+        case 6:  // ABA
+            $visitTypeIds = [3, 17];
+            break;
+        case 8:  // Medical Officer
+            $visitTypeIds = [2, 9, 11];
+            break;
+        case 9:  // Psychologist
+            $visitTypeIds = [10, 7, 11];
+            break;
+        case 10: // Well Baby Clinic
+            $visitTypeIds = [1, 2, 11];
+            break;
+        default: 
+            // If we don't recognize the specialization, just return all or none
+            $visitTypeIds = [];
+            break;
+    }
+
+    // Now fetch those rows from the "visit_type" table
+    // Adjust table/column names to match your schema
+    $visitTypes = DB::table('visit_type')
+        ->whereIn('id', $visitTypeIds)
+        ->get();
+
+    return response()->json([
+        'status' => 'success',
+        'data'   => $visitTypes
+    ], 200);
+}
+
 public function getDoctorNotes($registrationNumber) {
     try {
         // Get child details

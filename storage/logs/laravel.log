@@ -7545,3 +7545,7 @@ LINE 1: ...n "visits"."visit_type" = "visit_type"."id" where "visits"."...
 #87 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #88 {main}
 "} 
+[2025-02-27 17:08:10] local.ERROR: Maximum execution time of 60 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 60 seconds exceeded at C:\\Users\\tobik\\OneDrive\\Documents\\GitHub\\BeaconChildrenCenter\\routes\\api.php:20)
+[stacktrace]
+#0 {main}
+"} 
