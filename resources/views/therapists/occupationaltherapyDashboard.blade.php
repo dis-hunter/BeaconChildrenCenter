@@ -654,11 +654,11 @@ ${result.data.visits.map(visit => `
             <strong>Doctor's Notes:</strong><br>
             ${visit.notes || 'No notes recorded'}
         </div>
-            <button 
-                onclick="toggleDetails(this.parentElement)" 
-                class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
-                More Details
-            </button>    </div>
+           <button 
+    onclick="toggleDetails(this)" 
+    class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
+    More Details
+</button>   </div>
 `).join('')}
                     </div>
                 </div>
@@ -680,11 +680,20 @@ ${result.data.visits.map(visit => `
     }
 }
 
-function toggleDetails(element) {
-    const notes = element.querySelector('.notes');
-    notes.style.display = notes.style.display === 'none' ? 'block' : 'none';
+function toggleDetails(button) {
+    const notes = button.parentElement.querySelector('.notes');
+    if (notes.style.display === 'none' || notes.style.display === '') {
+        notes.style.display = 'block';
+        button.textContent = 'Hide Details';
+        button.classList.remove('bg-blue-500', 'hover:bg-blue-600', 'active:bg-blue-700');
+        button.classList.add('bg-red-500', 'hover:bg-red-600', 'active:bg-red-700');
+    } else {
+        notes.style.display = 'none';
+        button.textContent = 'More Details';
+        button.classList.remove('bg-red-500', 'hover:bg-red-600', 'active:bg-red-700');
+        button.classList.add('bg-blue-500', 'hover:bg-blue-600', 'active:bg-blue-700');
+    }
 }
-
     </script>
  <script>
     //to show name in side bar dynamically 
