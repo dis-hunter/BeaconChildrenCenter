@@ -77,19 +77,30 @@
                 <div>
                     <h6 class="dropdown-header">PATIENTS</h6>
 
-                    <template x-for="patient in results.patients" :key="patient.id">
-                        <div class="dropdown-item d-flex justify-content-between align-items-center">
-                            <a :href="'/patients/' + patient.id" class="text-decoration-none">
+                    @if(auth()->id() == 2 || auth()->id() == 5)
+                        <template x-for="patient in results.patients" :key="patient.id">
+                            <div class="dropdown-item d-flex justify-content-between align-items-center">
+                                <a :href="'/patients/' + patient.id" class="text-decoration-none">
                                 <span
                                     x-text="(patient.fullname.first_name ?? '') + ' ' + (patient.fullname.middle_name ?? '') + ' ' + (patient.fullname.last_name ?? '')"></span>
-                            </a>
+                                </a>
+                            </div>
+                        </template>
+                    @else
+                        <template x-for="patient in results.patients" :key="patient.id">
+                            <div class="dropdown-item d-flex justify-content-between align-items-center">
+                                <a :href="'/patients/' + patient.id" class="text-decoration-none">
+                                <span
+                                    x-text="(patient.fullname.first_name ?? '') + ' ' + (patient.fullname.middle_name ?? '') + ' ' + (patient.fullname.last_name ?? '')"></span>
+                                </a>
 
 
-                            <a :href="'/visithandle/' + patient.id">
-                                <button class="btn btn-dark btn-sm">Visit</button>
-                            </a>
-                        </div>
-                    </template>
+                                <a :href="'/visithandle/' + patient.id">
+                                    <button class="btn btn-dark btn-sm">Visit</button>
+                                </a>
+                            </div>
+                        </template>
+                    @endif
                 </div>
             </template>
 
