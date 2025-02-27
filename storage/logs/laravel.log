@@ -9117,3 +9117,15 @@ LINE 1: select "visits"."visit_date", "visits"."notes", "staff"."ful...
 =======
 >>>>>>> 728aab7127b6a0d3a9752bd2aada2473ea492143
 >>>>>>> 2b0f258aa0b42a08f586daab0c54246dcc6b7486
+[2025-02-27 12:04:31] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-02-27 12:04:31] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-27 12:04:33] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-02-27 12:04:39] local.INFO: Fetched appointments for date: 2025-02-27 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":1,"appointment_date":"2025-02-27","start_time":"12:00:00","end_time":"13:00:00","appointment_title":"Bernados Booking","status":"ongoing","parent_name":"{\"first_name\":\"John\",\"middle_name\":\"Senior\",\"last_name\":\"Smith\"}","parent_phone":"09292929292","parent_email":"oringzzemmanuel@gmail.com","child_name":"{\"first_name\":\"Bernado\",\"middle_name\":\"Goat\",\"last_name\":\"Silva\"}","staff_name":"{\"first_name\":\"Edith\",\"middle_name\":\"Magunga\",\"last_name\":\"Oringe\"}"}]}} 
+[2025-02-27 12:04:58] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-02-27 12:04:58] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-02-27 12:04:59] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-02-27 12:05:40] local.INFO: Parent Data for Child 1: {"Father":{"fullname":"John Senior Smith","telephone":"09292929292","email":"oringzzemmanuel@gmail.com"}} 
+[2025-02-27 12:06:23] local.INFO: Registration number received: 001-2025  
+[2025-02-27 12:06:23] local.INFO: Prescribed drugs received: {"data":"[\"diclofenac tablet 1iu od stat\"]"} 
+[2025-02-27 12:06:24] local.INFO: Child found with ID: 1  
+[2025-02-27 12:06:25] local.INFO: Visit found with ID: 2  
