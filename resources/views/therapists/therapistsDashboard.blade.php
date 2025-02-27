@@ -843,6 +843,7 @@ window.addEventListener("load", function () {
 <script>
   let selectedPatient = null;
 
+  
   function generatePatientList() {
     const patientTableBody = document.getElementById("patient-table-body");
     patientTableBody.innerHTML = ""; // Clear existing rows
