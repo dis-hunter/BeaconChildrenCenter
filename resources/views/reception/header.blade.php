@@ -106,15 +106,6 @@
                     <i class="fa fa-bell position-relative" style="font-size: 1.25rem; color: #555;"></i>
                 </div>
             </li>
-            <li class="nav-item">
-                <div class="d-flex align-items-center">
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
-                </li>
-
             <li class="nav-item" x-data="{ showMessage: true }" x-show="showMessage" style="transition: opacity 0.5s ease;">
                 @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show p-2 m-0 ms-2" role="alert" x-init="setTimeout(() => showMessage = false, 5000)">
