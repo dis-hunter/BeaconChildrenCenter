@@ -29,9 +29,11 @@ class PaymentModesResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('payment_mode')
+                TextInput::make('name')
                     ->required()
                     ->unique(),
+                Forms\Components\Textarea::make('description')
+                    ->nullable(),
             ]);
     }
 
@@ -40,7 +42,7 @@ class PaymentModesResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('payment_mode'),
+                TextColumn::make('name'),
                 TextColumn::make('created_at')->dateTime('d-M-Y H:i')->sortable(),
                 TextColumn::make('updated_at')->dateTime('d-M-Y H:i')->sortable(),
             ])
@@ -55,14 +57,14 @@ class PaymentModesResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -70,5 +72,5 @@ class PaymentModesResource extends Resource
             'create' => Pages\CreatePaymentModes::route('/create'),
             'edit' => Pages\EditPaymentModes::route('/{record}/edit'),
         ];
-    }    
+    }
 }

@@ -175,20 +175,26 @@ class TherapyController extends Controller
             'behaviour_assessment'
         ];
 
-        // Function to format data consistently
         function formatDataSection($data, $sectionTitle) {
             if (!$data) {
                 return "{$sectionTitle}: No data available.\n\n";
             }
-
+        
             $formattedText = "{$sectionTitle}:\n";
             foreach ((array)$data as $key => $value) {
                 $formattedKey = str_replace('_', ' ', $key);
                 $formattedKey = ucwords($formattedKey);
+        
+                // Check if $value is an array and convert it to a string
+                if (is_array($value)) {
+                    $value = implode(', ', $value); // Convert array to a comma-separated string
+                }
+        
                 $formattedText .= "{$formattedKey}: {$value}\n";
             }
             return $formattedText . "\n";
         }
+        
 
         // 7. More efficient approach: Use a single chunked query to get data from all tables
         $doctorsNotes = "";

@@ -72,6 +72,7 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
     Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');

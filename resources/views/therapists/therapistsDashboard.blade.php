@@ -7,6 +7,9 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
+    .selected-row {
+    background-color: lightblue;
+  }
      .sidebar {
       width: 200px;
       transition: width 0.3s ease;
@@ -578,49 +581,120 @@ function selectPatient(index) {
     }
     let selectedRegistrationNumber = null
 
+   
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
-  alert(`Selected Registration Number: ${registrationNumber}`);
   console.log(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
 
+  // Highlight the selected row
+  const previouslySelectedRow = document.querySelector('.selected-row');
+  if (previouslySelectedRow) {
+    previouslySelectedRow.classList.remove('selected-row');
+  }
+
+  const selectedRow = document.querySelector(`button[onclick="selectRegistrationNumber('${registrationNumber}', '${childId}')"]`).closest('tr');
+  if (selectedRow) {
+    selectedRow.classList.add('selected-row');
+  }
 
   // Further actions can be added here, e.g., saving to a variable or performing an API request
 }
 
 async function startConsultation() {
-
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
         return;
     }
-    showLoadingIndicator();
+    
+    showLoadingIndicator('Starting consultation...', 0);
+    
+    // Reset cancellation flag
+    window.cancelOperationsFlag = false;
+    
+    // Create an AbortController for fetch requests
+    const controller = new AbortController();
+    const signal = controller.signal;
+    
+    // Register this operation so it can be cancelled
+    const operationId = 'start-consultation-' + Date.now();
+    const cancelCallback = () => {
+        controller.abort();
+        console.log('Consultation start was cancelled');
+    };
+    
+    registerRunningFunction(operationId, cancelCallback);
+    
     try {
-       // Update loading progress
-       updateLoadingProgress(20, 'Checking patient data...');
+        // Check if operation was cancelled before proceeding
+        if (window.cancelOperationsFlag) {
+            throw new Error('Operation cancelled by user');
+        }
+        
+        // Update loading progress
+        updateLoadingProgress(20, 'Checking patient data...');
+        
         // First make an AJAX call to check if the patient exists and get initial data
         const response = await fetch(`/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'  // Marks this as an AJAX request
-            }
+            },
+            signal: signal // Add the abort signal to the fetch request
         });
-         // Update loading progress
-         updateLoadingProgress(50, 'Fetching data from server...');
+        
+        // Check if operation was cancelled after the first fetch
+        if (window.cancelOperationsFlag) {
+            throw new Error('Operation cancelled by user');
+        }
+        
+        // Update loading progress
+        updateLoadingProgress(50, 'Fetching data from server...');
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-         // Update loading progress
-         updateLoadingProgress(80, 'Processing data...');
-         hideLoadingIndicator();
-
+        
+        // Check if operation was cancelled after parsing JSON
+        if (window.cancelOperationsFlag) {
+            throw new Error('Operation cancelled by user');
+        }
+        
+        // Update loading progress
+        updateLoadingProgress(80, 'Processing data...');
+        
+        // Simulate a bit of processing time
+        await new Promise(resolve => {
+            const timer = setTimeout(() => {
+                window.operationTimers = window.operationTimers.filter(t => t !== timer);
+                resolve();
+            }, 500);
+            window.operationTimers.push(timer);
+        });
+        
+        // Final cancellation check before redirecting
+        if (window.cancelOperationsFlag) {
+            throw new Error('Operation cancelled by user');
+        }
+        
+        updateLoadingProgress(100, 'Complete! Redirecting...');
+        
+        // // Hide the indicator before redirecting
+        // hideLoadingIndicator();
+        
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
 
     } catch (error) {
+        // Check if this was a cancellation
+        if (error.name === 'AbortError' || error.message.includes('cancelled')) {
+            console.log('Consultation start was cancelled');
+            // Don't show an error message for user cancellations
+            return;
+        }
+        
         console.error('Error starting consultation:', error);
         let errorMessage = 'Error starting consultation. ';
 
@@ -633,37 +707,12 @@ async function startConsultation() {
         }
 
         alert(errorMessage);
+    } finally {
+        // Clean up
+        unregisterRunningFunction(operationId);
     }
+
 }
-    showSection('dashboard');
-    hideLoadingIndicator();
-
-    const currentDate = document.getElementById('current-date');
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-  </script>
-  <script>
-    function showAppointments(date) {
-        const appointmentsList = document.getElementById('appointments-for-day');
-        appointmentsList.innerHTML = `<li class="p-3 bg-gray-50 rounded">No patients booked for ${date}</li>`;
-        document.getElementById('appointments-list').classList.remove('hidden');
-    }
-
-    function showSection(sectionId) {
-        const sections = document.querySelectorAll('.section');
-        sections.forEach(section => {
-            section.classList.add('hidden');
-        });
-        document.getElementById(sectionId).classList.remove('hidden');
-
-        if (sectionId === 'calendar') {
-            generateCalendar();
-        } else if (sectionId === 'patients') {
-            generatePatientList();
-        }
-
-        document.getElementById('appointments-list').classList.add('hidden');
-    }
 
     showSection('dashboard');
 </script>
