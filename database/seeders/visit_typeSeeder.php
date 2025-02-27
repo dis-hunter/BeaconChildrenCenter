@@ -26,7 +26,7 @@ class visit_typeSeeder extends Seeder
             ['visit_type' => 'Medical Reports', 'normal_price' => 3200, 'sponsored_price' => 2200],
             ['visit_type' => 'Therapy Reports', 'normal_price' => 3100, 'sponsored_price' => 2100],
             ['visit_type' => 'Review', 'normal_price' => 3050, 'sponsored_price' => 2050],
-            ['visit_type' => 'Other', 'normal_price' => 2900, 'sponsored_price' => 2000],
+            
         ]);
     }
 }

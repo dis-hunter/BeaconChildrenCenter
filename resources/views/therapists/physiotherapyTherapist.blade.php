@@ -318,45 +318,48 @@
         const childId = document.getElementById('child_id').value;
 
      // handles submission of goals to db
-        
-        async function saveTherapyGoals() {
-            //'Activities of Daily Living(ADLs)','Fine and Gross Motor Skills','Sensory Integration and Processing' ,
-            // 'Cognitive Skills', 'School goals','Rehabilitation goals','Assistive devices'] as $category)
+     async function saveTherapyGoals() {
+ 
+    showLoadingIndicator('Saving...', 0);
 
-        showLoadingIndicator('Saving...', 0);
-        const categories = [
-            'Activities of Daily Living(ADLs)',
-            'Fine and Gross Motor Skills',
-            'Sensory Integration and Processing',
-            'Cognitive Skills',
-            'School goals',
-            'Rehabilitation goals',
-            'Assistive devices'
-        ];
-        
+    const categories = [
+        'Activities of Daily Living(ADLs)',
+        'Fine and Gross Motor Skills',
+        'Sensory Integration and Processing',
+        'Cognitive Skills',
+        'School goals',
+        'Rehabilitation goals',
+        'Assistive devices'
+    ];
+
+  
 
     const goalsData = {};
-    // Collect data from the textareas - no delay needed here
-    updateLoadingProgress(30, 'Sending data...');
 
     // Collect data from the textareas
     categories.forEach(category => {
         const textarea = document.getElementById(`goals_${category}`);
         if (textarea) {
-            goalsData[category] = textarea.value.trim(); // Store each category's value as key-value pair
+            goalsData[category] = textarea.value.trim();
+            
+        } else {
+            console.warn(`Step 4: Warning - No textarea found for category: ${category}`);
         }
     });
 
-    // Prepare the full payload with other required attributes
+    // Prepare the full payload
     const payload = {
-        child_id: childId, // Replace with the actual element ID or logic
-        staff_id: 8, // Replace with the actual element ID or logic
-        therapy_id:2, // Replace with the actual element ID or logic
-        data: goalsData // Add the collected categories data as a JSON object
+        child_id: childId, // Replace with actual ID
+        staff_id: 1, // Replace with actual staff ID
+        therapy_id: 2, // Replace with actual therapy ID
+        data: goalsData
     };
 
+ 
+
     try {
-        // Make the POST request
+        
+
         const response = await fetch('/saveTherapyGoal', {
             method: 'POST',
             headers: {
@@ -366,32 +369,52 @@
             body: JSON.stringify(payload),
         });
 
+      
+
         updateLoadingProgress(70, 'Processing...');
+
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('Error response:', errorText);
+           
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const result = await response.json();
-        console.log('Response from server:', result);
-         // Single short delay just to show completion
-         updateLoadingProgress(100, 'Almost Complete');
+        // Check if response is actually JSON
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+           
+            const responseText = await response.text();
+          
+            throw new Error('Expected JSON but received HTML.');
+        }
 
-     await new Promise(resolve => setTimeout(resolve, 200));
+        const result = await response.json();
+       
+
+        updateLoadingProgress(100, 'Almost Complete');
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         if (result.status === 'success') {
+           
             alert('Therapy goals saved successfully!');
         } else {
+          
             alert('Failed to save therapy goals. Please try again.');
         }
     } catch (error) {
-        console.error('Error saving therapy goals:', error);
+       
+
+        if (error.message.includes('Unexpected token <')) {
+         
+        }
+
         alert('An error occurred. Please check the console for more details.');
-    }finally {
+    } finally {
+       
         hideLoadingIndicator();
     }
 }
+
 
 
 
@@ -433,7 +456,7 @@
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 2, // Replace with the actual element ID or logic
             data: assessmentData // Add the collected categories data as a JSON object
         };
@@ -458,7 +481,7 @@ headers: {
     }
 
     const result = await response.json();
-    console.log('Response from server:', result);
+   
     
     // Single short delay just to show completion
     updateLoadingProgress(100, 'Almost Complete');
@@ -511,7 +534,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 2, // Replace with the actual element ID or logic
             data: individualizedData // Add the collected categories data as a JSON object
         };
@@ -592,7 +615,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 2, // Replace with the actual element ID or logic
             data: sessionData // Add the collected categories data as a JSON object
         };
@@ -669,7 +692,7 @@ headers: {
 
         const payload = {
             child_id: childId,
-            staff_id: 8,
+            staff_id: 1,
             therapy_id: 2,
             data: followupData
         };

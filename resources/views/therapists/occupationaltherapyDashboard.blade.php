@@ -78,7 +78,13 @@
     </div>
 
     <!-- Logout Link -->
-                   <form action="/logout" method="post">@csrf<button  class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"type="submit">Log Out</button></form>
+    <form action="/logout" method="post">
+    @csrf
+    <button class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3" type="submit">
+        <i class="fas fa-sign-out text-2xl"></i>
+        <span>Log Out</span>
+    </button>
+</form>
 
     <script>
         function showLoader(event) {

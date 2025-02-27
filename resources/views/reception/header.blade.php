@@ -101,19 +101,11 @@
     <div class="ml-auto">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <div class="flex items-center justify-center">
+                <div class="d-flex align-items-center">
                     <!-- Bell Icon -->
                     <i class="fa fa-bell position-relative" style="font-size: 1.25rem; color: #555;"></i>
                 </div>
             </li>
-{{--            <li class="nav-item">--}}
-{{--                <div class="d-flex align-items-center">--}}
-{{--                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>--}}
-{{--                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-{{--                        @csrf--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--                </li>--}}
             <li class="nav-item" x-data="{ showMessage: true }" x-show="showMessage" style="transition: opacity 0.5s ease;">
                 @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show p-2 m-0 ms-2" role="alert" x-init="setTimeout(() => showMessage = false, 5000)">
@@ -145,6 +137,8 @@
 
                     @else
                     <a class="dropdown-item" href="{{route('login')}}">Login</a>
+                    <a class="dropdown-item" href="{{route('register')}}">Register</a>
+
                     @endauth
                 </div>
             </li>

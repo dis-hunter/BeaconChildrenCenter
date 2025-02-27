@@ -64,7 +64,7 @@ class TherapistController extends Controller
         $latestVisitCount = DB::table('visits')
             ->where('doctor_id', $staff_id)
             //TODO:UNCOMMENT THE CODE BELOW
-            //->whereDate('created_at', '=', now()->toDateString())
+            ->whereDate('created_at', '=', now()->toDateString())
             ->where('triage_pass', true)
             ->count();
     
@@ -82,7 +82,7 @@ class TherapistController extends Controller
                 )
                 ->where('visits.doctor_id', $staff_id)
                  //TODO:UNCOMMENT THE CODE BELOW
-                 //->whereDate('visits.created_at', '=', now()->toDateString())
+                 ->whereDate('visits.created_at', '=', now()->toDateString())
                 ->where('visits.triage_pass', true)
                 ->orderBy('visits.created_at', 'desc')
                 ->limit(20)

@@ -53,6 +53,8 @@
     <div class="flex justify-between mb-4">
         <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
     </div>
+    <button id="backButton" onclick="NavigateBack()"class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+
 
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold text-blue-800 mb-6">Occupational Therapy</h1>
@@ -200,7 +202,15 @@
             });
         });
     });
-
+    function extractRegistrationCode() {
+    // Example: Assume registrationNumber is the last part of the current URL
+    const pathSegments = window.location.pathname.split('/');
+    return pathSegments[pathSegments.length - 1]; // Returns the last segment as registrationNumber
+}
+function NavigateBack() {
+    const RegNo=extractRegistrationCode();
+    window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
+}
     // Handle changes in selected dates
     function handleDatesChange(type, category, event) {
         const selectedDates = event.target.value;
@@ -299,7 +309,7 @@
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: assessmentData // Add the collected categories data as a JSON object
         };
@@ -482,6 +492,11 @@ headers: {
         const childId = childIdElement.value;
 
         async function saveTherapyGoals() {
+            const childIdElement = document.getElementById('child_id');
+            const childId = childIdElement.value;
+
+            console.log(childId);
+
         showLoadingIndicator('Saving...', 0);
         const categories = [
         'Activities of Daily Living(ADLs)',
@@ -505,11 +520,10 @@ headers: {
             goalsData[category] = textarea.value.trim(); // Store each category's value as key-value pair
         }
     });
-
     // Prepare the full payload with other required attributes
     const payload = {
         child_id: childId, // Replace with the actual element ID or logic
-        staff_id: 8, // Replace with the actual element ID or logic
+        staff_id: 1, // Replace with the actual element ID or logic
         therapy_id:1, // Replace with the actual element ID or logic
         data: goalsData // Add the collected categories data as a JSON object
     };
@@ -559,9 +573,13 @@ headers: {
         });
     </script>
         <script>
+              
                 //pushing data to the db therapy_assessment table
     async function saveAssessment() {
+
         showLoadingIndicator('Saving...', 0);
+        const childIdElement = document.getElementById('child_id');
+        const childId = childIdElement.value;
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
@@ -586,7 +604,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: assessmentData // Add the collected categories data as a JSON object
         };
@@ -634,6 +652,8 @@ headers: {
     //pushing data to the db therapy_individualized table
     
     async function saveIndividualized() {
+        const childIdElement = document.getElementById('child_id');
+        const childId = childIdElement.value;
         showLoadingIndicator('Saving...', 0);
         const categories = [
             'Therapy frequency and Duration',
@@ -662,7 +682,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: individualizedData // Add the collected categories data as a JSON object
         };
@@ -714,6 +734,8 @@ headers: {
 
     async function saveSession() {
         showLoadingIndicator('Saving...', 0);
+        const childIdElement = document.getElementById('child_id');
+        const childId = childIdElement.value;
         const categories = [
             'Gross Motor Skills',
             'Fine Motor Skills',
@@ -738,7 +760,7 @@ headers: {
         // Prepare the full payload with other required attributes
         const payload = {
             child_id: childId, // Replace with the actual element ID or logic
-            staff_id: 8, // Replace with the actual element ID or logic
+            staff_id: 1, // Replace with the actual element ID or logic
             therapy_id: 1, // Replace with the actual element ID or logic
             data: sessionData // Add the collected categories data as a JSON object
         };
@@ -787,6 +809,8 @@ headers: {
 <script>
     //pushing data to the db follow_up table
     async function saveFollowup() {
+        const childIdElement = document.getElementById('child_id');
+        const childId = childIdElement.value;
     showLoadingIndicator('Saving...', 0);
     const categories = [
         'Home Practice Assignments',
@@ -816,7 +840,7 @@ headers: {
 
         const payload = {
             child_id: childId,
-            staff_id: 8,
+            staff_id: 1,
             therapy_id: 1,
             data: followupData
         };

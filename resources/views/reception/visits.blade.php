@@ -100,23 +100,13 @@
     </div>
 
     <div id="visitType" class="mt-3">
-        <h3>Visit Type</h3>
-        <select id="visit_type" class="form-control">
-            <option value="" disabled selected>Select an option</option>
-            <option value="1">Paediatric Consultation</option>
-            <option value="3">Therapy Assessment</option>
-            <option value="4">Occupational Therapy</option>
-            <option value="5">Sensory Integration</option>
-            <option value="6">Speech Therapy</option>
-            <option value="7">Physiotherapy</option>
-            <option value="8">Psychotherapy</option>
-            <option value="11">Review</option>
-            <option value="2">General Consultation</option>
-            <option value="15">Developmental Reports</option>
-            <option value="16">Medical Report</option>
-            <option value="17">Therapy Reports</option>
-        </select>
-    </div>
+    <h3>Visit Type</h3>
+    <select id="visit_type" class="form-control">
+        <option value="" disabled selected>Select an option</option>
+        <!-- The rest will be filled by JavaScript -->
+    </select>
+</div>
+
 
     <div id="triage-selection" class="mt-3">
         <h3>Triage Selection</h3>
@@ -595,6 +585,49 @@ document.getElementById('submit-appointment').addEventListener('click', async ()
 });
 
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const specializationSelect = document.getElementById('specialization');
+    const visitTypeSelect = document.getElementById('visit_type');
+
+    specializationSelect.addEventListener('change', async (e) => {
+        const specializationId = e.target.value;
+        if (!specializationId) {
+            // If user didn't pick anything, clear out visit types
+            visitTypeSelect.innerHTML = '<option value="" disabled selected>Select an option</option>';
+            return;
+        }
+
+        // Fetch doctors if needed (based on your existing code)
+        // const doctors = await api.fetchDoctors(specializationId);
+        // ui.populateDoctorTable(doctors);
+
+        // Now fetch visit types by specialization
+        try {
+            const response = await fetch(`/visit-types-by-specialization/${specializationId}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch visit types: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+
+            // Clear existing options
+            visitTypeSelect.innerHTML = '<option value="" disabled selected>Select an option</option>';
+
+            // If success, populate
+            if (data.status === 'success' && Array.isArray(data.data)) {
+                data.data.forEach(item => {
+                    // 'item' should have { id, visit_type, ... }
+                    const opt = document.createElement('option');
+                    opt.value = item.id;
+                    opt.textContent = item.visit_type;
+                    visitTypeSelect.appendChild(opt);
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching visit types:', error);
+        }
+    });
+});
 </script>
 
 @endsection
