@@ -6,7 +6,7 @@
   <title>Doctor's Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel=stylesheet href="{{asset ('css/doctorDash.css')}}">
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    @vite(['resources/js/app.js','resources/css/app.css'])
   <style>
     .dot-loader {
         display: flex;
@@ -49,15 +49,18 @@
 </head>
 <body>
 
-@section('header_sidebar')  
+@section('header_sidebar')
 <header>
     <div class="profile">
       <i class="fas fa-user-md fa-4x"></i>
       <div>
         <h2 style="margin-bottom: 6px;">Dr. {{ $firstName ?? '' }} {{ $lastName ?? '' }}</h2>
         <p style="font-size: 18px; color:white;">{{ $specialization ?? '' }}</p>
-        
+
       </div>
+    </div>
+    <div>
+        <x-global-search/>
     </div>
     <div class="notifications">
       <div class="datetime">
@@ -67,8 +70,6 @@
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
-          <a href="#"  id="dropdown-profile-link">View Profile</a>
-          <a href="#">Settings</a>
           <a href="{{ route('profile.show') }}">View Profile</a>
           <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -86,18 +87,18 @@
         <ul>
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> My Profile</a></li>
-          <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
+          <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li>
           <li> <a id="therapist-link" href="#"><i class="fas fa-user-md"></i>Therapy Patient List</a></li>
 
-          <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Schedule</a></li> 
-         
-        
-          
-        
+          <li><a href="#" id="calendar-link"><i class="fas fa-user-md"></i> View Schedule</a></li>
+
+
+
+
         </ul>
       </nav>
     </aside>
-    @show 
+    @show
 
     <section class="dashboard" id="dashboard-content">
       <div class="welcome">
@@ -144,16 +145,16 @@
     </section>
 
     <section class="content" id="therapist-content" style="display: none;">
-   
+
     </section>
-  
-    
+
+
     <!-- Section for Calendar (Initially Hidden) -->
     <section class="content" id="calendar-content" style="display: none;">
     @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
 
 
-    
+
 </section>
 
 
@@ -179,7 +180,7 @@
       }
       document.getElementById('greeting').textContent = `${greeting}, Dr. {{ $lastName }}`;
     }
-    updateGreeting(); 
+    updateGreeting();
     setInterval(updateGreeting, 60 * 60 * 1000);
   </script>
 
@@ -218,7 +219,7 @@
             console.error('Error fetching user specialization and doctor:', error);
         });
     }
-    
+
     import { prevMonth, nextMonth } from '/public/js/calendar.js'; // Adjust the path if necessary
 
 // Ensure these buttons have the correct IDs or class names

@@ -4,7 +4,7 @@
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
     crossorigin="anonymous"></script>
-  
+
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 <style>
     .navbar-nav {
@@ -28,7 +28,7 @@
     outline: none;
 }
 </style>
-<nav class="navbar navbar-expand-md responsive-navbar" id="Account"> 
+<nav class="navbar navbar-expand-md responsive-navbar" id="Account">
     <div class="shrink-0 flex items-center ml-5">
         <a href="{{ route('home') }}">
             <x-application-mark class="block h-9 w-auto" />
@@ -64,7 +64,7 @@
         <ul class="navbar-nav">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-user"></i> 
+                <i class="fa fa-user"></i>
                 @auth
                 {{auth()->user()->fullname->first_name ?? ''.' '.auth()->user()->fullname->last_name ?? ''}}
                 @else
@@ -77,7 +77,7 @@
                 <a class="dropdown-item" href="{{route('profile.show')}}">Profile</a>
                 @else
                 <a class="dropdown-item" href="{{route('login')}}">Login</a>
-                <a class="dropdown-item" href="{{route('register')}}">Register</a>
+
                 @endauth
             </div>
         </li>

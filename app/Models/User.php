@@ -132,14 +132,8 @@ class User extends Authenticatable implements HasName, FilamentUser
             2 => 'doctor.dashboard',
             3 => 'reception.dashboard',
             4 => 'filament.admin.pages.dashboard',
-            5 => $this->getTherapistRoute($this->specialization_id), // Calls therapist function
+            5 => 'therapistsDashboard',
             default => RouteServiceProvider::HOME,
-        };
-    }
-
-    public function getTherapistRoute($specialization_id){
-        return match($specialization_id){
-            default => 'therapistsDashboard', // Now redirects therapists to this route
         };
     }
 

@@ -19,7 +19,7 @@
         this.loading = true;
 
         try {
-            const url = new URL(@js(route('reception.search')));
+            const url = new URL(@js(route('global.search')));
             url.searchParams.set('keyword', this.query);
             const response = await fetch(url);
             this.results = await response.json();
@@ -34,7 +34,7 @@
     <div class="position-relative">
         <!-- Search Input -->
         <div class="input-group" style="border: 1px solid black; border-radius:5px;">
-            <span class="input-group-text">
+            <span class="input-group-text p-1">
                 <i class="fa fa-search"></i>
             </span>
 
