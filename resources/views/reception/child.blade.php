@@ -62,7 +62,7 @@
                             <option disabled {{old('gender_id') === null ? 'selected' : ''}}>Select...</option>
                             @foreach ($genders as $item)
                                 <option
-                                    value="{{$item->gender}}" {{old('gender_id') === $item->gender ? 'selected' : ''}}>{{$item->gender}}</option>
+                                    value="{{$item->id}}" {{old('gender_id') === $item->id ? 'selected' : ''}}>{{$item->gender}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -114,7 +114,7 @@
                             <option disabled {{old('relationship_id') === null ? 'selected' : ''}}>Select...</option>
                             @foreach ($relationships as $item)
                                 <option
-                                    value="{{$item->relationship}}" {{old('relationship_id') === $item->relationship ? 'selected' : ''}}>{{$item->relationship}}</option>
+                                    value="{{$item->id}}" {{old('relationship_id') === $item->id ? 'selected' : ''}}>{{$item->relationship}}</option>
 
                             @endforeach
                         </select>
@@ -154,7 +154,7 @@
                             <option disabled {{old('gender_id2') === null ? 'selected' : ''}}>Select...</option>
                             @foreach ($genders as $item)
                                 <option
-                                    value="{{$item->gender}}" {{old('gender_id2') === $item->gender ? 'selected' : ''}}>{{$item->gender}}</option>
+                                    value="{{$item->id}}" {{old('gender_id2') === $item->id ? 'selected' : ''}}>{{$item->gender}}</option>
                             @endforeach
                         </select>
                     </div>

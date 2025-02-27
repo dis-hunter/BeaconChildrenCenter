@@ -13,14 +13,7 @@ class LoginResponse implements LoginResponseContract
         1 => 'triage.dashboard',    // Nurse
         2 => 'doctor.dashboard',    // Doctor
         3 => 'reception.dashboard', // Reception
-    ];
-
-    protected const THERAPIST_REDIRECTS = [
-        2 => 'therapistsDashboard',
-        3 => 'therapistsDashboard',
-        4 => 'therapistsDashboard',
-        5 => 'therapistsDashboard',
-        9 => 'therapistsDashboard',
+        4 => 'filament.admin.pages.dashboard' //Admin
     ];
 
     public function toResponse($request)
@@ -32,20 +25,13 @@ class LoginResponse implements LoginResponseContract
         $user = Auth::user();
 
         if ($user->role_id === 5) {
-            return $this->therapistRedirect($user->specialization_id);
+            return redirect()->route(
+                'therapistsDashboard' ?? RouteServiceProvider::HOME
+            );
         }
 
         return redirect()->route(
             self::ROLE_REDIRECTS[$user->role_id] ?? RouteServiceProvider::HOME
         );
-    }
-
-    protected function therapistRedirect($specialization_id)
-    {
-        $route = self::THERAPIST_REDIRECTS[$specialization_id] ?? null;
-
-        return $route
-            ? redirect()->route($route)
-            : redirect(RouteServiceProvider::HOME);
     }
 }

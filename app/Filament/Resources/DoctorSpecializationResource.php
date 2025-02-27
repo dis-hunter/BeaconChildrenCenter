@@ -35,7 +35,12 @@ class DoctorSpecializationResource extends Resource
             ->schema([
                 TextInput::make('specialization')
                     ->required()
-                    ->unique(),
+                    ->unique(ignoreRecord: true),
+                Forms\Components\Select::make('role_id')
+                    ->searchable()
+                    ->nullable()
+                    ->preload()
+                    ->relationship('role', 'role'),
             ]);
     }
 
@@ -45,6 +50,8 @@ class DoctorSpecializationResource extends Resource
             ->columns([
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('specialization'),
+                TextColumn::make('role.role')
+                    ->color('primary'),
                 TextColumn::make('created_at')->dateTime('d-M-Y H:i')->sortable(),
                 TextColumn::make('updated_at')->dateTime('d-M-Y H:i')->sortable(),
             ])
@@ -59,14 +66,14 @@ class DoctorSpecializationResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -74,5 +81,5 @@ class DoctorSpecializationResource extends Resource
             'create' => Pages\CreateDoctorSpecialization::route('/create'),
             'edit' => Pages\EditDoctorSpecialization::route('/{record}/edit'),
         ];
-    }    
+    }
 }

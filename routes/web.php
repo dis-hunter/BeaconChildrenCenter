@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BehaviourAssesmentController;
@@ -70,6 +72,7 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
     Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
@@ -355,6 +358,9 @@ Route::controller(VisitController::class)->group(function () {
     Route::get('/visits/last7days', 'getVisitsLast7Days');
     Route::post('/saveDoctorNotes', 'doctorNotes')->name('doctorNotes.store');
     Route::get('/getDoctorNotes/{registrationNumber}', 'getDoctorNotes');
+    Route::get('/visit-types-by-specialization/{specializationId}', 
+    [VisitController::class, 'getVisitTypesBySpecialization']
+)->name('visit.types.by.specialization');
 });
 
 // Invoice Routes

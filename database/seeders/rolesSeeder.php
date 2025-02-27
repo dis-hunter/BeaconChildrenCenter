@@ -20,6 +20,8 @@ class rolesSeeder extends Seeder
             ['role'=>'Doctor'],
             ['role'=>'Receptionist'],
             ['role'=>'Admin'],
+            ['role'=>'Therapist'],
+            
         ]);
     }
 }

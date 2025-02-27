@@ -20,7 +20,7 @@
             top: 20px;
             background-color: #111827;
             color: white;
-            width: 24px;
+            width: 24px;s
             height: 24px;
             border-radius: 0 6px 6px 0;
             display: flex;
