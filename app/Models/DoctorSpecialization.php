@@ -10,5 +10,10 @@ class DoctorSpecialization extends Model
     use HasFactory;
     protected $table = 'doctor_specialization';
 
-    protected $fillable = ['name', 'specialization'];
+    protected $fillable = ['specialization', 'role_id'];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }

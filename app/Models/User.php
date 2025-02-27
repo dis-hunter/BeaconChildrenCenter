@@ -100,7 +100,7 @@ class User extends Authenticatable implements HasName, FilamentUser
 
     public function specialization()
     {
-        return $this->belongsTo(Specialization::class);
+        return $this->belongsTo(DoctorSpecialization::class, 'specialization_id');
     }
 
     public function activeSession(){

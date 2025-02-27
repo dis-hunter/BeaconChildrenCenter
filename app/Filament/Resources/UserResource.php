@@ -4,10 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\DoctorSpecialization;
 use App\Models\User;
 use App\Services\RegistrationNumberManager;
-use Filament\Forms;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -18,15 +17,10 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Stringable;
 
 class UserResource extends Resource
 {
@@ -46,10 +40,14 @@ class UserResource extends Resource
                 Section::make('User Information')
                     ->schema([
                         KeyValue::make('fullname')
-                            ->disableAddingRows()
-                            ->disableEditingKeys()
+                            ->addable(false)
+                            ->editableKeys(false)
                             ->keyLabel('Name')
-                            ->required(),
+                            ->default([
+                                'first_name' => '',
+                                'middle_name' => '',
+                                'last_name' => ''
+                            ]),
                         TextInput::make('email')
                             ->required()
                             ->email()
@@ -59,7 +57,6 @@ class UserResource extends Resource
                             ->label('Phone Number')
                             ->tel()
                             ->placeholder('0712345678')
-                            ->required()
                             ->unique(ignoreRecord: true)
                             ->rules(['required', 'string', 'max:10']),
                         Select::make('gender_id')
@@ -72,8 +69,11 @@ class UserResource extends Resource
                             ->required()
                             ->reactive(),
                         Select::make('specialization_id')
-                            ->relationship('specialization', 'specialization')
-                            ->preload()
+                            ->options(function (callable $get) {
+                                if(!$get('role_id')) return [];
+                                return DoctorSpecialization::where('role_id', $get('role_id'))->pluck('specialization', 'id')->toArray();
+                            })
+                            ->preload(false)
                             ->required()
                             ->visible(function ($get) {
                                 $allowedRoles = [2, 5];
@@ -81,33 +81,29 @@ class UserResource extends Resource
                             }),
                         TextInput::make('staff_no')
                             ->label('Staff Number')
-                            ->disabled(),
+                            ->default(function () {
+                                return (new RegistrationNumberManager('staff', 'staff_no'))->generateUniqueRegNumber();
+                            })
+                            ->disabled()
+                            ->dehydrated(),
                         Toggle::make('is_admin')
                             ->helperText('Administrator role is OFF by default for all Users')
                             ->onColor('success')
                             ->offColor('danger')
-                            ->default(false),
+                            ->default(fn ($get) => $get('role_id') == 1)
+                            ->reactive(),
 
                     ])->columns(2),
 
                 Section::make('Password Management')
                     ->description('Only to be used when user is unable to operate their Settings')
                     ->schema([
-                        Toggle::make('change_password')
-                            ->label('Add or Change Password')
-                            ->reactive(),
                         TextInput::make('password')
                             ->password()
-                            ->required(fn($get) => $get('change_password'))
+                            ->required()
                             ->maxLength(255)
-                            ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                            ->hidden(fn($get) => !$get('change_password')),
-                        TextInput::make('password_confirmation')
-                            ->password()
-                            ->same('password')
-                            ->requiredWith('password')
-                            ->hidden(fn($get) => !$get('change_password')),
-                    ]),
+                            ->dehydrateStateUsing(fn($state) => Hash::make($state)),
+                        ]),
             ]);
     }
 
@@ -169,10 +165,5 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
-    }
-
-    public static function canCreate(): bool
-    {
-        return false;
     }
 }
