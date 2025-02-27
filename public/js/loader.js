@@ -1,4 +1,3 @@
-// Add this to your HTML to create a modern loading indicator with overlay
 document.addEventListener('DOMContentLoaded', () => {
     // Create container for loading screen
     const loadingContainer = document.createElement('div');
@@ -26,6 +25,38 @@ document.addEventListener('DOMContentLoaded', () => {
     spinnerWrapper.style.flexDirection = 'column';
     spinnerWrapper.style.alignItems = 'center';
     spinnerWrapper.style.gap = '15px';
+    spinnerWrapper.style.position = 'relative'; // Add position relative for close button positioning
+
+    // Add close button
+    const closeButton = document.createElement('button');
+    closeButton.id = 'loading-close-button';
+    closeButton.innerHTML = '&times;'; // × symbol
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.style.background = 'none';
+    closeButton.style.border = 'none';
+    closeButton.style.fontSize = '20px';
+    closeButton.style.fontWeight = 'bold';
+    closeButton.style.color = '#333';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.padding = '0';
+    closeButton.style.width = '24px';
+    closeButton.style.height = '24px';
+    closeButton.style.borderRadius = '50%';
+    closeButton.style.display = 'flex';
+    closeButton.style.justifyContent = 'center';
+    closeButton.style.alignItems = 'center';
+    closeButton.style.transition = 'background-color 0.2s ease';
+    closeButton.setAttribute('title', 'Cancel operation');
+    
+    // Hover effect
+    closeButton.addEventListener('mouseover', () => {
+        closeButton.style.backgroundColor = '#f0f0f0';
+    });
+    closeButton.addEventListener('mouseout', () => {
+        closeButton.style.backgroundColor = 'transparent';
+    });
 
     // Create loading spinner
     const loadingSpinner = document.createElement('div');
@@ -64,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     progressFill.style.transition = 'width 0.3s ease-in-out';
 
     // Append elements
+    spinnerWrapper.appendChild(closeButton);
     spinnerWrapper.appendChild(loadingSpinner);
     spinnerWrapper.appendChild(loadingText);
     spinnerWrapper.appendChild(progressBar);
@@ -84,13 +116,89 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
     addTextareaAutoResize();
+
+    // Track current AJAX requests
+    window.activeAjaxRequests = [];
+    // Track any other running functions
+    window.runningFunctions = new Set();
+
+    // Add event listener for close button
+    closeButton.addEventListener('click', () => {
+        cancelAllOperations();
+    });
 });
+
+// Function to cancel all operations
+function cancelAllOperations() {
+    // 1. Abort all active AJAX requests
+    if (window.activeAjaxRequests && window.activeAjaxRequests.length > 0) {
+        window.activeAjaxRequests.forEach(request => {
+            if (request && typeof request.abort === 'function') {
+                request.abort();
+            }
+        });
+        window.activeAjaxRequests = [];
+    }
+
+    // 2. Clear any timers or intervals that might be running
+    // This requires you to store the IDs of any setTimeouts or setIntervals
+    if (window.operationTimers && window.operationTimers.length > 0) {
+        window.operationTimers.forEach(timerId => {
+            clearTimeout(timerId);
+            clearInterval(timerId);
+        });
+        window.operationTimers = [];
+    }
+
+    // 3. Set flags to stop any running loops or processing
+    window.cancelOperationsFlag = true;
+
+    // 4. Call any function-specific cancellation callbacks
+    if (window.runningFunctions && window.runningFunctions.size > 0) {
+        window.runningFunctions.forEach(functionInfo => {
+            if (typeof functionInfo.cancelCallback === 'function') {
+                functionInfo.cancelCallback();
+            }
+        });
+        window.runningFunctions.clear();
+    }
+
+    // 5. For Laravel-specific operations, trigger a cancelation event
+    const cancelEvent = new CustomEvent('laravelOperationCancelled');
+    document.dispatchEvent(cancelEvent);
+
+    // 6. Hide the loading indicator
+    hideLoadingIndicator();
+
+    // Optional: Show a message that the operation was cancelled
+    const message = document.createElement('div');
+    message.textContent = 'Operation cancelled';
+    message.style.position = 'fixed';
+    message.style.top = '20px';
+    message.style.right = '20px';
+    message.style.padding = '10px 15px';
+    message.style.backgroundColor = '#f8d7da';
+    message.style.color = '#721c24';
+    message.style.borderRadius = '4px';
+    message.style.zIndex = '9999';
+    document.body.appendChild(message);
+
+    // Remove message after 3 seconds
+    setTimeout(() => {
+        if (document.body.contains(message)) {
+            document.body.removeChild(message);
+        }
+    }, 3000);
+}
 
 // Enhanced show/hide functions with progress support
 function showLoadingIndicator(message = 'Loading...', progress = 0) {
     const container = document.getElementById('loading-container');
     const text = document.getElementById('loading-text');
     const progressFill = document.getElementById('progress-fill');
+    
+    // Reset cancellation flag when showing the indicator
+    window.cancelOperationsFlag = false;
     
     if (container && text && progressFill) {
         container.style.display = 'flex';
@@ -118,11 +226,74 @@ function updateLoadingProgress(progress, message = null) {
         text.textContent = message;
     }
 }
-// Usage example:
-// showLoadingIndicator('Loading data...', 0);
-// updateLoadingProgress(50, 'Halfway there...');
-// hideLoadingIndicator();
 
+// Helper function to register functions with cancellation
+function registerRunningFunction(functionId, cancelCallback) {
+    if (!window.runningFunctions) {
+        window.runningFunctions = new Set();
+    }
+    window.runningFunctions.add({ id: functionId, cancelCallback });
+}
+
+// Helper function to unregister functions when complete
+function unregisterRunningFunction(functionId) {
+    if (window.runningFunctions) {
+        for (let func of window.runningFunctions) {
+            if (func.id === functionId) {
+                window.runningFunctions.delete(func);
+                break;
+            }
+        }
+    }
+}
+
+// Integration with Laravel's AJAX/Axios requests - override to track requests
+function setupAjaxTracking() {
+    // If using jQuery AJAX
+    if (window.jQuery) {
+        let originalAjax = jQuery.ajax;
+        jQuery.ajax = function() {
+            let request = originalAjax.apply(this, arguments);
+            window.activeAjaxRequests.push(request);
+            
+            // Remove from tracking when done
+            request.always(function() {
+                let index = window.activeAjaxRequests.indexOf(request);
+                if (index > -1) {
+                    window.activeAjaxRequests.splice(index, 1);
+                }
+            });
+            
+            return request;
+        };
+    }
+    
+    // If using Axios (common in Laravel)
+    if (window.axios) {
+        const originalRequest = axios.request;
+        axios.request = function(config) {
+            const source = axios.CancelToken.source();
+            config.cancelToken = source.token;
+            
+            const request = originalRequest.call(this, config);
+            window.activeAjaxRequests.push({ 
+                request: request, 
+                abort: () => source.cancel('Operation cancelled by user') 
+            });
+            
+            request.finally(() => {
+                let index = window.activeAjaxRequests.findIndex(r => r.request === request);
+                if (index > -1) {
+                    window.activeAjaxRequests.splice(index, 1);
+                }
+            });
+            
+            return request;
+        };
+    }
+}
+
+// Call this after DOM is loaded
 function addTextareaAutoResize() {
     const textareas = document.querySelectorAll('textarea');
     textareas.forEach(textarea => {
@@ -139,5 +310,55 @@ function addTextareaAutoResize() {
       textarea.style.height = 'auto';
       textarea.style.height = (textarea.scrollHeight) + 'px';
     });
-  }
+}
 
+// Initialize AJAX tracking when document is ready
+document.addEventListener('DOMContentLoaded', () => {
+    setupAjaxTracking();
+    
+    // Initialize arrays/sets if not already defined
+    window.activeAjaxRequests = [];
+    window.operationTimers = [];
+    window.runningFunctions = new Set();
+    window.cancelOperationsFlag = false;
+});
+
+// Example of usage with a cancelable function:
+/*
+function startLongOperation() {
+    showLoadingIndicator('Processing data...', 0);
+    
+    // Register this operation so it can be cancelled
+    const operationId = 'long-operation-' + Date.now();
+    
+    // Define what should happen if cancelled
+    const cancelCallback = () => {
+        console.log('Long operation was cancelled');
+        // Do any cleanup here
+    };
+    
+    registerRunningFunction(operationId, cancelCallback);
+    
+    // Example of a loop that checks the cancel flag
+    let progress = 0;
+    const timer = setInterval(() => {
+        // Check if operation was cancelled
+        if (window.cancelOperationsFlag) {
+            clearInterval(timer);
+            return;
+        }
+        
+        progress += 10;
+        updateLoadingProgress(progress, `Processing: ${progress}%`);
+        
+        if (progress >= 100) {
+            clearInterval(timer);
+            hideLoadingIndicator();
+            unregisterRunningFunction(operationId);
+        }
+    }, 500);
+    
+    // Track this timer
+    window.operationTimers.push(timer);
+}
+*/
