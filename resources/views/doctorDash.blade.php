@@ -67,6 +67,8 @@
       <div class="dropdown">
         <button class="dropbtn"><i class="fas fa-user"></i></button>
         <div class="dropdown-content">
+          <a href="#"  id="dropdown-profile-link">View Profile</a>
+          <a href="#">Settings</a>
           <a href="{{ route('profile.show') }}">View Profile</a>
           <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -136,21 +138,13 @@
       <p>This is where you would display the doctor's profile information.</p>
     </section>
 
+
     <section class="content" id="booked-content" style="display: none;">
     <!-- This section will be populated with the doctor's booked appointments -->
-</section>
-
-
-
-
+    </section>
 
     <section class="content" id="therapist-content" style="display: none;">
-    <div id="therapist-content" style="display: none;">
-    <div id="therapy-appointments-table"></div>
-        
-    </div>
-
-
+   
     </section>
   
     
