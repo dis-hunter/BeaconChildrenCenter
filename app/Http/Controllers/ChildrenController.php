@@ -76,22 +76,22 @@ class ChildrenController extends Controller
             'middle_name' => ucwords($validatedData['middlename2']),
             'last_name' => ucwords($validatedData['lastname2']),
         ];
-        $child_id=null;
+        $parent_id=null;
 
         //transaction for data consistency
         try {
-            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData,$regis, &$child_id) {
+            DB::transaction(function () use ($parent_fullname, $child_fullname, $validatedData,$regis, &$parent_id) {
                 //Create the parent record
                 $parent = Parents::create([
                     'fullname' => $parent_fullname,
                     'dob' => $validatedData['dob'],
-                    'gender_id' =>  Gender::where('gender', $validatedData['gender_id'])->value('id'),
+                    'gender_id' =>  $validatedData['gender_id'],
                     'telephone' => $validatedData['telephone'],
                     'national_id' => $validatedData['national_id'],
                     'employer' => $validatedData['employer'],
                     'insurance' => $validatedData['insurance'],
                     'email' => $validatedData['email'],
-                    'relationship_id' => Relationship::where('relationship', $validatedData['relationship_id'])->value('id'),
+                    'relationship_id' => $validatedData['relationship_id'],
                     'referer' => $validatedData['referer'],
                 ]);
 
@@ -99,7 +99,7 @@ class ChildrenController extends Controller
                 $children = children::create([
                     'fullname' => $child_fullname,
                     'dob' => $validatedData['dob2'],
-                    'gender_id' => Gender::where('gender', $validatedData['gender_id2'])->value('id'),
+                    'gender_id' => $validatedData['gender_id2'],
                     'birth_cert' => $validatedData['birth_cert'],
                     'registration_number' => $regis,
                 ]);
@@ -109,9 +109,9 @@ class ChildrenController extends Controller
                     'child_id' => $children->id,
                 ]);
 
-                $child_id=$children->id;
+                $parent_id=$parent->id;
             });
-            return redirect()->route('guardians.search',['id'=>$child_id])->with('success', 'Record Saved Successfully!');
+            return redirect()->route('guardians.search',['id'=>$parent_id])->with('success', 'Record Saved Successfully!');
         } catch (\Exception $e) {
             Log::error('Create Parent & child (Reception)',[$e->getMessage()]);
             return redirect()->back()->with('error', 'Failed to save new record...')->withInput($validatedData)->with('showForm',true);

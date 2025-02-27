@@ -12,14 +12,7 @@ class RegisterResponse implements RegisterResponseContract
         1 => 'triage.dashboard',    // Nurse
         2 => 'doctor.dashboard',    // Doctor
         3 => 'reception.dashboard', // Reception
-        4 => null,                  // RemoveAdmin
-        5 => null,                  // Therapist - handled separately
-    ];
-
-    protected const THERAPIST_REDIRECTS = [
-        2 => 'occupational_therapist',
-        // 3 => 'other_route',
-        // Add other specialization routes as needed
+        4 => 'filament.admin.pages.dashboard', //Admin
     ];
 
     public function toResponse($request)
@@ -31,20 +24,13 @@ class RegisterResponse implements RegisterResponseContract
         $user = Auth::user();
 
         if ($user->role_id === 5) {
-            return $this->therapistRedirect($user->specialization_id);
+            return redirect()->route(
+                'therapistsDashboard' ?? RouteServiceProvider::HOME
+            );
         }
-        
+
         return redirect()->route(
             self::ROLE_REDIRECTS[$user->role_id] ?? RouteServiceProvider::HOME
         );
-    }
-
-    protected function therapistRedirect($specializationId)
-    {
-        $route = self::THERAPIST_REDIRECTS[$specializationId] ?? null;
-        
-        return $route 
-            ? redirect()->route($route)
-            : redirect(RouteServiceProvider::HOME);
     }
 }
