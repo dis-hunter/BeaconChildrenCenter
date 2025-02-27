@@ -89,8 +89,7 @@
         <ul>
           <li class="active"><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
           <li><a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a></li>
-          <li><a href="#" id="booked-link"><i class="fas fa-book"></i> Booked Patients</a></li> 
-          <li><a href="#" id="therapist-link"><i class="fas fa-user-md"></i> Therapy List</a></li> 
+         
         </ul>
       </nav>
     </aside>
