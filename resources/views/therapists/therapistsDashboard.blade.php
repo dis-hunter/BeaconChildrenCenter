@@ -3,9 +3,8 @@
 <head>
   <title>Therapist Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    @vite(['resources/js/app.js','resources/css/app.css'])
+    @livewireStyles
   <style>
     .selected-row {
     background-color: lightblue;
@@ -401,6 +400,9 @@ flex-direction: column; /* Stack elements vertically */
     <header class="bg-white shadow">
         <div class="flex justify-between items-center px-6 py-4">
           <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+            <div>
+                <x-global-search/>
+            </div>
           <div class="flex items-center gap-4">
           <span class="text-gray-600">Welcome, Dr. {{ $doctorName }}</span>            <span id="current-date" class="text-gray-600"></span>
             <button class="text-gray-600 hover:text-gray-800">
@@ -429,9 +431,7 @@ flex-direction: column; /* Stack elements vertically */
     <!-- Calendar Section -->
     <div id="calendar" class="section hidden">
       <div class="bg-white rounded-lg shadow p-6">
-        @livewireScripts
         <div class="calendar-container"></div>
-        @livewireScripts
         @include('calendar', ['doctorSpecializations' => $doctorSpecializations ?? []])
       </div>
     </div>
@@ -581,7 +581,7 @@ function selectPatient(index) {
     }
     let selectedRegistrationNumber = null
 
-   
+
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
   console.log(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
@@ -605,34 +605,34 @@ async function startConsultation() {
         alert('Please select a patient first.');
         return;
     }
-    
+
     showLoadingIndicator('Starting consultation...', 0);
-    
+
     // Reset cancellation flag
     window.cancelOperationsFlag = false;
-    
+
     // Create an AbortController for fetch requests
     const controller = new AbortController();
     const signal = controller.signal;
-    
+
     // Register this operation so it can be cancelled
     const operationId = 'start-consultation-' + Date.now();
     const cancelCallback = () => {
         controller.abort();
         console.log('Consultation start was cancelled');
     };
-    
+
     registerRunningFunction(operationId, cancelCallback);
-    
+
     try {
         // Check if operation was cancelled before proceeding
         if (window.cancelOperationsFlag) {
             throw new Error('Operation cancelled by user');
         }
-        
+
         // Update loading progress
         updateLoadingProgress(20, 'Checking patient data...');
-        
+
         // First make an AJAX call to check if the patient exists and get initial data
         const response = await fetch(`/occupationaltherapy_dashboard/${selectedRegistrationNumber}`, {
             method: 'GET',
@@ -642,12 +642,12 @@ async function startConsultation() {
             },
             signal: signal // Add the abort signal to the fetch request
         });
-        
+
         // Check if operation was cancelled after the first fetch
         if (window.cancelOperationsFlag) {
             throw new Error('Operation cancelled by user');
         }
-        
+
         // Update loading progress
         updateLoadingProgress(50, 'Fetching data from server...');
 
@@ -656,15 +656,15 @@ async function startConsultation() {
         }
 
         const data = await response.json();
-        
+
         // Check if operation was cancelled after parsing JSON
         if (window.cancelOperationsFlag) {
             throw new Error('Operation cancelled by user');
         }
-        
+
         // Update loading progress
         updateLoadingProgress(80, 'Processing data...');
-        
+
         // Simulate a bit of processing time
         await new Promise(resolve => {
             const timer = setTimeout(() => {
@@ -673,17 +673,17 @@ async function startConsultation() {
             }, 500);
             window.operationTimers.push(timer);
         });
-        
+
         // Final cancellation check before redirecting
         if (window.cancelOperationsFlag) {
             throw new Error('Operation cancelled by user');
         }
-        
+
         updateLoadingProgress(100, 'Complete! Redirecting...');
-        
+
         // // Hide the indicator before redirecting
         // hideLoadingIndicator();
-        
+
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
 
@@ -694,7 +694,7 @@ async function startConsultation() {
             // Don't show an error message for user cancellations
             return;
         }
-        
+
         console.error('Error starting consultation:', error);
         let errorMessage = 'Error starting consultation. ';
 

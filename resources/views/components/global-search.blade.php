@@ -34,7 +34,7 @@
     <div class="position-relative">
         <!-- Search Input -->
         <div class="input-group" style="border: 1px solid black; border-radius:5px;">
-            <span class="input-group-text">
+            <span class="input-group-text p-1">
                 <i class="fa fa-search"></i>
             </span>
 
