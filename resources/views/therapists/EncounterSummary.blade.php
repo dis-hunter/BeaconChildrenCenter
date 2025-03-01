@@ -357,7 +357,6 @@
                                     </span>
                                 </div>
                                 <div class="notes">
-                                <h1>${visit.is_editable},</h1>
                                     <strong>Doctor's Notes:</strong><br>
                                     ${visit.is_editable ?
                                         `<div class="editable-container">
