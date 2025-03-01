@@ -47,7 +47,6 @@ use App\Http\Controllers\MetricsController;
 use App\Http\Controllers\ExpenseController;
 
 
-
 //Doctor Form Routes
 Route::get('/search-children', [AppointmentController::class, 'search']);
 
@@ -76,9 +75,10 @@ Route::get('/', function () {
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/search', [SearchController::class,'search'])->name('global.search');
-    Route::get('/EditablegetDoctorNotes/{registrationNumber}', [VisitController::class,'EditablegetDoctorNotes']);
-    Route::post('/editDoctorNotes', [VisitController::class,'EditdoctorNotes']);
+    Route::get('/search', [SearchController::class, 'search'])->name('global.search');
+    Route::get('/EditablegetDoctorNotes/{registrationNumber}', [VisitController::class, 'EditablegetDoctorNotes']);
+    Route::post('/editDoctorNotes', [VisitController::class, 'EditdoctorNotes']);
+    Route::get('/patientEncounterSummary/{registrationNumber}', [VisitController::class,'getEncounterSummary']);
 
 
     //NURSE
@@ -305,10 +305,6 @@ Route::controller(MetricsController::class)->group(function () {
 });
 
 
-
-
-
-
 // Authentication Routes
 Route::controller(AuthController::class)->group(function () {
 
@@ -359,13 +355,11 @@ Route::controller(VisitController::class)->group(function () {
     Route::get('/visits/last7days', 'getVisitsLast7Days');
     Route::post('/saveDoctorNotes', 'doctorNotes')->name('doctorNotes.store');
     Route::get('/getDoctorNotes/{registrationNumber}', 'getDoctorNotes');
-    Route::get('/patientEncounterSummary/{registrationNumber}', 'getEncounterSummary');
 
 
-
-    Route::get('/visit-types-by-specialization/{specializationId}', 
-    [VisitController::class, 'getVisitTypesBySpecialization']
-)->name('visit.types.by.specialization');
+    Route::get('/visit-types-by-specialization/{specializationId}',
+        [VisitController::class, 'getVisitTypesBySpecialization']
+    )->name('visit.types.by.specialization');
 });
 
 // Invoice Routes
@@ -383,7 +377,7 @@ Route::controller(PaymentController::class)->group(function () {
 
 Route::get('/check-payment-status/{invoiceId}', function ($invoiceId) {
     $invoice = Invoice::find($invoiceId);
-    return response()->json(['paid' => $invoice ? (bool) $invoice->invoice_status : false]);
+    return response()->json(['paid' => $invoice ? (bool)$invoice->invoice_status : false]);
 });
 
 // Reschedule Routes

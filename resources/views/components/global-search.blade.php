@@ -80,7 +80,7 @@
                     @if(auth()->user()->role_id == 2 || auth()->user()->role_id == 5)
                         <template x-for="patient in results.patients" :key="patient.id">
                             <div class="dropdown-item d-flex justify-content-between align-items-center">
-                                <a :href="'/patients/' + patient.id" class="text-decoration-none">
+                                <a :href="'/patientEncounterSummary/' + patient.registration_number" class="text-decoration-none">
                                 <span
                                     x-text="(patient.fullname.first_name ?? '') + ' ' + (patient.fullname.middle_name ?? '') + ' ' + (patient.fullname.last_name ?? '')"></span>
                                 </a>
