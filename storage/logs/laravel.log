@@ -11148,3 +11148,4 @@ LINE 1: ...apy_goals\" (\"child_id\", \"staff_id\", \"therapy_id\", \"visit_id\"
 [2025-03-01 10:45:52] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
 >>>>>>> 1284bd858aa020143ce3a5fe9d3419ea7a9cffe8
 [2025-03-01 12:38:38] local.INFO: Fetched appointments for date: 2025-03-01 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-03-01 13:23:27] local.INFO: Fetched appointments for date: 2025-03-01 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
