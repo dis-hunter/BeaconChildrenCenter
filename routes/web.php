@@ -78,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/search', [SearchController::class,'search'])->name('global.search');
     Route::get('/EditablegetDoctorNotes/{registrationNumber}', [VisitController::class,'EditablegetDoctorNotes']);
+    Route::post('/editDoctorNotes', [VisitController::class,'EditdoctorNotes']);
 
 
     //NURSE

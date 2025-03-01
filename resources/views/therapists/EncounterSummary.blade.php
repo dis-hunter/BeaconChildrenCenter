@@ -41,7 +41,7 @@
     button.disabled = true;
     
     try {
-        const response = await fetch('/saveDoctorNotes', {
+        const response = await fetch('/editDoctorNotes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -357,14 +357,15 @@
                                     </span>
                                 </div>
                                 <div class="notes">
-                                <h1>${visit.is_editable}, ${visit.doctor_id2},${visit.doctor_id}</h1>
+                                <h1>${visit.is_editable},</h1>
                                     <strong>Doctor's Notes:</strong><br>
+                                    ${visit.is_editable ?
                                         `<div class="editable-container">
                                             <textarea class="editable-notes" rows="5">${visit.notes || ''}</textarea>
                                             <button class="save-notes-btn" onclick="saveNotes(this)">Save Notes</button>
                                             <span class="save-status"></span>
                                          </div>` 
-                                        
+                                        :
                                         `<div class="non-editable-notes">${visit.notes || 'No notes recorded'}</div>`
                                     }
                                 </div>

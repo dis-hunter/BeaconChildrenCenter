@@ -193,7 +193,53 @@ class VisitController extends Controller
         }
     }
 
-
+    public function EditdoctorNotes(Request $request)
+    {
+        $validatedData = $request->validate([
+            'visit_id' => 'required|exists:visits,id',
+            'child_id' => 'required|exists:children,id',
+            'notes' => 'nullable|string'
+        ]);
+    
+        // Get authenticated user's ID
+        $doctorId = auth()->id();
+    
+        try {
+            $visit = DB::table('visits')
+                ->where('id', $validatedData['visit_id'])
+                ->where('child_id', $validatedData['child_id'])
+                ->first();
+    
+            if (!$visit) {
+                return response()->json(['status' => 'error', 'message' => 'No matching visit found'], 404);
+            }
+            
+            // Check if the requesting doctor is authorized
+            if ($visit->doctor_id != $doctorId) {
+                return response()->json([
+                    'status' => 'error', 
+                    'message' => 'Not authorized: Only the assigned doctor can update these notes'
+                ], 403);
+            }
+    
+            // Update notes and set completed to true
+            DB::table('visits')
+                ->where('id', $validatedData['visit_id'])
+                ->update([
+                    'notes' => $validatedData['notes'],
+                    'completed' => true,
+                    'updated_at' => now()
+                ]);
+    
+            return response()->json([
+                'status' => 'success', 
+                'message' => 'Notes updated successfully and visit marked as completed'
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
 // public function getPaymentModes()
 // {
 //     try {
