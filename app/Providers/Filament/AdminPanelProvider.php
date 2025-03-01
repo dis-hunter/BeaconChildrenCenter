@@ -20,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 use TomatoPHP\FilamentArtisan\FilamentArtisanPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -59,6 +60,10 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
+                FilamentLaravelLogPlugin::make()
+                    ->logDirs([
+                        storage_path('logs'),
+                    ]),
 //                FilamentArtisanPlugin::make(),
             ])
             ->userMenuItems([

@@ -65,9 +65,9 @@ RUN rm -rf vendor composer.lock && \
     composer install --no-interaction --no-dev --prefer-dist
 
 # Setup Supervisor directories and logs
-RUN mkdir -p /var/log/supervisor /var/run/supervisord && \
-    touch /var/log/supervisor/supervisord.log /var/log/supervisor/worker.log && \
-    chmod -R 777 /var/log/supervisor /var/run/supervisord
+RUN mkdir -p /var/run/supervisord && \
+    touch storage/logs/supervisord.log storage/logs/worker.log && \
+    chmod -R 777 /var/run/supervisord
 
 # Setup Supervisor for Laravel Queue Workers
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
