@@ -1,10 +1,4 @@
-// const patientQueue = [
-//   { name: "John Doe", id: "REG-001" },
-//   { name: "Alice Willson", id: "REG-002" },
-//   { name: "Bob Williams", id: 3 },
-//   { name: "Eva Green", id: 4 },
-//   { name: "Chris Evans", id: 5 },
-// ];
+
 function startConsultation(registrationNumber) {
   // Redirect to the URL with the registration number
   window.location.href = `/doctor/${registrationNumber}`;
@@ -16,7 +10,7 @@ async function fetchPostTriageQueue() {
       const response = await fetch(`/post-triage-queue`);
       const data = await response.json();
 
-      console.log('Post-Triage Data:', data);
+    
 
       const patientList = document.getElementById('post-triage-list');
       patientList.innerHTML = '';
@@ -171,7 +165,6 @@ sidebarLinks.forEach(link => {
     dashboardContent.style.display = 'none';
     profileContent.style.display = 'none';
     bookedContent.style.display = 'none';
-    // leaveContent.style.display = 'none';
     therapistContent.style.display = 'none';
     calendarContent.style.display = 'none';
 
@@ -193,34 +186,24 @@ sidebarLinks.forEach(link => {
 });
 
 
-// Dropdown profile link event listener
-dropdownProfileLink.addEventListener('click', () => {
-  dashboardContent.style.display = 'none';
-  profileContent.style.display = 'block';
-  bookedContent.style.display = 'none';
-  therapistContent.style.display = 'none';
-  leaveContent.style.display = 'none';
-  // Update active state in sidebar
-  sidebarLinks.forEach(link => link.parentElement.classList.remove('active'));
-  profileLink.parentElement.classList.add('active');
-});
 
 therapistLink.addEventListener('click', async () => {
-  therapistContent.innerHTML = '</br> </br><p>Loading...</p>';
 
+  therapistContent.innerHTML = '</br> </br><p>Loading...</p>';
+  
   try {
+      
       const response = await fetch('/appointments/therapists');
       if (!response.ok) throw new Error('Failed to load data');
-
       const appointments = await response.json();
-
+      
       if (appointments.length > 0) {
           let table = `
               <table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
                   <thead>
                       <tr>
                           <th>ID</th>
-                          <th>Child name</th>
+                          <th>Child Name</th>
                           <th>Staff Name</th>
                           <th>Specialization</th>
                           <th>Appointment Date</th>
@@ -231,6 +214,7 @@ therapistLink.addEventListener('click', async () => {
                   <tbody>`;
 
           appointments.forEach(appointment => {
+             
               table += `
                   <tr>
                       <td>${appointment.id}</td>
@@ -244,24 +228,19 @@ therapistLink.addEventListener('click', async () => {
           });
 
           table += `</tbody></table>`;
-
           therapistContent.innerHTML = table;
           therapistContent.style.display = 'block'; // Show the therapist content
+          
       } else {
           therapistContent.innerHTML = '</br> </br><p>No appointments found.</p>';
       }
   } catch (error) {
-      console.error('Error loading therapy appointments:', error);
       therapistContent.innerHTML = '</br> </br><p>Failed to load appointments. Please try again later.</p>';
   }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("Checking elements...");
-  console.log("therapistLink:", document.getElementById('therapist-link'));
-  console.log("therapistContent:", document.getElementById('therapist-content'));
-  console.log("therapyAppointmentsTable:", document.getElementById('therapy-appointments-table'));
-});
+
+
 
 // Event listener for "Booked Patients" link
 document.getElementById('booked-link').addEventListener('click', async () => {
@@ -354,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bookedLink.addEventListener('click', () => {
     // Hide other sections
     dashboardContent.style.display = 'none';
-    profileContent.style.display = 'none';
+  
     calendarContent.style.display = 'none';
     therapistContent.style.display = 'none';
 
@@ -366,7 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
   therapistLink.addEventListener('click', () => {
     // Hide other sections
     dashboardContent.style.display = 'none';
-    profileContent.style.display = 'none';
     calendarContent.style.display = 'none';
     bookedContent.style.display = 'none';
 
@@ -375,21 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Event listener for Profile link
-  profileLink.addEventListener('click', () => {
-    // Hide other sections
-    dashboardContent.style.display = 'none';
-    therapistContent.style.display = 'none';
-    calendarContent.style.display = 'none';
-    bookedContent.style.display = 'none';
-
-    // Show the profile section
-    profileContent.style.display = 'block';
-  });
 
   // Event listener for Dashboard link
   dashboardLink.addEventListener('click', () => {
     // Hide other sections
-    profileContent.style.display = 'none';
     therapistContent.style.display = 'none';
     calendarContent.style.display = 'none';
     bookedContent.style.display = 'none';

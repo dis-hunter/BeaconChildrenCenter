@@ -129,17 +129,6 @@
                 </table>
                 <ul id="patient-list"></ul>
             </div>
-            <div class="actions">
-                <!-- <button class="start-consult">Start Consultation</button> -->
-                <!-- <button class="view-schedule">View Schedule</button> -->
-            </div>
-        </section>
-
-        <section class="profile-content" id="profile-content" style="display: none;">
-
-            <br><br>
-            <h2>Doctor's Profile</h2>
-            <p>This is where you would display the doctor's profile information.</p>
         </section>
 
 
