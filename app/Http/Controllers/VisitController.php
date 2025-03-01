@@ -83,6 +83,10 @@ class VisitController extends Controller
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
+    public function getEncounterSummary(Request $request)
+    {
+        return view('therapists.EncounterSummary');
+    }
 
     public function getVisitData(Request $request)
     {
@@ -308,6 +312,7 @@ public function getDoctorNotes($registrationNumber) {
                         'visit_date' => $visit->visit_date,
                         'notes' => $visit->notes,
                         'doctor_first_name' => $doctor['first_name'] ?? null, // Extract first name
+                        'doctor_id'=>$doctor['id'] ?? null,
                         'doctor_last_name' => $doctor['last_name'] ?? null,  // Extract last name
                     ];
                 })
@@ -324,7 +329,79 @@ public function getDoctorNotes($registrationNumber) {
         ], 500);
     }
 }
+public function EditablegetDoctorNotes($registrationNumber) {
+    try {
+        // Get child details
+        $child = DB::table('children')
+            ->where('registration_number', $registrationNumber)
+            ->select('id', 'registration_number', 'fullname')
+            ->first();
 
+        if (!$child) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Child not found'
+            ], 404);
+        }
+        
+        // Get the logged in doctor's ID
+        $doctorId = auth()->id();
+        
+        // Decode the fullname JSON and construct the full name
+        $fullname = json_decode($child->fullname);
+        $firstName = $fullname->first_name ?? '';
+        $middleName = $fullname->middle_name ?? '';
+        $lastName = $fullname->last_name ?? '';
+        $childName = trim("$firstName $middleName $lastName");
+
+        // Get visits information with doctor_id
+        $visits = DB::table('visits')
+            ->join('staff', 'visits.doctor_id', '=', 'staff.id')
+            ->where('visits.child_id', $child->id)
+            ->orderBy('visits.visit_date', 'desc')
+            ->select(
+                'visits.id as visit_id',
+                'visits.visit_date', 
+                'visits.notes', 
+                'visits.doctor_id',
+                'staff.fullname as doctor_name'
+            )
+            ->get();
+
+        // Format the response
+        $formattedResponse = [
+            'status' => 'success',
+            'data' => [
+                'registration_number' => $child->registration_number,
+                'child_name' => $childName,
+                'child_id' => $child->id,
+                'current_doctor_id' => $doctorId,
+                'visits' => $visits->map(function ($visit) use ($doctorId) {
+                    // Decode doctor_name JSON string to an array
+                    $doctor = json_decode(str_replace('Doctor: ', '', $visit->doctor_name), true);
+                    
+                    return [
+                        'visit_id' => $visit->visit_id,
+                        'visit_date' => $visit->visit_date,
+                        'notes' => $visit->notes,
+                        'doctor_id' => $visit->doctor_id,
+                        'is_editable' => $visit->doctor_id == $doctorId, // Add flag to indicate if editable
+                        'doctor_first_name' => $doctor['first_name'] ?? null,
+                        'doctor_last_name' => $doctor['last_name'] ?? null,
+                    ];
+                })
+            ]
+        ];
+        
+        return response()->json($formattedResponse);
+    } catch (\Exception $e) {
+        Log::error('Error in EditablegetDoctorNotes: ' . $e->getMessage());
+        return response()->json([
+            'status' => 'error',
+            'message' => 'An error occurred while retrieving the doctor notes'
+        ], 500);
+    }
+}
 public function showSpecializations()
 {
     // Fetch distinct specializations

@@ -13,7 +13,7 @@ use App\Models\Referral;
 use App\Models\Relationship;
 use App\Models\Triage;
 use App\Models\Visits;
-use App\Services\RegistrationNumberManager;
+use App\Services\RegistratiownNumberManager;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;

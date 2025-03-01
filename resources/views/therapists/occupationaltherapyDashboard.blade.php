@@ -78,7 +78,13 @@
     </div>
 
     <!-- Logout Link -->
-                   <form action="/logout" method="post">@csrf<button  class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3"type="submit">Log Out</button></form>
+    <form action="/logout" method="post">
+    @csrf
+    <button class="px-4 py-3 text-gray-700 block transition-all duration-300 hover:bg-white/50 hover:text-blue-600 hover:pl-6 flex items-center space-x-3" type="submit">
+        <i class="fas fa-sign-out text-2xl"></i>
+        <span>Log Out</span>
+    </button>
+</form>
 
     <script>
         function showLoader(event) {
@@ -648,11 +654,11 @@ ${result.data.visits.map(visit => `
             <strong>Doctor's Notes:</strong><br>
             ${visit.notes || 'No notes recorded'}
         </div>
-            <button 
-                onclick="toggleDetails(this.parentElement)" 
-                class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
-                More Details
-            </button>    </div>
+           <button 
+    onclick="toggleDetails(this)" 
+    class="px-3 py-1.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition-colors duration-200">
+    More Details
+</button>   </div>
 `).join('')}
                     </div>
                 </div>
@@ -674,11 +680,20 @@ ${result.data.visits.map(visit => `
     }
 }
 
-function toggleDetails(element) {
-    const notes = element.querySelector('.notes');
-    notes.style.display = notes.style.display === 'none' ? 'block' : 'none';
+function toggleDetails(button) {
+    const notes = button.parentElement.querySelector('.notes');
+    if (notes.style.display === 'none' || notes.style.display === '') {
+        notes.style.display = 'block';
+        button.textContent = 'Hide Details';
+        button.classList.remove('bg-blue-500', 'hover:bg-blue-600', 'active:bg-blue-700');
+        button.classList.add('bg-red-500', 'hover:bg-red-600', 'active:bg-red-700');
+    } else {
+        notes.style.display = 'none';
+        button.textContent = 'More Details';
+        button.classList.remove('bg-red-500', 'hover:bg-red-600', 'active:bg-red-700');
+        button.classList.add('bg-blue-500', 'hover:bg-blue-600', 'active:bg-blue-700');
+    }
 }
-
     </script>
  <script>
     //to show name in side bar dynamically 
@@ -704,9 +719,15 @@ function handleBackToPatientInfo() {
     const registrationNumber = extractRegistrationCode(); // Function to get registration number
     if (registrationNumber) {
         showLoadingIndicator('Opening Workstation...', 0);
-        showLoadingIndicator('Loading...',70);
+        showLoadingIndicator('Loading...', 70);
+
+        // Add event listener to the close button to cancel all operations
+        const closeButton = document.getElementById('loading-close-button');
+        if (closeButton) {
+            closeButton.addEventListener('click', cancelAllOperations);
+        }
+
         window.location.href = `/occupationaltherapy_dashboard/${registrationNumber}`;
-        
     } else {
         alert('Registration number not found.');
     }

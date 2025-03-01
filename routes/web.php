@@ -75,8 +75,10 @@ Route::get('/', function () {
 
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('profile',[AuthController::class, 'profileGet'])->name('profile');
-    Route::post('profile',[AuthController::class, 'profilePost'])->name('profile.post');
+
+    Route::get('/search', [SearchController::class,'search'])->name('global.search');
+    Route::get('/EditablegetDoctorNotes/{registrationNumber}', [VisitController::class,'EditablegetDoctorNotes']);
+
 
     //NURSE
     Route::group(['middleware' => 'role:1'], function () {
@@ -228,8 +230,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/reception/calendar', 'calendar')->name('reception.calendar');
         });
 
-        Route::get('/reception/search', [SearchController::class,'search'])->name('reception.search');
-
         Route::controller(ChildrenController::class)->group(function () {
             Route::get('/patients/{id?}', 'patientGet')->name('patients.search');
             Route::get('/guardians', 'get');
@@ -358,6 +358,10 @@ Route::controller(VisitController::class)->group(function () {
     Route::get('/visits/last7days', 'getVisitsLast7Days');
     Route::post('/saveDoctorNotes', 'doctorNotes')->name('doctorNotes.store');
     Route::get('/getDoctorNotes/{registrationNumber}', 'getDoctorNotes');
+    Route::get('/patientEncounterSummary/{registrationNumber}', 'getEncounterSummary');
+
+
+
     Route::get('/visit-types-by-specialization/{specializationId}', 
     [VisitController::class, 'getVisitTypesBySpecialization']
 )->name('visit.types.by.specialization');
