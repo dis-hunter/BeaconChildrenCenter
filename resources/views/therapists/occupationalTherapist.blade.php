@@ -50,9 +50,7 @@
 </head>
 <body class="bg-gray-50">
     <!-- Add Back and Next buttons -->
-    <div class="flex justify-between mb-4">
-        <button id="backButton" class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
-    </div>
+    
     <button id="backButton" onclick="NavigateBack()"class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
 
 
@@ -207,10 +205,10 @@
     const pathSegments = window.location.pathname.split('/');
     return pathSegments[pathSegments.length - 1]; // Returns the last segment as registrationNumber
 }
-function NavigateBack() {
-    const RegNo=extractRegistrationCode();
-    window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
-}
+// function NavigateBack() {
+//     const RegNo=extractRegistrationCode();
+//     window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
+// }
     // Handle changes in selected dates
     function handleDatesChange(type, category, event) {
         const selectedDates = event.target.value;
@@ -884,7 +882,18 @@ headers: {
     }
 }
 </script>
+<script>
+function extractRegistrationCode() {
+    const pathSegments = window.location.pathname.split('/');
+    return pathSegments[pathSegments.length - 1];
+}
 
+function NavigateBack() {
+    const RegNo = extractRegistrationCode();
+    window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
+    window.location.reload(); // Refresh the previous page
+}
+</script>
 
 </body>
 </html>
