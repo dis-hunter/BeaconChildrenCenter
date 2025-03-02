@@ -255,9 +255,6 @@ div h2 {
                 </div>
 
                 </div>
-                <br>
-                <br>
-                <br><br> <br> <br> <br><br> <br> <br>
                 <div class="add-event-footer">
                     <button class="add-event-btn" type="submit">Create Appointment</button>
                 </div>

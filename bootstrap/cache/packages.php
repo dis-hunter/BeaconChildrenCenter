@@ -179,6 +179,13 @@
       0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
     ),
   ),
+  'saade/filament-laravel-log' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Saade\\FilamentLaravelLog\\FilamentLaravelLogServiceProvider',
+    ),
+  ),
   'spatie/laravel-ignition' => 
   array (
     'aliases' => 

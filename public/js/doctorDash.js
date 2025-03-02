@@ -270,11 +270,11 @@ document.getElementById('booked-link').addEventListener('click', async () => {
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headerRow.innerHTML = `
-        <th>Child Name</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Parent Email</th>
-        <th>Parent Telephone</th>
+        <th style="color:black;">Child Name</th>
+        <th style="color:black;">Start Time</th>
+        <th style="color:black;">End Time</th>
+        <th style="color:black;">Parent Email</th>
+        <th style="color:black;">Parent Telephone</th>
     `;
     thead.appendChild(headerRow);
     table.appendChild(thead);

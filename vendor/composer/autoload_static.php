@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
+class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -16,8 +16,8 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '47e1160838b5e5a10346ac4084b58c23' => __DIR__ . '/..' . '/laravel/prompts/src/helpers.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '29ffe97919493792170d47eb03a68da9' => __DIR__ . '/..' . '/blade-ui-kit/blade-icons/src/helpers.php',
         '40275907c8566c390185147049ef6e5d' => __DIR__ . '/..' . '/livewire/livewire/src/helpers.php',
         '2c620c99f96a2b964346b45a4d1d1e64' => __DIR__ . '/..' . '/spatie/invade/src/functions.php',
@@ -117,6 +117,7 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
             'Spatie\\ErrorSolutions\\' => 22,
             'Spatie\\Color\\' => 13,
             'Spatie\\Backtrace\\' => 17,
+            'Saade\\FilamentLaravelLog\\' => 25,
         ),
         'R' => 
         array (
@@ -449,6 +450,10 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'Spatie\\Backtrace\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/backtrace/src',
+        ),
+        'Saade\\FilamentLaravelLog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/saade/filament-laravel-log/src',
         ),
         'RyanChandler\\BladeCaptureDirective\\Database\\Factories\\' => 
         array (
@@ -947,6 +952,7 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'App\\Http\\Responses\\LoginResponse' => __DIR__ . '/../..' . '/app/Http/Responses/LoginResponse.php',
         'App\\Http\\Responses\\RegisterResponse' => __DIR__ . '/../..' . '/app/Http/Responses/RegisterResponse.php',
         'App\\Livewire\\AddChildModal' => __DIR__ . '/../..' . '/app/Livewire/AddChildModal.php',
+        'App\\Livewire\\AddParentModal' => __DIR__ . '/../..' . '/app/Livewire/AddParentModal.php',
         'App\\Livewire\\ChildParentManager' => __DIR__ . '/../..' . '/app/Livewire/ChildParentManager.php',
         'App\\Livewire\\ChildSearchBar' => __DIR__ . '/../..' . '/app/Livewire/ChildSearchBar.php',
         'App\\Livewire\\ContentSwitcher' => __DIR__ . '/../..' . '/app/Livewire/ContentSwitcher.php',
@@ -964,6 +970,7 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'App\\Models\\ChildParent' => __DIR__ . '/../..' . '/app/Models/ChildParent.php',
         'App\\Models\\Diagnosis' => __DIR__ . '/../..' . '/app/Models/Diagnosis.php',
         'App\\Models\\Doctor' => __DIR__ . '/../..' . '/app/Models/Doctor.php',
+        'App\\Models\\DoctorSpecialization' => __DIR__ . '/../..' . '/app/Models/DoctorSpecialization.php',
         'App\\Models\\Example' => __DIR__ . '/../..' . '/app/Models/Example.php',
         'App\\Models\\Expense' => __DIR__ . '/../..' . '/app/Models/Expense.php',
         'App\\Models\\Follow_Up' => __DIR__ . '/../..' . '/app/Models/Follow_Up.php',
@@ -973,6 +980,7 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'App\\Models\\ParentModel' => __DIR__ . '/../..' . '/app/Models/ParentModel.php',
         'App\\Models\\Parents' => __DIR__ . '/../..' . '/app/Models/Parents.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
+        'App\\Models\\PaymentMode' => __DIR__ . '/../..' . '/app/Models/PaymentMode.php',
         'App\\Models\\Prescription' => __DIR__ . '/../..' . '/app/Models/Prescription.php',
         'App\\Models\\Referral' => __DIR__ . '/../..' . '/app/Models/Referral.php',
         'App\\Models\\Relationship' => __DIR__ . '/../..' . '/app/Models/Relationship.php',
@@ -1250,6 +1258,14 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'DanHarrin\\LivewireRateLimiting\\Exceptions\\TooManyRequestsException' => __DIR__ . '/..' . '/danharrin/livewire-rate-limiting/src/Exceptions/TooManyRequestsException.php',
         'DanHarrin\\LivewireRateLimiting\\WithRateLimiting' => __DIR__ . '/..' . '/danharrin/livewire-rate-limiting/src/WithRateLimiting.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\PaymentModes' => __DIR__ . '/../..' . '/database/seeders/PaymentModes.php',
+        'Database\\Seeders\\genderSeeder' => __DIR__ . '/../..' . '/database/seeders/genderSeeder.php',
+        'Database\\Seeders\\relationshipsSeeder' => __DIR__ . '/../..' . '/database/seeders/relationshipsSeeder.php',
+        'Database\\Seeders\\rolesSeeder' => __DIR__ . '/../..' . '/database/seeders/rolesSeeder.php',
+        'Database\\Seeders\\specializationSeeder' => __DIR__ . '/../..' . '/database/seeders/specializationSeeder.php',
+        'Database\\Seeders\\therapySeeder' => __DIR__ . '/../..' . '/database/seeders/therapySeeder.php',
+        'Database\\Seeders\\triage_assesmentSeeder' => __DIR__ . '/../..' . '/database/seeders/triage_assesmentSeeder.php',
+        'Database\\Seeders\\visit_typeSeeder' => __DIR__ . '/../..' . '/database/seeders/visit_typeSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
@@ -8546,6 +8562,15 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
         'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirective' => __DIR__ . '/..' . '/ryangjchandler/blade-capture-directive/src/BladeCaptureDirective.php',
         'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider' => __DIR__ . '/..' . '/ryangjchandler/blade-capture-directive/src/BladeCaptureDirectiveServiceProvider.php',
         'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
+        'Saade\\FilamentLaravelLog\\Commands\\UpgradeFilamentLaravelLogCommand' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Commands/UpgradeFilamentLaravelLogCommand.php',
+        'Saade\\FilamentLaravelLog\\FilamentLaravelLogPlugin' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/FilamentLaravelLogPlugin.php',
+        'Saade\\FilamentLaravelLog\\FilamentLaravelLogServiceProvider' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/FilamentLaravelLogServiceProvider.php',
+        'Saade\\FilamentLaravelLog\\Pages\\Actions\\ClearAction' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Pages/Actions/ClearAction.php',
+        'Saade\\FilamentLaravelLog\\Pages\\Actions\\JumpToEndAction' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Pages/Actions/JumpToEndAction.php',
+        'Saade\\FilamentLaravelLog\\Pages\\Actions\\JumpToStartAction' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Pages/Actions/JumpToStartAction.php',
+        'Saade\\FilamentLaravelLog\\Pages\\Actions\\RefreshAction' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Pages/Actions/RefreshAction.php',
+        'Saade\\FilamentLaravelLog\\Pages\\Concerns\\HasActions' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Pages/Concerns/HasActions.php',
+        'Saade\\FilamentLaravelLog\\Pages\\ViewLog' => __DIR__ . '/..' . '/saade/filament-laravel-log/src/Pages/ViewLog.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -10175,9 +10200,9 @@ class ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit88e6fbe405608c7bc38012f6390c84b0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78::$classMap;
 
         }, null, ClassLoader::class);
     }
