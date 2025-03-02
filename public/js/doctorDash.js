@@ -91,7 +91,7 @@ const bookedLink = document.getElementById('booked-link');
 const therapistLink = document.getElementById('therapist-link');
 const leaveLink = document.getElementById('leave-link');
 const dashboardContent = document.getElementById('dashboard-content');
-const profileContent = document.getElementById('profile-content');
+
 const bookedContent = document.getElementById('booked-content');
 const leaveContent = document.getElementById('leave-content');
 const therapistContent = document.getElementById('therapist-content');
@@ -163,7 +163,7 @@ sidebarLinks.forEach(link => {
 
     // Hide all content sections
     dashboardContent.style.display = 'none';
-    profileContent.style.display = 'none';
+  
     bookedContent.style.display = 'none';
     therapistContent.style.display = 'none';
     calendarContent.style.display = 'none';
@@ -171,8 +171,6 @@ sidebarLinks.forEach(link => {
     // Show the corresponding content section based on the clicked link
     if (link === dashboardLink) {
       dashboardContent.style.display = 'block';
-    } else if (link === profileLink) {
-      profileContent.style.display = 'block';
     } else if (link === bookedLink) {
       bookedContent.style.display = 'block';
     } else if (link === therapistLink) {
@@ -314,14 +312,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const calendarContent = document.getElementById('calendar-content');
   const bookedContent = document.getElementById('booked-content');
   const therapistContent = document.getElementById('therapist-content');
-  const profileContent = document.getElementById('profile-content');
+ 
   const dashboardContent = document.getElementById('dashboard-content');
 
   // Event listener for View Calendar link
   calendarLink.addEventListener('click', () => {
     // Hide other sections
     dashboardContent.style.display = 'none';
-    profileContent.style.display = 'none';
+    
     bookedContent.style.display = 'none';
     therapistContent.style.display = 'none';
 
