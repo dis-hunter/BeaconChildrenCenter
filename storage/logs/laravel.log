@@ -11515,3 +11515,4 @@ LINE 1: ...apy_goals\" (\"child_id\", \"staff_id\", \"therapy_id\", \"visit_id\"
 #7 C:\\xampp\\htdocs\\BeaconChildrenCenter\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #8 {main}
 "} 
+[2025-03-03 19:38:36] local.INFO: Fetched appointments for date: 2025-03-03 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[{"appointmentId":4,"appointment_date":"2025-03-03","start_time":"15:26:00","end_time":"16:26:00","appointment_title":"Bernado's","status":"ongoing","parent_name":"{\"first_name\":\"John\",\"middle_name\":\"Junior\",\"last_name\":\"Smith\"}","parent_phone":"09292929292","parent_email":"oringzzemmanuel@gmail.com","child_name":"{\"first_name\":\"Bernado\",\"middle_name\":\"Gone\",\"last_name\":\"Silvio\"}","staff_name":"{\"first_name\":\"Edith\",\"middle_name\":\"Magunga\",\"last_name\":\"Oringe\"}"}]}} 

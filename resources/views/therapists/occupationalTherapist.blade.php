@@ -892,6 +892,7 @@ function NavigateBack() {
     const RegNo = extractRegistrationCode();
     window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
     window.location.reload(); // Refresh the previous page
+    //Hello
 }
 </script>
 
