@@ -225,4 +225,11 @@
       0 => 'TomatoPHP\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider',
     ),
   ),
+  'wire-elements/modal' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LivewireUI\\Modal\\LivewireModalServiceProvider',
+    ),
+  ),
 );

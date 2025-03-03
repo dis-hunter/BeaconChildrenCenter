@@ -1,4 +1,7 @@
 <?php
+
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Database\Seeders\rolesSeeder;
 use Database\Seeders\genderSeeder;
@@ -24,7 +27,7 @@ class DatabaseSeeder extends Seeder
             triage_assesmentSeeder::class,
             visit_typeSeeder::class,
 
-           
+
         ]);
     }
 }
