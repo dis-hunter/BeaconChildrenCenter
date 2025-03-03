@@ -4,13 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
+class ComposerStaticInitb5bacaffd086141a8eaae58d79f64fe0
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
@@ -156,13 +156,12 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         array (
             'Monolog\\' => 8,
             'Mockery\\' => 8,
-            'Meilisearch\\' => 12,
-            'MeiliSearch\\' => 12,
             'Masterminds\\' => 12,
         ),
         'L' => 
         array (
             'Livewire\\' => 9,
+            'LivewireUI\\Modal\\' => 17,
             'League\\Uri\\' => 11,
             'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\Local\\' => 23,
@@ -191,7 +190,6 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'H' => 
         array (
             'Http\\Factory\\Guzzle\\' => 20,
-            'Http\\Discovery\\' => 15,
         ),
         'G' => 
         array (
@@ -548,14 +546,6 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         array (
             0 => __DIR__ . '/..' . '/mockery/mockery/library/Mockery',
         ),
-        'Meilisearch\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src',
-        ),
-        'MeiliSearch\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src',
-        ),
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
@@ -563,6 +553,10 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'Livewire\\' => 
         array (
             0 => __DIR__ . '/..' . '/livewire/livewire/src',
+        ),
+        'LivewireUI\\Modal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wire-elements/modal/src',
         ),
         'League\\Uri\\' => 
         array (
@@ -642,10 +636,6 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'Http\\Factory\\Guzzle\\' => 
         array (
             0 => __DIR__ . '/..' . '/http-interop/http-factory-guzzle/src',
-        ),
-        'Http\\Discovery\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-http/discovery/src',
         ),
         'GuzzleHttp\\UriTemplate\\' => 
         array (
@@ -1258,6 +1248,7 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'DanHarrin\\LivewireRateLimiting\\Exceptions\\TooManyRequestsException' => __DIR__ . '/..' . '/danharrin/livewire-rate-limiting/src/Exceptions/TooManyRequestsException.php',
         'DanHarrin\\LivewireRateLimiting\\WithRateLimiting' => __DIR__ . '/..' . '/danharrin/livewire-rate-limiting/src/WithRateLimiting.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\PaymentModes' => __DIR__ . '/../..' . '/database/seeders/PaymentModes.php',
         'Database\\Seeders\\genderSeeder' => __DIR__ . '/../..' . '/database/seeders/genderSeeder.php',
         'Database\\Seeders\\relationshipsSeeder' => __DIR__ . '/../..' . '/database/seeders/relationshipsSeeder.php',
@@ -3438,29 +3429,6 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
-        'Http\\Discovery\\ClassDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/ClassDiscovery.php',
-        'Http\\Discovery\\Exception' => __DIR__ . '/..' . '/php-http/discovery/src/Exception.php',
-        'Http\\Discovery\\Exception\\ClassInstantiationFailedException' => __DIR__ . '/..' . '/php-http/discovery/src/Exception/ClassInstantiationFailedException.php',
-        'Http\\Discovery\\Exception\\DiscoveryFailedException' => __DIR__ . '/..' . '/php-http/discovery/src/Exception/DiscoveryFailedException.php',
-        'Http\\Discovery\\Exception\\NoCandidateFoundException' => __DIR__ . '/..' . '/php-http/discovery/src/Exception/NoCandidateFoundException.php',
-        'Http\\Discovery\\Exception\\NotFoundException' => __DIR__ . '/..' . '/php-http/discovery/src/Exception/NotFoundException.php',
-        'Http\\Discovery\\Exception\\PuliUnavailableException' => __DIR__ . '/..' . '/php-http/discovery/src/Exception/PuliUnavailableException.php',
-        'Http\\Discovery\\Exception\\StrategyUnavailableException' => __DIR__ . '/..' . '/php-http/discovery/src/Exception/StrategyUnavailableException.php',
-        'Http\\Discovery\\HttpAsyncClientDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/HttpAsyncClientDiscovery.php',
-        'Http\\Discovery\\HttpClientDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/HttpClientDiscovery.php',
-        'Http\\Discovery\\MessageFactoryDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/MessageFactoryDiscovery.php',
-        'Http\\Discovery\\NotFoundException' => __DIR__ . '/..' . '/php-http/discovery/src/NotFoundException.php',
-        'Http\\Discovery\\Psr17Factory' => __DIR__ . '/..' . '/php-http/discovery/src/Psr17Factory.php',
-        'Http\\Discovery\\Psr17FactoryDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/Psr17FactoryDiscovery.php',
-        'Http\\Discovery\\Psr18Client' => __DIR__ . '/..' . '/php-http/discovery/src/Psr18Client.php',
-        'Http\\Discovery\\Psr18ClientDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/Psr18ClientDiscovery.php',
-        'Http\\Discovery\\Strategy\\CommonClassesStrategy' => __DIR__ . '/..' . '/php-http/discovery/src/Strategy/CommonClassesStrategy.php',
-        'Http\\Discovery\\Strategy\\CommonPsr17ClassesStrategy' => __DIR__ . '/..' . '/php-http/discovery/src/Strategy/CommonPsr17ClassesStrategy.php',
-        'Http\\Discovery\\Strategy\\DiscoveryStrategy' => __DIR__ . '/..' . '/php-http/discovery/src/Strategy/DiscoveryStrategy.php',
-        'Http\\Discovery\\Strategy\\MockClientStrategy' => __DIR__ . '/..' . '/php-http/discovery/src/Strategy/MockClientStrategy.php',
-        'Http\\Discovery\\Strategy\\PuliBetaStrategy' => __DIR__ . '/..' . '/php-http/discovery/src/Strategy/PuliBetaStrategy.php',
-        'Http\\Discovery\\StreamFactoryDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/StreamFactoryDiscovery.php',
-        'Http\\Discovery\\UriFactoryDiscovery' => __DIR__ . '/..' . '/php-http/discovery/src/UriFactoryDiscovery.php',
         'Http\\Factory\\Guzzle\\RequestFactory' => __DIR__ . '/..' . '/http-interop/http-factory-guzzle/src/RequestFactory.php',
         'Http\\Factory\\Guzzle\\ResponseFactory' => __DIR__ . '/..' . '/http-interop/http-factory-guzzle/src/ResponseFactory.php',
         'Http\\Factory\\Guzzle\\ServerRequestFactory' => __DIR__ . '/..' . '/http-interop/http-factory-guzzle/src/ServerRequestFactory.php',
@@ -5430,6 +5398,7 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'League\\Config\\SchemaBuilderInterface' => __DIR__ . '/..' . '/league/config/src/SchemaBuilderInterface.php',
         'League\\Csv\\AbstractCsv' => __DIR__ . '/..' . '/league/csv/src/AbstractCsv.php',
         'League\\Csv\\Bom' => __DIR__ . '/..' . '/league/csv/src/Bom.php',
+        'League\\Csv\\Buffer' => __DIR__ . '/..' . '/league/csv/src/Buffer.php',
         'League\\Csv\\ByteSequence' => __DIR__ . '/..' . '/league/csv/src/ByteSequence.php',
         'League\\Csv\\CallbackStreamFilter' => __DIR__ . '/..' . '/league/csv/src/CallbackStreamFilter.php',
         'League\\Csv\\CannotInsertRecord' => __DIR__ . '/..' . '/league/csv/src/CannotInsertRecord.php',
@@ -5461,6 +5430,7 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'League\\Csv\\Query\\Sort' => __DIR__ . '/..' . '/league/csv/src/Query/Sort.php',
         'League\\Csv\\Query\\SortCombinator' => __DIR__ . '/..' . '/league/csv/src/Query/SortCombinator.php',
         'League\\Csv\\RFC4180Field' => __DIR__ . '/..' . '/league/csv/src/RFC4180Field.php',
+        'League\\Csv\\RdbmsResult' => __DIR__ . '/..' . '/league/csv/src/RdbmsResult.php',
         'League\\Csv\\Reader' => __DIR__ . '/..' . '/league/csv/src/Reader.php',
         'League\\Csv\\ResultSet' => __DIR__ . '/..' . '/league/csv/src/ResultSet.php',
         'League\\Csv\\Serializer\\AfterMapping' => __DIR__ . '/..' . '/league/csv/src/Serializer/AfterMapping.php',
@@ -5488,6 +5458,7 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'League\\Csv\\StreamFilter' => __DIR__ . '/..' . '/league/csv/src/StreamFilter.php',
         'League\\Csv\\SwapDelimiter' => __DIR__ . '/..' . '/league/csv/src/SwapDelimiter.php',
         'League\\Csv\\SyntaxError' => __DIR__ . '/..' . '/league/csv/src/SyntaxError.php',
+        'League\\Csv\\TabularData' => __DIR__ . '/..' . '/league/csv/src/TabularData.php',
         'League\\Csv\\TabularDataReader' => __DIR__ . '/..' . '/league/csv/src/TabularDataReader.php',
         'League\\Csv\\TabularDataWriter' => __DIR__ . '/..' . '/league/csv/src/TabularDataWriter.php',
         'League\\Csv\\UnableToProcessCsv' => __DIR__ . '/..' . '/league/csv/src/UnableToProcessCsv.php',
@@ -5607,6 +5578,11 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'League\\Uri\\UriTemplate\\TemplateCanNotBeExpanded' => __DIR__ . '/..' . '/league/uri/UriTemplate/TemplateCanNotBeExpanded.php',
         'League\\Uri\\UriTemplate\\VarSpecifier' => __DIR__ . '/..' . '/league/uri/UriTemplate/VarSpecifier.php',
         'League\\Uri\\UriTemplate\\VariableBag' => __DIR__ . '/..' . '/league/uri/UriTemplate/VariableBag.php',
+        'LivewireUI\\Modal\\Contracts\\ModalComponent' => __DIR__ . '/..' . '/wire-elements/modal/src/Contracts/ModalComponent.php',
+        'LivewireUI\\Modal\\LivewireModalServiceProvider' => __DIR__ . '/..' . '/wire-elements/modal/src/LivewireModalServiceProvider.php',
+        'LivewireUI\\Modal\\Modal' => __DIR__ . '/..' . '/wire-elements/modal/src/Modal.php',
+        'LivewireUI\\Modal\\ModalComponent' => __DIR__ . '/..' . '/wire-elements/modal/src/ModalComponent.php',
+        'LivewireUI\\Modal\\WireElementsModalUpgrade' => __DIR__ . '/..' . '/wire-elements/modal/src/WireElementsModalUpgrade.php',
         'Livewire\\Attribute' => __DIR__ . '/..' . '/livewire/livewire/src/Attribute.php',
         'Livewire\\Attributes\\Computed' => __DIR__ . '/..' . '/livewire/livewire/src/Attributes/Computed.php',
         'Livewire\\Attributes\\Isolate' => __DIR__ . '/..' . '/livewire/livewire/src/Attributes/Isolate.php',
@@ -5850,69 +5826,6 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
         'Masterminds\\HTML5\\Serializer\\OutputRules' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/OutputRules.php',
         'Masterminds\\HTML5\\Serializer\\RulesInterface' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/RulesInterface.php',
         'Masterminds\\HTML5\\Serializer\\Traverser' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/Traverser.php',
-        'Meilisearch\\Client' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Client.php',
-        'Meilisearch\\Contracts\\BatchesQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/BatchesQuery.php',
-        'Meilisearch\\Contracts\\BatchesResults' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/BatchesResults.php',
-        'Meilisearch\\Contracts\\CancelTasksQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/CancelTasksQuery.php',
-        'Meilisearch\\Contracts\\Data' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Data.php',
-        'Meilisearch\\Contracts\\DeleteTasksQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/DeleteTasksQuery.php',
-        'Meilisearch\\Contracts\\DocumentsQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/DocumentsQuery.php',
-        'Meilisearch\\Contracts\\DocumentsResults' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/DocumentsResults.php',
-        'Meilisearch\\Contracts\\Endpoint' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Endpoint.php',
-        'Meilisearch\\Contracts\\FacetSearchQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/FacetSearchQuery.php',
-        'Meilisearch\\Contracts\\FederationOptions' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/FederationOptions.php',
-        'Meilisearch\\Contracts\\Http' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Http.php',
-        'Meilisearch\\Contracts\\HybridSearchOptions' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/HybridSearchOptions.php',
-        'Meilisearch\\Contracts\\Index\\Embedders' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Index/Embedders.php',
-        'Meilisearch\\Contracts\\Index\\Faceting' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Index/Faceting.php',
-        'Meilisearch\\Contracts\\Index\\Settings' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Index/Settings.php',
-        'Meilisearch\\Contracts\\Index\\Synonyms' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Index/Synonyms.php',
-        'Meilisearch\\Contracts\\Index\\TypoTolerance' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/Index/TypoTolerance.php',
-        'Meilisearch\\Contracts\\IndexesQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/IndexesQuery.php',
-        'Meilisearch\\Contracts\\IndexesResults' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/IndexesResults.php',
-        'Meilisearch\\Contracts\\KeysQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/KeysQuery.php',
-        'Meilisearch\\Contracts\\KeysResults' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/KeysResults.php',
-        'Meilisearch\\Contracts\\MultiSearchFederation' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/MultiSearchFederation.php',
-        'Meilisearch\\Contracts\\SearchQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/SearchQuery.php',
-        'Meilisearch\\Contracts\\SimilarDocumentsQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/SimilarDocumentsQuery.php',
-        'Meilisearch\\Contracts\\TasksQuery' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/TasksQuery.php',
-        'Meilisearch\\Contracts\\TasksResults' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Contracts/TasksResults.php',
-        'Meilisearch\\Endpoints\\Batches' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Batches.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesBatches' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesBatches.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesDocuments' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesDocuments.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesDumps' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesDumps.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesIndex' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesIndex.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesKeys' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesKeys.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesMultiSearch' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesMultiSearch.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesSettings' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesSettings.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesSnapshots' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesSnapshots.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesSystem' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesSystem.php',
-        'Meilisearch\\Endpoints\\Delegates\\HandlesTasks' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/HandlesTasks.php',
-        'Meilisearch\\Endpoints\\Delegates\\TasksQueryTrait' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Delegates/TasksQueryTrait.php',
-        'Meilisearch\\Endpoints\\Dumps' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Dumps.php',
-        'Meilisearch\\Endpoints\\Health' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Health.php',
-        'Meilisearch\\Endpoints\\Indexes' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Indexes.php',
-        'Meilisearch\\Endpoints\\Keys' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Keys.php',
-        'Meilisearch\\Endpoints\\Snapshots' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Snapshots.php',
-        'Meilisearch\\Endpoints\\Stats' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Stats.php',
-        'Meilisearch\\Endpoints\\Tasks' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Tasks.php',
-        'Meilisearch\\Endpoints\\TenantToken' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/TenantToken.php',
-        'Meilisearch\\Endpoints\\Version' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Endpoints/Version.php',
-        'Meilisearch\\Exceptions\\ApiException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/ApiException.php',
-        'Meilisearch\\Exceptions\\CommunicationException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/CommunicationException.php',
-        'Meilisearch\\Exceptions\\ExceptionInterface' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/ExceptionInterface.php',
-        'Meilisearch\\Exceptions\\InvalidArgumentException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/InvalidArgumentException.php',
-        'Meilisearch\\Exceptions\\InvalidResponseBodyException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/InvalidResponseBodyException.php',
-        'Meilisearch\\Exceptions\\JsonDecodingException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/JsonDecodingException.php',
-        'Meilisearch\\Exceptions\\JsonEncodingException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/JsonEncodingException.php',
-        'Meilisearch\\Exceptions\\TimeOutException' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Exceptions/TimeOutException.php',
-        'Meilisearch\\Http\\Client' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Http/Client.php',
-        'Meilisearch\\Http\\Serialize\\Json' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Http/Serialize/Json.php',
-        'Meilisearch\\Http\\Serialize\\SerializerInterface' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Http/Serialize/SerializerInterface.php',
-        'Meilisearch\\Meilisearch' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Meilisearch.php',
-        'Meilisearch\\Search\\FacetSearchResult' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Search/FacetSearchResult.php',
-        'Meilisearch\\Search\\SearchResult' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Search/SearchResult.php',
-        'Meilisearch\\Search\\SimilarDocumentsSearchResult' => __DIR__ . '/..' . '/meilisearch/meilisearch-php/src/Search/SimilarDocumentsSearchResult.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
         'Mockery\\Adapter\\Phpunit\\MockeryTestCase' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryTestCase.php',
@@ -10200,9 +10113,9 @@ class ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2b37752810937ab0f3d0d7c06cde0b78::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb5bacaffd086141a8eaae58d79f64fe0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb5bacaffd086141a8eaae58d79f64fe0::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb5bacaffd086141a8eaae58d79f64fe0::$classMap;
 
         }, null, ClassLoader::class);
     }
