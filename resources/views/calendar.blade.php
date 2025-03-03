@@ -194,7 +194,7 @@ div h2 {
             <template x-for="result in results" :key="result.id">
                 <li class="result-item py-3 px-4" 
                     style="border-bottom: 1px solid #f1f1f1; display: flex; align-items: center; transition: background-color 0.3s;">
-                    <div style="flex: 1;">
+                    <div style="flex: 1;  margin-left:20px;">
                         <strong style="font-size: 16px; color: black;">Child Name:</strong> 
                         <span x-text="result.child_name" style="font-size: 14px; font-weight: 600;"></span><br>
                         <strong style="font-size: 16px; color: black;">Date of Birth:</strong> 
