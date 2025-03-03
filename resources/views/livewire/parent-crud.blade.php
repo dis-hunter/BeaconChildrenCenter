@@ -18,7 +18,37 @@
                         </div>
                     @else
 
-                    @foreach($parent as $item)
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-md-4"><strong>Full
+                                            Name: </strong>{{$parent->fullname->last_name .' '.$parent->fullname->first_name.' '.$parent->fullname->middle_name}}
+                                    </div>
+                                    <div class="col-md-4"><strong>Email: </strong>{{$parent->email}}</div>
+                                    <div class="col-md-4"><strong>Phone: </strong>{{$parent->telephone}}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-4"><strong>National ID: </strong>{{$parent->national_id}}</div>
+                                    <div class="col-md-4"><strong>Employer: </strong>{{$parent->employer}}</div>
+                                    <div class="col-md-4"><strong>Insurance: </strong>{{$parent->insurance}}</div>
+                                </div>
+                                <div class="row mb-2 d-flex justify-content-between">
+                                    <div class="col-md-4"><strong>Relationship: </strong>
+                                        @foreach ($relationships as $item)
+                                            {{$item->id === $item->relationship_id ? $item->relationship : ''}}
+                                        @endforeach
+
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#editParentModal">Edit
+                                        </button>
+                                        @livewire('edit-parent-modal',['parent'=>$parent,'relationships'=>$relationships,'genders'=>$genders], key($parent->id))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @forelse($relatives as $item)
                     <div class="card mb-2">
                         <div class="card-body">
                             <div class="row mb-2">
@@ -35,8 +65,8 @@
                             </div>
                             <div class="row mb-2 d-flex justify-content-between">
                                 <div class="col-md-4"><strong>Relationship: </strong>
-                                    @foreach ($relationships as $item)
-                                        {{$item->id === $item->relationship_id ? $item->relationship : ''}}
+                                    @foreach ($relationships as $it)
+                                        {{$it->id === $it->relationship_id ? $it->relationship : ''}}
                                     @endforeach
 
                                 </div>
@@ -44,17 +74,25 @@
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editParentModal">Edit
                                     </button>
-                                    @livewire('edit-parent-modal',['parent'=>$item], key($item->id))
+                                    @livewire('edit-parent-modal',['parent'=>$item,'relationships'=>$relationships,'genders'=>$genders], key($item->id))
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                        @empty
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-center">
+                                        <p>No other relatives found</p>
+                                    </div>
+                                </div>
+                            </div>
+                    @endforelse
                     @endif
-                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addParentModal">Add
-                        Parent
-                    </button>
-                    @livewire('add-parent-modal')
+{{--                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addParentModal">Add--}}
+{{--                        Parent--}}
+{{--                    </button>--}}
+{{--                    @livewire('add-parent-modal',['relationships'=>$relationships,'genders'=>$genders])--}}
                 </div>
             </div>
 
@@ -95,19 +133,18 @@
                                                         View Details
                                                     </a>
                                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                            data-bs-target="#editChildModal-{{$item->id}}">Edit
-                                                    </button>
+                                                            data-bs-target="#editChildModal-{{$item->id}}">
+                                                        Edit</button>
                                                     @livewire('edit-child-modal',['child'=>$item], key($item->id))
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
-                            <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#addChildModal">Add Child
-                            </button>
-                            @livewire('add-child-modal',['parent'=>$parent])
+{{--                            <button class="btn btn-sm btn-success" data-bs-toggle="modal"--}}
+{{--                                    data-bs-target="#addChildModal">Add Child--}}
+{{--                            </button>--}}
+{{--                            @livewire('add-child-modal',['parent'=>$parent,'genders'=>$genders])--}}
                         </div>
                     </div>
                 </div>
@@ -119,6 +156,4 @@
         {{-- content when parent is empty --}}
 
     @endif
-
-</div>
 </div>

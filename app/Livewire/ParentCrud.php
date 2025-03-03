@@ -11,6 +11,7 @@ use Livewire\Component;
 class ParentCrud extends Component
 {
     public ?Parents $parent = null; // Nullable parent model
+    public $relatedParents = null;
     public $children = []; // Store children dynamically
     public $newChildName = ''; // For adding a new child
     public $childToEdit = null; // Store the child being edited
@@ -36,9 +37,18 @@ class ParentCrud extends Component
 
         if ($this->parent) {
             $this->children = $this->parent->children;
+            $child_ids= $this->children->pluck('id');
+            $this->relatedParents = Parents::whereHas('children', function ($query) use ($child_ids) {
+                $query->whereIn('children.id', $child_ids);
+            })->where('id', '!=', $this->parentId)->get();
+
+
         } else {
             $this->children = [];
+            $this->relatedParents = [];
         }
+
+
     }
 
     public function addChild()
@@ -82,6 +92,7 @@ class ParentCrud extends Component
         return view('livewire.parent-crud', [
             'parent' => $this->parent,
             'children' => $this->children,
+            'relatives' => $this->relatedParents,
         ]);
     }
 }

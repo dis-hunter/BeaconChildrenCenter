@@ -52,11 +52,11 @@ class EditParentModal extends Component
         ]);
 
         // Build the fullname JSON
-        $fullname = json_encode([
+        $fullname = [
             'first_name' => $this->firstname,
             'middle_name' => $this->middlename,
             'last_name' => $this->lastname,
-        ]);
+        ];
 
         // Only update fields that have changed
         $this->parent->update(array_filter([
@@ -82,14 +82,14 @@ class EditParentModal extends Component
     }
 
     public function handleParentUpdated($message){
-        
+
         $this->message=session()->flash('message', $message);
 
     }
 
 
 
-    
+
     public function render()
     {
         return view('livewire.edit-parent-modal');

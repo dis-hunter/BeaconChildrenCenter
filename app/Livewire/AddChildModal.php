@@ -33,16 +33,16 @@ class AddChildModal extends Component
                 'birth_cert' => 'required|string|max:15',
                 'gender_id' => 'required',
             ]);
-            
+
             $reg=new RegistrationNumberManager('children','registration_number');
             $this->registration_number=$reg->generateUniqueRegNumber();
 
-            $fullname=json_encode([
+            $fullname=[
                 'first_name' => $this->firstname,
                 'middle_name' => $this->middlename,
                 'last_name' => $this->lastname,
-            ]);
-            
+            ];
+
             $validatedData=[
                 'fullname'=>$fullname,
                 'dob'=>$this->dob,
@@ -66,13 +66,13 @@ class AddChildModal extends Component
         $this->message = 'Success.';
         $this->dispatch('closeModal');
         $this->dispatch('childAdded', message: $this->message);
-        
+
     }
     catch(\Exception $e){
         $this->message = 'Error:' . $e->getMessage();
     }
     }
-    
+
     public function render()
     {
         return view('livewire.add-child-modal');

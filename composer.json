@@ -15,7 +15,6 @@
         "laravel/scout": "^10.13",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^3.4",
-        "meilisearch/meilisearch-php": "^1.13",
         "predis/predis": "^2.3",
         "pusher/pusher-php-server": "^7.2",
         "saade/filament-laravel-log": "^3.2",

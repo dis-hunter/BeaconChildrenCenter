@@ -411,7 +411,25 @@
         crossorigin="anonymous"></script>
 @livewire('wire-elements-modal')
 @livewireScripts
+<script>
+    Livewire.on('parentUpdated', message => {
 
+        location.reload();
+    });
+    Livewire.on('closeModal', () => {
+// Close the modal using JavaScript (Bootstrap)
+        $('#editParentModal').modal('hide');
+        $('#editChildModal').modal('hide');
+        $('#addChildModal').modal('hide');
+    });
+    Livewire.on('childUpdated', message => {
 
+        location.reload();
+    });
+    Livewire.on('childAdded', message => {
+
+        location.reload();
+    });
+</script>
 </body>
 </html>

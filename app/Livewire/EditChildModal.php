@@ -15,7 +15,7 @@ class EditChildModal extends Component
 
     public function mount($child)
     {
-        $this->child = $child;     
+        $this->child = $child;
         $this->firstname = $child->fullname->first_name;
         $this->middlename = $child->fullname->middle_name;
         $this->lastname = $child->fullname->last_name;
@@ -39,11 +39,11 @@ class EditChildModal extends Component
             ]);
 
             // Build the fullname JSON
-            $fullname = json_encode([
+            $fullname = [
                 'first_name' => $this->firstname,
                 'middle_name' => $this->middlename,
                 'last_name' => $this->lastname,
-            ]);
+            ];
 
             // Only update fields that have changed
             $this->child->update(array_filter([
@@ -63,7 +63,7 @@ class EditChildModal extends Component
 
     public function handleChildUpdated($message){
         $this->message=session()->flash('message', $message);
-        
+
     }
 
     public function render()
