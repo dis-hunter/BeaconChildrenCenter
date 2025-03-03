@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Therapist Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  @vite(['resources/js/app.js','resources/css/app.css'])
   <style>
     .sidebar {
       width: 200px;
@@ -65,7 +65,7 @@
 }
 
 .close:hover {
-    
+
     transform: scale(1.2); /* Slightly enlarge the icon on hover */
 }
 
@@ -280,7 +280,7 @@ form {
     </div>
   </div>
 
-  <script src="{{ asset('js/loader.js') }}"></script>    
+  <script src="{{ asset('js/loader.js') }}"></script>
   <script>
     let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
     let sidebarExpanded = true;
@@ -289,7 +289,7 @@ form {
       const sidebar = document.getElementById('sidebar');
       const toggleButton = document.getElementById('toggle-button');
       const mainContent = document.getElementById('main-content');
-      
+
       sidebar.classList.toggle('collapsed');
       toggleButton.classList.toggle('collapsed');
       mainContent.classList.toggle('collapsed');
@@ -394,16 +394,16 @@ form {
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
   alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
-  
-  
-  
+
+
+
   // Further actions can be added here, e.g., saving to a variable or performing an API request
 }
 
 async function startConsultation() {
 
 
-  
+
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
         return;
@@ -430,14 +430,14 @@ async function startConsultation() {
         const data = await response.json();
          // Update loading progress
          updateLoadingProgress(80, 'Processing data...');
-        
+
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
 
     } catch (error) {
         console.error('Error starting consultation:', error);
         let errorMessage = 'Error starting consultation. ';
-        
+
         if (error.message.includes('404')) {
             errorMessage += 'Patient not found.';
         } else if (error.message.includes('403')) {
@@ -445,13 +445,13 @@ async function startConsultation() {
         } else {
             errorMessage += 'Please try again or contact support.';
         }
-        
+
         alert(errorMessage);
     }
-} 
+}
     showSection('dashboard');
     hideLoadingIndicator();
-    
+
     const currentDate = document.getElementById('current-date');
     updateDateTime();
     setInterval(updateDateTime, 1000);
@@ -515,7 +515,7 @@ async function startConsultation() {
       }
     }
 
-   
+
   </script> -->
 <script>
   let selectedPatient = null;
@@ -539,7 +539,7 @@ async function startConsultation() {
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
       <td class="py-2 border">
-       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
+       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
   Select
 </button>
@@ -560,7 +560,7 @@ async function startConsultation() {
     event.currentTarget.classList.add("bg-blue-50", "border-l-4", "border-blue-500");
   }
 
- 
+
 
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();
@@ -753,7 +753,7 @@ async function startConsultation() {
     </div>
   </div>
 
-  <script src="{{ asset('js/loader.js') }}"></script>    
+  <script src="{{ asset('js/loader.js') }}"></script>
   <script>
     let patientQueue = ['Patient A', 'Patient B', 'Patient C'];
     let sidebarExpanded = true;
@@ -762,7 +762,7 @@ async function startConsultation() {
       const sidebar = document.getElementById('sidebar');
       const toggleButton = document.getElementById('toggle-button');
       const mainContent = document.getElementById('main-content');
-      
+
       sidebar.classList.toggle('collapsed');
       toggleButton.classList.toggle('collapsed');
       mainContent.classList.toggle('collapsed');
@@ -867,16 +867,16 @@ function selectPatient(index) {
 function selectRegistrationNumber(registrationNumber, childId) {
   selectedRegistrationNumber = registrationNumber; // Store selected registration number
   alert(`Selected Registration Number: ${registrationNumber}, Child ID: ${childId}`);
-  
-  
-  
+
+
+
   // Further actions can be added here, e.g., saving to a variable or performing an API request
 }
 
 async function startConsultation() {
 
 
-  
+
     if (!selectedRegistrationNumber) {
         alert('Please select a patient first.');
         return;
@@ -903,14 +903,14 @@ async function startConsultation() {
         const data = await response.json();
          // Update loading progress
          updateLoadingProgress(80, 'Processing data...');
-        
+
         // If we successfully got the data, redirect to the dashboard page
         window.location.href = `/occupationaltherapy_dashboard/${selectedRegistrationNumber}`;
 
     } catch (error) {
         console.error('Error starting consultation:', error);
         let errorMessage = 'Error starting consultation. ';
-        
+
         if (error.message.includes('404')) {
             errorMessage += 'Patient not found.';
         } else if (error.message.includes('403')) {
@@ -918,13 +918,13 @@ async function startConsultation() {
         } else {
             errorMessage += 'Please try again or contact support.';
         }
-        
+
         alert(errorMessage);
     }
-} 
+}
     showSection('dashboard');
     hideLoadingIndicator();
-    
+
     const currentDate = document.getElementById('current-date');
     updateDateTime();
     setInterval(updateDateTime, 1000);
@@ -988,7 +988,7 @@ async function startConsultation() {
       }
     }
 
-   
+
   </script> -->
 <script>
   let selectedPatient = null;
@@ -1012,7 +1012,7 @@ async function startConsultation() {
         <td class="py-2 border">${visit.registration_number}</td>
       <td class="py-2 border">${visit.created_at}</td>
       <td class="py-2 border">
-       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" 
+       <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
         onclick="selectRegistrationNumber('${visit.registration_number}', '${visit.child_id}')">
   Select
 </button>
@@ -1033,7 +1033,7 @@ async function startConsultation() {
     event.currentTarget.classList.add("bg-blue-50", "border-l-4", "border-blue-500");
   }
 
- 
+
 
   document.addEventListener('DOMContentLoaded', () => {
     generatePatientList();

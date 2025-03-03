@@ -20,7 +20,7 @@
     font-size: 3em;
     animation: fadeInDown 1s ease-in-out;
     font-weight: 800;
-    
+
   }
 
   .subheading {
@@ -57,7 +57,7 @@
     color:white;
     transform: translateY(-5px);
     border:2px solid white;
-   
+
   }
 
   .features {
@@ -143,7 +143,6 @@
   }
 </style>
 
-
 <h1>Beacon Children's Centre</h1>
 <p class="subheading">Your Neurodevelopmental Clinic</p>
 
@@ -180,7 +179,6 @@
 @guest
   <div style="text-align: center; margin-top: 30px;">
     <a href="{{ route('login') }}" class="btn">Login</a>
-    <a href="{{ route('register') }}" class="btn">Register</a>
   </div>
 @endguest
 

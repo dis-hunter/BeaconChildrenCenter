@@ -80,7 +80,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/editDoctorNotes', [VisitController::class, 'EditdoctorNotes']);
     Route::get('/patientEncounterSummary/{registrationNumber}', [VisitController::class,'getEncounterSummary']);
 
-
     //NURSE
     Route::group(['middleware' => 'role:1'], function () {
         Route::controller(TriageController::class)->group(function () {
@@ -237,6 +236,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/guardians', 'create');
             Route::get('/guardians/{id?}', 'childGet')->name('guardians.search');
         });
+
         Route::controller(VisitController::class)->group(function () {
             Route::post('/visits', 'store')->name('visits.store');
         });
