@@ -20,6 +20,25 @@ body {
 #calU{
   width :900px !important;
 }
+.result-item {
+  display: flex;
+  /*margin-left: 200px !important;*/
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.result-item:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.result-item:nth-child(odd) {
+  background-color: #ffffff;
+}
+.results-container {
+  margin-left: 200px !important; /* Override original CSS */
+}
 
 
 /* Ensure the main content area has the correct space */

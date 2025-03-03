@@ -36,6 +36,10 @@
         .dot:nth-child(3) {
             animation-delay: 0.4s;
         }
+        .cancel-btn,
+.reschedule-btn {
+    display: none !important;
+}
 
         @keyframes bounce {
             0%, 80%, 100% {

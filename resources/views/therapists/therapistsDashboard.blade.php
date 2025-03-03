@@ -143,6 +143,9 @@
 .hidden {
     display: none;
 }
+.results-container{
+  margin-right :50px !important;
+}
 
 /* Overlay for Modal */
 .modal-overlay {

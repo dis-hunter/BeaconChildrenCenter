@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Models\User;
+use App\Models\Doctor;
+use App\Models\DoctorSpecialization;
+
+
+
 
 class TherapistController extends Controller
 {
@@ -39,11 +45,11 @@ class TherapistController extends Controller
         return response()->json($progress);
     }
 
-    // Add the showDashboard method here
     public function showDashboard()
     {
         $staff_id = auth()->user()->id;
         $fullname = auth()->user()->fullname; // Fetch the fullname attribute
+        $doctor = auth()->user();
     
         // Decode fullname if it's a JSON string
         if (is_object($fullname)) {
@@ -63,7 +69,6 @@ class TherapistController extends Controller
         // Check if cache exists and contains the latest records
         $latestVisitCount = DB::table('visits')
             ->where('doctor_id', $staff_id)
-            //TODO:UNCOMMENT THE CODE BELOW
             ->whereDate('created_at', '=', now()->toDateString())
             ->where('triage_pass', true)
             ->count();
@@ -81,8 +86,7 @@ class TherapistController extends Controller
                     'visits.completed'
                 )
                 ->where('visits.doctor_id', $staff_id)
-                 //TODO:UNCOMMENT THE CODE BELOW
-                 ->whereDate('visits.created_at', '=', now()->toDateString())
+                ->whereDate('visits.created_at', '=', now()->toDateString())
                 ->where('visits.triage_pass', true)
                 ->orderBy('visits.created_at', 'desc')
                 ->limit(20)
@@ -92,7 +96,14 @@ class TherapistController extends Controller
             Cache::put($cacheKey, $visits, now()->addMinutes(60));
         }
     
-        return view('therapists.therapistsDashboard', compact('visits', 'doctorName'));
+        // Fetch doctor specializations
+        $doctorSpecializations = $doctor->specialization ? (object) [
+            'id' => $doctor->specialization->id, 
+            'specialization' => $doctor->specialization->specialization
+        ] : null;
+    
+        return view('therapists.therapistsDashboard', compact('visits', 'doctorName', 'doctorSpecializations'));
     }
+    
     
 }

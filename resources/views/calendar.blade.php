@@ -114,7 +114,7 @@ div h2 {
             
 
 
-            <form action="{{ route('appointments.store') }}" method="POST" class= "form-container">
+            <form action="{{ route('appointments.store') }}" method="POST" class= "form-container" id="form-container" onsubmit="this.reset()">
 
             @csrf
                 <div class="add-event-header">
@@ -187,8 +187,8 @@ div h2 {
     <div x-show="noResults" style="color: red; text-align: center; margin-bottom: 10px;">No results found.</div>
 
     <!-- Results Display -->
-    <div x-show="results.length > 0" class="results-container"
-     style="width: 350px; max-height: 300px; margin-left: 50px; overflow-y: auto; 
+<div x-show="results.length > 0" class="results-container"
+     style="width: 350px; max-height: 300px; margin-left: 60px; overflow-y: auto; 
             background-color: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <ul style="color: #333; list-style-type: none; padding: 0; margin: 0;">
             <template x-for="result in results" :key="result.id">
@@ -233,12 +233,27 @@ div h2 {
                 <!-- Updated Select Service Dropdown -->
                 <div class="add-event-input">
                 <label for="doctor_specialization">Select a Specialization:</label><br>
+             
                 <select name="doctor_specialization" id="doctor_specialization" class="form-control droopp" style="color: black !important;">
-                    <option value="" style="color: black !important; width :150px !important" >-- Select Specialization --</option>
+                <option value="" style="color: black !important; width:150px !important;">-- Select Specialization --</option>
+
+                @if(is_iterable($doctorSpecializations)) 
                     @foreach($doctorSpecializations as $specialization)
-                        <option value="{{ $specialization->id }}" style="color: black !important;">{{ $specialization->specialization }}</option>
+                        <option value="{{ $specialization->id }}" style="color: black !important;">
+                            {{ $specialization->specialization }}
+                        </option>
                     @endforeach
-                </select>
+                @elseif(is_object($doctorSpecializations))
+                    <!-- Single specialization case -->
+                    <option value="{{ $doctorSpecializations->id }}" style="color: black !important;">
+                        {{ $doctorSpecializations->specialization }}
+                    </option>
+                @endif
+            </select>
+
+
+
+
             </div>
 
 
@@ -318,7 +333,7 @@ margin: 20px auto; /* Center form */">
             <label for="newDate">Date:</label> </br>
             <input type="date" id="newDate" name="newDate" required style="border: 1px solid black !important;">
 </br> </br>
-            <button type="submit"   style="background-color: lightblue; color:white;">Save</button>
+            <button type="submit"  id ="submit-button" style="background-color: lightblue; color:white;">Save</button>
         </form>
     </div>
  
@@ -351,6 +366,9 @@ margin: 20px auto; /* Center form */">
                 this.loading = false;
             });
     }
+    
+
+
 </script>
 
 </body>

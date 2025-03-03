@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addEventFrom = document.querySelector(".event_time_from");
     const addEventTo = document.querySelector(".event_time_end");
     const addEventsSubmit = document.querySelector(".add-event-btn");
+    const form = document.getElementById("form-container"); 
 
     const serviceDropdown = document.getElementById("service");
     const specialistContainer = document.getElementById("specialist-container");
@@ -278,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.removeChild(spinnerContainer); // Remove the loader
             if (data && data.success) {
                 alert("Appointment successfully created!");
+                form.reset();
                 if (addEventContainer) {
                     addEventContainer.classList.remove("active");  // Remove the active class
                     addEventContainer.style.display = "none";      // Hide the modal using display style
@@ -347,4 +349,26 @@ if (csrfTokenMeta) {
             }
         });
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("form-container"); // Use getElementById since it's now an ID
+        const closeButton = document.querySelector(".close");
+        const submitButton = document.getElementById("submit-button");
+    
+        if (!form) return; // Prevent errors if the form is not found
+    
+        if (submitButton) {
+            submitButton.addEventListener("click", function (event) {
+                setTimeout(() => {
+                    form.reset();
+                }, 100); // Short delay to allow submission to process
+            });
+        }
+        // Reset form when the close button is clicked
+        if (closeButton) {
+            closeButton.addEventListener("click", function () {
+                form.reset();
+            });
+        }
+    });
+    
     

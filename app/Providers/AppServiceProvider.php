@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
 //        DB::listen(function ($query){
 //            Log::info($query->sql);
 //        });
-   View::share('doctorSpecializations', DoctorSpecialization::all());
+//   View::share('doctorSpecializations', DoctorSpecialization::all());
 //
 //
 //        // Share leave types with all views
