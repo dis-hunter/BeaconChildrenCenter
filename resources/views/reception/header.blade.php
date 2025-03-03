@@ -26,10 +26,10 @@
                 <a href="/dashboard" class="nav-link"><span class="icon">〰️</span> <span class="text">Dashboard</span></a>
             </li>
             <li class="nav-item">
-                <a href="/patients" class="nav-link"><span class="icon">🚑</span> <span class="text">Patients</span></a>
+                <a href="/patients" class="nav-link"><span class="icon">🚑</span> <span class="text">Existing Patient</span></a>
             </li>
             <li class="nav-item">
-                <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">Guardians</span></a>
+                <a href="/guardians" class="nav-link"><span class="icon">➕</span> <span class="text">New Patient</span></a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('reception.calendar') }}" class="nav-link">
