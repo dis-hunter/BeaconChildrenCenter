@@ -8,9 +8,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     {{-- <link href="{{ asset('css/calendar.css') }}" rel="stylesheet"> --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @vite(['resources/js/app.js','resources/css/app.css'])
     @livewireStyles
 
     <style>
@@ -27,27 +30,31 @@
             min-height: 100vh;
             transition: margin-left 0.3s ease;
         }
-        .global-search{
+
+        .global-search {
             margin-left: 250px;
         }
 
         .main.expanded {
             margin-left: 60px;
         }
+
         .dropdown-menu {
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             border: 1px solid #e3e3e3;
         }
 
         @media (max-width: 768px) {
-                    .main{
-                        margin-left: 0;
-                        width: 100%;
-                    }
-                    .global-search{
-                        margin-left: 20px;
-                    }
-                }
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .global-search {
+                margin-left: 20px;
+            }
+        }
+
         .search-bar {
             display: flex;
             justify-content: space-between;
@@ -86,7 +93,7 @@
             background-color: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         th {
@@ -127,6 +134,7 @@
             color: #111827;
             margin-bottom: 24px;
         }
+
         /* General Styling */
         .search-section {
             margin: 20px 0;
@@ -192,7 +200,8 @@
         .result-item:last-child {
             margin-bottom: 0;
         }
-        .table-result{
+
+        .table-result {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -204,6 +213,7 @@
             text-decoration: none;
             color: inherit;
         }
+
         .result-link {
             display: flex;
             justify-content: space-between;
@@ -240,6 +250,7 @@
             text-align: center;
             margin-top: 10px;
         }
+
         /* General Styling */
         .loading-container {
             display: flex;
@@ -261,6 +272,7 @@
             font-size: 16px;
             font-style: italic;
         }
+
         /* --- Visit Page Styles --- */
 
         /* General Styling */
@@ -396,29 +408,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+@livewire('wire-elements-modal')
 @livewireScripts
-<script>
-    Livewire.on('parentUpdated', message => {
 
-            location.reload();
-        });
-Livewire.on('closeModal', () => {
-    // Close the modal using JavaScript (Bootstrap)
-    $('#editParentModal').modal('hide');
-    $('#editChildModal').modal('hide');
-    $('#addChildModal').modal('hide');
-});
-Livewire.on('childUpdated', message => {
-
-location.reload();
-});
-Livewire.on('childAdded', message => {
-
-location.reload();
-});
-</script>
 
 </body>
 </html>

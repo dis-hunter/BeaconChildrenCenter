@@ -53,11 +53,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::registerView(function () {
-            return view('auth.register',[
-                'genders'=>Gender::all(),
-                'roles'=>Role::all(),
-                'specializations'=>DoctorSpecialization::all(),
-            ]);
+            return abort(404);
         });
     }
 }
