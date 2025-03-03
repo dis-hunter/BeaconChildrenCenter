@@ -188,13 +188,13 @@ div h2 {
 
     <!-- Results Display -->
     <div x-show="results.length > 0" class="results-container"
-     style="width: 350px; max-height: 300px; margin-left: 50px; overflow-y: auto; 
+     style="width: 320px; max-height: 300px; margin-left: 150px; overflow-y: auto; 
             background-color: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <ul style="color: #333; list-style-type: none; padding: 0; margin: 0;">
             <template x-for="result in results" :key="result.id">
                 <li class="result-item py-3 px-4" 
                     style="border-bottom: 1px solid #f1f1f1; display: flex; align-items: center; transition: background-color 0.3s;">
-                    <div style="flex: 1;">
+                    <div style="flex: 1;  margin-left:20px;">
                         <strong style="font-size: 16px; color: black;">Child Name:</strong> 
                         <span x-text="result.child_name" style="font-size: 14px; font-weight: 600;"></span><br>
                         <strong style="font-size: 16px; color: black;">Date of Birth:</strong> 
