@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@alpinejs/focus": "^3.14.8",
+        "africastalking": "^0.7.3",
         "alpinejs": "^3.14.8",
         "bootstrap": "^5.3.3",
         "laravel-echo": "^1.19.0",

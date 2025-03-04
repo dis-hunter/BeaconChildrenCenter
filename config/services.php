@@ -13,6 +13,16 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    
+
+        // Other configurations...
+    
+    'africastalking' => [
+        'username' => env('AT_USERNAME'),
+        'api_key' => env('AT_API_KEY'),
+    ],
+    
+    
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),

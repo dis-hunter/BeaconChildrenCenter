@@ -71,6 +71,10 @@ Route::view('/doctor_form', 'AddDoctor.doctor_form')->name('doctor.form');// Dis
 Route::get('/', function () {
     return view('home');
 })->name('home');
+use App\Http\Controllers\SmsController;
+
+Route::get('/send-sms', [SmsController::class, 'sendAppointmentReminder']);
+
 
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
