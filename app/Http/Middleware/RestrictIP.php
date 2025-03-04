@@ -47,9 +47,10 @@ class RestrictIP
             '156.0.233.52',
             '102.0.8.198',
             '197.237.28.18',
+            '41.90.172.83',
         ];
 
-       
+
 
         if (in_array($clientIP, $allowed_ips)) {
             $response = $next($request);
@@ -57,7 +58,7 @@ class RestrictIP
             $response = response()->view('errors.403', [], 403);
         }
 
-    
+
 
         return $response;
     }
