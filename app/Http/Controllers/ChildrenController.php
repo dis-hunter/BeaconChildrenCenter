@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ChildrenController extends Controller
 {
@@ -39,27 +40,38 @@ class ChildrenController extends Controller
 
     public function create(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(),[
             'firstname' => 'required|string|max:255',
             'middlename' => 'nullable|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'gender_id' => 'required',
+            'lastname' => 'nullable|string|max:255',
+            'dob' => 'nullable|date',
+            'gender_id' => 'required|integer',
             'telephone' => 'required|string|max:15|unique:parents,telephone',
-            'national_id' => 'required|string|max:20|unique:parents,national_id',
+            'national_id' => 'nullable|string|max:20|unique:parents,national_id',
             'employer' => 'nullable|string|max:255',
             'insurance' => 'nullable|string|max:255',
             'email' => 'required|email|unique:parents,email',
-            'relationship_id' => 'required',
+            'relationship_id' => 'required|integer',
             'referer' => 'nullable|string|max:255',
 
             'firstname2' => 'required|string|max:255',
             'middlename2' => 'nullable|string|max:255',
-            'lastname2' => 'required|string|max:255',
-            'dob2' => 'required|date',
-            'birth_cert' => 'required|string|max:50|unique:children,birth_cert',
-            'gender_id2' => 'required',
+            'lastname2' => 'nullable|string|max:255',
+            'dob2' => 'nullable|date',
+            'birth_cert' => 'nullable|string|max:50|unique:children,birth_cert',
+            'gender_id2' => 'required|integer',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', 'Failed to save new record...')
+                ->withErrors($validator)
+                ->withInput($request->all())
+                ->with('showForm',true);
+        }
+
+        $validatedData = $validator->validated();
+
         $reg_no=new RegistrationNumberManager('children','registration_number');
         $regis=$reg_no->generateUniqueRegNumber();
 
@@ -76,6 +88,7 @@ class ChildrenController extends Controller
             'middle_name' => ucwords($validatedData['middlename2']),
             'last_name' => ucwords($validatedData['lastname2']),
         ];
+
         $parent_id=null;
 
         //transaction for data consistency

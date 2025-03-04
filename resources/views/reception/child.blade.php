@@ -36,7 +36,7 @@
                     <div class="col-md-4">
                         <label for="firstname" class="form-label">First Name</label>
                         <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"
-                               class="form-control" required>
+                               class="form-control" >
                     </div>
                     <div class="col-md-4">
                         <label for="middlename" class="form-label">Middle Name</label>
@@ -46,7 +46,7 @@
                     <div class="col-md-4">
                         <label for="lastname" class="form-label">Surname</label>
                         <input type="text" id="lastname" name="lastname" value="{{ old('lastname') }}"
-                               class="form-control" required>
+                               class="form-control" >
                     </div>
                 </div>
 
@@ -54,11 +54,11 @@
                 <div class="row g-3 mt-3">
                     <div class="col-md-6">
                         <label for="dob" class="form-label">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" value="{{ old('dob') }}" class="form-control" required>
+                        <input type="date" id="dob" name="dob" value="{{ old('dob') }}" class="form-control" >
                     </div>
                     <div class="col-md-6">
                         <label for="gender_id" class="form-label">Gender</label>
-                        <select id="gender_id" name="gender_id" class="form-select" required>
+                        <select id="gender_id" name="gender_id" class="form-select">
                             <option disabled {{old('gender_id') === null ? 'selected' : ''}}>Select...</option>
                             @foreach ($genders as $item)
                                 <option
@@ -77,13 +77,12 @@
                     </div>
                     <div class="col-md-4">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control"
-                               required>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label for="national_id" class="form-label">National ID</label>
                         <input type="text" id="national_id" name="national_id" value="{{ old('national_id') }}"
-                               class="form-control" required>
+                               class="form-control" >
                     </div>
                 </div>
 
