@@ -16,24 +16,24 @@ class MailController extends Controller
 {
     public function sendReminder()
     {
-        Log::info("🔄 Starting the reminder email process...");
+        
 
         // Get current date and calculate 3 days from now
         $targetDate = Carbon::now()->addDays(3)->toDateString();
-        Log::info("📅 Fetching appointments due on or before: " . $targetDate);
+       
 
         // Fetch appointments that are due in 3 days or less
         $appointments = Appointment::whereBetween('appointment_date', [Carbon::now()->toDateString(), $targetDate])->get();
 
         
         if ($appointments->isEmpty()) {
-            Log::info("✅ No appointments found that are due in 3 days or less.");
+          
             return response()->json(['message' => 'No reminders to send.']);
         }
 
         foreach ($appointments as $appointment) {
             try {
-                Log::info("📌 Processing appointment ID: " . $appointment->id);
+               
 
                 // Fetch child details
                 $child = Children::find($appointment->child_id);
@@ -44,8 +44,7 @@ class MailController extends Controller
 
                 // Handle fullname as object or string
                 $childName = $this->extractFullName($child->fullname);
-                Log::info("👶 Child Name: " . $childName);
-
+                
                 // Fetch doctor details
                 $doctor = Staff::find($appointment->doctor_id);
                 if (!$doctor) {
@@ -55,7 +54,7 @@ class MailController extends Controller
 
                 // Handle doctor fullname as object or string
                 $doctorName = $this->extractFullName($doctor->fullname);
-                Log::info("👨‍⚕️ Doctor Name: " . $doctorName);
+              
 
                 // Fetch parent details
                 $childParent = ChildParent::where('child_id', $appointment->child_id)->first();
@@ -70,13 +69,13 @@ class MailController extends Controller
                     continue;
                 }
                 $parentEmail = $parent->email;
-                Log::info("📧 Parent Email: " . $parentEmail);
+               
 
                 // Send the reminder email
-                Log::info("📤 Sending email to: " . $parentEmail);
+                
                 Mail::to($parentEmail)->send(new AppointmentReminderMail($childName, $doctorName, $appointment->appointment_date));
 
-                Log::info("✅ Email sent successfully to: " . $parentEmail);
+               
 
             } catch (\Exception $e) {
                 Log::error("❌ Error processing appointment ID " . $appointment->id . ": " . $e->getMessage());
