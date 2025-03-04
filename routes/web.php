@@ -414,3 +414,4 @@ Route::get('/get-appointments', [FetchAppointments::class, 'getAppointments']);
 Route::get('/debug-session', function () {
     dd(session()->all());
 });
+

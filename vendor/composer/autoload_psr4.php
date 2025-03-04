@@ -9,6 +9,7 @@ return array(
     'voku\\' => array($vendorDir . '/voku/portable-ascii/src/voku'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
+    'Twilio\\' => array($vendorDir . '/twilio/sdk/src/Twilio'),
     'TomatoPHP\\FilamentDeveloperGate\\' => array($vendorDir . '/tomatophp/filament-developer-gate/src'),
     'TomatoPHP\\FilamentArtisan\\' => array($vendorDir . '/tomatophp/filament-artisan/src'),
     'TomatoPHP\\ConsoleHelpers\\' => array($vendorDir . '/tomatophp/console-helpers/src'),
@@ -140,4 +141,5 @@ return array(
     'BaconQrCode\\' => array($vendorDir . '/bacon/bacon-qr-code/src'),
     'App\\' => array($baseDir . '/app', $vendorDir . '/laravel/pint/app'),
     'AnourValar\\EloquentSerialize\\' => array($vendorDir . '/anourvalar/eloquent-serialize/src'),
+    'AfricasTalking\\SDK\\' => array($vendorDir . '/africastalking/africastalking/src'),
 );
