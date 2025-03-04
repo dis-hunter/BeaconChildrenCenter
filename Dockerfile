@@ -66,11 +66,13 @@ RUN rm -rf vendor composer.lock && \
 
 # Setup Supervisor directories and logs
 RUN mkdir -p /var/run/supervisord && \
-    touch storage/logs/supervisord.log storage/logs/worker.log && \
+    touch storage/logs/supervisord.log storage/logs/worker.log storage/logs/laravel_scheduler.err.log storage/logs/laravel_scheduler.out.log && \
     chmod -R 777 /var/run/supervisord
 
 # Setup Supervisor for Laravel Queue Workers
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+
+COPY laravel-scheduler.conf /etc/supervisor/conf.d/laravel-scheduler.conf
 
 # Expose necessary ports (Apache, Redis)
 EXPOSE 80 6379
@@ -78,6 +80,7 @@ EXPOSE 80 6379
 # Copy entrypoint script and make it executable
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x run-cron.sh
 
 # Start using the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

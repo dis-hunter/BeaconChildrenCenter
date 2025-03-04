@@ -1,10 +1,12 @@
 #!/bin/bash
-# Ensure this file has executable permissions: chmod +x run-cron.sh
 
-# This loop runs the Laravel scheduler every minute
-while [ true ]
+trap "exit" SIGINT SIGTERM
+
+echo "Starting Laravel Scheduler..."
+
+while true
 do
-    echo "Running the scheduler..."
-    php artisan schedule:run --verbose --no-interaction
+    echo "Running scheduler at $(date)..."
+    php /var/www/artisan schedule:run --verbose --no-interaction
     sleep 60
 done
