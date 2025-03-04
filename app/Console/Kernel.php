@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\SendAppointmentReminders;
 
 class Kernel extends ConsoleKernel
 {
@@ -18,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('sessions:clean')->daily();
-        $schedule->command('reminders:send')->dailyAt('18:30');
+        $schedule->command('reminders:send')->everyMinute();
     }
 
     /**
