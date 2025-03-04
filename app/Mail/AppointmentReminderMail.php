@@ -1,10 +1,12 @@
 <?php
 namespace App\Mail;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 
-class AppointmentReminderMail extends Mailable
+class AppointmentReminderMail extends Mailable implements ShouldQueue
 {
+    use \Illuminate\Bus\Queueable;
     public $childName;
     public $doctorName;
     public $appointmentDate;

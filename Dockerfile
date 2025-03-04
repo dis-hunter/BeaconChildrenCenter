@@ -72,7 +72,6 @@ RUN mkdir -p /var/run/supervisord && \
 # Setup Supervisor for Laravel Queue Workers
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
-
 # Expose necessary ports (Apache, Redis)
 EXPOSE 80 6379
 
