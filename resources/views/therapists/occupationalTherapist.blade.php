@@ -51,7 +51,12 @@
 <body class="bg-gray-50">
     <!-- Add Back and Next buttons -->
     
-    <button id="backButton" onclick="NavigateBack()"class="px-4 py-2 bg-gray-300 rounded">◀Back</button>
+    <button 
+    id="backButton" 
+    onclick="NavigateBack(); return false;" 
+    class="px-4 py-2 bg-gray-300 rounded">
+    ◀ Back
+</button>
 
 
     <div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -883,17 +888,31 @@ headers: {
 }
 </script>
 <script>
+
+// Function to extract the registration code from the current URL
 function extractRegistrationCode() {
     const pathSegments = window.location.pathname.split('/');
-    return pathSegments[pathSegments.length - 1];
+    const RegNo = pathSegments[pathSegments.length - 1];
+    console.log("Extracted Registration Code:", RegNo);
+    return RegNo;
 }
 
+// Function to navigate back or refresh the page
 function NavigateBack() {
     const RegNo = extractRegistrationCode();
-    window.location.href = `/occupationaltherapy_dashboard/${RegNo}`;
-    window.location.reload(); // Refresh the previous page
-    //Hello
+
+    if (!RegNo) {
+        console.error("Registration code not found!");
+        return;
+    }
+
+    console.log("Reloading the page with registration code:", RegNo);
+
+    // Reload the specific dashboard page with a cache-busting parameter
+    window.location.href = `/occupationaltherapy_dashboard/${RegNo}?nocache=${Date.now()}`;
 }
+
+
 </script>
 
 </body>
