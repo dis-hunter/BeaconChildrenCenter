@@ -69,7 +69,7 @@ RUN mkdir -p /var/run/supervisord && \
     touch storage/logs/supervisord.log storage/logs/worker.log storage/logs/laravel_scheduler.err.log storage/logs/laravel_scheduler.out.log && \
     chmod -R 777 /var/run/supervisord
 
-# Setup Supervisor for Laravel Queue Workers
+# Setup Supervisor for Laravel Queue and Schedule Workers
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 
 # Expose necessary ports (Apache, Redis)
