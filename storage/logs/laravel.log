@@ -15403,3 +15403,25 @@ on Wednesday, 05 Mar 2025 from 09:32 PM to 10:32 PM.
 Thank you.  
 [2025-03-04 21:45:41] local.INFO: 📩 Full API Response: {"SMSMessageData":{"Message":"Sent to 1\/1 Total Cost: KES 1.6000","Recipients":[{"cost":"KES 1.6000","messageId":"ATXid_f09c58982f2a6b5438d9626fda337d4a","messageParts":2,"number":"+254783711202","status":"Success","statusCode":100}]}}  
 [2025-03-04 21:45:41] local.INFO: ✅ SMS reminders process completed.  
+[2025-03-05 07:17:32] local.ERROR: The process "C:\xampp\php\php.exe artisan queue:work --once --name=default --queue=default --backoff=0 --memory=128 --sleep=3 --tries=1" exceeded the timeout of 60 seconds. {"exception":"[object] (Symfony\\Component\\Process\\Exception\\ProcessTimedOutException(code: 0): The process \"C:\\xampp\\php\\php.exe artisan queue:work --once --name=default --queue=default --backoff=0 --memory=128 --sleep=3 --tries=1\" exceeded the timeout of 60 seconds. at C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\process\\Process.php:1181)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\process\\Process.php(450): Symfony\\Component\\Process\\Process->checkTimeout()
+#1 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\process\\Process.php(251): Symfony\\Component\\Process\\Process->wait()
+#2 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\Listener.php(181): Symfony\\Component\\Process\\Process->run(Object(Closure))
+#3 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\Listener.php(92): Illuminate\\Queue\\Listener->runProcess(Object(Symfony\\Component\\Process\\Process), '128')
+#4 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\Console\\ListenCommand.php(75): Illuminate\\Queue\\Listener->listen(NULL, 'default', Object(Illuminate\\Queue\\ListenerOptions))
+#5 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Queue\\Console\\ListenCommand->handle()
+#6 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#7 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#8 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#9 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(696): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#10 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(213): Illuminate\\Container\\Container->call(Array)
+#11 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\console\\Command\\Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#12 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#13 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\console\\Application.php(1094): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#14 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\console\\Application.php(342): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Queue\\Console\\ListenCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#15 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\symfony\\console\\Application.php(193): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 C:\\xampp\\htdocs\\BeaconChildrenCenter\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(198): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#17 C:\\xampp\\htdocs\\BeaconChildrenCenter\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#18 {main}
+"} 
