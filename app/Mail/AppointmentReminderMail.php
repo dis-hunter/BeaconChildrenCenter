@@ -25,6 +25,7 @@ class AppointmentReminderMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: [env('MAIL_FROM_ADDRESS') => env('MAIL_FROM_NAME')],
             subject: 'Appointment Reminder',
         );
     }
