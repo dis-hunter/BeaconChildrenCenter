@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Mail\AppointmentReminderMail;
 use App\Models\Appointment;
 use App\Models\Staff;
-use App\Models\Children;
+use App\Models\children;
 use App\Models\ChildParent;
 use App\Models\Parents;
 use Carbon\Carbon;
@@ -36,7 +36,7 @@ class MailController extends Controller
 
 
                 // Fetch child details
-                $child = Children::find($appointment->child_id);
+                $child = children::find($appointment->child_id);
                 if (!$child) {
                     Log::warning("⚠️ No child found for child_id: " . $appointment->child_id);
                     continue;
