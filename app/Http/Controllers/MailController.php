@@ -19,7 +19,7 @@ class MailController extends Controller
 
 
         // Get current date and calculate 3 days from now
-        $targetDate = Carbon::now()->addDays(3)->toDateString();
+        $targetDate = Carbon::now()->addDays(7)->toDateString();
 
 
         // Fetch appointments that are due in 3 days or less
