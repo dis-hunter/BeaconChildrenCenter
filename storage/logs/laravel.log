@@ -15425,3 +15425,5 @@ Thank you.
 #17 C:\\xampp\\htdocs\\BeaconChildrenCenter\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #18 {main}
 "} 
+[2025-03-05 08:41:18] local.INFO: ⏳ Running scheduled appointment reminders...  
+[2025-03-05 08:41:33] local.INFO: ✅ Appointment reminders process completed.  
