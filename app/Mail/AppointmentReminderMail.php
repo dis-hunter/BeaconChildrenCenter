@@ -1,12 +1,16 @@
 <?php
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
 
 class AppointmentReminderMail extends Mailable implements ShouldQueue
 {
-    use \Illuminate\Bus\Queueable;
+    use \Illuminate\Bus\Queueable, SerializesModels;
     public $childName;
     public $doctorName;
     public $appointmentDate;
@@ -15,18 +19,26 @@ class AppointmentReminderMail extends Mailable implements ShouldQueue
     {
         $this->childName = $childName;
         $this->doctorName = $doctorName;
-        $this->appointmentDate = $appointmentDate;
+        $this->appointmentDate = Carbon::parse($appointmentDate)->toFormattedDayDateString();
     }
 
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
-                    ->subject('Appointment Reminder')
-                    ->view('emails.appointment_reminder')
-                    ->with([
-                        'childName' => $this->childName,
-                        'doctorName' => $this->doctorName,
-                        'appointmentDate' => $this->appointmentDate
-                    ]);
+        return new Envelope(
+            subject: 'Appointment Reminder',
+        );
     }
+
+    public function content():Content
+    {
+        return new Content(
+            view: 'emails.appointment_reminder',
+            with: [
+                'childName' => $this->childName,
+                'doctorName' => $this->doctorName,
+                'appointmentDate' => $this->appointmentDate,
+            ]
+        );
+    }
+
 }

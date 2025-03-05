@@ -27,13 +27,12 @@ class MailController extends Controller
 
 
         if ($appointments->isEmpty()) {
-
+            Log::info('No appointments to send reminders for.');
             return response()->json(['message' => 'No reminders to send.']);
         }
 
         foreach ($appointments as $appointment) {
             try {
-
 
                 // Fetch child details
                 $child = Children::find($appointment->child_id);
@@ -75,6 +74,7 @@ class MailController extends Controller
 
                 Mail::to($parentEmail)->send(new AppointmentReminderMail($childName, $doctorName, $appointment->appointment_date));
 
+                Log::info('Appointment Reminder Email sent to ' . $parentEmail);
 
 
             } catch (\Exception $e) {
