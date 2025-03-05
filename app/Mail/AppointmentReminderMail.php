@@ -29,7 +29,7 @@ class AppointmentReminderMail extends Mailable implements ShouldQueue
             subject: 'Beacon Children Center - Appointment Reminder',
         );
     }
-    
+
 
     public function content():Content
     {
