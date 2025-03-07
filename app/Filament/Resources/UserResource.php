@@ -47,7 +47,8 @@ class UserResource extends Resource
                                 'first_name' => '',
                                 'middle_name' => '',
                                 'last_name' => ''
-                            ]),
+                            ])
+                            ->afterStateHydrated(fn ($state, callable $set) => $set('fullname', (array) $state )),
                         TextInput::make('email')
                             ->required()
                             ->email()
@@ -100,7 +101,7 @@ class UserResource extends Resource
                     ->schema([
                         TextInput::make('password')
                             ->password()
-                            ->required()
+                            ->default('password')
                             ->maxLength(255)
                             ->dehydrateStateUsing(fn($state) => Hash::make($state)),
                         ]),
@@ -144,7 +145,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -163,7 +164,7 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            //'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }
