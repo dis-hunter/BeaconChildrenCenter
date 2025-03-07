@@ -193,7 +193,7 @@ class ChildrenController extends Controller
     }
 
     $child = Children::with([
-        'gender',
+        'gender', 'parents',
         'visits' => fn($query) => $query
             ->where('child_id', $id)
             ->latest()

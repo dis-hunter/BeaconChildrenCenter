@@ -51,7 +51,9 @@
                                 <p><strong>{{ $child->registration_number }}</strong></p>
                                 <p class="text-muted">Birth Certificate: {{ $child->birth_cert }}</p>
                             </div>
-                            <p><strong>Last Visited:</strong> {{ $last_visit->visit_date ?? 'First Time' }},
+                            <p><strong>Last
+                                    Visited:</strong> {{ \Carbon\Carbon::parse($last_visit->visit_date)->longRelativeToNowDiffForHumans() ?? 'First Time' }}
+                                ,
                                 {{ $last_visit?->visitType?->first()?->visit_type ?? 'N/A' }}</p>
                             {{-- <div>
                     <span class="pill">Peanut Allergy</span>
@@ -232,7 +234,7 @@
                             <div class="accordion-body">
                                 @if ($prescription)
                                     <div class="prescription">
-                                        <p>Prescribed on: <strong>{{ $prescription->updated_at ?? 'N/A' }}</strong> by
+                                        <p>Prescribed on: <strong>{{ \Carbon\Carbon::parse($prescription->updated_at)->translatedFormat('l, d F Y H:i:s') ?? 'N/A' }}</strong> by
                                             <strong class="doctorName">
                                                 Dr. {{($prescription?->doctor->fullname->first_name ?? '').' '.($prescription_careplan?->doctor->fullname->last_name ?? '')}}
                                             </strong>
@@ -313,19 +315,30 @@
                                         color: #000;
                                     }
                                 }
+
+.biodata p{
+padding: 10px 0;
+}
                                     </style>
                                 </head>
                                 <body>
-                                    <div>
-                                        <h4>
-                                            Prescription
-                                        </h4>
-                                    </div>
-                                    <div class="patient">${patientDetails}</div>
+<x-letterhead>
+                                    <h3 class="title">Prescription</h3>
+
+
+                                  <h4 style="margin-bottom: 10px;">Patient Biodata</h4>
+
+<div class="biodata">
+            <p>Name: {{ ($child->fullname->first_name ?? '') . ' ' . ($child->fullname->middle_name ?? '') . ' ' . ($child->fullname->last_name ?? '') }} </p>
+                                                        <p>Age: {{$child->age}} </p>
+                                                        <p>Clinical Number: {{$child->registration_number}}</p>
+                                                        <p>Contact Number(s): {{ implode(', ', $child->parents->pluck('telephone')->toArray())}}</p>
+                                                                        </div>
+
                                     <div class="referral-letter">
                                     ${prescriptionContent}
                                     </div>
-                                    <div class="doctorName">${doctorName}</div>
+</x-letterhead>
                                 </body>
                                 </html>
                             `);
@@ -355,7 +368,7 @@
                             <div class="accordion-body">
                                 @if ($referral)
                                     <div class="referral-letter">
-                                        <p>Referred on: <strong>{{ $referral->updated_at ?? 'N/A' }}</strong> by
+                                        <p>Referred on: <strong>{{ \Carbon\Carbon::parse($referral->updated_at)->translatedFormat('l, d F Y H:i:s') ?? 'N/A' }}</strong> by
                                             <strong>
                                                 Dr. {{($referral?->doctor->fullname->first_name ?? '').' '.($referral?->doctor->fullname->last_name ?? '')}}
                                             </strong></p>
@@ -392,13 +405,17 @@
                                     margin: 0;
                                 }
                                 .referral-letter {
-                                    max-width: 800px;
-                                    margin: 20px auto;
-                                    padding: 30px;
                                     font-family: Arial, sans-serif;
                                     line-height: 1.6;
                                     color: #333;
                                     background: white;
+                                }
+
+                                .referral-letter p {
+                                margin-top: 1.2em;
+                                    margin-bottom: 1.2em;
+                                    padding-bottom: 0.8em;
+                                    border-bottom: 1px solid #eee;
                                 }
 
                                 /* List Styling */
@@ -431,7 +448,6 @@
                                 @media print {
                                     .referral-letter {
                                         margin: 0;
-                                        padding: 20px;
                                         box-shadow: none;
                                     }
 
@@ -445,18 +461,48 @@
                                         color: #000;
                                     }
                                 }
+.title{
+text-align: center;
+}
+.biodata p{
+padding: 10px 0;
+}
                                     </style>
                                 </head>
                                 <body>
-                                    <div>
-                                        <h4>
-                                            Referral Letter
-                                        </h4>
+<x-letterhead>
+                                    <h3 class="title">
+                Referral Letter
+            </h3>
+
+            <h4 style="margin-bottom: 10px;">Patient Biodata</h4>
+
+<div class="biodata">
+            <p>Name: {{ ($child->fullname->first_name ?? '') . ' ' . ($child->fullname->middle_name ?? '') . ' ' . ($child->fullname->last_name ?? '') }} </p>
+                                                        <p>Age: {{$child->age}} </p>
+                                                        <p>Clinical Number: {{$child->registration_number}}</p>
+                                                        <p>Contact Number(s): {{ implode(', ', $child->parents->pluck('telephone')->toArray())}}</p>
+                                                                        </div>
+
+                                                                        <div class="referral-letter">
+${referralLetterContent}
                                     </div>
-                                    <div class="patient">${patientDetails}</div>
-                                    <div class="referral-letter">
-                                    ${referralLetterContent}
-                                    </div>
+
+<div>
+                                    <h4 style="display:margin-top:20px">Requested by:</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p>Signature:</p>
+                <div style="display: flex; align-items: center">
+                <p>Stamp:</p>
+                <div style="border: 1px solid black; width: 200px; height: 100px; margin-left: 20px;">
+
+                </div>
+                </div>
+            </div>
+
+            <p>Name: </p>
+            </div>
+</x-letterhead>
                                 </body>
                                 </html>
                             `);
