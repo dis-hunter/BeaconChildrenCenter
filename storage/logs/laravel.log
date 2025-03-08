@@ -15702,3 +15702,9 @@ Thank you.
 [2025-03-08 11:04:17] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
 [2025-03-08 11:08:58] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
 [2025-03-08 11:09:46] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 11:17:05] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 11:18:05] local.INFO: Fetching general exam for registration number: 003-2025  
+[2025-03-08 11:18:06] local.INFO: No general exam data found for visit ID: 25  
+[2025-03-08 11:19:08] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 11:20:24] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 11:25:32] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 

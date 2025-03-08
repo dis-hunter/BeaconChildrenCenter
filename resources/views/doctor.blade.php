@@ -252,6 +252,7 @@ button:hover {
 
 <div class="floating-menu" id="floatingMenu">
   <a href="#triageExam">Triage Exam</a><div id="triageExam"></div>
+  <a href="#hpi">HPI</a><div id="hpi"></div>
   <a href="#EncounterSummary">Encounters Summary</a>
   <a href="#perinatalHistory">Perinatal History</a><div id="perinatalHistory"></div>
   <a href="#pastMedicalHistory">Past Medical History</a><div id="pastMedicalHistory"></div>
@@ -420,6 +421,7 @@ async function saveDoctorNotes() {
 <script src="{{ asset('js/recordResults.js') }}"></script>
 <script src="{{ asset('js/EncounterSummary.js') }}"></script>
 <script src="{{ asset('js/prescriptions.js') }}"></script>
+<script src="{{ asset('js/hpi.js') }}"></script>
 
 
 </body>
