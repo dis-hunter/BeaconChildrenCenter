@@ -15708,3 +15708,34 @@ Thank you.
 [2025-03-08 11:19:08] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
 [2025-03-08 11:20:24] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
 [2025-03-08 11:25:32] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 11:35:25] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:06:12] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:09:04] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:11:42] local.INFO: Registration number received: 003-2025  
+[2025-03-08 13:11:42] local.INFO: Validated data:  {"haematology":[],"hormoneTests":[],"biochemistry":[],"urine":[],"stool":[],"xray":["Humerus","Radius"],"mri":[],"ct":[],"genetic_tests":["Other"],"electrophysiology":[],"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null} 
+[2025-03-08 13:11:43] local.INFO: Investigation data to be saved:  {"haematology":[],"hormoneTests":[],"biochemistry":[],"urine":[],"stool":[],"xray":["Humerus","Radius"],"mri":[],"ct":[],"genetic_tests":["Other"],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null,"other_functional_tests":null} 
+[2025-03-08 13:12:20] local.INFO: Registration number received: 003-2025  
+[2025-03-08 13:12:20] local.INFO: Validated data:  {"haematology":[],"hormoneTests":[],"biochemistry":[],"urine":[],"stool":[],"xray":[],"mri":[],"ct":[],"genetic_tests":["Chromosomal microarray"],"electrophysiology":[],"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null} 
+[2025-03-08 13:12:21] local.INFO: Investigation data to be saved:  {"haematology":[],"hormoneTests":[],"biochemistry":[],"urine":[],"stool":[],"xray":[],"mri":[],"ct":[],"genetic_tests":["Chromosomal microarray"],"electrophysiology":[],"functional_tests":{"vanderbilt":null,"mchat":null,"ados":null,"molten":null,"grifiths":null,"senzeny":null,"learning":null,"sleep":null,"education":null,"other":null,"other_tests":null},"otherHaematology":null,"otherBiochemistry":null,"otherUrine":null,"otherStool":null,"other_functional_tests":null} 
+[2025-03-08 13:14:36] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:28:08] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:30:48] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:31:02] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:32:53] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:33:42] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:33:54] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-03-08 13:33:54] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-03-08 13:33:55] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-03-08 13:34:02] local.INFO: Fetched appointments for date: 2025-03-08 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-03-08 13:34:09] local.INFO: Fetching post-triage queue for Doctor ID: 2 on 2025-03-08  
+[2025-03-08 13:34:09] local.INFO: Fetched 2 patients for Doctor ID: 2  
+[2025-03-08 13:34:09] local.DEBUG: Processed Visit ID: 25 | Patient: Broski  Testing | Visit Type: Paediatric Consultation  
+[2025-03-08 13:34:09] local.DEBUG: Processed Visit ID: 24 | Patient: Bernado Gone Silva | Visit Type: Paediatric Consultation  
+[2025-03-08 13:34:14] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-03-08 13:34:14] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-03-08 13:34:14] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-03-08 13:34:22] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:36:14] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:37:15] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 13:37:28] local.INFO: Saving current concerns for registration number: 003-2025 {"data":{"data":{"Current_concerns":"lol"}}} 
+[2025-03-08 13:37:29] local.INFO: Current Concerns saved successfully for visit ID: 25  

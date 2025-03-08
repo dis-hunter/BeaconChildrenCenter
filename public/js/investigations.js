@@ -343,152 +343,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <textarea name="electrophysiology_other" rows="4" cols="50"></textarea>
           </div>
   
-          <div class="section-container">
-            <h4>Functional Test</h4>
-            <table>
-              <thead>
-                <tr>
-                  <th>Test</th>
-                  <th>Yes</th>
-                  <th>No</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Vanderbilt Forms</td>
-                  <td><input type="radio" name="functional_test_vanderbilt" value="yes"></td>
-                  <td><input type="radio" name="functional_test_vanderbilt" value="no"></td>
-                </tr>
-
-                <tr>
-                  <td>MCHAT</td>
-                  <td><input type="radio" name="functional_test_mchat" value="yes"></td>
-                  <td><input type="radio" name="functional_test_mchat" value="no"></td>
-                </tr>
-
-                <tr>
-                <td>Conners</td>
-                <td><input type="radio" name="functional_test_conners" value="yes"></td>
-                <td><input type="radio" name="functional_test_conners" value="no"></td>
-                </tr>
-
-                <tr>
-                <td>SNAP</td>
-                <td><input type="radio" name="functional_test_SNAP" value="yes"></td>
-                <td><input type="radio" name="functional_test_SNAP" value="no"></td>
-                </tr>
-
-                <tr>
-                  <td>ADOS II</td>
-                  <td><input type="radio" name="functional_test_ados" value="yes"></td>
-                  <td><input type="radio" name="functional_test_ados" value="no"></td>
-                </tr>
-                <tr>
-                  <td>Molten Assessment Scale</td>
-                  <td><input type="radio" name="functional_test_molten" value="yes"></td>
-                  <td><input type="radio" name="functional_test_molten" value="no"></td>
-                </tr>
-                <tr>
-                  <td>Griffiths III Scale</td>
-                  <td><input type="radio" name="functional_test_grifiths" value="yes"></td>
-                  <td><input type="radio" name="functional_test_grifiths" value="no"></td>
-                </tr>
-
-                <tr>
-                <td>Bayley Scale of Infant Development</td>
-                <td><input type="radio" name="functional_test_bayley" value="yes"></td>
-                <td><input type="radio" name="functional_test_bayley" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Wechsler Intelligence Scale for Children</td>
-                <td><input type="radio" name="functional_test_wechsler_intelligence" value="yes"></td>
-                <td><input type="radio" name="functional_test_wechsler_intelligence" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Wechsler Individual Tests</td>
-                <td><input type="radio" name="functional_test_wechsler_individual" value="yes"></td>
-                <td><input type="radio" name="functional_test_wechsler_individual" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Stanford Binet Intelligence Scale</td>
-                <td><input type="radio" name="functional_test_stanford" value="yes"></td>
-                <td><input type="radio" name="functional_test_stanford" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Cognitive Assessment System</td>
-                <td><input type="radio" name="functional_test_cognitive" value="yes"></td>
-                <td><input type="radio" name="functional_test_cognitive" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Differential Ability Scales</td>
-                <td><input type="radio" name="functional_test_differential" value="yes"></td>
-                <td><input type="radio" name="functional_test_differential" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Universal Nonverbal Intelligence</td>
-                <td><input type="radio" name="functional_test_universal" value="yes"></td>
-                <td><input type="radio" name="functional_test_universal" value="no"></td>
-                </tr>
-
-
-
-
-                <tr>
-                  <td>Senzeny Profile</td>
-                  <td><input type="radio" name="functional_test_senzeny" value="yes"></td>
-                  <td><input type="radio" name="functional_test_senzeny" value="no"></td>
-                </tr>
-                <tr>
-                  <td>Learning Disorder Tests</td>
-                  <td><input type="radio" name="functional_test_learning" value="yes"></td>
-                  <td><input type="radio" name="functional_test_learning" value="no"></td>
-                </tr>
-                <tr>
-                  <td>Sleep Studies (PSG)</td>
-                  <td><input type="radio" name="functional_test_sleep" value="yes"></td>
-                  <td><input type="radio" name="functional_test_sleep" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>Vineland Adaptive Behaviour Skills</td>
-                <td><input type="radio" name="functional_test_vineland" value="yes"></td>
-                <td><input type="radio" name="functional_test_vineland" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>HINE Tests</td>
-                <td><input type="radio" name="functional_test_hine" value="yes"></td>
-                <td><input type="radio" name="functional_test_hine" value="no"></td>
-                </tr>
-
-                 <tr>
-                <td>HOME Scales</td>
-                <td><input type="radio" name="functional_test_HOME" value="yes"></td>
-                <td><input type="radio" name="functional_test_HOME" value="no"></td>
-                </tr>
-
-                <tr>
-                  <td>Education Assessment</td>
-                  <td><input type="radio" name="functional_test_education" value="yes"></td>
-                  <td><input type="radio" name="functional_test_education" value="no"></td>
-                </tr>
-
-                <tr>
-                  <td>Other</td>
-                  <td><input type="radio" name="functional_test_other" id="other-functional-checkbox" value="yes"></td>
-                  <td><input type="radio" name="functional_test_other" value="no"></td>
-                </tr>
-              </tbody>
-            </table>
-            <textarea id="other-functional-tests" rows="4" cols="50"></textarea>
-          </div>
-  
           <button type="submit">Submit Request</button>
           <div class="loading-indicator"></div>
         </div>
@@ -509,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setupToggleVisibility('biochemistry-other-checkbox', 'biochemistry-other-textarea');
       setupToggleVisibility('urine-other-checkbox', 'urine-other-textarea');
       setupToggleVisibility('stool-other-checkbox', 'stool-other-textarea');
-      setupToggleVisibility('other-functional-checkbox', 'other-functional-tests');
+     
   
       // Attach the submit event to save data
       const submitButton = document.querySelector('button[type="submit"]');
@@ -532,12 +386,12 @@ document.addEventListener('DOMContentLoaded', () => {
           ct: getCheckedValues('ct'),
           geneticTests: getCheckedValues('genetic_tests'),
           electrophysiology: getCheckedValues('electrophysiology'),
-          functionalTests: getFunctionalTests(),
+          
           otherHaematology: document.getElementById('haematology-other-textarea').value.trim(),
           otherBiochemistry: document.getElementById('biochemistry-other-textarea').value.trim(),
           otherUrine: document.getElementById('urine-other-textarea').value.trim(),
           otherStool: document.getElementById('stool-other-textarea').value.trim(),
-          otherFunctionalTests: document.getElementById('other-functional-tests').value.trim(),
+          
         };
   
         console.log('Collected Data: ', collectedData); // Debugging log
@@ -553,12 +407,10 @@ document.addEventListener('DOMContentLoaded', () => {
           ct: collectedData.ct,
           genetic_tests: collectedData.geneticTests,
           electrophysiology: collectedData.electrophysiology,
-          functional_tests: collectedData.functionalTests,
           otherHaematology: collectedData.otherHaematology,
           otherBiochemistry: collectedData.otherBiochemistry,
           otherUrine: collectedData.otherUrine,
           otherStool: collectedData.otherStool,
-          other_functional_tests: collectedData.otherFunctionalTests,
         };
   
         // Send data to the server
@@ -572,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Helper function to toggle visibility of sub-options
     function setupToggleVisibility(triggerId, targetId) {
-      const trigger = document.getElementById(triggerId);
+      const trigger = document.getElementById(triggerId); 
       const target = document.getElementById(targetId);
   
       if (trigger && target) {
@@ -592,28 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return values;
       }
     
-      // Helper function to get the selected functional tests
-      function getFunctionalTests() {
-        return {
-          vanderbilt: getRadioValue('functional_test_vanderbilt'),
-          mchat: getRadioValue('functional_test_mchat'),
-          ados: getRadioValue('functional_test_ados'),
-          molten: getRadioValue('functional_test_molten'),
-          grifiths: getRadioValue('functional_test_grifiths'),
-          senzeny: getRadioValue('functional_test_senzeny'),
-          learning: getRadioValue('functional_test_learning'),
-          sleep: getRadioValue('functional_test_sleep'),
-          education: getRadioValue('functional_test_education'),
-          other: getRadioValue('functional_test_other'),
-          other_tests: document.getElementById('other-functional-tests').value.trim(),
-        };
-      }
-    
-      // Helper function to get the selected radio button value
-      function getRadioValue(name) {
-        const radioButton = document.querySelector(`input[name="${name}"]:checked`);
-        return radioButton ? radioButton.value : null;
-      }
     
       // Function to send the collected data to the server
       function sendInvestigationsData(registrationNumber, postData) {

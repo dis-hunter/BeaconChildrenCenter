@@ -148,6 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/diagnosis/{registrationNumber}', 'getDiagnosis');
             Route::post('/diagnosis/{registrationNumber}', 'saveDiagnosis');
             Route::get('/get-triage-data/{registrationNumber}', 'getTriageData');
+            Route::post('/current-concerns/{registrationNumber}', 'saveCurrentConcerns');
         });
 
         Route::controller(GeneralExamController::class)->group(function () {

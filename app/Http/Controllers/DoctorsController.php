@@ -210,6 +210,63 @@ class DoctorsController extends Controller
         // Return null if no milestone is found
         return response()->json(['data' => $milestone ? $milestone->data : null], 200);
     }
+
+    //Save current concerns
+
+    public function saveCurrentConcerns(Request $request, $registrationNumber)
+    {
+       
+
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'data' => 'required|array',
+        ]);
+
+        // Fetch the child record using the registration number
+        $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
+
+        if (!$child) {
+            Log::warning("Child not found for registration number: {$registrationNumber}");
+            return response()->json(['message' => 'Child not found'], 404);
+        }
+
+        // Fetch the latest visit record for the child
+        $visit = DB::table('visits')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if (!$visit) {
+            Log::warning("No visits found for child ID: {$child->id}");
+            return response()->json(['message' => 'No visits found for the child'], 404);
+        }
+
+        $staffId = auth()->user()->id;
+
+        try {
+            // Create or update the General Exam record for the visit
+            DB::table('current_concerns')->updateOrInsert(
+                ['visit_id' => $visit->id], // Match on visit_id
+                [
+                    'child_id' => $child->id,
+                    'staff_id' => $staffId,
+                    'data' => json_encode($validated['data']), // Ensure data is JSON encoded
+                    'updated_at' => now(),
+                    'created_at' => now(), // Used only when inserting
+                ]
+            );
+
+            
+
+            return response()->json(['message' => 'Current Concerns saved or updated successfully!']);
+        } catch (\Exception $e) {
+            Log::error("Failed to save current concerns", ['error' => $e->getMessage()]);
+            return response()->json([
+                'message' => 'Failed to save or update HPI',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
     
     
     public function saveMilestones(Request $request, $registrationNumber)

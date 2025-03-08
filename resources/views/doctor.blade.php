@@ -259,11 +259,13 @@ button:hover {
   <a href="#devMilestones">Developmental Milestones</a><div id="devMilestones"></div>
   <a href="#behaviourAssessment">Behaviour Assessment</a> <div id="behaviourAssessment"></div>
   <a href="#familyAndSocial">Family and Social History</a><div id="familyAndSocial"></div>
+  <a href="#nutrition">Nutrition/Immunizations</a><div id="nutrition"></div>
   <a href="#generalExam">General Examination</a><div id="generalExam"></div>
   <a href="#Examination">Systemic Examination</a><div id="Examination"></div>
   <a href="#devAssesment">Developmental Assessment</a><div id="devAssesment"></div>
   <a href="#diagnosis">Diagnoses</a><div id="diagnosis"></div>
   <a href="#investigations">Investigations</a><div id="investigations"></div>
+  <a href="#functionalTests">Functional Tests</a><div id="functionalTests"></div>
   <a href="#recordResults">Record Results</a><div id="recordResults"></div>
   <a href="#carePlan">Plan of Action</a><div id="carePlan"></div>
   <a href="#prescriptions">Prescriptions</a><div id="prescriptions"></div>
@@ -422,6 +424,8 @@ async function saveDoctorNotes() {
 <script src="{{ asset('js/EncounterSummary.js') }}"></script>
 <script src="{{ asset('js/prescriptions.js') }}"></script>
 <script src="{{ asset('js/hpi.js') }}"></script>
+<script src="{{ asset('js/nutrition.js') }}"></script>
+<script src="{{ asset('js/functionalTests.js') }}"></script>
 
 
 </body>
