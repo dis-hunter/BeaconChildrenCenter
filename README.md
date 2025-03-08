@@ -25,12 +25,14 @@ Beacon is a comprehensive web application designed to streamline operations in a
 ### 🏠 Home Page
 - The entry point to all the application's features.
 - Displays navigation links to different modules based on user roles.
-- [📸 Add Screenshot Here]
+- ![image](https://github.com/user-attachments/assets/85da6c88-2031-42a7-b60c-7b69387ecd3c)
+
 
 ### 🔐 Login Page
 - Secure authentication for staff members.
 - Supports role-based access control.
-- [📸 Add Screenshot Here]
+- ![image](https://github.com/user-attachments/assets/60eab34d-c1d7-40bb-b421-750643fcbe74)
+
 
 ### 🏥 Receptionist Dashboard
 - Manage patient appointments.
@@ -100,7 +102,6 @@ To be determined.
 ---
 
 **📌 Note:** Add images/screenshots to the specified placeholders to provide better visualization of the system's interface and features.
-![image](https://github.com/user-attachments/assets/a565107f-9506-4d29-8474-bc0ce0642c0e)
 
 
 
