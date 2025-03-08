@@ -35,40 +35,53 @@ Beacon is a comprehensive web application designed to streamline operations in a
 
 
 ### 🏥 Receptionist Dashboard
+![image](https://github.com/user-attachments/assets/b11d7aef-1ccf-4af5-9d80-8481d2b15546)
+
 - Manage patient appointments.
+- ![image](https://github.com/user-attachments/assets/47c314e4-b0cb-4a8d-96ee-94d53c0304c2)
+
 - Track invoices and payments.
-- [📸 Add Screenshot Here]
+- ![image](https://github.com/user-attachments/assets/60dbe3a8-a64c-4ea2-8a34-316f672ade1c)
+
 
 ### 🩺 Nurse Dashboard
 - Conduct initial triage for incoming patients.
 - Record vital signs and preliminary assessments.
-- [📸 Add Screenshot Here]
+- ![image](https://github.com/user-attachments/assets/02fd5f98-2199-4304-b3c6-f577dac4a134)
+
 
 ### 👨‍⚕️ Doctor Dashboard
 - Select patients for consultations.
 - Review patient history and assessments.
-- [📸 Add Screenshot Here]
+![image](https://github.com/user-attachments/assets/415f414c-7d34-4850-8887-069bc5b50bdd)
+
+
 
 ### 🏥 Doctor Consultation Dashboard
 - Conduct detailed assessments for children.
 - Update medical records and prescribe treatments.
-- [📸 Add Screenshot Here]
+![image](https://github.com/user-attachments/assets/1dbdf39e-57d5-4472-a9fd-e9484f16a4f0)
+
 
 ### 🧑‍⚕️ Therapist Dashboard
 - Manage therapy sessions.
 - Assign therapy programs and track progress.
-- [📸 Add Screenshot Here]
+![image](https://github.com/user-attachments/assets/7f2a6d3e-c690-44bd-89ef-2fb516efa922)
+
 
 ### 🏥 Therapy Assessment Dashboard
 - Perform in-depth therapy evaluations.
 - Document improvements and recommendations.
-- [📸 Add Screenshot Here]
+![image](https://github.com/user-attachments/assets/48ddb42e-4853-4a5f-ba3e-f77ca709dd23)
+
 
 ### 📊 Admin Dashboard
 - View system-wide analytics.
 - Manage staff accounts and permissions.
 - Oversee all operations and reports.
-- [📸 Add Screenshot Here]
+- ![image](https://github.com/user-attachments/assets/c72e4f17-c406-43f6-83f5-b34efe9f6a36)
+- ![image](https://github.com/user-attachments/assets/a014f090-6702-49ed-8125-5836aa03631b)
+
 
 ## Sponsors
 
@@ -98,74 +111,4 @@ This project is maintained as a **private repository** for security reasons.
 ## License
 
 To be determined.
-
----
-
-**📌 Note:** Add images/screenshots to the specified placeholders to provide better visualization of the system's interface and features.
-
-
-
-### 🩺 Nurse Dashboard
-- Conduct initial triage for incoming patients.
-- Record vital signs and preliminary assessments.
-- [📸 Add Screenshot Here]
-
-### 👨‍⚕️ Doctor Dashboard
-- Select patients for consultations.
-- Review patient history and assessments.
-- [📸 Add Screenshot Here]
-
-### 🏥 Doctor Consultation Dashboard
-- Conduct detailed assessments for children.
-- Update medical records and prescribe treatments.
-- [📸 Add Screenshot Here]
-
-### 🧑‍⚕️ Therapist Dashboard
-- Manage therapy sessions.
-- Assign therapy programs and track progress.
-- [📸 Add Screenshot Here]
-
-### 🏥 Therapy Assessment Dashboard
-- Perform in-depth therapy evaluations.
-- Document improvements and recommendations.
-- [📸 Add Screenshot Here]
-
-### 📊 Admin Dashboard
-- View system-wide analytics.
-- Manage staff accounts and permissions.
-- Oversee all operations and reports.
-- [📸 Add Screenshot Here]
-
-## Sponsors
-
-Payed Partnership.
-
-🚗 **Buy me a Porsche 911 GT3RS**
-
-### Premium Contributors
-
-- **[Oringe](https://github.com/victorgpt0)**  
-- **[Victor](https://github.com/victorgpt0)**  
-- **[Joy](https://github.com/victorgpt0)**  
-- **[Gift](https://github.com/victorgpt0)**  
-- **[Sharon](https://github.com/victorgpt0)**  
-- **[Tobiko](https://github.com/victorgpt0)**  
-- **[ChatGPT](https://chatgpt.com/)**  
-- **[Laravel Docs](https://laravel.com/)**  
-
-## Code of Conduct
-
-We strive to maintain a positive and respectful environment for all contributors and users.
-
-## Security Vulnerabilities
-
-This project is maintained as a **private repository** for security reasons.
-
-## License
-
-To be determined.
-
----
-
-**📌 Note:** Add images/screenshots to the specified placeholders to provide better visualization of the system's interface and features.
 
