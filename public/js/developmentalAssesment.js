@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     devAssesmentLink.addEventListener('click', async (event) => {
         event.preventDefault();
-        console.log('Development Assessment link clicked.');
+       
   
         const mainContent = document.querySelector('.main');
   
@@ -53,69 +53,96 @@ document.addEventListener('DOMContentLoaded', () => {
   
         try {
             const registrationNumber = window.location.pathname.split('/').pop();
-            console.log('Registration number extracted:', registrationNumber);
+           
   
             // Fetch the Development Assessment data
             const response = await fetch(`/development-assessment/${registrationNumber}`);
             const result = await response.json();
   
-            console.log('Fetch response:', result);
+           
+
+            // Fill Chronological Age
+            const chronologicalAgeMonths = result?.chronologicalAgeMonths ?? 'N/A';
+           
   
             // Replace content with form once loaded
             mainContent.innerHTML = `
-                <div class="container">
-                <head> 
-                <link rel="stylesheet" href="../css/devAssesment.css">
-                </head>
-  
-                    <h2>Developmental Assessment</h2>
-                    <div id="chronologicalAge">
-                        <strong>Chronological Age: </strong> <span id="ageDisplay"></span> months
-                    </div>
-                    <div class="sections">
-                        <div class="section">
-                            <div class="section-title">Gross Motor</div>
-                            <textarea id="grossMotor" placeholder="Enter details..."></textarea>
-                            <div class="dev-age-container">
-                                <div class="dev-age-heading">Dev Age</div>
-                                <input id="grossDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="section-title">Fine Motor</div>
-                            <textarea id="fineMotor" placeholder="Enter details..."></textarea>
-                            <div class="dev-age-container">
-                                <div class="dev-age-heading">Dev Age</div>
-                                <input id="fineDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="section-title">Speech/Language</div>
-                            <textarea id="speech" placeholder="Enter details..."></textarea>
-                            <div class="dev-age-container">
-                                <div class="dev-age-heading">Dev Age</div>
-                                <input id="speechDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="section-title">Self Care</div>
-                            <textarea id="selfCare" placeholder="Enter details..."></textarea>
-                            <div class="dev-age-container">
-                                <div class="dev-age-heading">Dev Age</div>
-                                <input id="selfDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="section-title">Cognitive</div>
-                            <textarea id="cognitive" placeholder="Enter details..."></textarea>
-                            <div class="dev-age-container">
-                                <div class="dev-age-heading">Dev Age</div>
-                                <input id="cognitiveDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
-                            </div>
-                        </div>
-                    </div>
-                    <button style="background-color:#007bff" type="submit" class="save-btn">Save</button>
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developmental Assessment</title>
+    <link rel="stylesheet" href="../css/devAssesment.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Developmental Assessment</h2>
+        <div id="chronologicalAge">
+            <strong>Chronological Age:</strong> <span>${chronologicalAgeMonths}</span> months
+        </div>
+
+        <div class="sections">
+            <div class="section">
+                <div class="section-left">
+                    <div class="section-title">Gross Motor</div>
+                    <textarea id="grossMotor" placeholder="Enter details..."></textarea>
                 </div>
+                <div class="dev-age-container">
+                    <div class="dev-age-heading">Dev Age</div>
+                    <input id="grossDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-left">
+                    <div class="section-title">Fine Motor</div>
+                    <textarea id="fineMotor" placeholder="Enter details..."></textarea>
+                </div>
+                <div class="dev-age-container">
+                    <div class="dev-age-heading">Dev Age</div>
+                    <input id="fineDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-left">
+                    <div class="section-title">Speech/Language</div>
+                    <textarea id="speech" placeholder="Enter details..."></textarea>
+                </div>
+                <div class="dev-age-container">
+                    <div class="dev-age-heading">Dev Age</div>
+                    <input id="speechDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-left">
+                    <div class="section-title">Social/Emotional/Self Care</div>
+                    <textarea id="selfCare" placeholder="Enter details..."></textarea>
+                </div>
+                <div class="dev-age-container">
+                    <div class="dev-age-heading">Dev Age</div>
+                    <input id="selfDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-left">
+                    <div class="section-title">Cognitive/Adaptive Skills</div>
+                    <textarea id="cognitive" placeholder="Enter details..."></textarea>
+                </div>
+                <div class="dev-age-container">
+                    <div class="dev-age-heading">Dev Age</div>
+                    <input id="cognitiveDevAge" type="text" class="dev-age-input" placeholder="Enter developmental age">
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="save-btn">Save</button>
+    </div>
+</body>
+</html>
             `;
   
             // Pre-fill form data if available
@@ -134,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } = result.data;
   
                 // Fill Chronological Age
-                const chronologicalAge = result.chronologicalAgeMonths || '';
-                document.getElementById('ageDisplay').textContent = chronologicalAge;
+                const chronologicalAgeMonths = result?.chronologicalAgeMonths ?? 'N/A';
+        
   
                 // Check if the form fields exist before trying to populate them
                 try {

@@ -4,27 +4,48 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DevelopmentAssessmentController extends Controller
 {
     /**
      * Fetch Development Assessment data for the latest visit based on registration number.
      */
+ 
+
+    
     public function getDevelopmentAssessment($registrationNumber)
     {
         // Fetch the child record using the registration number
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
     
         if (!$child) {
+            Log::error("Child with registration number $registrationNumber not found.");
             return response()->json(['message' => 'Child not found'], 404);
         }
+    
+        // Logging the child's DOB
+        Log::info("Child found: ID = {$child->id}, DOB = {$child->dob}");
     
         // Calculate the chronological age in months
         $dob = $child->dob; // Assuming 'dob' is in 'YYYY-MM-DD' format
         $birthDate = new \DateTime($dob);
         $currentDate = new \DateTime();
+    
+        // Logging the current date
+        Log::info("Current Date: " . $currentDate->format('Y-m-d'));
+    
+        // Calculate the difference
         $interval = $birthDate->diff($currentDate);
+    
+        // Logging the difference in years and months
+        Log::info("Age difference: {$interval->y} years, {$interval->m} months");
+    
+        // Convert age to months
         $chronologicalAgeMonths = ($interval->y * 12) + $interval->m; // Years to months + remaining months
+    
+        // Logging the final chronological age in months
+        Log::info("Chronological Age (Months): $chronologicalAgeMonths");
     
         // Fetch the latest visit record for the child
         $visit = DB::table('visits')
@@ -33,18 +54,26 @@ class DevelopmentAssessmentController extends Controller
             ->first();
     
         if (!$visit) {
+            Log::error("No visits found for child ID: {$child->id}");
             return response()->json(['message' => 'No visits found for the child'], 404);
         }
     
+        Log::info("Latest visit found: Visit ID = {$visit->id}, Created At = {$visit->created_at}");
+    
         // Fetch the Development Assessment record for the visit
-        $developmentAssessment = DB::table('development_assessment')->where('child_id', $child->id)->orderBy('created_at','desc')->first();
+        $developmentAssessment = DB::table('development_assessment')
+            ->where('child_id', $child->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
     
         if ($developmentAssessment) {
+            Log::info("Development Assessment found for child ID: {$child->id}");
             return response()->json([
                 'data' => json_decode($developmentAssessment->data),
                 'chronologicalAgeMonths' => $chronologicalAgeMonths, // Added chronological age
             ], 200);
         } else {
+            Log::warning("No Development Assessment found for child ID: {$child->id}");
             return response()->json([
                 'data' => null,
                 'message' => 'No Development Assessment found',
@@ -52,6 +81,7 @@ class DevelopmentAssessmentController extends Controller
             ], 200);
         }
     }
+    
     
 
     /**

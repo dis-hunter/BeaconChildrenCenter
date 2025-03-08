@@ -15540,3 +15540,151 @@ Thank you.
 [2025-03-08 09:36:55] local.INFO: Parent Data for Child 1: {"Father":{"fullname":"John Junior Smith","telephone":"09292929292","email":"oringzzemmanuel@gmail.com"}} 
 [2025-03-08 09:36:55] local.INFO: Fetching CNS data for child_id: 1  
 [2025-03-08 09:36:56] local.INFO: Latest CNS data found: {"cns_id":3,"visit_id":24,"updated_at":"2025-03-08 09:36:36"} 
+[2025-03-08 09:41:05] local.INFO: Parent Data for Child 1: {"Father":{"fullname":"John Junior Smith","telephone":"09292929292","email":"oringzzemmanuel@gmail.com"}} 
+[2025-03-08 09:47:37] local.INFO: Parent Data for Child 1: {"Father":{"fullname":"John Junior Smith","telephone":"09292929292","email":"oringzzemmanuel@gmail.com"}} 
+[2025-03-08 09:51:18] local.INFO: Child found: ID = 1, DOB = 2025-02-06  
+[2025-03-08 09:51:18] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 09:51:18] local.INFO: Age difference: 0 years, 1 months  
+[2025-03-08 09:51:18] local.INFO: Chronological Age (Months): 1  
+[2025-03-08 09:51:19] local.INFO: Latest visit found: Visit ID = 24, Created At = 2025-03-08 08:53:34  
+[2025-03-08 09:51:19] local.INFO: Development Assessment found for child ID: 1  
+[2025-03-08 09:54:39] local.INFO: Received Registration Number: 003-2025  
+[2025-03-08 09:55:15] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-03-08 09:55:15] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-03-08 09:55:15] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-03-08 09:55:21] local.INFO: Fetched appointments for date: 2025-03-08 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-03-08 09:55:27] local.INFO: Fetching post-triage queue for Doctor ID: 2 on 2025-03-08  
+[2025-03-08 09:55:27] local.INFO: Fetched 2 patients for Doctor ID: 2  
+[2025-03-08 09:55:27] local.DEBUG: Processed Visit ID: 25 | Patient: Broski  Testing | Visit Type: Paediatric Consultation  
+[2025-03-08 09:55:27] local.DEBUG: Processed Visit ID: 24 | Patient: Bernado Gone Silva | Visit Type: Paediatric Consultation  
+[2025-03-08 09:55:32] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-03-08 09:55:32] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-03-08 09:55:32] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-03-08 09:55:40] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 09:56:05] local.INFO: saveCnsData called with registration number: 003-2025  
+[2025-03-08 09:56:07] local.INFO: Executed Queries: [{"query":"select * from \"children\" where \"registration_number\" = ? limit 1","bindings":["003-2025"],"time":518.3},{"query":"select * from \"visits\" where \"child_id\" = ? order by \"created_at\" desc limit 1","bindings":[3],"time":531.59},{"query":"select exists(select * from \"cns\" where (\"visit_id\" = ? and \"child_id\" = ? and \"doctor_id\" = ?)) as \"exists\"","bindings":[25,3,2],"time":519.52},{"query":"insert into \"cns\" (\"visit_id\", \"child_id\", \"doctor_id\", \"data\", \"updated_at\", \"created_at\") values (?, ?, ?, ?, ?, COALESCE((SELECT created_at FROM cns WHERE visit_id = 25 AND child_id = 3 LIMIT 1), NOW()))","bindings":[25,3,2,"{\"avpu\":\"A\",\"vision\":null,\"hearing\":null,\"cranialNerves\":null,\"ambulation\":null,\"cardiovascular\":null,\"cns\":\"lol\",\"abdomen\":null,\"respiratory\":null,\"musculoskeletal\":null,\"other\":null}","2025-03-08T06:56:06.076672Z"],"time":673.05}]  
+[2025-03-08 09:56:16] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 09:56:38] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 09:56:38] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 09:56:38] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 09:56:38] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 09:56:39] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 09:56:39] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 09:58:26] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 09:58:40] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 09:58:40] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 09:58:40] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 09:58:40] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 09:58:41] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 09:58:41] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 09:59:10] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 09:59:10] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 09:59:10] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 09:59:10] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 09:59:11] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 09:59:11] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:03:55] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:03:55] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:03:55] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:03:55] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:03:55] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:03:56] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:04:46] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:04:56] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:04:56] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:04:56] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:04:56] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:04:57] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:04:58] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:05:38] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:05:51] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:05:51] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:05:51] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:05:51] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:05:51] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:05:52] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:09:26] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:09:26] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:09:26] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:09:26] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:09:27] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:09:27] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:10:01] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:10:13] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:10:13] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:10:13] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:10:13] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:10:14] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:10:14] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:10:55] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:10:55] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:10:55] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:10:55] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:10:55] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:10:56] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:11:24] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:11:24] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:11:24] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:11:24] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:11:24] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:11:25] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:12:06] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-03-08 10:12:06] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-03-08 10:12:07] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-03-08 10:12:13] local.INFO: Fetched appointments for date: 2025-03-08 {"appointments":{"Illuminate\\Database\\Eloquent\\Collection":[]}} 
+[2025-03-08 10:12:18] local.INFO: Authenticated Doctor: {"doctor":{"App\\Models\\User":{"id":2,"fullname":{"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"},"telephone":"09292929292","email":"edith@gmail.com","email_verified_at":null,"staff_no":"002-2025","current_team_id":null,"profile_photo_path":null,"gender_id":2,"role_id":2,"specialization_id":1,"is_admin":false,"created_at":"2025-02-27T05:12:03.000000Z","updated_at":"2025-02-27T05:12:03.000000Z","profile_photo_url":"https://ui-avatars.com/api/?name=E+O&color=FFFFFF&background=000000"}}} 
+[2025-03-08 10:12:18] local.INFO: Fullname is already an object: {"first_name":"Edith","middle_name":"Magunga","last_name":"Oringe"} 
+[2025-03-08 10:12:19] local.INFO: Doctor specialization found: {"specialization":"Pediatrician"} 
+[2025-03-08 10:12:59] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:13:14] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:13:14] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:13:14] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:13:14] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:13:15] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:13:15] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:15:56] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:16:31] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:16:31] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:16:31] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:16:31] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:16:32] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:16:32] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:21:36] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:21:54] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:21:54] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:21:54] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:21:54] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:21:54] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:21:55] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:22:24] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:22:24] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:22:24] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:22:24] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:22:24] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:22:25] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:23:14] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:23:23] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:23:23] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:23:23] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:23:23] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:23:24] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:23:24] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:24:45] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:24:45] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:24:45] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:24:45] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:24:45] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:24:46] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:25:37] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:25:37] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:25:37] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:25:37] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:25:37] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:25:38] local.WARNING: No Development Assessment found for child ID: 3  
+[2025-03-08 10:26:41] local.INFO: Parent Data for Child 3: {"Mother":{"fullname":"Tester  Testing","telephone":"0764556455","email":"test@gmail.com"}} 
+[2025-03-08 10:27:00] local.INFO: Child found: ID = 3, DOB = 2004-02-11  
+[2025-03-08 10:27:00] local.INFO: Current Date: 2025-03-08  
+[2025-03-08 10:27:00] local.INFO: Age difference: 21 years, 0 months  
+[2025-03-08 10:27:00] local.INFO: Chronological Age (Months): 252  
+[2025-03-08 10:27:00] local.INFO: Latest visit found: Visit ID = 25, Created At = 2025-03-08 09:54:15  
+[2025-03-08 10:27:01] local.WARNING: No Development Assessment found for child ID: 3  
