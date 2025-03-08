@@ -135,7 +135,7 @@ Payed Partnership.
 
 ### Premium Contributors
 
-- **[Oringe](https://github.com/victorgpt0)**  
+- **[Oringe](https://github.com/dis-hunter)**  
 - **[Victor](https://github.com/victorgpt0)**  
 - **[Joy](https://github.com/victorgpt0)**  
 - **[Gift](https://github.com/victorgpt0)**  
