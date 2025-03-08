@@ -103,3 +103,33 @@ h1 {
 .diagnosis-item button:hover {
   color: #c82333; /* Darker red on hover */
 }
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 35px; /* Space for the icon */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 30px;
+  top: 15px;
+  font-size:20px;
+  cursor: pointer;
+  color: #555;
+}
+.loading-spinner {
+  font-size: 16px;
+  color: #007bff;
+  margin-left: 5px;
+  display: none; /* Hidden by default */
+}
+

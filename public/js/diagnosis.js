@@ -1,71 +1,72 @@
 function search(event) {
-    event.preventDefault();
+  event.preventDefault();
+  const searchTerm = document.getElementById('searchInput').value;
+  const resultsDiv = document.getElementById('results');
+  const searchLoading = document.getElementById('searchLoading'); // New loading indicator
   
-    const searchTerm = document.getElementById('searchInput').value;
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '<div class="loading">Loading...</div>';
-  
-    fetch('/search', {
+  // Show new loading indicator and set "Loading..." in results
+  searchLoading.style.display = 'inline-block';
+  resultsDiv.innerHTML = '<div class="loading">Loading...</div>';
+
+  fetch('/search', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       },
-      body: new URLSearchParams({
-        'search_term': searchTerm
-      })
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log(data);
-        resultsDiv.innerHTML = '';
-  
-        if (data.error) {
+      body: new URLSearchParams({ 'search_term': searchTerm })
+  })
+  .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+  })
+  .then(data => {
+      console.log(data);
+      resultsDiv.innerHTML = '';
+
+      if (data.error) {
           resultsDiv.textContent = data.error;
-        } else if (data.entities && data.entities.length > 0) {
+      } else if (data.entities && data.entities.length > 0) {
           data.entities.forEach(disease => {
-            const resultItem = document.createElement('div');
-            resultItem.classList.add('result-item');
-            const title = disease.title.replace(/<[^>]+>/g, '');
-  
-            resultItem.addEventListener('click', () => {
-              const searchInput = document.getElementById('searchInput');
-              const selectedDiagnosesDiv = document.getElementById('selectedDiagnoses');
-  
-              const diagnosisItem = document.createElement('div');
-              diagnosisItem.classList.add('diagnosis-item');
-              diagnosisItem.textContent = title + ' (Code: ' + disease.code + ')';
-  
-              const deleteButton = document.createElement('button');
-              deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
-              deleteButton.addEventListener('click', () => {
-                selectedDiagnosesDiv.removeChild(diagnosisItem);
+              const resultItem = document.createElement('div');
+              resultItem.classList.add('result-item');
+              const title = disease.title.replace(/<[^>]+>/g, '');
+
+              resultItem.addEventListener('click', () => {
+                  const selectedDiagnosesDiv = document.getElementById('selectedDiagnoses');
+                  const diagnosisItem = document.createElement('div');
+                  diagnosisItem.classList.add('diagnosis-item');
+                  diagnosisItem.textContent = `${title} (Code: ${disease.code})`;
+
+                  const deleteButton = document.createElement('button');
+                  deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                  deleteButton.addEventListener('click', () => {
+                      selectedDiagnosesDiv.removeChild(diagnosisItem);
+                  });
+
+                  diagnosisItem.appendChild(deleteButton);
+                  selectedDiagnosesDiv.appendChild(diagnosisItem);
+                  document.getElementById('searchInput').value = '';
               });
-              diagnosisItem.appendChild(deleteButton);
-  
-              selectedDiagnosesDiv.appendChild(diagnosisItem);
-  
-              searchInput.value = '';
-            });
-  
-            resultItem.innerHTML = `<span class="result-title">${title}</span> (Code: ${disease.code})`;
-            resultsDiv.appendChild(resultItem);
+
+              resultItem.innerHTML = `<span class="result-title">${title}</span> (Code: ${disease.code})`;
+              resultsDiv.appendChild(resultItem);
           });
-        } else {
+      } else {
           resultsDiv.textContent = "No results found.";
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        resultsDiv.innerHTML = '<div class="error">An error occurred.</div>';
-      });
-  }
-  
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      resultsDiv.innerHTML = '<div class="error">An error occurred.</div>';
+  })
+  .finally(() => {
+      searchLoading.style.display = 'none'; // Hide new loading indicator when request completes
+  });
+}
+
+
+
   const diagnosis = document.querySelector('.floating-menu a[href="#diagnosis"]');
   
   diagnosis.addEventListener('click', (event) => {
@@ -82,19 +83,26 @@ function search(event) {
   <h1>Diagnosis</h1>
   <form id="searchForm">
     <div class="search-container"> 
-      <label for="searchInput">Primary Diagnosis:</label>
-      <input type="text" id="searchInput" placeholder="Search for a disease...">
-      <div id="resultsContainer">
-        <div id="results"></div>
-      </div>
+        <label for="searchInput">Primary Diagnosis:</label>
+        <div class="search-input-wrapper">
+    <input type="text" id="searchInput" placeholder="Search for a disease...">
+    <i class="fas fa-search search-icon" id="searchIcon"></i>
+    <span id="searchLoading" class="loading-spinner" style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i>
+    </span>
+</div>
+
+        <div id="resultsContainer">
+            <div id="results"></div>
+        </div>
     </div>
     <div class="selected-diagnoses-container"> 
-      <label for="selectedDiagnoses">Selected Diagnoses:</label>
-      <div id="selectedDiagnoses"></div>
+        <label for="selectedDiagnoses">Selected Diagnoses:</label>
+        <div id="selectedDiagnoses"></div>
     </div>
-    <button style="background-color:#007bff; font-size:15px;" type="submit">Search</button>
-    <button type="button" id="saveDiagnosis" style="font-size:15px;" >Save</button>
-  </form>
+    <button type="button" id="saveDiagnosis" style="font-size:15px;">Save</button>
+</form>
+
 </div>
     `;
   
@@ -103,7 +111,23 @@ function search(event) {
     const saveButton = document.getElementById('saveDiagnosis');
     const searchInput = document.getElementById('searchInput'); // Get the search input element
   
-    document.getElementById('searchForm').addEventListener('submit', search);
+   
+    document.getElementById('searchIcon').addEventListener('click', (event) => {
+      event.preventDefault();
+      search(event); // No need to manually set loading indicator here
+  });
+  
+  
+  
+  
+  // Allow pressing "Enter" to trigger the search
+  document.getElementById('searchInput').addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+          event.preventDefault();
+          search(event);
+      }
+  });
+  
   
     // Add event listener for Enter key press in the search input
     searchInput.addEventListener('keypress', (event) => {
