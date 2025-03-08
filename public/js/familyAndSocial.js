@@ -76,12 +76,12 @@ async function loadFamilyAndSocialHistoryForm(mainContent, registrationNumber) {
                 <h2>Family and Social History</h2>
 
                 <div class="section">
-                    <div class="section-title">Family Composition</div>
+                    <div class="section-title">Family History</div>
                     <textarea id="familyComposition"></textarea>
                 </div>
 
                 <div class="section">
-                    <div class="section-title">Family Health/Social</div>
+                    <div class="section-title">Social History</div>
                     <textarea id="familyHealthSocial"></textarea>
                 </div>
 
@@ -165,8 +165,8 @@ async function loadFamilyAndSocialHistory(registrationNumber) {
 
         if (data && data.data) {
             const history = data.data;
-            document.getElementById("familyComposition").value = history.FamilyComposition || "";
-            document.getElementById("familyHealthSocial").value = history.FamilyHealthSocial || "";
+            document.getElementById("familyComposition").value = history.FamilyHistory || "";
+            document.getElementById("familyHealthSocial").value = history.SocialHistory || "";
             document.getElementById("schooling").value = history.Schooling || "";
         } else {
             console.log("No existing Family and Social History data found.");
@@ -179,8 +179,8 @@ async function loadFamilyAndSocialHistory(registrationNumber) {
 async function saveFamilyAndSocialHistory(registrationNumber) {
     try {
         const data = {
-            FamilyComposition: document.getElementById("familyComposition").value,
-            FamilyHealthSocial: document.getElementById("familyHealthSocial").value,
+            FamilyHistory: document.getElementById("familyComposition").value,
+            SocialHistory: document.getElementById("familyHealthSocial").value,
             Schooling: document.getElementById("schooling").value,
         };
 
