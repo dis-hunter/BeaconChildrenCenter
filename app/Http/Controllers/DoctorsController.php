@@ -184,59 +184,66 @@ class DoctorsController extends Controller
 
     public function getMilestones($registrationNumber)
     {
-        // Log the registration number being used for the query
-        Log::info('Querying child for registration number:', ['registration_number' => $registrationNumber]);
+       
+      
     
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
     
         if (!$child) {
+            error_log("Child not found for registration number: $registrationNumber");
             return response()->json(['error' => 'Child not found'], 404);
         }
     
-        // Log the child_id retrieved from the database
-        Log::info('Child found:', ['child_id' => $child->id]);
     
         $milestone = DB::table('development_milestones')
             ->where('child_id', $child->id)
-            ->latest()
+            ->orderBy('updated_at', 'desc') // Order by updated_at to get the latest updated milestone
             ->first();
     
-        // Log the milestone data
-        Log::info('Milestone data: ', ['milestone' => $milestone]);
+        
     
         // Return null if no milestone is found
         return response()->json(['data' => $milestone ? $milestone->data : null], 200);
     }
-
-
+    
+    
     public function saveMilestones(Request $request, $registrationNumber)
     {
         $child = DB::table('children')->where('registration_number', $registrationNumber)->first();
-
+    
         if (!$child) {
+            error_log("Child not found for registration number: $registrationNumber");
             return response()->json(['error' => 'Child not found'], 404);
         }
-
+    
+       
+    
         $visit = DB::table('visits')
             ->where('child_id', $child->id)
             ->latest()
             ->first();
-
+    
         if (!$visit) {
             return response()->json(['error' => 'No visit found for the child'], 404);
         }
-
+    
+        $milestoneData = json_encode($request->data);
+    
+    
         DB::table('development_milestones')->updateOrInsert(
             [
                 'visit_id' => $visit->id,
                 'child_id' => $child->id,
                 'doctor_id' => auth()->user()->id, // Replace with authenticated doctor ID
             ],
-            ['data' => json_encode($request->data), 'updated_at' => now()]
+            ['data' => $milestoneData, 'updated_at' => now()]
         );
-
-        return response()->json(['message' => 'Milestones saved successfully'], 200);
+    
+        
+        return response()->json(['message' => 'Milestone data saved successfully'], 200);
     }
+    
+
     public function getChildDetails($registrationNumber)
     {
         try {

@@ -125,13 +125,28 @@ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMil
                      <div class="section-title">Social Emotional</div>
                      <div class="grid-container">
                          <div class="grid-item">
-                             <label for="smiling">Smiling/Laughing:</label>
+                             <label for="smiling">Smiling:</label>
                              <input type="text" id="smiling">
+                         </div>
+                          <div class="grid-item">
+                             <label for="laughing">Laughing:</label>
+                             <input type="text" id="laughing">
                          </div>
                          <div class="grid-item">
                              <label for="attachments">Attachments:</label>
                              <input type="text" id="attachments">
                          </div>
+                          <div class="grid-item">
+                             <label for="tantrums">Tantrums:</label>
+                             <input type="text" id="tantrums">
+                         </div>
+                          <div class="grid-item">
+                             <label for="Irritability">Irritability:</label>
+                             <input type="text" id="Irritability">
+                         </div>
+
+                         
+
                      </div>
                  </div>
  
@@ -214,8 +229,11 @@ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMil
              document.getElementById("vocabulary").value = milestones["Vocabulary"] || "";
              document.getElementById("phraseSpeech").value = milestones["Phrase Speech"] || "";
              document.getElementById("conversational").value = milestones["Conversational"] || "";
-             document.getElementById("smiling").value = milestones["Smiling/Laughing"] || "";
+             document.getElementById("smiling").value = milestones["Smiling"] || "";
              document.getElementById("attachments").value = milestones["Attachments"] || "";
+             document.getElementById("laughing").value = milestones["Laughing"] || "";
+             document.getElementById("tantrums").value = milestones["Tantrums"] || "";
+             document.getElementById("Irritability").value = milestones["Irritability"] || "";
              document.getElementById("feeding").value = milestones["Feeding"] || "";
              document.getElementById("elimination").value = milestones["Elimination"] || "";
              document.getElementById("teething").value = milestones["Teething"] || "";
@@ -238,8 +256,11 @@ const DevMilestonesLink = document.querySelector('.floating-menu a[href="#devMil
              Vocabulary: document.getElementById("vocabulary").value,
              "Phrase Speech": document.getElementById("phraseSpeech").value,
              Conversational: document.getElementById("conversational").value,
-             "Smiling/Laughing": document.getElementById("smiling").value,
+             "Smiling": document.getElementById("smiling").value,
              Attachments: document.getElementById("attachments").value,
+            Laughing: document.getElementById("laughing").value,
+            Tantrums: document.getElementById("tantrums").value,
+            Irritability: document.getElementById("Irritability").value,
              Feeding: document.getElementById("feeding").value,
              Elimination: document.getElementById("elimination").value,
              Teething: document.getElementById("teething").value,
