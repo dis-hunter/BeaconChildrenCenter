@@ -69,7 +69,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 </div>
               </div>
               <div class="section">
-                <div class="section-title">Other Systems</div>
+
+              <div class="textarea-with-label">
+                  <div class="textarea-label">CNS:</div>
+                  <textarea id="cnsTextarea"></textarea>
+                </div>
                 <div class="textarea-with-label">
                   <div class="textarea-label">CardioVascular System:</div>
                   <textarea id="cardiovascularTextarea"></textarea>
@@ -81,6 +85,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <div class="textarea-with-label">
                   <div class="textarea-label">Musculoskeletal System:</div>
                   <textarea id="musculoskeletalTextarea"></textarea>
+                </div>
+                <div class="textarea-with-label">
+                  <div class="textarea-label">Abdomen System:</div>
+                  <textarea id="abdomenTextarea"></textarea>
+                </div>
+                <div class="textarea-with-label">
+                  <div class="textarea-label">Other Systems:</div>
+                  <textarea id="otherTextarea"></textarea>
                 </div>
               </div>
               <button type="submit" id="saveButton">Save</button>
@@ -110,8 +122,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
               cranialNerves: document.getElementById('cranialNerves').value,
               ambulation: document.getElementById('ambulation').value,
               cardiovascular: document.getElementById('cardiovascularTextarea').value,
+              cns: document.getElementById('cnsTextarea').value,
+              abdomen: document.getElementById('abdomenTextarea').value,
               respiratory: document.getElementById('respiratoryTextarea').value,
               musculoskeletal: document.getElementById('musculoskeletalTextarea').value,
+              other: document.getElementById('otherTextarea').value,
             };
   
             console.log('Examination Data:', examinationData);

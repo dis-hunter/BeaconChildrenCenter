@@ -161,14 +161,18 @@ class DoctorsController extends Controller
                 return response()->json(['error' => 'No visit found for the child'], 404);
             }
     
-            // Create or update the CNS data
+            // Create or update the CNS data with timestamps
             DB::table('cns')->updateOrInsert(
                 [
                     'visit_id' => $visit->id, // Associate with visit
                     'child_id' => $child->id,
                     'doctor_id' => auth()->user()->id, // Replace with logic for the actual doctor ID
                 ],
-                ['data' => json_encode($request->all())] // Ensure data is JSON encoded
+                [
+                    'data' => json_encode($request->all()), // Ensure data is JSON encoded
+                    'updated_at' => now(), // Update timestamp
+                    'created_at' => DB::raw('COALESCE((SELECT created_at FROM cns WHERE visit_id = ' . $visit->id . ' AND child_id = ' . $child->id . ' LIMIT 1), NOW())') // Keep the original created_at if it exists, otherwise use NOW()
+                ]
             );
     
             // Log all executed queries
@@ -181,6 +185,7 @@ class DoctorsController extends Controller
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
+    
 
     public function getMilestones($registrationNumber)
     {
@@ -299,13 +304,20 @@ class DoctorsController extends Controller
             $triage = DB::table('triage')->where('child_id', $child->id)->first();
             $triageData = $triage ? json_decode($triage->data) : null;
     
-            // Fetch CNS data
+          // Fetch CNS data based on updated_at
             $cnsData = DB::table('cns')
                 ->where('child_id', $child->id)
-                ->latest()
+                ->orderBy('updated_at', 'desc') // Ensure latest record is fetched based on updated_at
                 ->first();
-            $cnsData = $cnsData ? json_decode($cnsData->data) : null;
+
+            if ($cnsData) {
+
+                $cnsData = json_decode($cnsData->data);
+            } else {
             
+                $cnsData = null;
+            }
+
             $perinatalHistory = DB::table('perinatal_history')
                 ->where('child_id', $child->id)
                 ->latest()
