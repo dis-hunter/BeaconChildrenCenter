@@ -127,40 +127,6 @@ Beacon is built using the latest web technologies to ensure performance, securit
 - **Payment Integration:** Safaricom Daraja API, Stripe, PayPal
 - **Real-Time Features:** Pusher WebSockets
 
-## Installation Guide
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-repo/beacon-children-center.git
-   ```
-2. Navigate to the project folder:
-   ```sh
-   cd beacon-children-center
-   ```
-3. Install dependencies:
-   ```sh
-   composer install
-   npm install
-   ```
-4. Configure environment variables:
-   ```sh
-   cp .env.example .env
-   ```
-5. Generate application key:
-   ```sh
-   php artisan key:generate
-   ```
-6. Run database migrations:
-   ```sh
-   php artisan migrate
-   ```
-7. Start the development server:
-   ```sh
-   php artisan serve
-   ```
-
----
-
 ## Sponsors
 
 Payed Partnership.
