@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const nutritionHistoryLink = document.querySelector('.floating-menu a[href="#nutrition"]');
+    const nutritionLink = document.querySelector('.floating-menu a[href="#nutrition"]');
   
-    nutritionHistoryLink.addEventListener('click', async (event) => {
+    nutritionLink.addEventListener('click', async (event) => {
         event.preventDefault();
         
   
@@ -54,7 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const registrationNumber = window.location.pathname.split('/').pop();
             console.log('Registration number extracted:', registrationNumber);
-
+  
+            // Fetch the Nutrition History form structure
+            const response = await fetch(`/nutrition-immunization/${registrationNumber}`);
+            const result = await response.json();
+  
+            console.log('Fetch response:', result);
   
             // Replace content with form once loaded
             mainContent.innerHTML = `
@@ -71,11 +76,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="section-title">Immunization History</div>
                         <textarea id="immunizationTextarea"></textarea> 
                     </div>
-                  
+                    
                     <button type="submit" id="saveNutritionHistory">Save</button>
                 </div>
             `;
   
+            // Pre-fill form data if available
+            if (response.ok && result.data) {
+                const {
+                    Nutrition,
+                    Immunization,
+                } = result.data;
+  
+                document.getElementById('nutritionTextarea').value = Nutrition || '';
+                document.getElementById('immunizationTextarea').value = Immunization || '';
+                
+            }
   
             // Setup textarea resizing logic
             const textareas = document.querySelectorAll('textarea');
@@ -92,10 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveButton.innerHTML = `<span class="saving-button-spinner"></span> Saving...`;
                 saveButton.disabled = true;
   
-               
+                const data = {
+                    Nutrition: document.getElementById('nutritionTextarea').value,
+                    Immunization: document.getElementById('immunizationTextarea').value,
+                    
+                };
   
                 try {
-                    const saveResponse = await fetch(`/save-nutrition/${registrationNumber}`, {
+                    const saveResponse = await fetch(`/nutrition-immunization/${registrationNumber}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -120,4 +140,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
   });
-  

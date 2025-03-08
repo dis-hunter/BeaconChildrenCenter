@@ -45,6 +45,7 @@ use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\RevenueReportController;
 use App\Http\Controllers\MetricsController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\NutritionImmunization;
 
 
 //Doctor Form Routes
@@ -149,6 +150,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/diagnosis/{registrationNumber}', 'saveDiagnosis');
             Route::get('/get-triage-data/{registrationNumber}', 'getTriageData');
             Route::post('/current-concerns/{registrationNumber}', 'saveCurrentConcerns');
+
+        });
+        Route::controller(NutritionImmunization::class)->group(function () {
+            Route::get('/nutrition-immunization/{registrationNumber}', 'getNutritionImmunization');
+            Route::post('/nutrition-immunization/{registrationNumber}', 'saveNutritionImmunization');
         });
 
         Route::controller(GeneralExamController::class)->group(function () {
