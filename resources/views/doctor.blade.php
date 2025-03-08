@@ -341,24 +341,10 @@ button:hover {
     </div>
   </div>
 
-          <label for="informant">Informant:</label>
-          <input type="text" id="informant" name="informant">
-
-          <div class="highlighted">
-            <label style="color:white;" for="date">Date:</label>
-            <input type="date" id="date" name="date"> 
-          </div>
-
          <div class="highlighted">
     <label style="color:white;" for="doctorsNotes">Doctor's Notes:</label>
    <textarea id="doctorsNotes" name="doctorsNotes" rows="10" cols="50">{{ $doctorsNotes }}</textarea>
 </div>
-
-
-          <div class="highlighted">
-            <label style="color:white;" for="createdBy">Created By:</label>
-            <input type="text" id="createdBy" name="createdBy">
-          </div>
 
 <button id="saveButton" type="button">Save</button>
         </form> 
